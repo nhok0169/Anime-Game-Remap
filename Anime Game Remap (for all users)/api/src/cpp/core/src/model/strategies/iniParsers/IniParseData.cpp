@@ -12,6 +12,7 @@
 // ##### EndCredits
 
 #include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
+#include "AGRemapCore/tools/StringTools.h"
 
 
 namespace AGRemapCore {
@@ -20,6 +21,11 @@ namespace AGRemapCore {
         recolourOnly_ = false;
         carriedSections_.clear();
         undrawn_.clear();
+        drawRanges_.clear();
+        drawParts_.clear();
+        lateBindings_.clear();
+        replacesByHash_ = false;
+        resourceFiles_.clear();
         roles_.reset();
         candidates_.clear();
         roleFiles_.clear();
@@ -54,6 +60,7 @@ namespace AGRemapCore {
     }
 
     bool IniParseData::isUndrawn(const ModObj& modObj) const {
+        fill();
         return undrawn_.count(modObj) > 0;
     }
 
@@ -66,7 +73,68 @@ namespace AGRemapCore {
     }
 
     const std::set<IniParseData::ModObj>& IniParseData::undrawnObjs() const {
+        fill();
         return undrawn_;
+    }
+
+    const std::vector<IniParseData::DrawRange>& IniParseData::drawRanges(const ModObj& modObj) const {
+        static const std::vector<DrawRange> none;
+        fill();
+        const auto found = drawRanges_.find(modObj);
+        return found == drawRanges_.end() ? none : found->second;
+    }
+
+    void IniParseData::addDrawRange(const ModObj& modObj, DrawRange range) {
+        drawRanges_[modObj].push_back(range);
+    }
+
+    const std::set<std::size_t>& IniParseData::drawParts(const ModObj& modObj) const {
+        static const std::set<std::size_t> none;
+        fill();
+        const auto found = drawParts_.find(modObj);
+        return found == drawParts_.end() ? none : found->second;
+    }
+
+    void IniParseData::addDrawPart(const ModObj& modObj, std::size_t part) {
+        drawParts_[modObj].insert(part);
+    }
+
+    const std::vector<std::string>& IniParseData::lateBindings(const ModObj& modObj) const {
+        static const std::vector<std::string> none;
+        fill();
+        const auto found = lateBindings_.find(modObj);
+        return found == lateBindings_.end() ? none : found->second;
+    }
+
+    void IniParseData::setLateBindings(const ModObj& modObj, std::vector<std::string> regs) {
+        lateBindings_[modObj] = std::move(regs);
+    }
+
+    bool IniParseData::replacesTexturesByHash() const {
+        fill();
+        return replacesByHash_;
+    }
+
+    void IniParseData::setReplacesTexturesByHash(bool replaces) {
+        replacesByHash_ = replaces;
+    }
+
+    std::optional<std::string> IniParseData::resourceFile(const std::string& section) const {
+        fill();
+        const auto found = resourceFiles_.find(StringTools::toLower(section));
+        if (found == resourceFiles_.end()) {
+            return std::nullopt;
+        }
+        return found->second;
+    }
+
+    const std::map<std::string, std::string>& IniParseData::resourceFiles() const {
+        fill();
+        return resourceFiles_;
+    }
+
+    void IniParseData::setResourceFile(const std::string& section, std::string file) {
+        resourceFiles_.emplace(StringTools::toLower(section), std::move(file));
     }
 
     // Taken out before it runs: what it fills is set through the same setters a caller would use,

@@ -3501,10 +3501,16 @@
   <compound refid="class_a_g_remap_core_1_1_ini_parse_data" kind="class"><name>AGRemapCore::IniParseData</name>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a6cb548cc937d71c3706ea1ad617351aa" kind="typedef"><name>ModObj</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a0fbf0cbf2a46959b52a43a02e51ba760" kind="typedef"><name>Filler</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a87702ee8353e4dda137a5cee50d9dced" kind="typedef"><name>DrawRange</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ab34f048e055fd7c4ce90f1ecb13d8c80" kind="variable"><name>remappable_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1adc42a26685a724ed8436a61e90381081" kind="variable"><name>recolourOnly_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a40cb27c86782895fc918dae6bf760f6e" kind="variable"><name>carriedSections_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aeb5921b0bfa93b12908153b208fdbb1b" kind="variable"><name>undrawn_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a948e9fa0850516c100fe20d6fc0947dc" kind="variable"><name>drawRanges_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af4dc02d59f717c09bc6be7209c805be1" kind="variable"><name>drawParts_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ab872682c1a88e80e578fbdfa485d9d8c" kind="variable"><name>lateBindings_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ad79ee62e80cbf24ffa81cd107d87c95d" kind="variable"><name>replacesByHash_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ac67d8b5c752689e0106fb0e478f83f80" kind="variable"><name>resourceFiles_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a4628b44da09efb0f447b942a49e4d62c" kind="variable"><name>roles_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af51d13706a0e7290660d3bf89f30cc46" kind="variable"><name>candidates_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a8b766e19b80d01847d481818694f46d5" kind="variable"><name>roleFiles_</name></member>
@@ -3523,6 +3529,17 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af6578b896bb6b1cf3e793478aef8a959" kind="function"><name>addUndrawn</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a1438120f80f8e769334496e2b6c636c4" kind="function"><name>clearUndrawn</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a43fca495e443264d4e27b8c71ed2f262" kind="function"><name>undrawnObjs</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af066b97818c4d6bd749619f238815107" kind="function"><name>drawRanges</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a01a3e1bf3c7bc97384d83664922a2da0" kind="function"><name>addDrawRange</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a93766ecba55731ece4ea0d2e9a0f643e" kind="function"><name>drawParts</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a424f638f61352bcbf3e276376376c76e" kind="function"><name>addDrawPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1afdae76ba804ad4046d207a98ece47fbc" kind="function"><name>lateBindings</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ad22e0d7860eb5e804f1ace802a3ac734" kind="function"><name>setLateBindings</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a4b96f1f6ea19bc020fc8a70e6fffb497" kind="function"><name>replacesTexturesByHash</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aae930b76d835f4f7a4400e5e49abaaed" kind="function"><name>setReplacesTexturesByHash</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1abed7b05e0650a535242bd72110bf4f22" kind="function"><name>resourceFile</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ab01348da4f80fcfb2bc51d11afcecb08" kind="function"><name>resourceFiles</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a87994b8122eb9a121b57998083da68b1" kind="function"><name>setResourceFile</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a32dfeb1ba85f17401612eb9d94e51ddf" kind="function"><name>textureRoles</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a6d56ed9db745cf41cf4bf457b6541f68" kind="function"><name>setTextureRoles</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1add6a349ef96215fc4aaebee3fd93e1c3" kind="function"><name>defer</name></member>

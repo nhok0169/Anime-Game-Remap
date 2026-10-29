@@ -7,6 +7,7 @@
 #include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/model/textures/TexThumbprint.h"
 #include "AGRemapCore/tools/files/FileService.h"
+#include "AGRemapCore/tools/ListTools.h"
 
 // ##### Credits
 
@@ -23,6 +24,7 @@
 
 #include <algorithm>
 #include <filesystem>
+#include <functional>
 #include <map>
 #include <memory>
 #include <set>
@@ -42,6 +44,7 @@
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegDrawRangeRemap.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
 
@@ -175,12 +178,12 @@ namespace AGRemapCore {
                             return objs;
                         });
 
-                    recordTextureRoles();
+                    recordParseData();
                 }
 
                 void clear() override {
                     Parser::clear();
-                    recordTextureRoles();
+                    recordParseData();
                 }
 
             private:
@@ -191,12 +194,13 @@ namespace AGRemapCore {
                  * character's config carries no textures to sort by. Re-installed after a clear,
                  * which resets the parse data.
                  */
-                void recordTextureRoles() {
-                    if (config_.textures.roles.empty() && config_.textures.registerRoles.empty()) {
-                        return;
-                    }
-
+                void recordParseData() {
                     this->parseData().defer([this](IniParseData& data) {
+                        readAnatomy(data);
+                        if (config_.textures.roles.empty() && config_.textures.registerRoles.empty()) {
+                            return;
+                        }
+
                         TextureRoles roles;
                         buildRoles(roles);
                         data.setTextureRoles(std::move(roles));
@@ -204,6 +208,191 @@ namespace AGRemapCore {
                         readThisToggles(data);
                         readRegisterToggles(data);
                     });
+                }
+
+                // ---- the mod's anatomy: what its slot sections draw and bind, and its resource files ----
+
+                // The parser's slot object for a component's sections, or nothing
+                bool isSlotObj(const ModObj& obj) const {
+                    return obj.first.empty() && StringTools::startsWith(obj.second, config_.slotPrefix);
+                }
+
+                void readAnatomy(IniParseData& data) {
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr) {
+                        return;
+                    }
+
+                    const auto& templates = ini->getIfTemplates();
+                    const auto contentParts = [](const Section& section) {
+                        std::vector<const ContentPart*> parts;
+                        for (const auto& part : section.parts()) {
+                            if (const auto* content = dynamic_cast<const ContentPart*>(part.get())) {
+                                parts.push_back(content);
+                            }
+                        }
+                        return parts;
+                    };
+
+                    // every resource section that names a file
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr) {
+                            continue;
+                        }
+
+                        std::optional<std::string> file = ModBranches::firstVal(*entry.second, IniKeywords::Filename);
+                        if (file.has_value()) {
+                            data.setResourceFile(entry.first, *file);
+                        }
+                    }
+
+                    // DOES THE MOD REPLACE TEXTURES BY HASH? A texture override (not a slot's) with a hash and
+                    // a `this =`: its art then reaches every draw binding that texture, whatever the draw's
+                    // own section binds.
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)
+                                || StringTools::startsWith(entry.first, IniKeywords::TextureOverride + config_.slotPrefix)) {
+                            continue;
+                        }
+
+                        bool hasHash = false;
+                        bool hasThis = false;
+                        for (const ContentPart* content : contentParts(*entry.second)) {
+                            hasHash = hasHash || content->count(IniKeywords::Hash) > 0;
+                            hasThis = hasThis || content->count(IniKeywords::This) > 0;
+                        }
+
+                        if (hasHash && hasThis) {
+                            data.setReplacesTexturesByHash(true);
+                            break;
+                        }
+                    }
+
+                    // A `run =` this file cannot resolve counts as drawing, unless it is WWMI's own library
+                    std::function<bool(const std::string&, std::unordered_set<std::string>&)> mayDraw =
+                        [&templates, &mayDraw, &contentParts](const std::string& section, std::unordered_set<std::string>& seen) -> bool {
+                            if (!seen.insert(StringTools::toLower(section)).second) {
+                                return false;
+                            }
+
+                            auto tpl = templates.find(section);
+                            if (tpl == templates.end() || tpl->second == nullptr) {
+                                return StringTools::toLower(section).find("\\wwmiv1\\") == std::string::npos;
+                            }
+
+                            for (const ContentPart* content : contentParts(*tpl->second)) {
+                                for (const auto& item : content->items()) {
+                                    const std::string key = StringTools::toLower(std::string(StringTools::strip(item.key)));
+                                    if (StringTools::startsWith(key, "draw")) {
+                                        return true;
+                                    }
+
+                                    if (key == StringTools::toLower(IniKeywords::Run)
+                                        && mayDraw(std::string(StringTools::strip(item.value)), seen)) {
+                                        return true;
+                                    }
+                                }
+                            }
+
+                            return false;
+                        };
+
+                    const auto skips = [&templates, &contentParts](const std::string& section) -> bool {
+                        auto tpl = templates.find(section);
+                        if (tpl == templates.end() || tpl->second == nullptr) {
+                            return false;
+                        }
+
+                        for (const ContentPart* content : contentParts(*tpl->second)) {
+                            for (const std::string& value : content->getVals(IniKeywords::Handling)) {
+                                if (StringTools::equalsIgnoreCase(std::string(StringTools::strip(value)), IniKeywords::Skip)) {
+                                    return true;
+                                }
+                            }
+                        }
+
+                        return false;
+                    };
+
+                    std::size_t slots = 0;
+                    std::vector<ModObj> silent;
+                    for (const auto& [obj, sections] : this->sectionTargets()) {
+                        if (!isSlotObj(obj) || sections.empty()) {
+                            continue;
+                        }
+
+                        ++slots;
+                        bool drew = false;
+                        bool draws = false;
+                        bool skipped = false;
+                        std::vector<std::string> late;
+                        for (const std::string& section : sections) {
+                            auto tpl = templates.find(section);
+                            if (tpl == templates.end() || tpl->second == nullptr) {
+                                continue;
+                            }
+
+                            // its draws, and which part each sits in (every part counted, `if` lines too)
+                            std::size_t partIndex = 0;
+                            for (const auto& part : tpl->second->parts()) {
+                                ++partIndex;
+                                const auto* content = dynamic_cast<const ContentPart*>(part.get());
+                                if (content == nullptr) {
+                                    continue;
+                                }
+
+                                for (const std::string& draw : content->getVals(IniKeywords::DrawIndexed)) {
+                                    data.addDrawPart(obj, partIndex);
+                                    if (std::count(draw.begin(), draw.end(), ',') < 2) {
+                                        continue;
+                                    }
+
+                                    const std::optional<std::vector<long long>> numbers = RegDrawRangeRemap<>::parseRange(draw);
+                                    if (numbers.has_value() && numbers->size() >= 3) {
+                                        data.addDrawRange(obj, {(*numbers)[0], (*numbers)[1]});
+                                    } else {
+                                        // a dropped draw range is a piece of the mesh that stops being remapped
+                                        ctx_.log("could not read the draw range `" + std::string(StringTools::strip(draw)) + "` in ["
+                                                 + section + "], so it is not remapped");
+                                    }
+                                }
+                            }
+
+                            // the texture registers it binds only after it has drawn
+                            for (const ContentPart* content : contentParts(*tpl->second)) {
+                                for (const auto& item : content->items()) {
+                                    const std::string key = StringTools::toLower(std::string(StringTools::strip(item.key)));
+                                    if (key == StringTools::toLower(IniKeywords::DrawIndexed)) {
+                                        drew = true;
+                                    } else if (drew && StringTools::startsWith(key, StringTools::toLower(config_.texRegPrefix))) {
+                                        ListTools::pushDistinct(late, key);
+                                    }
+                                }
+                            }
+
+                            std::unordered_set<std::string> seen;
+                            draws = draws || mayDraw(section, seen);
+                            skipped = skipped || skips(section);
+                        }
+
+                        if (!late.empty() && !data.replacesTexturesByHash()) {
+                            data.setLateBindings(obj, std::move(late));
+                        }
+
+                        // A SLOT WHOSE SECTION DRAWS NOTHING AND SKIPS THE GAME'S DRAW IS UNDRAWN: the mod
+                        // hides that component. One that draws nothing and leaves the game's geometry on
+                        // screen is not hidden.
+                        if (!draws && skipped) {
+                            silent.push_back(obj);
+                        }
+                    }
+
+                    // ...unless every slot is, which is a mod this reading does not understand
+                    if (silent.size() < slots) {
+                        for (const ModObj& obj : silent) {
+                            data.addUndrawn(obj);
+                        }
+                    }
                 }
 
                 // A section a previous fix wrote: its name ends `<target>RemapFix`

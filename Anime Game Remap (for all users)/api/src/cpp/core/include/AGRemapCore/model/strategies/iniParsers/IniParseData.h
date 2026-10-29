@@ -18,6 +18,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -245,6 +246,112 @@ namespace AGRemapCore {
             const std::set<ModObj>& undrawnObjs() const;
 
             /**
+             * @brief A draw's ``(index count, first index)``, as ``drawindexed = <count>, <first>, ...`` writes it
+             */
+            using DrawRange = std::pair<long long, long long>;
+
+            /**
+             * @brief
+             @rst
+             The draws the mod's own `sections`_ of a mod object make with numbers, in the order they
+             are written -- not ``drawindexed = auto``, which draws the whole of whatever is bound
+             @endrst
+             *
+             * @param modObj The mod object
+             */
+            const std::vector<DrawRange>& drawRanges(const ModObj& modObj) const;
+
+            /**
+             * @brief Records one of #drawRanges
+             *
+             * @param modObj The mod object
+             * @param range The draw
+             */
+            void addDrawRange(const ModObj& modObj, DrawRange range);
+
+            /**
+             * @brief
+             @rst
+             Which parts of the mod object's `sections`_ hold a ``drawindexed``, counted from 1 over
+             every part of a `section`_ (an ``if`` line is a part too). Draws all in one part are draws
+             under one condition
+             @endrst
+             *
+             * @param modObj The mod object
+             */
+            const std::set<std::size_t>& drawParts(const ModObj& modObj) const;
+
+            /**
+             * @brief Records one of #drawParts
+             *
+             * @param modObj The mod object
+             * @param part The part
+             */
+            void addDrawPart(const ModObj& modObj, std::size_t part);
+
+            /**
+             * @brief
+             @rst
+             The texture registers a mod object's `sections`_ bind only AFTER they have drawn, in the
+             order first bound. A draw before them renders with whatever the game had bound, so a mod
+             whose section draws, then binds, then draws again has two binding generations
+             @endrst
+             *
+             * @param modObj The mod object
+             */
+            const std::vector<std::string>& lateBindings(const ModObj& modObj) const;
+
+            /**
+             * @brief Sets #lateBindings
+             *
+             * @param modObj The mod object
+             * @param regs The registers
+             */
+            void setLateBindings(const ModObj& modObj, std::vector<std::string> regs);
+
+            /**
+             * @brief
+             @rst
+             Whether the mod replaces a game texture BY HASH anywhere -- a texture override with a
+             ``hash`` and a ``this =`` -- so its art reaches every draw that binds that texture,
+             whatever the draw's own `section`_ binds
+             @endrst
+             */
+            bool replacesTexturesByHash() const;
+
+            /**
+             * @brief Sets #replacesTexturesByHash
+             *
+             * @param replaces Whether it does
+             */
+            void setReplacesTexturesByHash(bool replaces);
+
+            /**
+             * @brief
+             @rst
+             The ``filename =`` of one of the mod's resource `sections`_, found without regard to the
+             case of its name, or ``std::nullopt``. The value is the ``.ini``'s own (a Windows path,
+             relative to the ``.ini``)
+             @endrst
+             *
+             * @param section The resource `section`_
+             */
+            std::optional<std::string> resourceFile(const std::string& section) const;
+
+            /**
+             * @brief Every resource `section`_ of the mod that names a file, as ``lowercased name -> filename``
+             */
+            const std::map<std::string, std::string>& resourceFiles() const;
+
+            /**
+             * @brief Records one of #resourceFiles
+             *
+             * @param section The resource `section`_
+             * @param file Its ``filename =``
+             */
+            void setResourceFile(const std::string& section, std::string file);
+
+            /**
              * @brief
              @rst
              What role each texture of the ``.ini`` plays, or ``nullptr`` when the parser records
@@ -375,6 +482,11 @@ namespace AGRemapCore {
             bool recolourOnly_ = false;
             std::string carriedSections_;
             std::set<ModObj> undrawn_;
+            std::map<ModObj, std::vector<DrawRange>> drawRanges_;
+            std::map<ModObj, std::set<std::size_t>> drawParts_;
+            std::map<ModObj, std::vector<std::string>> lateBindings_;
+            bool replacesByHash_ = false;
+            std::map<std::string, std::string> resourceFiles_;
             std::unique_ptr<TextureRoles> roles_;
             std::map<std::string, std::vector<std::pair<std::string, std::string>>> candidates_;
             std::map<std::pair<std::string, ModObj>, RoleFile> roleFiles_;

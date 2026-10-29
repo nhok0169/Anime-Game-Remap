@@ -111,6 +111,28 @@ class IniParseDataTest(BaseUnitTest):
         self.assertEqual(toggle.graph, ("texture", "bodyDiffuse"))
         self.assertEqual(FRB.IniParseData.TextureToggle("a", ["b"]).graph, ("", ""))
 
+    def test_anatomy_perObject(self):
+        data = FRB.IniParseData()
+        obj = ("", "component3")
+        data.addDrawRange(obj, (1200, 0))
+        data.addDrawRange(obj, (300, 1200))
+        data.addDrawPart(obj, 2)
+        data.setLateBindings(obj, ["ps-t0", "ps-t1"])
+        data.setResourceFile("ResourceTexcoordBuffer", r".\Meshes\a.buf")
+
+        self.assertEqual(data.drawRanges(obj), [(1200, 0), (300, 1200)])
+        self.assertEqual(data.drawRanges(("", "component4")), [])
+        self.assertEqual(data.drawParts(obj), {2})
+        self.assertEqual(data.lateBindings(obj), ["ps-t0", "ps-t1"])
+        self.assertFalse(data.replacesTexturesByHash())
+        self.assertEqual(data.resourceFile("ResourceTexCoordBuffer"), r".\Meshes\a.buf")
+        self.assertIsNone(data.resourceFile("ResourceIndexBuffer"))
+        self.assertEqual(data.resourceFiles(), {"resourcetexcoordbuffer": r".\Meshes\a.buf"})
+
+        data.clear()
+        self.assertEqual(data.drawRanges(obj), [])
+        self.assertEqual(data.resourceFiles(), {})
+
     def test_clear_resetsTheDefaults(self):
         data = FRB.IniParseData()
         data.setRemappableContent(False)

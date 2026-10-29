@@ -1207,29 +1207,50 @@ namespace AGRemapCore {
 
                     hostResetsDetected_ = presentResetsObjectDetected(*ini);
 
-                    // The fixer is built BEFORE the parser parses, so the sections are found by hash
-                    // over IniFile::getIfTemplates rather than through the parser's graphs.
+                    // THE MOD'S ANATOMY IS THE PARSER'S (2026-10-28): which section is which source component,
+                    // what each draws and binds after drawing, which components the mod hides, and the files
+                    // its resources name -- see IniParseData. A fixer is built after its parser has parsed.
+                    const IniParseData& data = parseData();
                     const auto& templates = ini->getIfTemplates();
-                    for (const auto& entry : templates) {
-                        if (entry.second == nullptr) {
-                            continue;
-                        }
+                    silent_.clear();
+                    if (auto* parser = dynamic_cast<GIMIParser<>*>(this->getParser())) {
+                        for (const auto& [obj, sections] : parser->sectionTargets()) {
+                            const std::optional<int> component = sourceComponentOf(obj);
+                            if (!component.has_value() || sections.empty()) {
+                                continue;
+                            }
 
-                        const IfTemplate<std::string, std::string>& tpl = *entry.second;
-                        std::optional<std::string> hash = ModBranches::firstVal(tpl, IniKeywords::Hash);
-                        std::optional<std::string> index = ModBranches::firstVal(tpl, IniKeywords::MatchFirstIndex);
-                        if (!hash.has_value() || !index.has_value() || !isSourceVb0(StringTools::toLower(*hash))) {
-                            continue;
-                        }
+                            // A COMPONENT THE MOD HIDES IS AN UNDRAWN SLOT (2026-10-10): its section only skips
+                            // the game's geometry. Remapped like a drawing one, it got none of the fix's additions
+                            // and the target slot's bone window was never merged (Lynae4's legs collapsed to
+                            // spikes); left out, it gets the hide section every undrawn slot gets.
+                            if (data.isUndrawn(obj)) {
+                                silent_.push_back(*component);
+                                continue;
+                            }
 
-                        for (std::size_t i = 0; i < source_.slots.size(); ++i) {
-                            if (source_.slots[i].indexOffset == *index) {
-                                present_[static_cast<int>(i)].push_back(entry.first);
+                            present_[*component] = sections;
+
+                            // Its draw ranges, read for EVERY mod: the remap of a toggled draw through the split
+                            // and TexEditContext::drawRanges (what a texture edit knows a component covers) both
+                            // need them
+                            if (!data.drawRanges(obj).empty()) {
+                                drawRanges_[*component] = data.drawRanges(obj);
+                            }
+                            if (!data.drawParts(obj).empty()) {
+                                drawParts_[*component] = data.drawParts(obj);
+                            }
+
+                            // TWO BINDING GENERATIONS IN ONE SECTION (2026-10-03): draws before the section's
+                            // own `ps-t` lines render with the SOURCE's atlas. ChisaParfait3's hat and chest
+                            // bandages rendered as flat skin until each draw got its own list.
+                            if (!data.lateBindings(obj).empty()) {
+                                lateBindRegs_[*component] = data.lateBindings(obj);
                             }
                         }
                     }
 
-                    if (present_.empty()) {
+                    if (present_.empty() && silent_.empty()) {
                         error = "no [TextureOverrideComponent*] section on any vb0 hash the library"
                                 " files under " + source_.name + " (" + source_.vb0Hash + " at the version asked)";
                         return false;
@@ -1238,156 +1259,24 @@ namespace AGRemapCore {
                     // A mod from before WWMI's merged skeleton: no section of it carries a vg_offset,
                     // because a draw could then only address its own component's bones -- so its blend
                     // holds each component's OWN indices. See WWMIFixerConfig::sourceVgMaps.
-                    // Its own draw ranges, per source component. Read for EVERY mod, not only a
-                    // legacy one: this began as the per-component lift of a legacy blend, and two
-                    // later readers want the same ranges for reasons that have nothing to do with the
-                    // blend layout -- the remap of a toggled draw through the split, and
-                    // TexEditContext::drawRanges, which is how a texture edit knows what a component
-                    // covers. Left inside `if (legacy_)` the map was empty on every mod past 256
-                    // bones, so the ribbon's colour-grade island found no geometry and the edit
-                    // graded nothing while still writing its file and reporting a success.
-                    for (const auto& entry : present_) {
-                        for (const std::string& section : entry.second) {
-                            auto tpl = templates.find(section);
-                            if (tpl == templates.end() || tpl->second == nullptr) {
-                                continue;
-                            }
-
-                            std::size_t partIndex = 0;
-                            for (const auto& part : tpl->second->parts()) {
-                                ++partIndex;
-                                const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
-                                if (content == nullptr) {
-                                    continue;
-                                }
-
-                                for (const std::string& draw : content->getVals(IniKeywords::DrawIndexed)) {
-                                    // WHICH part, for the back-face twin: all of a component's draws
-                                    // in one part means all of them under one condition, which is
-                                    // what makes a single block of twins at the end of it right.
-                                    drawParts_[entry.first].insert(partIndex);
-                                    if (std::count(draw.begin(), draw.end(), ',') < 2) {
-                                        continue;
-                                    }
-
-                                    if (const std::optional<DrawRange> range = drawRangeOf(draw)) {
-                                        drawRanges_[entry.first].push_back(*range);
-                                    } else {
-                                        // Draw ranges decide which triangles of a toggled object are
-                                        // drawn, so one dropped in silence is a piece of the mesh
-                                        // that stops being remapped for no stated reason.
-                                        ctx_.log("could not read the draw range `"
-                                             + std::string(StringTools::strip(draw)) + "` in ["
-                                             + section + "], so it is not remapped");
-                                        continue;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    // TWO BINDING GENERATIONS IN ONE SECTION (2026-10-03). A section may DRAW
-                    // before it binds any texture register of its own. Those draws render with
-                    // whatever was bound when the game's own draw was matched -- the SOURCE
-                    // character's atlas -- and only the draws after the mod's own `ps-t` lines use
-                    // the mod's art. ChisaParfait3 writes its whole accessory set that way: 14
-                    // toggled draws for the hat, the chest bandages, the bows and the sleeves, then
-                    // `ps-t0..ps-t3` and one big draw for the custom body.
-                    //
-                    // The fix hung one list off the shared-resource override and gave every draw
-                    // the mod's art, so the hat and the bandages sampled her body atlas, which is
-                    // featureless where their UV islands sit -- they rendered as flat skin.
-                    //
-                    // Recorded per component, and ONLY when the section binds after drawing. The
-                    // two commoner shapes are already right and must not move: a section that binds
-                    // nothing leaves every draw to `fallbackTextures`, and one that binds before it
-                    // draws is what the single list at the top was written for. Across 544 component
-                    // sections of this repo's WuWa corpus, 508 bind nothing, 33 bind first and 3
-                    // are this shape.
-                    // ...AND ONLY WHEN THE MOD DOES NOT REPLACE THE GAME'S TEXTURES BY HASH.
-                    // `CheckTextureOverride = ps-tN` fires a `TextureOverride` section keyed on the
-                    // hash of whatever is bound there, and that section's `this =` swaps in the
-                    // mod's own file -- so a mod declaring those gets its art on every draw whether
-                    // its section binds the register or not, and the single list at the top is
-                    // right for it.
-                    //
-                    // This is what separates the two mods that look identical from their sections
-                    // alone. Every Sanhua mod declares them (20 to 72 each, Sanhua2's split
-                    // component 5 included) and so do 22 of the 25 Chisa mods; ChisaParfait3
-                    // declares NONE, which is why its hat and chest bandages were the game's art
-                    // and its custom body was not.
-                    bool replacesByHash = false;
-                    for (const auto& entry : templates) {
-                        if (entry.second == nullptr
-                            || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)
-                            || StringTools::startsWith(entry.first,
-                                                       IniKeywords::TextureOverride + config_.slotPrefix)) {
-                            continue;
-                        }
-
-                        bool hasHash = false;
-                        bool hasThis = false;
-                        for (const auto& part : entry.second->parts()) {
-                            const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
-                            if (content == nullptr) {
-                                continue;
-                            }
-
-                            hasHash = hasHash || content->count(IniKeywords::Hash) > 0;
-                            hasThis = hasThis || content->count(IniKeywords::This) > 0;
-                        }
-
-                        if (hasHash && hasThis) {
-                            replacesByHash = true;
-                            break;
-                        }
-                    }
-
-                    for (const auto& entry : present_) {
-                        if (replacesByHash) {
-                            break;
-                        }
-
-                        bool drew = false;
-                        std::vector<std::string> late;
-                        for (const std::string& section : entry.second) {
-                            auto tpl = templates.find(section);
-                            if (tpl == templates.end() || tpl->second == nullptr) {
-                                continue;
-                            }
-
-                            for (const auto& part : tpl->second->parts()) {
-                                const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
-                                if (content == nullptr) {
-                                    continue;
-                                }
-
-                                for (const auto& item : content->items()) {
-                                    const std::string key = StringTools::toLower(std::string(StringTools::strip(item.key)));
-                                    if (key == StringTools::toLower(IniKeywords::DrawIndexed)) {
-                                        drew = true;
-                                    } else if (drew && StringTools::startsWith(key, StringTools::toLower(config_.texRegPrefix))) {
-                                        if (std::find(late.begin(), late.end(), key) == late.end()) {
-                                            late.push_back(key);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        if (!late.empty()) {
-                            lateBindRegs_[entry.first] = late;
-                        }
-                    }
-
                     legacy_ = true;
+                    std::vector<std::string> slotSections;
                     for (const auto& entry : present_) {
-                        for (const std::string& section : entry.second) {
-                            auto tpl = templates.find(section);
-                            if (tpl != templates.end() && tpl->second != nullptr
-                                && ModBranches::firstVal(*tpl->second, IniKeywords::WWMIVgOffset).has_value()) {
-                                legacy_ = false;
+                        slotSections.insert(slotSections.end(), entry.second.begin(), entry.second.end());
+                    }
+                    if (auto* parser = dynamic_cast<GIMIParser<>*>(this->getParser())) {
+                        for (int component : silent_) {
+                            const auto found = parser->sectionTargets().find(ModObj("", config_.slotPrefix + std::to_string(component)));
+                            if (found != parser->sectionTargets().end()) {
+                                slotSections.insert(slotSections.end(), found->second.begin(), found->second.end());
                             }
+                        }
+                    }
+                    for (const std::string& section : slotSections) {
+                        auto tpl = templates.find(section);
+                        if (tpl != templates.end() && tpl->second != nullptr
+                            && ModBranches::firstVal(*tpl->second, IniKeywords::WWMIVgOffset).has_value()) {
+                            legacy_ = false;
                         }
                     }
 
@@ -1402,97 +1291,6 @@ namespace AGRemapCore {
 
                         ctx_.log("this mod is from before WWMI's merged skeleton: its blend is read per component and lifted "
                              "through " + source_.name + "'s vg_map, and the fix supplies the merged skeleton it lacks");
-                    }
-
-                    // A COMPONENT WHOSE SECTION DRAWS NOTHING IS AN UNDRAWN SLOT (2026-10-10). A mod that
-                    // hides whole components keeps their sections only to skip the game's geometry and
-                    // merge their bone window ("; Draw skipped: No matching custom components found",
-                    // the shared-resource lists commented out). Remapped like a drawing component, the
-                    // section got none of the fix's additions -- they hang off that commented-out list
-                    // -- so the TARGET slot's window was never merged, and every vertex of the mod's
-                    // other components weighted to those bones skinned against a zero matrix: Lynae4's
-                    // legs, on LynaePeppermint's leg bones, collapsed to spikes at the model's origin.
-                    // Left out here, the slot gets the hide section every undrawn slot gets, which
-                    // skips the skin's geometry and merges its window. A `run =` this file cannot
-                    // resolve counts as drawing, unless it is WWMI's own library.
-                    std::function<bool(const std::string&, std::unordered_set<std::string>&)> mayDraw =
-                        [&templates, &mayDraw](const std::string& section, std::unordered_set<std::string>& seen) -> bool {
-                            if (!seen.insert(StringTools::toLower(section)).second) {
-                                return false;
-                            }
-
-                            auto tpl = templates.find(section);
-                            if (tpl == templates.end() || tpl->second == nullptr) {
-                                return StringTools::toLower(section).find("\\wwmiv1\\") == std::string::npos;
-                            }
-
-                            for (const auto& part : tpl->second->parts()) {
-                                const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
-                                if (content == nullptr) {
-                                    continue;
-                                }
-
-                                for (const auto& item : content->items()) {
-                                    const std::string key = StringTools::toLower(std::string(StringTools::strip(item.key)));
-                                    if (StringTools::startsWith(key, "draw")) {
-                                        return true;
-                                    }
-
-                                    if (key == StringTools::toLower(IniKeywords::Run)
-                                        && mayDraw(std::string(StringTools::strip(item.value)), seen)) {
-                                        return true;
-                                    }
-                                }
-                            }
-
-                            return false;
-                        };
-
-                    // ...and only a section that skips the game's draw: one that draws nothing and
-                    // leaves the game's own geometry on screen is not a hidden component
-                    auto skips = [&templates](const std::string& section) -> bool {
-                        auto tpl = templates.find(section);
-                        if (tpl == templates.end() || tpl->second == nullptr) {
-                            return false;
-                        }
-
-                        for (const auto& part : tpl->second->parts()) {
-                            const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
-                            if (content == nullptr) {
-                                continue;
-                            }
-
-                            for (const std::string& value : content->getVals(IniKeywords::Handling)) {
-                                if (StringTools::equalsIgnoreCase(std::string(StringTools::strip(value)), IniKeywords::Skip)) {
-                                    return true;
-                                }
-                            }
-                        }
-
-                        return false;
-                    };
-
-                    std::vector<int> silent;
-                    for (const auto& entry : present_) {
-                        bool draws = false;
-                        bool skipped = false;
-                        for (const std::string& section : entry.second) {
-                            std::unordered_set<std::string> seen;
-                            draws = draws || mayDraw(section, seen);
-                            skipped = skipped || skips(section);
-                        }
-
-                        if (!draws && skipped) {
-                            silent.push_back(entry.first);
-                        }
-                    }
-
-                    silent_.clear();
-                    if (silent.size() < present_.size()) {
-                        for (int component : silent) {
-                            present_.erase(component);
-                            silent_.push_back(component);
-                        }
                     }
 
                     auto constants = templates.find(IniKeywords::Constants);
@@ -1513,41 +1311,15 @@ namespace AGRemapCore {
                         }
                     }
 
-                    auto index = templates.find(IniKeywords::WWMIIndexBuffer);
-                    if (index != templates.end() && index->second != nullptr) {
-                        std::optional<std::string> file = ModBranches::firstVal(*index->second, IniKeywords::Filename);
-                        if (file.has_value()) {
-                            indexFile_ = *file;
-                        }
-                    }
-
-                    // ...and the position and texcoord buffers, off the .ini for the same reason the
-                    // index buffer is: a mod-manager-packaged mod names every file by GUID with a
-                    // `.assets` extension, so there is no `Position.buf` beside anything. Built as a
-                    // sibling name, the path did not exist, the remapped blend was never written, and
-                    // the .ini still bound vb4 to it -- which drew NOTHING of the character.
-                    //
-                    // WITHOUT REGARD TO CASE: one mod spells it ResourceTexCoordBuffer.
-                    for (const auto& entry : templates) {
-                        if (entry.second == nullptr) {
-                            continue;
-                        }
-
-                        std::string* into = nullptr;
-                        if (StringTools::equalsIgnoreCase(entry.first, IniKeywords::WWMIPositionBuffer)) {
-                            into = &positionFile_;
-                        } else if (StringTools::equalsIgnoreCase(entry.first, IniKeywords::WWMITexcoordBuffer)) {
-                            into = &texcoordFile_;
-                        } else if (StringTools::equalsIgnoreCase(entry.first, IniKeywords::WWMIVectorBuffer)) {
-                            into = &vectorFile_;
-                        }
-
-                        if (into == nullptr) {
-                            continue;
-                        }
-
-                        std::optional<std::string> file = ModBranches::firstVal(*entry.second, IniKeywords::Filename);
-                        if (file.has_value()) {
+                    // ITS BUFFERS, off the .ini rather than as sibling names: a mod-manager-packaged mod names
+                    // every file by GUID with a `.assets` extension, so there is no `Position.buf` beside
+                    // anything -- built as a sibling, the path did not exist, the remapped blend was never
+                    // written, and the .ini still bound vb4 to it, which drew NOTHING of the character.
+                    // Found without regard to case: one mod spells it ResourceTexCoordBuffer.
+                    for (const auto& [section, into] : std::vector<std::pair<std::string, std::string*>>{
+                             {IniKeywords::WWMIIndexBuffer, &indexFile_}, {IniKeywords::WWMIPositionBuffer, &positionFile_},
+                             {IniKeywords::WWMITexcoordBuffer, &texcoordFile_}, {IniKeywords::WWMIVectorBuffer, &vectorFile_}}) {
+                        if (std::optional<std::string> file = data.resourceFile(section)) {
                             *into = *file;
                         }
                     }
@@ -1589,20 +1361,11 @@ namespace AGRemapCore {
                     // mod-manager-packaged mod names every file by GUID with a `.assets` extension,
                     // so the WWMI export's own name is not beside Blend.buf and the search finds
                     // nothing -- and the fallback that then runs is a no-op dressed as a fix.
-                    for (const auto& entry : templates) {
-                        if (entry.second == nullptr) {
-                            continue;
-                        }
-
-                        std::string name = StringTools::toLower(entry.first);
+                    for (const auto& [section, file] : data.resourceFiles()) {
+                        std::string name = section;
                         name.erase(std::remove(name.begin(), name.end(), '_'), name.end());
-                        if (name.find("blendremapvertexvg") == std::string::npos) {
-                            continue;
-                        }
-
-                        std::optional<std::string> file = ModBranches::firstVal(*entry.second, IniKeywords::Filename);
-                        if (file.has_value()) {
-                            vertexVGFile_ = *file;
+                        if (name.find("blendremapvertexvg") != std::string::npos) {
+                            vertexVGFile_ = file;
                             break;
                         }
                     }
@@ -1611,9 +1374,8 @@ namespace AGRemapCore {
                     // buffers sit next to its .ini (Chisa12: GUID names, `.assets` buffers) had a
                     // `Meshes/` built for it holding nothing but the fix's own output.
                     meshFolder_.clear();
-                    auto blend = templates.find(IniKeywords::WWMIBlendBuffer);
-                    if (blend != templates.end() && blend->second != nullptr) {
-                        std::optional<std::string> file = ModBranches::firstVal(*blend->second, IniKeywords::Filename);
+                    {
+                        std::optional<std::string> file = data.resourceFile(IniKeywords::WWMIBlendBuffer);
                         if (file.has_value()) {
                             const std::string forward = FileService::iniPathToRel(*file);
 
@@ -2176,6 +1938,22 @@ namespace AGRemapCore {
 
                 ModObj targetSlotObj(int slot) const {
                     return ModObj(toModName_, config_.slotPrefix + std::to_string(slot));
+                }
+
+                // The source component of one of the parser's slot objects, or nothing
+                std::optional<int> sourceComponentOf(const ModObj& obj) const {
+                    if (!obj.first.empty() || !StringTools::startsWith(obj.second, config_.slotPrefix)) {
+                        return std::nullopt;
+                    }
+
+                    try {
+                        const int component = std::stoi(obj.second.substr(config_.slotPrefix.size()));
+                        if (component >= 0 && static_cast<std::size_t>(component) < source_.slots.size()) {
+                            return component;
+                        }
+                    } catch (const std::exception&) {
+                    }
+                    return std::nullopt;
                 }
 
                 // The target object a source component's sections are remapped onto: its slot's, or

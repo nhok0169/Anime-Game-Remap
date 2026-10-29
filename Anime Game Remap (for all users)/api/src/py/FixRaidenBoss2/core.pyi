@@ -11166,6 +11166,30 @@ class IniParseData:
             ...
     def __init__(self) -> None:
         ...
+    def addDrawPart(self, modObj: tuple[str, str], part: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Records one of :meth:`drawParts`
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The mod object, ``(component, object)``
+        
+        part: :class:`int`
+            The part
+        """
+    def addDrawRange(self, modObj: tuple[str, str], range: tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
+        """
+        Records one of :meth:`drawRanges`
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The mod object, ``(component, object)``
+        
+        range: Tuple[:class:`int`, :class:`int`]
+            The draw's ``(index count, first index)``
+        """
     def addUndrawn(self, modObj: tuple[str, str]) -> None:
         """
         Records that the mod leaves ``modObj`` undrawn
@@ -11207,6 +11231,36 @@ class IniParseData:
         ----------
         fill: Optional[Callable[[:class:`IniParseData`], None]]
             What fills them, or ``None`` for nothing
+        """
+    def drawParts(self, modObj: tuple[str, str]) -> set[int]:
+        """
+        Which parts of the mod object's `sections`_ hold a ``drawindexed``, counted from 1 over every part of a
+        `section`_ (an ``if`` line is a part too). Draws all in one part are draws under one condition
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The mod object, ``(component, object)``
+        
+        Returns
+        -------
+        Set[:class:`int`]
+            The parts
+        """
+    def drawRanges(self, modObj: tuple[str, str]) -> list[tuple[int, int]]:
+        """
+        The draws the mod's own `sections`_ of a mod object make with numbers, in the order they are written -- not
+        ``drawindexed = auto``, which draws the whole of whatever is bound
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The mod object, ``(component, object)``
+        
+        Returns
+        -------
+        List[Tuple[:class:`int`, :class:`int`]]
+            Each draw's ``(index count, first index)``
         """
     def hasRemappableContent(self) -> bool:
         """
@@ -11250,6 +11304,21 @@ class IniParseData:
         :class:`bool`
             Whether it is undrawn
         """
+    def lateBindings(self, modObj: tuple[str, str]) -> list[str]:
+        """
+        The texture registers a mod object's `sections`_ bind only AFTER they have drawn, in the order first bound.
+        A draw before them renders with whatever the game had bound
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The mod object, ``(component, object)``
+        
+        Returns
+        -------
+        List[:class:`str`]
+            The registers
+        """
     def registerToggleOf(self, resource: str) -> ...:
         """
         The register toggle that chooses a resource, or ``None`` -- one `section`_ binding one register to several
@@ -11288,6 +11357,40 @@ class IniParseData:
         -------
         List[:class:`IniParseData.Rejection`]
             The refusals
+        """
+    def replacesTexturesByHash(self) -> bool:
+        """
+        Whether the mod replaces a game texture BY HASH anywhere -- a texture override with a ``hash`` and a
+        ``this =`` -- so its art reaches every draw that binds that texture, whatever the draw's own `section`_ binds
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether it does
+        """
+    def resourceFile(self, section: str) -> str | None:
+        """
+        The ``filename =`` of one of the mod's resource `sections`_, found without regard to the case of its name,
+        or ``None``. The value is the .ini's own (a Windows path, relative to the .ini)
+        
+        Parameters
+        ----------
+        section: :class:`str`
+            The resource `section`_
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The file
+        """
+    def resourceFiles(self) -> dict[str, str]:
+        """
+        Every resource `section`_ of the mod that names a file
+        
+        Returns
+        -------
+        Dict[:class:`str`, :class:`str`]
+            lowercased `section`_ name -> its ``filename =``
         """
     def roleCandidates(self, role: str) -> list[tuple[str, str]]:
         """
@@ -11331,6 +11434,18 @@ class IniParseData:
         sections: :class:`str`
             The `sections`_, as .ini text
         """
+    def setLateBindings(self, modObj: tuple[str, str], regs: collections.abc.Sequence[str]) -> None:
+        """
+        Sets :meth:`lateBindings`
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The mod object, ``(component, object)``
+        
+        regs: List[:class:`str`]
+            The registers
+        """
     def setRecolourOnly(self, recolourOnly: bool) -> None:
         """
         Sets :meth:`isRecolourOnly`
@@ -11360,6 +11475,27 @@ class IniParseData:
         ----------
         remappable: :class:`bool`
             Whether the file carries anything to remap
+        """
+    def setReplacesTexturesByHash(self, replaces: bool) -> None:
+        """
+        Sets :meth:`replacesTexturesByHash`
+        
+        Parameters
+        ----------
+        replaces: :class:`bool`
+            Whether it does
+        """
+    def setResourceFile(self, section: str, file: str) -> None:
+        """
+        Records one of :meth:`resourceFiles`
+        
+        Parameters
+        ----------
+        section: :class:`str`
+            The resource `section`_
+        
+        file: :class:`str`
+            Its ``filename =``
         """
     def setRoleCandidates(self, role: str, candidates: collections.abc.Sequence[tuple[str, str]]) -> None:
         """

@@ -219,6 +219,131 @@ Returns
 Set[Tuple[:class:`str`, :class:`str`]]
     The mod objects
        )doc")
+       .def("drawRanges", &AGRC::IniParseData::drawRanges, py::arg("modObj"), py::return_value_policy::copy, R"doc(
+The draws the mod's own `sections`_ of a mod object make with numbers, in the order they are written -- not
+``drawindexed = auto``, which draws the whole of whatever is bound
+
+Parameters
+----------
+modObj: Tuple[:class:`str`, :class:`str`]
+    The mod object, ``(component, object)``
+
+Returns
+-------
+List[Tuple[:class:`int`, :class:`int`]]
+    Each draw's ``(index count, first index)``
+       )doc")
+       .def("addDrawRange", &AGRC::IniParseData::addDrawRange, py::arg("modObj"), py::arg("range"), R"doc(
+Records one of :meth:`drawRanges`
+
+Parameters
+----------
+modObj: Tuple[:class:`str`, :class:`str`]
+    The mod object, ``(component, object)``
+
+range: Tuple[:class:`int`, :class:`int`]
+    The draw's ``(index count, first index)``
+       )doc")
+       .def("drawParts", &AGRC::IniParseData::drawParts, py::arg("modObj"), py::return_value_policy::copy, R"doc(
+Which parts of the mod object's `sections`_ hold a ``drawindexed``, counted from 1 over every part of a
+`section`_ (an ``if`` line is a part too). Draws all in one part are draws under one condition
+
+Parameters
+----------
+modObj: Tuple[:class:`str`, :class:`str`]
+    The mod object, ``(component, object)``
+
+Returns
+-------
+Set[:class:`int`]
+    The parts
+       )doc")
+       .def("addDrawPart", &AGRC::IniParseData::addDrawPart, py::arg("modObj"), py::arg("part"), R"doc(
+Records one of :meth:`drawParts`
+
+Parameters
+----------
+modObj: Tuple[:class:`str`, :class:`str`]
+    The mod object, ``(component, object)``
+
+part: :class:`int`
+    The part
+       )doc")
+       .def("lateBindings", &AGRC::IniParseData::lateBindings, py::arg("modObj"), py::return_value_policy::copy, R"doc(
+The texture registers a mod object's `sections`_ bind only AFTER they have drawn, in the order first bound.
+A draw before them renders with whatever the game had bound
+
+Parameters
+----------
+modObj: Tuple[:class:`str`, :class:`str`]
+    The mod object, ``(component, object)``
+
+Returns
+-------
+List[:class:`str`]
+    The registers
+       )doc")
+       .def("setLateBindings", &AGRC::IniParseData::setLateBindings, py::arg("modObj"), py::arg("regs"), R"doc(
+Sets :meth:`lateBindings`
+
+Parameters
+----------
+modObj: Tuple[:class:`str`, :class:`str`]
+    The mod object, ``(component, object)``
+
+regs: List[:class:`str`]
+    The registers
+       )doc")
+       .def("replacesTexturesByHash", &AGRC::IniParseData::replacesTexturesByHash, R"doc(
+Whether the mod replaces a game texture BY HASH anywhere -- a texture override with a ``hash`` and a
+``this =`` -- so its art reaches every draw that binds that texture, whatever the draw's own `section`_ binds
+
+Returns
+-------
+:class:`bool`
+    Whether it does
+       )doc")
+       .def("setReplacesTexturesByHash", &AGRC::IniParseData::setReplacesTexturesByHash, py::arg("replaces"), R"doc(
+Sets :meth:`replacesTexturesByHash`
+
+Parameters
+----------
+replaces: :class:`bool`
+    Whether it does
+       )doc")
+       .def("resourceFile", &AGRC::IniParseData::resourceFile, py::arg("section"), R"doc(
+The ``filename =`` of one of the mod's resource `sections`_, found without regard to the case of its name,
+or ``None``. The value is the .ini's own (a Windows path, relative to the .ini)
+
+Parameters
+----------
+section: :class:`str`
+    The resource `section`_
+
+Returns
+-------
+Optional[:class:`str`]
+    The file
+       )doc")
+       .def("resourceFiles", &AGRC::IniParseData::resourceFiles, py::return_value_policy::copy, R"doc(
+Every resource `section`_ of the mod that names a file
+
+Returns
+-------
+Dict[:class:`str`, :class:`str`]
+    lowercased `section`_ name -> its ``filename =``
+       )doc")
+       .def("setResourceFile", &AGRC::IniParseData::setResourceFile, py::arg("section"), py::arg("file"), R"doc(
+Records one of :meth:`resourceFiles`
+
+Parameters
+----------
+section: :class:`str`
+    The resource `section`_
+
+file: :class:`str`
+    Its ``filename =``
+       )doc")
        .def("textureRoles", &AGRC::IniParseData::textureRoles, py::return_value_policy::reference_internal, R"doc(
 What role each texture of the .ini plays, or ``None`` when the parser records none -- every role the
 .ini binds a file for, since one atlas can serve two objects

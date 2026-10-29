@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="81" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="81" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="83" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="83" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_tex_creator_create_1a0cb4eaf7e051b5394d4a36b152bcd0c5" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_tex_create_1a147cb46ed91d6a9f7657393657de7b4f" kindref="member">Base::GraphId</ref></type>
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="82" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="82" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="84" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="84" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_tex_creator_create_1a3f2f94e65efe6ee245fdac5e0f3e350d" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_tex_create_1a655dcd84eb19e3d921e010bf17e39475" kindref="member">Base::ResEditConfig</ref></type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="83" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="83" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="85" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="85" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_tex_creator_create_1af122ad35c6d6a980c2a10de6e7366d58" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a13f236c70fb15e8b5b70895b4f56e534" kindref="member">Base::Context</ref></type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="84" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="84" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="86" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="86" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_tex_creator_create_1a8314523c795192f216a234e4a23db6c0" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_res_create_1ade7f4056416f8fec3fe077d2ab772bb0" kindref="member">Base::Section</ref></type>
@@ -91,7 +91,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="85" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="85" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="87" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="87" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_create_1a5c15d5eb62ccbc03078ad3395e9197de" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_res_create_1a5c15d5eb62ccbc03078ad3395e9197de" kindref="member">Base::Graph</ref></type>
@@ -105,7 +105,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="530" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="530" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="551" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="551" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_create_1a871838c60f57dc26b97ffa6772284ec6" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_res_create_1a871838c60f57dc26b97ffa6772284ec6" kindref="member">Base::CollectedSections</ref></type>
@@ -119,7 +119,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="534" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="534" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="555" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="555" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_create_1a662eb13b6cf6e70206994c21e7d467ef" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_res_create_1a662eb13b6cf6e70206994c21e7d467ef" kindref="member">Base::GraphGroups</ref></type>
@@ -133,7 +133,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="535" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="535" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="556" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="556" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_res_edit_1acc3ce6d69924cc5f27b9c403027a0298" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -183,7 +183,30 @@ its assigned id (see \ref getFileId). An empty ``std::function`` accepts everyth
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="90" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="90" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="92" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_creator_create_1a7196e5a89b8f052dac2c7949443d9bd1" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; AGRemapCore::TexCreatorCreate&lt; K, V, KeyHash, KeyEqual &gt;::files</definition>
+        <argsstring></argsstring>
+        <name>files</name>
+        <qualifiedname>AGRemapCore::TexCreatorCreate::files</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The textures to create under the names their registers already give them, as
+``section name -&gt; file`` (relative to the ``.ini`` file) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Set, a collected resource keeps its name, only the `sections`_ listed here are built, and
+each names its file -- for a fix that names its created textures itself. Empty (the
+default), every collected resource is renamed from the mod&apos;s name and the texture&apos;s (see
+:cpp:func:`TexCreate::getFixResourceName`) and its file from that
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="106" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="106" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_create_1aaa52aa10df36532d586ee7e6e324f78f" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -279,7 +302,7 @@ exists
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="135" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="135" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="157" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="157" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_create_1a6c460725e37753476ab63c444c9bed7b" prot="private" static="no" mutable="yes">
         <type>int</type>
@@ -312,6 +335,32 @@ exists
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_creator_create_1a40c3599c1bea00ab4d54d45a640845ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::TexCreatorCreate&lt; K, V, KeyHash, KeyEqual &gt;::getFixResourceName</definition>
+        <argsstring>(const std::string &amp;resource, const std::string &amp;modName=&quot;&quot;) const override</argsstring>
+        <name>getFixResourceName</name>
+        <qualifiedname>AGRemapCore::TexCreatorCreate::getFixResourceName</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_tex_create_1a107d8e2709871b5b4cf289ce949668ba">getFixResourceName</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para><computeroutput>std::nullopt</computeroutput> when <ref refid="class_a_g_remap_core_1_1_tex_creator_create_1a7196e5a89b8f052dac2c7949443d9bd1" kindref="member">files</ref> is set: the resource keeps its register&apos;s name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Otherwise :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_tex_create_1a107d8e2709871b5b4cf289ce949668ba" kindref="member">TexCreate::getFixResourceName</ref></computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="112" column="27"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_creator_create_1a1af9c3ddbf71674f9a66bed7fd58afa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>AGRemapCore::TexCreatorCreate&lt; K, V, KeyHash, KeyEqual &gt;::TexCreatorCreate</definition>
@@ -388,7 +437,7 @@ exists
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="101" column="13"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="123" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_creator_create_1a75d5e51afd6bd2d97ccdb512c7a03eb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_tex_creator_create_1a8314523c795192f216a234e4a23db6c0" kindref="member">Section</ref> *</type>
@@ -435,7 +484,7 @@ Builds the ``[Resource...]`` `section`_ for a created texture --- a single
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="116" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="138" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_creator_create_1aefb6a3e913c7222d48002c45525fb188" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -478,7 +527,7 @@ Builds the :cpp:class:`RemapTexAddResource` that runs \\ref texCreator and write
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="125" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="147" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_creator_create_1ae848a76d2d0b95d929cab09f0e8061ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -494,69 +543,7 @@ Builds the :cpp:class:`RemapTexAddResource` that runs \\ref texCreator and write
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="132" column="18"/>
-      </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_create_1a107d8e2709871b5b4cf289ce949668ba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
-        <type>std::optional&lt; std::string &gt;</type>
-        <definition>std::optional&lt; std::string &gt; AGRemapCore::TexCreate&lt; K, V, KeyHash, KeyEqual &gt;::getFixResourceName</definition>
-        <argsstring>(const std::string &amp;resource, const std::string &amp;modName=&quot;&quot;) const override</argsstring>
-        <name>getFixResourceName</name>
-        <qualifiedname>AGRemapCore::TexCreate::getFixResourceName</qualifiedname>
-        <reimplements refid="class_a_g_remap_core_1_1_base_res_edit_1a0567540e3b73dc109dd65dcc8f6b0dce">getFixResourceName</reimplements>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>resource</declname>
-        </param>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>modName</declname>
-          <defval>&quot;&quot;</defval>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para><verbatim>embed:rst 
-The fixed name of the resource `section`_ -- ``&lt;capitalized modName&gt;&lt;texName&gt;``, with a
-counter suffix from the second DISTINCT texture onwards, run through
-:cpp:func:`IniNamingTools::getRemapTexResourceName` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-**Memoised per &apos;modName&apos;**: asked for the same mod twice, this hands back the same
-name and does not advance the counter :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-.. note::
-   That memoisation is the whole point, and it is not a micro-optimisation. A
-   :cpp:class:`TexCreate` holds ONE creator, so every texture it makes is identical
-   by construction -- there is nothing for a counter to tell apart. Without the
-   memo, a mod whose graph binds the register in several branches asks once per
-   branch and gets ``NormalMap``, ``NormalMap1``, ``NormalMap2``, ``NormalMap3``:
-   four byte-identical 4MB ``.dds`` files where one would do.
-
-.. note::
-   The counter still exists and still numbers genuinely different textures apart --
-   a second mod name mints a second name. \ref clear resets both it and the memo
-</verbatim></para>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>resource</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The name of the original resource <computeroutput>section</computeroutput>_. Unused <ndash/> the name is built from &apos;modName&apos; and <ref refid="class_a_g_remap_core_1_1_tex_create_1aaa52aa10df36532d586ee7e6e324f78f" kindref="member">texName</ref> </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>modName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="103" column="27"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="154" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_create_1aafa6e29d38eecf64e74fd44ce4cd3a9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -681,7 +668,7 @@ halves are the fixed one
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="566" column="23"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="587" column="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_create_1add6ef14c18ad4f13dd1fdcfeb719a12f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_res_create_1a5c15d5eb62ccbc03078ad3395e9197de" kindref="member">Graph</ref> *</type>
@@ -779,7 +766,7 @@ buildSection rather than from the ``.ini`` file&apos;s existing ones
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="585" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="606" column="19"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -1010,6 +997,69 @@ getFixResourceName, or the `section`_&apos;s own name when that reports no chang
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="343" column="33"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a81dfd3eae0a577bc393ab4905574df91" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_tex_creator_create_1a8314523c795192f216a234e4a23db6c0" kindref="member">Section</ref> * &gt;</type>
+        <definition>std::unordered_map&lt; std::string, Section * &gt; AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::sourceSections</definition>
+        <argsstring>(Context &amp;ctx, GraphGroups &amp;graphGroups, const std::vector&lt; std::string &gt; &amp;targetSectionNames) const</argsstring>
+        <name>sourceSections</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::sourceSections</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_tex_creator_create_1af122ad35c6d6a980c2a10de6e7366d58" kindref="member">Context</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_create_1a662eb13b6cf6e70206994c21e7d467ef" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>targetSectionNames</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `sections`_ a resource&apos;s graph is built from: the .ini file&apos;s own, plus any of
+&apos;targetSectionNames&apos; the file does not declare and a graph in &apos;graphGroups&apos; holds
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+What it is for: a resource a FIX declares, as a section of one of its own graphs rather
+than of the .ini file (a download the fix adds, say). Without it the resource&apos;s graph is
+given a target it has no section for, the edited copy is never built, and the
+references collected to it are repointed at a name nothing declares. The .ini file&apos;s
+own section wins over a graph&apos;s of the same name
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated original .ini file being fixed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs for each .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>targetSectionNames</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resources&apos; <computeroutput>sections</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="363" column="32"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a6710f40b48ec3fe39ffa4ae31bc296bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_res_create_1a662eb13b6cf6e70206994c21e7d467ef" kindref="member">GraphGroups</ref> &amp;</type>
         <definition>virtual GraphGroups &amp; AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::buildResources</definition>
@@ -1108,7 +1158,7 @@ resource (reachable via \ref resModObj)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="382" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="403" column="33"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -1328,7 +1378,7 @@ Use it through :cpp:class:`ResRegCollect`, exactly as the `blend`_ and the textu
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="79" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="79" bodyend="136"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" line="81" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h" bodystart="81" bodyend="158"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_tex_creator_create_1aed8ce1c73415fda90406f3143d3e750f" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1acb963bd0fea8a4e1520f6c9478ccfe48" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>BaseResEdit</name></member>
@@ -1343,9 +1393,10 @@ Use it through :cpp:class:`ResRegCollect`, exactly as the `blend`_ and the textu
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1acc3ce6d69924cc5f27b9c403027a0298" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>ContentPart</name></member>
       <member refid="class_a_g_remap_core_1_1_tex_creator_create_1af122ad35c6d6a980c2a10de6e7366d58" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>Context</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1a7bc2fd1d2fe42716250c3d6d0715e241" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>fileAddGraphId</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a7196e5a89b8f052dac2c7949443d9bd1" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>files</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" prot="public" virt="virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>getFileId</name></member>
       <member refid="class_a_g_remap_core_1_1_tex_create_1aafa6e29d38eecf64e74fd44ce4cd3a9e" prot="public" virt="virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>getFixFile</name></member>
-      <member refid="class_a_g_remap_core_1_1_tex_create_1a107d8e2709871b5b4cf289ce949668ba" prot="public" virt="virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>getFixResourceName</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a40c3599c1bea00ab4d54d45a640845ed" prot="public" virt="virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>getFixResourceName</name></member>
       <member refid="class_a_g_remap_core_1_1_res_create_1add6ef14c18ad4f13dd1fdcfeb719a12f" prot="public" virt="virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>getResGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_res_create_1a5c15d5eb62ccbc03078ad3395e9197de" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>Graph</name></member>
       <member refid="class_a_g_remap_core_1_1_res_create_1a662eb13b6cf6e70206994c21e7d467ef" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>GraphGroups</name></member>
@@ -1359,6 +1410,7 @@ Use it through :cpp:class:`ResRegCollect`, exactly as the `blend`_ and the textu
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1a02ef8d850319513541970c5fd2e27cab" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>resType</name></member>
       <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a8314523c795192f216a234e4a23db6c0" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>Section</name></member>
       <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a4182361bb00c06a85156a5219c490a8b" prot="private" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>sections_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a81dfd3eae0a577bc393ab4905574df91" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>sourceSections</name></member>
       <member refid="class_a_g_remap_core_1_1_tex_create_1a740f50a9e5713f0f2de3c14332cd7348" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>TexCreate</name></member>
       <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a8df70ebc37cc1992d50e6a31966748c7" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>texCreator</name></member>
       <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a1af9c3ddbf71674f9a66bed7fd58afa9" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreatorCreate</scope><name>TexCreatorCreate</name></member>

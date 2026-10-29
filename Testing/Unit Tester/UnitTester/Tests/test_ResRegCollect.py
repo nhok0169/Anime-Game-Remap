@@ -1045,6 +1045,47 @@ filename = RaidenShogunBlendAlt.buf"""
         self.assertEqual(resultFix[0], '\n[TextureOverrideRaidenShogunBlend]\nvb1 = ResourceRaidenShogunBlend\nvb2 = ResourceRaidenShogunBlendAlt\nhandling = skip\ndraw = 21916,0\n\n[ResourceRaidenShogunBlend]\ntype = Buffer\nstride = 32\nfilename = RaidenShogunBlend.buf\n\n[ResourceRaidenShogunBlendAlt]\ntype = Buffer\nstride = 32\nfilename = RaidenShogunBlendAlt.buf\n\n; --------------- Raiden Remap ---------------\n; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"\n; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support\n\n[TextureOverrideRaidenShogunBlend]\nvb1 = ResourceRaidenShogunRikaRemapBlend\nvb2 = ResourceRaidenShogunRikaRemapBlendAlt\nhandling = skip\ndraw = 21916,0\n\n[ResourceRaidenShogunRikaRemapBlend]\ntype = Buffer\nstride = 32\nfilename = RaidenShogunRikaRemapBlend.buf\n\n[ResourceRaidenShogunRikaRemapBlendAlt]\ntype = Buffer\nstride = 32\nfilename = RaidenShogunRikaRemapBlendAlt.buf\n\n; --------------------------------------------')
 
 
+    def test_registerTest_collectsEveryRegisterItAccepts(self):
+        # a test of the register's name in place of the names: every register of the graph it accepts is
+        # collected (here every `vb`), and one it rejects (`ib`) is not
+        self.create()
+        self._fixer.graphGroupEdits = [FRB.ResRegCollect({(0, "", "blend"): lambda reg: reg.startswith("vb")},
+                                                         {"blendType": FRB.RemapBlendReplace((0, "", "remapBlend"))})]
+
+        iniTxt = """
+[TextureOverrideRaidenShogunBlend]
+vb1 = ResourceRaidenShogunBlend
+vb2 = ResourceRaidenShogunBlendAlt
+ib = ResourceRaidenShogunIB
+handling = skip
+draw = 21916,0
+
+[ResourceRaidenShogunBlend]
+type = Buffer
+stride = 32
+filename = RaidenShogunBlend.buf
+
+[ResourceRaidenShogunBlendAlt]
+type = Buffer
+stride = 32
+filename = RaidenShogunBlendAlt.buf
+
+[ResourceRaidenShogunIB]
+type = Buffer
+format = DXGI_FORMAT_R32_UINT
+filename = RaidenShogunIB.ib"""
+
+        self.writeIniTxt(iniTxt)
+        self._iniFile.clear()
+        self._iniFile.parse()
+        resultFix = list(self._iniFile.fix().values())
+
+        self.assertEqual(len(self._iniFile.getResources()), 2)
+        self.assertEqual(len(resultFix), 1)
+        self.assertIn("vb1 = ResourceRaidenShogunRikaRemapBlend\n", resultFix[0])
+        self.assertIn("vb2 = ResourceRaidenShogunRikaRemapBlendAlt\n", resultFix[0])
+        self.assertIn("ib = ResourceRaidenShogunIB\n", resultFix[0])
+
     def test_resourceInAGraph_isBuilt(self):
         # a resource the .ini does not declare but a graph of the fix does (a download the fix adds):
         # the edit builds its copy from the graph's section rather than repointing the reference at a

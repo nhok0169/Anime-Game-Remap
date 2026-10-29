@@ -24667,8 +24667,9 @@ class ResRegCollect(BaseIniGraphGroupEdit):
     @property
     def srcRegs(self) -> typing.Any:
         """
-        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`]]]: The
-        different registers that reference the particular resource -- a list for several registers of one graph
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`], Callable[[:class:`str`], :class:`bool`]]]:
+        The different registers that reference the particular resource -- a list for several registers of one graph,
+        or a test of a register's name for every register of the graph it accepts (eg. ``lambda reg: reg.startswith("ps-t")``)
         """
     @srcRegs.setter
     def srcRegs(self, arg1: typing.Any) -> None:

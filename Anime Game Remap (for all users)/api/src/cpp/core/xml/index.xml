@@ -5913,10 +5913,12 @@
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a08d4683a21d4ac7ae8b3673365e127ab" kind="typedef"><name>PartPredicate</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a1467692921647beca6d7d9d7386dfa6b" kind="typedef"><name>ResPredicate</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kind="typedef"><name>ByGraph</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_reg_collect_1abc530db9e7a29c576e2f7f64c7cc5a04" kind="typedef"><name>RegMatch</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" kind="typedef"><name>ModObj</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1af50d7b8943e237cd957202d3c9aeb551" kind="typedef"><name>RemappedGraphs</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a71b6fa917700c4ae185dcf9738b29b51" kind="variable"><name>srcRegs</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a1f40614454c899494f89b9f74cd9dd02" kind="variable"><name>extraSrcRegs</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_reg_collect_1affb2399571a0b4c4fa4dcf3ca0a40649" kind="variable"><name>srcRegMatches</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a3f3f67d5ae53dbba2b6f5ff0f0f3fbaf" kind="variable"><name>bindToReg</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1acff25ee10bc8aa39996a7c74d38cb212" kind="variable"><name>resEdits</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a3aa161c60d9d358e01346317be0abe83" kind="variable"><name>partPredicates</name></member>
@@ -6505,6 +6507,7 @@
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1acc3ce6d69924cc5f27b9c403027a0298" kind="typedef"><name>ContentPart</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a9fb9ff35abe2e14515d6ded65c739daa" kind="typedef"><name>ResourceFilter</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a8df70ebc37cc1992d50e6a31966748c7" kind="variable"><name>texCreator</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a7196e5a89b8f052dac2c7949443d9bd1" kind="variable"><name>files</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_create_1aaa52aa10df36532d586ee7e6e324f78f" kind="variable"><name>texName</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a02ef8d850319513541970c5fd2e27cab" kind="variable"><name>resType</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b4ad3308279e531f172fcb8de5d5798" kind="variable"><name>config</name></member>
@@ -6513,11 +6516,11 @@
     <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a4182361bb00c06a85156a5219c490a8b" kind="variable"><name>sections_</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_create_1a6c460725e37753476ab63c444c9bed7b" kind="variable"><name>texInd_</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_create_1a14519c82b0b1576640f88bd1af381609" kind="variable"><name>names_</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a40c3599c1bea00ab4d54d45a640845ed" kind="function"><name>getFixResourceName</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a1af9c3ddbf71674f9a66bed7fd58afa9" kind="function"><name>TexCreatorCreate</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a75d5e51afd6bd2d97ccdb512c7a03eb1" kind="function"><name>buildSection</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_creator_create_1aefb6a3e913c7222d48002c45525fb188" kind="function"><name>buildResModel</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_creator_create_1ae848a76d2d0b95d929cab09f0e8061ea" kind="function"><name>clear</name></member>
-    <member refid="class_a_g_remap_core_1_1_tex_create_1a107d8e2709871b5b4cf289ce949668ba" kind="function"><name>getFixResourceName</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_create_1aafa6e29d38eecf64e74fd44ce4cd3a9e" kind="function"><name>getFixFile</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_create_1a7132801beb6ccd4b5231e702c400f5ab" kind="function"><name>texInd</name></member>
     <member refid="class_a_g_remap_core_1_1_res_create_1a5f245ec94619f26579001ad7850a0c9f" kind="function"><name>collectResourceName</name></member>
@@ -6525,6 +6528,7 @@
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" kind="function"><name>getFileId</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" kind="function"><name>buildResModels</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a69c0063dff581aa1aa2c6b416ee52a33" kind="function"><name>renameUncollectedSection</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a81dfd3eae0a577bc393ab4905574df91" kind="function"><name>sourceSections</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6710f40b48ec3fe39ffa4ae31bc296bf" kind="function"><name>buildResources</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a7bc2fd1d2fe42716250c3d6d0715e241" kind="function"><name>fileAddGraphId</name></member>
   </compound>

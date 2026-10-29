@@ -62,6 +62,7 @@ PyResRegCollect::PyResRegCollect(py::object srcRegs, py::object resEdits, py::ob
 void PyResRegCollect::refresh() {
     srcRegs.clear();
     extraSrcRegs.clear();
+    srcRegMatches.clear();
     resEdits.clear();
     partPredicates.clear();
     resPredicates.clear();
@@ -74,6 +75,13 @@ void PyResRegCollect::refresh() {
             const GraphId graphId = parseGraphId(py::reinterpret_borrow<py::object>(item.first));
             if (py::isinstance<py::str>(item.second)) {
                 srcRegs.insert_or_assign(graphId, py::str(item.second).cast<std::string>());
+                continue;
+            }
+
+            // a test of the register's name: see ResRegCollect::srcRegMatches
+            if (PyCallable_Check(item.second.ptr())) {
+                py::object match = py::reinterpret_borrow<py::object>(item.second);
+                srcRegMatches.insert_or_assign(graphId, [match](const std::string& reg) { return match(reg).cast<bool>(); });
                 continue;
             }
 
@@ -283,8 +291,9 @@ keysToTrack: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Opti
     cls.def_property("srcRegs", [](const PyResRegCollect &self) { return self.srcRegsObj; },
                      [](PyResRegCollect &self, py::object value) { self.srcRegsObj = std::move(value); },
                      py::doc(R"doc(
-Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`]]]: The
-different registers that reference the particular resource -- a list for several registers of one graph
+Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`], Callable[[:class:`str`], :class:`bool`]]]:
+The different registers that reference the particular resource -- a list for several registers of one graph,
+or a test of a register's name for every register of the graph it accepts (eg. ``lambda reg: reg.startswith("ps-t")``)
     )doc"));
 
     cls.def_property("resEdits", [](const PyResRegCollect &self) { return self.resEditsObj; },

@@ -89,6 +89,8 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h"
@@ -235,20 +237,6 @@ namespace AGRemapCore {
             }
 
             return layout.value_or(WWMIBlend::Layout{});
-        }
-
-
-        // Whether one of an .ini's resource lists (getResources() / getFileDownloads()) already names
-        // 'path' as its source
-        template <typename Lst>
-        bool listsSrcPath(const Lst& lst, const std::string& path) {
-            for (const auto& resource : lst) {
-                if (resource != nullptr && resource->srcPath == path) {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
 
@@ -709,8 +697,6 @@ namespace AGRemapCore {
                 // edits, so a parse alone writes nothing.
                 void beforeGraphGroupEdits(const std::string&) override {
                     if (!hasGivenUp()) {
-                        addCreatedTextures();
-                        addFallbackDownloads();
                     }
                 }
 
@@ -4848,17 +4834,13 @@ namespace AGRemapCore {
                     // resource of a texture EDIT of this role, and writing the download's section
                     // under that name declares it twice, raw file and edited file.
                     for (const auto& entry : fallbacks_) {
-                        addFixSection(SectionText(z3_, entry.second.resource)
-                                   .key(IniKeywords::Filename, entry.second.relPath)
-                                   .build());
+                        addFixDownload(entry.second);
                     }
 
                     // ...and the same for a role the mod DOES serve, downloaded for the draws that
                     // happen before its section binds anything -- see lateBindRegs_.
                     for (const auto& entry : gameFallbacks_) {
-                        addFixSection(SectionText(z3_, entry.second.resource)
-                                   .key(IniKeywords::Filename, entry.second.relPath)
-                                   .build());
+                        addFixDownload(entry.second);
                     }
 
                     // the zero shape-key stream: a buffer of zeros, one line a vertex
@@ -5065,10 +5047,11 @@ namespace AGRemapCore {
 
 
 
+                    // a texture of one colour for each role the fix invents -- see WWMIFixerConfig::createdTextures
+                    fixTextures_.clear();
                     for (const WWMIFixerConfig::CreatedTexture& created : config_.createdTextures) {
-                        addFixSection(SectionText(z3_, resourceOfRole_[created.role])
-                                   .key(IniKeywords::Filename, createdTextureFile(created))
-                                   .build());
+                        fixTextures_.push_back(FixTexture{resourceOfRole_[created.role], createdTextureFile(created),
+                                                          TexCreator(created.size, created.size, created.colour, false, false)});
                     }
 
 
@@ -5243,29 +5226,88 @@ namespace AGRemapCore {
                 // declares each file's section and hands the service the resource that writes it, so the
                 // file is written, counted and undone with the rest of the mod's
                 void collectFixFiles(const std::string& modName) {
-                    if (fixFiles_.empty() || this->graphGroups() == nullptr) {
+                    if (this->graphGroups() == nullptr) {
                         return;
                     }
 
                     Fixer::GraphGroups& groups = *this->graphGroups();
-                    IniFile* ini = ctx_.getIniFile();
                     const std::vector<std::string> regs(fixFileRegs_.begin(), fixFileRegs_.end());
-                    const Collector::ResPredicate listed = [this](const std::string&, const std::string& value, const auto&) {
-                        return fixFiles_.count(std::string(StringTools::strip(value))) > 0;
+                    for (std::size_t g = 0; g < groups.size(); ++g) {
+                        if (!fixFiles_.empty()) {
+                            FileAddCreate<> create(GraphId(g, "", "fixFiles"), fixFiles_, resEditConfig());
+                            collectNamed(groups, g, create, [this](const std::string& name) { return fixFiles_.count(name) > 0; },
+                                         regs, modName);
+                        }
+
+                        // the downloads and the created textures, bound at whichever register the fix's lists put
+                        // their role on
+                        if (!fixDownloads_.empty()) {
+                            FileDownloadCreate<> create(GraphId(g, "", "fixDownloads"), fixDownloads_, resEditConfig());
+                            collectNamed(groups, g, create, [this](const std::string& name) { return fixDownloads_.count(name) > 0; },
+                                         {}, modName);
+                        }
+
+                        for (const FixTexture& texture : fixTextures_) {
+                            TexCreatorCreate<> create(GraphId(g, "", "fixTexture" + texture.section), "", texture.creator, resEditConfig());
+                            create.files = {{texture.section, texture.file}};
+                            collectNamed(groups, g, create, [&texture](const std::string& name) { return name == texture.section; },
+                                         {}, modName);
+                        }
+                    }
+                }
+
+                // One create edit, collected from every graph of group 'g' wherever a register binds a resource
+                // 'named' accepts: at 'regs', or at any register when 'regs' is empty
+                template <typename Create>
+                void collectNamed(Fixer::GraphGroups& groups, std::size_t g, Create& create,
+                                  const std::function<bool(const std::string&)>& named, const std::vector<std::string>& regs,
+                                  const std::string& modName) {
+                    const Collector::ResPredicate listed = [named](const std::string&, const std::string& value, const auto&) {
+                        return named(std::string(StringTools::strip(value)));
                     };
 
-                    for (std::size_t g = 0; g < groups.size(); ++g) {
-                        FileAddCreate<> create(GraphId(g, "", "fixFiles"), fixFiles_, resEditConfig());
-                        Collector collect;
-                        for (const ModObj& obj : groups.modObjs(g)) {
-                            const GraphId id(g, obj.first, obj.second);
+                    Collector collect;
+                    for (const ModObj& obj : groups.modObjs(g)) {
+                        const GraphId id(g, obj.first, obj.second);
+                        if (regs.empty()) {
+                            collect.srcRegMatches[id] = [](const std::string&) { return true; };
+                        } else {
                             collect.srcRegs[id] = regs.front();
                             collect.extraSrcRegs[id] = std::vector<std::string>(regs.begin() + 1, regs.end());
-                            collect.resPredicates[id] = listed;
                         }
-                        collect.resEdits = {{"fixFile", &create}};
-                        collect.editFromIni(groups, ini, nullptr, modName);
+                        collect.resPredicates[id] = listed;
                     }
+                    collect.resEdits = {{"fixFile", &create}};
+                    collect.editFromIni(groups, ctx_.getIniFile(), nullptr, modName);
+                }
+
+                // The source's game texture bound for a planned role the mod has no file for:
+                // the download's url, the name it is saved under, and its path relative to the .ini
+                struct Fallback {
+                    std::string url;
+                    std::string fileName;
+                    std::string relPath;
+                    /**
+                     * @brief
+                     @rst
+                     The section name this download DECLARES itself under.
+
+                     Not ``resourceOfRole_[role]``: a texture edit of the same role overwrites that
+                     with its OWN resource, on purpose, so every BINDING follows the edited file.
+                     Reading it back here wrote the download's section under the edit's name, so the
+                     name was declared twice -- once naming the raw download and once the edited
+                     file -- and the raw one won. 21 such pairs across one corpus (2026-09-27).
+                     @endrst
+                     */
+                    std::string resource;
+                };
+
+                // A download the fix makes, under the section its lists bind
+                void addFixDownload(const Fallback& fallback) {
+                    FileDownloadCreate<>::File file;
+                    file.file = fallback.relPath;
+                    file.url = fallback.url;
+                    fixDownloads_[fallback.resource] = std::move(file);
                 }
 
                 // ---- WWMIFixerConfig::shapeKeyOrder ----
@@ -6307,60 +6349,6 @@ namespace AGRemapCore {
                     resourceOfRole_[role] = resource;
                 }
 
-                void addCreatedTextures() {
-                    IniFile* ini = ctx_.getIniFile();
-                    for (const WWMIFixerConfig::CreatedTexture& created : config_.createdTextures) {
-                        const std::string path = FileService::absPathOfRelPath(createdTextureFile(created), ini->getFolder());
-                        if (listsSrcPath(ini->getResources(), path)) {
-                            continue;
-                        }
-
-                        FileService::makeFolderFor(path);
-                        ini->getResources().push_back(std::make_unique<RemapTexAddResource>(
-                            ini->getFolder(), path, TexCreator(created.size, created.size, created.colour, false, false)));
-                    }
-                }
-
-                // The source's game texture bound for a planned role the mod has no file for:
-                // the download's url, the name it is saved under, and its path relative to the .ini
-                struct Fallback {
-                    std::string url;
-                    std::string fileName;
-                    std::string relPath;
-                    /**
-                     * @brief
-                     @rst
-                     The section name this download DECLARES itself under.
-
-                     Not ``resourceOfRole_[role]``: a texture edit of the same role overwrites that
-                     with its OWN resource, on purpose, so every BINDING follows the edited file.
-                     Reading it back here wrote the download's section under the edit's name, so the
-                     name was declared twice -- once naming the raw download and once the edited
-                     file -- and the raw one won. 21 such pairs across one corpus (2026-09-27).
-                     @endrst
-                     */
-                    std::string resource;
-                };
-
-                void addFallbackDownloads() {
-                    IniFile* ini = ctx_.getIniFile();
-                    std::map<std::string, Fallback> every = fallbacks_;
-                    for (const auto& entry : gameFallbacks_) {
-                        every[entry.first + GameSuffix] = entry.second;
-                    }
-
-                    for (const auto& entry : every) {
-                        const std::string path = FileService::absPathOfRelPath(entry.second.relPath, ini->getFolder());
-                        if (listsSrcPath(ini->getFileDownloads(), path)) {
-                            continue;
-                        }
-
-                        FileService::makeFolderFor(path);
-                        ini->getFileDownloads().push_back(std::make_unique<RemapIniDownload>(
-                            ini->getFolder(), entry.second.relPath,
-                            std::make_unique<FileDownload>(entry.second.url, entry.second.fileName)));
-                    }
-                }
 
                 WWMIFixerConfig config_;
                 bool editTagDone_ = false;
@@ -6388,6 +6376,13 @@ namespace AGRemapCore {
                 std::vector<ToggleList> toggleLists_;
                 std::unordered_map<std::string, FileAddCreate<>::File> fixFiles_;   // see addFixFile
                 std::set<std::string> fixFileRegs_;
+                std::unordered_map<std::string, FileDownloadCreate<>::File> fixDownloads_;   // see addFixDownload
+                struct FixTexture {
+                    std::string section;
+                    std::string file;
+                    TexCreator creator;
+                };
+                std::vector<FixTexture> fixTextures_;
                 std::vector<Fixer::GroupEdit*> toggleEdits_;
                 std::vector<std::shared_ptr<void>> toggleOwned_;
                 std::vector<std::unique_ptr<ObjGroupEdit::PartEdit>> toggleAdapters_;

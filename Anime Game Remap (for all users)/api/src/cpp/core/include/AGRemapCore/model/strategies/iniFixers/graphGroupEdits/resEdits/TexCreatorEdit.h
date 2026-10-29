@@ -16,6 +16,8 @@
 
 #include <memory>
 #include <string>
+#include <optional>
+#include <unordered_map>
 #include <vector>
 
 #include "AGRemapCore/model/iniresources/RemapTexResource.h"
@@ -88,6 +90,26 @@ namespace AGRemapCore {
              * @brief The creator that produces every texture this resource edit adds
              */
             TexCreator texCreator;
+
+            /**
+             * @brief
+             @rst
+             The textures to create under the names their registers already give them, as
+             ``section name -> file`` (relative to the ``.ini`` file) :raw-html:`<br />` :raw-html:`<br />`
+
+             Set, a collected resource keeps its name, only the `sections`_ listed here are built, and
+             each names its file -- for a fix that names its created textures itself. Empty (the
+             default), every collected resource is renamed from the mod's name and the texture's (see
+             :cpp:func:`TexCreate::getFixResourceName`) and its file from that
+             @endrst
+             */
+            std::unordered_map<std::string, std::string> files;
+
+            /**
+             * @brief ``std::nullopt`` when \ref files is set: the resource keeps its register's name.
+             *        Otherwise :cpp:func:`TexCreate::getFixResourceName`
+             */
+            std::optional<std::string> getFixResourceName(const std::string& resource, const std::string& modName = "") const override;
 
             /**
              * @brief Constructs a new texture-creating resource edit

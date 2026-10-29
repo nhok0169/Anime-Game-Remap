@@ -282,6 +282,45 @@ namespace AGRemapCore {
                 collectFromGraphGroup(graphGroups, srcEntry.first, srcReg);
             }
         }
+        for (const auto& [graphId, match] : srcRegMatches) {
+            Graph* graph = match ? Base::getGraph(graphGroups, graphId, false) : nullptr;
+            if (graph == nullptr) {
+                continue;
+            }
+
+            // the registers named outright are searched already
+            std::unordered_set<K, KeyHash, KeyEqual> searched;
+            if (auto named = srcRegs.find(graphId); named != srcRegs.end()) {
+                searched.insert(named->second);
+            }
+            if (auto named = extraSrcRegs.find(graphId); named != extraSrcRegs.end()) {
+                searched.insert(named->second.begin(), named->second.end());
+            }
+
+            std::vector<K> regs;
+            for (const auto& section : graph->sections()) {
+                if (section.second == nullptr) {
+                    continue;
+                }
+
+                for (const auto& part : section.second->parts()) {
+                    const auto* content = dynamic_cast<const typename Graph::ContentPart*>(part.get());
+                    if (content == nullptr) {
+                        continue;
+                    }
+
+                    for (const auto& item : content->items()) {
+                        if (match(item.key) && searched.insert(item.key).second) {
+                            regs.push_back(item.key);
+                        }
+                    }
+                }
+            }
+
+            for (const K& reg : regs) {
+                collectFromGraphGroup(graphGroups, graphId, reg);
+            }
+        }
 
         RemappedGraphs remappedGraphsStorage;
         RemappedGraphs* remappedGraphs = remaps.empty() ? nullptr : &remappedGraphsStorage;

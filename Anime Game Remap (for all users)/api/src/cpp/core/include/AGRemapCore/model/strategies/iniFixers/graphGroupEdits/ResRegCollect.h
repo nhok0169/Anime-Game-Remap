@@ -168,6 +168,26 @@ namespace AGRemapCore {
             ByGraph<std::vector<K>> extraSrcRegs;
 
             /**
+             * @brief A test of a register's name -- see \ref srcRegMatches
+             */
+            using RegMatch = std::function<bool(const K&)>;
+
+            /**
+             * @brief
+             @rst
+             Registers to search a graph for by a test of their NAME rather than the names themselves:
+             every key of the graph's `KVPs`_ the test accepts is searched as if \ref extraSrcRegs
+             named it, in the order the keys first appear :raw-html:`<br />` :raw-html:`<br />`
+
+             What it is for: a resource bound at whichever register of a family its role lands on --
+             eg. every texture register (``ps-t0``, ``ps-t1``, ...) of a list -- without listing every
+             register the family could use. A key \ref srcRegs or \ref extraSrcRegs already names for
+             the graph is searched once
+             @endrst
+             */
+            ByGraph<RegMatch> srcRegMatches;
+
+            /**
              * @brief
              @rst
              The key to bind the collected resource's fixed name to, instead of overwriting the one

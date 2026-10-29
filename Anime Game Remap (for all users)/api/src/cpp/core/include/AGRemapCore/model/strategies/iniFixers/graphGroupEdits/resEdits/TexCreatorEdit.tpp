@@ -34,9 +34,29 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::optional<std::string> TexCreatorCreate<K, V, KeyHash, KeyEqual>::getFixResourceName(const std::string& resource,
+                                                                                              const std::string& modName) const {
+        if (!files.empty()) {
+            return std::nullopt;
+        }
+        return Base::getFixResourceName(resource, modName);
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename TexCreatorCreate<K, V, KeyHash, KeyEqual>::Section*
             TexCreatorCreate<K, V, KeyHash, KeyEqual>::buildSection(const std::string& sectionName,
                                                                      const std::string& modName) {
+        // the fix's own names: only the sections it lists, each naming its own file
+        std::optional<V> named;
+        if (!files.empty()) {
+            const auto found = files.find(sectionName);
+            if (found == files.end()) {
+                return nullptr;
+            }
+            named = this->config.valOfFile(found->second);
+        }
+
         // The leading "Resource" comes off to recover the file's base name -- the pure-Python
         // original's own sectionName[len(IniKeywords.Resource):] slice, and what the pybind11
         // override does too.
@@ -47,7 +67,7 @@ namespace AGRemapCore {
 
         std::vector<std::pair<K, V>> src;
         src.emplace_back(this->config.filenameKey,
-                          this->config.valOfFile(this->getFixFile(fileBaseName + FileExt::DDS, modName)));
+                          named.has_value() ? *named : this->config.valOfFile(this->getFixFile(fileBaseName + FileExt::DDS, modName)));
 
         std::vector<std::unique_ptr<IfTemplatePart>> parts;
         parts.push_back(std::make_unique<IfContentPart<K, V, KeyHash, KeyEqual>>(src, 0));

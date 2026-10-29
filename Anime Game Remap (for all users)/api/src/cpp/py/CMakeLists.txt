@@ -133,6 +133,7 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/graphGroupEdits/PyIniGraphGroups.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyBaseIniGraphGroupEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphRemove.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyIterGraphGroupEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphGroupRemove.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphCreate.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphFilter.cpp

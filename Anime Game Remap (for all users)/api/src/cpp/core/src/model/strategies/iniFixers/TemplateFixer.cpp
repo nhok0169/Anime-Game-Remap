@@ -102,6 +102,12 @@ namespace AGRemapCore {
             ctx_.getIniFile()->getFileDownloads().clear();
         }
 
+        for (GroupEdit* edit : fixSectionEdits) {
+            if (edit != nullptr) {
+                edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), nullptr, modName);
+            }
+        }
+
         afterGraphGroupEdits(modName);
     }
 
@@ -112,6 +118,7 @@ namespace AGRemapCore {
     void TemplateFixer::giveUp() {
         gaveUp_ = true;
         this->graphGroupEdits = {&removeEveryGroup_};
+        fixSectionEdits.clear();
         fixSections_.clear();
         groupFixSections_.clear();
     }

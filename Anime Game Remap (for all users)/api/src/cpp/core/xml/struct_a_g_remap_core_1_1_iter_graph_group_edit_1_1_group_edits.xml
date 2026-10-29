@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_iter_graph_group_edit_1_1_group_edits" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IterGraphGroupEdit::GroupEdits</compoundname>
+    <includes refid="_iter_graph_group_edit_8h" local="no">IterGraphGroupEdit.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_iter_graph_group_edit_1_1_group_edits_1ac714004e95b2fe8432db2226b9f6bc66" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1ae19fe8ca6e13db3675770964aa6e200f" kindref="member">Base</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;Base&gt; &gt; AGRemapCore::IterGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GroupEdits::edits</definition>
+        <argsstring></argsstring>
+        <name>edits</name>
+        <qualifiedname>AGRemapCore::IterGraphGroupEdit::GroupEdits::edits</qualifiedname>
+        <briefdescription>
+<para>The edits to run on the groups, in order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h" line="91" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_iter_graph_group_edit_1_1_group_edits_1ac9d3fa611a0422c93a4078b89d858211" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1a98c1d462829d88f92f1942359661f036" kindref="member">ResEdit</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;ResEdit&gt; &gt; AGRemapCore::IterGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GroupEdits::resEdits</definition>
+        <argsstring></argsstring>
+        <name>resEdits</name>
+        <qualifiedname>AGRemapCore::IterGraphGroupEdit::GroupEdits::resEdits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The resource edits #edits borrow -- eg. those a :cpp:class:`ResRegCollect` names in
+:cpp:member:`ResRegCollect::resEdits` -- owned here so they live until #edits have run
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h" line="100" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>The edits the factory builds for one group. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h" line="87" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h" bodystart="87" bodyend="101"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_iter_graph_group_edit_1_1_group_edits_1ac714004e95b2fe8432db2226b9f6bc66" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit::GroupEdits</scope><name>edits</name></member>
+      <member refid="struct_a_g_remap_core_1_1_iter_graph_group_edit_1_1_group_edits_1ac9d3fa611a0422c93a4078b89d858211" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit::GroupEdits</scope><name>resEdits</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

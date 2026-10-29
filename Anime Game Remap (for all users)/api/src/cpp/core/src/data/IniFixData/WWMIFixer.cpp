@@ -81,6 +81,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
 #include "AGRemapCore/tools/DownloadTools.h"
 #include "AGRemapCore/tools/files/FileDownload.h"
@@ -121,6 +122,7 @@ namespace AGRemapCore {
         using GraphId = GraphRemove<>::GraphId;
         using Collector = ResRegCollect<>;
         using PartEdit = ObjGroupEdit::PartEdit;
+        using IterEdit = IterGraphGroupEdit<>;
 
         // Hash-data keys and .ini registers spelled literally, as the rest of data/ spells them.
         const std::string Vb0HashKey = "vb0";
@@ -674,6 +676,7 @@ namespace AGRemapCore {
                     for (auto& collect : blendCollects_) {
                         this->graphGroupEdits.push_back(collect.get());
                     }
+                    buildFixSectionEdits();
 
                     // The copies are the prototype's shape: each carries the fix's own sections (the
                     // texture command lists, the shader tags, the resources) and none of the mod's
@@ -692,23 +695,34 @@ namespace AGRemapCore {
                 }
 
             protected:
-                // The files the fix writes outside the resource system (the zero stream) and the
-                // resources it adds by hand (the created textures) go in at fix time, before the
-                // edits, so a parse alone writes nothing.
-                void beforeGraphGroupEdits(const std::string&) override {
-                    if (!hasGivenUp()) {
-                    }
+                // ONE collect over every group, so each texture edit is built and named once -- not a
+                // per-group edit, so not among fixSectionEdits
+                void afterGraphGroupEdits(const std::string& modName) override {
+                    collectTexEdits(modName);
                 }
 
-                void afterGraphGroupEdits(const std::string& modName) override {
-                    if (!hasGivenUp()) {
-                        addShaderGraphs(modName);
-                        collectFixFiles(modName);
+                // THE EDITS ON THE FIX'S OWN SECTIONS, run on every group once the slot remap has made
+                // the copies and the fix's sections are in them (TemplateFixer::fixSectionEdits), in order:
+                //
+                //   1. the CustomShader files, collected off the shader graph   (shaderFileEdits)
+                //   2. the fix's buffers, downloads and created textures         (fixFileEdits)
+                //   3. the blend override, rebound to the remapped blend         (blendRebindEdits)
+                //   4. the frame's skeleton remap, latched on $object_detected   (latchEdits)
+                //
+                // Each is an IterGraphGroupEdit: a graph is named by its group's index, and the number
+                // of groups is decided at fix time. Each step is a no-op on a group that has nothing
+                // for it.
+                void buildFixSectionEdits() {
+                    this->fixSectionEdits.clear();
+                    fixSectionIters_.clear();
+                    for (IterEdit::EditFactory factory : std::initializer_list<IterEdit::EditFactory>{
+                            [this](std::size_t g, Fixer::GraphGroups& groups) { return shaderFileEdits(g, groups); },
+                            [this](std::size_t g, Fixer::GraphGroups& groups) { return fixFileEdits(g, groups); },
+                            [this](std::size_t g, Fixer::GraphGroups& groups) { return blendRebindEdits(g, groups); },
+                            [this](std::size_t g, Fixer::GraphGroups& groups) { return latchEdits(g, groups); }}) {
+                        fixSectionIters_.push_back(std::make_unique<IterEdit>(std::move(factory)));
+                        this->fixSectionEdits.push_back(fixSectionIters_.back().get());
                     }
-
-                    collectTexEdits(modName);
-                    rebindBlendOverride();
-                    latchFrameRemap();
                 }
 
                 // THE CUSTOMSHADER SECTIONS ARE A GRAPH, AND THEIR FILES ARE ITS RESOURCES (2026-10-16).
@@ -721,40 +735,37 @@ namespace AGRemapCore {
                 // FileRefAdd. Both hand the service RemapFileAddResources, so the files are written,
                 // counted and undone with the rest of the mod's resources.
                 //
-                // After the group edits rather than among them: a copy's group exists only once the
-                // slot remap has made it, and the shaders go in every group there is.
-                void addShaderGraphs(const std::string& modName) {
-                    if (!hasShaders_) {
-                        return;
+                // In every group there is, the copies included: a copy's group exists only once the slot
+                // remap has made it.
+                IterEdit::GroupEdits shaderFileEdits(std::size_t g, Fixer::GraphGroups& groups) {
+                    IterEdit::GroupEdits result;
+                    const GraphId shaders = fixSectionsGraphId(g);
+                    if (!hasShaders_ || groups.getGraph(g, shaders.modObj) == nullptr) {
+                        return result;
                     }
 
-                    Fixer::GraphGroups& groups = *this->graphGroups();
-                    IniFile* ini = ctx_.getIniFile();
-                    FileRefAdd<> sourceAdd(shaderSources_, resEditConfig());
+                    auto bufferCreate = std::make_unique<FileAddCreate<>>(GraphId(g, "", "rerouteShaderBuffers"), shaderBuffers_, resEditConfig());
+                    auto sourceAdd = std::make_unique<FileRefAdd<>>(shaderSources_, resEditConfig());
 
-                    for (std::size_t g = 0; g < groups.size(); ++g) {
-                        const GraphId shaders = fixSectionsGraphId(g);
-                        if (groups.getGraph(g, shaders.modObj) == nullptr) {
-                            continue;
-                        }
-
-                        FileAddCreate<> bufferCreate(GraphId(g, "", "rerouteShaderBuffers"), shaderBuffers_, resEditConfig());
-                        // a `ref` names a buffer the fix parks a binding in (see restoringRuns), not a file
-                        const Collector::ResPredicate namesFile = Collector::skipsKeywords();
-                        for (const std::string& reg : shaderBufferRegs_) {
-                            Collector buffers;
-                            buffers.srcRegs[shaders] = reg;
-                            buffers.resPredicates[shaders] = namesFile;
-                            buffers.resEdits = {{"shaderBuffer", &bufferCreate}};
-                            buffers.editFromIni(groups, ini, nullptr, modName);
-                        }
-
-                        Collector sources;
-                        sources.srcRegs[shaders] = "ps";
-                        sources.resPredicates[shaders] = namesFile;
-                        sources.resEdits = {{"shaderSource", &sourceAdd}};
-                        sources.editFromIni(groups, ini, nullptr, modName);
+                    // a `ref` names a buffer the fix parks a binding in (see restoringRuns), not a file
+                    const Collector::ResPredicate namesFile = Collector::skipsKeywords();
+                    for (const std::string& reg : shaderBufferRegs_) {
+                        auto buffers = std::make_unique<Collector>();
+                        buffers->srcRegs[shaders] = reg;
+                        buffers->resPredicates[shaders] = namesFile;
+                        buffers->resEdits = {{"shaderBuffer", bufferCreate.get()}};
+                        result.edits.push_back(std::move(buffers));
                     }
+
+                    auto sources = std::make_unique<Collector>();
+                    sources->srcRegs[shaders] = "ps";
+                    sources->resPredicates[shaders] = namesFile;
+                    sources->resEdits = {{"shaderSource", sourceAdd.get()}};
+                    result.edits.push_back(std::move(sources));
+
+                    result.resEdits.push_back(std::move(bufferCreate));
+                    result.resEdits.push_back(std::move(sourceAdd));
+                    return result;
                 }
 
                 // One CustomShader section, among the fix's own
@@ -777,44 +788,50 @@ namespace AGRemapCore {
                 // model written out and read straight back in. Fires on 19 of the 58 WuWa mod folders
                 // on disk, all of them this character's (2026-09-29).
 
-                void rebindBlendOverride() {
-                    if (hasGivenUp() || config_.blendReg.empty() || this->graphGroups() == nullptr) {
-                        return;
+                IterEdit::GroupEdits blendRebindEdits(std::size_t g, Fixer::GraphGroups& groups) {
+                    IterEdit::GroupEdits result;
+                    if (config_.blendReg.empty()) {
+                        return result;
                     }
 
-                    Fixer::GraphGroups& groups = *this->graphGroups();
-                    for (std::size_t g = 0; g < groups.size(); ++g) {
-                        // The remapped blend as the GRAPH spells it, which is what the collect wrote
-                        // -- read rather than rebuilt, so the two cannot drift apart.
-                        std::string remapped;
-                        forEachPart(groups, g, [&](ContentPart& part) {
-                            if (!remapped.empty()) {
-                                return;
-                            }
-
-                            for (const std::string& value : part.getVals(config_.blendReg)) {
-                                if (!IniNamingTools::hasRefPrefix(value)
-                                        && value.find(IniKeywords::Remap) != std::string::npos) {
-                                    remapped = std::string(StringTools::strip(value));
-                                    break;
-                                }
-                            }
-                        });
-
-                        if (remapped.empty()) {
-                            continue;                   // nothing remapped this group's blend
+                    // The remapped blend as the GRAPH spells it, which is what the collect wrote -- read
+                    // rather than rebuilt, so the two cannot drift apart.
+                    rebindTo_.clear();
+                    forEachPart(groups, g, [&](ContentPart& part) {
+                        if (!rebindTo_.empty()) {
+                            return;
                         }
 
-                        RegNewVals<> rebind({{config_.blendReg, RegNewVals<>::NewVal(
-                            RegNewVals<>::OldValProducer(
-                                [&remapped](const std::string& oldValue, const ModType*) {
-                                    return IniNamingTools::hasRefPrefix(oldValue) ? remapped : oldValue;
-                                }))}});
+                        for (const std::string& value : part.getVals(config_.blendReg)) {
+                            if (!IniNamingTools::hasRefPrefix(value) && value.find(IniKeywords::Remap) != std::string::npos) {
+                                rebindTo_ = std::string(StringTools::strip(value));
+                                break;
+                            }
+                        }
+                    });
 
-                        forEachPart(groups, g, [&](ContentPart& part) {
-                            rebind.edit(part, "");
-                        });
+                    if (rebindTo_.empty()) {
+                        return result;                  // nothing remapped this group's blend
                     }
+
+                    if (rebind_ == nullptr) {
+                        rebind_ = std::make_unique<RegNewVals<>>(std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{{config_.blendReg, RegNewVals<>::NewVal(
+                            RegNewVals<>::OldValProducer([this](const std::string& oldValue, const ModType*) {
+                                return IniNamingTools::hasRefPrefix(oldValue) ? rebindTo_ : oldValue;
+                            }))}});
+                        rebindAdapter_ = std::make_unique<RegPartEdit<>>(rebind_.get());
+                    }
+
+                    // the mod's sections only, not the fix's own
+                    std::vector<ObjGroupEdit::IniEdits> edits(g + 1);
+                    for (const ModObj& obj : groups.modObjs(g)) {
+                        if (obj != fixSectionsGraphId(g).modObj) {
+                            edits[g].edits[obj] = {rebindAdapter_.get()};
+                        }
+                    }
+
+                    result.edits.push_back(std::make_unique<ObjGroupEdit>(std::move(edits)));
+                    return result;
                 }
 
                 using ContentPart = IfContentPart<std::string, std::string>;
@@ -952,56 +969,61 @@ namespace AGRemapCore {
                     return latch;
                 }
 
-                void latchFrameRemap() {
-                    if (hasGivenUp() || !latchesRemap() || this->graphGroups() == nullptr) {
-                        return;
+                IterEdit::GroupEdits latchEdits(std::size_t g, Fixer::GraphGroups& groups) {
+                    IterEdit::GroupEdits result;
+                    if (!latchesRemap()) {
+                        return result;
                     }
 
-                    std::unordered_set<std::string> merges = {remapFixName("CommandListMergeWindow")};
-                    for (std::size_t slot = 0; slot < target_.slots.size(); ++slot) {
-                        merges.insert(mergeListName(static_cast<int>(slot)));
-                    }
-
-                    const auto runsMerge = [&merges](const IfTemplate<std::string, std::string>& section) {
-                        for (const std::unique_ptr<IfTemplatePart>& part : section.parts()) {
-                            const auto* content = dynamic_cast<const ContentPart*>(part.get());
-                            for (std::size_t k = 0; content != nullptr && k < content->size(); ++k) {
-                                const auto& [key, value] = content->getByInd(static_cast<long long>(k));
-                                if (key == IniKeywords::Run && merges.count(std::string(StringTools::strip(value))) > 0) {
-                                    return true;
-                                }
-                            }
+                    if (beforeDetected_ == nullptr) {
+                        std::unordered_set<std::string> merges = {remapFixName("CommandListMergeWindow")};
+                        for (std::size_t slot = 0; slot < target_.slots.size(); ++slot) {
+                            merges.insert(mergeListName(static_cast<int>(slot)));
                         }
 
-                        return false;
-                    };
+                        const auto runsMerge = [merges](const IfTemplate<std::string, std::string>& section) {
+                            for (const std::unique_ptr<IfTemplatePart>& part : section.parts()) {
+                                const auto* content = dynamic_cast<const ContentPart*>(part.get());
+                                for (std::size_t k = 0; content != nullptr && k < content->size(); ++k) {
+                                    const auto& [key, value] = content->getByInd(static_cast<long long>(k));
+                                    if (key == IniKeywords::Run && merges.count(std::string(StringTools::strip(value))) > 0) {
+                                        return true;
+                                    }
+                                }
+                            }
 
-                    const std::unique_ptr<IfTemplate<std::string, std::string>> latch = latchTemplate(false);
-                    const std::unique_ptr<IfTemplate<std::string, std::string>> latchAndSet = latchTemplate(true);
-                    RegIfTemplateAdd<> beforeDetected(latch.get(), RegIfTemplateAdd<>::Position::BeforeTopKey, IniKeywords::WWMIObjectDetected);
-                    beforeDetected.value = "1";
-                    beforeDetected.everySection = true;
-                    RegIfTemplateAdd<> beforeIf(latchAndSet.get(), RegIfTemplateAdd<>::Position::BeforeFirstIf);
-                    beforeIf.everySection = true;
-
-                    Fixer::GraphGroups& groups = *this->graphGroups();
-                    for (std::size_t g = 0; g < groups.size(); ++g) {
-                        // a section two graphs share is latched once, as its rendered text was
-                        std::set<const void*> latched;
-                        const auto once = [&latched, &runsMerge](const std::string&, const IfTemplate<std::string, std::string>& section) {
-                            return runsMerge(section) && latched.insert(&section).second;
+                            return false;
                         };
-                        beforeDetected.sectionFilter = once;
-                        beforeIf.sectionFilter = once;
 
-                        for (RegIfTemplateAdd<>* edit : {&beforeDetected, &beforeIf}) {
-                            for (const ModObj& obj : groups.modObjs(g)) {
-                                if (auto* graph = groups.getGraph(g, obj)) {
-                                    edit->edit(*graph, nullptr);
-                                }
-                            }
-                        }
+                        // a section two graphs share is latched once, as its rendered text was
+                        const auto once = [this, runsMerge](const std::string&, const IfTemplate<std::string, std::string>& section) {
+                            return runsMerge(section) && latched_.insert(&section).second;
+                        };
+
+                        latch_ = latchTemplate(false);
+                        latchAndSet_ = latchTemplate(true);
+                        beforeDetected_ = std::make_unique<RegIfTemplateAdd<>>(latch_.get(), RegIfTemplateAdd<>::Position::BeforeTopKey,
+                                                                               IniKeywords::WWMIObjectDetected);
+                        beforeDetected_->value = "1";
+                        beforeDetected_->everySection = true;
+                        beforeDetected_->sectionFilter = once;
+                        beforeIf_ = std::make_unique<RegIfTemplateAdd<>>(latchAndSet_.get(), RegIfTemplateAdd<>::Position::BeforeFirstIf);
+                        beforeIf_->everySection = true;
+                        beforeIf_->sectionFilter = once;
+                        beforeDetectedAdapter_ = std::make_unique<GraphPartEdit<>>(beforeDetected_.get());
+                        beforeIfAdapter_ = std::make_unique<GraphPartEdit<>>(beforeIf_.get());
                     }
+
+                    latched_.clear();
+                    for (GraphPartEdit<>* adapter : {beforeDetectedAdapter_.get(), beforeIfAdapter_.get()}) {
+                        std::vector<ObjGroupEdit::IniEdits> edits(g + 1);
+                        for (const ModObj& obj : groups.modObjs(g)) {
+                            edits[g].edits[obj] = {adapter};
+                        }
+                        result.edits.push_back(std::make_unique<ObjGroupEdit>(std::move(edits)));
+                    }
+
+                    return result;
                 }
 
             private:
@@ -3551,7 +3573,7 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        // what the graph's `ps` and `ps-cbN` lines name -- see addShaderGraphs
+                        // what the graph's `ps` and `ps-cbN` lines name -- see shaderFileEdits
                         shaderSources_[rerouteShaderFile(*shader)] = ByteVec(shader->ps.begin(), shader->ps.end());
                         for (std::size_t p = 0; p < shader->passPs.size(); ++p) {
                             if (!shader->passPs[p].empty()) {
@@ -4541,7 +4563,7 @@ namespace AGRemapCore {
                         const Slot& s = target_.slots[slot];
                         SectionText mergeList(z3_, mergeListName(static_cast<int>(slot)));
                         if (targetPast256_ && !hostResetsDetected_) {
-                            // Only without a frame latch (see latchFrameRemap): a remap here runs before
+                            // Only without a frame latch (see latchEdits): a remap here runs before
                             // EVERY slot's merge and so reads a buffer whose windows differ in age.
                             mergeList.key(IniKeywords::Run, remapFixName("CommandListRemapMergedSkeleton"));
                         }
@@ -4936,7 +4958,7 @@ namespace AGRemapCore {
                     buildCopyMerges();
 
                     // The fix's sections merge too -- a hidden slot's, and a copy's merge-only ones -- and
-                    // latchFrameRemap reaches them as it does the mod's. A hide section left out would set
+                    // latchEdits reaches them as it does the mod's. A hide section left out would set
                     // `$object_detected` itself, and on a frame where it runs first the remap would not run
                 }
 
@@ -5097,63 +5119,62 @@ namespace AGRemapCore {
                     fixFileRegs_.insert(regs.begin(), regs.end());
                 }
 
-                // Collected from every graph of every group, after the group edits have bound them -- which
+                // Collected from every graph of the group, after the group edits have bound them -- which
                 // declares each file's section and hands the service the resource that writes it, so the
                 // file is written, counted and undone with the rest of the mod's
-                void collectFixFiles(const std::string& modName) {
-                    if (this->graphGroups() == nullptr) {
-                        return;
+                IterEdit::GroupEdits fixFileEdits(std::size_t g, Fixer::GraphGroups& groups) {
+                    IterEdit::GroupEdits result;
+                    if (!fixFiles_.empty()) {
+                        const std::vector<std::string> regs(fixFileRegs_.begin(), fixFileRegs_.end());
+                        auto create = std::make_unique<FileAddCreate<>>(GraphId(g, "", "fixFiles"), fixFiles_, resEditConfig());
+                        result.edits.push_back(collectNamed(groups, g, *create, [this](const std::string& name) { return fixFiles_.count(name) > 0; },
+                                                            regs));
+                        result.resEdits.push_back(std::move(create));
                     }
 
-                    Fixer::GraphGroups& groups = *this->graphGroups();
-                    const std::vector<std::string> regs(fixFileRegs_.begin(), fixFileRegs_.end());
-                    for (std::size_t g = 0; g < groups.size(); ++g) {
-                        if (!fixFiles_.empty()) {
-                            FileAddCreate<> create(GraphId(g, "", "fixFiles"), fixFiles_, resEditConfig());
-                            collectNamed(groups, g, create, [this](const std::string& name) { return fixFiles_.count(name) > 0; },
-                                         regs, modName);
-                        }
-
-                        // the downloads and the created textures, bound at whichever register the fix's lists put
-                        // their role on
-                        if (!fixDownloads_.empty()) {
-                            FileDownloadCreate<> create(GraphId(g, "", "fixDownloads"), fixDownloads_, resEditConfig());
-                            collectNamed(groups, g, create, [this](const std::string& name) { return fixDownloads_.count(name) > 0; },
-                                         {}, modName);
-                        }
-
-                        for (const FixTexture& texture : fixTextures_) {
-                            TexCreatorCreate<> create(GraphId(g, "", "fixTexture" + texture.section), "", texture.creator, resEditConfig());
-                            create.files = {{texture.section, texture.file}};
-                            collectNamed(groups, g, create, [&texture](const std::string& name) { return name == texture.section; },
-                                         {}, modName);
-                        }
+                    // the downloads and the created textures, bound at whichever register the fix's lists put
+                    // their role on
+                    if (!fixDownloads_.empty()) {
+                        auto create = std::make_unique<FileDownloadCreate<>>(GraphId(g, "", "fixDownloads"), fixDownloads_, resEditConfig());
+                        result.edits.push_back(collectNamed(groups, g, *create, [this](const std::string& name) { return fixDownloads_.count(name) > 0; },
+                                                            {}));
+                        result.resEdits.push_back(std::move(create));
                     }
+
+                    for (const FixTexture& texture : fixTextures_) {
+                        auto create = std::make_unique<TexCreatorCreate<>>(GraphId(g, "", "fixTexture" + texture.section), "", texture.creator,
+                                                                           resEditConfig());
+                        create->files = {{texture.section, texture.file}};
+                        const std::string section = texture.section;
+                        result.edits.push_back(collectNamed(groups, g, *create, [section](const std::string& name) { return name == section; },
+                                                            {}));
+                        result.resEdits.push_back(std::move(create));
+                    }
+
+                    return result;
                 }
 
-                // One create edit, collected from every graph of group 'g' wherever a register binds a resource
-                // 'named' accepts: at 'regs', or at any register when 'regs' is empty
-                template <typename Create>
-                void collectNamed(Fixer::GraphGroups& groups, std::size_t g, Create& create,
-                                  const std::function<bool(const std::string&)>& named, const std::vector<std::string>& regs,
-                                  const std::string& modName) {
+                // A collect of one create edit from every graph of group 'g', wherever a register binds a
+                // resource 'named' accepts: at 'regs', or at any register when 'regs' is empty
+                std::unique_ptr<Collector> collectNamed(Fixer::GraphGroups& groups, std::size_t g, Collector::ResEdit& create,
+                                                        std::function<bool(const std::string&)> named, const std::vector<std::string>& regs) {
                     const Collector::ResPredicate listed = [named](const std::string&, const std::string& value, const auto&) {
                         return named(std::string(StringTools::strip(value)));
                     };
 
-                    Collector collect;
+                    auto collect = std::make_unique<Collector>();
                     for (const ModObj& obj : groups.modObjs(g)) {
                         const GraphId id(g, obj.first, obj.second);
                         if (regs.empty()) {
-                            collect.srcRegMatches[id] = [](const std::string&) { return true; };
+                            collect->srcRegMatches[id] = [](const std::string&) { return true; };
                         } else {
-                            collect.srcRegs[id] = regs.front();
-                            collect.extraSrcRegs[id] = std::vector<std::string>(regs.begin() + 1, regs.end());
+                            collect->srcRegs[id] = regs.front();
+                            collect->extraSrcRegs[id] = std::vector<std::string>(regs.begin() + 1, regs.end());
                         }
-                        collect.resPredicates[id] = listed;
+                        collect->resPredicates[id] = listed;
                     }
-                    collect.resEdits = {{"fixFile", &create}};
-                    collect.editFromIni(groups, ctx_.getIniFile(), nullptr, modName);
+                    collect->resEdits = {{"fixFile", &create}};
+                    return collect;
                 }
 
                 // The source's game texture bound for a planned role the mod has no file for:
@@ -6250,6 +6271,19 @@ namespace AGRemapCore {
                 std::vector<Fixer::GroupEdit*> toggleEdits_;
                 std::vector<std::shared_ptr<void>> toggleOwned_;
                 std::vector<std::unique_ptr<ObjGroupEdit::PartEdit>> toggleAdapters_;
+
+                // fixSectionEdits, and what their edits borrow (see buildFixSectionEdits)
+                std::vector<std::unique_ptr<IterEdit>> fixSectionIters_;
+                std::string rebindTo_;                  // the group being rebound's remapped blend
+                std::unique_ptr<RegNewVals<>> rebind_;
+                std::unique_ptr<RegPartEdit<>> rebindAdapter_;
+                std::unique_ptr<IfTemplate<std::string, std::string>> latch_;
+                std::unique_ptr<IfTemplate<std::string, std::string>> latchAndSet_;
+                std::unique_ptr<RegIfTemplateAdd<>> beforeDetected_;
+                std::unique_ptr<RegIfTemplateAdd<>> beforeIf_;
+                std::unique_ptr<GraphPartEdit<>> beforeDetectedAdapter_;
+                std::unique_ptr<GraphPartEdit<>> beforeIfAdapter_;
+                std::set<const void*> latched_;         // the sections the group being latched has latched
                 std::unordered_set<std::string> hiddenObjs_;          // of those, the ones commented out rather than copied
                 std::set<int> drawnSlots_;
                 long long meshVertexCount_ = 0;

@@ -232,9 +232,10 @@ namespace AGRemapCore {
              ``.ini`` file, in order :raw-html:`<br />` :raw-html:`<br />`
 
              Does nothing when there are no groups. Otherwise calls :cpp:func:`beforeGraphGroupEdits`,
-             then each edit's ``editFromIni``, then -- when the fixer has given up and
-             :cpp:member:`withdrawDownloadsOnGiveUp` is set -- clears the ``.ini`` file's registered
-             downloads, then :cpp:func:`afterGraphGroupEdits`
+             then each edit's ``editFromIni``, then adds :cpp:func:`addFixSection`'s sections to the
+             groups, then -- when the fixer has given up and :cpp:member:`withdrawDownloadsOnGiveUp` is
+             set -- clears the ``.ini`` file's registered downloads, then runs each
+             :cpp:member:`fixSectionEdits` entry, then :cpp:func:`afterGraphGroupEdits`
              @endrst
              *
              * @param modName The name of the mod being fixed to
@@ -340,7 +341,7 @@ namespace AGRemapCore {
 
              The sections go into the groups as ONE graph per group (see :cpp:class:`GraphCreate`),
              after every :cpp:member:`GIMIFixer::graphGroupEdits` entry has run and before
-             :cpp:func:`afterGraphGroupEdits`, so an edit run there reads and changes them as it does
+             :cpp:member:`fixSectionEdits`, so an edit run there reads and changes them as it does
              the mod's own. A section the group already renders with the same name and text is written
              once :raw-html:`<br />` :raw-html:`<br />`
 
@@ -399,6 +400,20 @@ namespace AGRemapCore {
              * @brief Whether a section :cpp:func:`addFixSection` adds with no group goes into every copy as well. **Default**: ``false``
              */
             bool fixSectionsInCopies = false;
+
+            /**
+             * @brief
+             @rst
+             The edits to run after :cpp:func:`addFixSection`'s sections are in the groups, in order
+             -- **borrowed**, like :cpp:member:`GIMIFixer::graphGroupEdits` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             What it is for: an edit that reads or changes the fix's own sections, or that has to run
+             on every group :cpp:member:`GIMIFixer::graphGroupEdits` made (see
+             :cpp:class:`IterGraphGroupEdit`). :cpp:func:`giveUp` empties it
+             @endrst
+             */
+            std::vector<GroupEdit*> fixSectionEdits;
 
             /**
              * @brief

@@ -1091,6 +1091,17 @@ IniResEditContext
 
 :raw-html:`<br />`
 
+IterGraphGroupEdit
+------------------
+
+.. cppattributetable:: AGRemapCore::IterGraphGroupEdit
+
+.. doxygenclass:: AGRemapCore::IterGraphGroupEdit
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 RemapBlendReplace
 -----------------
 

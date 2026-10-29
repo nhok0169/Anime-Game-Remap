@@ -1589,6 +1589,17 @@ InvertAlphaFilter
 
 :raw-html:`<br />`
 
+IterGraphGroupEdit
+==================
+
+.. attributetable:: FixRaidenBoss2.IterGraphGroupEdit
+
+.. autoclass:: FixRaidenBoss2.IterGraphGroupEdit
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 makeGIMICharFixer
 =================
 

@@ -333,6 +333,7 @@ add_library(AGRemapCore STATIC
     src/model/strategies/iniFixers/graphEdits/BaseIniGraphEditInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemapInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/GraphGroupEditInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEditInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/ResRegCollectInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEditInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEditInstantiation.cpp

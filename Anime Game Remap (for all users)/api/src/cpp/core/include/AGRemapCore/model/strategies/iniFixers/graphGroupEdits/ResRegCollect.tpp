@@ -14,6 +14,7 @@
 #ifndef AGRemapCore_ResRegCollect_TPP
 #define AGRemapCore_ResRegCollect_TPP
 
+#include <type_traits>
 #include <utility>
 
 #include "AGRemapCore/model/IniNamingTools.h"
@@ -246,11 +247,109 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename ResRegCollect<K, V, KeyHash, KeyEqual>::GraphSettings ResRegCollect<K, V, KeyHash, KeyEqual>::takeGraphSettings() {
+        GraphSettings settings;
+        settings.srcRegs = std::move(srcRegs);
+        settings.extraSrcRegs = std::move(extraSrcRegs);
+        settings.srcRegMatches = std::move(srcRegMatches);
+        settings.partPredicates = std::move(partPredicates);
+        settings.resPredicates = std::move(resPredicates);
+        settings.remaps = std::move(remaps);
+        settings.trackKeys = std::move(trackKeys);
+        settings.keysToTrack = std::move(keysToTrack);
+        return settings;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    void ResRegCollect<K, V, KeyHash, KeyEqual>::putGraphSettings(GraphSettings settings) {
+        srcRegs = std::move(settings.srcRegs);
+        extraSrcRegs = std::move(settings.extraSrcRegs);
+        srcRegMatches = std::move(settings.srcRegMatches);
+        partPredicates = std::move(settings.partPredicates);
+        resPredicates = std::move(settings.resPredicates);
+        remaps = std::move(settings.remaps);
+        trackKeys = std::move(settings.trackKeys);
+        keysToTrack = std::move(settings.keysToTrack);
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename ResRegCollect<K, V, KeyHash, KeyEqual>::GraphSettings ResRegCollect<K, V, KeyHash, KeyEqual>::inEveryGroup(
+            const GraphSettings& configured, const GraphGroups& graphGroups) const {
+        // group by group, each group's entries in their configured order
+        const auto perGroup = [&graphGroups](const auto& map, auto adjust) {
+            std::remove_cv_t<std::remove_reference_t<decltype(map)>> result;
+            for (std::size_t g = 0; g < graphGroups.size(); ++g) {
+                for (const auto& [id, value] : map) {
+                    GraphId inGroup(g, id.modObj.first, id.modObj.second);
+                    if (Base::getGraph(graphGroups, inGroup, false) != nullptr) {
+                        auto copy = value;
+                        adjust(copy, g, id);
+                        result.emplace(std::move(inGroup), std::move(copy));
+                    }
+                }
+            }
+            return result;
+        };
+        const auto asIs = [](auto&, std::size_t, const GraphId&) {};
+
+        GraphSettings settings;
+        settings.srcRegs = perGroup(configured.srcRegs, asIs);
+        settings.extraSrcRegs = perGroup(configured.extraSrcRegs, asIs);
+        settings.srcRegMatches = perGroup(configured.srcRegMatches, asIs);
+        settings.partPredicates = perGroup(configured.partPredicates, asIs);
+        settings.resPredicates = perGroup(configured.resPredicates, asIs);
+        settings.trackKeys = perGroup(configured.trackKeys, asIs);
+        settings.keysToTrack = perGroup(configured.keysToTrack, asIs);
+
+        // a target keeps its distance from its source's group
+        settings.remaps = perGroup(configured.remaps, [](auto& targets, std::size_t g, const GraphId& configuredSrc) {
+            for (auto it = targets.begin(); it != targets.end();) {
+                const long long index = static_cast<long long>(g) + static_cast<long long>(it->second.id.iniIndex)
+                                        - static_cast<long long>(configuredSrc.iniIndex);
+                if (index < 0) {
+                    it = targets.erase(it);
+                    continue;
+                }
+
+                it.value().id.iniIndex = static_cast<std::size_t>(index);
+                ++it;
+            }
+        });
+        return settings;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename ResRegCollect<K, V, KeyHash, KeyEqual>::GraphGroups& ResRegCollect<K, V, KeyHash, KeyEqual>::editImpl(GraphGroups& graphGroups,
                                                                                                                    Context* ctx,
                                                                                                                    const ModType* modType,
                                                                                                                    const std::string& modName) {
         (void)modType;
+        if (!everyGroup) {
+            return collectAndBuild(graphGroups, ctx, modName);
+        }
+
+        // run on the per-group copies, and put the configured settings back however the run ends
+        GraphSettings configured = takeGraphSettings();
+        putGraphSettings(inEveryGroup(configured, graphGroups));
+        try {
+            collectAndBuild(graphGroups, ctx, modName);
+        } catch (...) {
+            putGraphSettings(std::move(configured));
+            throw;
+        }
+
+        putGraphSettings(std::move(configured));
+        return graphGroups;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename ResRegCollect<K, V, KeyHash, KeyEqual>::GraphGroups& ResRegCollect<K, V, KeyHash, KeyEqual>::collectAndBuild(GraphGroups& graphGroups,
+                                                                                                                          Context* ctx,
+                                                                                                                          const std::string& modName) {
         clear();
 
         bool hasIni = ctx != nullptr && ctx->hasIni();

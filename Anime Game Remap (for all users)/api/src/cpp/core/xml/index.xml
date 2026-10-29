@@ -2151,6 +2151,16 @@
     <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a8cf7cc52f178d8774155d39261eb55a6" kind="function"><name>editFromIni</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings" kind="struct"><name>AGRemapCore::ResRegCollect::GraphSettings</name>
+    <member refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings_1af081a4c7be044c7c3696ae16c6df522d" kind="variable"><name>srcRegs</name></member>
+    <member refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings_1a4d6de5e27cc6f5b9c2f5173b9b7e6934" kind="variable"><name>extraSrcRegs</name></member>
+    <member refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings_1a8f1b57f48979887bdd6db738090ddf13" kind="variable"><name>srcRegMatches</name></member>
+    <member refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings_1a96a649408df677f7c08768dedb4fe42f" kind="variable"><name>partPredicates</name></member>
+    <member refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings_1a9059d19c4c682a8d8b4c1b8e3024017b" kind="variable"><name>resPredicates</name></member>
+    <member refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings_1a28af5e18a667b5229a0eec4eb886a989" kind="variable"><name>remaps</name></member>
+    <member refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings_1aebca389c6b10a5d21adc676cc3fea8b0" kind="variable"><name>trackKeys</name></member>
+    <member refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings_1ad52d184646ffda61259f706fbae19218" kind="variable"><name>keysToTrack</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_graph_tools" kind="class"><name>AGRemapCore::GraphTools</name>
     <member refid="class_a_g_remap_core_1_1_graph_tools_1a0c30bc8406397d6eb28956b615dadd18" kind="function"><name>getReachableNodes</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_tools_1a337f97d2b3f3cb89e72436694f626175" kind="function"><name>clampFactsToReachable</name></member>
@@ -5960,6 +5970,7 @@
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1ab69477fe40c2c03aa1eddee29634e69c" kind="variable"><name>trackKeysGlobal</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a3f62e7967467dd77c7e4d85827e189e4" kind="variable"><name>trackKeys</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1aa242fdb60fa5df69906cafe30222ee4d" kind="variable"><name>keysToTrack</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a8a0b6e1ffc8b4d06e78926d6a8461a8c" kind="variable"><name>everyGroup</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a700641923bebe510fb5882face064534" kind="variable"><name>resCalls</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a772c3dad8dad5b42fe83277086495d0d" kind="function"><name>skipsKeywords</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" kind="function"><name>getGraph</name></member>
@@ -5969,10 +5980,14 @@
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a49a20da6ec9db9f9d763c6d941632f9e" kind="function"><name>editFromIni</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1ae61ecc29ef18d91b18ac00b54ee89bcd" kind="function"><name>editWithContext</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1ab53e60e186ad53fbc495ac4d8b1392bf" kind="function"><name>edit</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a6ae242a5b45ed56616e73fb66b4cc73a" kind="function"><name>takeGraphSettings</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a4640f798e6d4b9eebd5cc4fa7ec17a50" kind="function"><name>putGraphSettings</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a1d9eee9b8798ee19e6438a1e80a9f341" kind="function"><name>inEveryGroup</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a186112a0c420aed28beccb7ea5e61eb9" kind="function"><name>collectFromGraphGroup</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a3ff3038683952907b81ce249f776b25f" kind="function"><name>remapGraphs</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1ab3a243bad4fd648d6c18ac1dccfb686c" kind="function"><name>collectResourceNames</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a42b346a00f66ba288982f192fcb5033e" kind="function"><name>editImpl</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_reg_collect_1ad8ca0b4b0beb863e9ca2c7723dba2792" kind="function"><name>collectAndBuild</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_res_replace" kind="class"><name>AGRemapCore::ResReplace</name>
     <member refid="class_a_g_remap_core_1_1_res_replace_1a6e4080e177f1fca4700c4d4a1a88faaf" kind="typedef"><name>Base</name></member>
@@ -6431,8 +6446,6 @@
     <member refid="class_a_g_remap_core_1_1_template_fixer_1af5d0855b00478d949963e4c229da48cf" kind="function"><name>isFixLibraryCall</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a9124aee61a56e7d7035c1864612a6cb8" kind="function"><name>texFxGuardSection</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1ad1330a6652783cf8e79dae68ddb2c7ea" kind="function"><name>applyGraphGroupEdits</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_fixer_1a37f99c5ac8cc8390a22ac7e1fcf4fc50" kind="function"><name>beforeGraphGroupEdits</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_fixer_1afc2d1e23d64fbad8748e1e6384993c01" kind="function"><name>afterGraphGroupEdits</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1adb5666b3659ce2be2cd5ed3f21e469b8" kind="function"><name>giveUp</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a183b6c6de40c4298220e46cf207c961f" kind="function"><name>giveUp</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a27c1fb5455cfb5f39061b83eac9f1216" kind="function"><name>iniCallsTexFx</name></member>

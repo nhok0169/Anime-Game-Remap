@@ -85,8 +85,6 @@ namespace AGRemapCore {
             return;
         }
 
-        beforeGraphGroupEdits(modName);
-
         for (Fixer::GroupEdit* edit : this->graphGroupEdits) {
             if (edit != nullptr) {
                 edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), nullptr, modName);
@@ -107,13 +105,7 @@ namespace AGRemapCore {
                 edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), nullptr, modName);
             }
         }
-
-        afterGraphGroupEdits(modName);
     }
-
-    void TemplateFixer::beforeGraphGroupEdits(const std::string&) {}
-
-    void TemplateFixer::afterGraphGroupEdits(const std::string&) {}
 
     void TemplateFixer::giveUp() {
         gaveUp_ = true;

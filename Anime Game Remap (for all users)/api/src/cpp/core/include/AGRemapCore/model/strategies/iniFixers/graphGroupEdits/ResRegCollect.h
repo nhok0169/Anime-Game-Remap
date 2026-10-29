@@ -275,6 +275,31 @@ namespace AGRemapCore {
             ByGraph<std::optional<std::unordered_set<K, KeyHash, KeyEqual>>> keysToTrack;
 
             /**
+             * @brief
+             @rst
+             Whether every setting keyed by a graph applies in EVERY group that holds that graph,
+             rather than only in the group its ``iniIndex`` names :raw-html:`<br />` :raw-html:`<br />`
+
+             When ``true``, each \ref edit first copies every entry of \ref srcRegs, \ref extraSrcRegs,
+             \ref srcRegMatches, \ref partPredicates, \ref resPredicates, \ref remaps, \ref trackKeys and
+             \ref keysToTrack once for each group holding the entry's graph (its component and mod
+             object), with that group's index, and runs on the copies. The configured index is
+             ignored, and the settings themselves are left as they were :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A target in \ref remaps is placed RELATIVE to its source: it lands as many groups after
+             the source's group as it was configured to, so a remap configured within one group is a
+             remap within each group. A target that would land before the first group is dropped
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             What it is for: a collect configured before the number of groups is known -- eg. in a
+             fixer whose edits make copies of the ``.ini`` -- that still builds each resource once
+             for all the groups together. **Default**: ``false``
+             @endrst
+             */
+            bool everyGroup = false;
+
+            /**
              * @brief One collected reference to the resource
              */
             struct ResCall {
@@ -385,12 +410,29 @@ namespace AGRemapCore {
 
             using RemappedGraphs = ByGraph<tsl::ordered_map<std::string, RemappedGraph>>;
 
+            // The settings everyGroup copies per group
+            struct GraphSettings {
+                ByGraph<K> srcRegs;
+                ByGraph<std::vector<K>> extraSrcRegs;
+                ByGraph<RegMatch> srcRegMatches;
+                ByGraph<PartPredicate> partPredicates;
+                ByGraph<ResPredicate> resPredicates;
+                ByGraph<tsl::ordered_map<std::string, typename Remapper::RemapTarget>> remaps;
+                ByGraph<bool> trackKeys;
+                ByGraph<std::optional<std::unordered_set<K, KeyHash, KeyEqual>>> keysToTrack;
+            };
+
+            GraphSettings takeGraphSettings();
+            void putGraphSettings(GraphSettings settings);
+            GraphSettings inEveryGroup(const GraphSettings& configured, const GraphGroups& graphGroups) const;
+
             void collectFromGraphGroup(GraphGroups& graphGroups, const GraphId& srcModObj, const K& srcReg);
             GraphGroups& remapGraphs(GraphGroups& graphGroups, RemappedGraphs* remappedGraphs);
             void collectResourceNames(const std::string& resSubType, ResEdit& resEdit,
                                        typename ResEdit::CollectedSections& collectedSections, GraphGroups& graphGroups,
                                        RemappedGraphs* remappedGraphs, bool editGraph, const std::string& modName);
             GraphGroups& editImpl(GraphGroups& graphGroups, Context* ctx, const ModType* modType, const std::string& modName);
+            GraphGroups& collectAndBuild(GraphGroups& graphGroups, Context* ctx, const std::string& modName);
     };
 }
 

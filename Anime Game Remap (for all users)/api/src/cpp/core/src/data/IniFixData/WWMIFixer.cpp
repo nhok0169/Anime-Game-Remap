@@ -695,12 +695,6 @@ namespace AGRemapCore {
                 }
 
             protected:
-                // ONE collect over every group, so each texture edit is built and named once -- not a
-                // per-group edit, so not among fixSectionEdits
-                void afterGraphGroupEdits(const std::string& modName) override {
-                    collectTexEdits(modName);
-                }
-
                 // THE EDITS ON THE FIX'S OWN SECTIONS, run on every group once the slot remap has made
                 // the copies and the fix's sections are in them (TemplateFixer::fixSectionEdits), in order:
                 //
@@ -708,13 +702,17 @@ namespace AGRemapCore {
                 //   2. the fix's buffers, downloads and created textures         (fixFileEdits)
                 //   3. the blend override, rebound to the remapped blend         (blendRebindEdits)
                 //   4. the frame's skeleton remap, latched on $object_detected   (latchEdits)
+                //   5. the texture edits, one collect per edit                   (addTexEditCollects)
                 //
-                // Each is an IterGraphGroupEdit: a graph is named by its group's index, and the number
-                // of groups is decided at fix time. Each step is a no-op on a group that has nothing
-                // for it.
+                // Steps 1-4 are IterGraphGroupEdits: a graph is named by its group's index, and the
+                // number of groups is decided at fix time. Step 5 builds each edited texture once for
+                // every group, so its collects run in every group at once (ResRegCollect::everyGroup).
+                // Each step is a no-op on a group that has nothing for it.
                 void buildFixSectionEdits() {
                     this->fixSectionEdits.clear();
                     fixSectionIters_.clear();
+                    texEditCollects_.clear();
+                    texEditors_.clear();
                     for (IterEdit::EditFactory factory : std::initializer_list<IterEdit::EditFactory>{
                             [this](std::size_t g, Fixer::GraphGroups& groups) { return shaderFileEdits(g, groups); },
                             [this](std::size_t g, Fixer::GraphGroups& groups) { return fixFileEdits(g, groups); },
@@ -723,6 +721,7 @@ namespace AGRemapCore {
                         fixSectionIters_.push_back(std::make_unique<IterEdit>(std::move(factory)));
                         this->fixSectionEdits.push_back(fixSectionIters_.back().get());
                     }
+                    addTexEditCollects();
                 }
 
                 // THE CUSTOMSHADER SECTIONS ARE A GRAPH, AND THEIR FILES ARE ITS RESOURCES (2026-10-16).
@@ -2629,7 +2628,7 @@ namespace AGRemapCore {
                             };
 
                             // What a carried line binds once re-keyed: the mod's own resource (its
-                            // texture edit, if any, is collected from the line -- collectTexEdits)
+                            // texture edit, if any, is collected from the line -- addTexEditCollects)
                             auto editedOf = [this, component](const std::string& resource, const std::string& role) {
                                 if (rerouteShaders_.count(component) > 0) {
                                     return resource;            // see rerouteShaders_: the mod's own art
@@ -4066,7 +4065,7 @@ namespace AGRemapCore {
                     //    normal between `Components-1 t=d8ed7611.dds` and `... A.dds`; on a clean fix
                     //    the second repack was written, declared and bound by NOTHING, so at
                     //    `$Char != 0` the hair took variant 0's normal map. (The lists now bind the
-                    //    mod's own names and the edits are collected from them -- collectTexEdits.)
+                    //    mod's own names and the edits are collected from them -- addTexEditCollects.)
                     const RegRemove<>::RemoveKeyCheck isDead =
                         [this, ini](long long, const std::string& val) {
                             const std::string bound = StringTools::toLower(val);
@@ -5317,7 +5316,7 @@ namespace AGRemapCore {
                         }
 
                         // The resource the edit reads -- every binding of it in the role's register
-                        // is collected and edited after the group edits (collectTexEdits)
+                        // is collected and edited after the group edits (addTexEditCollects)
                         const std::string* was = sharedResourceFor(edit.role);
                         if (was != nullptr) {
                             noteEdited(*was, edit.role);
@@ -5761,7 +5760,7 @@ namespace AGRemapCore {
                 }
 
                 // A texture list among the fix's sections -- its lines under 'condition' -- and the (role,
-                // register) pairs it binds, which is what collectTexEdits edits by
+                // register) pairs it binds, which is what addTexEditCollects edits by
                 void addTextureList(const std::string& name, const std::string& condition, const TextureLines& list, int component) {
                     addFixSection(SectionText(z3_, name).open(condition).keys(list.lines).close().build());
                     if (rerouteShaders_.count(component) > 0) {
@@ -5777,8 +5776,12 @@ namespace AGRemapCore {
                 // binds one of the resources planTexEdits recorded for it -- in the fix's texture lists
                 // and the mod's own carried lines alike. A reroute drawn by its own shader keeps the
                 // mod's art unedited (see rerouteShaders_)
-                void collectTexEdits(const std::string& modName) {
-                    if (editTargets_.empty() || this->graphGroups() == nullptr) {
+                //
+                // Each collect is configured on group 0's graphs and runs in EVERY group
+                // (ResRegCollect::everyGroup), so an edited texture is built and named once for the
+                // mod's file and its copies together
+                void addTexEditCollects() {
+                    if (editTargets_.empty()) {
                         return;
                     }
 
@@ -5807,7 +5810,6 @@ namespace AGRemapCore {
                         context.gameFileOfRole[entry.first] = FileService::absPathOfRelPath(entry.second.relPath, folder);
                     }
 
-                    Fixer::GraphGroups& groups = *this->graphGroups();
                     for (const WWMIFixerConfig::TexEdit& edit : config_.texEdits) {
                         const auto targets = editTargets_.find(edit.role);
                         if (!edit.makeFilter || targets == editTargets_.end()) {
@@ -5848,37 +5850,36 @@ namespace AGRemapCore {
                             TextTools::capitalize(edit.role) + edit.name + editFileTag());
                         // the role is the binding's: a file the role's edit applies to, bound at the role's
                         // register -- in the fix's sections, by one of the role's own lists
-                        const std::set<std::string>& resources = targets->second;
-                        const Collector::ResPredicate isTarget = [&resources](const std::string&, const std::string& value,
-                                                                              const Collector::IterData&) {
-                            return resources.count(StringTools::toLower(std::string(StringTools::strip(value)))) > 0;
+                        const std::set<std::string>* resources = &targets->second;
+                        const Collector::ResPredicate isTarget = [resources](const std::string&, const std::string& value,
+                                                                             const Collector::IterData&) {
+                            return resources->count(StringTools::toLower(std::string(StringTools::strip(value)))) > 0;
                         };
 
                         const std::string role = edit.role;
-                        const Collector::ResPredicate inRoleList = [this, role, &isTarget](const std::string& key, const std::string& value,
-                                                                                          const Collector::IterData& data) {
+                        const Collector::ResPredicate inRoleList = [this, role, isTarget](const std::string& key, const std::string& value,
+                                                                                         const Collector::IterData& data) {
                             const auto lists = listsOfRole_.find({role, key});
                             return lists != listsOfRole_.end() && lists->second.count(data.sectionName) > 0
                                    && rawLists_.count(data.sectionName) == 0 && isTarget(key, value, data);
                         };
 
                         // ONE collect over every register: the editor builds what it collects once
-                        Collector collect;
-                        for (std::size_t g = 0; g < groups.size(); ++g) {
-                            for (const auto& [reg, components] : componentsAt) {
-                                collect.extraSrcRegs[fixSectionsGraphId(g)].push_back(reg);
-                                for (int component : components) {
-                                    const ModObj obj = targetObjOf(component);
-                                    if (groups.getGraph(g, obj) != nullptr) {
-                                        collect.extraSrcRegs[GraphId(g, obj.first, obj.second)].push_back(reg);
-                                        collect.resPredicates[GraphId(g, obj.first, obj.second)] = isTarget;
-                                    }
-                                }
+                        auto collect = std::make_unique<Collector>();
+                        collect->everyGroup = true;
+                        for (const auto& [reg, components] : componentsAt) {
+                            collect->extraSrcRegs[fixSectionsGraphId(0)].push_back(reg);
+                            for (int component : components) {
+                                const ModObj obj = targetObjOf(component);
+                                collect->extraSrcRegs[GraphId(0, obj.first, obj.second)].push_back(reg);
+                                collect->resPredicates[GraphId(0, obj.first, obj.second)] = isTarget;
                             }
-                            collect.resPredicates[fixSectionsGraphId(g)] = inRoleList;
                         }
-                        collect.resEdits = {{"texEdit", editor.get()}};
-                        collect.editFromIni(groups, ini, nullptr, modName);
+                        collect->resPredicates[fixSectionsGraphId(0)] = inRoleList;
+                        collect->resEdits = {{"texEdit", editor.get()}};
+
+                        this->fixSectionEdits.push_back(collect.get());
+                        texEditCollects_.push_back(std::move(collect));
                         texEditors_.push_back(std::move(editor));
                     }
                 }
@@ -6398,7 +6399,8 @@ namespace AGRemapCore {
                 std::map<std::string, std::set<std::string>> editTargets_;           // an edited role -> the resources (lowered) its edit applies to
                 std::set<std::string> rawLists_;                                     // the fix's lists for a reroute drawn by its own shader: the mod's art, unedited
                 std::map<std::pair<std::string, std::string>, std::set<std::string>> listsOfRole_;   // (role, register) -> the fix's lists binding that role there
-                std::vector<std::unique_ptr<TexEditorReplace<>>> texEditors_;        // collectTexEdits' edits, alive while the resources build
+                std::vector<std::unique_ptr<Collector>> texEditCollects_;            // addTexEditCollects' collects, among fixSectionEdits
+                std::vector<std::unique_ptr<TexEditorReplace<>>> texEditors_;        // ...and the edits they build with
                 std::map<std::pair<std::string, std::string>, std::string> roleLists_;   // (role, register) -> the copied list's name
                 std::vector<std::unique_ptr<Collector>> blendCollects_;
         };

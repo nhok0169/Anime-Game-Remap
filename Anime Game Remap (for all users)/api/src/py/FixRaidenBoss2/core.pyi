@@ -24700,9 +24700,15 @@ class ResRegCollect(BaseIniGraphGroupEdit):
         tracks every key encountered :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``None``
+    
+    everyGroup: :class:`bool`
+        Whether every setting keyed by a graph applies in every group that holds that graph, rather than
+        only in the group its index names -- see :attr:`everyGroup` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
         
     """
-    def __init__(self, srcRegs: typing.Any, resEdits: typing.Any, partPredicates: typing.Any = None, resPredicates: typing.Any = None, remaps: typing.Any = None, trackKeys: typing.Any = False, keysToTrack: typing.Any = None) -> None:
+    def __init__(self, srcRegs: typing.Any, resEdits: typing.Any, partPredicates: typing.Any = None, resPredicates: typing.Any = None, remaps: typing.Any = None, trackKeys: typing.Any = False, keysToTrack: typing.Any = None, everyGroup: bool = False) -> None:
         ...
     def clear(self) -> None:
         """
@@ -24759,6 +24765,24 @@ class ResRegCollect(BaseIniGraphGroupEdit):
         List[:class:`IniGraphGroup`]
             The same list that was passed in, after editing
         """
+    @property
+    def everyGroup(self) -> bool:
+        """
+        :class:`bool`: Whether every setting keyed by a graph -- :attr:`srcRegs`, :attr:`partPredicates`,
+        :attr:`resPredicates`, :attr:`remaps`, :attr:`trackKeys` and :attr:`keysToTrack` -- applies in EVERY
+        group that holds that graph (its component and object), rather than only in the group its index names
+        
+        Each edit then runs on a copy of those settings made once per group holding the graph, with that
+        group's index; the configured index is ignored and the settings themselves are left as they were. A
+        target in :attr:`remaps` keeps its distance from its source's group, so a remap configured within one
+        group is a remap within each group. Each resource is still built once, for all the groups together
+        
+        What it is for: a collect configured before the number of groups is known -- eg. in a fixer whose
+        edits make copies of the .ini file
+        """
+    @everyGroup.setter
+    def everyGroup(self, arg1: bool) -> None:
+        ...
     @property
     def keysToTrack(self) -> typing.Any:
         """

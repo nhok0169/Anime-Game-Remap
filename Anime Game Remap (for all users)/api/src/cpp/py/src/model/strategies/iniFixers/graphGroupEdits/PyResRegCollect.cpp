@@ -277,16 +277,40 @@ keysToTrack: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Opti
     tracks every key encountered :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
+
+everyGroup: :class:`bool`
+    Whether every setting keyed by a graph applies in every group that holds that graph, rather than
+    only in the group its index names -- see :attr:`everyGroup` :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``False``
     )doc");
 
     cls.def(py::init([](py::object srcRegs, py::object resEdits, py::object partPredicates, py::object resPredicates,
-                        py::object remaps, py::object trackKeys, py::object keysToTrack) {
-        return std::make_unique<PyResRegCollect>(std::move(srcRegs), std::move(resEdits), std::move(partPredicates),
-                                                  std::move(resPredicates), std::move(remaps), std::move(trackKeys),
-                                                  std::move(keysToTrack));
+                        py::object remaps, py::object trackKeys, py::object keysToTrack, bool everyGroup) {
+        auto result = std::make_unique<PyResRegCollect>(std::move(srcRegs), std::move(resEdits), std::move(partPredicates),
+                                                         std::move(resPredicates), std::move(remaps), std::move(trackKeys),
+                                                         std::move(keysToTrack));
+        result->everyGroup = everyGroup;
+        return result;
     }), py::arg("srcRegs"), py::arg("resEdits"), py::arg("partPredicates") = py::none(),
         py::arg("resPredicates") = py::none(), py::arg("remaps") = py::none(), py::arg("trackKeys") = false,
-        py::arg("keysToTrack") = py::none());
+        py::arg("keysToTrack") = py::none(), py::arg("everyGroup") = false);
+
+    cls.def_property("everyGroup", [](const PyResRegCollect &self) { return self.everyGroup; },
+                     [](PyResRegCollect &self, bool value) { self.everyGroup = value; },
+                     py::doc(R"doc(
+:class:`bool`: Whether every setting keyed by a graph -- :attr:`srcRegs`, :attr:`partPredicates`,
+:attr:`resPredicates`, :attr:`remaps`, :attr:`trackKeys` and :attr:`keysToTrack` -- applies in EVERY
+group that holds that graph (its component and object), rather than only in the group its index names
+
+Each edit then runs on a copy of those settings made once per group holding the graph, with that
+group's index; the configured index is ignored and the settings themselves are left as they were. A
+target in :attr:`remaps` keeps its distance from its source's group, so a remap configured within one
+group is a remap within each group. Each resource is still built once, for all the groups together
+
+What it is for: a collect configured before the number of groups is known -- eg. in a fixer whose
+edits make copies of the .ini file
+    )doc"));
 
     cls.def_property("srcRegs", [](const PyResRegCollect &self) { return self.srcRegsObj; },
                      [](PyResRegCollect &self, py::object value) { self.srcRegsObj = std::move(value); },

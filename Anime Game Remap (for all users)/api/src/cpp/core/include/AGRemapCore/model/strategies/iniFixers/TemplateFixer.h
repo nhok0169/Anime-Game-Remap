@@ -231,30 +231,15 @@ namespace AGRemapCore {
              Runs every :cpp:member:`GIMIFixer::graphGroupEdits` entry over the groups with the real
              ``.ini`` file, in order :raw-html:`<br />` :raw-html:`<br />`
 
-             Does nothing when there are no groups. Otherwise calls :cpp:func:`beforeGraphGroupEdits`,
-             then each edit's ``editFromIni``, then adds :cpp:func:`addFixSection`'s sections to the
-             groups, then -- when the fixer has given up and :cpp:member:`withdrawDownloadsOnGiveUp` is
-             set -- clears the ``.ini`` file's registered downloads, then runs each
-             :cpp:member:`fixSectionEdits` entry, then :cpp:func:`afterGraphGroupEdits`
+             Does nothing when there are no groups. Otherwise runs each edit's ``editFromIni``, then
+             adds :cpp:func:`addFixSection`'s sections to the groups, then -- when the fixer has given
+             up and :cpp:member:`withdrawDownloadsOnGiveUp` is set -- clears the ``.ini`` file's
+             registered downloads, then runs each :cpp:member:`fixSectionEdits` entry
              @endrst
              *
              * @param modName The name of the mod being fixed to
              */
             void applyGraphGroupEdits(const std::string& modName) override;
-
-            /**
-             * @brief What a subclass does before the edits run, at fix time. **Default**: nothing
-             *
-             * @param modName The name of the mod being fixed to
-             */
-            virtual void beforeGraphGroupEdits(const std::string& modName);
-
-            /**
-             * @brief What a subclass does after the edits have run, at fix time. **Default**: nothing
-             *
-             * @param modName The name of the mod being fixed to
-             */
-            virtual void afterGraphGroupEdits(const std::string& modName);
 
             /**
              * @brief

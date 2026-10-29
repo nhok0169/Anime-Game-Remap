@@ -147,6 +147,11 @@ and those get a reserved component name instead, so they can never collide with 
     )doc")
         .def_readonly_static("Download", &AGRC::IniGraphModObjKeywords::Download, py::doc(R"doc(
 Marks a graph whose `sections`_ are download resources rather than a mod object's commands
+        )doc"))
+        .def_readonly_static("Texture", &AGRC::IniGraphModObjKeywords::Texture, py::doc(R"doc(
+Marks a graph of a mod's texture overrides (a ``hash`` of a texture, no ``match_first_index``). The
+mod-object half is the role the parser placed it under by its hash, or empty for the overrides of
+hashes it does not know
         )doc"));
 
     py::class_<AGRC::IniKeywords>(m, "IniKeywords", R"doc(

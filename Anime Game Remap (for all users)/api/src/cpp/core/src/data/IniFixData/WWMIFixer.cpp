@@ -74,6 +74,9 @@
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/TemplateFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCopy.h"
+#include "AGRemapCore/constants/IniGraphModObjKeywords.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h"
@@ -696,8 +699,12 @@ namespace AGRemapCore {
                     readRabbitFX();                     // after the toggles are known, and reading the pre-edit names
                     buildEdits();
                     buildAppended();
+                    buildToggleLists();
 
                     this->graphGroupEdits.clear();
+                    for (Fixer::GroupEdit* edit : toggleEdits_) {
+                        this->graphGroupEdits.push_back(edit);
+                    }
                     this->graphGroupEdits.push_back(slotRemap_.get());
                     this->graphGroupEdits.push_back(mainEdits_.get());
                     for (auto& collect : blendCollects_) {
@@ -4110,7 +4117,7 @@ namespace AGRemapCore {
                     hashOnlyObjs_.clear();
                     if (auto* parser = dynamic_cast<GIMIParser<>*>(this->getParser())) {
                         for (const ModObj& obj : parser->modObjs()) {
-                            if (!StringTools::startsWith(obj.second, config_.slotPrefix)) {
+                            if (!StringTools::startsWith(obj.second, config_.slotPrefix) && obj.first != IniGraphModObjKeywords::Texture) {
                                 hashOnlyObjs_.push_back(obj);
                             }
                         }
@@ -4508,20 +4515,13 @@ namespace AGRemapCore {
                         return direct;
                     }
 
+                    if (toggle->graph.first.empty()) {
+                        return direct;                      // a section the parser placed in no graph
+                    }
+
                     const std::string name =
                         remapFixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(role) + IniNamingTools::getRegTag(reg)
                                 + (raw ? "Raw" : ""));
-
-                    // A COPY OF THE MOD'S OWN SECTION, EDITED THROUGH THE SAME regEdits AS THE REST
-                    // OF THE FIX. This used to render the section to text and rewrite the lines,
-                    // which is the section model written out and read straight back in.
-                    std::unique_ptr<IfTemplate<std::string, std::string>> list = tpl->second->deepcopy();
-                    list->name = name;
-                    if (raw) {
-                        rawLists_.insert(name);
-                    }
-                    listsOfRole_[{role, reg}].insert(name);
-                    list->prefix = "";                      // the mod's own comment is about the mod's section
 
                     // 1. A BRANCH NAMING A RESOURCE THE MOD NEVER DECLARES IS THE AUTHOR'S TYPO, AND
                     //    COPYING IT CAN ONLY MAKE THINGS WORSE (2026-09-28). SanhuaExorcist4's
@@ -4540,47 +4540,26 @@ namespace AGRemapCore {
                     //    `$Char != 0` the hair took variant 0's normal map. (The lists now bind the
                     //    mod's own names and the edits are collected from them -- collectTexEdits.)
                     const RegRemove<>::RemoveKeyCheck isDead =
-                        [this, &templates](long long, const std::string& val) {
+                        [this, ini](long long, const std::string& val) {
                             const std::string bound = StringTools::toLower(val);
-                            return fileOfResource_.count(bound) == 0 && templates.count(val) == 0;
+                            return fileOfResource_.count(bound) == 0 && ini->getIfTemplates().count(val) == 0;
                         };
 
-
+                    // The spellings of `this` the section writes -- `THIS = ResourceX` is legal 3dmigoto and
+                    // a regEdit matches a key exactly -- and whether any binding outlives the dead ones
+                    std::vector<std::string> thisKeys;
                     std::size_t bindings = 0;
-                    for (const std::unique_ptr<IfTemplatePart>& part : list->parts()) {
-                        auto* content = dynamic_cast<IfContentPart<std::string, std::string>*>(part.get());
+                    for (const std::unique_ptr<IfTemplatePart>& part : tpl->second->parts()) {
+                        const auto* content = dynamic_cast<const IfContentPart<std::string, std::string>*>(part.get());
                         if (content == nullptr) {
-                            continue;                       // an `if` / `endif`, which the renderer keeps
+                            continue;
                         }
 
-                        // The rules are matched against the part's OWN keys rather than against the
-                        // literal spellings: `THIS = ResourceX` is legal 3dmigoto and a regEdit
-                        // matches a key exactly, so the exact key is what it is handed.
-                        std::vector<std::string> binds;
-                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> drops;
-                        std::unordered_set<std::string> seen;
                         for (const auto& item : content->items()) {
-                            if (!seen.insert(item.key).second) {
-                                continue;
+                            if (StringTools::toLower(item.key) == IniKeywords::This) {
+                                ListTools::pushDistinct(thisKeys, item.key);
+                                bindings += isDead(0, item.value) ? 0 : 1;
                             }
-
-                            const std::string key = StringTools::toLower(item.key);
-                            if (IniKeywords::MatchKeys.count(key) > 0) {
-                                drops.emplace_back(item.key, std::nullopt);   // meaningless in a list
-                            } else if (key == IniKeywords::This) {
-                                drops.emplace_back(item.key, isDead);
-                                binds.push_back(item.key);
-                            }
-                        }
-
-                        RegRemove<>(std::move(drops)).edit(*content, name);
-
-                        for (const std::string& key : binds) {
-                            // 3. ...and the key itself is the register the target's draw reads.
-                            bindings += content->count(key);
-                            RegRemap<>({{key, RegRemap<>::KeyRemapValue(
-                                RemapList<std::string, std::string>{reg})}})
-                                .edit(*content, name);
                         }
                     }
 
@@ -4588,22 +4567,118 @@ namespace AGRemapCore {
                         return direct;
                     }
 
-                    // a one-variant toggle: off, the original draws with the game's texture
+                    if (raw) {
+                        rawLists_.insert(name);
+                    }
+                    listsOfRole_[{role, reg}].insert(name);
+
+                    // built by buildToggleLists, as edits over a copy of the parser's graph of the section
+                    ToggleList list{name, toggle->graph, toggle->section, reg, std::move(thisKeys), isDead, std::nullopt};
                     if (toggle->single) {
+                        // a one-variant toggle: off, the original draws with the game's texture
                         const auto game = gameResourceOfRole_.find(role);
                         if (game != gameResourceOfRole_.end()) {
-                            list->addKVPToFront(reg, game->second);
+                            list.offBinding = game->second;
                         }
                     }
 
-                    list->rebuild();
+                    toggleLists_.push_back(std::move(list));
                     roleLists_.emplace(std::pair<std::string, std::string>{cacheRole, reg}, name);
-                    // Their own vector, emitted at the END of buildAppended: textureLists_ is
-                    // written out before the shared-mesh loop runs, so a list created there would be
-                    // dropped. Section order in an .ini does not matter.
-                    // `renderIfTemplate` returns no trailing newline; the consumer adds the blank line
-                    addFixSection(std::move(list));
                     return {std::string(IniKeywords::Run), name};
+                }
+
+                // THE TOGGLE LISTS ARE THE MOD'S OWN TEXTURE OVERRIDE, AS EDITS (2026-10-28). For each
+                // one bindLine queued:
+                //   1. GraphCopy the parser's graph holding the override, keeping only that section's
+                //      lines and none of 3dmigoto's matching keys (meaningless in a list)
+                //   2. GraphRename it to the list's name
+                //   3. RegRemove every `this` naming a resource that resolves to nothing, and RegRemap
+                //      `this` to the register the target's draw reads
+                //   4. for a one-variant toggle, RegFillMissing a top cover binding the game's texture
+                //   5. take the section into the fix (TemplateFixer::takeFixSections)
+                // and then GraphRemove every texture graph, which the fix never writes out -- they are
+                // the mod's own sections, which its own file keeps.
+                void buildToggleLists() {
+                    toggleEdits_.clear();
+                    std::vector<GraphCopy<>*> copies;
+                    std::vector<Fixer::GroupEdit*> takes;
+                    std::vector<ObjGroupEdit::IniEdits> perGroup(1);
+
+                    for (const ToggleList& list : toggleLists_) {
+                        const ModObj listObj(IniGraphModObjKeywords::Texture, list.name);
+                        const std::string section = list.section;
+                        auto copy = std::make_unique<GraphCopy<>>(
+                            GraphId(0, list.graph.first, list.graph.second), GraphId(0, listObj.first, listObj.second),
+                            [section](const IfTemplate<std::string, std::string>& owner, const IfContentPart<std::string, std::string>& part,
+                                      std::size_t i) {
+                                return owner.name == section
+                                    && IniKeywords::MatchKeys.count(StringTools::toLower(part.getByInd(static_cast<long long>(i)).first)) == 0;
+                            });
+                        copies.push_back(copy.get());
+                        toggleOwned_.push_back(std::move(copy));
+
+                        auto rename = std::make_unique<GraphRename<>>([section, name = list.name](const std::string& old) {
+                            return old == section ? name : old;
+                        });
+
+                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> drops;
+                        std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>> remaps;
+                        for (const std::string& key : list.thisKeys) {
+                            drops.emplace_back(key, list.isDead);
+                            remaps.emplace_back(key, RegRemap<>::KeyRemapValue(RemapList<std::string, std::string>{list.reg}));
+                        }
+                        auto remove = std::make_unique<RegRemove<>>(std::move(drops));
+                        auto remap = std::make_unique<RegRemap<>>(std::move(remaps));
+
+                        std::vector<ObjGroupEdit::PartEdit*>& edits = perGroup[0].edits[listObj];
+                        edits.push_back(adapt(std::make_unique<GraphPartEdit<>>(rename.get())));
+                        edits.push_back(adapt(std::make_unique<RegPartEdit<>>(remove.get())));
+                        edits.push_back(adapt(std::make_unique<RegPartEdit<>>(remap.get())));
+                        toggleOwned_.push_back(std::move(rename));
+                        toggleOwned_.push_back(std::move(remove));
+                        toggleOwned_.push_back(std::move(remap));
+
+                        if (list.offBinding.has_value()) {
+                            auto cover = std::make_unique<RegFillMissing<>>(
+                                list.reg, RegFillMissing<>::makeFillMissing(list.reg, *list.offBinding, true), RegFillMissingMode::TopdownCover);
+                            cover->countMissingElse = true;     // the toggle binds only while it is on
+                            edits.push_back(adapt(std::make_unique<GraphPartEdit<>>(cover.get())));
+                            toggleOwned_.push_back(std::move(cover));
+                        }
+                        perGroup[0].trackKeys[listObj] = false;
+
+                        takes.push_back(this->takeFixSections(listObj, {list.name}));
+                    }
+
+                    std::vector<GraphId> textureGraphs;
+                    if (auto* parser = dynamic_cast<GIMIParser<>*>(this->getParser())) {
+                        for (const ModObj& obj : parser->modObjs()) {
+                            if (obj.first == IniGraphModObjKeywords::Texture) {
+                                textureGraphs.emplace_back(0, obj.first, obj.second);
+                            }
+                        }
+                    }
+
+                    for (GraphCopy<>* copy : copies) {
+                        toggleEdits_.push_back(copy);
+                    }
+                    if (!toggleLists_.empty()) {
+                        auto listEdits = std::make_unique<ObjGroupEdit>(std::move(perGroup), false);
+                        toggleEdits_.push_back(listEdits.get());
+                        toggleOwned_.push_back(std::move(listEdits));
+                    }
+                    for (Fixer::GroupEdit* take : takes) {
+                        toggleEdits_.push_back(take);
+                    }
+
+                    auto removeTextures = std::make_unique<GraphRemove<>>(std::move(textureGraphs));
+                    toggleEdits_.push_back(removeTextures.get());
+                    toggleOwned_.push_back(std::move(removeTextures));
+                }
+
+                ObjGroupEdit::PartEdit* adapt(std::unique_ptr<ObjGroupEdit::PartEdit> adapter) {
+                    toggleAdapters_.push_back(std::move(adapter));
+                    return toggleAdapters_.back().get();
                 }
 
                 // The mod's own sections on another mesh of the source, copied onto the target's mesh
@@ -6634,6 +6709,21 @@ namespace AGRemapCore {
                 std::vector<int> dropped_;
                 std::vector<std::vector<int>> groups_;
                 std::vector<ModObj> hashOnlyObjs_;                    // ...and the mod's objects that are not slots
+
+                // see buildToggleLists
+                struct ToggleList {
+                    std::string name;                                   // the fix's list
+                    ModObj graph;                                       // the parser's graph holding the mod's override
+                    std::string section;                                // the mod's override
+                    std::string reg;                                    // the register the list binds
+                    std::vector<std::string> thisKeys;                  // the spellings of `this` the override writes
+                    RegRemove<>::RemoveKeyCheck isDead;                 // a `this` naming nothing
+                    std::optional<std::string> offBinding;              // a one-variant toggle's binding while off
+                };
+                std::vector<ToggleList> toggleLists_;
+                std::vector<Fixer::GroupEdit*> toggleEdits_;
+                std::vector<std::shared_ptr<void>> toggleOwned_;
+                std::vector<std::unique_ptr<ObjGroupEdit::PartEdit>> toggleAdapters_;
                 std::unordered_set<std::string> hiddenObjs_;          // of those, the ones commented out rather than copied
                 std::set<int> drawnSlots_;
                 long long meshVertexCount_ = 0;

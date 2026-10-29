@@ -20,6 +20,26 @@
         </inbodydescription>
         <location file="include/AGRemapCore/constants/IniGraphModObjKeywords.h" line="41" column="45" bodyfile="include/AGRemapCore/constants/IniGraphModObjKeywords.h" bodystart="41" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_graph_mod_obj_keywords_1a695f0dac0c59e9a0ee513ef0388acded" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniGraphModObjKeywords::Texture</definition>
+        <argsstring></argsstring>
+        <name>Texture</name>
+        <qualifiedname>AGRemapCore::IniGraphModObjKeywords::Texture</qualifiedname>
+        <initializer>= &quot;texture&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Marks a graph of a mod&apos;s texture overrides (a ``hash`` of a texture, no
+``match_first_index``). The mod-object half is the role the parser placed it under by
+its hash, or empty for the overrides of hashes it does not know
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniGraphModObjKeywords.h" line="51" column="45" bodyfile="include/AGRemapCore/constants/IniGraphModObjKeywords.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -35,9 +55,10 @@ and those get a reserved component name instead, so they can never collide with 
 ``(component, object)`` pair from the ``.ini`` file.
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/IniGraphModObjKeywords.h" line="35" column="5" bodyfile="include/AGRemapCore/constants/IniGraphModObjKeywords.h" bodystart="35" bodyend="42"/>
+    <location file="include/AGRemapCore/constants/IniGraphModObjKeywords.h" line="35" column="5" bodyfile="include/AGRemapCore/constants/IniGraphModObjKeywords.h" bodystart="35" bodyend="52"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_graph_mod_obj_keywords_1a730b5a74cd6f071e06c3b05246ebf547" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphModObjKeywords</scope><name>Download</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_mod_obj_keywords_1a695f0dac0c59e9a0ee513ef0388acded" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphModObjKeywords</scope><name>Texture</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

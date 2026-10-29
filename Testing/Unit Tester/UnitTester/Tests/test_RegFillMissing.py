@@ -287,6 +287,34 @@ class RegFillMissingTest(BaseUnitTest):
         self.compareList(self.entries(graph, "a"), [("handling", "skip")])
         self.compareList(self.entries(graph, "b"), [("y", "2"), ("z", "9")])
 
+    # a toggle that binds 'z' only while it is on: `if $i == 0 / z = a / endif`, after a part with 'x'
+    def makeToggleGraph(self) -> FRB.IniSectionGraph:
+        z3Ctx = FRB.Z3Context()
+        sections = {"a": FRB.IfTemplate([
+            FRB.IfContentPart({"x": [(0, "1")]}, 0),
+            FRB.IfPredPart("if $i == 0", FRB.IfPredPartType.If, z3Ctx),
+            FRB.IfContentPart({"z": [(0, "a")]}, 1),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx),
+        ], name = "a")}
+        return FRB.IniSectionGraph(sections, ["a"])
+
+    def test_countMissingElse_defaultsToFalse(self):
+        self.assertFalse(FRB.RegFillMissing("z", "9").countMissingElse)
+
+    def test_edit_topdownCover_toggleWithoutElse_takenAsCoveredByDefault(self):
+        graph = self.makeToggleGraph()
+        FRB.RegFillMissing("z", "9", fillMode = FRB.RegFillMissingMode.TopdownCover).edit(graph, None)
+
+        self.compareList(self.entries(graph), [("x", "1")])
+
+    def test_edit_topdownCover_countMissingElse_toggleWithoutElse_coveredAtTheFront(self):
+        graph = self.makeToggleGraph()
+        edit = FRB.RegFillMissing("z", "9", fillMode = FRB.RegFillMissingMode.TopdownCover)
+        edit.countMissingElse = True
+        edit.edit(graph, None)
+
+        self.compareList(self.entries(graph), [("z", "9"), ("x", "1")])
+
     def test_onlyWhenAbsent_defaultsToFalse(self):
         self.assertFalse(FRB.RegFillMissing("z", "9").onlyWhenAbsent)
 

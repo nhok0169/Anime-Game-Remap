@@ -321,13 +321,28 @@ newGraphs: List[:class:`IniSectionGraph`]
             return result;
         }, py::arg("memo"))
 
-        .def("isKeyFullyCover", [](PyIniSectionGraph &self, const std::string &key) {
-            return py::cast(self.isKeyFullyCover(key));
-        }, py::arg("key"), py::doc(R"doc(Determines whether a key fully covers all the conditional branches of a `section`_)doc"))
+        .def("isKeyFullyCover", [](PyIniSectionGraph &self, const std::string &key, bool countMissingElse) {
+            return py::cast(self.isKeyFullyCover(key, countMissingElse));
+        }, py::arg("key"), py::arg("countMissingElse") = false, py::doc(R"doc(
+Determines whether a key fully covers all the conditional branches of a `section`_ -- with
+``countMissingElse``, every PATH through it, so an ``if`` / ``else if`` chain with no ``else`` also has the
+path where none of its conditions holds
 
-        .def("rootsAreFullyCovered", [](PyIniSectionGraph &self, const std::string &key) {
-            return py::cast(self.rootsAreFullyCovered(key));
-        }, py::arg("key"), py::doc(R"doc(Convenience over :meth:`isKeyFullyCover`, filtered to :attr:`roots`)doc"))
+Parameters
+----------
+key: :class:`str`
+    The key
+
+countMissingElse: :class:`bool`
+    Whether a chain's missing ``else`` is a path that lacks ``key`` :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``False``
+)doc"))
+
+        .def("rootsAreFullyCovered", [](PyIniSectionGraph &self, const std::string &key, bool countMissingElse) {
+            return py::cast(self.rootsAreFullyCovered(key, countMissingElse));
+        }, py::arg("key"), py::arg("countMissingElse") = false,
+           py::doc(R"doc(Convenience over :meth:`isKeyFullyCover`, filtered to :attr:`roots`)doc"))
 
         .def("getKeyMissingParts", [](PyIniSectionGraph &self, const std::string &key) {
             auto result = self.getKeyMissingParts(key);

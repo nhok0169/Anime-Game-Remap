@@ -522,21 +522,21 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    std::unordered_map<std::string, bool> IniSectionGraph<K, V, KeyHash, KeyEqual>::isKeyFullyCover(const K& key) const {
+    std::unordered_map<std::string, bool> IniSectionGraph<K, V, KeyHash, KeyEqual>::isKeyFullyCover(const K& key, bool countMissingElse) const {
         std::unordered_set<std::string> visited;
         std::unordered_map<std::string, bool> sectionsKeyFullCover;
 
         for (const std::string& sectionName : roots_) {
             Section* section = getSection(sectionName);
-            section->isKeyFullyCover(key, sections_, visited, sectionsKeyFullCover);
+            section->isKeyFullyCover(key, sections_, visited, sectionsKeyFullCover, countMissingElse);
         }
 
         return sectionsKeyFullCover;
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    std::unordered_map<std::string, bool> IniSectionGraph<K, V, KeyHash, KeyEqual>::rootsAreFullyCovered(const K& key) const {
-        auto sectionsKeyFullCover = isKeyFullyCover(key);
+    std::unordered_map<std::string, bool> IniSectionGraph<K, V, KeyHash, KeyEqual>::rootsAreFullyCovered(const K& key, bool countMissingElse) const {
+        auto sectionsKeyFullCover = isKeyFullyCover(key, countMissingElse);
         std::unordered_map<std::string, bool> result;
         for (const std::string& sectionName : roots_) {
             result[sectionName] = sectionsKeyFullCover.at(sectionName);

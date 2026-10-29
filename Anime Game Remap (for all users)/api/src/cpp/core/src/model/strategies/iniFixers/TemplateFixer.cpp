@@ -116,6 +116,51 @@ namespace AGRemapCore {
         groupFixSections_.clear();
     }
 
+    // see TemplateFixer::takeFixSections
+    class TemplateFixer::TakeFixSections: public BaseIniGraphGroupEdit<std::string, std::string> {
+        public:
+            TakeFixSections(TemplateFixer& fixer, ModObj graph, std::vector<std::string> sections, std::string comment):
+                fixer_(fixer), graph_(std::move(graph)), sections_(std::move(sections)), comment_(std::move(comment)) {}
+
+            GraphGroups& edit(GraphGroups& graphGroups, const ModType*, const std::string& = "") override {
+                if (graphGroups.size() == 0) {
+                    return graphGroups;
+                }
+
+                auto* graph = graphGroups.getGraph(0, graph_);
+                if (graph == nullptr) {
+                    return graphGroups;
+                }
+
+                for (const std::string& name : sections_) {
+                    Section* section = graph->getSection(name, false);
+                    if (section == nullptr) {
+                        continue;
+                    }
+
+                    std::unique_ptr<Section> copy = section->deepcopy();
+                    copy->prefix = comment_.empty() ? "" : "; " + comment_;
+                    copy->rebuild();
+                    fixer_.addFixSection(std::move(copy));
+                }
+
+                graphGroups.removeGraph(0, graph_);
+                return graphGroups;
+            }
+
+        private:
+            TemplateFixer& fixer_;
+            ModObj graph_;
+            std::vector<std::string> sections_;
+            std::string comment_;
+    };
+
+    TemplateFixer::GroupEdit* TemplateFixer::takeFixSections(const ModObj& graph, std::vector<std::string> sections,
+                                                                  const std::string& comment) {
+        takeEdits_.push_back(std::make_unique<TakeFixSections>(*this, graph, std::move(sections), comment));
+        return takeEdits_.back().get();
+    }
+
     std::unique_ptr<TemplateFixer::Section> TemplateFixer::copyOnHash(const Section& section, const std::string& hash,
                                                                        const std::string& comment) const {
         std::unique_ptr<Section> copy = section.deepcopy();

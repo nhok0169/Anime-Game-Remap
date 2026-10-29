@@ -146,7 +146,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="349" column="32" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="349" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="357" column="32" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="357" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_section_graph_1a4de824dfe637062a2e90c676badc1b65" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1a48f82278f5ae5137d55e7be22a2430fc" kindref="member">Section</ref> &gt; &gt;</type>
@@ -160,7 +160,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="350" column="25" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="350" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="358" column="25" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="358" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_section_graph_1a4c8e4921cb449beb112b4585700b4dd2" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
@@ -174,7 +174,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="351" column="32" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="351" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="359" column="32" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="359" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_section_graph_1aa14fd764ea700307f76ec9788638f044" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -188,7 +188,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="352" column="25" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="352" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="360" column="25" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="360" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_section_graph_1adc696f78eaf0b6d3e331430e0bc021d1" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -202,7 +202,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="353" column="25" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="353" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="361" column="25" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="361" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_section_graph_1a0dd589be1c455664983c0d3cc49a9376" prot="private" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
@@ -216,7 +216,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="354" column="33" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="354" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="362" column="33" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="362" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_section_graph_1ae8fc04843e65ff0e82c2c130e647f45e" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> *</type>
@@ -230,7 +230,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="355" column="23" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="355" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="363" column="23" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="363" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_section_graph_1a07060516ce2ce1ea38b44fc2a4fa2055" prot="private" static="no" mutable="yes">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
@@ -244,7 +244,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="356" column="35" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="356" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="364" column="35" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="364" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -868,46 +868,94 @@ original&apos;s.
         </inbodydescription>
         <location file="include/AGRemapCore/model/IniSectionGraph.h" line="220" column="29"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1ab4cd88376c65ca10e5ec7c1ba3580439" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1a052cc6aa3155ad8263bf9260e39dd7e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, bool &gt;</type>
         <definition>std::unordered_map&lt; std::string, bool &gt; AGRemapCore::IniSectionGraph&lt; K, V, KeyHash, KeyEqual &gt;::isKeyFullyCover</definition>
-        <argsstring>(const K &amp;key) const</argsstring>
+        <argsstring>(const K &amp;key, bool countMissingElse=false) const</argsstring>
         <name>isKeyFullyCover</name>
         <qualifiedname>AGRemapCore::IniSectionGraph::isKeyFullyCover</qualifiedname>
         <param>
           <type>const K &amp;</type>
           <declname>key</declname>
         </param>
+        <param>
+          <type>bool</type>
+          <declname>countMissingElse</declname>
+          <defval>false</defval>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
 Determines whether a key fully covers all the conditional branches of a `section`_, for
-every `section`_ in #roots()
-</verbatim> </para>
+every `section`_ in #roots() -- with &apos;countMissingElse&apos;, every PATH through it, so an
+``if`` / ``else if`` chain with no ``else`` also has the path where none of its conditions
+holds (see :cpp:func:`IfTemplate::isKeyFullyCover`)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>countMissingElse</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether a chain&apos;s missing <computeroutput>else</computeroutput> is a path that lacks &apos;key&apos;. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="229" column="32"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="234" column="32"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1a342809a9bee4082361ea544941af48ba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1a5ecd7cfd7616d80c07ca2a75f31fa7f5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, bool &gt;</type>
         <definition>std::unordered_map&lt; std::string, bool &gt; AGRemapCore::IniSectionGraph&lt; K, V, KeyHash, KeyEqual &gt;::rootsAreFullyCovered</definition>
-        <argsstring>(const K &amp;key) const</argsstring>
+        <argsstring>(const K &amp;key, bool countMissingElse=false) const</argsstring>
         <name>rootsAreFullyCovered</name>
         <qualifiedname>AGRemapCore::IniSectionGraph::rootsAreFullyCovered</qualifiedname>
         <param>
           <type>const K &amp;</type>
           <declname>key</declname>
         </param>
+        <param>
+          <type>bool</type>
+          <declname>countMissingElse</declname>
+          <defval>false</defval>
+        </param>
         <briefdescription>
-<para>Convenience over <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1ab4cd88376c65ca10e5ec7c1ba3580439" kindref="member">isKeyFullyCover</ref>, filtered to just <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1a74b535fd9229211abb0a25eae256b462" kindref="member">roots()</ref>. </para>
+<para>Convenience over <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1a052cc6aa3155ad8263bf9260e39dd7e9" kindref="member">isKeyFullyCover</ref>, filtered to just <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1a74b535fd9229211abb0a25eae256b462" kindref="member">roots()</ref>. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>countMissingElse</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1a052cc6aa3155ad8263bf9260e39dd7e9" kindref="member">isKeyFullyCover</ref>. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="234" column="32"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="242" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1a2a073bbebd2e13c97add391e5e3244ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, std::set&lt; <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1ab8b844ae2352464ce159b212bf676df1" kindref="member">ContentPart</ref> * &gt; &gt;</type>
@@ -926,7 +974,7 @@ every `section`_ in #roots()
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="239" column="32"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="247" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1ad2474cb3fede22aa86eec0e15657cd25" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, std::set&lt; <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1ab8b844ae2352464ce159b212bf676df1" kindref="member">ContentPart</ref> * &gt; &gt;</type>
@@ -965,7 +1013,7 @@ this instead, or it will act on both the bubbled-up answer and the superseded on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="257" column="32"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="265" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1afc558394e0773f507ff9b0c028774eeb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1ab8b844ae2352464ce159b212bf676df1" kindref="member">ContentPart</ref> *, std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1ab8b844ae2352464ce159b212bf676df1" kindref="member">ContentPart</ref> * &gt; &gt;</type>
@@ -983,7 +1031,7 @@ Builds a graph-wide version of #computeSectionPredecessors, additionally linking
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="276" column="32"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="284" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1a099e3d38496943e1a51219a86369781d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1a3138e7c36040249049477cb63321d35d" kindref="member">CallGraphType</ref> &gt;</type>
@@ -1001,7 +1049,7 @@ Builds a `call graph`_ over the #ContentPart\\s of this graph, modeling ``run =`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="285" column="29"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="293" column="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1aa7f6667577b3279a1001889464ce9aba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1016,7 +1064,7 @@ Builds a `call graph`_ over the #ContentPart\\s of this graph, modeling ``run =`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="290" column="18"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="298" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1aa23ce4483b819bf0a3f00544d69ab466" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_generator" kindref="compound">Generator</ref>&lt; <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1a361a63678d2f0450298ed2dee7654c20" kindref="member">IterData</ref> &gt;</type>
@@ -1046,7 +1094,7 @@ Builds a `call graph`_ over the #ContentPart\\s of this graph, modeling ``run =`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="306" column="23"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="314" column="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1a99cba1626c4208f5655a5e3f92a24e7e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_generator" kindref="compound">Generator</ref>&lt; std::pair&lt; std::string, <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1a48f82278f5ae5137d55e7be22a2430fc" kindref="member">Section</ref> * &gt; &gt;</type>
@@ -1063,7 +1111,7 @@ Iterates through all the `sections`_ of the graph using `DFS`_, yielding ``(sect
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="315" column="23"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="323" column="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1ab241a791aa210c40fd597373e6b09192" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_generator" kindref="compound">Generator</ref>&lt; <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1a3dee182378dc05948a6119c7738ad737" kindref="member">IterQueryData</ref> &gt;</type>
@@ -1106,7 +1154,7 @@ retrieves the conditional logical predicate that each #ContentPart resides in
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="324" column="23"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="332" column="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1a3147ef820b95c92c6c6bdd1423cc01c0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1149,7 +1197,7 @@ every section, which is what a lone graph wants :raw-html:`&lt;br /&gt;` :raw-ht
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="345" column="25"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="353" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -1174,7 +1222,7 @@ path through this `section`_ alone (ie. ignoring any ``run =`` call)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="267" column="39"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="275" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1ab8af51053977440edd971a8cd23456c0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_generator" kindref="compound">Generator</ref>&lt; <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1a361a63678d2f0450298ed2dee7654c20" kindref="member">IterData</ref> &gt;</type>
@@ -1216,7 +1264,7 @@ path through this `section`_ alone (ie. ignoring any ``run =`` call)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="299" column="30"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="307" column="30"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -1236,7 +1284,7 @@ path through this `section`_ alone (ie. ignoring any ``run =`` call)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="358" column="18"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="366" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1a3d362afb7bc12d53369d61eb38cac3b6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref></type>
@@ -1250,7 +1298,7 @@ path through this `section`_ alone (ie. ignoring any ``run =`` call)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="366" column="25"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="374" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1a7bb881e884f38486659475e821605562" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref></type>
@@ -1272,7 +1320,7 @@ path through this `section`_ alone (ie. ignoring any ``run =`` call)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="367" column="25"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="375" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -1301,7 +1349,7 @@ path through this `section`_ alone (ie. ignoring any ``run =`` call)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="362" column="39"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="370" column="39"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1371,7 +1419,7 @@ Class for constructing a directed subgraph for how the `sections`_ in the .ini f
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/IniSectionGraph.h" line="67" column="5" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="67" bodyend="368"/>
+    <location file="include/AGRemapCore/model/IniSectionGraph.h" line="67" column="5" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="67" bodyend="376"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a5a7fb0712e743658550a5ceedc3deff1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>build</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a099e3d38496943e1a51219a86369781d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>buildCallGraph</name></member>
@@ -1395,7 +1443,7 @@ Class for constructing a directed subgraph for how the `sections`_ in the .ini f
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a7b52f8a98dbcb9f9d34481d5ce1d1f1f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>IniSectionGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a9a1dae87b591e6ee6c2d233828758239" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>IniSectionGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1aa8e8636166944316e32b46d13ae05e10" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>isEmpty</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_section_graph_1ab4cd88376c65ca10e5ec7c1ba3580439" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>isKeyFullyCover</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a052cc6aa3155ad8263bf9260e39dd7e9" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>isKeyFullyCover</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1aa23ce4483b819bf0a3f00544d69ab466" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>iterByContentPart</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1ab241a791aa210c40fd597373e6b09192" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>iterByQuery</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a361a63678d2f0450298ed2dee7654c20" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>IterData</name></member>
@@ -1413,7 +1461,7 @@ Class for constructing a directed subgraph for how the `sections`_ in the .ini f
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1ae2d0772538684fde4055a36561a45c8a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>rename</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a74b535fd9229211abb0a25eae256b462" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>roots</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1aa14fd764ea700307f76ec9788638f044" prot="private" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>roots_</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a342809a9bee4082361ea544941af48ba" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>rootsAreFullyCovered</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a5ecd7cfd7616d80c07ca2a75f31fa7f5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>rootsAreFullyCovered</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a760c25c28e5a3cc8c5ef8d7985fb02bc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>runConfig</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a0dd589be1c455664983c0d3cc49a9376" prot="private" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>runConfig_</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a48f82278f5ae5137d55e7be22a2430fc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>Section</name></member>

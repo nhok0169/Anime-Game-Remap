@@ -33,7 +33,9 @@
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/constants/IniGraphModObjKeywords.h"
 #include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/data/HashData.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/iftemplate/IfPredPart.h"
@@ -102,6 +104,37 @@ namespace AGRemapCore {
                         modObjs.push_back(obj);
                     }
 
+                    // THE MOD'S TEXTURE OVERRIDES, each in the graph of the role its hash plays. HashData
+                    // types every texture hash of the character by its role (`<role>`, `<role>Live`,
+                    // `<role>Old`, `<role>Old2`, ...), so the classifier places one by its hash the way it
+                    // places a slot section by its vb0. An override of a hash HashData does not know goes
+                    // to the catch-all graph (see the target function below).
+                    if (!ownName.empty()) {
+                        std::unordered_set<std::string> roles;
+                        for (const auto& entry : config.textures.roles) {
+                            roles.insert(entry.second);
+                        }
+
+                        for (const auto& row : Data::getHashDataRows()) {
+                            if (row.first.size() < 3 || row.first[1] != ownName || hashOnly.count(row.first[2]) > 0) {
+                                continue;
+                            }
+
+                            const std::optional<std::string> role = roleOfHashType(row.first[2], roles);
+                            if (!role.has_value()) {
+                                continue;
+                            }
+
+                            const ModObj obj(IniGraphModObjKeywords::Texture, *role);
+                            hashOnly[row.first[2]] = obj;
+                            if (std::find(modObjs.begin(), modObjs.end(), obj) == modObjs.end()) {
+                                modObjs.push_back(obj);
+                            }
+                        }
+
+                        modObjs.emplace_back(IniGraphModObjKeywords::Texture, "");
+                    }
+
                     this->setModObjs(std::move(modObjs));
 
                     // The version is passed explicitly: a reverse lookup with no version resolves
@@ -122,12 +155,15 @@ namespace AGRemapCore {
                     Classifier* classifier = classifier_.get();
                     this->objTargetFuncs.emplace_back(
                         [this, classifier](Parser&, const std::string& sectionName, Section* section, bool,
-                                     ContentPart*, const Colouring* kvps) {
+                                     ContentPart* part, const Colouring* kvps) {
                             if (kvps == nullptr) {
                                 return std::vector<ModObj>();
                             }
 
                             std::vector<ModObj> objs = classifier->classify(sectionName, section, *kvps);
+                            if (objs.empty() && isUnknownTextureOverride(sectionName, section, part)) {
+                                objs.emplace_back(IniGraphModObjKeywords::Texture, "");
+                            }
 
                             // WHAT THE CLASSIFIER DECIDED, KEPT. The texture roles are read off the
                             // sections it placed, and re-deriving "which component is this" beside
@@ -173,6 +209,48 @@ namespace AGRemapCore {
                 // A section a previous fix wrote: its name ends `<target>RemapFix`
                 static bool isFixSection(const std::string& name) {
                     return StringTools::endsWithIgnoreCase(name, IniKeywords::RemapFix);
+                }
+
+                // The role a HashData hash type of the character names: the role itself, or the role
+                // followed by `Live` or `Old`, `Old2`, ... (see HashData's WuWa texture rows)
+                static std::optional<std::string> roleOfHashType(const std::string& type, const std::unordered_set<std::string>& roles) {
+                    if (roles.count(type) > 0) {
+                        return type;
+                    }
+
+                    for (const std::string suffix : {std::string("Live"), std::string("Old")}) {
+                        const std::size_t at = type.rfind(suffix);
+                        if (at == std::string::npos || at == 0) {
+                            continue;
+                        }
+
+                        const std::string rest = type.substr(at + suffix.size());
+                        const bool counted = std::all_of(rest.begin(), rest.end(), [](char c) { return c >= '0' && c <= '9'; });
+                        const std::string role = type.substr(0, at);
+                        if (counted && (suffix == "Old" || rest.empty()) && roles.count(role) > 0) {
+                            return role;
+                        }
+                    }
+
+                    return std::nullopt;
+                }
+
+                // The part of a texture override that names its hash, when the hash is not one the
+                // classifier knows: a `hash` and, anywhere in the section, no `match_first_index`
+                static bool isUnknownTextureOverride(const std::string& name, Section* section, ContentPart* part) {
+                    if (section == nullptr || part == nullptr || isFixSection(name)
+                            || !StringTools::startsWith(name, IniKeywords::TextureOverride) || part->getVals(IniKeywords::Hash).empty()) {
+                        return false;
+                    }
+
+                    for (const auto& other : section->parts()) {
+                        const auto* content = dynamic_cast<const ContentPart*>(other.get());
+                        if (content != nullptr && !content->getVals(IniKeywords::MatchFirstIndex).empty()) {
+                            return false;
+                        }
+                    }
+
+                    return true;
                 }
 
                 // WHICH of the mod's own resources it binds in SEVERAL VARIANTS. A toggle mod writes
@@ -276,8 +354,22 @@ namespace AGRemapCore {
                         variantsOf[entry.first] = bound;
                     }
 
+                    // the texture graph the parser placed each section in
+                    std::unordered_map<std::string, ModObj> graphOf;
+                    for (const auto& [obj, sections] : this->sectionTargets()) {
+                        if (obj.first != IniGraphModObjKeywords::Texture) {
+                            continue;
+                        }
+
+                        for (const std::string& name : sections) {
+                            graphOf.emplace(name, obj);
+                        }
+                    }
+
                     for (const auto& [resource, section] : ownerOf) {
-                        data.setThisToggle(resource, IniParseData::TextureToggle{section, variantsOf[section], single.count(resource) > 0});
+                        const auto graph = graphOf.find(section);
+                        data.setThisToggle(resource, IniParseData::TextureToggle{section, variantsOf[section], single.count(resource) > 0,
+                                                                                 graph == graphOf.end() ? ModObj() : graph->second});
                     }
                 }
 

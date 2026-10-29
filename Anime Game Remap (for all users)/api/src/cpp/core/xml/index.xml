@@ -2544,12 +2544,12 @@
     <member refid="class_a_g_remap_core_1_1_if_template_1ab090c483de09cca700d10f32f81efee8" kind="function"><name>addBottomContentPart</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_1abf47e386e6bceea1dac29e3d75fb38b5" kind="function"><name>addKVPsToBack</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_1a984f70a0d0c1aa715dcdcbc6d7425588" kind="function"><name>addKVPToBack</name></member>
-    <member refid="class_a_g_remap_core_1_1_if_template_1a86277a6516df9a2e5d99192f4f97b05c" kind="function"><name>isKeyFullyCover</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_template_1ad624eb9ee56c8004b3c44e275180c779" kind="function"><name>isKeyFullyCover</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_1ad139adbafe43cc1be4e7c67d54ec3b03" kind="function"><name>getKeyMissingParts</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_1a6d61871e8522f4ddd3ef8d57cdf8212b" kind="function"><name>build</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_1aa1e4e5429a3ede949e2ec5ad26e52762" kind="function"><name>setupPartsById</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_1a3242b3b2c61aa1f3d7a62abbbb032288" kind="function"><name>rebuildTree</name></member>
-    <member refid="class_a_g_remap_core_1_1_if_template_1ab87c43bb9185c793b5296ebb9e3085df" kind="function"><name>isKeyFullyCoverNode</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_template_1aa9abc4b424b99269a1317610e54cc2ae" kind="function"><name>isKeyFullyCoverNode</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_1a26eeb2294874156af24e166778c32ba3" kind="function"><name>getKeyMissingPartsNode</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_if_template_node" kind="class"><name>AGRemapCore::IfTemplateNode</name>
@@ -3233,6 +3233,7 @@
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_graph_mod_obj_keywords" kind="class"><name>AGRemapCore::IniGraphModObjKeywords</name>
     <member refid="class_a_g_remap_core_1_1_ini_graph_mod_obj_keywords_1a730b5a74cd6f071e06c3b05246ebf547" kind="variable"><name>Download</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_graph_mod_obj_keywords_1a695f0dac0c59e9a0ee513ef0388acded" kind="variable"><name>Texture</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_grouped_resource" kind="class"><name>AGRemapCore::IniGroupedResource</name>
     <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a428e831585c4e6a1d66c149631a230a9" kind="variable"><name>name</name></member>
@@ -3728,8 +3729,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1ae2d0772538684fde4055a36561a45c8a" kind="function"><name>rename</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a4031f680e629dcc0b31513aeadc94108" kind="function"><name>refreshPartIds</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a6a3b2ea7d2e3b983ac4d6f113f94c5a4" kind="function"><name>deepcopy</name></member>
-    <member refid="class_a_g_remap_core_1_1_ini_section_graph_1ab4cd88376c65ca10e5ec7c1ba3580439" kind="function"><name>isKeyFullyCover</name></member>
-    <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a342809a9bee4082361ea544941af48ba" kind="function"><name>rootsAreFullyCovered</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a052cc6aa3155ad8263bf9260e39dd7e9" kind="function"><name>isKeyFullyCover</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a5ecd7cfd7616d80c07ca2a75f31fa7f5" kind="function"><name>rootsAreFullyCovered</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a2a073bbebd2e13c97add391e5e3244ed" kind="function"><name>getKeyMissingParts</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1ad2474cb3fede22aa86eec0e15657cd25" kind="function"><name>targetsGetKeyMissingParts</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1afc558394e0773f507ff9b0c028774eeb" kind="function"><name>buildPartPredecessorGraph</name></member>
@@ -5031,15 +5032,12 @@
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a505d5747520ec87e7ca01f34f92f5263" kind="variable"><name>fillMissing</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ad376f5769818acdfb3d0b187b3b08d67" kind="variable"><name>fillMode</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ae4aafad7963384ce054d92f09f142e5b" kind="variable"><name>onlyWhenAbsent</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a32e3ce039da9012880a817fd4fbf3573" kind="variable"><name>countMissingElse</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a495332e02c94a5e8ff4d0f4c7702c7cd" kind="variable"><name>skipWhen</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac2e5ee05e28df2bfdfdbe6cc72731994" kind="variable"><name>dependOnDownload</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab9a6a988065723e69cfc492a7511c951" kind="variable"><name>trackKeys</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a1ac8560969aee969e922a07fe9aa4474" kind="variable"><name>keysToTrack</name></member>
-    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a05e9b6d54e9e8a1034cc6444ff327f3f" kind="function"><name>RegFillMissing</name></member>
-    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac07db5389064c81ba5d8fb38a68353d8" kind="function"><name>effectiveTrackKeys</name></member>
-    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab662ecedf37ce8afb5213bf1e2348b32" kind="function"><name>effectiveKeysToTrack</name></member>
-    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab56a1cae31a17339171eb4b7369a4c47" kind="function"><name>editFromIni</name></member>
-    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a1e9cb3ccb6fcc62f730aa7be2444ce3a" kind="function"><name>edit</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a7ed74be11e25a3101cea13980c5e0184" kind="function"><name>partHasKVP</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a550c8407da76f287025fab9143959a4f" kind="function"><name>makeFillMissing</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a51daff617e52b4f29f02cffc64f726c2" kind="function"><name>rootsWithReg</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1abb20e4e069fa2f522157a40bdbe2fe29" kind="function"><name>makeFillMissing</name></member>
@@ -5047,8 +5045,14 @@
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac419c260824dbadd77f27967d3ec340a" kind="function"><name>guardedBranchEnd</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a3767628ffcda6c5e8f69cadad414d990" kind="function"><name>guardEndIndex</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a6747ff3ce951345fdc0cfc6daca0dcb7" kind="function"><name>addBottomPart</name></member>
-    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1afa0f7bec9e81d53b048b902f735df8f5" kind="function"><name>addCover</name></member>
-    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5419d05d111d8236f0b5885501831d9a" kind="function"><name>addBottomCover</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a061f7518e21ccfb32c902597f199aa80" kind="function"><name>addCover</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a3aab4a4de919e500f6c2181d5da637a6" kind="function"><name>addBottomCover</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a05e9b6d54e9e8a1034cc6444ff327f3f" kind="function"><name>RegFillMissing</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac07db5389064c81ba5d8fb38a68353d8" kind="function"><name>effectiveTrackKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab662ecedf37ce8afb5213bf1e2348b32" kind="function"><name>effectiveKeysToTrack</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab56a1cae31a17339171eb4b7369a4c47" kind="function"><name>editFromIni</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a1e9cb3ccb6fcc62f730aa7be2444ce3a" kind="function"><name>edit</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1aaded3ba4cce6cef2b6de20023850ceb1" kind="function"><name>editImpl</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_reg_if_template_add" kind="class"><name>AGRemapCore::RegIfTemplateAdd</name>
@@ -6269,6 +6273,21 @@
     <member refid="class_a_g_remap_core_1_1_syntax_err_1aa72b5a1383f393a7d42a6c8345dcd50b" kind="function"><name>process</name></member>
     <member refid="class_a_g_remap_core_1_1_syntax_err_1a2aed93517ee600aff3bd50a7c4630c27" kind="function"><name>buildMessage</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections" kind="class"><name>AGRemapCore::TemplateFixer::TakeFixSections</name>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1ad4e82ddf5cdfed673fee905aaec4a3fe" kind="variable"><name>fixer_</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a1a207dff991357c89eeaf9faa7e136c8" kind="variable"><name>graph_</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a4ec6dd190701ed611d20a8e0e3fe2682" kind="variable"><name>sections_</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1afa7ab8aa79536e3cb472dd647e11184d" kind="variable"><name>comment_</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a025049b495dd8896bd7b88b232d73b3d" kind="function"><name>TakeFixSections</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a2b8280e6f09c21c323a0710093525a54" kind="function"><name>edit</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591" kind="function"><name>editFromIni</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kind="typedef"><name>GraphGroups</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" kind="typedef"><name>Graph</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" kind="typedef"><name>ModObj</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" kind="function"><name>getGraph</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" kind="function"><name>addGraph</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_temp_control" kind="class"><name>AGRemapCore::TempControl</name>
     <member refid="class_a_g_remap_core_1_1_temp_control_1a7c030829dc7836ceb4ebc2c26f0e0ceb" kind="variable"><name>temp</name></member>
     <member refid="class_a_g_remap_core_1_1_temp_control_1a8e43207d24a123b06cd40aa1b7d3b855" kind="variable"><name>redFactor_</name></member>
@@ -6311,6 +6330,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a280d4bdafd151b00b2f0b10061d67c93" kind="variable"><name>preEditSectionNames_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a20fa330cc7b17baf32d8fe2019f3df26" kind="variable"><name>fixTargets_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a1cec0133b1b43cbdedc741e848f8f33d" kind="variable"><name>fixedContents_</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a7cca7dc89cff6bbc066338fe7233848b" kind="variable"><name>takeEdits_</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1ae922274df1da737d0c8c16b27a418594" kind="variable"><name>fixSections_</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a9e4f0ab01d0bfced1212de84912b43ad" kind="variable"><name>groupFixSections_</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a1c8789814df39bd24cb2a286d91c5f1b" kind="variable"><name>gaveUp_</name></member>
@@ -6353,6 +6373,7 @@
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a0b0c42176e6a6634f8bd9f067142edd7" kind="function"><name>hashRemap</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a40840bf4a5084d9627dbc1e3339af2b5" kind="function"><name>addFixSection</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a7e797360bf705003f62c410fa1226caf" kind="function"><name>copyOnHash</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a87f694138679da794eb25215faa4ff73" kind="function"><name>takeFixSections</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4a8599309d747e4d2800778803df0bd9" kind="function"><name>snapshotPreEditSectionNames</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a2d333cb908e828d8d82fa45c73431fd7" kind="function"><name>fixImpl</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1aefc9b02bedaae3f41b27cde0afd95fbd" kind="function"><name>fixSectionsGraphId</name></member>
@@ -6673,6 +6694,7 @@
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle_1a1d4f619de77b9a1baa68d1375902b1d8" kind="variable"><name>section</name></member>
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle_1adebd4217936faa95dc66b301700d5f43" kind="variable"><name>variants</name></member>
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle_1aed0c47f7f0cce62b73ef922bd131e822" kind="variable"><name>single</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle_1ab55c52241f8d52ad4b5fd7426b6098a4" kind="variable"><name>graph</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_tint_transform" kind="class"><name>AGRemapCore::TintTransform</name>
     <member refid="class_a_g_remap_core_1_1_tint_transform_1a4df7139d5bf771cb9d2a6d95e026c040" kind="variable"><name>tint</name></member>

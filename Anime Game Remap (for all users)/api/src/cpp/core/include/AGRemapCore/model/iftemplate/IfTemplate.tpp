@@ -320,10 +320,38 @@ namespace AGRemapCore {
     bool IfTemplate<K, V, KeyHash, KeyEqual>::isKeyFullyCoverNode(
             NodeType& node, const K& key,
             const std::unordered_map<std::string, IfTemplate<K, V, KeyHash, KeyEqual>*>& sections,
-            std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover) const {
+            std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover,
+            bool countMissingElse) const {
         bool result = node.hasKey(key);
         if (result) {
             return result;
+        }
+
+        // A chain with no `else` has a path through none of its branches, which sets nothing -- so
+        // the node's children cannot cover the key, whatever they hold. The children are the
+        // branches of every chain the node holds, in order; each chain opens with an `if`.
+        if (countMissingElse) {
+            bool open = false;
+            for (const auto& element : node.parts()) {
+                const auto* child = std::get_if<NodeType*>(&element);
+                if (child == nullptr || *child == nullptr || (*child)->ifPredPart == nullptr) {
+                    continue;
+                }
+
+                const IfPredPartType type = (*child)->ifPredPart->type;
+                if (type == IfPredPartType::If) {
+                    if (open) {
+                        return result;
+                    }
+                    open = true;
+                } else if (type == IfPredPartType::Else) {
+                    open = false;
+                }
+            }
+
+            if (open) {
+                return result;
+            }
         }
 
         bool childrenResult = true;
@@ -362,7 +390,7 @@ namespace AGRemapCore {
         for (const auto& childEntry : branchChildren) {
             NodeType* child = childEntry.second;
             ++evaluated;
-            childrenResult = childrenResult && isKeyFullyCoverNode(*child, key, sections, visited, sectionsKeyFullCover);
+            childrenResult = childrenResult && isKeyFullyCoverNode(*child, key, sections, visited, sectionsKeyFullCover, countMissingElse);
             if (!childrenResult) {
                 return result;
             }
@@ -382,7 +410,7 @@ namespace AGRemapCore {
             }
 
             ++evaluated;
-            childrenResult = childrenResult && it->second->isKeyFullyCover(key, sections, visited, sectionsKeyFullCover);
+            childrenResult = childrenResult && it->second->isKeyFullyCover(key, sections, visited, sectionsKeyFullCover, countMissingElse);
             if (!childrenResult) {
                 return result;
             }
@@ -399,11 +427,12 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     bool IfTemplate<K, V, KeyHash, KeyEqual>::isKeyFullyCover(
             const K& key, const std::unordered_map<std::string, IfTemplate<K, V, KeyHash, KeyEqual>*>& sections,
-            std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover) const {
+            std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover,
+            bool countMissingElse) const {
         visited.insert(name);
 
         NodeType* node = tree_->root();
-        bool result = isKeyFullyCoverNode(*node, key, sections, visited, sectionsKeyFullCover);
+        bool result = isKeyFullyCoverNode(*node, key, sections, visited, sectionsKeyFullCover, countMissingElse);
         sectionsKeyFullCover[name] = result;
         return result;
     }

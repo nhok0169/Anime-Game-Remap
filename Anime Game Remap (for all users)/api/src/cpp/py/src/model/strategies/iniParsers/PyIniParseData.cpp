@@ -422,13 +422,20 @@ variants: List[:class:`str`]
 single: :class:`bool`
     Whether it binds ONE resource under a real condition -- off, the original draws with the game's own
     texture
+
+graph: Tuple[:class:`str`, :class:`str`]
+    The parser's graph holding the `section`_, as ``(component, mod object)`` -- see
+    :attr:`IniGraphModObjKeywords.Texture`. Empty for a register toggle
     )doc")
-        .def(py::init([](std::string section, std::vector<std::string> variants, bool single) {
-            return AGRC::IniParseData::TextureToggle{std::move(section), std::move(variants), single};
-        }), py::arg("section"), py::arg("variants"), py::arg("single") = false)
+        .def(py::init([](std::string section, std::vector<std::string> variants, bool single,
+                         std::pair<std::string, std::string> graph) {
+            return AGRC::IniParseData::TextureToggle{std::move(section), std::move(variants), single, std::move(graph)};
+        }), py::arg("section"), py::arg("variants"), py::arg("single") = false,
+            py::arg("graph") = std::pair<std::string, std::string>{})
         .def_readwrite("section", &AGRC::IniParseData::TextureToggle::section, py::doc(":class:`str`: The section that chooses"))
         .def_readwrite("variants", &AGRC::IniParseData::TextureToggle::variants, py::doc("List[:class:`str`]: Every resource it chooses among"))
-        .def_readwrite("single", &AGRC::IniParseData::TextureToggle::single, py::doc(":class:`bool`: Whether it binds one resource under a real condition"));
+        .def_readwrite("single", &AGRC::IniParseData::TextureToggle::single, py::doc(":class:`bool`: Whether it binds one resource under a real condition"))
+        .def_readwrite("graph", &AGRC::IniParseData::TextureToggle::graph, py::doc("Tuple[:class:`str`, :class:`str`]: The parser's graph holding the section"));
 
     py::class_<AGRC::IniParseData::Rejection>(cls, "Rejection", R"doc(
 A file refused for a role -- see :meth:`IniParseData.rejections`

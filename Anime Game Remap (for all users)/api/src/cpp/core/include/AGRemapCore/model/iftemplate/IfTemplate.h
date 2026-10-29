@@ -359,11 +359,17 @@ namespace AGRemapCore {
 
              'visited' collects the names of the `sections`_ already checked, and
              'sectionsKeyFullCover' records the result for each checked `section`_ (this one
-             included)
+             included) :raw-html:`<br />` :raw-html:`<br />`
+
+             'countMissingElse' asks whether 'key' is set on every PATH through the `section`_: an
+             ``if`` / ``else if`` chain with no ``else`` then has one more path, the one where none of
+             its conditions holds, and that path sets nothing. Without it, only the branches the
+             `section`_ writes are asked
              @endrst
              */
             bool isKeyFullyCover(const K& key, const std::unordered_map<std::string, IfTemplate<K, V, KeyHash, KeyEqual>*>& sections,
-                                  std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover) const;
+                                  std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover,
+                                  bool countMissingElse = false) const;
 
             /**
              * @brief
@@ -395,7 +401,8 @@ namespace AGRemapCore {
 
             bool isKeyFullyCoverNode(NodeType& node, const K& key,
                 const std::unordered_map<std::string, IfTemplate<K, V, KeyHash, KeyEqual>*>& sections,
-                std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover) const;
+                std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover,
+                bool countMissingElse) const;
 
             std::pair<std::set<ContentPart*>, bool> getKeyMissingPartsNode(NodeType& node, const K& key,
                 const std::unordered_map<std::string, IfTemplate<K, V, KeyHash, KeyEqual>*>& sections,

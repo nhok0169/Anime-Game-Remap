@@ -11124,9 +11124,21 @@ class IniParseData:
         single: :class:`bool`
             Whether it binds ONE resource under a real condition -- off, the original draws with the game's own
             texture
+        
+        graph: Tuple[:class:`str`, :class:`str`]
+            The parser's graph holding the `section`_, as ``(component, mod object)`` -- see
+            :attr:`IniGraphModObjKeywords.Texture`. Empty for a register toggle
             
         """
-        def __init__(self, section: str, variants: collections.abc.Sequence[str], single: bool = False) -> None:
+        def __init__(self, section: str, variants: collections.abc.Sequence[str], single: bool = False, graph: tuple[str, str] = ('', '')) -> None:
+            ...
+        @property
+        def graph(self) -> tuple[str, str]:
+            """
+            Tuple[:class:`str`, :class:`str`]: The parser's graph holding the section
+            """
+        @graph.setter
+        def graph(self, arg0: tuple[str, str]) -> None:
             ...
         @property
         def section(self) -> str:
@@ -14788,6 +14800,7 @@ class IniGraphModObjKeywords:
         
     """
     Download: typing.ClassVar[str] = 'download'
+    Texture: typing.ClassVar[str] = 'texture'
 class IniGraphReplaceMode:
     """
     
@@ -15576,9 +15589,21 @@ class IniSectionGraph:
         """
         Determines whether the graph is empty
         """
-    def isKeyFullyCover(self, key: str) -> typing.Any:
+    def isKeyFullyCover(self, key: str, countMissingElse: bool = False) -> typing.Any:
         """
-        Determines whether a key fully covers all the conditional branches of a `section`_
+        Determines whether a key fully covers all the conditional branches of a `section`_ -- with
+        ``countMissingElse``, every PATH through it, so an ``if`` / ``else if`` chain with no ``else`` also has the
+        path where none of its conditions holds
+        
+        Parameters
+        ----------
+        key: :class:`str`
+            The key
+        
+        countMissingElse: :class:`bool`
+            Whether a chain's missing ``else`` is a path that lacks ``key`` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
         """
     def iterByContentPart(self, states: typing.SupportsInt | typing.SupportsIndex = 1, colour: bool = False, colourKeys: typing.Any = None) -> SectionIterDataIterator:
         """
@@ -15605,7 +15630,7 @@ class IniSectionGraph:
         """
         Renames the `sections`_ and reconstructs the graph
         """
-    def rootsAreFullyCovered(self, key: str) -> typing.Any:
+    def rootsAreFullyCovered(self, key: str, countMissingElse: bool = False) -> typing.Any:
         """
         Convenience over :meth:`isKeyFullyCover`, filtered to :attr:`roots`
         """
@@ -21051,6 +21076,16 @@ class RegFillMissing(BaseIniGraphEdit):
         :class:`IniSectionGraph`
             The same graph that was passed in, after editing
         """
+    @property
+    def countMissingElse(self) -> bool:
+        """
+        :class:`bool`: Whether a cover (``TopdownCover`` / ``BottomCover``) also counts an ``if`` / ``else if`` chain
+        with no ``else`` as leaving a path without the register -- the path where none of its conditions holds (see
+        :meth:`IniSectionGraph.isKeyFullyCover`). ``FillMissing`` is not affected. **Default**: ``False``
+        """
+    @countMissingElse.setter
+    def countMissingElse(self, arg1: bool) -> None:
+        ...
     @property
     def dependOnDownload(self) -> bool:
         """

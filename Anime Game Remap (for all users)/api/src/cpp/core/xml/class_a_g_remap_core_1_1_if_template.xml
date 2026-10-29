@@ -160,7 +160,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="386" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="386" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="392" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="392" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a81d3cdabbc1eafa4feee6e8283fb2684" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; size_t, <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> * &gt;</type>
@@ -174,7 +174,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="387" column="32" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="387" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="393" column="32" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="393" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1acc09310a994b8e0e94bfefc06c244464" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; size_t, std::vector&lt; std::string &gt; &gt;</type>
@@ -188,7 +188,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="388" column="32" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="388" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="394" column="32" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="394" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a05b4b3d0f0d8e1a0217488b536fe501b" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_template_1a9b04a0bcfd68c4aa9b7559d323c39aca" kindref="member">TreeKind</ref></type>
@@ -202,7 +202,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="389" column="22" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="389" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="395" column="22" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="395" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a99685f427c370546c50ffb198de93b4b" prot="private" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_1ad0bd7959508762f570d7a38330823a78" kindref="member">TreeType</ref> &gt;</type>
@@ -216,7 +216,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="390" column="29" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="390" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="396" column="29" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="396" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a32f9629b20f04ea1b5f8bc3c0028b538" prot="private" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
@@ -230,7 +230,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="391" column="33" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="391" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="397" column="33" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="397" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -831,10 +831,10 @@ Normalizes the branching structure within this `IfTemplate` to follow
         </inbodydescription>
         <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="345" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a86277a6516df9a2e5d99192f4f97b05c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ad624eb9ee56c8004b3c44e275180c779" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::isKeyFullyCover</definition>
-        <argsstring>(const K &amp;key, const std::unordered_map&lt; std::string, IfTemplate&lt; K, V, KeyHash, KeyEqual &gt; * &gt; &amp;sections, std::unordered_set&lt; std::string &gt; &amp;visited, std::unordered_map&lt; std::string, bool &gt; &amp;sectionsKeyFullCover) const</argsstring>
+        <argsstring>(const K &amp;key, const std::unordered_map&lt; std::string, IfTemplate&lt; K, V, KeyHash, KeyEqual &gt; * &gt; &amp;sections, std::unordered_set&lt; std::string &gt; &amp;visited, std::unordered_map&lt; std::string, bool &gt; &amp;sectionsKeyFullCover, bool countMissingElse=false) const</argsstring>
         <name>isKeyFullyCover</name>
         <qualifiedname>AGRemapCore::IfTemplate::isKeyFullyCover</qualifiedname>
         <param>
@@ -853,6 +853,11 @@ Normalizes the branching structure within this `IfTemplate` to follow
           <type>std::unordered_map&lt; std::string, bool &gt; &amp;</type>
           <declname>sectionsKeyFullCover</declname>
         </param>
+        <param>
+          <type>bool</type>
+          <declname>countMissingElse</declname>
+          <defval>false</defval>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -863,12 +868,17 @@ in &apos;sections&apos;, eg. an external library command, covers nothing) :raw-h
 
 &apos;visited&apos; collects the names of the `sections`_ already checked, and
 &apos;sectionsKeyFullCover&apos; records the result for each checked `section`_ (this one
-included)
+included) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+&apos;countMissingElse&apos; asks whether &apos;key&apos; is set on every PATH through the `section`_: an
+``if`` / ``else if`` chain with no ``else`` then has one more path, the one where none of
+its conditions holds, and that path sets nothing. Without it, only the branches the
+`section`_ writes are asked
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="365" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="370" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ad139adbafe43cc1be4e7c67d54ec3b03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::set&lt; <ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">ContentPart</ref> * &gt;</type>
@@ -911,7 +921,7 @@ branches is missing &apos;key&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="380" column="22"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="386" column="22"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -1017,7 +1027,7 @@ via :cpp:class:`IfPredPart`) or a fully-indexed ``src``-shaped description of an
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="393" column="32"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="399" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a3242b3b2c61aa1f3d7a62abbbb032288" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1031,12 +1041,12 @@ via :cpp:class:`IfPredPart`) or a fully-indexed ``src``-shaped description of an
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="394" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="400" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ab87c43bb9185c793b5296ebb9e3085df" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1aa9abc4b424b99269a1317610e54cc2ae" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::isKeyFullyCoverNode</definition>
-        <argsstring>(NodeType &amp;node, const K &amp;key, const std::unordered_map&lt; std::string, IfTemplate&lt; K, V, KeyHash, KeyEqual &gt; * &gt; &amp;sections, std::unordered_set&lt; std::string &gt; &amp;visited, std::unordered_map&lt; std::string, bool &gt; &amp;sectionsKeyFullCover) const</argsstring>
+        <argsstring>(NodeType &amp;node, const K &amp;key, const std::unordered_map&lt; std::string, IfTemplate&lt; K, V, KeyHash, KeyEqual &gt; * &gt; &amp;sections, std::unordered_set&lt; std::string &gt; &amp;visited, std::unordered_map&lt; std::string, bool &gt; &amp;sectionsKeyFullCover, bool countMissingElse) const</argsstring>
         <name>isKeyFullyCoverNode</name>
         <qualifiedname>AGRemapCore::IfTemplate::isKeyFullyCoverNode</qualifiedname>
         <param>
@@ -1059,13 +1069,17 @@ via :cpp:class:`IfPredPart`) or a fully-indexed ``src``-shaped description of an
           <type>std::unordered_map&lt; std::string, bool &gt; &amp;</type>
           <declname>sectionsKeyFullCover</declname>
         </param>
+        <param>
+          <type>bool</type>
+          <declname>countMissingElse</declname>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="396" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="402" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a26eeb2294874156af24e166778c32ba3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::set&lt; <ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">ContentPart</ref> * &gt;, bool &gt;</type>
@@ -1103,7 +1117,7 @@ via :cpp:class:`IfPredPart`) or a fully-indexed ``src``-shaped description of an
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="400" column="23"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="407" column="23"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1192,7 +1206,7 @@ Data for storing information about a `section`_ in a ``.ini`` file :raw-html:`&l
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="133" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="133" bodyend="405"/>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="133" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="133" bodyend="412"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_if_template_1af757a3035be470bb58aa1996ba83ba1b" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>add</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_1ab090c483de09cca700d10f32f81efee8" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>addBottomContentPart</name></member>
@@ -1212,8 +1226,8 @@ Data for storing information about a `section`_ in a ``.ini`` file :raw-html:`&l
       <member refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>IfTemplate</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_1a16b58ccc1be8c85a09de40ee6717f726" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>IfTemplate</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_1a49aef3af14b4d9fb62bd16d275d12b0c" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>IfTemplate</name></member>
-      <member refid="class_a_g_remap_core_1_1_if_template_1a86277a6516df9a2e5d99192f4f97b05c" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>isKeyFullyCover</name></member>
-      <member refid="class_a_g_remap_core_1_1_if_template_1ab87c43bb9185c793b5296ebb9e3085df" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>isKeyFullyCoverNode</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1ad624eb9ee56c8004b3c44e275180c779" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>isKeyFullyCover</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1aa9abc4b424b99269a1317610e54cc2ae" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>isKeyFullyCoverNode</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_1a7bfbddfc94a31929c9559487e8a38cd5" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>name</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_1a2ec7c11295d49fc2f644c5a6078a5b42" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>NodeType</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_1a874e46fe12d2754eb3b801ca072b8c95" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>normalize</name></member>

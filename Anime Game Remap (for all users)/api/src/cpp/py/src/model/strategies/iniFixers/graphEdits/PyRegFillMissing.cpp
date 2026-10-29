@@ -256,6 +256,16 @@ section that draws on some of them (an ``if`` / ``else if`` chain with no ``else
 included. ``FillMissing`` is not affected. **Default**: ``False``
     )doc"));
 
+    cls.def_property("countMissingElse", [](const PyRegFillMissing &self) {
+        return self.countMissingElse;
+    }, [](PyRegFillMissing &self, bool countMissingElse) {
+        self.countMissingElse = countMissingElse;
+    }, py::doc(R"doc(
+:class:`bool`: Whether a cover (``TopdownCover`` / ``BottomCover``) also counts an ``if`` / ``else if`` chain
+with no ``else`` as leaving a path without the register -- the path where none of its conditions holds (see
+:meth:`IniSectionGraph.isKeyFullyCover`). ``FillMissing`` is not affected. **Default**: ``False``
+    )doc"));
+
     cls.def_property("skipWhen", [](const PyRegFillMissing &self) -> py::object {
         if (!self.skipWhen.has_value()) {
             return py::none();

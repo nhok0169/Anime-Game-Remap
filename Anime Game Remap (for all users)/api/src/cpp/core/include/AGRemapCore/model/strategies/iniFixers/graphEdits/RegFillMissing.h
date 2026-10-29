@@ -237,6 +237,22 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether a COVER (:cpp:enumerator:`RegFillMissingMode::TopdownCover` /
+             :cpp:enumerator:`RegFillMissingMode::BottomCover`) also counts an ``if`` / ``else if``
+             chain with no ``else`` as leaving a path without \ref reg -- the path where none of its
+             conditions holds (see :cpp:func:`IniSectionGraph::isKeyFullyCover`). Without it, a root
+             whose chain binds the register on every branch it writes is taken as covered, and a
+             toggle that binds a texture only while it is on gets no default while it is off.
+             :cpp:enumerator:`RegFillMissingMode::FillMissing` is not affected :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: ``false``
+             @endrst
+             */
+            bool countMissingElse = false;
+
+            /**
+             * @brief
+             @rst
              A `KVP`_ that keeps a part from being filled: a part already carrying this key with this
              value is left as it is, in every \ref fillMode :raw-html:`<br />` :raw-html:`<br />`
 
@@ -502,12 +518,14 @@ namespace AGRemapCore {
              * @param selection Which roots may be covered. **Default**: accept every root
              *
              * @param skipRoots Roots never to cover, eg. \ref rootsWithReg for \ref onlyWhenAbsent. **Default**: ``nullptr``, none
+             * @param countMissingElse See \ref countMissingElse. **Default**: ``false``
              *
              * @return The same graph that was passed in, with its roots covered
              */
             static Graph& addCover(Graph& graph, const K& reg, const FillMissingFunc& fillMissing,
                                     const PartSelection& selection = {},
-                                    const std::unordered_set<std::string>* skipRoots = nullptr);
+                                    const std::unordered_set<std::string>* skipRoots = nullptr,
+                                    bool countMissingElse = false);
 
             /**
              * @brief
@@ -534,12 +552,14 @@ namespace AGRemapCore {
              * @param selection Which roots may be covered. **Default**: accept every root
              *
              * @param skipRoots Roots never to cover, eg. \ref rootsWithReg for \ref onlyWhenAbsent. **Default**: ``nullptr``, none
+             * @param countMissingElse See \ref countMissingElse. **Default**: ``false``
              *
              * @return The same graph that was passed in, with its roots covered
              */
             static Graph& addBottomCover(Graph& graph, const K& reg, const FillMissingFunc& fillMissing,
                                           const PartSelection& selection = {},
-                                          const std::unordered_set<std::string>* skipRoots = nullptr);
+                                          const std::unordered_set<std::string>* skipRoots = nullptr,
+                                          bool countMissingElse = false);
 
             /**
              * @brief

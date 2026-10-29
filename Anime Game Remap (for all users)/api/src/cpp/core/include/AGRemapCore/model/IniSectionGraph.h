@@ -223,15 +223,23 @@ namespace AGRemapCore {
              * @brief
              @rst
              Determines whether a key fully covers all the conditional branches of a `section`_, for
-             every `section`_ in #roots()
+             every `section`_ in #roots() -- with 'countMissingElse', every PATH through it, so an
+             ``if`` / ``else if`` chain with no ``else`` also has the path where none of its conditions
+             holds (see :cpp:func:`IfTemplate::isKeyFullyCover`)
              @endrst
+             *
+             * @param key The key
+             * @param countMissingElse Whether a chain's missing ``else`` is a path that lacks 'key'. **Default**: ``false``
              */
-            std::unordered_map<std::string, bool> isKeyFullyCover(const K& key) const;
+            std::unordered_map<std::string, bool> isKeyFullyCover(const K& key, bool countMissingElse = false) const;
 
             /**
              * @brief Convenience over #isKeyFullyCover, filtered to just #roots()
+             *
+             * @param key The key
+             * @param countMissingElse See #isKeyFullyCover. **Default**: ``false``
              */
-            std::unordered_map<std::string, bool> rootsAreFullyCovered(const K& key) const;
+            std::unordered_map<std::string, bool> rootsAreFullyCovered(const K& key, bool countMissingElse = false) const;
 
             /**
              * @brief Retrieves the parts in the `sections`_ that are not covered by 'key'

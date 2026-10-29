@@ -9797,7 +9797,11 @@ went from pale hair and smeared pink arms to its own art. One of them, `SanhuaEx
 before and after, because none of the parts on screen used the overrides that changed. **A single
 before/after that matches proves nothing; pick a mod whose visible parts are bound by the overrides
 the tool moved.** Both characters' OLDER generations are filed in `HashData` now, ChisaParfait's
-shape: older hashes only, never the current or live ones, which would make them remappable. Over the
+shape. (Their current and live hashes were kept out at first, "which would make them remappable"; since
+2026-10-28 every role-table hash is filed -- current as `<role>`, live as `<role>Live`, undated older ones as
+`<role>Old` -- so `WWMIParser` classifies a texture override into the `("texture", <role>)` graph by its
+hash, and an override of a hash nobody filed into the catch-all `("texture", "")`. Nothing remaps them: the
+fix's `hash` remap runs over the slot sections only.) Over the
 13 mods' pristine copies the remap output did not move, because the configs' role tables already
 held every one of them.
 **Check the dump's `vb0` before reading it**: the first attempt was taken with the outfit menu

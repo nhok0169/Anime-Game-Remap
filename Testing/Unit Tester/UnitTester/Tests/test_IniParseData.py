@@ -105,6 +105,12 @@ class IniParseDataTest(BaseUnitTest):
         data.clear()
         self.assertIsNone(data.thisToggleOf("resourcetexture7"))
 
+    def test_toggle_graph(self):
+        toggle = FRB.IniParseData.TextureToggle("TextureOverrideTexture7", ["ResourceTexture7"], True,
+                                                (FRB.IniGraphModObjKeywords.Texture, "bodyDiffuse"))
+        self.assertEqual(toggle.graph, ("texture", "bodyDiffuse"))
+        self.assertEqual(FRB.IniParseData.TextureToggle("a", ["b"]).graph, ("", ""))
+
     def test_clear_resetsTheDefaults(self):
         data = FRB.IniParseData()
         data.setRemappableContent(False)

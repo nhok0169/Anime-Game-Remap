@@ -1279,8 +1279,9 @@ either an old hash or WWMI-Assets' current one, and with texture quality on Ultr
 neither: it binds the "live" hash 3DMigoto computes once a texture's mips have streamed in. A frame
 dump of the BASE outfit in the character menu says which in minutes. `wwmiTextureFix.py --live
 <Name>LiveHashes.json` adds a live twin to every override (undo the remap first, fix again after),
-and each fix config's `roles` holds the live hashes too. Older generations go in `HashData`, never the
-current or live ones. The same session found the fix had stopped seeing textures that ANOTHER `.ini`
+and each fix config's `roles` holds the live hashes too. Every generation goes in `HashData` too --
+current as `<role>`, live as `<role>Live`, undated older ones as `<role>Old`, `<role>Old2` (since
+2026-10-28, so the parser classifies a texture override by its hash; nothing remaps them). The same session found the fix had stopped seeing textures that ANOTHER `.ini`
 of the mod binds on the same draw (a RabbitFX cloak's namespaced file one folder up), fixed by
 `WWMIFixer::readSameDrawInis`. And a "still broken" report afterwards was the released
 `AGRemap-5-0-0.py` (the pip-installed API) re-fixing the mod: **diff the live folder against your

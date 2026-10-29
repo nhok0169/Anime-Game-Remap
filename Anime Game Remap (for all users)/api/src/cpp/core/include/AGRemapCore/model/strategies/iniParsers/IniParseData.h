@@ -117,6 +117,15 @@ namespace AGRemapCore {
                  @endrst
                  */
                 bool single = false;
+
+                /**
+                 * @brief
+                 @rst
+                 The parser's graph holding the `section`_, as ``(component, mod object)`` -- see
+                 :cpp:member:`IniGraphModObjKeywords::Texture`. Empty for a register toggle
+                 @endrst
+                 */
+                std::pair<std::string, std::string> graph;
             };
 
             /**

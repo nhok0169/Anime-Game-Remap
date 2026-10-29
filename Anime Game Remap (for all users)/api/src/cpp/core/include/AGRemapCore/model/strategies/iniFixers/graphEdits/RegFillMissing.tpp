@@ -316,12 +316,12 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::addCover(
             Graph& graph, const K& reg, const FillMissingFunc& fillMissing, const PartSelection& selection,
-            const std::unordered_set<std::string>* skipRoots) {
+            const std::unordered_set<std::string>* skipRoots, bool countMissingElse) {
         if (!fillMissing) {
             return graph;
         }
 
-        std::unordered_map<std::string, bool> covered = graph.rootsAreFullyCovered(reg);
+        std::unordered_map<std::string, bool> covered = graph.rootsAreFullyCovered(reg, countMissingElse);
 
         bool needCover = false;
         for (const auto& entry : covered) {
@@ -449,12 +449,12 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::addBottomCover(
             Graph& graph, const K& reg, const FillMissingFunc& fillMissing, const PartSelection& selection,
-            const std::unordered_set<std::string>* skipRoots) {
+            const std::unordered_set<std::string>* skipRoots, bool countMissingElse) {
         if (!fillMissing) {
             return graph;
         }
 
-        std::unordered_map<std::string, bool> covered = graph.rootsAreFullyCovered(reg);
+        std::unordered_map<std::string, bool> covered = graph.rootsAreFullyCovered(reg, countMissingElse);
 
         bool needCover = false;
         for (const auto& entry : covered) {
@@ -571,9 +571,9 @@ namespace AGRemapCore {
         }
 
         if (fillMode == RegFillMissingMode::TopdownCover) {
-            addCover(graph, reg, fill, selection, skip);
+            addCover(graph, reg, fill, selection, skip, countMissingElse);
         } else if (fillMode == RegFillMissingMode::BottomCover) {
-            addBottomCover(graph, reg, fill, selection, skip);
+            addBottomCover(graph, reg, fill, selection, skip, countMissingElse);
         } else if (fillMode == RegFillMissingMode::FillMissing) {
             fillMissingGraph(graph, reg, fill, selection);
         }

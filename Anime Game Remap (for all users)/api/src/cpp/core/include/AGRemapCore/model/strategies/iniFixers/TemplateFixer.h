@@ -376,6 +376,26 @@ namespace AGRemapCore {
             std::unique_ptr<Section> copyOnHash(const Section& section, const std::string& hash, const std::string& comment = "") const;
 
             /**
+             * @brief
+             @rst
+             An edit for :cpp:member:`GIMIFixer::graphGroupEdits` that makes `sections`_ an earlier
+             edit built in a graph into the fix's own: each named `section`_ of graph 'graph' goes to
+             :cpp:func:`addFixSection`, and the graph is removed :raw-html:`<br />` :raw-html:`<br />`
+
+             This is how a fix section is built from the mod's own sections by edits: copy them into a
+             graph of their own (:cpp:class:`GraphCopy`), edit that graph, then take the result. The
+             edit is owned by this fixer
+             @endrst
+             *
+             * @param graph The graph, in the first group
+             * @param sections The `sections`_ to take, in order. A name the graph does not hold is skipped
+             * @param comment A comment written above each section taken. **Default**: none
+             *
+             * @return The edit
+             */
+            GroupEdit* takeFixSections(const ModObj& graph, std::vector<std::string> sections, const std::string& comment = "");
+
+            /**
              * @brief Whether a section :cpp:func:`addFixSection` adds with no group goes into every copy as well. **Default**: ``false``
              */
             bool fixSectionsInCopies = false;
@@ -414,7 +434,11 @@ namespace AGRemapCore {
             std::string toModName_;
 
         private:
+            class TakeFixSections;
+
             void addFixSectionGraphs(const std::string& modName);
+
+            std::vector<std::unique_ptr<GroupEdit>> takeEdits_;
 
             std::vector<std::unique_ptr<Section>> fixSections_;
             std::map<std::size_t, std::vector<std::unique_ptr<Section>>> groupFixSections_;

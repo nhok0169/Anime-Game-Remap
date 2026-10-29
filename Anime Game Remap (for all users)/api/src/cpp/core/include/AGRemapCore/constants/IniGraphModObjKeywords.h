@@ -39,6 +39,16 @@ namespace AGRemapCore {
              * @brief Marks a graph whose `sections`_ are download resources rather than a mod object's commands
              */
             static inline const std::string Download = "download";
+
+            /**
+             * @brief
+             @rst
+             Marks a graph of a mod's texture overrides (a ``hash`` of a texture, no
+             ``match_first_index``). The mod-object half is the role the parser placed it under by
+             its hash, or empty for the overrides of hashes it does not know
+             @endrst
+             */
+            static inline const std::string Texture = "texture";
     };
 }
 

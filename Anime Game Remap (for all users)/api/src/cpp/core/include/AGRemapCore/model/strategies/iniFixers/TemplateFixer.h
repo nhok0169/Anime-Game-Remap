@@ -342,7 +342,11 @@ namespace AGRemapCore {
              after every :cpp:member:`GIMIFixer::graphGroupEdits` entry has run and before
              :cpp:func:`afterGraphGroupEdits`, so an edit run there reads and changes them as it does
              the mod's own. A section the group already renders with the same name and text is written
-             once
+             once :raw-html:`<br />` :raw-html:`<br />`
+
+             :cpp:func:`giveUp` drops the sections added before it, and a section added AFTER it is still
+             written, in a group of its own -- which is how a file that only watches the source carries
+             its watching sections and nothing else
              @endrst
              *
              * @param section The section
@@ -350,6 +354,26 @@ namespace AGRemapCore {
              *      when :cpp:member:`fixSectionsInCopies` is set
              */
             void addFixSection(std::unique_ptr<Section> section, std::optional<std::size_t> group = std::nullopt);
+
+            /**
+             * @brief
+             @rst
+             A copy of one of the mod's `sections`_ under the fix's name (:cpp:func:`remapFixName`), matching
+             'hash' instead of its own -- what carries a section that only WATCHES the source onto the
+             target, or a section of one mesh onto the target's counterpart of it. Hand it to
+             :cpp:func:`addFixSection` :raw-html:`<br />` :raw-html:`<br />`
+
+             Every ``hash`` the section sets is given 'hash' (:cpp:class:`RegNewVals`); everything else is
+             kept as the author wrote it
+             @endrst
+             *
+             * @param section The mod's section
+             * @param hash The hash the copy matches
+             * @param comment A comment written above the copy. **Default**: none
+             *
+             * @return The copy
+             */
+            std::unique_ptr<Section> copyOnHash(const Section& section, const std::string& hash, const std::string& comment = "") const;
 
             /**
              * @brief Whether a section :cpp:func:`addFixSection` adds with no group goes into every copy as well. **Default**: ``false``

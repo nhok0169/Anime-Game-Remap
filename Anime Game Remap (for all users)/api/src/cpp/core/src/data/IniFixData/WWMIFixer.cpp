@@ -907,61 +907,14 @@ namespace AGRemapCore {
                         return false;
                     }
 
-                    // the sections as the author wrote them, off the file's text: the header renamed, the
-                    // hash line pointed at the target
-                    // (a section's trailing blank and comment lines go: they introduce whatever follows it)
-                    std::string out;
-                    std::vector<std::string> section;
-                    const auto flush = [&]() {
-                        while (!section.empty()) {
-                            const std::string last(StringTools::strip(section.back()));
-                            if (!last.empty() && last.front() != ';') {
-                                break;
-                            }
-                            section.pop_back();
-                        }
-                        for (const std::string& kept : section) {
-                            out += kept + "\n";
-                        }
-                        section.clear();
-                    };
-
-                    std::istringstream text(ini->getFileTxt());
-                    std::string line;
-                    bool inWatched = false;
-                    while (std::getline(text, line)) {
-                        if (!line.empty() && line.back() == '\r') {
-                            line.pop_back();
-                        }
-                        const std::string stripped(StringTools::strip(line));
-                        if (!stripped.empty() && stripped.front() == '[') {
-                            flush();
-                            const std::size_t close = stripped.find(']');
-                            const std::string name = close == std::string::npos ? "" : stripped.substr(1, close - 1);
-                            inWatched = std::any_of(watching.begin(), watching.end(), [&name](const std::string& w) {
-                                return StringTools::equalsIgnoreCase(w, name);
-                            });
-                            if (inWatched) {
-                                out += "\n";
-                                section.push_back("[" + remapFixName(name) + "]");
-                            }
-                            continue;
-                        }
-                        if (!inWatched) {
-                            continue;
-                        }
-
-                        const std::size_t eq = stripped.find('=');
-                        if (eq != std::string::npos
-                            && StringTools::equalsIgnoreCase(StringTools::strip(stripped.substr(0, eq)), IniKeywords::Hash)) {
-                            section.push_back(IniKeywords::Hash + " = " + target_.vb0Hash);
-                            continue;
-                        }
-                        section.push_back(line);
+                    // each section as the author wrote it, under the fix's name and the target's vb0 -- its
+                    // conditions are the .ini's own
+                    this->fixSectionsZ3 = ini->getZ3Ctx();
+                    const auto& templates = ini->getIfTemplates();
+                    for (const std::string& name : watching) {
+                        addFixSection(copyOnHash(*templates.at(name), target_.vb0Hash));
                     }
-                    flush();
 
-                    this->appendedSections = std::string(StringTools::strip(out));
                     ctx_.log("only watches " + source_.name + ", so its " + std::to_string(watching.size())
                              + " watching section(s) are carried onto " + toModName_ + "'s vb0 and nothing is drawn");
                     return true;
@@ -4694,19 +4647,7 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        std::unique_ptr<IfTemplate<std::string, std::string>> copy = tpl->deepcopy();
-                        copy->name = remapFixName(name);
-                        copy->prefix = "; " + name + " of the mod, on " + toModName_ + "'s counterpart of that mesh";
-                        for (const std::unique_ptr<IfTemplatePart>& part : copy->parts()) {
-                            auto* content = dynamic_cast<IfContentPart<std::string, std::string>*>(part.get());
-                            if (content != nullptr) {
-                                RegNewVals<>({{std::string(IniKeywords::Hash), RegNewVals<>::NewVal(target)}})
-                                    .edit(*content, copy->name);
-                            }
-                        }
-
-                        copy->rebuild();
-                        addFixSection(std::move(copy));
+                        addFixSection(copyOnHash(*tpl, target, name + " of the mod, on " + toModName_ + "'s counterpart of that mesh"));
                     }
 
                 }

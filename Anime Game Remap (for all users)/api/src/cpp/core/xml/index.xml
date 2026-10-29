@@ -6352,6 +6352,7 @@
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a8f1387e3e521c1000eb9a27ad55b2b23" kind="function"><name>remapRename</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a0b0c42176e6a6634f8bd9f067142edd7" kind="function"><name>hashRemap</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a40840bf4a5084d9627dbc1e3339af2b5" kind="function"><name>addFixSection</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a7e797360bf705003f62c410fa1226caf" kind="function"><name>copyOnHash</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4a8599309d747e4d2800778803df0bd9" kind="function"><name>snapshotPreEditSectionNames</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a2d333cb908e828d8d82fa45c73431fd7" kind="function"><name>fixImpl</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1aefc9b02bedaae3f41b27cde0afd95fbd" kind="function"><name>fixSectionsGraphId</name></member>

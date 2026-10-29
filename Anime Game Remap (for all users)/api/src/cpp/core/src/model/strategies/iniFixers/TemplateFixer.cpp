@@ -18,8 +18,10 @@
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/iftemplate/IfContentPart.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
 #include "AGRemapCore/tools/StringTools.h"
 
+#include <algorithm>
 #include <unordered_map>
 
 
@@ -91,9 +93,7 @@ namespace AGRemapCore {
             }
         }
 
-        if (!gaveUp_) {
-            addFixSectionGraphs(modName);
-        }
+        addFixSectionGraphs(modName);
 
         // The parser registers a download per object it filled, at parse time, and fixResources
         // fetches every one it finds whether or not anything references it -- so a fix that writes
@@ -112,6 +112,24 @@ namespace AGRemapCore {
     void TemplateFixer::giveUp() {
         gaveUp_ = true;
         this->graphGroupEdits = {&removeEveryGroup_};
+        fixSections_.clear();
+        groupFixSections_.clear();
+    }
+
+    std::unique_ptr<TemplateFixer::Section> TemplateFixer::copyOnHash(const Section& section, const std::string& hash,
+                                                                       const std::string& comment) const {
+        std::unique_ptr<Section> copy = section.deepcopy();
+        copy->name = remapFixName(section.name);
+        copy->prefix = comment.empty() ? "" : "; " + comment;
+        for (const std::unique_ptr<IfTemplatePart>& part : copy->parts()) {
+            auto* content = dynamic_cast<IfContentPart<std::string, std::string>*>(part.get());
+            if (content != nullptr) {
+                RegNewVals<>({{std::string(IniKeywords::Hash), RegNewVals<>::NewVal(hash)}}).edit(*content, copy->name);
+            }
+        }
+
+        copy->rebuild();
+        return copy;
     }
 
     std::optional<Version> TemplateFixer::iniToVersion() const {
@@ -205,7 +223,8 @@ namespace AGRemapCore {
 
     void TemplateFixer::addFixSectionGraphs(const std::string& modName) {
         Fixer::GraphGroups& groups = *this->graphGroups();
-        const std::size_t count = groups.size();
+        // ...and a group of their own when every group was removed (see giveUp)
+        const std::size_t count = std::max<std::size_t>(groups.size(), fixSections_.empty() ? 0 : 1);
         for (std::size_t g = 0; g < count; ++g) {
             std::vector<Section*> sections;
             if (g == 0 || fixSectionsInCopies) {

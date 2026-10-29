@@ -137,6 +137,17 @@ holding the value, and ``0`` (component 0's index) is every GI head's index too
                         py::doc(":class:`str`: The register family a mod binds its textures with. **Default**: ``\"ps-t\"``"))
         .def_readwrite("slotHashType", &AGRC::WWMIParserConfig::slotHashType,
                         py::doc(":class:`str`: The hash type every draw slot section matches. **Default**: ``\"vb0\"``"))
+        .def_readwrite("skeletonNumberings", &AGRC::WWMIParserConfig::skeletonNumberings, py::doc(R"doc(
+List[:class:`SkeletonNumberingProbe.Numbering`]: Every numbering this character's merged skeleton has had,
+when a game update renumbered it. The parser asks the mod's own geometry which one its bone ids are in
+(:class:`SkeletonNumberingProbe`) and records it as :meth:`IniParseData.blendVersion` -- a mod's ``vb0``
+cannot say, since hash-update tools rewrite the hashes and leave the bone ids. Fewer than two (the default)
+switches it off
+        )doc"))
+        .def_readwrite("referenceBoneCentroids", &AGRC::WWMIParserConfig::referenceBoneCentroids, py::doc(R"doc(
+Dict[:class:`int`, Tuple[:class:`float`, :class:`float`, :class:`float`]]: The rest-pose centroid of each of
+this character's bones, keyed by its id in the numbering :attr:`skeletonNumberings` map onto
+        )doc"))
         .def_readwrite("textures", &AGRC::WWMIParserConfig::textures, py::doc(R"doc(
 :class:`WWMITextureFacts`: What this character's textures are -- what the parser identifies a mod's
 textures WITH. Leaving it empty means every role falls back to downloading the game's own texture
@@ -461,20 +472,6 @@ filter in :attr:`WWMIFixerConfig.TexEditContext.gameFileOfRole`. Nothing binds t
 **Default**: empty
         )doc"));
 
-    py::class_<AGRC::WWMIFixerConfig::SkeletonNumbering>(fixerConfig, "SkeletonNumbering", R"doc(
-One way the source's merged bone ids have been numbered -- see :attr:`WWMIFixerConfig.skeletonNumberings`
-    )doc")
-        .def(py::init<>())
-        .def(py::init([](std::string version, std::unordered_map<long long, long long> toReference) {
-                 return AGRC::WWMIFixerConfig::SkeletonNumbering{std::move(version), std::move(toReference)};
-             }), py::arg("version"), py::arg("toReference") = std::unordered_map<long long, long long>{})
-        .def_readwrite("version", &AGRC::WWMIFixerConfig::SkeletonNumbering::version,
-                        py::doc(":class:`str`: The version whose vertex group remap row reads ids in this numbering"))
-        .def_readwrite("toReference", &AGRC::WWMIFixerConfig::SkeletonNumbering::toReference, py::doc(R"doc(
-Dict[:class:`int`, :class:`int`]: Id in this numbering -> the same bone's id in the numbering
-:attr:`WWMIFixerConfig.referenceBoneCentroids` is keyed by. An id not listed is the same in both
-        )doc"));
-
     fixerConfig
         .def(py::init<>())
         .def_readwrite("targetId", &AGRC::WWMIFixerConfig::targetId,
@@ -562,17 +559,6 @@ and binds the copies. Slots past the end (a mod's custom keys) are left alone. *
 ``shapekeys.dispatch_y``), written into a retargeted mod's ``shapekey_dispatch_size_y_original_batch0`` /
 ``_batch1``. WWMI picks the batch by that value, and the source's leaves most of the mod's offsets
 unloaded on the target. Empty (the default) leaves them alone
-        )doc"))
-        .def_readwrite("skeletonNumberings", &AGRC::WWMIFixerConfig::skeletonNumberings, py::doc(R"doc(
-List[:class:`WWMIFixerConfig.SkeletonNumbering`]: Every numbering the source's merged skeleton has had,
-when a game update renumbered it. The fix scores each against the mod's own geometry (its vertices'
-distance to their heaviest bone's centroid, :attr:`referenceBoneCentroids`) and reads the blend with
-the vertex group remap row of the closest -- a mod's ``vb0`` cannot say, since hash-update tools
-rewrite the hashes and leave the bone ids. Fewer than two (the default) switches it off
-        )doc"))
-        .def_readwrite("referenceBoneCentroids", &AGRC::WWMIFixerConfig::referenceBoneCentroids, py::doc(R"doc(
-Dict[:class:`int`, Tuple[:class:`float`, :class:`float`, :class:`float`]]: The rest-pose centroid of
-each source bone, keyed by its id in the reference numbering
         )doc"))
         .def_readwrite("filterIndices", &AGRC::WWMIFixerConfig::filterIndices, py::doc(R"doc(
 Dict[:class:`str`, :class:`str`]: Shader hash -> the ``filter_index`` to tag it with, overriding

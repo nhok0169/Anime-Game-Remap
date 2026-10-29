@@ -2685,6 +2685,17 @@ WWMIShapeKeys
 
 :raw-html:`<br />`
 
+SkeletonNumberingProbe
+======================
+
+.. attributetable:: FixRaidenBoss2.SkeletonNumberingProbe
+
+.. autoclass:: FixRaidenBoss2.SkeletonNumberingProbe
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 WWMITextureFacts
 ================
 

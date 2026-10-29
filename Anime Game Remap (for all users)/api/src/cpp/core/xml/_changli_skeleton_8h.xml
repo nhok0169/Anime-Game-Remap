@@ -8,6 +8,7 @@
     <includes local="no">vector</includes>
     <includedby refid="_changli_fixer_8cpp" local="yes">src/data/IniFixData/Changli/ChangliFixer.cpp</includedby>
     <includedby refid="_changli_skeleton_8cpp" local="yes">src/data/IniFixData/Changli/ChangliSkeleton.cpp</includedby>
+    <includedby refid="_changli_parser_8cpp" local="yes">src/data/IniParseData/Changli/ChangliParser.cpp</includedby>
     <incdepgraph>
       <node id="1">
         <label>include/AGRemapCore/data/IniFixData/Changli/ChangliSkeleton.h</label>
@@ -42,6 +43,8 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/Changli/ChangliFixer.cpp</label>
@@ -50,6 +53,10 @@
       <node id="3">
         <label>src/data/IniFixData/Changli/ChangliSkeleton.cpp</label>
         <link refid="_changli_skeleton_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/IniParseData/Changli/ChangliParser.cpp</label>
+        <link refid="_changli_parser_8cpp"/>
       </node>
     </invincdepgraph>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>

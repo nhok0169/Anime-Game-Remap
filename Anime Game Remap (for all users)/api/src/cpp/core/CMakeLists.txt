@@ -291,6 +291,7 @@ add_library(AGRemapCore STATIC
     src/model/buffers/DrawUVCoverage.cpp
     src/model/buffers/WWMIBlend.cpp
     src/model/buffers/WWMIShapeKeys.cpp
+    src/model/buffers/SkeletonNumberingProbe.cpp
     src/data/RabbitFX.cpp
     src/model/files/BufFileErrors.cpp
     src/model/files/BinaryFile.cpp

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::SkeletonNumberingProbe::Numbering</compoundname>
+    <includes refid="_skeleton_numbering_probe_8h" local="no">SkeletonNumberingProbe.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering_1a78a1a7530b698d9d6509e3b126f16fe0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::SkeletonNumberingProbe::Numbering::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>AGRemapCore::SkeletonNumberingProbe::Numbering::version</qualifiedname>
+        <briefdescription>
+<para>The version whose bone ids follow this numbering. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" line="53" column="29" bodyfile="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering_1afc028bf34e65eb43806de9f838f549f5" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; long long, long long &gt;</type>
+        <definition>std::unordered_map&lt;long long, long long&gt; AGRemapCore::SkeletonNumberingProbe::Numbering::toReference</definition>
+        <argsstring></argsstring>
+        <name>toReference</name>
+        <qualifiedname>AGRemapCore::SkeletonNumberingProbe::Numbering::toReference</qualifiedname>
+        <briefdescription>
+<para>Id in this numbering -&gt; the same bone&apos;s id in the numbering the centroids are keyed by. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>An id not listed is the same in both </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" line="58" column="36" bodyfile="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One way a character&apos;s bone ids have been numbered. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" line="49" column="13" bodyfile="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" bodystart="49" bodyend="59"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering_1afc028bf34e65eb43806de9f838f549f5" prot="public" virt="non-virtual"><scope>AGRemapCore::SkeletonNumberingProbe::Numbering</scope><name>toReference</name></member>
+      <member refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering_1a78a1a7530b698d9d6509e3b126f16fe0" prot="public" virt="non-virtual"><scope>AGRemapCore::SkeletonNumberingProbe::Numbering</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

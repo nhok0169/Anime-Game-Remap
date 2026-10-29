@@ -529,6 +529,17 @@ WWMIShapeKeys
     :protected-members:
 
 :raw-html:`<br />`
+
+SkeletonNumberingProbe
+----------------------
+
+.. cppattributetable:: AGRemapCore::SkeletonNumberingProbe
+
+.. doxygenclass:: AGRemapCore::SkeletonNumberingProbe
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
 :raw-html:`<br />`
 
 Constants

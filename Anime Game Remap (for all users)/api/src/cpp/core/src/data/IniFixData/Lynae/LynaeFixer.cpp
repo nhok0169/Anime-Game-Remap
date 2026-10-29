@@ -46,8 +46,6 @@ namespace AGRemapCore {
         // The hash lookups follow the mod's vb0; the blend's vertex group row follows its GEOMETRY,
         // because a hash-update tool rewrote one mod's vb0 to 3.7's and kept its 3.6 bone ids
         config.sourceVersionByVb0 = {{"0c33d628", "3.6"}, {"7e400733", "3.7"}};
-        config.skeletonNumberings = {{"3.6", lynaeRenumbered36To37()}, {"3.7", {}}};
-        config.referenceBoneCentroids = lynaeBoneCentroids();
 
         // ---- the passes the TARGET draws each slot on (her Peppermint dump, wwmiDrawTable.py) ----
         config.slotPasses = {

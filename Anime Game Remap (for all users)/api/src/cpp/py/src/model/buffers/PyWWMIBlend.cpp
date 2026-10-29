@@ -28,6 +28,7 @@
 #include "AGRemapCore/model/buffers/DrawUVCoverage.h"
 #include "AGRemapCore/model/buffers/WWMIBlend.h"
 #include "AGRemapCore/model/buffers/WWMIShapeKeys.h"
+#include "AGRemapCore/model/buffers/SkeletonNumberingProbe.h"
 
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
@@ -393,6 +394,80 @@ fromInfluences: :class:`int`
 
 toInfluences: :class:`int`
     How many it should keep
+    )doc");
+}
+
+
+void initCppSkeletonNumberingProbe(pybind11::module_ &m) {
+    py::class_<AGRC::SkeletonNumberingProbe> probe(m, "SkeletonNumberingProbe", R"doc(
+Tells which of several numberings a mod's blend gives its bone ids in, from the mod's own geometry
+
+A character whose skeleton was renumbered between game versions has mods whose blends name bones by an
+older numbering, while the community hash tools rewrite a mod's hashes and keep its bone ids -- so the
+hashes cannot say which numbering a blend is in. The geometry can: for every vertex whose heaviest bone
+(over half its weight) is an id the numberings disagree on, each numbering is scored by the vertex's
+distance to that bone's rest-pose centroid on the character's own model, and the numbering with the
+smallest median distance wins
+
+The buffers are a Wuthering Waves (WWMI) mod's: ``Position.buf`` of three 32-bit floats a vertex,
+``Blend.buf`` of the bone ids then the weights of each vertex, 8 bits each, and optionally the 16-bit ids
+of a mod past 256 bones (``BlendRemapVertexVG.buf``), read in place of the blend's own
+    )doc");
+
+    py::class_<AGRC::SkeletonNumberingProbe::Numbering>(probe, "Numbering", R"doc(
+One way a character's bone ids have been numbered
+    )doc")
+        .def(py::init([](std::string version, std::unordered_map<long long, long long> toReference) {
+                 return AGRC::SkeletonNumberingProbe::Numbering{std::move(version), std::move(toReference)};
+             }), py::arg("version") = std::string(), py::arg("toReference") = std::unordered_map<long long, long long>{})
+        .def_readwrite("version", &AGRC::SkeletonNumberingProbe::Numbering::version,
+                        py::doc(":class:`str`: The version whose bone ids follow this numbering"))
+        .def_readwrite("toReference", &AGRC::SkeletonNumberingProbe::Numbering::toReference, py::doc(R"doc(
+Dict[:class:`int`, :class:`int`]: Id in this numbering -> the same bone's id in the numbering the centroids
+are keyed by. An id not listed is the same in both
+        )doc"));
+
+    py::class_<AGRC::SkeletonNumberingProbe::Result>(probe, "Result", R"doc(
+What :meth:`SkeletonNumberingProbe.probe` found
+    )doc")
+        .def_readonly("best", &AGRC::SkeletonNumberingProbe::Result::best,
+                      py::doc(":class:`int`: The index of the numbering with the smallest median distance"))
+        .def_readonly("medians", &AGRC::SkeletonNumberingProbe::Result::medians,
+                      py::doc("List[:class:`float`]: Each numbering's median distance, in the order the numberings were given"))
+        .def_readonly("vertices", &AGRC::SkeletonNumberingProbe::Result::vertices,
+                      py::doc(":class:`int`: How many vertices sit on a bone the numberings disagree on"));
+
+    probe.def_readonly_static("MinVertices", &AGRC::SkeletonNumberingProbe::MinVertices,
+                              py::doc(":class:`int`: The fewest vertices on disputed bones :meth:`probe` gives an answer from"));
+    probe.def_static("probe", &AGRC::SkeletonNumberingProbe::probe, py::arg("positionFile"), py::arg("blendFile"),
+                     py::arg("vertexVGFile") = py::none(), py::arg("numberings") = std::vector<AGRC::SkeletonNumberingProbe::Numbering>{},
+                     py::arg("centroids") = std::unordered_map<long long, std::array<double, 3>>{}, R"doc(
+Which numbering the mod's blend is in
+
+Parameters
+----------
+positionFile: :class:`str`
+    The mod's ``Position.buf``
+
+blendFile: :class:`str`
+    The mod's ``Blend.buf``
+
+vertexVGFile: Optional[:class:`str`]
+    The mod's 16-bit bone ids, read in place of the blend's own :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
+numberings: List[:class:`SkeletonNumberingProbe.Numbering`]
+    The candidate numberings -- at least two
+
+centroids: Dict[:class:`int`, Tuple[:class:`float`, :class:`float`, :class:`float`]]
+    Each bone's rest-pose centroid on the character's own model, keyed by its reference id
+
+Returns
+-------
+Optional[:class:`SkeletonNumberingProbe.Result`]
+    The answer, or ``None`` when fewer than two numberings are given, a buffer cannot be read or its size
+    does not fit the others, or fewer than :attr:`MinVertices` vertices sit on disputed bones
     )doc");
 }
 

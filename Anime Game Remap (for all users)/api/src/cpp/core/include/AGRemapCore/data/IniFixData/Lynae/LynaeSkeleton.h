@@ -25,7 +25,7 @@ namespace AGRemapCore {
      * @brief
      @rst
      The merged ids Lynae's 3.7 update renumbered, as ``{3.6 id: 3.7 id}`` -- every id not listed is
-     the same in both. See :cpp:member:`WWMIFixerConfig::skeletonNumberings`
+     the same in both. See :cpp:member:`WWMIParserConfig::skeletonNumberings`
      @endrst
      */
     const std::unordered_map<long long, long long>& lynaeRenumbered36To37();
@@ -34,7 +34,7 @@ namespace AGRemapCore {
      * @brief
      @rst
      Her rest-pose bone centroids in the 3.7 numbering, off ``Data/Mod Downloads/WuWa/Lynae/3_7`` --
-     see :cpp:member:`WWMIFixerConfig::referenceBoneCentroids`
+     see :cpp:member:`WWMIParserConfig::referenceBoneCentroids`
      @endrst
      */
     const std::unordered_map<long long, std::array<double, 3>>& lynaeBoneCentroids();

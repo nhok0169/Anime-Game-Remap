@@ -17,6 +17,7 @@
 #include "AGRemapCore/data/IniParseBuilderData.h"
 #include "AGRemapCore/data/IniParseData/WWMIParser.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h"
+#include "AGRemapCore/data/IniFixData/Lynae/LynaeSkeleton.h"
 
 
 namespace AGRemapCore {
@@ -27,6 +28,9 @@ namespace AGRemapCore {
         config.version = "3.6";
         // Her own textures, so a mod of hers can be sorted into roles at PARSE time
         config.textures = lynaeTextureFacts();
+        // the numberings her skeleton has had, and her own bones' centroids -- see WWMIParserConfig::skeletonNumberings
+        config.skeletonNumberings = {{"3.6", lynaeRenumbered36To37()}, {"3.7", {}}};
+        config.referenceBoneCentroids = lynaeBoneCentroids();
         return makeWWMIParser(std::move(config));
     }
 

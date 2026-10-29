@@ -467,6 +467,23 @@ namespace AGRemapCore {
             const std::vector<Rejection>& rejections() const;
 
             /**
+             * @brief
+             @rst
+             The game version whose skeleton numbering the mod's blend gives its bone ids in, when the
+             parser could tell from the mod's geometry -- a mod's hashes may name one version while its
+             bone ids are another's. ``std::nullopt`` when the parser did not ask or could not tell
+             @endrst
+             */
+            const std::optional<std::string>& blendVersion() const;
+
+            /**
+             * @brief Sets #blendVersion
+             *
+             * @param version The version
+             */
+            void setBlendVersion(std::string version);
+
+            /**
              * @brief One role the parser chose a file for, on one mod object -- see #rolesOfResource
              */
             struct ResourceRole {
@@ -530,6 +547,7 @@ namespace AGRemapCore {
             bool replacesByHash_ = false;
             std::map<std::string, std::string> resourceFiles_;
             std::map<std::string, std::string> textureResources_;
+            std::optional<std::string> blendVersion_;
             std::unique_ptr<TextureRoles> roles_;
             std::map<std::string, std::vector<std::pair<std::string, std::string>>> candidates_;
             std::map<std::pair<std::string, ModObj>, RoleFile> roleFiles_;

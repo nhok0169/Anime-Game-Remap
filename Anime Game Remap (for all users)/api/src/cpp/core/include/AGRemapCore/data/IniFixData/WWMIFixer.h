@@ -483,57 +483,6 @@ namespace AGRemapCore {
          */
         std::map<std::string, std::string> sourceVersionByVb0;
 
-        /**
-         * @brief One way the source's merged bone ids have been numbered -- see \ref skeletonNumberings
-         */
-        struct SkeletonNumbering {
-            /**
-             * @brief The version whose :cpp:class:`VGRemaps` row reads ids in this numbering
-             */
-            std::string version;
-
-            /**
-             * @brief
-             @rst
-             Id in this numbering -> the same bone's id in the numbering
-             :cpp:member:`referenceBoneCentroids` is keyed by. An id not listed is the same in both
-             @endrst
-             */
-            std::unordered_map<long long, long long> toReference;
-        };
-
-        /**
-         * @brief
-         @rst
-         Every numbering the source's merged skeleton has had, when a game update RENUMBERED it --
-         the fix asks the mod's own geometry which one its bone ids are in, and reads its blend with
-         the :cpp:class:`VGRemaps` row filed at that numbering's version :raw-html:`<br />`
-         :raw-html:`<br />`
-
-         The ``vb0`` cannot say, which is why :cpp:member:`sourceVersionByVb0` does not decide this:
-         community hash-update tools rewrite a mod's hashes to the new version and leave its bone
-         ids alone, so one of Lynae's 3.7-``vb0`` mods carries her 3.6 numbering. The geometry can:
-         for every vertex whose heaviest bone is an id the numberings disagree on, each reading is
-         scored by the vertex's distance to that bone's centroid on the source's own model
-         (:cpp:member:`referenceBoneCentroids`), and the reading with the smaller median wins --
-         on Lynae's twelve merged mods by a factor of 1.5 to 4, every one the right way
-         :raw-html:`<br />` :raw-html:`<br />`
-
-         Not consulted for a legacy mod (see :cpp:member:`sourceVgMaps`), whose ids the maps define.
-         Fewer than two numberings (the default) switches the probe off
-         @endrst
-         */
-        std::vector<SkeletonNumbering> skeletonNumberings;
-
-        /**
-         * @brief
-         @rst
-         The rest-pose centroid of each source bone, keyed by its id in the reference numbering --
-         the mean position of the source model's vertices whose heaviest weight (over half) is that
-         bone. Read by the :cpp:member:`skeletonNumberings` probe
-         @endrst
-         */
-        std::unordered_map<long long, std::array<double, 3>> referenceBoneCentroids;
 
         /**
          * @brief

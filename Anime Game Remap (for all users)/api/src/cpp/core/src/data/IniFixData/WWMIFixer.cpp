@@ -2034,139 +2034,14 @@ namespace AGRemapCore {
                     buildBlendCollects(source, vgRemapVersion(from), to);
                 }
 
-                // The version of the VGRemaps row the mod's blend is read with -- see
-                // WWMIFixerConfig::skeletonNumberings. 'from' when the probe is off, cannot run, or
-                // has too little to go on.
+                // The version of the VGRemaps row the mod's blend is read with: the numbering the parser read off
+                // the mod's own geometry (IniParseData::blendVersion), else 'from'
                 std::optional<Version> vgRemapVersion(const std::optional<Version>& from) {
-                    if (config_.skeletonNumberings.size() < 2 || config_.referenceBoneCentroids.empty()
-                            || legacy_ || positionFile_.empty() || blendSourceFile_.empty()) {
+                    if (legacy_) {
                         return from;
                     }
-
-                    IniFile* ini = ctx_.getIniFile();
-                    if (ini == nullptr) {
-                        return from;
-                    }
-
-                    auto pathOf = [&ini](const std::string& rel) {
-                        return FileService::absPathOfRelPath(FileService::iniPathToRel(rel), ini->getFolder());
-                    };
-                    auto readAll = [](const std::string& path) {
-                        try {
-                            return BinaryFile(path).read();
-                        } catch (const std::exception&) {
-                            return ByteVec();
-                        }
-                    };
-
-                    const ByteVec pos = readAll(pathOf(positionFile_));
-                    const std::size_t blendBytes = static_cast<std::size_t>(FileService::fileSize(pathOf(blendSourceFile_)).value_or(0));
-                    const std::size_t vertices = pos.size() / 12;
-                    if (vertices == 0 || blendBytes % vertices != 0 || (blendBytes / vertices) % 2 != 0) {
-                        return from;
-                    }
-
-                    const std::size_t influences = blendBytes / vertices / 2;
-                    std::vector<std::vector<long long>> blendIds;
-                    std::vector<std::vector<long long>> blendWeights;
-                    try {
-                        BufFile blend{pathOf(blendSourceFile_), WWMIBlend::blendElements(influences)};
-                        blendIds = blend.rows(BlendFile::BlendIndicesKey, influences);
-                        blendWeights = blend.rows(BlendFile::BlendWeightKey, influences);
-                    } catch (const std::exception&) {
-                        return from;
-                    }
-
-                    if (blendIds.size() < vertices) {
-                        return from;
-                    }
-
-                    std::vector<std::vector<long long>> wide;
-                    if (vertexVGFile_.has_value()) {
-                        try {
-                            BufFile vg{pathOf(*vertexVGFile_), WWMIBlend::vertexVGElements(influences)};
-                            wide = vg.rows(BlendFile::BlendIndicesKey, influences);
-                        } catch (const std::exception&) {
-                            wide.clear();
-                        }
-
-                        if (wide.size() != vertices) {
-                            wide.clear();
-                        }
-                    }
-
-                    const BufFloat f32;
-                    const std::size_t count = config_.skeletonNumberings.size();
-                    std::vector<std::vector<double>> distances(count);
-                    std::vector<long long> refs(count);
-                    for (std::size_t v = 0; v < vertices; ++v) {
-                        const std::vector<long long>& lineIds = blendIds[v];
-                        const std::vector<long long>& lineWeights = blendWeights[v];
-                        std::size_t heaviest = 0;
-                        for (std::size_t b = 1; b < influences; ++b) {
-                            if (lineWeights[b] > lineWeights[heaviest]) {
-                                heaviest = b;
-                            }
-                        }
-
-                        if (lineWeights[heaviest] <= 127) {
-                            continue;                     // no bone carries over half the vertex
-                        }
-
-                        const long long id = wide.empty() ? lineIds[heaviest] : wide[v][heaviest];
-
-                        bool differ = false;
-                        bool known = true;
-                        for (std::size_t n = 0; n < count; ++n) {
-                            const auto& map = config_.skeletonNumberings[n].toReference;
-                            const auto at = map.find(id);
-                            refs[n] = at == map.end() ? id : at->second;
-                            differ = differ || refs[n] != refs[0];
-                            known = known && config_.referenceBoneCentroids.count(refs[n]) > 0;
-                        }
-
-                        if (!differ || !known) {
-                            continue;                     // the numberings agree here, so it says nothing
-                        }
-
-                        float p[3];
-                        for (std::size_t c = 0; c < 3; ++c) {
-                            const auto at = static_cast<std::ptrdiff_t>(v * 12 + c * 4);
-                            p[c] = static_cast<float>(std::get<double>(f32.decode(ByteVec(pos.begin() + at, pos.begin() + at + 4))));
-                        }
-                        for (std::size_t n = 0; n < count; ++n) {
-                            const std::array<double, 3>& c = config_.referenceBoneCentroids.at(refs[n]);
-                            distances[n].push_back(std::sqrt((p[0] - c[0]) * (p[0] - c[0]) + (p[1] - c[1]) * (p[1] - c[1])
-                                                             + (p[2] - c[2]) * (p[2] - c[2])));
-                        }
-                    }
-
-                    constexpr std::size_t MinProbeVertices = 20;
-                    if (distances[0].size() < MinProbeVertices) {
-                        return from;
-                    }
-
-                    std::size_t best = 0;
-                    std::vector<double> medians(count);
-                    for (std::size_t n = 0; n < count; ++n) {
-                        std::vector<double>& d = distances[n];
-                        std::nth_element(d.begin(), d.begin() + static_cast<std::ptrdiff_t>(d.size() / 2), d.end());
-                        medians[n] = d[d.size() / 2];
-                        if (medians[n] < medians[best]) {
-                            best = n;
-                        }
-                    }
-
-                    std::ostringstream how;
-                    for (std::size_t n = 0; n < count; ++n) {
-                        how << (n == 0 ? "" : ", ") << config_.skeletonNumberings[n].version << " "
-                            << static_cast<long long>(std::lround(medians[n] * 100)) / 100.0;
-                    }
-
-                    ctx_.log("its bone ids are " + config_.skeletonNumberings[best].version + "'s numbering ("
-                             + std::to_string(distances[0].size()) + " vertices on renumbered bones; median"
-                             + " distance to the bone by version: " + how.str() + ")");
-                    return Version::parse(config_.skeletonNumberings[best].version);
+                    const std::optional<std::string>& version = parseData().blendVersion();
+                    return version.has_value() ? std::optional<Version>(Version::parse(*version)) : from;
                 }
 
                 /** @brief The fix's own list that puts the captured bindings back -- see bypassRestore */
@@ -6292,36 +6167,25 @@ namespace AGRemapCore {
                         return;
                     }
 
+                    // THE COPY IS ONE OF THE FIX'S FILES (2026-10-29): written by the service when the fix is,
+                    // from the same filter -- not here, where a parse alone would write it
                     const std::string fixedRel =
                         modFile(meshFolder_, toModName_ + IniKeywords::Remap + "Texcoord.buf");
-                    const std::string fixedPath = FileService::absPathOfRelPath(fixedRel, ini->getFolder());
-                    FileService::makeFolderFor(fixedPath);
-
-                    // The same filter again, writing this time -- so the counters run up a second
-                    // time and the snapshot above is what the log reports.
-                    //
-                    // `fix(path, ...)` RETURNS THE PATH ON SUCCESS: the string alternative of
-                    // FixResult means "written to this file", not "failed", and a failure throws.
-                    // Reading it as an error is what made an earlier version of this write the
-                    // buffer correctly and then never bind it.
-                    try {
-                        texcoord.fix(fixedPath, {clean});
-                    } catch (const std::exception& exception) {
-                        ctx_.log(std::string("its cleaned Texcoord.buf could not be measured: ") + exception.what()
-                             + " -- so this mod's UVs are left alone");
-                        return;
-                    }
-
                     const std::optional<std::string> format = ModBranches::firstVal(*resource, IniKeywords::Format);
                     texcoordResource_ = remapFixName(IniKeywords::Resource + "TexcoordNoNaN");
-                    addFixSection(SectionText(z3_, *texcoordResource_)
-                                           .keys({{IniKeywords::Type, IniKeywords::Buffer},
-                                                  {IniKeywords::Format, std::string(format.has_value()
-                                                                             ? StringTools::strip(*format)
-                                                                             : std::string_view("DXGI_FORMAT_R16G16_FLOAT"))},
-                                                  {IniKeywords::Stride, std::to_string(stride)},
-                                                  {IniKeywords::Filename, fixedRel}})
-                                           .build());
+                    addFixFile(*texcoordResource_,
+                               {{IniKeywords::Type, IniKeywords::Buffer},
+                                {IniKeywords::Format, std::string(format.has_value()
+                                                           ? StringTools::strip(*format)
+                                                           : std::string_view("DXGI_FORMAT_R16G16_FLOAT"))},
+                                {IniKeywords::Stride, std::to_string(stride)}},
+                               fixedRel,
+                               [path = source->path, stride, keep]() {
+                                   TexcoordCleanTally written;
+                                   BufFile copy{path, texcoordElements(stride)};
+                                   return std::get<ByteVec>(copy.fix(std::nullopt, {texcoordCleaner(written, keep)}));
+                               },
+                               {config_.texcoordReg});
                     ctx_.log("texcoords: " + std::to_string(clearedCount) + " NaN halves set to 0 and "
                              + std::to_string(foldedCount) + " U values folded into [0, 1) in a remap-only copy");
                 }

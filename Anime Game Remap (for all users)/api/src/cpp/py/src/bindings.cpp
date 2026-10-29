@@ -139,6 +139,7 @@ void initCppPositionFile(pybind11::module_ &m);
 void initCppIbFile(pybind11::module_ &m);
 void initCppWWMIBlend(pybind11::module_ &m);
 void initCppWWMIShapeKeys(pybind11::module_ &m);
+void initCppSkeletonNumberingProbe(pybind11::module_ &m);
 void initCppRabbitFX(pybind11::module_ &m);
 void initCppDrawUVCoverage(pybind11::module_ &m);
 void initCppVbFile(pybind11::module_ &m);
@@ -361,6 +362,7 @@ PYBIND11_MODULE(core, m) {
     initCppIbFile(m); // must come after initCppBufFile (registers its base)
     initCppWWMIBlend(m); // must come after initCppBufElementType and initCppVGRemap (hands both across)
     initCppWWMIShapeKeys(m);
+    initCppSkeletonNumberingProbe(m);
     initCppRabbitFX(m);
     initCppDrawUVCoverage(m);
     initCppVbFile(m); // must come after initCppBufFile/initCppBufElementType (registers its base / constructor arg type)

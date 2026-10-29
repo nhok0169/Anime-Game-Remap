@@ -179,6 +179,54 @@ class WWMIBlendTest(BaseUnitTest):
             FRB.WWMIBlend.narrow(path, "", 1, 4, 2)
 
 
+class SkeletonNumberingProbeTest(BaseUnitTest):
+    """
+    Tests for :class:`SkeletonNumberingProbe` -- which numbering a mod's blend gives its bone ids in
+    """
+
+    def setUp(self):
+        self._dir = tempfile.TemporaryDirectory()
+        self.folder = self._dir.name
+
+    def tearDown(self):
+        self._dir.cleanup()
+
+    # 'vertices' vertices at the origin, each wholly on bone 'bone' (4 influences a vertex)
+    def _write(self, vertices, bone):
+        position = os.path.join(self.folder, "Position.buf")
+        blend = os.path.join(self.folder, "Blend.buf")
+        with open(position, "wb") as f:
+            f.write(struct.pack("<%df" % (3 * vertices), *([0.0] * (3 * vertices))))
+        with open(blend, "wb") as f:
+            f.write(bytes([bone, 0, 0, 0, 255, 0, 0, 0]) * vertices)
+        return position, blend
+
+    def _numberings(self):
+        # the second numbering calls bone 1 what the reference calls bone 2
+        N = FRB.SkeletonNumberingProbe.Numbering
+        return [N("1.0", {}), N("2.0", {1: 2})]
+
+    def test_probe_picksTheNumberingPuttingVerticesNearTheirBone(self):
+        position, blend = self._write(30, 1)
+        centroids = {1: (0.0, 0.0, 0.0), 2: (10.0, 0.0, 0.0)}
+
+        result = FRB.SkeletonNumberingProbe.probe(position, blend, None, self._numberings(), centroids)
+
+        self.assertEqual(result.best, 0)
+        self.assertEqual(result.vertices, 30)
+        self.assertAlmostEqual(result.medians[0], 0.0)
+        self.assertAlmostEqual(result.medians[1], 10.0)
+
+    def test_probe_tooFewVerticesOnDisputedBones_none(self):
+        position, blend = self._write(FRB.SkeletonNumberingProbe.MinVertices - 1, 1)
+        centroids = {1: (0.0, 0.0, 0.0), 2: (10.0, 0.0, 0.0)}
+        self.assertIsNone(FRB.SkeletonNumberingProbe.probe(position, blend, None, self._numberings(), centroids))
+
+    def test_probe_oneNumbering_none(self):
+        position, blend = self._write(30, 1)
+        self.assertIsNone(FRB.SkeletonNumberingProbe.probe(position, blend, None, self._numberings()[:1], {1: (0.0, 0.0, 0.0)}))
+
+
 class WWMIShapeKeysTest(BaseUnitTest):
     """
     Tests for :class:`WWMIShapeKeys` -- a Wuthering Waves mod's three shape-key buffers, reordered

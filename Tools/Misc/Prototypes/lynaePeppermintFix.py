@@ -157,6 +157,10 @@ def parserConfig(facts) -> "FRB.WWMIParserConfig":
     config = FRB.WWMIParserConfig()
     config.version = "3.6"            # her vb0 most mods carry; the 3.7 row covers the rest
     config.textures = facts
+    # the blend's vertex group row is chosen by the mod's own geometry -- see WWMIParserConfig.skeletonNumberings
+    N = FRB.SkeletonNumberingProbe.Numbering
+    config.skeletonNumberings = [N("3.6", Renumbered36To37), N("3.7", {})]
+    config.referenceBoneCentroids = boneCentroids()
     return config
 
 
@@ -207,9 +211,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     config.sourceVersionByVb0 = {"0c33d628": "3.6", "7e400733": "3.7"}
     # ...but the vb0 is not what the BONES are numbered by: a hash-update tool rewrote Lynae11's vb0 to
     # 3.7's and kept her 3.6 ids. So the blend's row is chosen by the mod's own geometry
-    N = FRB.WWMIFixerConfig.SkeletonNumbering
-    config.skeletonNumberings = [N("3.6", Renumbered36To37), N("3.7", {})]
-    config.referenceBoneCentroids = boneCentroids()
+    # ...the parser's skeletonNumberings
 
     # ---- the passes the TARGET draws each slot on (her Peppermint dump, wwmiDrawTable.py) ----
     config.slotPasses = [

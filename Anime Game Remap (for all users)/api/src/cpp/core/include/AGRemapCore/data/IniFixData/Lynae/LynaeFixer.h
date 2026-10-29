@@ -28,8 +28,8 @@ namespace AGRemapCore {
      :cpp:class:`WWMIFixerConfig` rather than anything of hers:
 
      * her skeleton was RENUMBERED by a game update, so a mod is read with the vertex group row of the
-       numbering its own geometry says it is in (:cpp:member:`WWMIFixerConfig::skeletonNumberings`,
-       :cpp:member:`WWMIFixerConfig::referenceBoneCentroids`) -- its ``vb0`` cannot say, since
+       numbering its own geometry says it is in (:cpp:member:`WWMIParserConfig::skeletonNumberings`,
+       :cpp:member:`WWMIParserConfig::referenceBoneCentroids`) -- its ``vb0`` cannot say, since
        hash-update tools rewrite the hash and keep the bone ids
      * a newer export's batched shape keys need the target's dispatch height
        (:cpp:member:`WWMIFixerConfig::shapeKeyDispatchSize`)

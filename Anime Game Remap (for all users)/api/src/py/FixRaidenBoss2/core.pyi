@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -11215,6 +11215,17 @@ class IniParseData:
         modObj: Tuple[:class:`str`, :class:`str`]
             The mod object, ``(component, object)``
         """
+    def blendVersion(self) -> str | None:
+        """
+        The game version whose skeleton numbering the mod's blend gives its bone ids in, when the parser could tell
+        from the mod's geometry -- a mod's hashes may name one version while its bone ids are another's. ``None``
+        when the parser did not ask or could not tell
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The version
+        """
     def carriedSections(self) -> str:
         """
         `Sections`_ a fix writes into every .ini file it generates, so a SIBLING's toggle keeps working there:
@@ -11470,6 +11481,15 @@ class IniParseData:
         -------
         List[:class:`IniParseData.ResourceRole`]
             The roles
+        """
+    def setBlendVersion(self, version: str) -> None:
+        """
+        Sets :meth:`blendVersion`
+        
+        Parameters
+        ----------
+        version: :class:`str`
+            The version
         """
     def setCarriedSections(self, sections: str) -> None:
         """
@@ -25246,6 +25266,100 @@ class SideMeshes:
         :class:`str`
             The sections with a leading comment, or an empty string
         """
+class SkeletonNumberingProbe:
+    """
+    
+    Tells which of several numberings a mod's blend gives its bone ids in, from the mod's own geometry
+    
+    A character whose skeleton was renumbered between game versions has mods whose blends name bones by an
+    older numbering, while the community hash tools rewrite a mod's hashes and keep its bone ids -- so the
+    hashes cannot say which numbering a blend is in. The geometry can: for every vertex whose heaviest bone
+    (over half its weight) is an id the numberings disagree on, each numbering is scored by the vertex's
+    distance to that bone's rest-pose centroid on the character's own model, and the numbering with the
+    smallest median distance wins
+    
+    The buffers are a Wuthering Waves (WWMI) mod's: ``Position.buf`` of three 32-bit floats a vertex,
+    ``Blend.buf`` of the bone ids then the weights of each vertex, 8 bits each, and optionally the 16-bit ids
+    of a mod past 256 bones (``BlendRemapVertexVG.buf``), read in place of the blend's own
+        
+    """
+    class Numbering:
+        """
+        
+        One way a character's bone ids have been numbered
+            
+        """
+        def __init__(self, version: str = '', toReference: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex] = {}) -> None:
+            ...
+        @property
+        def toReference(self) -> dict[int, int]:
+            """
+            Dict[:class:`int`, :class:`int`]: Id in this numbering -> the same bone's id in the numbering the centroids
+            are keyed by. An id not listed is the same in both
+            """
+        @toReference.setter
+        def toReference(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
+            ...
+        @property
+        def version(self) -> str:
+            """
+            :class:`str`: The version whose bone ids follow this numbering
+            """
+        @version.setter
+        def version(self, arg0: str) -> None:
+            ...
+    class Result:
+        """
+        
+        What :meth:`SkeletonNumberingProbe.probe` found
+            
+        """
+        @property
+        def best(self) -> int:
+            """
+            :class:`int`: The index of the numbering with the smallest median distance
+            """
+        @property
+        def medians(self) -> list[float]:
+            """
+            List[:class:`float`]: Each numbering's median distance, in the order the numberings were given
+            """
+        @property
+        def vertices(self) -> int:
+            """
+            :class:`int`: How many vertices sit on a bone the numberings disagree on
+            """
+    MinVertices: typing.ClassVar[int] = 20
+    @staticmethod
+    def probe(positionFile: str, blendFile: str, vertexVGFile: str | None = None, numberings: collections.abc.Sequence[SkeletonNumberingProbe.Numbering] = [], centroids: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]] = {}) -> FixRaidenBoss2.core.SkeletonNumberingProbe.Result | None:
+        """
+        Which numbering the mod's blend is in
+        
+        Parameters
+        ----------
+        positionFile: :class:`str`
+            The mod's ``Position.buf``
+        
+        blendFile: :class:`str`
+            The mod's ``Blend.buf``
+        
+        vertexVGFile: Optional[:class:`str`]
+            The mod's 16-bit bone ids, read in place of the blend's own :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        numberings: List[:class:`SkeletonNumberingProbe.Numbering`]
+            The candidate numberings -- at least two
+        
+        centroids: Dict[:class:`int`, Tuple[:class:`float`, :class:`float`, :class:`float`]]
+            Each bone's rest-pose centroid on the character's own model, keyed by its reference id
+        
+        Returns
+        -------
+        Optional[:class:`SkeletonNumberingProbe.Result`]
+            The answer, or ``None`` when fewer than two numberings are given, a buffer cannot be read or its size
+            does not fit the others, or fewer than :attr:`MinVertices` vertices sit on disputed bones
+        """
 class SympyParser:
     """
     
@@ -28979,35 +29093,6 @@ class WWMIFixerConfig:
         @yieldToRabbitFX.setter
         def yieldToRabbitFX(self, arg0: bool) -> None:
             ...
-    class SkeletonNumbering:
-        """
-        
-        One way the source's merged bone ids have been numbered -- see :attr:`WWMIFixerConfig.skeletonNumberings`
-            
-        """
-        @typing.overload
-        def __init__(self) -> None:
-            ...
-        @typing.overload
-        def __init__(self, version: str, toReference: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex] = {}) -> None:
-            ...
-        @property
-        def toReference(self) -> dict[int, int]:
-            """
-            Dict[:class:`int`, :class:`int`]: Id in this numbering -> the same bone's id in the numbering
-            :attr:`WWMIFixerConfig.referenceBoneCentroids` is keyed by. An id not listed is the same in both
-            """
-        @toReference.setter
-        def toReference(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
-            ...
-        @property
-        def version(self) -> str:
-            """
-            :class:`str`: The version whose vertex group remap row reads ids in this numbering
-            """
-        @version.setter
-        def version(self, arg0: str) -> None:
-            ...
     class SourceComponent:
         """
         
@@ -29473,15 +29558,6 @@ class WWMIFixerConfig:
     def plan(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, WWMIFixerConfig.SourceComponent]) -> None:
         ...
     @property
-    def referenceBoneCentroids(self) -> dict[int, typing.Annotated[list[float], "FixedSize(3)"]]:
-        """
-        Dict[:class:`int`, Tuple[:class:`float`, :class:`float`, :class:`float`]]: The rest-pose centroid of
-        each source bone, keyed by its id in the reference numbering
-        """
-    @referenceBoneCentroids.setter
-    def referenceBoneCentroids(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]]) -> None:
-        ...
-    @property
     def removedRegs(self) -> list[WWMIFixerConfig.RegRemoval]:
         """
         List[:class:`WWMIFixerConfig.RegRemoval`]: Register lines a remapped section drops, on top of what
@@ -29545,18 +29621,6 @@ class WWMIFixerConfig:
         """
     @sharedResourcesList.setter
     def sharedResourcesList(self, arg0: str) -> None:
-        ...
-    @property
-    def skeletonNumberings(self) -> list[WWMIFixerConfig.SkeletonNumbering]:
-        """
-        List[:class:`WWMIFixerConfig.SkeletonNumbering`]: Every numbering the source's merged skeleton has had,
-        when a game update renumbered it. The fix scores each against the mod's own geometry (its vertices'
-        distance to their heaviest bone's centroid, :attr:`referenceBoneCentroids`) and reads the blend with
-        the vertex group remap row of the closest -- a mod's ``vb0`` cannot say, since hash-update tools
-        rewrite the hashes and leave the bone ids. Fewer than two (the default) switches it off
-        """
-    @skeletonNumberings.setter
-    def skeletonNumberings(self, arg0: collections.abc.Sequence[WWMIFixerConfig.SkeletonNumbering]) -> None:
         ...
     @property
     def slotPasses(self) -> list[list[str]]:
@@ -29749,6 +29813,27 @@ class WWMIParserConfig:
         """
     @hashOnlyObjs.setter
     def hashOnlyObjs(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
+        ...
+    @property
+    def referenceBoneCentroids(self) -> dict[int, typing.Annotated[list[float], "FixedSize(3)"]]:
+        """
+        Dict[:class:`int`, Tuple[:class:`float`, :class:`float`, :class:`float`]]: The rest-pose centroid of each of
+        this character's bones, keyed by its id in the numbering :attr:`skeletonNumberings` map onto
+        """
+    @referenceBoneCentroids.setter
+    def referenceBoneCentroids(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]]) -> None:
+        ...
+    @property
+    def skeletonNumberings(self) -> list[...]:
+        """
+        List[:class:`SkeletonNumberingProbe.Numbering`]: Every numbering this character's merged skeleton has had,
+        when a game update renumbered it. The parser asks the mod's own geometry which one its bone ids are in
+        (:class:`SkeletonNumberingProbe`) and records it as :meth:`IniParseData.blendVersion` -- a mod's ``vb0``
+        cannot say, since hash-update tools rewrite the hashes and leave the bone ids. Fewer than two (the default)
+        switches it off
+        """
+    @skeletonNumberings.setter
+    def skeletonNumberings(self, arg0: collections.abc.Sequence[...]) -> None:
         ...
     @property
     def slotHashType(self) -> str:

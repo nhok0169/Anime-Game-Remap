@@ -37,8 +37,6 @@ namespace AGRemapCore {
         // ---- three mesh generations: the hash lookups follow the mod's vb0, the blend's vertex group row
         // its GEOMETRY, since the community hash tools rewrite a mod's hashes and keep its bone ids ----
         config.sourceVersionByVb0 = {{"77975500", "1.1"}, {"5f8aac45", "1.2"}, {"d14bed8b", "1.4"}};
-        config.skeletonNumberings = {{"1.1", changliRenumbered11To14()}, {"1.2", changliRenumbered12To14()}, {"1.4", {}}};
-        config.referenceBoneCentroids = changliBoneCentroids();
         // ...and a mod from before WWMI's merged skeleton (Changli10) holds each component's LOCAL ids
         config.sourceVgMaps = changliVgMaps();
 

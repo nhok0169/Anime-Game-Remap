@@ -3517,6 +3517,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ad79ee62e80cbf24ffa81cd107d87c95d" kind="variable"><name>replacesByHash_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ac67d8b5c752689e0106fb0e478f83f80" kind="variable"><name>resourceFiles_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ae4854559291a0026d47e855b9036dd55" kind="variable"><name>textureResources_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1abb06b370297a9df5312fb52477b3d3bc" kind="variable"><name>blendVersion_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a4628b44da09efb0f447b942a49e4d62c" kind="variable"><name>roles_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af51d13706a0e7290660d3bf89f30cc46" kind="variable"><name>candidates_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a8b766e19b80d01847d481818694f46d5" kind="variable"><name>roleFiles_</name></member>
@@ -3558,6 +3559,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a505b42a2e1bd24c1140dea987b72bb42" kind="function"><name>registerToggleOf</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a910ada70ee9c385f24f9742cecbd12d9" kind="function"><name>setRegisterToggle</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a19f6a76b48323e5d1de28ed2b79558b7" kind="function"><name>rejections</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aa3ab0b4aa38b5b4571f3f7bea1f11a0e" kind="function"><name>blendVersion</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aabcb6946e474139a34affa657464a799" kind="function"><name>setBlendVersion</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a0cffabeb9c06bf793525c08191e7c6ba" kind="function"><name>setTextureResource</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a141a1658c04b597b78fb07502222d87e" kind="function"><name>rolesOfResource</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a99389479dfe8029268175554ef5cc477" kind="function"><name>refusedRoleOf</name></member>
@@ -4432,6 +4435,10 @@
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_call_graph_1_1_node_hash" kind="struct"><name>AGRemapCore::CallGraph::NodeHash</name>
     <member refid="struct_a_g_remap_core_1_1_call_graph_1_1_node_hash_1ac027df0b0c0138c70ea7eb0b6f0ecf26" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering" kind="struct"><name>AGRemapCore::SkeletonNumberingProbe::Numbering</name>
+    <member refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering_1a78a1a7530b698d9d6509e3b126f16fe0" kind="variable"><name>version</name></member>
+    <member refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering_1afc028bf34e65eb43806de9f838f549f5" kind="variable"><name>toReference</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_num_tools" kind="class"><name>AGRemapCore::NumTools</name>
     <member refid="class_a_g_remap_core_1_1_num_tools_1af5c7305890785eb157a6d666459b3bbf" kind="function"><name>formatDouble</name></member>
@@ -5982,6 +5989,11 @@
     <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a38a6c88f720ce2d607361fb31cc34f30" kind="function"><name>operator&lt;</name></member>
     <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a63f47d01addf0af4c67aaf4841f5e35a" kind="function"><name>operator==</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result" kind="struct"><name>AGRemapCore::SkeletonNumberingProbe::Result</name>
+    <member refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1a98151774436552800890d027225ada86" kind="variable"><name>best</name></member>
+    <member refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1abb6ac25e7ec1c7e041b5446241ea6d63" kind="variable"><name>medians</name></member>
+    <member refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1a4874a92412725413b7ea88283ffcc991" kind="variable"><name>vertices</name></member>
+  </compound>
   <compound refid="struct_a_g_remap_core_1_1_texture_roles_1_1_role" kind="struct"><name>AGRemapCore::TextureRoles::Role</name>
     <member refid="struct_a_g_remap_core_1_1_texture_roles_1_1_role_1aba72f53c5000d23a8fabe408f1466383" kind="variable"><name>role</name></member>
     <member refid="struct_a_g_remap_core_1_1_texture_roles_1_1_role_1ab78964b00b06eca8f4207910b5bb6f32" kind="variable"><name>how</name></member>
@@ -6134,9 +6146,9 @@
     <member refid="class_a_g_remap_core_1_1_side_meshes_1a079aba891bf59e3ce8c2dca13bbc08c2" kind="function"><name>SideMeshes</name></member>
     <member refid="class_a_g_remap_core_1_1_side_meshes_1a64b4cbea761d349ecbaf659d7d2f75f1" kind="function"><name>build</name></member>
   </compound>
-  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_skeleton_numbering" kind="struct"><name>AGRemapCore::WWMIFixerConfig::SkeletonNumbering</name>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_skeleton_numbering_1ab34b75dc35c90fc88b1799e104c472ab" kind="variable"><name>version</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_skeleton_numbering_1a3eb40ea1b4b92441eb148aa5774d9568" kind="variable"><name>toReference</name></member>
+  <compound refid="class_a_g_remap_core_1_1_skeleton_numbering_probe" kind="class"><name>AGRemapCore::SkeletonNumberingProbe</name>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1acb53d6c180b964ad2f80eb670541c132" kind="variable"><name>MinVertices</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1a88efd66aa3b6c437ebe51e3f58a7b1bb" kind="function"><name>probe</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot" kind="struct"><name>AGRemapCore::GIMIComponentParserConfig::Slot</name>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a2932af3df10732450b1fb2aa9b53104a" kind="variable"><name>name</name></member>
@@ -7241,8 +7253,6 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a46ed6c4ae931ef41f7f43bc9a3bd0e38" kind="variable"><name>version</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab42d37323f384f9167ffd4898908de05" kind="variable"><name>sourceVersion</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a1b55cc25fc4882180d1d2ed541e8b89d" kind="variable"><name>sourceVersionByVb0</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae9bef6bb5b10e9d7c8d0563c5e7b9eda" kind="variable"><name>skeletonNumberings</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aff5f770e74a9708b954876ecc119b513" kind="variable"><name>referenceBoneCentroids</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a7b1bc5a2870168077a634aeda96f7efd" kind="variable"><name>slotPasses</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae8378a27adad2663800c7be7b2a536a3" kind="variable"><name>filterBase</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1accc4ba3fc20e81e3015e80416c06bca3" kind="variable"><name>filterStep</name></member>
@@ -7297,6 +7307,8 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a4766a752f3a48e44352ddd4b7817ebac" kind="variable"><name>texRegPrefix</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9702bf11e4f1c8224e36539597b68979" kind="variable"><name>hashOnlyObjs</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a82ed24bbf24f94b65ce6b44c25f886d3" kind="variable"><name>textures</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a04156e1f7970553bb1c5ed5c958895aa" kind="variable"><name>skeletonNumberings</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9aad93fe0e21d99a44dd18f578c94d79" kind="variable"><name>referenceBoneCentroids</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys" kind="class"><name>AGRemapCore::WWMIShapeKeys</name>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1abd0c4c6edba5cb9bc49bbe2e71a3f77c" kind="function"><name>layoutOf</name></member>
@@ -8405,6 +8417,8 @@
   <compound refid="_draw_u_v_coverage_8h" kind="file"><name>DrawUVCoverage.h</name>
   </compound>
   <compound refid="_inner_layer_outline_8h" kind="file"><name>InnerLayerOutline.h</name>
+  </compound>
+  <compound refid="_skeleton_numbering_probe_8h" kind="file"><name>SkeletonNumberingProbe.h</name>
   </compound>
   <compound refid="_v_g_component_merge_8h" kind="file"><name>VGComponentMerge.h</name>
   </compound>

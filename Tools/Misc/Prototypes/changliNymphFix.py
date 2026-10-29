@@ -231,6 +231,14 @@ def parserConfig(facts) -> "FRB.WWMIParserConfig":
     config = FRB.WWMIParserConfig()
     config.version = "1.1"             # her oldest mesh: a mod of any of her three generations classifies
     config.textures = facts
+    # the blend's vertex group row is chosen by the mod's own geometry -- see WWMIParserConfig.skeletonNumberings
+    N = FRB.SkeletonNumberingProbe.Numbering
+    config.skeletonNumberings = [
+        N("1.1", {b: toCurrent("1.1", b) for b in range(OldSkeletonSlots) if toCurrent("1.1", b) != b}),
+        N("1.2", dict(Renumber12To14)),
+        N("1.4", {}),
+    ]
+    config.referenceBoneCentroids = boneCentroids()
     return config
 
 
@@ -242,14 +250,7 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
     config.sourceVersionByVb0 = {"77975500": "1.1", "5f8aac45": "1.2", "d14bed8b": "1.4"}
     # ...but the vb0 is not what the BONES are numbered by: the community hash tools rewrite a mod's
     # hashes and leave its ids (Changli2 / 7 carry 1.2's vb0 over 1.1's vg windows). So the blend's row
-    # is chosen by the mod's own geometry, Lynae's way
-    N = FRB.WWMIFixerConfig.SkeletonNumbering
-    config.skeletonNumberings = [
-        N("1.1", {b: toCurrent("1.1", b) for b in range(OldSkeletonSlots) if toCurrent("1.1", b) != b}),
-        N("1.2", dict(Renumber12To14)),
-        N("1.4", {}),
-    ]
-    config.referenceBoneCentroids = boneCentroids()
+    # is chosen by the mod's own geometry, Lynae's way -- the parser's skeletonNumberings
     # a mod from before WWMI's merged skeleton (Changli10) holds each component's LOCAL ids
     config.sourceVgMaps = currentVgMaps()
 

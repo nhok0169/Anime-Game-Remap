@@ -492,6 +492,24 @@ Returns
 List[:class:`IniParseData.Rejection`]
     The refusals
        )doc")
+       .def("blendVersion", &AGRC::IniParseData::blendVersion, py::return_value_policy::copy, R"doc(
+The game version whose skeleton numbering the mod's blend gives its bone ids in, when the parser could tell
+from the mod's geometry -- a mod's hashes may name one version while its bone ids are another's. ``None``
+when the parser did not ask or could not tell
+
+Returns
+-------
+Optional[:class:`str`]
+    The version
+       )doc")
+       .def("setBlendVersion", &AGRC::IniParseData::setBlendVersion, py::arg("version"), R"doc(
+Sets :meth:`blendVersion`
+
+Parameters
+----------
+version: :class:`str`
+    The version
+       )doc")
        .def("setTextureResource", &AGRC::IniParseData::setTextureResource, py::arg("resource"), py::arg("file"), R"doc(
 Records that the .ini's resource `section`_ ``resource`` names the texture ``file``
 

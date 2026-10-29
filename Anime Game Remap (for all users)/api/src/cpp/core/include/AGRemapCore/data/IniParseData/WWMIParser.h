@@ -20,6 +20,7 @@
 
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/WWMITextureFacts.h"
+#include "AGRemapCore/model/buffers/SkeletonNumberingProbe.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h"
 
 
@@ -105,6 +106,33 @@ namespace AGRemapCore {
          @endrst
          */
         WWMITextureFacts textures;
+
+        /**
+         * @brief
+         @rst
+         Every numbering this character's merged skeleton has had, when a game update RENUMBERED it --
+         the parser asks the mod's own geometry which one its bone ids are in
+         (:cpp:class:`SkeletonNumberingProbe`) and records that numbering's version as the mod's
+         :cpp:func:`IniParseData::blendVersion` :raw-html:`<br />` :raw-html:`<br />`
+
+         A mod's ``vb0`` cannot say: community hash-update tools rewrite a mod's hashes to the new
+         version and leave its bone ids alone, so one of Lynae's 3.7-``vb0`` mods carries her 3.6
+         numbering. Not asked of a mod from before WWMI's merged skeleton (no ``vg_offset`` in any slot
+         section), whose ids are each component's own. Fewer than two numberings (the default) switches
+         the probe off
+         @endrst
+         */
+        std::vector<SkeletonNumberingProbe::Numbering> skeletonNumberings;
+
+        /**
+         * @brief
+         @rst
+         The rest-pose centroid of each of this character's bones, keyed by its id in the numbering
+         :cpp:member:`skeletonNumberings` map onto -- the mean position of her own model's vertices whose
+         heaviest weight (over half) is that bone
+         @endrst
+         */
+        std::unordered_map<long long, std::array<double, 3>> referenceBoneCentroids;
     };
 
 

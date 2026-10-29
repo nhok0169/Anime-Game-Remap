@@ -28,6 +28,8 @@
 #include <map>
 #include <memory>
 #include <set>
+#include <cmath>
+#include <sstream>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -393,6 +395,66 @@ namespace AGRemapCore {
                             data.addUndrawn(obj);
                         }
                     }
+
+                    readBlendVersion(data);
+                }
+
+                // WHICH SKELETON NUMBERING THE MOD'S BLEND IS IN -- see WWMIParserConfig::skeletonNumberings.
+                // Not asked of a mod from before WWMI's merged skeleton: no slot section carries a vg_offset,
+                // and its ids are each component's own
+                void readBlendVersion(IniParseData& data) {
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr || config_.skeletonNumberings.size() < 2 || config_.referenceBoneCentroids.empty()) {
+                        return;
+                    }
+
+                    const auto& templates = ini->getIfTemplates();
+                    bool merged = false;
+                    for (const auto& [obj, sections] : this->sectionTargets()) {
+                        for (const std::string& section : isSlotObj(obj) ? sections : std::vector<std::string>{}) {
+                            auto tpl = templates.find(section);
+                            merged = merged || (tpl != templates.end() && tpl->second != nullptr
+                                                && ModBranches::firstVal(*tpl->second, IniKeywords::WWMIVgOffset).has_value());
+                        }
+                    }
+
+                    const std::optional<std::string> position = data.resourceFile(IniKeywords::WWMIPositionBuffer);
+                    const std::optional<std::string> blend = data.resourceFile(IniKeywords::WWMIBlendBuffer);
+                    if (!merged || !position.has_value() || !blend.has_value()) {
+                        return;
+                    }
+
+                    // the 16-bit ids, as the .ini names them
+                    std::optional<std::string> vertexVG;
+                    for (const auto& [section, file] : data.resourceFiles()) {
+                        std::string name = section;
+                        name.erase(std::remove(name.begin(), name.end(), '_'), name.end());
+                        if (name.find("blendremapvertexvg") != std::string::npos) {
+                            vertexVG = file;
+                            break;
+                        }
+                    }
+
+                    const auto pathOf = [ini](const std::string& rel) {
+                        return FileService::absPathOfRelPath(FileService::iniPathToRel(rel), ini->getFolder());
+                    };
+                    const std::optional<SkeletonNumberingProbe::Result> found = SkeletonNumberingProbe::probe(
+                        pathOf(*position), pathOf(*blend), vertexVG.has_value() ? std::optional<std::string>(pathOf(*vertexVG)) : std::nullopt,
+                        config_.skeletonNumberings, config_.referenceBoneCentroids);
+                    if (!found.has_value()) {
+                        return;
+                    }
+
+                    std::ostringstream how;
+                    for (std::size_t n = 0; n < found->medians.size(); ++n) {
+                        how << (n == 0 ? "" : ", ") << config_.skeletonNumberings[n].version << " "
+                            << static_cast<long long>(std::lround(found->medians[n] * 100)) / 100.0;
+                    }
+
+                    const std::string& version = config_.skeletonNumberings[found->best].version;
+                    ctx_.log("its bone ids are " + version + "'s numbering (" + std::to_string(found->vertices)
+                             + " vertices on renumbered bones; median distance to the bone by version: " + how.str() + ")");
+                    data.setBlendVersion(version);
                 }
 
                 // A section a previous fix wrote: its name ends `<target>RemapFix`

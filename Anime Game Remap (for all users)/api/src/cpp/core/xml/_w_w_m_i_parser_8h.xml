@@ -7,6 +7,7 @@
     <includes local="no">vector</includes>
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <includes refid="_w_w_m_i_texture_facts_8h" local="yes">AGRemapCore/data/WWMITextureFacts.h</includes>
+    <includes refid="_skeleton_numbering_probe_8h" local="yes">AGRemapCore/model/buffers/SkeletonNumberingProbe.h</includes>
     <includes refid="_ini_parse_builder_8h" local="yes">AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</includes>
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <includedby refid="_changli_parser_8cpp" local="yes">src/data/IniParseData/Changli/ChangliParser.cpp</includedby>
@@ -106,6 +107,8 @@
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="110" relation="include">
+        </childnode>
+        <childnode refid="119" relation="include">
         </childnode>
         <childnode refid="97" relation="include">
         </childnode>
@@ -462,6 +465,22 @@
         <childnode refid="18" relation="include">
         </childnode>
       </node>
+      <node id="119">
+        <label>AGRemapCore/model/buffers/SkeletonNumberingProbe.h</label>
+        <link refid="_skeleton_numbering_probe_8h"/>
+        <childnode refid="120" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
       <node id="114">
         <label>AGRemapCore/model/files/IniScan.h</label>
         <link refid="_ini_scan_8h"/>
@@ -800,6 +819,8 @@
         <childnode refid="51" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -1243,6 +1264,9 @@
       <node id="37">
         <label>algorithm</label>
       </node>
+      <node id="120">
+        <label>array</label>
+      </node>
       <node id="59">
         <label>cmath</label>
       </node>
@@ -1417,30 +1441,35 @@
 <codeline lineno="20"><highlight class="normal"></highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_id_8h" kindref="compound">AGRemapCore/constants/ModTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_w_w_m_i_texture_facts_8h" kindref="compound">AGRemapCore/data/WWMITextureFacts.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_parse_builder_8h" kindref="compound">AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_skeleton_numbering_probe_8h" kindref="compound">AGRemapCore/model/buffers/SkeletonNumberingProbe.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_parse_builder_8h" kindref="compound">AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="25"><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
-<codeline lineno="49" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" kindref="compound">WWMIParserConfig</ref><sp/>{</highlight></codeline>
-<codeline lineno="57" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ade553798b44b928e14a0ad40c1ec20a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ade553798b44b928e14a0ad40c1ec20a8" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2.5&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="62" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ae136acddb4c36c678ef101f46a8df030" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ae136acddb4c36c678ef101f46a8df030" kindref="member">slotHashType</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;vb0&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight></codeline>
-<codeline lineno="67" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a0b5add8a9b297a25a19d9f97c8c324ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a0b5add8a9b297a25a19d9f97c8c324ae" kindref="member">slotPrefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;component&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a4766a752f3a48e44352ddd4b7817ebac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a4766a752f3a48e44352ddd4b7817ebac" kindref="member">texRegPrefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"></highlight></codeline>
-<codeline lineno="86" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9702bf11e4f1c8224e36539597b68979" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9702bf11e4f1c8224e36539597b68979" kindref="member">hashOnlyObjs</ref><sp/>=<sp/>{</highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cb4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;boneData&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;shapekey_offsets&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shapekeyOffsets&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;shapekey_scale&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shapekeyScale&quot;</highlight><highlight class="normal">}};</highlight></codeline>
-<codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="107" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a82ed24bbf24f94b65ce6b44c25f886d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref><sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a82ed24bbf24f94b65ce6b44c25f886d3" kindref="member">textures</ref>;</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" kindref="compound">WWMIParserConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="58" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ade553798b44b928e14a0ad40c1ec20a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ade553798b44b928e14a0ad40c1ec20a8" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2.5&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ae136acddb4c36c678ef101f46a8df030" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ae136acddb4c36c678ef101f46a8df030" kindref="member">slotHashType</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;vb0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a0b5add8a9b297a25a19d9f97c8c324ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a0b5add8a9b297a25a19d9f97c8c324ae" kindref="member">slotPrefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;component&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a4766a752f3a48e44352ddd4b7817ebac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a4766a752f3a48e44352ddd4b7817ebac" kindref="member">texRegPrefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9702bf11e4f1c8224e36539597b68979" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9702bf11e4f1c8224e36539597b68979" kindref="member">hashOnlyObjs</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cb4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;boneData&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;shapekey_offsets&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shapekeyOffsets&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;shapekey_scale&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shapekeyScale&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a82ed24bbf24f94b65ce6b44c25f886d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref><sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a82ed24bbf24f94b65ce6b44c25f886d3" kindref="member">textures</ref>;</highlight></codeline>
 <codeline lineno="109"><highlight class="normal"></highlight></codeline>
-<codeline lineno="110"><highlight class="normal"></highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" kindref="member">makeWWMIParser</ref>(<ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" kindref="compound">WWMIParserConfig</ref><sp/>config);</highlight></codeline>
-<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"></highlight></codeline>
-<codeline lineno="121"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="125" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a04156e1f7970553bb1c5ed5c958895aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;SkeletonNumberingProbe::Numbering&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a04156e1f7970553bb1c5ed5c958895aa" kindref="member">skeletonNumberings</ref>;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9aad93fe0e21d99a44dd18f578c94d79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;long<sp/>long,<sp/>std::array&lt;double,<sp/>3&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9aad93fe0e21d99a44dd18f578c94d79" kindref="member">referenceBoneCentroids</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" kindref="member">makeWWMIParser</ref>(<ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" kindref="compound">WWMIParserConfig</ref><sp/>config);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h"/>
   </compounddef>

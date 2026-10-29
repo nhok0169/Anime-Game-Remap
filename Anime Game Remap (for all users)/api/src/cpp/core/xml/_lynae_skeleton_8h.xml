@@ -8,6 +8,7 @@
     <includes local="no">vector</includes>
     <includedby refid="_lynae_fixer_8cpp" local="yes">src/data/IniFixData/Lynae/LynaeFixer.cpp</includedby>
     <includedby refid="_lynae_skeleton_8cpp" local="yes">src/data/IniFixData/Lynae/LynaeSkeleton.cpp</includedby>
+    <includedby refid="_lynae_parser_8cpp" local="yes">src/data/IniParseData/Lynae/LynaeParser.cpp</includedby>
     <incdepgraph>
       <node id="1">
         <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeSkeleton.h</label>
@@ -42,6 +43,8 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/Lynae/LynaeFixer.cpp</label>
@@ -50,6 +53,10 @@
       <node id="3">
         <label>src/data/IniFixData/Lynae/LynaeSkeleton.cpp</label>
         <link refid="_lynae_skeleton_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/IniParseData/Lynae/LynaeParser.cpp</label>
+        <link refid="_lynae_parser_8cpp"/>
       </node>
     </invincdepgraph>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>

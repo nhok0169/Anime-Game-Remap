@@ -151,6 +151,14 @@ class IniParseDataTest(BaseUnitTest):
         data.clear()
         self.assertEqual(data.rolesOfResource("ResourceTexture7"), [])
 
+    def test_blendVersion(self):
+        data = FRB.IniParseData()
+        self.assertIsNone(data.blendVersion())
+        data.setBlendVersion("3.6")
+        self.assertEqual(data.blendVersion(), "3.6")
+        data.clear()
+        self.assertIsNone(data.blendVersion())
+
     def test_clear_resetsTheDefaults(self):
         data = FRB.IniParseData()
         data.setRemappableContent(False)

@@ -26,7 +26,7 @@ namespace AGRemapCore {
      @rst
      The merged ids of Changli's 1.1 skeleton that her later updates renumbered, as
      ``{1.1 id: 1.4 id}`` -- every id not listed is the same in both. See
-     :cpp:member:`WWMIFixerConfig::skeletonNumberings`
+     :cpp:member:`WWMIParserConfig::skeletonNumberings`
      @endrst
      */
     const std::unordered_map<long long, long long>& changliRenumbered11To14();
@@ -43,7 +43,7 @@ namespace AGRemapCore {
      * @brief
      @rst
      Her rest-pose bone centroids in the 1.4 numbering, off ``Data/Mod Downloads/WuWa/Changli/3_7`` --
-     see :cpp:member:`WWMIFixerConfig::referenceBoneCentroids`
+     see :cpp:member:`WWMIParserConfig::referenceBoneCentroids`
      @endrst
      */
     const std::unordered_map<long long, std::array<double, 3>>& changliBoneCentroids();

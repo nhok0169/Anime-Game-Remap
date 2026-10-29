@@ -14,10 +14,14 @@
 #include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/files/IniFile.h"
 
+#include <algorithm>
+#include <array>
 #include <exception>
 #include <fstream>
 #include <filesystem>
+#include <iterator>
 #include <sstream>
+#include <unordered_map>
 #include <unordered_set>
 #include <stdexcept>
 #include <utility>
@@ -1171,10 +1175,19 @@ namespace AGRemapCore {
             bool hasPending = false;
         };
 
+        // The first declaration of a section name, for a repeat of it -- see IniFile::mergesRepeatedSection.
+        // 'rawParts' is kept only for a name whose repeats merge.
+        struct FirstDeclaration {
+            std::string name;
+            size_t startInd = 0;
+            std::vector<RawPart> rawParts;
+        };
+
         /*
          * Finishes building the IfTemplate for the section 'accum' has been accumulating, and stores
-         * it into 'sectionIfTemplates' -- but only if this is that section name's FIRST occurrence
-         * (matching readIfTemplates' own 'handleDuplicateFunc = lambda duplicates: duplicates[0]').
+         * it into 'sectionIfTemplates'. A repeat of a name already read (without regard to case) is
+         * read as 3DMigoto reads it: appended to the first declaration when the name merges
+         * (IniFile::mergesRepeatedSection), and dropped when it does not.
          * Any still-pending KVP text is flushed first, and -- unlike the mid-scan flush inside
          * readIfTemplates' loop -- only appended if it actually parses to something non-empty
          * (matching the pure-Python original's own "if (currentPart):" check). Resets 'accum's
@@ -1187,6 +1200,7 @@ namespace AGRemapCore {
          */
         void finalizeSection(SectionAccum& accum,
                              tsl::ordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>& sectionIfTemplates,
+                             std::unordered_map<std::string, FirstDeclaration>& firstDeclarations,
                              const std::optional<std::string>& file,
                              Z3Context& z3Ctx) {
             if (!accum.pendingKvpText.empty()) {
@@ -1196,15 +1210,29 @@ namespace AGRemapCore {
                 }
             }
 
-            if (sectionIfTemplates.find(accum.name) == sectionIfTemplates.end()) {
-                ParseContext ctx("", file, accum.startInd + 1);
+            const auto build = [&file, &z3Ctx](const std::string& name, size_t startInd, const std::vector<RawPart>& rawParts) {
+                ParseContext ctx("", file, startInd + 1);
                 IfTemplateRunConfig<std::string, std::string> runConfig{
                     IniKeywords::Run,
                     [](const std::string& v) { return v; },
                     [](const std::string& s) { return s; }
                 };
-                sectionIfTemplates.emplace(accum.name,
-                    IfTemplate<std::string, std::string>::build(accum.rawParts, runConfig, accum.name, &ctx, &z3Ctx));
+                return IfTemplate<std::string, std::string>::build(rawParts, runConfig, name, &ctx, &z3Ctx);
+            };
+
+            const bool merges = IniFile::mergesRepeatedSection(accum.name);
+            auto [first, isFirst] = firstDeclarations.try_emplace(StringTools::toLower(accum.name));
+            if (isFirst) {
+                first->second.name = accum.name;
+                first->second.startInd = accum.startInd;
+                if (merges) {
+                    first->second.rawParts = accum.rawParts;
+                }
+                sectionIfTemplates.emplace(accum.name, build(accum.name, accum.startInd, accum.rawParts));
+            } else if (merges) {
+                std::vector<RawPart>& merged = first->second.rawParts;
+                merged.insert(merged.end(), std::make_move_iterator(accum.rawParts.begin()), std::make_move_iterator(accum.rawParts.end()));
+                sectionIfTemplates[first->second.name] = build(first->second.name, first->second.startInd, merged);
             }
 
             accum.rawParts.clear();
@@ -1220,6 +1248,19 @@ namespace AGRemapCore {
         // then took the next section's hash, skip and draw (Lumine11's Nod Krai outfit, 2026-10-20).
         std::string_view rest = StringTools::lstrip(line);
         return rest.starts_with('[');
+    }
+
+    bool IniFile::mergesRepeatedSection(const std::string& name) {
+        // 3DMigoto's section prefixes (IniHandler.cpp: CommandListSections and RegularSections, the
+        // entries flagged as prefixes), compared as it compares them -- by prefix, without regard to case
+        static const std::array<std::string, 11> prefixes = {
+            "shaderoverride", "shaderregex", "textureoverride", "customshader", "commandlist",
+            "builtincustomshader", "builtincommandlist", "resource", "key", "preset", "include"};
+
+        const std::string lower = StringTools::toLower(name);
+        return std::none_of(prefixes.begin(), prefixes.end(), [&lower](const std::string& prefix) {
+            return StringTools::startsWith(lower, prefix);
+        });
     }
 
     std::string IniFile::getSectionNameFromLine(const std::string& line) {
@@ -1274,6 +1315,7 @@ namespace AGRemapCore {
 
         bool inSection = false;
         SectionAccum accum;
+        std::unordered_map<std::string, FirstDeclaration> firstDeclarations;
 
         size_t fileLinesLen = fileLines_.size();
 
@@ -1285,7 +1327,7 @@ namespace AGRemapCore {
 
             if (isHeader) {
                 if (inSection) {
-                    finalizeSection(accum, sectionIfTemplates_, file_, z3Ctx_);
+                    finalizeSection(accum, sectionIfTemplates_, firstDeclarations, file_, z3Ctx_);
                 }
 
                 accum.name = getSectionNameFromLine(line);
@@ -1322,7 +1364,7 @@ namespace AGRemapCore {
         }
 
         if (inSection) {
-            finalizeSection(accum, sectionIfTemplates_, file_, z3Ctx_);
+            finalizeSection(accum, sectionIfTemplates_, firstDeclarations, file_, z3Ctx_);
         }
 
         // GIMI's newer texture API into the traditional one, so every reader and every fix sees

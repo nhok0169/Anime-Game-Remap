@@ -292,6 +292,25 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The external libraries a mod object's `sections`_ name on any of their lines (eg.
+             ``RabbitFX`` -- see :cpp:member:`RabbitFX::Name`), by the name the parser gives each
+             @endrst
+             *
+             * @param modObj The mod object
+             */
+            const std::set<std::string>& libraries(const ModObj& modObj) const;
+
+            /**
+             * @brief Records one of #libraries
+             *
+             * @param modObj The mod object
+             * @param library The library's name
+             */
+            void addLibrary(const ModObj& modObj, std::string library);
+
+            /**
+             * @brief
+             @rst
              The texture registers a mod object's `sections`_ bind only AFTER they have drawn, in the
              order first bound. A draw before them renders with whatever the game had bound, so a mod
              whose section draws, then binds, then draws again has two binding generations
@@ -543,6 +562,7 @@ namespace AGRemapCore {
             std::set<ModObj> undrawn_;
             std::map<ModObj, std::vector<DrawRange>> drawRanges_;
             std::map<ModObj, std::set<std::size_t>> drawParts_;
+            std::map<ModObj, std::set<std::string>> libraries_;
             std::map<ModObj, std::vector<std::string>> lateBindings_;
             bool replacesByHash_ = false;
             std::map<std::string, std::string> resourceFiles_;

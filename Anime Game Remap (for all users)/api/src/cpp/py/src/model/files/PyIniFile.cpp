@@ -687,5 +687,27 @@ Returns
 -------
 :class:`str`
     The name of the `section`_
+        )doc"))
+
+        .def_static("mergesRepeatedSection", &AGRC::IniFile::mergesRepeatedSection, py::arg("name"), py::doc(R"doc(
+Whether a `section`_ named 'name' declared again in the same .ini file is MERGED into its first declaration,
+rather than ignored
+
+This is 3DMigoto's rule for a file it includes (every mod's .ini, each under a namespace of its own): a
+`section`_ whose name starts with one of 3DMigoto's section prefixes (``ShaderOverride``, ``ShaderRegex``,
+``TextureOverride``, ``CustomShader``, ``CommandList``, ``BuiltInCustomShader``, ``BuiltInCommandList``,
+``Resource``, ``Key``, ``Preset``, ``Include``) is namespaced, and a repeat of it is rejected -- the first
+declaration is the one that runs. Any other name (``[Constants]``, ``[Present]``, ...) cannot be
+namespaced, and a repeat's lines are appended to the first's. Names are compared without regard to case
+
+Parameters
+----------
+name: :class:`str`
+    The `section`_'s name
+
+Returns
+-------
+:class:`bool`
+    Whether its repeats are merged
         )doc"));
 }

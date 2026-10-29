@@ -2852,6 +2852,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_file_1ab6eb02a677293cb012ee3ffcbe1ab470" kind="function"><name>setIsFixed</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1ac04726dc43eb039726256445c1714e92" kind="function"><name>isSectionHeaderLine</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1ae452cb997094150f4ee0f9035e3d4830" kind="function"><name>getSectionNameFromLine</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_file_1a63e4dd16c580457743cd5adcd8104700" kind="function"><name>mergesRepeatedSection</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1ad38e363848470eb39f27e4d5b406f0c0" kind="function"><name>getParser</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a0cc737d17e5953911397fdb10572492c" kind="function"><name>getFixers</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a7d5e3a376b4a6d6ca5cfe3ad89d0ecdb" kind="function"><name>parseModType</name></member>
@@ -3517,6 +3518,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aeb5921b0bfa93b12908153b208fdbb1b" kind="variable"><name>undrawn_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a948e9fa0850516c100fe20d6fc0947dc" kind="variable"><name>drawRanges_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af4dc02d59f717c09bc6be7209c805be1" kind="variable"><name>drawParts_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ac7751a1fb1f940caa185442198f4df96" kind="variable"><name>libraries_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ab872682c1a88e80e578fbdfa485d9d8c" kind="variable"><name>lateBindings_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ad79ee62e80cbf24ffa81cd107d87c95d" kind="variable"><name>replacesByHash_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ac67d8b5c752689e0106fb0e478f83f80" kind="variable"><name>resourceFiles_</name></member>
@@ -3544,6 +3546,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a01a3e1bf3c7bc97384d83664922a2da0" kind="function"><name>addDrawRange</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a93766ecba55731ece4ea0d2e9a0f643e" kind="function"><name>drawParts</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a424f638f61352bcbf3e276376376c76e" kind="function"><name>addDrawPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1afba5daead2b199ce9b2121ad76f3d28d" kind="function"><name>libraries</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af9b7c7837a4fb82b5133216e6f9a1750" kind="function"><name>addLibrary</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1afdae76ba804ad4046d207a98ece47fbc" kind="function"><name>lateBindings</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ad22e0d7860eb5e804f1ace802a3ac734" kind="function"><name>setLateBindings</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a4b96f1f6ea19bc020fc8a70e6fffb497" kind="function"><name>replacesTexturesByHash</name></member>
@@ -4859,6 +4863,7 @@
     <member refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1af23b7baf3ab20a0a2d0ec04f7d727613" kind="function"><name>unhandled_exception</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_rabbit_f_x" kind="class"><name>AGRemapCore::RabbitFX</name>
+    <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1adf8f0499f9d5d8e3bab1f700f2f7d71d" kind="variable"><name>Name</name></member>
     <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7db3af6ee18fb7741818ac5813a78f93" kind="variable"><name>FlagKeys</name></member>
     <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c78f788dff06e424c24bbb11a2ae2c6" kind="function"><name>textureTag</name></member>
     <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1ac74c6108b22de6d1a3c049c3e1620adc" kind="function"><name>routingFlags</name></member>

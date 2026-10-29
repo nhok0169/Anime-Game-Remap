@@ -2,6 +2,7 @@
 
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/IniParseData/TextureOverrides.h"
+#include "AGRemapCore/data/RabbitFX.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
 #include "AGRemapCore/constants/FileExt.h"
@@ -368,6 +369,15 @@ namespace AGRemapCore {
                                         drew = true;
                                     } else if (drew && StringTools::startsWith(key, StringTools::toLower(config_.texRegPrefix))) {
                                         ListTools::pushDistinct(late, key);
+                                    }
+                                }
+                            }
+
+                            // the libraries it names, on any line
+                            for (const ContentPart* content : contentParts(*tpl->second)) {
+                                for (const auto& item : content->items()) {
+                                    if (RabbitFX::names(item.key) || RabbitFX::names(item.value)) {
+                                        data.addLibrary(obj, RabbitFX::Name);
                                     }
                                 }
                             }

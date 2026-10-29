@@ -906,20 +906,23 @@ namespace AGRemapCore {
 
             private:
                 // Whether the host's [Present] resets `$object_detected` each frame: the line WWMI Tools
-                // writes there, `post $object_detected = 0`, anywhere inside that section.
-                //
-                // EVERY [Present], read flat (IniScan): a mod may declare the section more than once
-                // (Changli4 has three, the reset in the second), and the parsed file keeps one per name.
-                // Reading only that one dropped the frame latch from Changli4's fix (2026-10-28).
+                // writes there, `post $object_detected = 0`, anywhere inside that section. A [Present]
+                // declared more than once is ONE section, as 3DMigoto merges it (Changli4 has three, the
+                // reset in the second) -- see IniFile::mergesRepeatedSection.
                 static bool presentResetsObjectDetected(IniFile& ini) {
-                    for (const IniScanSection& section : IniScan::scanText(ini.getFileTxt())) {
-                        if (!StringTools::equalsIgnoreCase(section.name, IniKeywords::Present)) {
+                    for (const auto& [name, section] : ini.getIfTemplates()) {
+                        if (section == nullptr || !StringTools::equalsIgnoreCase(name, IniKeywords::Present)) {
                             continue;
                         }
 
-                        for (const auto& [key, value] : section.kvps) {
-                            if (StringTools::startsWith(StringTools::toLower(key), IniKeywords::Post + " " + IniKeywords::WWMIObjectDetected) && value == "0") {
-                                return true;
+                        for (const std::unique_ptr<IfTemplatePart>& part : section->parts()) {
+                            const auto* content = dynamic_cast<const ContentPart*>(part.get());
+                            for (std::size_t k = 0; content != nullptr && k < content->size(); ++k) {
+                                const auto& [key, value] = content->getByInd(static_cast<long long>(k));
+                                if (StringTools::startsWith(StringTools::toLower(key), IniKeywords::Post + " " + IniKeywords::WWMIObjectDetected)
+                                        && StringTools::strip(value) == "0") {
+                                    return true;
+                                }
                             }
                         }
                     }
@@ -3093,23 +3096,9 @@ namespace AGRemapCore {
                     return result;
                 }
 
-                // Whether the mod's sections of a component name RabbitFX (its resources or its SetTextures),
-                // on any line of them -- every declaration of each, read flat
+                // Whether the mod's sections of a component name RabbitFX (its resources or its SetTextures)
                 bool usesRabbitFX(int component) const {
-                    const auto sections = present_.find(component);
-                    IniFile* ini = ctx_.getIniFile();
-                    if (sections == present_.end() || ini == nullptr) {
-                        return false;
-                    }
-
-                    for (const IniScanSection& section : IniScan::scanText(ini->getFileTxt())) {
-                        const bool own = std::any_of(sections->second.begin(), sections->second.end(),
-                                                     [&section](const std::string& s) { return StringTools::equalsIgnoreCase(s, section.name); });
-                        if (own && std::any_of(section.lines.begin(), section.lines.end(), RabbitFX::names)) {
-                            return true;
-                        }
-                    }
-                    return false;
+                    return present_.count(component) > 0 && parseData().libraries(slotObj(component)).count(RabbitFX::Name) > 0;
                 }
 
                 // A reroute's copy keeps only its draws; its source's copy keeps everything else

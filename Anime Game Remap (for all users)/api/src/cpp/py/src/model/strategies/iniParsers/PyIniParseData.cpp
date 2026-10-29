@@ -269,6 +269,31 @@ modObj: Tuple[:class:`str`, :class:`str`]
 part: :class:`int`
     The part
        )doc")
+       .def("libraries", &AGRC::IniParseData::libraries, py::arg("modObj"), py::return_value_policy::copy, R"doc(
+The external libraries a mod object's `sections`_ name on any of their lines (eg. ``RabbitFX``), by the
+name the parser gives each
+
+Parameters
+----------
+modObj: Tuple[:class:`str`, :class:`str`]
+    The mod object, ``(component, object)``
+
+Returns
+-------
+Set[:class:`str`]
+    The libraries
+       )doc")
+       .def("addLibrary", &AGRC::IniParseData::addLibrary, py::arg("modObj"), py::arg("library"), R"doc(
+Records one of :meth:`libraries`
+
+Parameters
+----------
+modObj: Tuple[:class:`str`, :class:`str`]
+    The mod object, ``(component, object)``
+
+library: :class:`str`
+    The library's name
+       )doc")
        .def("lateBindings", &AGRC::IniParseData::lateBindings, py::arg("modObj"), py::return_value_policy::copy, R"doc(
 The texture registers a mod object's `sections`_ bind only AFTER they have drawn, in the order first bound.
 A draw before them renders with whatever the game had bound

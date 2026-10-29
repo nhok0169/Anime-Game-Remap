@@ -5,6 +5,7 @@
     <includes local="no">array</includes>
     <includes local="no">string</includes>
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
+    <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
     <includedby refid="_rabbit_f_x_8cpp" local="yes">src/data/RabbitFX.cpp</includedby>
     <incdepgraph>
       <node id="1">
@@ -30,12 +31,18 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
       <node id="3">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
+      </node>
+      <node id="4">
         <label>src/data/RabbitFX.cpp</label>
         <link refid="_rabbit_f_x_8cpp"/>
       </node>
@@ -71,19 +78,21 @@
 <codeline lineno="22"><highlight class="normal"></highlight></codeline>
 <codeline lineno="37" refid="class_a_g_remap_core_1_1_rabbit_f_x" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_rabbit_f_x" kindref="compound">RabbitFX</ref><sp/>{</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="42" refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7db3af6ee18fb7741818ac5813a78f93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;std::string,<sp/>4&gt;<sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7db3af6ee18fb7741818ac5813a78f93" kindref="member">FlagKeys</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;x187&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;y187&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;z187&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;w187&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42" refid="class_a_g_remap_core_1_1_rabbit_f_x_1adf8f0499f9d5d8e3bab1f700f2f7d71d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1adf8f0499f9d5d8e3bab1f700f2f7d71d" kindref="member">Name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RabbitFX&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c78f788dff06e424c24bbb11a2ae2c6" kindref="member">textureTag</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::array&lt;int,<sp/>4&gt;<sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1ac74c6108b22de6d1a3c049c3e1620adc" kindref="member">routingFlags</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;int,<sp/>4&gt;&amp;<sp/>tags);</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1ad8c161164f1abf7e2bd5d12a09834a25" kindref="member">names</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"></highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c34bf70df98798eff673071afa293c5" kindref="member">isOwnKVP</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value);</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"></highlight></codeline>
-<codeline lineno="97"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="47" refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7db3af6ee18fb7741818ac5813a78f93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;std::string,<sp/>4&gt;<sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7db3af6ee18fb7741818ac5813a78f93" kindref="member">FlagKeys</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;x187&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;y187&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;z187&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;w187&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c78f788dff06e424c24bbb11a2ae2c6" kindref="member">textureTag</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::array&lt;int,<sp/>4&gt;<sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1ac74c6108b22de6d1a3c049c3e1620adc" kindref="member">routingFlags</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;int,<sp/>4&gt;&amp;<sp/>tags);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1ad8c161164f1abf7e2bd5d12a09834a25" kindref="member">names</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c34bf70df98798eff673071afa293c5" kindref="member">isOwnKVP</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/RabbitFX.h"/>
   </compounddef>

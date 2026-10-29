@@ -98,6 +98,49 @@ class IniFileTest(BaseUnitTest):
         self.assertEqual(FRB.IniFile.getSectionNameFromLine("[TextureOverrideBody]"), "TextureOverrideBody")
 
     # ================================================
+    # ======== a section declared more than once =====
+    # 3DMigoto's rule (IniHandler.cpp) for an included .ini: a prefixed section's repeat is rejected, any
+    # other name's repeat is appended to the first declaration
+
+    def _values(self, section, key):
+        values = []
+        for part in section.parts:
+            if isinstance(part, FRB.IfContentPart):
+                values += [value.strip() for entryKey, value in part.entries() if entryKey == key]
+        return values
+
+    def test_mergesRepeatedSection(self):
+        for name in ["Constants", "Present", "ClearRenderTargetView", "present", "SomethingUnknown"]:
+            self.assertTrue(FRB.IniFile.mergesRepeatedSection(name), name)
+
+        for name in ["TextureOverrideBody", "textureoverridebody", "ResourceBody", "CommandListX", "KeySwap", "ShaderRegexA", "CustomShaderB", "Preset1", "Include"]:
+            self.assertFalse(FRB.IniFile.mergesRepeatedSection(name), name)
+
+    def test_getIfTemplates_repeatedPresent_mergedIntoTheFirst(self):
+        ini = FRB.IniFile(txt = "[Present]\npost $a = 0\n\n[TextureOverrideBody]\nhash = abc123\n\n[present]\npost $object_detected = 0\n")
+
+        self.compareList(ini.getSectionNames(), ["Present", "TextureOverrideBody"])
+        present = ini.getSection("Present")
+        self.compareList(self._values(present, "post $a"), ["0"])
+        self.compareList(self._values(present, "post $object_detected"), ["0"])
+
+    def test_getIfTemplates_repeatedConstants_keepsEveryDeclarationsLines(self):
+        ini = FRB.IniFile(txt = "[Constants]\nglobal $a = 1\n\n[Constants]\nglobal $mesh_vertex_count = 42\n\n[Constants]\nglobal $b = 2\n")
+
+        constants = ini.getSection("Constants")
+        self.compareList(self._values(constants, "global $a"), ["1"])
+        self.compareList(self._values(constants, "global $mesh_vertex_count"), ["42"])
+        self.compareList(self._values(constants, "global $b"), ["2"])
+
+    def test_getIfTemplates_repeatedTextureOverride_firstOnly(self):
+        ini = FRB.IniFile(txt = "[TextureOverrideBody]\nhash = abc123\n\n[textureoverridebody]\nhash = def456\nrun = CommandListRabbitFX\n")
+
+        self.compareList(ini.getSectionNames(), ["TextureOverrideBody"])
+        body = ini.getSection("TextureOverrideBody")
+        self.compareList(self._values(body, "hash"), ["abc123"])
+        self.compareList(self._values(body, "run"), [])
+
+    # ================================================
     # ================== classifying =================
 
     def test_classify_namesTheModType(self):

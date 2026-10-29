@@ -23,6 +23,7 @@ namespace AGRemapCore {
         undrawn_.clear();
         drawRanges_.clear();
         drawParts_.clear();
+        libraries_.clear();
         lateBindings_.clear();
         replacesByHash_ = false;
         resourceFiles_.clear();
@@ -99,6 +100,17 @@ namespace AGRemapCore {
 
     void IniParseData::addDrawPart(const ModObj& modObj, std::size_t part) {
         drawParts_[modObj].insert(part);
+    }
+
+    const std::set<std::string>& IniParseData::libraries(const ModObj& modObj) const {
+        static const std::set<std::string> none;
+        fill();
+        const auto found = libraries_.find(modObj);
+        return found == libraries_.end() ? none : found->second;
+    }
+
+    void IniParseData::addLibrary(const ModObj& modObj, std::string library) {
+        libraries_[modObj].insert(std::move(library));
     }
 
     const std::vector<std::string>& IniParseData::lateBindings(const ModObj& modObj) const {

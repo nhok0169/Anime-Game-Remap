@@ -497,6 +497,26 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether a `section`_ named 'name' declared again in the same ``.ini`` file is MERGED into
+             its first declaration, rather than ignored :raw-html:`<br />` :raw-html:`<br />`
+
+             This is 3DMigoto's rule for a file it includes (every mod's ``.ini``, each under a namespace
+             of its own): a `section`_ whose name starts with one of 3DMigoto's section prefixes
+             (``ShaderOverride``, ``ShaderRegex``, ``TextureOverride``, ``CustomShader``,
+             ``CommandList``, ``BuiltInCustomShader``, ``BuiltInCommandList``, ``Resource``, ``Key``,
+             ``Preset``, ``Include``) is namespaced, and a repeat of it is rejected -- the first
+             declaration is the one that runs. Any other name (``[Constants]``, ``[Present]``,
+             ``[ClearRenderTargetView]``, ...) cannot be namespaced, and a repeat's lines are appended
+             to the first's. Names are compared without regard to case, as 3DMigoto compares them
+             @endrst
+             *
+             * @param name The `section`_'s name
+             */
+            static bool mergesRepeatedSection(const std::string& name);
+
+            /**
+             * @brief
+             @rst
              Classifies the .ini file, determining #isMod, #isFixed, and #modTypes -- reads the
              .ini file first via #readFileLines if it hasn't been read yet :raw-html:`<br />`
              :raw-html:`<br />`
@@ -662,6 +682,13 @@ namespace AGRemapCore {
 
             /**
              * @brief Parses all the :cpp:class:`IfTemplate`\\s for the .ini file -- see #getIfTemplates for the cached version
+             *
+             @rst
+             A `section`_ declared more than once is read as 3DMigoto reads it (see
+             #mergesRepeatedSection): one :cpp:class:`IfTemplate`, under the first declaration's name,
+             holding every declaration's lines when the name merges, and the first declaration's alone
+             when it does not
+             @endrst
              *
              * @return The parsed :cpp:class:`IfTemplate`\\s, keyed by `section`_ name
              */

@@ -37,6 +37,11 @@ namespace AGRemapCore {
     class RabbitFX {
         public:
             /**
+             * @brief The library's name, as :cpp:func:`IniParseData::libraries` records it
+             */
+            static inline const std::string Name = "RabbitFX";
+
+            /**
              * @brief The four routing flags ``SetTextures`` writes, in register order
              */
             static inline const std::array<std::string, 4> FlagKeys = {"x187", "y187", "z187", "w187"};

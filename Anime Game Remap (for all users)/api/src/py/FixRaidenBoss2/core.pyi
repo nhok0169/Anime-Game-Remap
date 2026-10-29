@@ -11206,6 +11206,18 @@ class IniParseData:
         range: Tuple[:class:`int`, :class:`int`]
             The draw's ``(index count, first index)``
         """
+    def addLibrary(self, modObj: tuple[str, str], library: str) -> None:
+        """
+        Records one of :meth:`libraries`
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The mod object, ``(component, object)``
+        
+        library: :class:`str`
+            The library's name
+        """
     def addUndrawn(self, modObj: tuple[str, str]) -> None:
         """
         Records that the mod leaves ``modObj`` undrawn
@@ -11345,6 +11357,21 @@ class IniParseData:
         -------
         List[:class:`str`]
             The registers
+        """
+    def libraries(self, modObj: tuple[str, str]) -> set[str]:
+        """
+        The external libraries a mod object's `sections`_ name on any of their lines (eg. ``RabbitFX``), by the
+        name the parser gives each
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The mod object, ``(component, object)``
+        
+        Returns
+        -------
+        Set[:class:`str`]
+            The libraries
         """
     def refusedRoleOf(self, resource: str) -> str | None:
         """
@@ -14214,6 +14241,29 @@ class IniFile:
         -------
         :class:`bool`
             Whether the line declares a `section`_
+        """
+    @staticmethod
+    def mergesRepeatedSection(name: str) -> bool:
+        """
+        Whether a `section`_ named 'name' declared again in the same .ini file is MERGED into its first declaration,
+        rather than ignored
+        
+        This is 3DMigoto's rule for a file it includes (every mod's .ini, each under a namespace of its own): a
+        `section`_ whose name starts with one of 3DMigoto's section prefixes (``ShaderOverride``, ``ShaderRegex``,
+        ``TextureOverride``, ``CustomShader``, ``CommandList``, ``BuiltInCustomShader``, ``BuiltInCommandList``,
+        ``Resource``, ``Key``, ``Preset``, ``Include``) is namespaced, and a repeat of it is rejected -- the first
+        declaration is the one that runs. Any other name (``[Constants]``, ``[Present]``, ...) cannot be
+        namespaced, and a repeat's lines are appended to the first's. Names are compared without regard to case
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The `section`_'s name
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether its repeats are merged
         """
     def __init__(self, file: str | None = None, txt: str = '', gameTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, filteredFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, overrideModTypes: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, ModType] | None = None, iniClassifier: BaseIniClassifier = None, downloadMode: typing.Any = None, fromVersion: FixRaidenBoss2.core.Version | None = None, toVersion: FixRaidenBoss2.core.Version | None = None, filteredToModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None) -> None:
         ...

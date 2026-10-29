@@ -7931,6 +7931,17 @@ mod is confirmed in game, so concatenating there would have changed a working te
 guess. `ConcatenatedSections` is the explicit set (today: `Constants`), and everything else keeps
 the previous reading until a case proves the semantics.
 
+**THE CASE IS PROVED NOW, BY 3DMIGOTO'S OWN SOURCE, AND `IniFile` FOLLOWS IT (2026-10-29).** Every mod
+`.ini` is an INCLUDED file with a namespace (`DirectX11/IniHandler.cpp`, `ParseIniSectionLine`). A section
+whose name starts with one of 3DMigoto's prefixes (`ShaderOverride`, `ShaderRegex`, `TextureOverride`,
+`CustomShader`, `CommandList`, `BuiltIn...`, `Resource`, `Key`, `Preset`, `Include`) is namespaced and a
+repeat is REJECTED (`Duplicate section found`) -- the first runs, which is why Chisa6's second
+`[TextureOverrideTexture202]` never mattered. Any other name (`[Constants]`, `[Present]`, `[Clear...]`) cannot
+be namespaced, and a repeat is APPENDED to the first. Both compare names without regard to case.
+`IniFile::mergesRepeatedSection` is the rule and `getIfTemplates` applies it, so a fixer reads one merged
+`[Present]` or `[Constants]` rather than re-scanning the text (`WWMIFixer` did, for Changli4's three
+`[Present]`). `chisaParfaitFix.py`'s `ConcatenatedSections` is the prototype's older, narrower copy.
+
 The blast radius was measured before the change rather than after: of the Chisa mods, five repeat a
 name, and comparing the two readings on exactly the lookups the fix performs showed **only**
 Chisa12's vertex count moving (`None -> 1017868`), with Chisa2's repeat being two IDENTICAL blocks

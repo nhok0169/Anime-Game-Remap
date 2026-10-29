@@ -151,6 +151,17 @@ class IniParseDataTest(BaseUnitTest):
         data.clear()
         self.assertEqual(data.rolesOfResource("ResourceTexture7"), [])
 
+    def test_libraries_perObject(self):
+        data = FRB.IniParseData()
+        obj = ("", "component3")
+        self.assertEqual(data.libraries(obj), set())
+        data.addLibrary(obj, "RabbitFX")
+        data.addLibrary(obj, "RabbitFX")
+        self.assertEqual(data.libraries(obj), {"RabbitFX"})
+        self.assertEqual(data.libraries(("", "component4")), set())
+        data.clear()
+        self.assertEqual(data.libraries(obj), set())
+
     def test_blendVersion(self):
         data = FRB.IniParseData()
         self.assertIsNone(data.blendVersion())

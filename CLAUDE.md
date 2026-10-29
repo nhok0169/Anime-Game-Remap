@@ -771,9 +771,10 @@ different KINDS.
 `res/` folder of UI art) declares `[Constants]` **three times in one file**, and a
 `{section: lines}` dict keeps one of them -- so `global $mesh_vertex_count` sat at line 208 and the
 run skipped the whole `.ini` saying it was missing. **When a run names a key it cannot find, grep
-the file for that key before believing it.** What a repeat MEANS is per section, so only
-`[Constants]` is concatenated: a repeated `TextureOverride` is a mod-authoring error whose runtime
-meaning is not ours to guess, and one confirmed-working mod has two of them naming DIFFERENT hashes.
+the file for that key before believing it.** What a repeat MEANS is 3DMigoto's rule, which
+`IniFile` follows since 2026-10-29 (`IniFile::mergesRepeatedSection`): a repeat of a prefixed section
+(`TextureOverride...`, `Resource...`, `CommandList...`) is rejected and the first runs, a repeat of any
+other name (`[Constants]`, `[Present]`) is appended to the first.
 **A mod may also UV half a part into the [1, 2) TILE and rely on the sampler wrapping** -- one side
 of the body then renders flat and pale where the other has its detail (reported as a nipple, a
 fishnet and a tonal step, all one defect), and NEITHER character's own model ever leaves [0, 1), so

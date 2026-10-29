@@ -2534,44 +2534,33 @@ namespace AGRemapCore {
                             additions.emplace_back(config_.texcoordReg, *texcoordResource_);
                         }
 
-                        std::vector<Kvp> bindings;
-                        RoleRegs bound;
-                        std::set<std::string> listRegs;
+                        // THE COMPONENT'S TEXTURE LIST: each role of its plan row bound at the target's register
+                        // -- a role the mod toggles against the game's texture by its toggle (planToggledRoles),
+                        // `null` as nothing, and the rest by bindLine
+                        const std::string passGuard = passCondition(config_.slotPasses.at(static_cast<std::size_t>(planned.slot)));
+                        TextureLines main;
                         for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
                             if (binding.role == IniKeywords::Null) {
-                                bindings.push_back(nullLine(binding.reg));
-                                continue;
-                            }
-
-                            // see planToggledRoles: the game's own, and the mod's carried lines on its toggle
-                            const auto toggled = toggledGame_.find({binding.role, component});
-                            if (toggled != toggledGame_.end()) {
-                                bindings.push_back({binding.reg, toggled->second});
-                                bound.emplace_back(binding.role, binding.reg);
-                                continue;
-                            }
-
-                            const std::string* resource = resourceFor(binding.role, component);
-                            if (resource != nullptr) {
-                                bindings.push_back(bindLine(binding.role, binding.reg, *resource,
-                                                            rerouteShaders_.count(component) > 0));
-                                bound.emplace_back(binding.role, binding.reg);
+                                main.lines.push_back(nullLine(binding.reg));
+                            } else if (const auto toggled = toggledGame_.find({binding.role, component}); toggled != toggledGame_.end()) {
+                                main.bind(binding, {binding.reg, toggled->second});
+                            } else if (const std::string* resource = resourceFor(binding.role, component)) {
+                                main.bind(binding, bindLine(binding.role, binding.reg, *resource, rerouteShaders_.count(component) > 0));
                             }
                         }
-                        for (const Kvp& kvp : bindings) {
+
+                        // the registers the list binds -- a toggled role's `run =` line binds its register too
+                        std::set<std::string> listRegs;
+                        for (const Kvp& kvp : main.lines) {
                             listRegs.insert(StringTools::toLower(kvp.first));
                         }
-                        for (const auto& [role, reg] : bound) {
+                        for (const auto& [role, reg] : main.bound) {
                             listRegs.insert(StringTools::toLower(reg));
                         }
 
-                        if (!bindings.empty()) {
-                            const std::string cmdList = remapFixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
-                                                                + std::to_string(component) + "Textures");
-                            SectionText list(z3_, cmdList);
-                            list.open(passCondition(config_.slotPasses.at(static_cast<std::size_t>(planned.slot))))
-                                .keys(bindings);
-                            addTextureList(list.close().build(), component, bound);
+                        if (!main.lines.empty()) {
+                            const std::string cmdList = textureListName(component);
+                            addTextureList(cmdList, passGuard, main, component);
 
                             // THE ROLE'S BINDINGS ARE DEFAULTS, SET BEFORE THE MOD'S OWN TEXTURE LINES
                             // (2026-10-28): right after the match keys, so the carried lines -- re-keyed to
@@ -2591,36 +2580,20 @@ namespace AGRemapCore {
 
                         // GENERATION 0: THE DRAWS THIS SECTION MAKES BEFORE IT BINDS ANYTHING
                         // (2026-10-03). They rendered with the SOURCE's own game textures, so that
-                        // is what they are given -- see lateBindRegs_ and planGameTexEdits. Emitted
-                        // AFTER the list above so it wins for those draws, and the list above is
-                        // re-run below at the point the mod's own bindings start.
-                        const auto late = lateBindRegs_.find(component);
-                        if (late != lateBindRegs_.end() && !gameResourceOfRole_.empty()) {
-                            std::vector<Kvp> gameBindings;
-                            RoleRegs gameBound;
+                        // is what they are given -- see lateBindRegs_ and planGameTexEdits. Run with the
+                        // additions, after the list above, so it wins for those draws.
+                        if (lateBindRegs_.count(component) > 0 && !gameResourceOfRole_.empty()) {
+                            TextureLines game;
                             for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
-                                if (binding.role == IniKeywords::Null) {
-                                    continue;
-                                }
-
-                                const auto at = gameResourceOfRole_.find(binding.role);
-                                if (at != gameResourceOfRole_.end()) {
-                                    gameBindings.push_back(bindLine(binding.role, binding.reg, gameResourceFor(binding.role, component),
-                                                                    rerouteShaders_.count(component) > 0));
-                                    gameBound.emplace_back(binding.role, binding.reg);
+                                if (binding.role != IniKeywords::Null && gameResourceOfRole_.count(binding.role) > 0) {
+                                    game.bind(binding, bindLine(binding.role, binding.reg, gameResourceFor(binding.role, component),
+                                                                rerouteShaders_.count(component) > 0));
                                 }
                             }
 
-                            if (!gameBindings.empty()) {
-                                const std::string gameList =
-                                    remapFixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
-                                            + std::to_string(component) + GameSuffix + "Textures");
-                                addTextureList(SectionText(z3_, gameList)
-                                                   .open(passCondition(config_.slotPasses.at(static_cast<std::size_t>(planned.slot))))
-                                                   .keys(gameBindings)
-                                                   .close()
-                                                   .build(),
-                                               component, gameBound);
+                            if (!game.lines.empty()) {
+                                const std::string gameList = textureListName(component, GameSuffix);
+                                addTextureList(gameList, passGuard, game, component);
                                 additions.emplace_back(IniKeywords::Run, gameList);
                             }
                         }
@@ -2632,8 +2605,7 @@ namespace AGRemapCore {
                         if (extra != config_.extraPassRegs.end()) {
                             int n = 0;
                             for (const auto& [pass, regs] : extra->second) {
-                                std::vector<Kvp> extraBindings;
-                                RoleRegs extraBound;
+                                TextureLines passLines;
                                 for (const WWMIFixerConfig::Binding& binding : regs) {
                                     // A binding for ONE source, on a slot two sources merge onto --
                                     // see Binding::srcComponent. The default -1 takes every source,
@@ -2642,11 +2614,9 @@ namespace AGRemapCore {
                                         continue;
                                     }
 
-                                    const std::string* resource = resourceFor(binding.role, component);
-                                    if (resource != nullptr) {
-                                        extraBindings.push_back(bindLine(binding.role, binding.reg, *resource,
+                                    if (const std::string* resource = resourceFor(binding.role, component)) {
+                                        passLines.bind(binding, bindLine(binding.role, binding.reg, *resource,
                                                                          rerouteShaders_.count(component) > 0));
-                                        extraBound.emplace_back(binding.role, binding.reg);
                                     }
                                 }
 
@@ -2654,27 +2624,15 @@ namespace AGRemapCore {
                                 // WWMIFixerConfig::extraPassNoDraw. Inside the list, which is
                                 // already gated on the pass, so it reaches that pass alone.
                                 const auto noDraw = config_.extraPassNoDraw.find(planned.slot);
-                                const bool suppress = noDraw != config_.extraPassNoDraw.end()
-                                                      && noDraw->second.count(pass) > 0;
-                                if (suppress) {
-                                    extraBindings.emplace_back(IniKeywords::Ib, IniKeywords::Null);
+                                if (noDraw != config_.extraPassNoDraw.end() && noDraw->second.count(pass) > 0) {
+                                    passLines.lines.emplace_back(IniKeywords::Ib, IniKeywords::Null);
                                 }
 
-                                if (extraBindings.empty()) {
-                                    ++n;
-                                    continue;
+                                if (!passLines.lines.empty()) {
+                                    const std::string extraList = textureListName(component, "", "Pass" + std::to_string(n));
+                                    addTextureList(extraList, passCondition(pass), passLines, component);
+                                    additions.emplace_back(IniKeywords::Run, extraList);
                                 }
-
-                                const std::string extraList =
-                                    remapFixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
-                                            + std::to_string(component) + "TexturesPass" + std::to_string(n));
-                                addTextureList(SectionText(z3_, extraList)
-                                                   .open(passCondition(pass))
-                                                   .keys(extraBindings)
-                                                   .close()
-                                                   .build(),
-                                               component, extraBound);
-                                additions.emplace_back(IniKeywords::Run, extraList);
                                 ++n;
                             }
                         }
@@ -5891,15 +5849,31 @@ namespace AGRemapCore {
 
                 using RoleRegs = std::vector<std::pair<std::string, std::string>>;
 
-                // A texture list among the fix's sections, and the (role, register) pairs it binds --
-                // which binding of a file plays which role is what collectTexEdits edits by
-                void addTextureList(std::unique_ptr<IfTemplate<std::string, std::string>> list, int component, const RoleRegs& bound) {
-                    const std::string name = list->name;
-                    addFixSection(std::move(list));
+                // The lines of one texture list, and the (role, register) pairs among them
+                struct TextureLines {
+                    std::vector<Kvp> lines;
+                    RoleRegs bound;
+
+                    void bind(const WWMIFixerConfig::Binding& binding, Kvp line) {
+                        lines.push_back(std::move(line));
+                        bound.emplace_back(binding.role, binding.reg);
+                    }
+                };
+
+                // `CommandList<Source>Component<N><infix>Textures<suffix>`, under the fix's name
+                std::string textureListName(int component, const std::string& infix = "", const std::string& suffix = "") const {
+                    return remapFixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
+                                        + std::to_string(component) + infix + "Textures" + suffix);
+                }
+
+                // A texture list among the fix's sections -- its lines under 'condition' -- and the (role,
+                // register) pairs it binds, which is what collectTexEdits edits by
+                void addTextureList(const std::string& name, const std::string& condition, const TextureLines& list, int component) {
+                    addFixSection(SectionText(z3_, name).open(condition).keys(list.lines).close().build());
                     if (rerouteShaders_.count(component) > 0) {
                         rawLists_.insert(name);
                     }
-                    for (const auto& [role, reg] : bound) {
+                    for (const auto& [role, reg] : list.bound) {
                         listsOfRole_[{role, reg}].insert(name);
                     }
                 }

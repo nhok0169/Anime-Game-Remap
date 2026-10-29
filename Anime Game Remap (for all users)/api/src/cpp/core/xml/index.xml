@@ -944,6 +944,11 @@
     <member refid="class_a_g_remap_core_1_1_buf_type_1aeaf0eb57e6397136854766f30eb19cba" kind="variable"><name>name_</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_data_type_1a8618956f9aee55b7d7151305a4442bcd" kind="function"><name>validateSize</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_bytes" kind="struct"><name>AGRemapCore::WWMIShapeKeys::Bytes</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_bytes_1a243cbe317cb24e6699285d22bafa2983" kind="variable"><name>offsets</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_bytes_1a02328224721ad3279a9116ad2934685d" kind="variable"><name>vertexIds</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_bytes_1a208602419fc2e47b79993f5561ee59b2" kind="variable"><name>vertexOffsets</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_cache" kind="class"><name>AGRemapCore::Cache</name>
     <member refid="class_a_g_remap_core_1_1_cache_1a7393363839a65bf315c23ddf759b649f" kind="typedef"><name>Entry</name></member>
     <member refid="class_a_g_remap_core_1_1_cache_1a71eef7814bc267b90cf2fbb69e8a952a" kind="typedef"><name>EntryList</name></member>
@@ -7293,6 +7298,7 @@
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1abd0c4c6edba5cb9bc49bbe2e71a3f77c" kind="function"><name>layoutOf</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1a641dd99713a182b8eb2c90d84495e437" kind="function"><name>checkReorder</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1a87514d7e81592e4844753168a7d5aedb" kind="function"><name>reorder</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1a5271d133b0da282d27bda8c440da6607" kind="function"><name>reordered</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kind="struct"><name>AGRemapCore::WWMITextureFacts</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a46d11b5fe1edabb8f270615fe6d206ad" kind="variable"><name>roles</name></member>

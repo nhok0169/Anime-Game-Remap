@@ -95,6 +95,13 @@ namespace AGRemapCore {
     }
 
     void WWMIShapeKeys::reorder(const Files& files, const std::vector<long long>& order, const Files& out) {
+        const Bytes bytes = reordered(files, order);
+        writeWhole(out.offsets, bytes.offsets, "the reordered shape-key offsets");
+        writeWhole(out.vertexIds, bytes.vertexIds, "the reordered shape-key vertex ids");
+        writeWhole(out.vertexOffsets, bytes.vertexOffsets, "the reordered shape-key vertex offsets");
+    }
+
+    WWMIShapeKeys::Bytes WWMIShapeKeys::reordered(const Files& files, const std::vector<long long>& order) {
         const Layout layout = layoutOf(files);
         const ByteVec ids = readWhole(files.vertexIds, "this mod's shape-key vertex ids");
         const ByteVec offsets = readWhole(files.vertexOffsets, "this mod's shape-key vertex offsets");
@@ -161,8 +168,6 @@ namespace AGRemapCore {
 
         ByteVec firstBytes(outFirsts.size() * 4);
         std::memcpy(firstBytes.data(), outFirsts.data(), firstBytes.size());
-        writeWhole(out.offsets, firstBytes, "the reordered shape-key offsets");
-        writeWhole(out.vertexIds, outIds, "the reordered shape-key vertex ids");
-        writeWhole(out.vertexOffsets, outOffsets, "the reordered shape-key vertex offsets");
+        return Bytes{std::move(firstBytes), std::move(outIds), std::move(outOffsets)};
     }
 }

@@ -123,6 +123,40 @@ namespace AGRemapCore {
              *      change the number of entries
              */
             static void reorder(const Files& files, const std::vector<long long>& order, const Files& out);
+
+            /**
+             * @brief The three buffers of one set of shape keys, as bytes -- see #reordered
+             */
+            struct Bytes {
+                /**
+                 * @brief ``ShapeKeyOffset``
+                 */
+                std::vector<std::uint8_t> offsets;
+
+                /**
+                 * @brief ``ShapeKeyVertexId``
+                 */
+                std::vector<std::uint8_t> vertexIds;
+
+                /**
+                 * @brief ``ShapeKeyVertexOffset``
+                 */
+                std::vector<std::uint8_t> vertexOffsets;
+            };
+
+            /**
+             * @brief The buffers #reorder writes, as bytes -- for a caller that hands them to the fix's
+             *        resources rather than writing them itself
+             *
+             * @param files The buffers to read
+             * @param order The source key for each slot -- see #reorder
+             *
+             * @throws std::runtime_error if a buffer cannot be read, or the reorder would change the
+             *      number of entries
+             *
+             * @return The reordered buffers
+             */
+            static Bytes reordered(const Files& files, const std::vector<long long>& order);
     };
 }
 

@@ -482,6 +482,42 @@ Returns
     The reason, or ``""``
     )doc");
 
+    py::class_<AGRC::WWMIShapeKeys::Bytes>(shapeKeys, "Bytes", R"doc(
+The three buffers of one set of shape keys, as bytes -- see :meth:`WWMIShapeKeys.reordered`
+    )doc")
+        .def_property_readonly("offsets", [](const AGRC::WWMIShapeKeys::Bytes& self) {
+            return py::bytes(reinterpret_cast<const char*>(self.offsets.data()), self.offsets.size());
+        }, ":class:`bytes`: ``ShapeKeyOffset``")
+        .def_property_readonly("vertexIds", [](const AGRC::WWMIShapeKeys::Bytes& self) {
+            return py::bytes(reinterpret_cast<const char*>(self.vertexIds.data()), self.vertexIds.size());
+        }, ":class:`bytes`: ``ShapeKeyVertexId``")
+        .def_property_readonly("vertexOffsets", [](const AGRC::WWMIShapeKeys::Bytes& self) {
+            return py::bytes(reinterpret_cast<const char*>(self.vertexOffsets.data()), self.vertexOffsets.size());
+        }, ":class:`bytes`: ``ShapeKeyVertexOffset``");
+
+    shapeKeys.def_static("reordered", &AGRC::WWMIShapeKeys::reordered, py::arg("files"), py::arg("order"), R"doc(
+The buffers :meth:`reorder` writes, as bytes -- for a caller that hands them to the fix's resources rather
+than writing them itself
+
+Parameters
+----------
+files: :class:`WWMIShapeKeys.Files`
+    The buffers to read
+
+order: List[:class:`int`]
+    The source key for each slot -- see :meth:`reorder`
+
+Raises
+------
+:class:`RuntimeError`
+    If a buffer cannot be read, or the reorder would change the number of entries
+
+Returns
+-------
+:class:`WWMIShapeKeys.Bytes`
+    The reordered buffers
+    )doc");
+
     shapeKeys.def_static("reorder", &AGRC::WWMIShapeKeys::reorder, py::arg("files"), py::arg("order"), py::arg("out"), R"doc(
 Writes the buffers again with their slots in another order
 

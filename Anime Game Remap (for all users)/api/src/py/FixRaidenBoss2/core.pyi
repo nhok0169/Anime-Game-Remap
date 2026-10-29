@@ -29813,6 +29813,27 @@ class WWMIShapeKeys:
         Every method is static; the class holds nothing
         
     """
+    class Bytes:
+        """
+        
+        The three buffers of one set of shape keys, as bytes -- see :meth:`WWMIShapeKeys.reordered`
+            
+        """
+        @property
+        def offsets(self) -> bytes:
+            """
+            :class:`bytes`: ``ShapeKeyOffset``
+            """
+        @property
+        def vertexIds(self) -> bytes:
+            """
+            :class:`bytes`: ``ShapeKeyVertexId``
+            """
+        @property
+        def vertexOffsets(self) -> bytes:
+            """
+            :class:`bytes`: ``ShapeKeyVertexOffset``
+            """
     class Files:
         """
         
@@ -29950,6 +29971,30 @@ class WWMIShapeKeys:
         ------
         :class:`RuntimeError`
             If a buffer cannot be read or written, or the reorder would change the number of entries
+        """
+    @staticmethod
+    def reordered(files: WWMIShapeKeys.Files, order: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> WWMIShapeKeys.Bytes:
+        """
+        The buffers :meth:`reorder` writes, as bytes -- for a caller that hands them to the fix's resources rather
+        than writing them itself
+        
+        Parameters
+        ----------
+        files: :class:`WWMIShapeKeys.Files`
+            The buffers to read
+        
+        order: List[:class:`int`]
+            The source key for each slot -- see :meth:`reorder`
+        
+        Raises
+        ------
+        :class:`RuntimeError`
+            If a buffer cannot be read, or the reorder would change the number of entries
+        
+        Returns
+        -------
+        :class:`WWMIShapeKeys.Bytes`
+            The reordered buffers
         """
 
 class WWMITextureFacts:

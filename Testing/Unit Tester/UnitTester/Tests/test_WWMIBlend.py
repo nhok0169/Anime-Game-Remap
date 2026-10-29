@@ -232,3 +232,15 @@ class WWMIShapeKeysTest(BaseUnitTest):
         self.assertEqual(self._read(out.vertexIds), struct.pack("<4I", 11, 12, 10, 13))
         self.assertEqual(self._read(out.vertexOffsets), b"BBCC" + b"\0\0" + b"DD")
 
+    def test_reordered_isWhatReorderWrites(self):
+        files = self._files("src")
+        out = self._files("out")
+        self._write(files, [0, 1, 3], [10, 11, 12, 13], b"AABBCCDD")
+
+        bytesOut = FRB.WWMIShapeKeys.reordered(files, [1, -1])
+        FRB.WWMIShapeKeys.reorder(files, [1, -1], out)
+
+        self.assertEqual(bytesOut.offsets, self._read(out.offsets))
+        self.assertEqual(bytesOut.vertexIds, self._read(out.vertexIds))
+        self.assertEqual(bytesOut.vertexOffsets, self._read(out.vertexOffsets))
+

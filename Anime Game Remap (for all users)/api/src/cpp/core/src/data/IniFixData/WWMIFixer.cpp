@@ -252,30 +252,6 @@ namespace AGRemapCore {
         }
 
 
-        /**
-         * @brief
-         @rst
-         The zero shape-key stream's one element -- ``stride`` bytes a vertex, all of them zero
-         :raw-html:`<br />` :raw-html:`<br />`
-
-         Declared rather than written as a byte count so the file goes out through
-         :cpp:func:`BufFile::fix` like every other buffer the fix writes
-         @endrst
-         *
-         * @param stride How many bytes each vertex carries
-         *
-         * @return The elements
-         */
-        std::vector<std::unique_ptr<BufElementType>> zeroStreamElements(int stride) {
-            std::vector<std::unique_ptr<BufElementType>> elements;
-            elements.push_back(BufElementType::repeated(
-                ShapeKeyZero, static_cast<std::size_t>(stride),
-                [] { return std::make_unique<BufUnSignedInt>("UnsignedInt8", 1, false); }, "R8_UINT"));
-
-            return elements;
-        }
-
-
         using AnchorAdd = RegAnchorAdd<>;
         using Kvps = std::vector<std::pair<std::string, std::string>>;
         using DrawRange = std::pair<long long, long long>;
@@ -733,9 +709,6 @@ namespace AGRemapCore {
                 // edits, so a parse alone writes nothing.
                 void beforeGraphGroupEdits(const std::string&) override {
                     if (!hasGivenUp()) {
-                        writeZeroStream();
-                        writeShapeKeyOrder();
-                        writeMirrorBuffers();
                         addCreatedTextures();
                         addFallbackDownloads();
                     }
@@ -744,6 +717,7 @@ namespace AGRemapCore {
                 void afterGraphGroupEdits(const std::string& modName) override {
                     if (!hasGivenUp()) {
                         addShaderGraphs(modName);
+                        collectFixFiles(modName);
                     }
 
                     collectTexEdits(modName);
@@ -1301,7 +1275,7 @@ namespace AGRemapCore {
                                 meshVertexCount_ = std::stoll(*count);
                             } catch (const std::exception&) {
                                 // 0 is not a harmless fallback: it turns the zero shape-key stream
-                                // OFF (writeZeroStream returns on <= 0), which is the wavy-vertices
+                                // OFF (no stream is made for a count <= 0), which is the wavy-vertices
                                 // fault that stream exists to remove.
                                 ctx_.log("this mod's " + MeshVertexCountKey + " is `" + *count
                                      + "`, which is not a number, so the zero shape-key stream is"
@@ -4887,28 +4861,39 @@ namespace AGRemapCore {
                                    .build());
                     }
 
+                    // the zero shape-key stream: a buffer of zeros, one line a vertex
                     if (config_.zeroShapeKeyStream && meshVertexCount_ > 0) {
-                        addFixSection(SectionText(z3_, remapFixName(IniKeywords::Resource + ShapeKeyZero))
-                                   .keys({{IniKeywords::Type, IniKeywords::Buffer},
-                                          {IniKeywords::Format, "DXGI_FORMAT_R32G32B32_FLOAT"},
-                                          {IniKeywords::Stride, std::to_string(config_.shapeKeyStride)},
-                                          {IniKeywords::Filename, zeroStreamFile()}})
-                                   .build());
+                        const std::size_t size = static_cast<std::size_t>(meshVertexCount_) * static_cast<std::size_t>(config_.shapeKeyStride);
+                        addFixFile(remapFixName(IniKeywords::Resource + ShapeKeyZero),
+                                   {{IniKeywords::Type, IniKeywords::Buffer},
+                                    {IniKeywords::Format, "DXGI_FORMAT_R32G32B32_FLOAT"},
+                                    {IniKeywords::Stride, std::to_string(config_.shapeKeyStride)}},
+                                   zeroStreamFile(), [size]() { return ByteVec(size, 0); }, {config_.shapeKeyStreamReg});
                     }
 
-                    // see WWMIFixerConfig::shapeKeyOrder: the mod's own declarations, on the copies
+                    // see WWMIFixerConfig::shapeKeyOrder: the mod's own declarations, on the reordered copies
                     if (!shapeKeyFiles_.empty()) {
-                        for (const std::string& resource : ShapeKeyResources) {
+                        auto reordered = std::make_shared<std::optional<WWMIShapeKeys::Bytes>>();
+                        const auto bytesOf = [this, reordered](std::size_t which) {
+                            if (!reordered->has_value()) {
+                                *reordered = WWMIShapeKeys::reordered(shapeKeyFiles(false), config_.shapeKeyOrder);
+                            }
+                            const WWMIShapeKeys::Bytes& bytes = **reordered;
+                            return which == 0 ? bytes.offsets : which == 1 ? bytes.vertexIds : bytes.vertexOffsets;
+                        };
+
+                        for (std::size_t which = 0; which < ShapeKeyResources.size(); ++which) {
+                            const std::string& resource = ShapeKeyResources[which];
                             const ShapeKeyFile& file = shapeKeyFiles_.at(resource);
-                            SectionText section(z3_, remapFixName(resource));
-                            section.key(IniKeywords::Type, file.type);
+                            Kvps keys{{IniKeywords::Type, file.type}};
                             if (!file.format.empty()) {
-                                section.key(IniKeywords::Format, file.format);
+                                keys.emplace_back(IniKeywords::Format, file.format);
                             }
                             if (!file.stride.empty()) {
-                                section.key(IniKeywords::Stride, file.stride);
+                                keys.emplace_back(IniKeywords::Stride, file.stride);
                             }
-                            addFixSection(section.key(IniKeywords::Filename, shapeKeyOrderFile(resource)).build());
+                            addFixFile(remapFixName(resource), std::move(keys), shapeKeyOrderFile(resource),
+                                       [bytesOf, which]() { return bytesOf(which); }, {"cs-t33", "cs-t0", "cs-t1"});
                         }
                     }
 
@@ -4928,24 +4913,28 @@ namespace AGRemapCore {
                         addFixSection(restore.build());
                     }
 
+                    // the mirrored twin's buffers -- see WWMIFixerConfig::mirroredComponents
                     const std::set<int> mirrored = mirroredSet();
+                    if (mirrored.empty() && !config_.mirroredComponents.empty()) {
+                        ctx_.log("no component could carry a mirrored twin -- a mod needs one draw"
+                             " range per mirrored component and an [" + IniKeywords::WWMIIndexBuffer
+                             + "] and [" + IniKeywords::WWMIVectorBuffer + "] of its own");
+                    }
                     if (!mirrored.empty()) {
-                        addFixSection(SectionText(z3_, remapFixName(IniKeywords::Resource + "MirrorVector"))
-                                   .keys({{IniKeywords::Type, IniKeywords::Buffer},
-                                          {IniKeywords::Format, "DXGI_FORMAT_R8G8B8A8_SNORM"},
-                                          {IniKeywords::Stride, "8"},
-                                          {IniKeywords::Filename, mirrorVectorFile()}})
-                                   .build());
+                        addFixFile(remapFixName(IniKeywords::Resource + "MirrorVector"),
+                                   {{IniKeywords::Type, IniKeywords::Buffer},
+                                    {IniKeywords::Format, "DXGI_FORMAT_R8G8B8A8_SNORM"},
+                                    {IniKeywords::Stride, "8"}},
+                                   mirrorVectorFile(), [this]() { return mirrorVectorBytes(); }, {config_.vectorReg});
                     }
 
                     for (int component : mirrored) {
-                        addFixSection(SectionText(z3_, remapFixName(IniKeywords::Resource + "MirrorIndex"
-                                                        + std::to_string(component)))
-                                   .keys({{IniKeywords::Type, IniKeywords::Buffer},
-                                          {IniKeywords::Format, "DXGI_FORMAT_R32_UINT"},
-                                          {IniKeywords::Stride, "12"},
-                                          {IniKeywords::Filename, mirrorIndexFile(component)}})
-                                   .build());
+                        addFixFile(remapFixName(IniKeywords::Resource + "MirrorIndex" + std::to_string(component)),
+                                   {{IniKeywords::Type, IniKeywords::Buffer},
+                                    {IniKeywords::Format, "DXGI_FORMAT_R32_UINT"},
+                                    {IniKeywords::Stride, "12"}},
+                                   mirrorIndexFile(component), [this, component]() { return mirrorIndexBytes(component); },
+                                   {IniKeywords::Ib});
                     }
 
 
@@ -5236,34 +5225,46 @@ namespace AGRemapCore {
 
                 // ---- at fix time ----
 
-                void writeZeroStream() {
-                    if (!config_.zeroShapeKeyStream || meshVertexCount_ <= 0) {
+                // ---- the fix's own files: each made by a FileAddCreate, collected where the fix binds it ----
+
+                // One file the fix makes: the section naming it (its keys, then `filename =`), its bytes,
+                // made when the file is written, and the registers that bind it
+                void addFixFile(const std::string& section, Kvps keys, const std::string& file,
+                                std::function<ByteVec()> makeBytes, std::initializer_list<std::string> regs) {
+                    FileAddCreate<>::File entry;
+                    entry.keys = std::move(keys);
+                    entry.file = file;
+                    entry.makeBytes = std::move(makeBytes);
+                    fixFiles_[section] = std::move(entry);
+                    fixFileRegs_.insert(regs.begin(), regs.end());
+                }
+
+                // Collected from every graph of every group, after the group edits have bound them -- which
+                // declares each file's section and hands the service the resource that writes it, so the
+                // file is written, counted and undone with the rest of the mod's
+                void collectFixFiles(const std::string& modName) {
+                    if (fixFiles_.empty() || this->graphGroups() == nullptr) {
                         return;
                     }
 
-                    const std::string path = FileService::absPathOfRelPath(zeroStreamFile(), ctx_.getIniFile()->getFolder());
-                    const auto size = static_cast<std::uintmax_t>(meshVertexCount_)
-                                      * static_cast<std::uintmax_t>(config_.shapeKeyStride);
-                    if (FileService::fileSize(path) == size) {
-                        return;                                       // already there, at the right size
-                    }
+                    Fixer::GraphGroups& groups = *this->graphGroups();
+                    IniFile* ini = ctx_.getIniFile();
+                    const std::vector<std::string> regs(fixFileRegs_.begin(), fixFileRegs_.end());
+                    const Collector::ResPredicate listed = [this](const std::string&, const std::string& value, const auto&) {
+                        return fixFiles_.count(std::string(StringTools::strip(value))) > 0;
+                    };
 
-                    // THROUGH BufFile, AND THE RESULT IS READ (2026-09-30). This wrote the bytes with
-                    // its own ofstream and discarded the result -- the defect the guides record for
-                    // `TextureFile::save`, where a run reported editing 18 textures having written
-                    // none. The stride now comes from the element declaration rather than from a byte
-                    // count, and `BufFile::fix` throws a named error when it cannot write.
-                    FileService::makeFolderFor(path);
-                    try {
-                        BufFile zeros{ByteVec(static_cast<std::size_t>(size), 0),
-                                      zeroStreamElements(config_.shapeKeyStride)};
-                        if (!zeros.isValid()) {
-                            throw std::runtime_error("its zero shape-key stream could not be built");
+                    for (std::size_t g = 0; g < groups.size(); ++g) {
+                        FileAddCreate<> create(GraphId(g, "", "fixFiles"), fixFiles_, resEditConfig());
+                        Collector collect;
+                        for (const ModObj& obj : groups.modObjs(g)) {
+                            const GraphId id(g, obj.first, obj.second);
+                            collect.srcRegs[id] = regs.front();
+                            collect.extraSrcRegs[id] = std::vector<std::string>(regs.begin() + 1, regs.end());
+                            collect.resPredicates[id] = listed;
                         }
-
-                        zeros.fix(path);
-                    } catch (const std::exception& exception) {
-                        throw std::runtime_error("cannot write " + zeroStreamFile() + ": " + exception.what());
+                        collect.resEdits = {{"fixFile", &create}};
+                        collect.editFromIni(groups, ini, nullptr, modName);
                     }
                 }
 
@@ -5282,11 +5283,6 @@ namespace AGRemapCore {
                                                 pathOf(ShapeKeyResources[2])};
                 }
 
-                void writeShapeKeyOrder() {
-                    if (!shapeKeyFiles_.empty()) {
-                        WWMIShapeKeys::reorder(shapeKeyFiles(false), config_.shapeKeyOrder, shapeKeyFiles(true));
-                    }
-                }
 
                 // The mirrored twin's two buffers -- see WWMIFixerConfig::mirroredComponents. The
                 // index one per component, holding that component's window wound the other way; the
@@ -5295,39 +5291,11 @@ namespace AGRemapCore {
                 // declarations -- and the write is READ BACK, which is the lesson the zero stream
                 // above carries: a discarded write result is how a run reports editing files it
                 // never wrote.
-                void writeMirrorBuffers() {
-                    const std::set<int> mirrored = mirroredSet();
-                    if (mirrored.empty()) {
-                        if (!config_.mirroredComponents.empty()) {
-                            ctx_.log("no component could carry a mirrored twin -- a mod needs one draw"
-                                 " range per mirrored component and an [" + IniKeywords::WWMIIndexBuffer
-                                 + "] and [" + IniKeywords::WWMIVectorBuffer + "] of its own");
-                        }
-
-                        return;
-                    }
-
-                    const std::string folder = ctx_.getIniFile()->getFolder();
-                    writeMirrorVector(folder);
-                    for (int component : mirrored) {
-                        writeMirrorIndex(folder, component);
-                    }
-                }
-
-                static void writeWhole(const std::string& path, const ByteVec& bytes, const std::string& what) {
-                    FileService::makeFolderFor(path);
-                    if (!BinaryFile::write(path, bytes)) {
-                        throw std::runtime_error("cannot write " + what + " to " + path);
-                    }
-
-                    if (FileService::fileSize(path) != static_cast<std::uintmax_t>(bytes.size())) {
-                        throw std::runtime_error("wrote " + what + " to " + path + " and it is not there");
-                    }
-                }
 
                 // R8G8B8A8_SNORM, 8 bytes a vertex: the normal in 0..2 and the tangent in 4..7. -128
                 // has no positive counterpart in SNORM, so it clamps rather than wrapping to itself.
-                void writeMirrorVector(const std::string& folder) {
+                ByteVec mirrorVectorBytes() const {
+                    const std::string folder = ctx_.getIniFile()->getFolder();
                     const auto snorm8 = [] { return std::make_unique<BufSignedInt>("SignedInt8", 1, false); };
                     std::vector<std::unique_ptr<BufElementType>> elements;
                     elements.push_back(BufElementType::repeated(MirrorNormalElement, 4, snorm8, "R8G8B8A8_SNORM"));
@@ -5342,12 +5310,11 @@ namespace AGRemapCore {
                         return out;
                     };
 
-                    const std::string path = FileService::absPathOfRelPath(mirrorVectorFile(), folder);
                     try {
                         BufFile vectors{FileService::absPathOfRelPath(vectorFile_, folder), std::move(elements)};
-                        vectors.fix(path, {negateNormal});
+                        return std::get<ByteVec>(vectors.fix(std::nullopt, {negateNormal}));
                     } catch (const std::exception& exception) {
-                        throw std::runtime_error("cannot write the mirrored vector buffer to " + path + ": " + exception.what());
+                        throw std::runtime_error("cannot build the mirrored vector buffer " + mirrorVectorFile() + ": " + exception.what());
                     }
                 }
 
@@ -5366,7 +5333,8 @@ namespace AGRemapCore {
                     return {low, high - low};
                 }
 
-                void writeMirrorIndex(const std::string& folder, int component) {
+                ByteVec mirrorIndexBytes(int component) const {
+                    const std::string folder = ctx_.getIniFile()->getFolder();
                     const auto span = mirrorSpan(component);
                     const long long first = span.first;
                     const long long count = span.second;
@@ -5382,8 +5350,7 @@ namespace AGRemapCore {
                                                  + " draws past the end of this mod's index buffer");
                     }
 
-                    writeWhole(FileService::absPathOfRelPath(mirrorIndexFile(component), folder), out,
-                               "the mirrored index buffer");
+                    return out;
                 }
 
                 // The edits the fix makes to a role's texture before binding it -- see
@@ -6419,6 +6386,8 @@ namespace AGRemapCore {
                     std::optional<std::string> offBinding;              // a one-variant toggle's binding while off
                 };
                 std::vector<ToggleList> toggleLists_;
+                std::unordered_map<std::string, FileAddCreate<>::File> fixFiles_;   // see addFixFile
+                std::set<std::string> fixFileRegs_;
                 std::vector<Fixer::GroupEdit*> toggleEdits_;
                 std::vector<std::shared_ptr<void>> toggleOwned_;
                 std::vector<std::unique_ptr<ObjGroupEdit::PartEdit>> toggleAdapters_;

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniParseData::ResourceRole</compoundname>
+    <includes refid="_ini_parse_data_8h" local="no">IniParseData.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role_1a28cae693c942d1962d69bd9603e99a6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::ResourceRole::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceRole::role</qualifiedname>
+        <briefdescription>
+<para>The role. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="476" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="476" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role_1a73bf6e380ec70210e9e1b9b51a6e4f5a" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a6cb548cc937d71c3706ea1ad617351aa" kindref="member">ModObj</ref></type>
+        <definition>ModObj AGRemapCore::IniParseData::ResourceRole::modObj</definition>
+        <argsstring></argsstring>
+        <name>modObj</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceRole::modObj</qualifiedname>
+        <briefdescription>
+<para>The mod object it was chosen for. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="481" column="24" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="481" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One role the parser chose a file for, on one mod object <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a141a1658c04b597b78fb07502222d87e" kindref="member">rolesOfResource</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="472" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="472" bodyend="482"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role_1a73bf6e380ec70210e9e1b9b51a6e4f5a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceRole</scope><name>modObj</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role_1a28cae693c942d1962d69bd9603e99a6e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceRole</scope><name>role</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

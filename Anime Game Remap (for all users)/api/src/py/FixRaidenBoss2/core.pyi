@@ -11053,6 +11053,22 @@ class IniParseData:
             """
             :class:`str`: Why, as a sentence about the file
             """
+    class ResourceRole:
+        """
+        
+        One role the parser chose a file for, on one mod object -- see :meth:`IniParseData.rolesOfResource`
+            
+        """
+        @property
+        def modObj(self) -> tuple[str, str]:
+            """
+            Tuple[:class:`str`, :class:`str`]: The mod object it was chosen for
+            """
+        @property
+        def role(self) -> str:
+            """
+            :class:`str`: The role
+            """
     class RoleFile:
         """
         
@@ -11319,6 +11335,20 @@ class IniParseData:
         List[:class:`str`]
             The registers
         """
+    def refusedRoleOf(self, resource: str) -> str | None:
+        """
+        The role the parser REFUSED the resource's file for (the first of :meth:`rejections`), or ``None``
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The resource `section`_, in any case
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The role
+        """
     def registerToggleOf(self, resource: str) -> ...:
         """
         The register toggle that chooses a resource, or ``None`` -- one `section`_ binding one register to several
@@ -11425,6 +11455,22 @@ class IniParseData:
         Optional[:class:`IniParseData.RoleFile`]
             The file it takes
         """
+    def rolesOfResource(self, resource: str) -> list[...]:
+        """
+        What a texture line binding ``resource`` binds: every ``(role, mod object)`` the parser chose the resource's
+        file for (:meth:`roleFile`), by role and then by mod object. Empty for a resource naming no texture, or one
+        chosen for nothing
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The resource `section`_, in any case
+        
+        Returns
+        -------
+        List[:class:`IniParseData.ResourceRole`]
+            The roles
+        """
     def setCarriedSections(self, sections: str) -> None:
         """
         Sets :meth:`carriedSections`
@@ -11523,6 +11569,18 @@ class IniParseData:
         
         file: :class:`IniParseData.RoleFile`
             The file it takes
+        """
+    def setTextureResource(self, resource: str, file: str) -> None:
+        """
+        Records that the .ini's resource `section`_ ``resource`` names the texture ``file``
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The resource `section`_
+        
+        file: :class:`str`
+            The file, as :meth:`roleFile` and :meth:`rejections` name it
         """
     def setTextureRoles(self, roles: TextureRoles) -> None:
         """

@@ -731,6 +731,12 @@ namespace AGRemapCore {
                         objs.push_back(slotObj(entry.first));
                     }
                     chooser.choose(data, objs);
+
+                    // which file each texture resource names, so a line binding the resource can be asked
+                    // its roles (IniParseData::rolesOfResource)
+                    for (const auto& entry : roles.resourcesOf(iniPath)) {
+                        data.setTextureResource(entry.first, entry.second);
+                    }
                 }
 
                 // The roles above, and the ones the slots' own sections bind by register. A file the

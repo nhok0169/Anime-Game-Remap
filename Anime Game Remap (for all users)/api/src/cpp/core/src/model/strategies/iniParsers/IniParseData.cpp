@@ -26,6 +26,7 @@ namespace AGRemapCore {
         lateBindings_.clear();
         replacesByHash_ = false;
         resourceFiles_.clear();
+        textureResources_.clear();
         roles_.reset();
         candidates_.clear();
         roleFiles_.clear();
@@ -131,6 +132,41 @@ namespace AGRemapCore {
     const std::map<std::string, std::string>& IniParseData::resourceFiles() const {
         fill();
         return resourceFiles_;
+    }
+
+    void IniParseData::setTextureResource(const std::string& resource, std::string file) {
+        textureResources_[StringTools::toLower(resource)] = std::move(file);
+    }
+
+    std::vector<IniParseData::ResourceRole> IniParseData::rolesOfResource(const std::string& resource) const {
+        fill();
+        std::vector<ResourceRole> result;
+        const auto file = textureResources_.find(StringTools::toLower(resource));
+        if (file == textureResources_.end()) {
+            return result;
+        }
+
+        for (const auto& [key, chosen] : roleFiles_) {
+            if (chosen.file == file->second) {
+                result.push_back(ResourceRole{key.first, key.second});
+            }
+        }
+        return result;
+    }
+
+    std::optional<std::string> IniParseData::refusedRoleOf(const std::string& resource) const {
+        fill();
+        const auto file = textureResources_.find(StringTools::toLower(resource));
+        if (file == textureResources_.end()) {
+            return std::nullopt;
+        }
+
+        for (const Rejection& rejection : rejections_) {
+            if (rejection.file == file->second) {
+                return rejection.role;
+            }
+        }
+        return std::nullopt;
     }
 
     void IniParseData::setResourceFile(const std::string& section, std::string file) {

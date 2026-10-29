@@ -467,6 +467,48 @@ namespace AGRemapCore {
             const std::vector<Rejection>& rejections() const;
 
             /**
+             * @brief One role the parser chose a file for, on one mod object -- see #rolesOfResource
+             */
+            struct ResourceRole {
+                /**
+                 * @brief The role
+                 */
+                std::string role;
+
+                /**
+                 * @brief The mod object it was chosen for
+                 */
+                ModObj modObj;
+            };
+
+            /**
+             * @brief Records that the ``.ini``'s resource `section`_ 'resource' names the texture 'file'
+             *
+             * @param resource The resource `section`_
+             * @param file The file, as #roleFile and #rejections name it
+             */
+            void setTextureResource(const std::string& resource, std::string file);
+
+            /**
+             * @brief
+             @rst
+             What a texture line binding 'resource' binds: every ``(role, mod object)`` the parser chose
+             the resource's file for (#roleFile), by role and then by mod object. Empty for a resource
+             naming no texture, or one chosen for nothing
+             @endrst
+             *
+             * @param resource The resource `section`_, in any case
+             */
+            std::vector<ResourceRole> rolesOfResource(const std::string& resource) const;
+
+            /**
+             * @brief The role the parser REFUSED the resource's file for (the first of #rejections), or ``std::nullopt``
+             *
+             * @param resource The resource `section`_, in any case
+             */
+            std::optional<std::string> refusedRoleOf(const std::string& resource) const;
+
+            /**
              * @brief Records that 'file' was refused for 'role'
              *
              * @param file The file
@@ -487,6 +529,7 @@ namespace AGRemapCore {
             std::map<ModObj, std::vector<std::string>> lateBindings_;
             bool replacesByHash_ = false;
             std::map<std::string, std::string> resourceFiles_;
+            std::map<std::string, std::string> textureResources_;
             std::unique_ptr<TextureRoles> roles_;
             std::map<std::string, std::vector<std::pair<std::string, std::string>>> candidates_;
             std::map<std::pair<std::string, ModObj>, RoleFile> roleFiles_;

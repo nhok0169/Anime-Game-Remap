@@ -3511,6 +3511,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ab872682c1a88e80e578fbdfa485d9d8c" kind="variable"><name>lateBindings_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ad79ee62e80cbf24ffa81cd107d87c95d" kind="variable"><name>replacesByHash_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ac67d8b5c752689e0106fb0e478f83f80" kind="variable"><name>resourceFiles_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ae4854559291a0026d47e855b9036dd55" kind="variable"><name>textureResources_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a4628b44da09efb0f447b942a49e4d62c" kind="variable"><name>roles_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af51d13706a0e7290660d3bf89f30cc46" kind="variable"><name>candidates_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a8b766e19b80d01847d481818694f46d5" kind="variable"><name>roleFiles_</name></member>
@@ -3552,6 +3553,9 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a505b42a2e1bd24c1140dea987b72bb42" kind="function"><name>registerToggleOf</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a910ada70ee9c385f24f9742cecbd12d9" kind="function"><name>setRegisterToggle</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a19f6a76b48323e5d1de28ed2b79558b7" kind="function"><name>rejections</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a0cffabeb9c06bf793525c08191e7c6ba" kind="function"><name>setTextureResource</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a141a1658c04b597b78fb07502222d87e" kind="function"><name>rolesOfResource</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a99389479dfe8029268175554ef5cc477" kind="function"><name>refusedRoleOf</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a6364b89f0d3d967da5352efa86899ada" kind="function"><name>reject</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a87bc4e1b90972b260c6a9baf964a0da2" kind="function"><name>fill</name></member>
   </compound>
@@ -5873,6 +5877,10 @@
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1abacd8105c841d15e5abfb4d808486db4" kind="function"><name>getResGraph</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6710f40b48ec3fe39ffa4ae31bc296bf" kind="function"><name>buildResources</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a7bc2fd1d2fe42716250c3d6d0715e241" kind="function"><name>fileAddGraphId</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role" kind="struct"><name>AGRemapCore::IniParseData::ResourceRole</name>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role_1a28cae693c942d1962d69bd9603e99a6e" kind="variable"><name>role</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role_1a73bf6e380ec70210e9e1b9b51a6e4f5a" kind="variable"><name>modObj</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type" kind="class"><name>AGRemapCore::RemapIniRemover::ResourceType</name>
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a7b99008e5701b9b45b5c078a324fdeb8" kind="variable"><name>Download</name></member>

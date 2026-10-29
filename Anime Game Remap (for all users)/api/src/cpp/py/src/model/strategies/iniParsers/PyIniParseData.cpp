@@ -492,6 +492,45 @@ Returns
 List[:class:`IniParseData.Rejection`]
     The refusals
        )doc")
+       .def("setTextureResource", &AGRC::IniParseData::setTextureResource, py::arg("resource"), py::arg("file"), R"doc(
+Records that the .ini's resource `section`_ ``resource`` names the texture ``file``
+
+Parameters
+----------
+resource: :class:`str`
+    The resource `section`_
+
+file: :class:`str`
+    The file, as :meth:`roleFile` and :meth:`rejections` name it
+       )doc")
+       .def("rolesOfResource", &AGRC::IniParseData::rolesOfResource, py::arg("resource"), R"doc(
+What a texture line binding ``resource`` binds: every ``(role, mod object)`` the parser chose the resource's
+file for (:meth:`roleFile`), by role and then by mod object. Empty for a resource naming no texture, or one
+chosen for nothing
+
+Parameters
+----------
+resource: :class:`str`
+    The resource `section`_, in any case
+
+Returns
+-------
+List[:class:`IniParseData.ResourceRole`]
+    The roles
+       )doc")
+       .def("refusedRoleOf", &AGRC::IniParseData::refusedRoleOf, py::arg("resource"), R"doc(
+The role the parser REFUSED the resource's file for (the first of :meth:`rejections`), or ``None``
+
+Parameters
+----------
+resource: :class:`str`
+    The resource `section`_, in any case
+
+Returns
+-------
+Optional[:class:`str`]
+    The role
+       )doc")
        .def("reject", &AGRC::IniParseData::reject, py::arg("file"), py::arg("role"), py::arg("why"), R"doc(
 Records that ``file`` was refused for ``role``
 
@@ -561,6 +600,13 @@ graph: Tuple[:class:`str`, :class:`str`]
         .def_readwrite("variants", &AGRC::IniParseData::TextureToggle::variants, py::doc("List[:class:`str`]: Every resource it chooses among"))
         .def_readwrite("single", &AGRC::IniParseData::TextureToggle::single, py::doc(":class:`bool`: Whether it binds one resource under a real condition"))
         .def_readwrite("graph", &AGRC::IniParseData::TextureToggle::graph, py::doc("Tuple[:class:`str`, :class:`str`]: The parser's graph holding the section"));
+
+    py::class_<AGRC::IniParseData::ResourceRole>(cls, "ResourceRole", R"doc(
+One role the parser chose a file for, on one mod object -- see :meth:`IniParseData.rolesOfResource`
+    )doc")
+        .def_readonly("role", &AGRC::IniParseData::ResourceRole::role, py::doc(":class:`str`: The role"))
+        .def_readonly("modObj", &AGRC::IniParseData::ResourceRole::modObj,
+                      py::doc("Tuple[:class:`str`, :class:`str`]: The mod object it was chosen for"));
 
     py::class_<AGRC::IniParseData::Rejection>(cls, "Rejection", R"doc(
 A file refused for a role -- see :meth:`IniParseData.rejections`

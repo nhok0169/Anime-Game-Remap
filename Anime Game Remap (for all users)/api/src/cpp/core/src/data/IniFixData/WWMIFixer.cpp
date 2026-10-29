@@ -1579,15 +1579,14 @@ namespace AGRemapCore {
 
                 }
 
-                // The files the parser refused for a role (TextureRoleChooser): each is said, and
-                // remembered so the mod's own line naming it is not carried -- see reject. A role in
+                // The files the parser refused for a role (TextureRoleChooser): each is said (a carried
+                // line naming one asks IniParseData::refusedRoleOf). A role in
                 // WWMIFixerConfig::flatLeftToGame with nothing of the mod's left is left to the game:
                 // no fallback download either.
                 void readRefusals(TextureScan& scan) {
                     std::set<std::string> refused;
                     for (const IniParseData::Rejection& rejection : scan.data->rejections()) {
                         const bool toGame = config_.flatLeftToGame.count(rejection.role) > 0;
-                        reject(scan, rejection.file, rejection.role);
                         refused.insert(rejection.role);
                         ctx_.log(FileService::getRelPath(rejection.file, scan.iniFolder) + " " + rejection.why + "; "
                                  + (toGame ? "left to the game" : "the source's own is used instead"));
@@ -1598,33 +1597,6 @@ namespace AGRemapCore {
                             leftToGame_.insert(role);
                         }
                     }
-                }
-
-                /**
-                 * @brief
-                 @rst
-                 Remembers that the scan REFUSED one of the mod's files for a role
-                 @endrst
-                 *
-                 * Dropping a candidate is only half of it: the mod's own `ps-t` line still names the
-                 * file, and a line whose resource resolves to no role is deliberately left alone --
-                 * which put the refused file back, after the fix's list and outside its `if vs ==`
-                 * guard, so unconditionally. ChisaParfait3's `3_1.dds` is a constant
-                 * ``(255, 18, 123, 255)``; refused as a flat upperMask, the source's own was
-                 * downloaded and repacked, and then the carried line re-bound the flat one across
-                 * the mod's whole custom body -- whose shader reads R = 255 as bare skin.
-                 *
-                 * @param scan The running scan, for its file -> resource index
-                 * @param file The mod's file that was refused
-                 * @param role The role it was refused FOR -- it may still serve another
-                 */
-                void reject(const TextureScan& scan, const std::string& file, const std::string& role) {
-                    const auto resource = scan.resourceOfFile.find(file);
-                    if (resource == scan.resourceOfFile.end()) {
-                        return;
-                    }
-
-                    rejectedForRole_.emplace(StringTools::toLower(resource->second), role);
                 }
 
                 // The name an edit of the mod's OWN texture is written under is per role, so two mesh .ini files in one
@@ -1938,6 +1910,18 @@ namespace AGRemapCore {
 
                 ModObj targetSlotObj(int slot) const {
                     return ModObj(toModName_, config_.slotPrefix + std::to_string(slot));
+                }
+
+                // Whether the fix binds 'role' on a component: its plan row's, or a role only its slot's
+                // other passes or a shared mesh bind (passOnlyRoles)
+                bool bindsRole(int component, const std::string& role) {
+                    for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
+                        if (binding.role == role) {
+                            return true;
+                        }
+                    }
+                    const std::vector<std::string> extra = passOnlyRoles();
+                    return std::find(extra.begin(), extra.end(), role) != extra.end();
                 }
 
                 // The source component of one of the parser's slot objects, or nothing
@@ -2727,105 +2711,69 @@ namespace AGRemapCore {
                                 }
                             }
 
-                            // BOTH maps: what each slot role resolves to now, and what it
-                            // resolved to before a texture edit rewrote it. A role with an edit
-                            // keeps only the fix's own copy in `resourceOfSlotRole_`, so without
-                            // the second pass a carried line naming the MOD's file resolves to no
-                            // role and is left on the register the SOURCE used -- which is only
-                            // harmless while the two skins read that role at the same register.
-                            // The diffuse is `ps-t3` on ChisaParfait and `ps-t2` on Chisa, so the
-                            // first diffuse edit put the body's art on the wrong register and left
-                            // a file the mod does not ship on the right one: a flat red body, and
-                            // the skirt drawn with the downloaded game atlas.
-                            std::map<std::string, std::string> roleOfResource;
-                            auto indexSlotRoles =
-                                [&roleOfResource, component]
-                                (const std::map<std::pair<std::string, int>, std::string>& from) {
-                                    for (const auto& [key, resource] : from) {
-                                        const std::string name = StringTools::toLower(resource);
-                                        if (key.second == component || roleOfResource.count(name) == 0) {
-                                            roleOfResource[name] = key.first;
-                                        }
+                            // THE ROLE A LINE'S RESOURCE PLAYS IS THE PARSER'S ANSWER (2026-10-29): every
+                            // (role, component) it chose the resource's file for (IniParseData::rolesOfResource),
+                            // among the roles this fix binds on a component it draws -- this component's first,
+                            // then any. One file may serve several components under different roles: Lynae9
+                            // draws one sweater through her jacket (5) and her props (6).
+                            const IniParseData& data = parseData();
+                            const auto alias = rerouteFrom_.find(component);
+                            const int ownSource = alias != rerouteFrom_.end() ? alias->second : component;
+                            auto chosenRole = [this, &data, ownSource](const std::string& resource) -> std::optional<std::string> {
+                                std::optional<std::string> own;
+                                std::optional<std::string> any;
+                                for (const IniParseData::ResourceRole& chosen : data.rolesOfResource(resource)) {
+                                    const std::optional<int> of = sourceComponentOf(chosen.modObj);
+                                    if (!of.has_value() || present_.count(*of) == 0 || !bindsRole(*of, chosen.role)) {
+                                        continue;
                                     }
-                                };
 
-                            indexSlotRoles(resourceOfSlotRole_);
+                                    if (*of == ownSource) {
+                                        own = chosen.role;
+                                    } else if (!any.has_value()) {
+                                        any = chosen.role;
+                                    }
+                                }
+                                return own.has_value() ? own : any;
+                            };
 
-                            auto roleOf = [this, roleOfResource, regOfRole](const std::string& resource)
+                            auto roleOf = [&data, chosenRole, regOfRole](const std::string& resource)
                                     -> std::optional<std::string> {
-                                // A ROLE THIS COMPONENT'S ROW BINDS COMES FIRST (2026-10-11). One file
-                                // may serve several components under different roles -- Lynae9 draws
-                                // one sweater through her jacket (5) and her props (6), with one toggle
-                                // chain `ResourceTextureJacket`..`D` in both -- and the maps below give
-                                // each resource ONE role. In component 6 the chain's first file came
-                                // back `jacketDiffuse` (the props' edit was never swapped in, and the
-                                // carried line re-bound the unedited file after the fix's list), and in
-                                // component 5 its siblings came back `propsDiffuse` (the props' edited
-                                // copies on the jacket). Asked per component, through the toggle
-                                // siblings when the file itself names no role here, both resolve.
-                                auto rowRoleOf = [this, &roleOfResource, &regOfRole](const std::string& name)
-                                        -> std::optional<std::string> {
-                                    const auto found = roleOfResource.find(name);
-                                    if (found != roleOfResource.end() && regOfRole.count(found->second) > 0) {
-                                        return found->second;
+                                // a role this component's row binds comes first -- the resource's own, then
+                                // through its toggle siblings
+                                auto rowRoleOf = [&chosenRole, &regOfRole](const std::string& name) -> std::optional<std::string> {
+                                    const std::optional<std::string> role = chosenRole(name);
+                                    if (role.has_value() && regOfRole.count(*role) > 0) {
+                                        return role;
                                     }
-
-                                    // every role an edit was registered for, not just the last:
-                                    // Lynae9 binds one mask and one code map in her lower body (4)
-                                    // AND her jacket (5), each edited per role
-                                    const auto edited = editedRolesOf_.find(name);
-                                    if (edited != editedRolesOf_.end()) {
-                                        for (const std::string& role : edited->second) {
-                                            if (regOfRole.count(role) > 0) {
-                                                return role;
-                                            }
-                                        }
-                                    }
-
                                     return std::nullopt;
                                 };
 
-                                const std::string key = StringTools::toLower(resource);
-                                if (const auto own = rowRoleOf(key)) {
+                                if (const auto own = rowRoleOf(resource)) {
                                     return own;
                                 }
 
                                 std::vector<std::string> siblings;
-                                if (const IniParseData::TextureToggle* toggle = parseData().thisToggleOf(key)) {
+                                if (const IniParseData::TextureToggle* toggle = data.thisToggleOf(resource)) {
                                     siblings = toggle->variants;
                                 }
-
-                                if (const IniParseData::TextureToggle* toggle = parseData().registerToggleOf(key)) {
+                                if (const IniParseData::TextureToggle* toggle = data.registerToggleOf(resource)) {
                                     siblings.insert(siblings.end(), toggle->variants.begin(), toggle->variants.end());
                                 }
-
                                 for (const std::string& sibling : siblings) {
                                     if (const auto shared = rowRoleOf(StringTools::toLower(sibling))) {
                                         return shared;
                                     }
                                 }
 
-                                const auto found = roleOfResource.find(resource);
-                                if (found != roleOfResource.end()) {
-                                    return found->second;
+                                if (const auto chosen = chosenRole(resource)) {
+                                    return chosen;
                                 }
 
-                                // ...and every variant of an edited role's resource (planTexEdits)
-                                const auto edited = editedRolesOf_.find(resource);
-                                if (edited != editedRolesOf_.end() && !edited->second.empty()) {
-                                    return edited->second.back();
-                                }
-
-                                // ...AND A FILE THE SCAN REFUSED FOR A ROLE (2026-10-03). It is not
-                                // in `resourceOfSlotRole_` precisely BECAUSE it was dropped, so it
-                                // resolved to no role and the line was left alone -- putting the
-                                // refused file back. See `reject`.
-                                const auto refused = rejectedForRole_.find(resource);
-                                if (refused != rejectedForRole_.end()) {
-                                    return refused->second;
-                                }
-
-                                return std::nullopt;
+                                // ...and a file the parser REFUSED for a role (2026-10-03): it was chosen for
+                                // nothing precisely because it was refused, and a line left alone puts the
+                                // refused file back (ChisaParfait3's flat `3_1.dds` across her whole body)
+                                return data.refusedRoleOf(resource);
                             };
 
                             // ...and the same row by KIND, for a carried binding whose role belongs
@@ -2869,7 +2817,6 @@ namespace AGRemapCore {
                                     return resource;            // see rerouteShaders_: the mod's own art
                                 }
 
-                                const std::string bound = StringTools::toLower(resource);
 
                                 // A FILE REFUSED FOR THIS ROLE DOES NOT GO BACK. The role resolved
                                 // to something else -- the source's own, downloaded and edited -- so
@@ -2878,8 +2825,7 @@ namespace AGRemapCore {
                                 // dropped instead, which leaves the game's own texture bound: that
                                 // is what the mod did on its own character, and binding the refused
                                 // file is strictly worse than binding nothing.
-                                const auto refused = rejectedForRole_.find(bound);
-                                if (refused != rejectedForRole_.end() && refused->second == role) {
+                                if (parseData().refusedRoleOf(resource) == role) {
                                     const std::string* resolved = resourceFor(role, component);
                                     return resolved != nullptr ? *resolved : std::string();
                                 }
@@ -6520,7 +6466,6 @@ namespace AGRemapCore {
                 std::map<std::pair<std::string, int>, std::string> toggledGame_;  // (role, source component) -> the game's own, for a role the mod binds only under a toggle
                 std::map<int, std::vector<std::string>> lateBindRegs_;   // source component -> the registers its own section binds AFTER it has already drawn
                 std::set<std::string> leftToGame_;                    // roles whose only file was flat and whose config says not to stand anything in
-                std::map<std::string, std::string> rejectedForRole_;  // resource -> the role the scan REFUSED it for, so a carried line cannot put it back
 
                 std::unordered_map<std::string, std::string> passFilters_;
 

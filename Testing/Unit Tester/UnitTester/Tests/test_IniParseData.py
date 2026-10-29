@@ -133,6 +133,24 @@ class IniParseDataTest(BaseUnitTest):
         self.assertEqual(data.drawRanges(obj), [])
         self.assertEqual(data.resourceFiles(), {})
 
+    def test_rolesOfResource_throughItsFile(self):
+        data = FRB.IniParseData()
+        data.setTextureResource("ResourceTexture7", "a.dds")
+        data.setTextureResource("ResourceTexture8", "b.dds")
+        data.setRoleFile("upperDiffuse", ("", "component4"), FRB.IniParseData.RoleFile("a.dds", "how"))
+        data.setRoleFile("jacketDiffuse", ("", "component5"), FRB.IniParseData.RoleFile("a.dds", "how"))
+        data.reject("b.dds", "upperMask", "is flat")
+
+        roles = [(r.role, r.modObj) for r in data.rolesOfResource("resourcetexture7")]
+        self.assertEqual(roles, [("jacketDiffuse", ("", "component5")), ("upperDiffuse", ("", "component4"))])
+        self.assertEqual(data.rolesOfResource("ResourceTexture8"), [])
+        self.assertEqual(data.rolesOfResource("ResourceNone"), [])
+        self.assertEqual(data.refusedRoleOf("ResourceTexture8"), "upperMask")
+        self.assertIsNone(data.refusedRoleOf("ResourceTexture7"))
+
+        data.clear()
+        self.assertEqual(data.rolesOfResource("ResourceTexture7"), [])
+
     def test_clear_resetsTheDefaults(self):
         data = FRB.IniParseData()
         data.setRemappableContent(False)

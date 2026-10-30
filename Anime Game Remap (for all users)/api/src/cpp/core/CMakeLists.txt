@@ -308,6 +308,11 @@ add_library(AGRemapCore STATIC
     src/model/strategies/iniParsers/IniParseData.cpp
     src/model/strategies/iniParsers/TextureRoles.cpp
     src/model/strategies/iniParsers/TextureRoleChooser.cpp
+    src/model/strategies/iniParsers/parseSteps/DrawRead.cpp
+    src/model/strategies/iniParsers/parseSteps/LibraryRead.cpp
+    src/model/strategies/iniParsers/parseSteps/ResourceRead.cpp
+    src/model/strategies/iniParsers/parseSteps/SkeletonNumberingRead.cpp
+    src/model/strategies/iniParsers/parseSteps/TextureOverrideRead.cpp
     src/model/strategies/iniFixers/IniFixBuilder.cpp
     src/model/strategies/iniFixers/IniFileFixContext.cpp
     src/model/strategies/iniFixers/TemplateFixer.cpp

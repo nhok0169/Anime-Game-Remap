@@ -50,6 +50,7 @@ from .test_HashTools import HashToolsTest
 from .test_GIMIFixer import GIMIFixerTest
 from .test_BaseIniFixer import BaseIniFixerTest
 from .test_GIMIParser import GIMIParserTest
+from .test_ParseSteps import ParseStepsTest
 from .test_IniBuilders import IniParseBuilderTest, IniFixBuilderTest, IniRemoveBuilderTest
 from .test_StrategyOverrides import StrategyOverridesTest
 from .test_GIMICharBuilders import GIMICharBuildersTest
@@ -170,7 +171,7 @@ from .test_CppTexCreator import CppTexCreatorTest
 from .test_TexCreator import TexCreatorTest
 
 __all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "BaseLoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IfTemplateNodeTest", "IniFileTest", "ModTypeRemapsTest", "ModTypeMethodsTest", "CppMultiModFixerTest"]
-__all__ += ["ModTypesTest", "ModTypeTest", "RemapServiceCLITest", "GIMIFixerTest", "GIMIParserTest", "RemapIniRemoverTest", "GlobalRemapIniRemoverTest"]
+__all__ += ["ModTypesTest", "ModTypeTest", "RemapServiceCLITest", "GIMIFixerTest", "GIMIParserTest", "ParseStepsTest", "RemapIniRemoverTest", "GlobalRemapIniRemoverTest"]
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest"]
 __all__ += ["ColourRangeTest", "VersionSetTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredPartTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
 __all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "VertexCountsTest", "VGRemapsTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphGroupRemoveTest", "IterGraphGroupEditTest", "GraphRenameTest", "ResRegCollectTest", "ResGroupCollectTest", "VGComponentSplitTest", "VGSplitGroupResourceTest", "BufReplaceTest", "SympyTokenizerTest", "SympyParserTest"]

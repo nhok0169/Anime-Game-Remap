@@ -200,6 +200,7 @@ void initCppTextureRoleChooser(pybind11::module_ &m);
 void initCppBaseIniParser(pybind11::module_ &m);
 void initCppGIMISectionClassifier(pybind11::module_ &m);
 void initCppGIMIParser(pybind11::module_ &m);
+void initCppParseSteps(pybind11::module_ &m);
 void initCppBaseIniFixer(pybind11::module_ &m);
 void initCppGIMIFixer(pybind11::module_ &m);
 void initCppMultiModFixer(pybind11::module_ &m);
@@ -429,6 +430,7 @@ PYBIND11_MODULE(core, m) {
     initCppIniParseData(m); // must come after initCppTextureRoles (hands it across)
     initCppTextureRoleChooser(m); // must come after initCppIniParseData (fills one)
     initCppBaseIniParser(m); // must come after initCppIniParseData (its parseData)
+    initCppParseSteps(m); // must come after initCppBaseRegEdit (registers BaseIniPartEdit) and initCppSkeletonNumberingProbe (its numberings)
     initCppGIMISectionClassifier(m); // must come after initCppHashes/initCppIndices (its assets) and initCppIfContentPartColour (what it classifies from)
     initCppGIMIParser(m); // must come after initCppBaseIniParser (registers its base), initCppIniGraphGroup/initCppIniSectionGraph (the graphs it builds) and initCppRemapIniDownload (the downloads it records)
 

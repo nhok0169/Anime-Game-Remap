@@ -140,6 +140,17 @@ BaseIniParser
 
 :raw-html:`<br />`
 
+BaseIniParseStep
+================
+
+.. attributetable:: FixRaidenBoss2.BaseIniParseStep
+
+.. autoclass:: FixRaidenBoss2.BaseIniParseStep
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 BaseIniPartEdit
 ===============
 
@@ -850,6 +861,17 @@ DownloadData
 .. attributetable:: FixRaidenBoss2.DownloadData
 
 .. autoclass:: FixRaidenBoss2.DownloadData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+DrawRead
+========
+
+.. attributetable:: FixRaidenBoss2.DrawRead
+
+.. autoclass:: FixRaidenBoss2.DrawRead
     :members:
     :private-members:
 
@@ -1600,6 +1622,17 @@ IterGraphGroupEdit
 
 :raw-html:`<br />`
 
+LibraryRead
+===========
+
+.. attributetable:: FixRaidenBoss2.LibraryRead
+
+.. autoclass:: FixRaidenBoss2.LibraryRead
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 makeGIMICharFixer
 =================
 
@@ -2190,6 +2223,17 @@ ResReplace
 
 :raw-html:`<br />`
 
+ResourceRead
+============
+
+.. attributetable:: FixRaidenBoss2.ResourceRead
+
+.. autoclass:: FixRaidenBoss2.ResourceRead
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 SectionIterData
 ===============
 
@@ -2229,6 +2273,17 @@ SideMeshes
 .. attributetable:: FixRaidenBoss2.SideMeshes
 
 .. autoclass:: FixRaidenBoss2.SideMeshes
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+SkeletonNumberingRead
+=====================
+
+.. attributetable:: FixRaidenBoss2.SkeletonNumberingRead
+
+.. autoclass:: FixRaidenBoss2.SkeletonNumberingRead
     :members:
     :private-members:
 
@@ -2350,6 +2405,17 @@ TextureFile
 .. attributetable:: FixRaidenBoss2.TextureFile
 
 .. autoclass:: FixRaidenBoss2.TextureFile
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TextureOverrideRead
+===================
+
+.. attributetable:: FixRaidenBoss2.TextureOverrideRead
+
+.. autoclass:: FixRaidenBoss2.TextureOverrideRead
     :members:
     :private-members:
 

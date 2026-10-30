@@ -214,6 +214,12 @@ from .core import ResGroupCollect
 from .core import BaseIniGraphGroupEdit
 from .core import TextureRoles
 from .core import IniParseData
+from .core import BaseIniParseStep
+from .core import ResourceRead
+from .core import TextureOverrideRead
+from .core import DrawRead
+from .core import LibraryRead
+from .core import SkeletonNumberingRead
 from .core import TextureRoleChooser
 from .core import CppBaseIniParser
 from .core import IniParseBuilder
@@ -385,7 +391,7 @@ __all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA",
            "BaseIniGraphEdit", "GraphRename", "RegFillMissing",
            "GraphRemove", "GraphInherit", "GraphGroupRemap", "GraphGroupEdit", "IterGraphGroupEdit",
            "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "TexCreate", "TexReplace", "ResRegCollect", "ResGroupCollect", "BaseIniGraphGroupEdit",
-           "TextureRoles", "IniParseData", "TextureRoleChooser", "CppBaseIniParser", "BaseIniParser", "CppIniParseBuilderArgs", "GIMISectionClassifier", "GIMIParser", "CppBaseIniFixer", "BaseIniFixer", "CppIniFixBuilderArgs", "GIMIFixer", "MultiModFixer", "IniFixingContext",
+           "TextureRoles", "IniParseData", "BaseIniParseStep", "ResourceRead", "TextureOverrideRead", "DrawRead", "LibraryRead", "SkeletonNumberingRead", "TextureRoleChooser", "CppBaseIniParser", "BaseIniParser", "CppIniParseBuilderArgs", "GIMISectionClassifier", "GIMIParser", "CppBaseIniFixer", "BaseIniFixer", "CppIniFixBuilderArgs", "GIMIFixer", "MultiModFixer", "IniFixingContext",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 

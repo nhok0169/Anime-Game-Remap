@@ -5,6 +5,11 @@
 #include "AGRemapCore/data/RabbitFX.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
+#include "AGRemapCore/model/strategies/iniParsers/parseSteps/DrawRead.h"
+#include "AGRemapCore/model/strategies/iniParsers/parseSteps/LibraryRead.h"
+#include "AGRemapCore/model/strategies/iniParsers/parseSteps/ResourceRead.h"
+#include "AGRemapCore/model/strategies/iniParsers/parseSteps/SkeletonNumberingRead.h"
+#include "AGRemapCore/model/strategies/iniParsers/parseSteps/TextureOverrideRead.h"
 #include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/model/textures/TexThumbprint.h"
 #include "AGRemapCore/tools/files/FileService.h"
@@ -181,290 +186,63 @@ namespace AGRemapCore {
                             return objs;
                         });
 
-                    recordParseData();
-                }
-
-                void clear() override {
-                    Parser::clear();
-                    recordParseData();
+                    buildSteps();
                 }
 
             private:
+                // THE TEXTURES, read here until they are steps of their own
+                class TextureStep: public BaseIniParseStep<> {
+                    public:
+                        explicit TextureStep(WWMIParser& parser): parser_(parser) {}
+
+                        void read(Context&, const SectionTargets&, IniParseData& data) override {
+                            parser_.readTextures(data);
+                        }
+
+                    private:
+                        WWMIParser& parser_;
+                };
+
                 /**
-                 * The texture roles go into the parse data as a BUILDER, run on the first ask: sorting
-                 * opens every candidate texture, and a parser is built for every `.ini` a run
-                 * classifies -- most of which no WuWa fixer will ever ask about. None when the
-                 * character's config carries no textures to sort by. Re-installed after a clear,
-                 * which resets the parse data.
+                 * The steps that read the mod, all deferred: they run on the first ask of the parse data,
+                 * since sorting the textures opens every candidate, and a parser is built for every `.ini`
+                 * a run classifies -- most of which no WuWa fixer will ever ask about.
                  */
-                void recordParseData() {
-                    this->parseData().defer([this](IniParseData& data) {
-                        readAnatomy(data);
-                        if (config_.textures.roles.empty() && config_.textures.registerRoles.empty()) {
-                            return;
-                        }
-
-                        TextureRoles roles;
-                        buildRoles(roles);
-                        data.setTextureRoles(std::move(roles));
-                        chooseRoleFiles(data, *data.textureRoles());
-                        readThisToggles(data);
-                        readRegisterToggles(data);
-                    });
-                }
-
-                // ---- the mod's anatomy: what its slot sections draw and bind, and its resource files ----
-
-                // The parser's slot object for a component's sections, or nothing
-                bool isSlotObj(const ModObj& obj) const {
-                    return obj.first.empty() && StringTools::startsWith(obj.second, config_.slotPrefix);
-                }
-
-                void readAnatomy(IniParseData& data) {
-                    IniFile* ini = ctx_.getIniFile();
-                    if (ini == nullptr) {
-                        return;
-                    }
-
-                    const auto& templates = ini->getIfTemplates();
-                    const auto contentParts = [](const Section& section) {
-                        std::vector<const ContentPart*> parts;
-                        for (const auto& part : section.parts()) {
-                            if (const auto* content = dynamic_cast<const ContentPart*>(part.get())) {
-                                parts.push_back(content);
-                            }
-                        }
-                        return parts;
+                void buildSteps() {
+                    const std::string slotPrefix = config_.slotPrefix;
+                    const BaseIniParseStep<>::ObjFilter slots = [slotPrefix](const ModObj& obj) {
+                        return obj.first.empty() && StringTools::startsWith(obj.second, slotPrefix);
                     };
 
-                    // every resource section that names a file
-                    for (const auto& entry : templates) {
-                        if (entry.second == nullptr) {
-                            continue;
-                        }
+                    ownedSteps_.push_back(std::make_unique<ResourceRead>());
+                    ownedSteps_.push_back(std::make_unique<TextureOverrideRead>(slots));
+                    ownedSteps_.push_back(std::make_unique<DrawRead>(slots, config_.texRegPrefix,
+                                                                     std::vector<std::string>{"\\wwmiv1\\"}));
+                    ownedSteps_.push_back(std::make_unique<LibraryRead>(
+                        std::vector<LibraryRead::Library>{{RabbitFX::Name, "rabbitfx"}}, slots));
+                    ownedSteps_.push_back(std::make_unique<SkeletonNumberingRead>(
+                        config_.skeletonNumberings, config_.referenceBoneCentroids, IniKeywords::WWMIPositionBuffer,
+                        IniKeywords::WWMIBlendBuffer, "BlendRemapVertexVG", IniKeywords::WWMIVgOffset, slots));
+                    ownedSteps_.push_back(std::make_unique<TextureStep>(*this));
 
-                        std::optional<std::string> file = ModBranches::firstVal(*entry.second, IniKeywords::Filename);
-                        if (file.has_value()) {
-                            data.setResourceFile(entry.first, *file);
-                        }
+                    for (const auto& step : ownedSteps_) {
+                        step->deferred = true;
+                        this->parseSteps.push_back(step.get());
                     }
-
-                    // DOES THE MOD REPLACE TEXTURES BY HASH? A texture override (not a slot's) with a hash and
-                    // a `this =`: its art then reaches every draw binding that texture, whatever the draw's
-                    // own section binds.
-                    for (const auto& entry : templates) {
-                        if (entry.second == nullptr || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)
-                                || StringTools::startsWith(entry.first, IniKeywords::TextureOverride + config_.slotPrefix)) {
-                            continue;
-                        }
-
-                        bool hasHash = false;
-                        bool hasThis = false;
-                        for (const ContentPart* content : contentParts(*entry.second)) {
-                            hasHash = hasHash || content->count(IniKeywords::Hash) > 0;
-                            hasThis = hasThis || content->count(IniKeywords::This) > 0;
-                        }
-
-                        if (hasHash && hasThis) {
-                            data.setReplacesTexturesByHash(true);
-                            break;
-                        }
-                    }
-
-                    // A `run =` this file cannot resolve counts as drawing, unless it is WWMI's own library
-                    std::function<bool(const std::string&, std::unordered_set<std::string>&)> mayDraw =
-                        [&templates, &mayDraw, &contentParts](const std::string& section, std::unordered_set<std::string>& seen) -> bool {
-                            if (!seen.insert(StringTools::toLower(section)).second) {
-                                return false;
-                            }
-
-                            auto tpl = templates.find(section);
-                            if (tpl == templates.end() || tpl->second == nullptr) {
-                                return StringTools::toLower(section).find("\\wwmiv1\\") == std::string::npos;
-                            }
-
-                            for (const ContentPart* content : contentParts(*tpl->second)) {
-                                for (const auto& item : content->items()) {
-                                    const std::string key = StringTools::toLower(std::string(StringTools::strip(item.key)));
-                                    if (StringTools::startsWith(key, "draw")) {
-                                        return true;
-                                    }
-
-                                    if (key == StringTools::toLower(IniKeywords::Run)
-                                        && mayDraw(std::string(StringTools::strip(item.value)), seen)) {
-                                        return true;
-                                    }
-                                }
-                            }
-
-                            return false;
-                        };
-
-                    const auto skips = [&templates, &contentParts](const std::string& section) -> bool {
-                        auto tpl = templates.find(section);
-                        if (tpl == templates.end() || tpl->second == nullptr) {
-                            return false;
-                        }
-
-                        for (const ContentPart* content : contentParts(*tpl->second)) {
-                            for (const std::string& value : content->getVals(IniKeywords::Handling)) {
-                                if (StringTools::equalsIgnoreCase(std::string(StringTools::strip(value)), IniKeywords::Skip)) {
-                                    return true;
-                                }
-                            }
-                        }
-
-                        return false;
-                    };
-
-                    std::size_t slots = 0;
-                    std::vector<ModObj> silent;
-                    for (const auto& [obj, sections] : this->sectionTargets()) {
-                        if (!isSlotObj(obj) || sections.empty()) {
-                            continue;
-                        }
-
-                        ++slots;
-                        bool drew = false;
-                        bool draws = false;
-                        bool skipped = false;
-                        std::vector<std::string> late;
-                        for (const std::string& section : sections) {
-                            auto tpl = templates.find(section);
-                            if (tpl == templates.end() || tpl->second == nullptr) {
-                                continue;
-                            }
-
-                            // its draws, and which part each sits in (every part counted, `if` lines too)
-                            std::size_t partIndex = 0;
-                            for (const auto& part : tpl->second->parts()) {
-                                ++partIndex;
-                                const auto* content = dynamic_cast<const ContentPart*>(part.get());
-                                if (content == nullptr) {
-                                    continue;
-                                }
-
-                                for (const std::string& draw : content->getVals(IniKeywords::DrawIndexed)) {
-                                    data.addDrawPart(obj, partIndex);
-                                    if (std::count(draw.begin(), draw.end(), ',') < 2) {
-                                        continue;
-                                    }
-
-                                    const std::optional<std::vector<long long>> numbers = RegDrawRangeRemap<>::parseRange(draw);
-                                    if (numbers.has_value() && numbers->size() >= 3) {
-                                        data.addDrawRange(obj, {(*numbers)[0], (*numbers)[1]});
-                                    } else {
-                                        // a dropped draw range is a piece of the mesh that stops being remapped
-                                        ctx_.log("could not read the draw range `" + std::string(StringTools::strip(draw)) + "` in ["
-                                                 + section + "], so it is not remapped");
-                                    }
-                                }
-                            }
-
-                            // the texture registers it binds only after it has drawn
-                            for (const ContentPart* content : contentParts(*tpl->second)) {
-                                for (const auto& item : content->items()) {
-                                    const std::string key = StringTools::toLower(std::string(StringTools::strip(item.key)));
-                                    if (key == StringTools::toLower(IniKeywords::DrawIndexed)) {
-                                        drew = true;
-                                    } else if (drew && StringTools::startsWith(key, StringTools::toLower(config_.texRegPrefix))) {
-                                        ListTools::pushDistinct(late, key);
-                                    }
-                                }
-                            }
-
-                            // the libraries it names, on any line
-                            for (const ContentPart* content : contentParts(*tpl->second)) {
-                                for (const auto& item : content->items()) {
-                                    if (RabbitFX::names(item.key) || RabbitFX::names(item.value)) {
-                                        data.addLibrary(obj, RabbitFX::Name);
-                                    }
-                                }
-                            }
-
-                            std::unordered_set<std::string> seen;
-                            draws = draws || mayDraw(section, seen);
-                            skipped = skipped || skips(section);
-                        }
-
-                        if (!late.empty() && !data.replacesTexturesByHash()) {
-                            data.setLateBindings(obj, std::move(late));
-                        }
-
-                        // A SLOT WHOSE SECTION DRAWS NOTHING AND SKIPS THE GAME'S DRAW IS UNDRAWN: the mod
-                        // hides that component. One that draws nothing and leaves the game's geometry on
-                        // screen is not hidden.
-                        if (!draws && skipped) {
-                            silent.push_back(obj);
-                        }
-                    }
-
-                    // ...unless every slot is, which is a mod this reading does not understand
-                    if (silent.size() < slots) {
-                        for (const ModObj& obj : silent) {
-                            data.addUndrawn(obj);
-                        }
-                    }
-
-                    readBlendVersion(data);
                 }
 
-                // WHICH SKELETON NUMBERING THE MOD'S BLEND IS IN -- see WWMIParserConfig::skeletonNumberings.
-                // Not asked of a mod from before WWMI's merged skeleton: no slot section carries a vg_offset,
-                // and its ids are each component's own
-                void readBlendVersion(IniParseData& data) {
-                    IniFile* ini = ctx_.getIniFile();
-                    if (ini == nullptr || config_.skeletonNumberings.size() < 2 || config_.referenceBoneCentroids.empty()) {
+                // The texture roles, when the character's config carries textures to sort by
+                void readTextures(IniParseData& data) {
+                    if (config_.textures.roles.empty() && config_.textures.registerRoles.empty()) {
                         return;
                     }
 
-                    const auto& templates = ini->getIfTemplates();
-                    bool merged = false;
-                    for (const auto& [obj, sections] : this->sectionTargets()) {
-                        for (const std::string& section : isSlotObj(obj) ? sections : std::vector<std::string>{}) {
-                            auto tpl = templates.find(section);
-                            merged = merged || (tpl != templates.end() && tpl->second != nullptr
-                                                && ModBranches::firstVal(*tpl->second, IniKeywords::WWMIVgOffset).has_value());
-                        }
-                    }
-
-                    const std::optional<std::string> position = data.resourceFile(IniKeywords::WWMIPositionBuffer);
-                    const std::optional<std::string> blend = data.resourceFile(IniKeywords::WWMIBlendBuffer);
-                    if (!merged || !position.has_value() || !blend.has_value()) {
-                        return;
-                    }
-
-                    // the 16-bit ids, as the .ini names them
-                    std::optional<std::string> vertexVG;
-                    for (const auto& [section, file] : data.resourceFiles()) {
-                        std::string name = section;
-                        name.erase(std::remove(name.begin(), name.end(), '_'), name.end());
-                        if (name.find("blendremapvertexvg") != std::string::npos) {
-                            vertexVG = file;
-                            break;
-                        }
-                    }
-
-                    const auto pathOf = [ini](const std::string& rel) {
-                        return FileService::absPathOfRelPath(FileService::iniPathToRel(rel), ini->getFolder());
-                    };
-                    const std::optional<SkeletonNumberingProbe::Result> found = SkeletonNumberingProbe::probe(
-                        pathOf(*position), pathOf(*blend), vertexVG.has_value() ? std::optional<std::string>(pathOf(*vertexVG)) : std::nullopt,
-                        config_.skeletonNumberings, config_.referenceBoneCentroids);
-                    if (!found.has_value()) {
-                        return;
-                    }
-
-                    std::ostringstream how;
-                    for (std::size_t n = 0; n < found->medians.size(); ++n) {
-                        how << (n == 0 ? "" : ", ") << config_.skeletonNumberings[n].version << " "
-                            << static_cast<long long>(std::lround(found->medians[n] * 100)) / 100.0;
-                    }
-
-                    const std::string& version = config_.skeletonNumberings[found->best].version;
-                    ctx_.log("its bone ids are " + version + "'s numbering (" + std::to_string(found->vertices)
-                             + " vertices on renumbered bones; median distance to the bone by version: " + how.str() + ")");
-                    data.setBlendVersion(version);
+                    TextureRoles roles;
+                    buildRoles(roles);
+                    data.setTextureRoles(std::move(roles));
+                    chooseRoleFiles(data, *data.textureRoles());
+                    readThisToggles(data);
+                    readRegisterToggles(data);
                 }
 
                 // A section a previous fix wrote: its name ends `<target>RemapFix`
@@ -1239,6 +1017,7 @@ namespace AGRemapCore {
             private:
                 IniFileParseContext ctx_;
                 std::unique_ptr<Classifier> classifier_;
+                std::vector<std::unique_ptr<BaseIniParseStep<>>> ownedSteps_;
                 WWMIParserConfig config_;
                 std::optional<Version> version_;
                 mutable std::unordered_map<std::string, std::vector<ModObj>> classified_;

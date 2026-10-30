@@ -41,6 +41,7 @@
 #include "AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseContext.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h"
+#include "AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h"
 #include "AGRemapCore/tools/tries/BaseAhoCorasickDFA.h"
 
 
@@ -172,6 +173,11 @@ namespace AGRemapCore {
              * @brief The kind of edit #commandEdits is
              */
             using GroupEdit = BaseIniGraphGroupEdit<K, V, KeyHash, KeyEqual>;
+
+            /**
+             * @brief The kind of step #parseSteps reads the mod with
+             */
+            using ParseStep = BaseIniParseStep<K, V, KeyHash, KeyEqual>;
 
             /**
              * @brief The by-`KVP`_ classification strategy this parser uses by default
@@ -360,6 +366,21 @@ namespace AGRemapCore {
              * @brief The files to download if the mod is missing some -- borrowed, not owned
              */
             Downloads downloads;
+
+            /**
+             * @brief
+             @rst
+             The steps that read the mod, in the order they run -- **borrowed**, not owned :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Each is a :cpp:class:`BaseIniParseStep`, which reads the ``.ini`` file into
+             :cpp:func:`BaseIniParser::parseData`, or a :cpp:class:`BaseIniGraphGroupEdit`, which edits the
+             command graphs. They run in #editCommands, after #commandEdits; a deferred step runs on the first
+             ask of the parse data instead (see :cpp:member:`BaseIniParseStep::deferred`), and so sees every
+             edit of the list already made
+             @endrst
+             */
+            std::vector<BaseIniPartEdit*> parseSteps;
 
             /**
              * @brief Whether to build a graph over the entire .ini file
@@ -621,10 +642,26 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Applies #commandEdits to the command graphs. No-op when there are none
+             Applies #commandEdits to the command graphs, then runs #parseSteps. No-op when there are
+             neither
              @endrst
              */
             virtual void editCommands();
+
+            /**
+             * @brief
+             @rst
+             Runs #parseSteps: each :cpp:class:`BaseIniGraphGroupEdit` edits the command graphs, each
+             :cpp:class:`BaseIniParseStep` reads into :cpp:func:`BaseIniParser::parseData`, and the deferred
+             steps are handed to :cpp:func:`IniParseData::defer` together
+             @endrst
+             *
+             * @param editGroups How a :cpp:class:`BaseIniGraphGroupEdit` of the list is applied, or empty to
+             apply it to the context's graph groups
+             *
+             * @throws std::invalid_argument A step that is neither kind
+             */
+            void runParseSteps(const std::function<void(GroupEdit&)>& editGroups = {});
 
             /**
              * @brief

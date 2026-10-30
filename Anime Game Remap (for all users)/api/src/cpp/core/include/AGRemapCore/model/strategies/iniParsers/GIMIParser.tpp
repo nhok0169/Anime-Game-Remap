@@ -15,6 +15,7 @@
 #define AGRemapCore_GIMIParser_TPP
 
 #include <algorithm>
+#include <stdexcept>
 #include <type_traits>
 
 #include "AGRemapCore/model/IniNamingTools.h"
@@ -866,7 +867,7 @@ namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
     void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::editCommands() {
-        if (commandEdits_ == nullptr || ctx_ == nullptr) {
+        if (ctx_ == nullptr) {
             return;
         }
 
@@ -874,7 +875,52 @@ namespace AGRemapCore {
         // nothing castable to an AGRemapCore::ModType from a still-pure-Python one, the same
         // situation every graphGroupEdits/ caller is in. The pybind11 layer overrides this method
         // and passes the real Python objects instead.
-        commandEdits_->editFromIni(ctx_->graphGroups(), this->iniFile_, nullptr, ctx_->modTypeName());
+        if (commandEdits_ != nullptr) {
+            commandEdits_->editFromIni(ctx_->graphGroups(), this->iniFile_, nullptr, ctx_->modTypeName());
+        }
+
+        runParseSteps();
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
+    void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::runParseSteps(const std::function<void(GroupEdit&)>& editGroups) {
+        if (ctx_ == nullptr || parseSteps.empty()) {
+            return;
+        }
+
+        std::vector<ParseStep*> deferred;
+        for (BaseIniPartEdit* step : parseSteps) {
+            if (step == nullptr) {
+                continue;
+            }
+
+            if (auto* read = dynamic_cast<ParseStep*>(step)) {
+                if (read->deferred) {
+                    deferred.push_back(read);
+                } else {
+                    read->read(*ctx_, sectionTargets_, this->parseData());
+                }
+            } else if (auto* edit = dynamic_cast<GroupEdit*>(step)) {
+                if (editGroups) {
+                    editGroups(*edit);
+                } else {
+                    edit->editFromIni(ctx_->graphGroups(), this->iniFile_, nullptr, ctx_->modTypeName());
+                }
+            } else {
+                throw std::invalid_argument("a parse step is neither a BaseIniParseStep nor a BaseIniGraphGroupEdit");
+            }
+        }
+
+        // Read where they stand when the data is first asked for: the context and the section targets
+        // are this parser's own, and outlive the data it owns
+        if (!deferred.empty()) {
+            this->parseData().defer([this, deferred](IniParseData& data) {
+                for (ParseStep* read : deferred) {
+                    read->read(*ctx_, sectionTargets_, data);
+                }
+            });
+        }
     }
 
 

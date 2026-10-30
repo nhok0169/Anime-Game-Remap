@@ -274,7 +274,8 @@ class PyGIMIParser: public PyGIMIParserCore {
          */
         PyGIMIParser(py::object iniFile, py::object modObjs, py::object objTargetFuncs, py::object downloads,
                       py::object commandEdits, bool makeGlobalGraph, bool disjointModObjs, bool trackKeys,
-                      py::object keysToTrack, std::optional<int> modTypeId = std::nullopt);
+                      py::object keysToTrack, std::optional<int> modTypeId = std::nullopt,
+                      py::object parseSteps = py::none());
 
         /**
          * @brief The .ini file being parsed, and the graphs built from it
@@ -305,6 +306,21 @@ class PyGIMIParser: public PyGIMIParserCore {
          * @brief The exact Python object given for ``keysToTrack``
          */
         py::object keysToTrackObj;
+
+        /**
+         * @brief
+         @rst
+         The exact Python object given for ``parseSteps``: the core's
+         :cpp:member:`AGRemapCore::GIMIParser::parseSteps`, run by #editCommands, where a
+         ``GraphGroupEdit`` goes back through `Python`_ as #commandEditsObj does
+         @endrst
+         */
+        py::object parseStepsObj;
+
+        /**
+         * @brief The deferred steps of the last parse, kept alive until the parse data is filled
+         */
+        py::list deferredStepsObj;
 
         /**
          * @brief
@@ -397,6 +413,11 @@ class PyGIMIParser: public PyGIMIParserCore {
         py::object collectToPy() const;
 
         void editCommands() override;
+
+        /**
+         * @brief Applies one `Python`_ ``GraphGroupEdit`` to the command graphs, as #editCommands does #commandEditsObj
+         */
+        void editGroupsFromPy(const py::object& edit);
         void clear() override;
 
     private:

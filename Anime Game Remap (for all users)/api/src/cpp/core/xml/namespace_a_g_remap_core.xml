@@ -32,6 +32,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" prot="public">AGRemapCore::BaseIniGraphGroupEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit" prot="public">AGRemapCore::BaseIniGraphPartEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_parser" prot="public">AGRemapCore::BaseIniParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_parse_step" prot="public">AGRemapCore::BaseIniParseStep</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_part_edit" prot="public">AGRemapCore::BaseIniPartEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_remover" prot="public">AGRemapCore::BaseIniRemover</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_logger" prot="public">AGRemapCore::BaseLogger</innerclass>
@@ -103,6 +104,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_download_mode_tools" prot="public">AGRemapCore::DownloadModeTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_download_store" prot="public">AGRemapCore::DownloadStore</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_download_tools" prot="public">AGRemapCore::DownloadTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_draw_read" prot="public">AGRemapCore::DrawRead</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_draw_u_v_coverage" prot="public">AGRemapCore::DrawUVCoverage</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_add_create" prot="public">AGRemapCore::FileAddCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_download" prot="public">AGRemapCore::FileDownload</innerclass>
@@ -132,7 +134,6 @@
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" prot="public">AGRemapCore::GIMICharFixerConfig</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config" prot="public">AGRemapCore::GIMICharParserConfig</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config" prot="public">AGRemapCore::GIMIComponentFixerConfig</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts" prot="public">AGRemapCore::GIMIComponentParseFacts</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config" prot="public">AGRemapCore::GIMIComponentParserConfig</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_fixer" prot="public">AGRemapCore::GIMIFixer</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config" prot="public">AGRemapCore::GIMIMergeFixerConfig</innerclass>
@@ -213,6 +214,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_ini_parse_builder_data" prot="public">AGRemapCore::IniParseBuilderData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs" prot="public">AGRemapCore::IniParseBuilderFuncs</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_parse_context" prot="public">AGRemapCore::IniParseContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_parse_data" prot="public">AGRemapCore::IniParseData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_parse_download_data" prot="public">AGRemapCore::IniParseDownloadData</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_ini_removal_context" prot="public">AGRemapCore::IniRemovalContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_remove_builder" prot="public">AGRemapCore::IniRemoveBuilder</innerclass>
@@ -236,6 +238,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_invert_alpha" prot="public">AGRemapCore::InvertAlpha</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_invert_alpha_filter" prot="public">AGRemapCore::InvertAlphaFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_i_ordered_multi_map" prot="public">AGRemapCore::IOrderedMultiMap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_iter_graph_group_edit" prot="public">AGRemapCore::IterGraphGroupEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_jean_c_n_fixer" prot="public">AGRemapCore::JeanCNFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_jean_c_n_parser" prot="public">AGRemapCore::JeanCNParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_jean_fixer" prot="public">AGRemapCore::JeanFixer</innerclass>
@@ -260,6 +263,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_klee_blossoming_starlight_parser" prot="public">AGRemapCore::KleeBlossomingStarlightParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_klee_fixer" prot="public">AGRemapCore::KleeFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_klee_parser" prot="public">AGRemapCore::KleeParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_library_read" prot="public">AGRemapCore::LibraryRead</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_lisa_fixer" prot="public">AGRemapCore::LisaFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_lisa_parser" prot="public">AGRemapCore::LisaParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_lisa_student_fixer" prot="public">AGRemapCore::LisaStudentFixer</innerclass>
@@ -356,6 +360,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_res_create" prot="public">AGRemapCore::ResCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_res_group_collect" prot="public">AGRemapCore::ResGroupCollect</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_res_identity" prot="public">AGRemapCore::ResIdentity</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_resource_read" prot="public">AGRemapCore::ResourceRead</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_res_reg_collect" prot="public">AGRemapCore::ResRegCollect</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_res_replace" prot="public">AGRemapCore::ResReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_rosaria_c_n_fixer" prot="public">AGRemapCore::RosariaCNFixer</innerclass>
@@ -376,6 +381,8 @@
     <innerclass refid="class_a_g_remap_core_1_1_shenhe_frost_flower_parser" prot="public">AGRemapCore::ShenheFrostFlowerParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_shenhe_parser" prot="public">AGRemapCore::ShenheParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_side_meshes" prot="public">AGRemapCore::SideMeshes</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_skeleton_numbering_probe" prot="public">AGRemapCore::SkeletonNumberingProbe</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_skeleton_numbering_read" prot="public">AGRemapCore::SkeletonNumberingRead</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_strategy_overrides" prot="public">AGRemapCore::StrategyOverrides</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_string_tools" prot="public">AGRemapCore::StringTools</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_string_view_hash" prot="public">AGRemapCore::StringViewHash</innerclass>
@@ -396,8 +403,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_tex_thumbprint" prot="public">AGRemapCore::TexThumbprint</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_text_tools" prot="public">AGRemapCore::TextTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_texture_file" prot="public">AGRemapCore::TextureFile</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_texture_override_facts" prot="public">AGRemapCore::TextureOverrideFacts</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_texture_override_read" prot="public">AGRemapCore::TextureOverrideRead</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_texture_overrides" prot="public">AGRemapCore::TextureOverrides</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_texture_role_chooser" prot="public">AGRemapCore::TextureRoleChooser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_texture_roles" prot="public">AGRemapCore::TextureRoles</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tint_transform" prot="public">AGRemapCore::TintTransform</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_token" prot="public">AGRemapCore::Token</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_transparency" prot="public">AGRemapCore::Transparency</innerclass>
@@ -431,11 +440,9 @@
     <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_blend" prot="public">AGRemapCore::WWMIBlend</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_builder" prot="public">AGRemapCore::WWMIBuilder</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config" prot="public">AGRemapCore::WWMIFixerConfig</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_parse_facts" prot="public">AGRemapCore::WWMIParseFacts</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" prot="public">AGRemapCore::WWMIParserConfig</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys" prot="public">AGRemapCore::WWMIShapeKeys</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" prot="public">AGRemapCore::WWMITextureFacts</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles" prot="public">AGRemapCore::WWMITextureRoles</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_xiangling_cheer_fixer" prot="public">AGRemapCore::XianglingCheerFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_xiangling_cheer_parser" prot="public">AGRemapCore::XianglingCheerParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_xiangling_fixer" prot="public">AGRemapCore::XianglingFixer</innerclass>
@@ -2071,7 +2078,7 @@ in an :cpp:class:`OrderedMultiMapAdapter`
 <para><verbatim>embed:rst 
 The merged ids of Changli&apos;s 1.1 skeleton that her later updates renumbered, as
 ``{1.1 id: 1.4 id}`` -- every id not listed is the same in both. See
-:cpp:member:`WWMIFixerConfig::skeletonNumberings`
+:cpp:member:`WWMIParserConfig::skeletonNumberings`
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -2106,7 +2113,7 @@ The merged ids of her 1.2 / 1.3 skeleton that her 1.4 update renumbered, as ``{1
         <detaileddescription>
 <para><verbatim>embed:rst 
 Her rest-pose bone centroids in the 1.4 numbering, off ``Data/Mod Downloads/WuWa/Changli/3_7`` --
-see :cpp:member:`WWMIFixerConfig::referenceBoneCentroids`
+see :cpp:member:`WWMIParserConfig::referenceBoneCentroids`
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -2169,7 +2176,7 @@ the mod is being fixed onto
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/Changli/ChangliTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Changli/ChangliTextures.cpp" bodystart="20" bodyend="141" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliTextures.h" declline="34" declcolumn="22"/>
+        <location file="src/data/IniFixData/Changli/ChangliTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Changli/ChangliTextures.cpp" bodystart="20" bodyend="145" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliTextures.h" declline="34" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1afde70595a402f7f8d7ae7a744de2ae76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -2228,7 +2235,7 @@ the mod is being fixed onto
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp" line="21" column="22" bodyfile="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp" bodystart="21" bodyend="118" declfile="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphTextures.h" declline="34" declcolumn="22"/>
+        <location file="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp" line="21" column="22" bodyfile="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp" bodystart="21" bodyend="122" declfile="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphTextures.h" declline="34" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a340378ff651518da079a8e4c9b64a492" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -2269,7 +2276,7 @@ files are; the fixer reads them until it stops needing to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/Chisa/ChisaTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Chisa/ChisaTextures.cpp" bodystart="20" bodyend="117" declfile="include/AGRemapCore/data/IniFixData/Chisa/ChisaTextures.h" declline="34" declcolumn="22"/>
+        <location file="src/data/IniFixData/Chisa/ChisaTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Chisa/ChisaTextures.cpp" bodystart="20" bodyend="119" declfile="include/AGRemapCore/data/IniFixData/Chisa/ChisaTextures.h" declline="34" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a70652c43e2725b050dc97264ae17feac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -2310,7 +2317,7 @@ mod&apos;s files are
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp" bodystart="20" bodyend="96" declfile="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitTextures.h" declline="34" declcolumn="22"/>
+        <location file="src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp" bodystart="20" bodyend="98" declfile="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitTextures.h" declline="34" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a8a3cdb2fee3b17d4f9d01c5af5dda7bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -2380,7 +2387,7 @@ character):
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="1259" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="1259" bodyend="1263" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="635" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="1256" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="1256" bodyend="1260" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="635" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1afa90e717a5e7edeab5e5d9188ef93001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2428,7 +2435,7 @@ keyed by that component&apos;s own :cpp:enum:`ModTypeId`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2316" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2316" bodyend="2320" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="803" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2315" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2315" bodyend="2319" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="803" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2462,7 +2469,7 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3241" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3241" bodyend="3245" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="572" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3240" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3240" bodyend="3244" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="572" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a725ad2ea6514c2a70bc2dccef27771d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kindref="compound">WWMIFixerConfig::Shader</ref></type>
@@ -2585,7 +2592,7 @@ her register order: ``ps-t0`` normal map, ``ps-t1`` mask, ``ps-t2`` material cod
         <detaileddescription>
 <para><verbatim>embed:rst 
 The merged ids Lynae&apos;s 3.7 update renumbered, as ``{3.6 id: 3.7 id}`` -- every id not listed is
-the same in both. See :cpp:member:`WWMIFixerConfig::skeletonNumberings`
+the same in both. See :cpp:member:`WWMIParserConfig::skeletonNumberings`
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -2603,7 +2610,7 @@ the same in both. See :cpp:member:`WWMIFixerConfig::skeletonNumberings`
         <detaileddescription>
 <para><verbatim>embed:rst 
 Her rest-pose bone centroids in the 3.7 numbering, off ``Data/Mod Downloads/WuWa/Lynae/3_7`` --
-see :cpp:member:`WWMIFixerConfig::referenceBoneCentroids`
+see :cpp:member:`WWMIParserConfig::referenceBoneCentroids`
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -2835,7 +2842,7 @@ the mod is being fixed onto
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/Lynae/LynaeTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Lynae/LynaeTextures.cpp" bodystart="20" bodyend="157" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h" declline="34" declcolumn="22"/>
+        <location file="src/data/IniFixData/Lynae/LynaeTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Lynae/LynaeTextures.cpp" bodystart="20" bodyend="159" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h" declline="34" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a0f9081f911e48caa81c5d665bd579426" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -3032,7 +3039,7 @@ character the mod is being fixed onto
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp" bodystart="20" bodyend="140" declfile="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.h" declline="33" declcolumn="22"/>
+        <location file="src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp" bodystart="20" bodyend="142" declfile="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.h" declline="33" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1afdd4ee63d7a5c304b58a4fc6b6ff30f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -3211,7 +3218,7 @@ of their own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/WWMIFixer.cpp" line="8020" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="8020" bodyend="8024" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="1457" declcolumn="28"/>
+        <location file="src/data/IniFixData/WWMIFixer.cpp" line="6410" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="6410" bodyend="6414" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="1366" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1add108ea30a6b29f945e77947f8fa7577" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -3309,7 +3316,7 @@ half makes sense alone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMICharParser.cpp" line="1456" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="1456" bodyend="1513" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="278" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMICharParser.cpp" line="1452" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="1452" bodyend="1509" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="278" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a584e65cf26c955c00926e1dcbcfa8933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -3344,7 +3351,7 @@ through :cpp:class:`Indices`; see there for why
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="1142" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="1142" bodyend="1158" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="224" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="1132" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="1132" bodyend="1148" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="224" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -3374,7 +3381,7 @@ Builds the parser for a mod of one Wuthering Waves character -- see :cpp:struct:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/WWMIParser.cpp" line="371" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="371" bodyend="382" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="143" declcolumn="30"/>
+        <location file="src/data/IniParseData/WWMIParser.cpp" line="1028" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="1028" bodyend="1039" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="146" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1aad3c3e3d2d3d9a180071dc09ae8b1565" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>

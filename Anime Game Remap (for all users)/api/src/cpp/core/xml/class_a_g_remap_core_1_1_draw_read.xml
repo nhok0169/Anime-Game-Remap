@@ -1,0 +1,452 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_draw_read" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::DrawRead</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_parse_step" prot="public" virt="non-virtual">AGRemapCore::BaseIniParseStep&lt;&gt;</basecompoundref>
+    <includes refid="_draw_read_8h" local="no">DrawRead.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_draw_read_1abe5e610b0f5bcb02f81662cfdee90c87" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kindref="member">ObjFilter</ref></type>
+        <definition>ObjFilter AGRemapCore::DrawRead::objs</definition>
+        <argsstring></argsstring>
+        <name>objs</name>
+        <qualifiedname>AGRemapCore::DrawRead::objs</qualifiedname>
+        <briefdescription>
+<para>The mod objects to read. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/DrawRead.h" line="67" column="23" bodyfile="include/AGRemapCore/model/strategies/iniParsers/parseSteps/DrawRead.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_draw_read_1a7629cd982a74c463ad8ca4588d87b527" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::DrawRead::texRegPrefix</definition>
+        <argsstring></argsstring>
+        <name>texRegPrefix</name>
+        <qualifiedname>AGRemapCore::DrawRead::texRegPrefix</qualifiedname>
+        <briefdescription>
+<para>What the key of a texture register starts with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/DrawRead.h" line="72" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/parseSteps/DrawRead.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_draw_read_1af536ae103ea9fa17d69a6210c5844309" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::DrawRead::silentLibraries</definition>
+        <argsstring></argsstring>
+        <name>silentLibraries</name>
+        <qualifiedname>AGRemapCore::DrawRead::silentLibraries</qualifiedname>
+        <briefdescription>
+<para>Text that names a library whose command lists draw nothing <ndash/> see the constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/DrawRead.h" line="77" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/parseSteps/DrawRead.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_parse_step_1adb66ea9feb504ebb1786e88ff6653e25" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseIniParseStep&lt; K, V, KeyHash, KeyEqual &gt;::deferred</definition>
+        <argsstring></argsstring>
+        <name>deferred</name>
+        <qualifiedname>AGRemapCore::BaseIniParseStep::deferred</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the parser runs this step on the first ask of its :cpp:class:`IniParseData` rather than
+during the parse, for a step that may open many files (see :cpp:func:`IniParseData::defer`).
+The deferred steps of a parser run together, in their order in the list, after every step that
+is not deferred :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" line="96" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_draw_read_1ae83b86e6614333b6fa4a98b95c45be17" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::DrawRead::DrawRead</definition>
+        <argsstring>(ObjFilter objs={}, std::string texRegPrefix=&quot;ps-t&quot;, std::vector&lt; std::string &gt; silentLibraries={})</argsstring>
+        <name>DrawRead</name>
+        <qualifiedname>AGRemapCore::DrawRead::DrawRead</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kindref="member">ObjFilter</ref></type>
+          <declname>objs</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>texRegPrefix</declname>
+          <defval>&quot;ps-t&quot;</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>silentLibraries</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>objs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod objects to read. <bold>Default</bold>: every one </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>texRegPrefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+What the key of a texture register starts with, for #lateBindings. **Default**: ``ps-t``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>silentLibraries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Text that names a library whose command lists draw nothing, in a ``run =`` this ``.ini`` file
+cannot resolve, ignoring case. **Default**: none
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/DrawRead.h" line="62" column="22" bodyfile="src/model/strategies/iniParsers/parseSteps/DrawRead.cpp" bodystart="28" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_draw_read_1a9a240ad7da125728831f18be13bb3572" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::DrawRead::read</definition>
+        <argsstring>(Context &amp;ctx, const SectionTargets &amp;targets, IniParseData &amp;data) override</argsstring>
+        <name>read</name>
+        <qualifiedname>AGRemapCore::DrawRead::read</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ac85149383247625a61fb2e77acf205f7">read</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" kindref="member">Context</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" kindref="member">SectionTargets</ref> &amp;</type>
+          <declname>targets</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_parse_data" kindref="compound">IniParseData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Reads the <computeroutput>.ini</computeroutput> file into &apos;data&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.ini</computeroutput> file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>targets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Each mod object&apos;s root <computeroutput>sections</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What the parser has read so far, which this adds to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/DrawRead.h" line="79" column="18" bodyfile="src/model/strategies/iniParsers/parseSteps/DrawRead.cpp" bodystart="32" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniPartEdit::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
+        <briefdescription>
+<para>Clears any saved state information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_context" kindref="compound">IniParseContext</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::BaseIniParseStep&lt; K, V, KeyHash, KeyEqual &gt;::Context = IniParseContext&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Context</name>
+        <qualifiedname>AGRemapCore::BaseIniParseStep::Context</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>.ini</computeroutput> file a step reads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" line="58" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::BaseIniParseStep&lt; K, V, KeyHash, KeyEqual &gt;::Section = IfTemplate&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Section</name>
+        <qualifiedname>AGRemapCore::BaseIniParseStep::Section</qualifiedname>
+        <briefdescription>
+<para>A <computeroutput>section</computeroutput>_ of the <computeroutput>.ini</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" line="63" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">Section::ContentPart</ref></type>
+        <definition>using AGRemapCore::BaseIniParseStep&lt; K, V, KeyHash, KeyEqual &gt;::ContentPart = typename Section::ContentPart</definition>
+        <argsstring></argsstring>
+        <name>ContentPart</name>
+        <qualifiedname>AGRemapCore::BaseIniParseStep::ContentPart</qualifiedname>
+        <briefdescription>
+<para>A part of a <computeroutput>section</computeroutput>_ that holds <computeroutput>KVPs</computeroutput>_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" line="68" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" prot="public" static="no">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>using AGRemapCore::BaseIniParseStep&lt; K, V, KeyHash, KeyEqual &gt;::ModObj = std::pair&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>ModObj</name>
+        <qualifiedname>AGRemapCore::BaseIniParseStep::ModObj</qualifiedname>
+        <briefdescription>
+<para>A mod object: <computeroutput>(component, object)</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" line="73" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" prot="public" static="no">
+        <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kindref="member">ModObj</ref>, std::vector&lt; std::string &gt;, typename <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;::ModObjHash &gt;</type>
+        <definition>using AGRemapCore::BaseIniParseStep&lt; K, V, KeyHash, KeyEqual &gt;::SectionTargets = tsl::ordered_map&lt;ModObj, std::vector&lt;std::string&gt;, typename IniGraphGroup&lt;K, V, KeyHash, KeyEqual&gt;::ModObjHash&gt;</definition>
+        <argsstring></argsstring>
+        <name>SectionTargets</name>
+        <qualifiedname>AGRemapCore::BaseIniParseStep::SectionTargets</qualifiedname>
+        <briefdescription>
+<para>Each mod object&apos;s root <computeroutput>sections</computeroutput>_, as :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a05990d79063feb8facae3fe02708a9a9" kindref="member">GIMIParser::sectionTargets</ref></computeroutput> found them. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" line="78" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kindref="member">ModObj</ref> &amp;)&gt;</type>
+        <definition>using AGRemapCore::BaseIniParseStep&lt; K, V, KeyHash, KeyEqual &gt;::ObjFilter = std::function&lt;bool(const ModObj&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ObjFilter</name>
+        <qualifiedname>AGRemapCore::BaseIniParseStep::ObjFilter</qualifiedname>
+        <briefdescription>
+<para>Which mod objects a step reads: empty reads every one. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" line="83" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parse_step_1a43f54d2809ad454df2f0c426e5e5c287" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool AGRemapCore::BaseIniParseStep&lt; K, V, KeyHash, KeyEqual &gt;::selects</definition>
+        <argsstring>(const ObjFilter &amp;filter, const ModObj &amp;modObj)</argsstring>
+        <name>selects</name>
+        <qualifiedname>AGRemapCore::BaseIniParseStep::selects</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kindref="member">ObjFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kindref="member">ModObj</ref> &amp;</type>
+          <declname>modObj</declname>
+        </param>
+        <briefdescription>
+<para>Whether &apos;filter&apos; selects &apos;modObj&apos;: an empty filter selects every mod object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" line="110" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" bodystart="110" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parse_step_1a5aeaac814fdf663de99fd74096d77879" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; const <ref refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" kindref="member">ContentPart</ref> * &gt;</type>
+        <definition>static std::vector&lt; const ContentPart * &gt; AGRemapCore::BaseIniParseStep&lt; K, V, KeyHash, KeyEqual &gt;::contentParts</definition>
+        <argsstring>(const Section &amp;section)</argsstring>
+        <name>contentParts</name>
+        <qualifiedname>AGRemapCore::BaseIniParseStep::contentParts</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" kindref="member">Section</ref> &amp;</type>
+          <declname>section</declname>
+        </param>
+        <briefdescription>
+<para>The parts of &apos;section&apos; that hold <computeroutput>KVPs</computeroutput>_, in order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" line="117" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" bodystart="117" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parse_step_1a4fbd10b4b37a1b336991f3fb06abe98a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>static std::optional&lt; std::string &gt; AGRemapCore::BaseIniParseStep&lt; K, V, KeyHash, KeyEqual &gt;::firstVal</definition>
+        <argsstring>(const Section &amp;section, const K &amp;key)</argsstring>
+        <name>firstVal</name>
+        <qualifiedname>AGRemapCore::BaseIniParseStep::firstVal</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" kindref="member">Section</ref> &amp;</type>
+          <declname>section</declname>
+        </param>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>The first value of &apos;key&apos; in the parts of &apos;section&apos;, stripped, without following <computeroutput>run =</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" line="130" column="34" bodyfile="include/AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h" bodystart="130" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Reads what each mod object&apos;s root `sections`_ draw:
+
+* :cpp:func:`IniParseData::drawParts`: the parts holding a ``drawindexed`` (every part of the
+  `section`_ counted, its ``if`` lines too)
+* :cpp:func:`IniParseData::drawRanges`: each ``drawindexed = &lt;count&gt;, &lt;start&gt;, &lt;base&gt;``
+* :cpp:func:`IniParseData::lateBindings`: the texture registers a `section`_ binds only after it has
+  drawn -- read only when the mod does not replace textures by hash
+  (:cpp:func:`IniParseData::replacesTexturesByHash`, so run :cpp:class:`TextureOverrideRead` first),
+  because such a mod&apos;s art reaches those draws anyway
+* :cpp:func:`IniParseData::undrawnObjs`: a mod object whose `sections`_ draw nothing and skip the
+  game&apos;s draw (``handling = skip``) -- the mod hides it. A mod object that draws nothing and leaves the
+  game&apos;s geometry on screen is not hidden, and when EVERY read mod object would be undrawn none is,
+  since that is a mod this reading does not understand
+
+:raw-html:`&lt;br /&gt;`
+
+Whether a `section`_ draws follows ``run =``: a called `section`_ that draws counts, and so does a
+call this ``.ini`` file cannot resolve, unless its name holds one of #silentLibraries
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniParseStep&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_parse_step"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::DrawRead</label>
+        <link refid="class_a_g_remap_core_1_1_draw_read"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniParseStep&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_parse_step"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::DrawRead</label>
+        <link refid="class_a_g_remap_core_1_1_draw_read"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/parseSteps/DrawRead.h" line="48" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/parseSteps/DrawRead.h" bodystart="48" bodyend="80"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::DrawRead</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawRead</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5aeaac814fdf663de99fd74096d77879" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawRead</scope><name>contentParts</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawRead</scope><name>Context</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1adb66ea9feb504ebb1786e88ff6653e25" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawRead</scope><name>deferred</name></member>
+      <member refid="class_a_g_remap_core_1_1_draw_read_1ae83b86e6614333b6fa4a98b95c45be17" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawRead</scope><name>DrawRead</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a4fbd10b4b37a1b336991f3fb06abe98a" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawRead</scope><name>firstVal</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawRead</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawRead</scope><name>ObjFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_draw_read_1abe5e610b0f5bcb02f81662cfdee90c87" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawRead</scope><name>objs</name></member>
+      <member refid="class_a_g_remap_core_1_1_draw_read_1a9a240ad7da125728831f18be13bb3572" prot="public" virt="virtual"><scope>AGRemapCore::DrawRead</scope><name>read</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawRead</scope><name>Section</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawRead</scope><name>SectionTargets</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a43f54d2809ad454df2f0c426e5e5c287" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawRead</scope><name>selects</name></member>
+      <member refid="class_a_g_remap_core_1_1_draw_read_1af536ae103ea9fa17d69a6210c5844309" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawRead</scope><name>silentLibraries</name></member>
+      <member refid="class_a_g_remap_core_1_1_draw_read_1a7629cd982a74c463ad8ca4588d87b527" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawRead</scope><name>texRegPrefix</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::DrawRead</scope><name>~BaseIniPartEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -276,6 +276,20 @@
     <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a1469210fa8041ccfb0a9dbaa2bb90a5d" kind="function"><name>parseData</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a14c7e94a7c0378deb1bddaa8c0747032" kind="function"><name>parseData</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_base_ini_parse_step" kind="class"><name>AGRemapCore::BaseIniParseStep</name>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" kind="typedef"><name>Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" kind="typedef"><name>Section</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" kind="typedef"><name>ContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kind="typedef"><name>ModObj</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" kind="typedef"><name>SectionTargets</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kind="typedef"><name>ObjFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1adb66ea9feb504ebb1786e88ff6653e25" kind="variable"><name>deferred</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ac85149383247625a61fb2e77acf205f7" kind="function"><name>read</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a43f54d2809ad454df2f0c426e5e5c287" kind="function"><name>selects</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5aeaac814fdf663de99fd74096d77879" kind="function"><name>contentParts</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a4fbd10b4b37a1b336991f3fb06abe98a" kind="function"><name>firstVal</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_base_ini_part_edit" kind="class"><name>AGRemapCore::BaseIniPartEdit</name>
     <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" kind="function"><name>~BaseIniPartEdit</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
@@ -1301,6 +1315,24 @@
     <member refid="class_a_g_remap_core_1_1_download_tools_1aabf6162296d2fc99a0ad9abbfff3ceea" kind="function"><name>ibResourceKVPs</name></member>
     <member refid="class_a_g_remap_core_1_1_download_tools_1afbdfb811a3bb21b0dd448a4f55e4ee2a" kind="function"><name>blendRefKVPs</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_draw_read" kind="class"><name>AGRemapCore::DrawRead</name>
+    <member refid="class_a_g_remap_core_1_1_draw_read_1abe5e610b0f5bcb02f81662cfdee90c87" kind="variable"><name>objs</name></member>
+    <member refid="class_a_g_remap_core_1_1_draw_read_1a7629cd982a74c463ad8ca4588d87b527" kind="variable"><name>texRegPrefix</name></member>
+    <member refid="class_a_g_remap_core_1_1_draw_read_1af536ae103ea9fa17d69a6210c5844309" kind="variable"><name>silentLibraries</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1adb66ea9feb504ebb1786e88ff6653e25" kind="variable"><name>deferred</name></member>
+    <member refid="class_a_g_remap_core_1_1_draw_read_1ae83b86e6614333b6fa4a98b95c45be17" kind="function"><name>DrawRead</name></member>
+    <member refid="class_a_g_remap_core_1_1_draw_read_1a9a240ad7da125728831f18be13bb3572" kind="function"><name>read</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" kind="typedef"><name>Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" kind="typedef"><name>Section</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" kind="typedef"><name>ContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kind="typedef"><name>ModObj</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" kind="typedef"><name>SectionTargets</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kind="typedef"><name>ObjFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a43f54d2809ad454df2f0c426e5e5c287" kind="function"><name>selects</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5aeaac814fdf663de99fd74096d77879" kind="function"><name>contentParts</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a4fbd10b4b37a1b336991f3fb06abe98a" kind="function"><name>firstVal</name></member>
+  </compound>
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute" kind="struct"><name>AGRemapCore::WWMIFixerConfig::DrawReroute</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" kind="variable"><name>from</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" kind="variable"><name>as</name></member>
@@ -1848,6 +1880,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4575eac6ccaa93070272d3c25ab155f0" kind="typedef"><name>Context</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab6facad22b15acdebe586f28ba567aff" kind="typedef"><name>DownloadData</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac54bd2ba5389186af894134edf1a4723" kind="typedef"><name>GroupEdit</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4cff096f344de8ccb777b5ba724303d8" kind="typedef"><name>ParseStep</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a7a565d30ed7abefdb949e4f6f9f6c7c9" kind="typedef"><name>Classifier</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6417d7ed1fa0dd9bc1593e7ff4556c9" kind="typedef"><name>ObjTargetFunc</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a952103f7dae7788e0c625a56022c8ce6" kind="typedef"><name>DownloadNeeds</name></member>
@@ -1857,6 +1890,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a7c35bf4324ada87fee9ecbc35fc37113" kind="typedef"><name>GraphMapEntry</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa16ee63543137b037ff10380059ee72a" kind="variable"><name>objTargetFuncs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a25483cc4ddfb668103f3d46f70b233d1" kind="variable"><name>downloads</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa231f1b4c91e8eee415df1e6f74c3fc4" kind="variable"><name>parseSteps</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a9884e677c16b9e934cff106b86dbf93f" kind="variable"><name>makeGlobalGraph</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ad9484497843f074cde878b26feacdc62" kind="variable"><name>disjointModObjs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a8db822664e08465ba2cfeeef2f3db859" kind="variable"><name>trackKeys</name></member>
@@ -1904,6 +1938,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6f94ad8c346904fecbbe75e926113c6a" kind="function"><name>addDownloads</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac8119931260c037232ded5a5b148335f" kind="function"><name>setupDownloads</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4d47b3d737fe7e557909cadc38853b70" kind="function"><name>editCommands</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a8d8254a465845d55cc518a644c0349ea" kind="function"><name>runParseSteps</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a62f1220d29023cf3b1411ad204282b9b" kind="function"><name>collectParseResult</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af93c15b04646ae2e057a3e907f47757f" kind="function"><name>parse</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aaa12974b1ee1eb41cbdfdb562352a3bf" kind="function"><name>getSectionTargets</name></member>
@@ -4079,6 +4114,24 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift_1a65b6ae3249ca059846e4796efe58d804" kind="variable"><name>drawRanges</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift_1a8bb9766eedb72ef8248edcf0221b8b12" kind="variable"><name>vgMaps</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_library_read" kind="class"><name>AGRemapCore::LibraryRead</name>
+    <member refid="class_a_g_remap_core_1_1_library_read_1a85798b289ffe884e4e1371c0e6c84ac1" kind="typedef"><name>Library</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" kind="typedef"><name>Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" kind="typedef"><name>Section</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" kind="typedef"><name>ContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kind="typedef"><name>ModObj</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" kind="typedef"><name>SectionTargets</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kind="typedef"><name>ObjFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_library_read_1af144998dabc67748b9ed7381713614fa" kind="variable"><name>libraries</name></member>
+    <member refid="class_a_g_remap_core_1_1_library_read_1a65fa2689d5d1c4f7979c6c2d280f104a" kind="variable"><name>objs</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1adb66ea9feb504ebb1786e88ff6653e25" kind="variable"><name>deferred</name></member>
+    <member refid="class_a_g_remap_core_1_1_library_read_1a12a29c9a98ec846a4533b562921e3f7e" kind="function"><name>LibraryRead</name></member>
+    <member refid="class_a_g_remap_core_1_1_library_read_1acd3ad9fe2f9ada026a06526df20b9710" kind="function"><name>read</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a43f54d2809ad454df2f0c426e5e5c287" kind="function"><name>selects</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5aeaac814fdf663de99fd74096d77879" kind="function"><name>contentParts</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a4fbd10b4b37a1b336991f3fb06abe98a" kind="function"><name>firstVal</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_lisa_fixer" kind="class"><name>AGRemapCore::LisaFixer</name>
     <member refid="class_a_g_remap_core_1_1_lisa_fixer_1ae42f3fb51840e2be5185cca1425a30ae" kind="function"><name>LisaFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_lisa_fixer_1a709ecc68a87b4aaab46cb65ded7809f6" kind="function"><name>v6_1ToLisaStudent</name></member>
@@ -5925,6 +5978,20 @@
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6710f40b48ec3fe39ffa4ae31bc296bf" kind="function"><name>buildResources</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a7bc2fd1d2fe42716250c3d6d0715e241" kind="function"><name>fileAddGraphId</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_resource_read" kind="class"><name>AGRemapCore::ResourceRead</name>
+    <member refid="class_a_g_remap_core_1_1_resource_read_1a8be36994b8085cebebd5e2ad73041aa7" kind="function"><name>read</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" kind="typedef"><name>Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" kind="typedef"><name>Section</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" kind="typedef"><name>ContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kind="typedef"><name>ModObj</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" kind="typedef"><name>SectionTargets</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kind="typedef"><name>ObjFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1adb66ea9feb504ebb1786e88ff6653e25" kind="variable"><name>deferred</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a43f54d2809ad454df2f0c426e5e5c287" kind="function"><name>selects</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5aeaac814fdf663de99fd74096d77879" kind="function"><name>contentParts</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a4fbd10b4b37a1b336991f3fb06abe98a" kind="function"><name>firstVal</name></member>
+  </compound>
   <compound refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role" kind="struct"><name>AGRemapCore::IniParseData::ResourceRole</name>
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role_1a28cae693c942d1962d69bd9603e99a6e" kind="variable"><name>role</name></member>
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role_1a73bf6e380ec70210e9e1b9b51a6e4f5a" kind="variable"><name>modObj</name></member>
@@ -6189,6 +6256,28 @@
   <compound refid="class_a_g_remap_core_1_1_skeleton_numbering_probe" kind="class"><name>AGRemapCore::SkeletonNumberingProbe</name>
     <member refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1acb53d6c180b964ad2f80eb670541c132" kind="variable"><name>MinVertices</name></member>
     <member refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1a88efd66aa3b6c437ebe51e3f58a7b1bb" kind="function"><name>probe</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_skeleton_numbering_read" kind="class"><name>AGRemapCore::SkeletonNumberingRead</name>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a35419feb8c8957d67adecf723bf9f123" kind="variable"><name>numberings</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1abb8d5ea7ca5ee5f755c47fa73f5cfa54" kind="variable"><name>centroids</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1afce8022e38964f909e34a1680793e83d" kind="variable"><name>positionResource</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a205f86c6b1ebabccdc2dc7fdd02a63ae" kind="variable"><name>blendResource</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1aa451edebf9ab71c5147e11f073d11691" kind="variable"><name>vertexVGResource</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a785cbe5f1cf07c8bb3fde567ce7140e8" kind="variable"><name>requiredKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a881f9d26769158612b9a9f0a4e1e78fa" kind="variable"><name>objs</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1adb66ea9feb504ebb1786e88ff6653e25" kind="variable"><name>deferred</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a3e42bd46af94de7c694823f51b942b99" kind="function"><name>SkeletonNumberingRead</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a8e7a7e82fa5dfc66851bd22e054b0d4b" kind="function"><name>read</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" kind="typedef"><name>Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" kind="typedef"><name>Section</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" kind="typedef"><name>ContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kind="typedef"><name>ModObj</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" kind="typedef"><name>SectionTargets</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kind="typedef"><name>ObjFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a43f54d2809ad454df2f0c426e5e5c287" kind="function"><name>selects</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5aeaac814fdf663de99fd74096d77879" kind="function"><name>contentParts</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a4fbd10b4b37a1b336991f3fb06abe98a" kind="function"><name>firstVal</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot" kind="struct"><name>AGRemapCore::GIMIComponentParserConfig::Slot</name>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a2932af3df10732450b1fb2aa9b53104a" kind="variable"><name>name</name></member>
@@ -6743,6 +6832,22 @@
     <member refid="class_a_g_remap_core_1_1_texture_file_1a57d75eb63d2d93bb8a43b5bad8972f5f" kind="function"><name>writeKey</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_file_1a118a425e73837773c0945e3d4e95710c" kind="function"><name>writeUncompressedDds</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_file_1a0f7ac70336284c42b1fecdd06b612fc3" kind="function"><name>writeTo</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_texture_override_read" kind="class"><name>AGRemapCore::TextureOverrideRead</name>
+    <member refid="class_a_g_remap_core_1_1_texture_override_read_1a029ca08f7e77b93a4c7f4cae62b6c282" kind="variable"><name>draws</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1adb66ea9feb504ebb1786e88ff6653e25" kind="variable"><name>deferred</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_override_read_1aaeccd7c7cb3858e27fa775d83f7327a3" kind="function"><name>TextureOverrideRead</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_override_read_1a47004079e6d7bf49a7ad230854a71cf6" kind="function"><name>read</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" kind="typedef"><name>Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" kind="typedef"><name>Section</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" kind="typedef"><name>ContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kind="typedef"><name>ModObj</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" kind="typedef"><name>SectionTargets</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kind="typedef"><name>ObjFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a43f54d2809ad454df2f0c426e5e5c287" kind="function"><name>selects</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5aeaac814fdf663de99fd74096d77879" kind="function"><name>contentParts</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a4fbd10b4b37a1b336991f3fb06abe98a" kind="function"><name>firstVal</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_texture_overrides" kind="class"><name>AGRemapCore::TextureOverrides</name>
     <member refid="class_a_g_remap_core_1_1_texture_overrides_1a591e754cc7f19c1d0fcb5c3d4cbcfa7f" kind="function"><name>collect</name></member>
@@ -8706,6 +8811,18 @@
   <compound refid="_ini_parse_data_8h" kind="file"><name>IniParseData.h</name>
   </compound>
   <compound refid="_ini_parse_download_data_8h" kind="file"><name>IniParseDownloadData.h</name>
+  </compound>
+  <compound refid="_base_ini_parse_step_8h" kind="file"><name>BaseIniParseStep.h</name>
+  </compound>
+  <compound refid="_draw_read_8h" kind="file"><name>DrawRead.h</name>
+  </compound>
+  <compound refid="_library_read_8h" kind="file"><name>LibraryRead.h</name>
+  </compound>
+  <compound refid="_resource_read_8h" kind="file"><name>ResourceRead.h</name>
+  </compound>
+  <compound refid="_skeleton_numbering_read_8h" kind="file"><name>SkeletonNumberingRead.h</name>
+  </compound>
+  <compound refid="_texture_override_read_8h" kind="file"><name>TextureOverrideRead.h</name>
   </compound>
   <compound refid="_texture_role_chooser_8h" kind="file"><name>TextureRoleChooser.h</name>
   </compound>

@@ -129,6 +129,7 @@ from .test_RemapServiceCLI import RemapServiceCLITest
 from .test_ResGroupCollect import ResGroupCollectTest
 from .test_VGComponentSplit import VGComponentSplitTest, VGSplitGroupResourceTest, BufReplaceTest
 from .test_ResRegCollect import ResRegCollectTest
+from .test_GraphCollect import GraphCollectTest
 from .test_SectionIterData import SectionIterDataTest
 from .test_SympyIfPredGenerator import SympyIfPredGeneratorTest
 from .test_SympyParser import SympyParserTest
@@ -174,7 +175,7 @@ __all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "BaseLoggerTest", "
 __all__ += ["ModTypesTest", "ModTypeTest", "RemapServiceCLITest", "GIMIFixerTest", "GIMIParserTest", "ParseStepsTest", "RemapIniRemoverTest", "GlobalRemapIniRemoverTest"]
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest"]
 __all__ += ["ColourRangeTest", "VersionSetTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredPartTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
-__all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "VertexCountsTest", "VGRemapsTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphGroupRemoveTest", "IterGraphGroupEditTest", "GraphRenameTest", "ResRegCollectTest", "ResGroupCollectTest", "VGComponentSplitTest", "VGSplitGroupResourceTest", "BufReplaceTest", "SympyTokenizerTest", "SympyParserTest"]
+__all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "VertexCountsTest", "VGRemapsTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphGroupRemoveTest", "IterGraphGroupEditTest", "GraphRenameTest", "ResRegCollectTest", "GraphCollectTest", "ResGroupCollectTest", "VGComponentSplitTest", "VGSplitGroupResourceTest", "BufReplaceTest", "SympyTokenizerTest", "SympyParserTest"]
 __all__ += ["BaseIniGraphGroupEditTest", "GraphGroupEditTest", "BaseResEditTest", "ResEditsTest", "ResCollectsTest"]
 __all__ += ["BaseIniGraphEditTest", "RegFillMissingTest"]
 __all__ += ["SympyIfPredGeneratorTest", "CppAhoCorasickDFATest", "CppTrieTest"]

@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_graph_collect_row" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GraphCollectRow</compoundname>
+    <includes refid="_graph_collect_row_8h" local="no">GraphCollectRow.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="struct_a_g_remap_core_1_1_graph_collect_row_1afb340f80b4c3bf012a33c67b2f135299" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" kindref="compound">BaseIniGraphGroupEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;::GraphId</type>
+        <definition>using AGRemapCore::GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt;::GraphId = typename BaseIniGraphGroupEdit&lt;K, V, KeyHash, KeyEqual&gt;::GraphId</definition>
+        <argsstring></argsstring>
+        <name>GraphId</name>
+        <qualifiedname>AGRemapCore::GraphCollectRow::GraphId</qualifiedname>
+        <briefdescription>
+<para>The graph a row is found in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="47" column="9" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="struct_a_g_remap_core_1_1_graph_collect_row_1a1927cdc1232896035cc481fe6258762c" prot="public" static="no">
+        <type>std::vector&lt; std::pair&lt; std::optional&lt; long long &gt;, V &gt; &gt;</type>
+        <definition>using AGRemapCore::GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt;::KeyState = std::vector&lt;std::pair&lt;std::optional&lt;long long&gt;, V&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>KeyState</name>
+        <qualifiedname>AGRemapCore::GraphCollectRow::KeyState</qualifiedname>
+        <briefdescription>
+<para>The occurrences of one key in a part, each with its line, or the value carried in (no line). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="52" column="9" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_row_1ae0ac73720479d825f2bed25dc9d42811" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_graph_collect_row_1afb340f80b4c3bf012a33c67b2f135299" kindref="member">GraphId</ref></type>
+        <definition>GraphId AGRemapCore::GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt;::graphId</definition>
+        <argsstring></argsstring>
+        <name>graphId</name>
+        <qualifiedname>AGRemapCore::GraphCollectRow::graphId</qualifiedname>
+        <briefdescription>
+<para>The graph it was found in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="57" column="17" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_row_1a8e07a9f46b19712cde99cf1e38eea439" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt;::section</definition>
+        <argsstring></argsstring>
+        <name>section</name>
+        <qualifiedname>AGRemapCore::GraphCollectRow::section</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput><ref refid="struct_a_g_remap_core_1_1_graph_collect_row_1a8e07a9f46b19712cde99cf1e38eea439" kindref="member">section</ref></computeroutput>_ it is in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="62" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_row_1a66d38345d9e8e69b0ce7624566a84f93" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt;::rootSection</definition>
+        <argsstring></argsstring>
+        <name>rootSection</name>
+        <qualifiedname>AGRemapCore::GraphCollectRow::rootSection</qualifiedname>
+        <briefdescription>
+<para>The root <computeroutput><ref refid="struct_a_g_remap_core_1_1_graph_collect_row_1a8e07a9f46b19712cde99cf1e38eea439" kindref="member">section</ref></computeroutput>_ of the graph the walk reached it from <ndash/> only with :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_graph_collect_1a6300367cecb931e4a7e58d92e8dad894" kindref="member">GraphCollect::withConditions</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="67" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_row_1a512a680d95a6661c897cf4ac161435bd" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt;::partId</definition>
+        <argsstring></argsstring>
+        <name>partId</name>
+        <qualifiedname>AGRemapCore::GraphCollectRow::partId</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The id of its part within the <computeroutput><ref refid="struct_a_g_remap_core_1_1_graph_collect_row_1a8e07a9f46b19712cde99cf1e38eea439" kindref="member">section</ref></computeroutput>_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="72" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_row_1a10aef0198194d3941bd4f0c0a8c9ed8f" prot="public" static="no" mutable="no">
+        <type>long long</type>
+        <definition>long long AGRemapCore::GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt;::line</definition>
+        <argsstring></argsstring>
+        <name>line</name>
+        <qualifiedname>AGRemapCore::GraphCollectRow::line</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Its order index within the part. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="77" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_row_1a8bade5d8c864b28f0255f136da26d6a9" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt;::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>AGRemapCore::GraphCollectRow::key</qualifiedname>
+        <briefdescription>
+<para>Its key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="82" column="11" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_row_1add010cfb696f890672bda92cb4129d5c" prot="public" static="no" mutable="no">
+        <type>V</type>
+        <definition>V AGRemapCore::GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt;::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::GraphCollectRow::value</qualifiedname>
+        <briefdescription>
+<para>Its value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="87" column="11" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_row_1a91104695cd98fab522db5a8f20363e4b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; K, <ref refid="struct_a_g_remap_core_1_1_graph_collect_row_1a1927cdc1232896035cc481fe6258762c" kindref="member">KeyState</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;K, KeyState&gt; &gt; AGRemapCore::GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt;::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>AGRemapCore::GraphCollectRow::context</qualifiedname>
+        <briefdescription>
+<para>What each of the graph&apos;s :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_graph_collect_1a5674f7375a59d4a1d296359adcc2817f" kindref="member">GraphCollect::contextKeys</ref></computeroutput> holds at the part, in the order they are named. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="92" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_row_1a07e554f085c798ec48976303429e7d9a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
+        <definition>std::optional&lt;Z3Predicate&gt; AGRemapCore::GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt;::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <qualifiedname>AGRemapCore::GraphCollectRow::condition</qualifiedname>
+        <briefdescription>
+<para>The condition of the <computeroutput>if</computeroutput> blocks the part sits in <ndash/> only with :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_graph_collect_1a6300367cecb931e4a7e58d92e8dad894" kindref="member">GraphCollect::withConditions</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="97" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+One occurrence of a key a :cpp:class:`GraphCollect` collected -- its own header so that
+:cpp:class:`IniParseData`, which files rows, does not need the collect itself
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="struct_a_g_remap_core_1_1_graph_collect_row"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>graphId</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="43" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="43" bodyend="98"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a07e554f085c798ec48976303429e7d9a" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>condition</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a91104695cd98fab522db5a8f20363e4b" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>context</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1afb340f80b4c3bf012a33c67b2f135299" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>GraphId</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1ae0ac73720479d825f2bed25dc9d42811" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>graphId</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a8bade5d8c864b28f0255f136da26d6a9" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>key</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a1927cdc1232896035cc481fe6258762c" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>KeyState</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a10aef0198194d3941bd4f0c0a8c9ed8f" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>line</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a512a680d95a6661c897cf4ac161435bd" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>partId</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a66d38345d9e8e69b0ce7624566a84f93" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>rootSection</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a8e07a9f46b19712cde99cf1e38eea439" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>section</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1add010cfb696f890672bda92cb4129d5c" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_i_parse_result" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>AGRemapCore::IParseResult</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_collect" prot="public" virt="non-virtual">AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_skeleton_numbering_read" prot="public" virt="non-virtual">AGRemapCore::SkeletonNumberingRead</derivedcompoundref>
+    <includes refid="_i_parse_result_8h" local="no">IParseResult.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_i_parse_result_1ace3009fcb292407a9acc5153830ec147" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::IParseResult::~IParseResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IParseResult</name>
+        <qualifiedname>AGRemapCore::IParseResult::~IParseResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IParseResult.h" line="34" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_i_parse_result_1a587ddbfe485d3565aff9a17f352af9d7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::IParseResult::fileInto</definition>
+        <argsstring>(IniParseData &amp;data) const =0</argsstring>
+        <name>fileInto</name>
+        <qualifiedname>AGRemapCore::IParseResult::fileInto</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_collect_1a99ba0c97ac25300c4bd25271d2ddaf4e">fileInto</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a256430466de64041fe7bd9e9c8e9eb69">fileInto</reimplementedby>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_parse_data" kindref="compound">IniParseData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Files what the last run found into &apos;data&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The parser&apos;s data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IParseResult.h" line="41" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+An edit with a result a parser keeps: after running an edit of :cpp:member:`GIMIParser::parseSteps` or
+:cpp:member:`GIMIParser::deferredParseSteps`, the parser hands its :cpp:class:`IniParseData` to the edit&apos;s
+#fileInto when the edit implements this :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+:cpp:class:`GraphCollect` files its rows this way
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_collect"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IParseResult</label>
+        <link refid="class_a_g_remap_core_1_1_i_parse_result"/>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::SkeletonNumberingRead</label>
+        <link refid="class_a_g_remap_core_1_1_skeleton_numbering_read"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IParseResult.h" line="32" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IParseResult.h" bodystart="32" bodyend="42"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_i_parse_result_1a587ddbfe485d3565aff9a17f352af9d7" prot="public" virt="pure-virtual"><scope>AGRemapCore::IParseResult</scope><name>fileInto</name></member>
+      <member refid="class_a_g_remap_core_1_1_i_parse_result_1ace3009fcb292407a9acc5153830ec147" prot="public" virt="virtual"><scope>AGRemapCore::IParseResult</scope><name>~IParseResult</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

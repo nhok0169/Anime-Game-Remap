@@ -28,7 +28,8 @@ namespace AGRemapCore {
         (void)modType;
         (void)modName;
 
-        if (graph == nullptr) {
+        Graph* source = graphOf ? graphOf() : graph;
+        if (source == nullptr) {
             return graphGroups;
         }
 
@@ -54,7 +55,7 @@ namespace AGRemapCore {
         // because they own their graphs' lifetimes. See this class's own note -- adding the caller's
         // pointer would dangle the moment the caller's graph went out of scope, and the copy leaves
         // the caller free to reuse one graph for several ids.
-        Graph* owned = graphGroups.deepcopyGraph(*graph, minimal, newPartIds);
+        Graph* owned = graphGroups.deepcopyGraph(*source, minimal, newPartIds);
         if (owned == nullptr) {
             return graphGroups;
         }

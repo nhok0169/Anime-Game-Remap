@@ -51,55 +51,6 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    void ResRegCollect<K, V, KeyHash, KeyEqual>::collectFromGraphGroup(GraphGroups& graphGroups, const GraphId& srcModObj,
-                                                                        const K& srcReg) {
-        Graph* graph = Base::getGraph(graphGroups, srcModObj, false);
-        if (graph == nullptr) {
-            return;
-        }
-
-        auto partPredicateIt = partPredicates.find(srcModObj);
-        auto resPredicateIt = resPredicates.find(srcModObj);
-        auto keysToTrackIt = keysToTrack.find(srcModObj);
-
-        std::optional<std::unordered_set<K, KeyHash, KeyEqual>> currentKeysToTrack;
-        if (keysToTrackIt != keysToTrack.end()) {
-            currentKeysToTrack = keysToTrackIt->second;
-        }
-
-        bool currentTrackKeys = trackKeysGlobal;
-        if (!trackKeysIsGlobal) {
-            auto trackKeysIt = trackKeys.find(srcModObj);
-            currentTrackKeys = (trackKeysIt == trackKeys.end()) ? false : trackKeysIt->second;
-        }
-
-        auto parts = graph->iterByContentPart(1, currentTrackKeys, currentKeysToTrack);
-        while (parts.next()) {
-            IterData& iterData = parts.value();
-            auto* part = iterData.part;
-
-            // No predicate means no restriction at all -- std::nullopt, not an empty range list
-            // (which would restrict everything away).
-            std::optional<typename Graph::ContentPart::RangeSpec> partRanges;
-            if (partPredicateIt != partPredicates.end() && partPredicateIt->second) {
-                partRanges = partPredicateIt->second(iterData).ranges;
-            }
-
-            std::vector<std::pair<long long, V>> regVals = part->getValsWithInds(srcReg, true, partRanges);
-
-            for (const auto& regVal : regVals) {
-                if (resPredicateIt != resPredicates.end() && resPredicateIt->second &&
-                    !resPredicateIt->second(srcReg, regVal.second, iterData)) {
-                    continue;
-                }
-
-                resCalls[srcModObj][iterData.sectionName][part->id()].push_back(ResCall{regVal.first, regVal.second});
-            }
-        }
-    }
-
-
-    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename ResRegCollect<K, V, KeyHash, KeyEqual>::GraphGroups& ResRegCollect<K, V, KeyHash, KeyEqual>::remapGraphs(GraphGroups& graphGroups,
                                                                                                                       RemappedGraphs* remappedGraphs) {
         if (remappedGraphs == nullptr) {
@@ -373,20 +324,25 @@ namespace AGRemapCore {
         // it is reading.
         const bool copySections = true;
 
-        for (const auto& srcEntry : srcRegs) {
-            collectFromGraphGroup(graphGroups, srcEntry.first, srcEntry.second);
+        // THE COLLECT: every register naming the resource, in every graph searched -- the srcRegs of every
+        // graph first, then the extraSrcRegs, then the registers srcRegMatches accepts. The order is kept:
+        // the graphs' order in resCalls is the order the resources are built and rendered in
+        GraphCollect<K, V, KeyHash, KeyEqual> collect;
+        collect.partPredicates = partPredicates;
+        collect.valPredicates = resPredicates;
+        collect.trackKeysIsGlobal = trackKeysIsGlobal;
+        collect.trackKeysGlobal = trackKeysGlobal;
+        collect.trackKeys = trackKeys;
+        collect.keysToTrack = keysToTrack;
+        for (const auto& [graphId, reg] : srcRegs) {
+            collect.collectKey(graphGroups, graphId, reg);
         }
-        for (const auto& srcEntry : extraSrcRegs) {
-            for (const K& srcReg : srcEntry.second) {
-                collectFromGraphGroup(graphGroups, srcEntry.first, srcReg);
+        for (const auto& [graphId, regs] : extraSrcRegs) {
+            for (const K& reg : regs) {
+                collect.collectKey(graphGroups, graphId, reg);
             }
         }
         for (const auto& [graphId, match] : srcRegMatches) {
-            Graph* graph = match ? Base::getGraph(graphGroups, graphId, false) : nullptr;
-            if (graph == nullptr) {
-                continue;
-            }
-
             // the registers named outright are searched already
             std::unordered_set<K, KeyHash, KeyEqual> searched;
             if (auto named = srcRegs.find(graphId); named != srcRegs.end()) {
@@ -396,29 +352,13 @@ namespace AGRemapCore {
                 searched.insert(named->second.begin(), named->second.end());
             }
 
-            std::vector<K> regs;
-            for (const auto& section : graph->sections()) {
-                if (section.second == nullptr) {
-                    continue;
-                }
-
-                for (const auto& part : section.second->parts()) {
-                    const auto* content = dynamic_cast<const typename Graph::ContentPart*>(part.get());
-                    if (content == nullptr) {
-                        continue;
-                    }
-
-                    for (const auto& item : content->items()) {
-                        if (match(item.key) && searched.insert(item.key).second) {
-                            regs.push_back(item.key);
-                        }
-                    }
-                }
+            for (const K& reg : collect.matchedKeys(graphGroups, graphId, match, std::move(searched))) {
+                collect.collectKey(graphGroups, graphId, reg);
             }
+        }
 
-            for (const K& reg : regs) {
-                collectFromGraphGroup(graphGroups, graphId, reg);
-            }
+        for (const auto& row : collect.rows()) {
+            resCalls[row.graphId][row.section][row.partId].push_back(ResCall{row.line, row.value});
         }
 
         RemappedGraphs remappedGraphsStorage;

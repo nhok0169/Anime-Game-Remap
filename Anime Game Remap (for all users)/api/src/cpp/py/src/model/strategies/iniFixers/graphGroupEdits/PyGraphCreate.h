@@ -59,6 +59,11 @@ class PyGraphCreate: public AGRC::GraphCreate<std::string, std::string> {
         py::object graphObj;
 
         /**
+         * @brief The graph #graphObj gave for the current edit -- itself, or what it returned when it is callable
+         */
+        py::object graphOfResult;
+
+        /**
          * @brief Constructs a new graph-adding edit
          *
          * @param graphIdObj The Python ``(iniIndex, componentName, objectName)`` tuple

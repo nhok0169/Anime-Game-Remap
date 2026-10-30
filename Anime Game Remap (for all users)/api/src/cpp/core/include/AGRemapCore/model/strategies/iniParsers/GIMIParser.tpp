@@ -884,40 +884,35 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
-    void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::runParseSteps(const std::function<void(GroupEdit&)>& editGroups) {
-        if (ctx_ == nullptr || parseSteps.empty()) {
+    void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::fileResult(const BaseIniPartEdit& edit, IniParseData& data) {
+        if (const auto* result = dynamic_cast<const IParseResult*>(&edit)) {
+            result->fileInto(data);
+        }
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
+    void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::runParseSteps() {
+        if (ctx_ == nullptr) {
             return;
         }
 
-        std::vector<ParseStep*> deferred;
-        for (BaseIniPartEdit* step : parseSteps) {
-            if (step == nullptr) {
-                continue;
-            }
-
-            if (auto* read = dynamic_cast<ParseStep*>(step)) {
-                if (read->deferred) {
-                    deferred.push_back(read);
-                } else {
-                    read->read(*ctx_, sectionTargets_, this->parseData());
-                }
-            } else if (auto* edit = dynamic_cast<GroupEdit*>(step)) {
-                if (editGroups) {
-                    editGroups(*edit);
-                } else {
-                    edit->editFromIni(ctx_->graphGroups(), this->iniFile_, nullptr, ctx_->modTypeName());
-                }
-            } else {
-                throw std::invalid_argument("a parse step is neither a BaseIniParseStep nor a BaseIniGraphGroupEdit");
+        for (GroupEdit* edit : parseSteps) {
+            if (edit != nullptr) {
+                edit->editFromIni(ctx_->graphGroups(), this->iniFile_, nullptr, ctx_->modTypeName());
+                fileResult(*edit, this->parseData());
             }
         }
 
-        // Read where they stand when the data is first asked for: the context and the section targets
-        // are this parser's own, and outlive the data it owns
-        if (!deferred.empty()) {
-            this->parseData().defer([this, deferred](IniParseData& data) {
-                for (ParseStep* read : deferred) {
-                    read->read(*ctx_, sectionTargets_, data);
+        // Run where the graphs stand when the data is first asked for: the context is this parser's own,
+        // and outlives the data it owns
+        if (!deferredParseSteps.empty()) {
+            this->parseData().defer([this, edits = deferredParseSteps](IniParseData& data) {
+                for (GroupEdit* edit : edits) {
+                    if (edit != nullptr && ctx_ != nullptr) {
+                        edit->editFromIni(ctx_->graphGroups(), this->iniFile_, nullptr, ctx_->modTypeName());
+                        fileResult(*edit, data);
+                    }
                 }
             });
         }

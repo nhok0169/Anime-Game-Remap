@@ -35,6 +35,7 @@ namespace AGRemapCore {
         rejections_.clear();
         thisToggles_.clear();
         registerToggles_.clear();
+        collected_.clear();
         fill_ = nullptr;
     }
 
@@ -212,6 +213,17 @@ namespace AGRemapCore {
 
     void IniParseData::setTextureRoles(TextureRoles roles) {
         roles_ = std::make_unique<TextureRoles>(std::move(roles));
+    }
+
+    const std::vector<IniParseData::CollectedRow>& IniParseData::collected(const std::string& name) const {
+        static const std::vector<CollectedRow> none;
+        fill();
+        const auto found = collected_.find(name);
+        return found == collected_.end() ? none : found->second;
+    }
+
+    void IniParseData::setCollected(const std::string& name, std::vector<CollectedRow> rows) {
+        collected_.insert_or_assign(name, std::move(rows));
     }
 
     void IniParseData::defer(Filler fill) {

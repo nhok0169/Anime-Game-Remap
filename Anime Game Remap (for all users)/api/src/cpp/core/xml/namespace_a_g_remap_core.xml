@@ -32,7 +32,6 @@
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" prot="public">AGRemapCore::BaseIniGraphGroupEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit" prot="public">AGRemapCore::BaseIniGraphPartEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_parser" prot="public">AGRemapCore::BaseIniParser</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_base_ini_parse_step" prot="public">AGRemapCore::BaseIniParseStep</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_part_edit" prot="public">AGRemapCore::BaseIniPartEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_remover" prot="public">AGRemapCore::BaseIniRemover</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_logger" prot="public">AGRemapCore::BaseLogger</innerclass>
@@ -104,7 +103,6 @@
     <innerclass refid="class_a_g_remap_core_1_1_download_mode_tools" prot="public">AGRemapCore::DownloadModeTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_download_store" prot="public">AGRemapCore::DownloadStore</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_download_tools" prot="public">AGRemapCore::DownloadTools</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_draw_read" prot="public">AGRemapCore::DrawRead</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_draw_u_v_coverage" prot="public">AGRemapCore::DrawUVCoverage</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_add_create" prot="public">AGRemapCore::FileAddCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_download" prot="public">AGRemapCore::FileDownload</innerclass>
@@ -144,6 +142,8 @@
     <innerclass refid="class_a_g_remap_core_1_1_global_ini_remove_builders" prot="public">AGRemapCore::GlobalIniRemoveBuilders</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_global_mod_types" prot="public">AGRemapCore::GlobalModTypes</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_global_remap_ini_remover" prot="public">AGRemapCore::GlobalRemapIniRemover</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_collect" prot="public">AGRemapCore::GraphCollect</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_graph_collect_row" prot="public">AGRemapCore::GraphCollectRow</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_copy" prot="public">AGRemapCore::GraphCopy</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_create" prot="public">AGRemapCore::GraphCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_iterator" prot="public">AGRemapCore::GraphemeIterator</innerclass>
@@ -238,6 +238,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_invert_alpha" prot="public">AGRemapCore::InvertAlpha</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_invert_alpha_filter" prot="public">AGRemapCore::InvertAlphaFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_i_ordered_multi_map" prot="public">AGRemapCore::IOrderedMultiMap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_i_parse_result" prot="public">AGRemapCore::IParseResult</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_iter_graph_group_edit" prot="public">AGRemapCore::IterGraphGroupEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_jean_c_n_fixer" prot="public">AGRemapCore::JeanCNFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_jean_c_n_parser" prot="public">AGRemapCore::JeanCNParser</innerclass>
@@ -263,7 +264,6 @@
     <innerclass refid="class_a_g_remap_core_1_1_klee_blossoming_starlight_parser" prot="public">AGRemapCore::KleeBlossomingStarlightParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_klee_fixer" prot="public">AGRemapCore::KleeFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_klee_parser" prot="public">AGRemapCore::KleeParser</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_library_read" prot="public">AGRemapCore::LibraryRead</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_lisa_fixer" prot="public">AGRemapCore::LisaFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_lisa_parser" prot="public">AGRemapCore::LisaParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_lisa_student_fixer" prot="public">AGRemapCore::LisaStudentFixer</innerclass>
@@ -360,7 +360,6 @@
     <innerclass refid="class_a_g_remap_core_1_1_res_create" prot="public">AGRemapCore::ResCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_res_group_collect" prot="public">AGRemapCore::ResGroupCollect</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_res_identity" prot="public">AGRemapCore::ResIdentity</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_resource_read" prot="public">AGRemapCore::ResourceRead</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_res_reg_collect" prot="public">AGRemapCore::ResRegCollect</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_res_replace" prot="public">AGRemapCore::ResReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_rosaria_c_n_fixer" prot="public">AGRemapCore::RosariaCNFixer</innerclass>
@@ -403,7 +402,6 @@
     <innerclass refid="class_a_g_remap_core_1_1_tex_thumbprint" prot="public">AGRemapCore::TexThumbprint</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_text_tools" prot="public">AGRemapCore::TextTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_texture_file" prot="public">AGRemapCore::TextureFile</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_texture_override_read" prot="public">AGRemapCore::TextureOverrideRead</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_texture_overrides" prot="public">AGRemapCore::TextureOverrides</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_texture_role_chooser" prot="public">AGRemapCore::TextureRoleChooser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_texture_roles" prot="public">AGRemapCore::TextureRoles</innerclass>
@@ -3381,7 +3379,7 @@ Builds the parser for a mod of one Wuthering Waves character -- see :cpp:struct:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/WWMIParser.cpp" line="1028" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="1028" bodyend="1039" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="146" declcolumn="30"/>
+        <location file="src/data/IniParseData/WWMIParser.cpp" line="1316" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="1316" bodyend="1327" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="146" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1aad3c3e3d2d3d9a180071dc09ae8b1565" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>

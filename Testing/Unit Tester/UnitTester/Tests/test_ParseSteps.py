@@ -10,35 +10,16 @@ import src.py.FixRaidenBoss2 as FRB
 
 
 class ParseStepsTest(BaseIniFileTest):
+    """GIMIParser.parseSteps and deferredParseSteps: reading edits, run at the end of the parse or on the first ask
+    of the parse data, each filed through IParseResult"""
+
     _stepsIniTxt = r"""
 [TextureOverrideBody]
 hash = 11111111
 match_first_index = 0
 ps-t0 = ResourceBodyDiffuse
 drawindexed = 300, 0, 0
-if $toggle == 1
-    drawindexed = 120, 300, 0
-endif
 ps-t1 = ResourceBodyLightMap
-run = CommandList\RabbitFX\Run
-
-[TextureOverrideHair]
-hash = 11111111
-match_first_index = 420
-handling = skip
-
-[TextureOverrideSkirt]
-hash = 11111111
-match_first_index = 900
-handling = skip
-run = CommandListSkirt
-
-[CommandListSkirt]
-drawindexed = auto
-
-[TextureOverrideRecolour]
-hash = 22222222
-this = ResourceBodyDiffuse
 
 [ResourceBodyDiffuse]
 filename = Textures\Body.dds
@@ -48,117 +29,93 @@ filename = Textures\BodyLM.dds
 """
 
     Body = ("", "body")
-    Hair = ("", "hair")
-    Skirt = ("", "skirt")
+    BodyGraph = (0, "", "body")
 
-    def parseWith(self, steps, iniTxt = None):
-        self.setupIniTxt(self._stepsIniTxt if iniTxt is None else iniTxt)
+    def parseWith(self, parseSteps = None, deferredParseSteps = None):
+        self.setupIniTxt(self._stepsIniTxt)
         self.createIniFile()
-        self._parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([self.Body, self.Hair, self.Skirt]),
-                                      trackKeys = False, parseSteps = steps)
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([self.Body]), trackKeys = False,
+                                      parseSteps = parseSteps, deferredParseSteps = deferredParseSteps)
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
-        return self._parser.parseData
+        return self._parser
 
-    # ====================== GIMIParser.parseSteps ===============================
+    def removeLightMap(self):
+        return FRB.GraphGroupEdit(edits = [{self.Body: [FRB.RegRemove({"ps-t1": None})]}])
 
-    def test_parseSteps_defaultsToAnEmptyList(self):
+    def registers(self, name = "regs"):
+        return FRB.GraphCollect({self.BodyGraph: lambda key: key.startswith("ps-t")}, name = name)
+
+    @classmethod
+    def values(cls, rows):
+        return [row.value for row in rows]
+
+    # ====================== the lists ==========================================
+
+    def test_bothLists_defaultToEmpty(self):
         self.setupIniTxt(self._stepsIniTxt)
         self.createIniFile()
         parser = FRB.GIMIParser(self._iniFile)
         self.assertEqual(list(parser.parseSteps), [])
+        self.assertEqual(list(parser.deferredParseSteps), [])
 
-    def test_parseSteps_isTheCallersOwnList(self):
-        steps = [FRB.ResourceRead()]
+    def test_bothLists_areTheCallersOwnLists(self):
+        steps, deferred = [self.registers()], [self.registers("later")]
         self.setupIniTxt(self._stepsIniTxt)
         self.createIniFile()
-        parser = FRB.GIMIParser(self._iniFile, parseSteps = steps)
+        parser = FRB.GIMIParser(self._iniFile, parseSteps = steps, deferredParseSteps = deferred)
         self.assertIs(parser.parseSteps, steps)
+        self.assertIs(parser.deferredParseSteps, deferred)
 
-    def test_parseSteps_aStepRunsAtTheEndOfTheParse(self):
-        data = self.parseWith([FRB.ResourceRead()])
-        self.assertEqual(data.resourceFile("ResourceBodyDiffuse"), r"Textures\Body.dds")
+    def test_parseSteps_aCollectIsFiled(self):
+        parser = self.parseWith([self.registers()])
+        self.assertEqual(self.values(parser.parseData.collected("regs")), ["ResourceBodyDiffuse", "ResourceBodyLightMap"])
 
-    def test_parseSteps_anEditRunsWhereItSits_aStepBeforeItReadsTheUneditedGraphs(self):
-        remove = FRB.GraphGroupEdit(edits = [{self.Body: [FRB.RegRemove({"ps-t1": None})]}])
-        data = self.parseWith([FRB.DrawRead(), remove])
-        self.assertEqual(data.lateBindings(self.Body), ["ps-t1"])
+    def test_parseSteps_runInOrder_aCollectBeforeAnEditReadsTheUneditedGraphs(self):
+        parser = self.parseWith([self.registers(), self.removeLightMap()])
+        self.assertEqual(self.values(parser.parseData.collected("regs")), ["ResourceBodyDiffuse", "ResourceBodyLightMap"])
 
-    def test_parseSteps_aDeferredStepRunsOnTheFirstAsk_afterEveryEditOfTheList(self):
-        read = FRB.DrawRead()
-        read.deferred = True
-        remove = FRB.GraphGroupEdit(edits = [{self.Body: [FRB.RegRemove({"ps-t1": None})]}])
-        data = self.parseWith([read, remove])
-        self.assertEqual(data.lateBindings(self.Body), [])
-        self.assertEqual(data.drawRanges(self.Body), [(300, 0), (120, 300)])
+    def test_parseSteps_aCollectAfterAnEditReadsTheEditedGraphs(self):
+        parser = self.parseWith([self.removeLightMap(), self.registers()])
+        self.assertEqual(self.values(parser.parseData.collected("regs")), ["ResourceBodyDiffuse"])
 
-    # ====================== ResourceRead =======================================
+    def test_deferredParseSteps_runAfterTheParseSteps(self):
+        parser = self.parseWith([self.removeLightMap()], [self.registers()])
+        self.assertEqual(self.values(parser.parseData.collected("regs")), ["ResourceBodyDiffuse"])
 
-    def test_resourceRead_everySectionWithAFilename(self):
-        data = self.parseWith([FRB.ResourceRead()])
-        self.assertEqual(data.resourceFiles(), {"resourcebodydiffuse": r"Textures\Body.dds",
-                                                "resourcebodylightmap": r"Textures\BodyLM.dds"})
+    def test_deferredParseSteps_runOnTheFirstAsk(self):
+        collect = self.registers()
+        parser = self.parseWith(deferredParseSteps = [collect])
+        self.assertEqual(collect.rows, [])
 
-    # ====================== TextureOverrideRead ================================
-
-    def test_textureOverrideRead_aHashAndAThis_replacesByHash(self):
-        data = self.parseWith([FRB.TextureOverrideRead()])
-        self.assertTrue(data.replacesTexturesByHash())
-
-    def test_textureOverrideRead_noThis_doesNotReplace(self):
-        data = self.parseWith([FRB.TextureOverrideRead()], iniTxt = self._stepsIniTxt.replace("this = ResourceBodyDiffuse", ""))
-        self.assertFalse(data.replacesTexturesByHash())
-
-    def test_textureOverrideRead_aDrawsThis_isNotATextureOverride(self):
-        iniTxt = self._stepsIniTxt.replace("this = ResourceBodyDiffuse", "").replace("ps-t0 = ResourceBodyDiffuse", "this = ResourceBodyDiffuse")
-        self.assertTrue(self.parseWith([FRB.TextureOverrideRead()], iniTxt = iniTxt).replacesTexturesByHash())
-        self.assertFalse(self.parseWith([FRB.TextureOverrideRead(draws = lambda obj: obj == self.Body)], iniTxt = iniTxt).replacesTexturesByHash())
-
-    # ====================== DrawRead ===========================================
-
-    def test_drawRead_rangesAndTheirParts(self):
-        data = self.parseWith([FRB.DrawRead()])
-        self.assertEqual(data.drawRanges(self.Body), [(300, 0), (120, 300)])
-        self.assertEqual(len(data.drawParts(self.Body)), 2)
-        self.assertEqual(data.drawRanges(self.Skirt), [])
-
-    def test_drawRead_aRegisterBoundAfterADraw_isLate(self):
-        data = self.parseWith([FRB.DrawRead()])
-        self.assertEqual(data.lateBindings(self.Body), ["ps-t1"])
-
-    def test_drawRead_aModReplacingByHash_hasNoLateBindings(self):
-        data = self.parseWith([FRB.TextureOverrideRead(), FRB.DrawRead()])
-        self.assertEqual(data.lateBindings(self.Body), [])
-
-    def test_drawRead_skipsAndDrawsNothing_isUndrawn_aCalledDrawCounts(self):
-        data = self.parseWith([FRB.DrawRead()])
-        self.assertEqual(data.undrawnObjs(), {self.Hair})
-
-    def test_drawRead_everyReadObjWouldBeUndrawn_noneIs(self):
-        data = self.parseWith([FRB.DrawRead(objs = lambda obj: obj == self.Hair)])
-        self.assertEqual(data.undrawnObjs(), set())
-
-    def test_drawRead_anUnresolvedCall_drawsUnlessItNamesASilentLibrary(self):
-        iniTxt = self._stepsIniTxt.replace("[CommandListSkirt]\ndrawindexed = auto", "").replace("run = CommandListSkirt", r"run = CommandList\Lib\Skirt")
-        self.assertEqual(self.parseWith([FRB.DrawRead()], iniTxt = iniTxt).undrawnObjs(), {self.Hair})
-        self.assertEqual(self.parseWith([FRB.DrawRead(silentLibraries = ["\\LIB\\"])], iniTxt = iniTxt).undrawnObjs(), {self.Hair, self.Skirt})
-
-    # ====================== LibraryRead ========================================
-
-    def test_libraryRead_aLineNamingTheLibrary(self):
-        data = self.parseWith([FRB.LibraryRead([("RabbitFX", "rabbitfx")])])
-        self.assertEqual(data.libraries(self.Body), {"RabbitFX"})
-        self.assertEqual(data.libraries(self.Hair), set())
-
-    def test_libraryRead_objsFilter(self):
-        data = self.parseWith([FRB.LibraryRead([("RabbitFX", "rabbitfx")], objs = lambda obj: obj != self.Body)])
-        self.assertEqual(data.libraries(self.Body), set())
+        self.assertEqual(len(parser.parseData.collected("regs")), 2)
+        self.assertEqual(len(collect.rows), 2)
 
     # ====================== SkeletonNumberingRead ==============================
 
-    def test_skeletonNumberingRead_noSectionCarriesTheRequiredKey_readsNothing(self):
+    def numberingRead(self, requiredKey = ""):
         numberings = [FRB.SkeletonNumberingProbe.Numbering("1.0"), FRB.SkeletonNumberingProbe.Numbering("2.0", {1: 2})]
-        step = FRB.SkeletonNumberingRead(numberings, {1: (0.0, 0.0, 0.0)}, "ResourceBodyDiffuse", "ResourceBodyLightMap",
-                                         requiredKey = "vg_offset")
-        data = self.parseWith([FRB.ResourceRead(), step])
+        return FRB.SkeletonNumberingRead(numberings, {1: (0.0, 0.0, 0.0)}, "ResourceBodyDiffuse", "ResourceBodyLightMap",
+                                         requiredKey = requiredKey)
+
+    def test_skeletonNumberingRead_isAGraphGroupEditWithAResult(self):
+        read = self.numberingRead()
+        self.assertIsInstance(read, FRB.BaseIniGraphGroupEdit)
+        self.assertIsInstance(read, FRB.IParseResult)
+
+    def test_skeletonNumberingRead_noSectionCarriesTheRequiredKey_readsNothing(self):
+        read = self.numberingRead(requiredKey = "vg_offset")
+        parser = self.parseWith([read])
+        self.assertIsNone(read.version)
+        self.assertIsNone(parser.parseData.blendVersion())
+
+    def test_skeletonNumberingRead_withoutAnIni_probesNothing(self):
+        read = self.numberingRead()
+        groups = self.parseWith([]).parse()
+        read.edit(groups, None)
+        self.assertIsNone(read.version)
+
+    def test_skeletonNumberingRead_fileInto_withNoVersion_leavesTheData(self):
+        data = FRB.IniParseData()
+        self.numberingRead().fileInto(data)
         self.assertIsNone(data.blendVersion())

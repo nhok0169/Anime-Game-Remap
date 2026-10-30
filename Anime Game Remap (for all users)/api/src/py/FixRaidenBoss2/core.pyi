@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParseStep', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'DFA', 'DownloadMode', 'DownloadModeTools', 'DrawRead', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'LibraryRead', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'ResourceRead', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SkeletonNumberingRead', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TextureOverrideRead', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SkeletonNumberingRead', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -442,32 +442,6 @@ class BaseIniGraphPartEdit(BaseIniPartEdit):
         
     """
     def __init__(self) -> None:
-        ...
-
-class BaseIniParseStep(BaseIniPartEdit):
-    """
-    
-    This class inherits from :class:`BaseIniPartEdit`
-    
-    Base class for one step of reading a mod: it reads part of the .ini file into the parser's
-    :attr:`BaseIniParser.parseData`
-    
-    A parser is a list of steps, the way a fixer is a list of edits: :attr:`GIMIParser.parseSteps` holds them in
-    the order they run, once the parser has found each mod object's `sections`_ and built their command graphs.
-    That list may also hold :class:`BaseIniGraphGroupEdit`\\ s, which edit the command graphs where they sit in it
-        
-    """
-    @property
-    def deferred(self) -> bool:
-        """
-        :class:`bool`: Whether the parser runs this step on the first ask of its :attr:`BaseIniParser.parseData` rather
-        than during the parse, for a step that may open many files. The deferred steps of a parser run together, in
-        their order in the list, after every step that is not deferred :raw-html:`<br />` :raw-html:`<br />`
-        
-        **Default**: ``False``
-        """
-    @deferred.setter
-    def deferred(self, arg0: bool) -> None:
         ...
 class BaseIniParser(CppBaseIniParser):
     """
@@ -5934,73 +5908,6 @@ class DownloadModeTools:
         :class:`str`
             The name for 'value' (``"disabled"``, ``"normal"`` or ``"always"``)
         """
-
-class DrawRead(BaseIniParseStep):
-    """
-    
-    This class inherits from :class:`BaseIniParseStep`
-    
-    Reads what each mod object's root `sections`_ draw:
-    
-    * :meth:`IniParseData.drawParts`: the parts holding a ``drawindexed`` (every part of the `section`_ counted,
-      its ``if`` lines too)
-    * :meth:`IniParseData.drawRanges`: each ``drawindexed = <count>, <start>, <base>``
-    * :meth:`IniParseData.lateBindings`: the texture registers a `section`_ binds only after it has drawn -- read
-      only when the mod does not replace textures by hash (:meth:`IniParseData.replacesTexturesByHash`, so run
-      :class:`TextureOverrideRead` first), because such a mod's art reaches those draws anyway
-    * :meth:`IniParseData.undrawnObjs`: a mod object whose `sections`_ draw nothing and skip the game's draw
-      (``handling = skip``) -- the mod hides it. A mod object that draws nothing and leaves the game's geometry on
-      screen is not hidden, and when EVERY read mod object would be undrawn none is, since that is a mod this
-      reading does not understand
-    
-    Whether a `section`_ draws follows ``run =``: a called `section`_ that draws counts, and so does a call this
-    .ini file cannot resolve, unless its name holds one of :attr:`silentLibraries`
-    
-    Parameters
-    ----------
-    objs: Optional[Callable[[Tuple[:class:`str`, :class:`str`]], :class:`bool`]]
-        The mod objects to read :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``
-    
-    texRegPrefix: :class:`str`
-        What the key of a texture register starts with, for the late bindings :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``"ps-t"``
-    
-    silentLibraries: List[:class:`str`]
-        Text that names a library whose command lists draw nothing, in a ``run =`` this .ini file cannot resolve,
-        ignoring case :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``[]``
-        
-    """
-    def __init__(self, objs: collections.abc.Callable[[tuple[str, str]], bool] = None, texRegPrefix: str = 'ps-t', silentLibraries: collections.abc.Sequence[str] = []) -> None:
-        ...
-    @property
-    def objs(self) -> collections.abc.Callable[[tuple[str, str]], bool]:
-        """
-        Optional[Callable[[Tuple[:class:`str`, :class:`str`]], :class:`bool`]]: Which mod objects are read, by their ``(component, mod object)``; ``None`` reads every one
-        """
-    @objs.setter
-    def objs(self, arg0: collections.abc.Callable[[tuple[str, str]], bool]) -> None:
-        ...
-    @property
-    def silentLibraries(self) -> list[str]:
-        """
-        List[:class:`str`]: Text that names a library whose command lists draw nothing
-        """
-    @silentLibraries.setter
-    def silentLibraries(self, arg0: collections.abc.Sequence[str]) -> None:
-        ...
-    @property
-    def texRegPrefix(self) -> str:
-        """
-        :class:`str`: What the key of a texture register starts with
-        """
-    @texRegPrefix.setter
-    def texRegPrefix(self, arg0: str) -> None:
-        ...
 class DrawUVCoverage:
     """
     
@@ -9068,8 +8975,14 @@ class GIMIParser(BaseIniParser):
     
         **Default**: ``None``
     
-    parseSteps: Optional[List[Union[:class:`BaseIniParseStep`, :class:`BaseIniGraphGroupEdit`]]]
-        The steps that read the mod, in the order they run -- see :attr:`parseSteps` :raw-html:`<br />` :raw-html:`<br />`
+    parseSteps: Optional[List[:class:`BaseIniGraphGroupEdit`]]
+        The edits that read the mod, in the order they run -- see :attr:`parseSteps` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    deferredParseSteps: Optional[List[:class:`BaseIniGraphGroupEdit`]]
+        More reading edits, run on the first ask of :attr:`parseData` -- see :attr:`deferredParseSteps`
+        :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``None``
     
@@ -9133,7 +9046,7 @@ class GIMIParser(BaseIniParser):
         List[Tuple[:class:`str`, :class:`str`]]
             The mod objects the `section`_ has been classified to
         """
-    def __init__(self, iniFile: typing.Any, modObjs: typing.Any = None, objTargetFuncs: typing.Any = None, downloads: typing.Any = None, commandEdits: typing.Any = None, makeGlobalGraph: bool = True, disjointModObjs: bool = True, trackKeys: bool = True, keysToTrack: typing.Any = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None, parseSteps: typing.Any = None) -> None:
+    def __init__(self, iniFile: typing.Any, modObjs: typing.Any = None, objTargetFuncs: typing.Any = None, downloads: typing.Any = None, commandEdits: typing.Any = None, makeGlobalGraph: bool = True, disjointModObjs: bool = True, trackKeys: bool = True, keysToTrack: typing.Any = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None, parseSteps: typing.Any = None, deferredParseSteps: typing.Any = None) -> None:
         ...
     def _getSectionTargets(self) -> None:
         """
@@ -9280,6 +9193,17 @@ class GIMIParser(BaseIniParser):
         Set[:class:`str`]: The different components to parse
         """
     @property
+    def deferredParseSteps(self) -> typing.Any:
+        """
+        List[:class:`BaseIniGraphGroupEdit`]: More reading edits, run on the first ask of :attr:`parseData` rather than during the parse :raw-html:`<br />` :raw-html:`<br />`
+        
+        For reading that may open many files, when most parsed .ini files are never asked about. They run together, in
+        order, after :attr:`parseSteps`, and each is filed as :attr:`parseSteps`' are
+        """
+    @deferredParseSteps.setter
+    def deferredParseSteps(self, arg1: typing.Any) -> None:
+        ...
+    @property
     def disjointModObjs(self) -> bool:
         """
         :class:`bool`: Whether the sets of `sections`_ for each mod object should be disjoint or not
@@ -9356,12 +9280,11 @@ class GIMIParser(BaseIniParser):
     @property
     def parseSteps(self) -> typing.Any:
         """
-        List[Union[:class:`BaseIniParseStep`, :class:`BaseIniGraphGroupEdit`]]: The steps that read the mod, in the order they run :raw-html:`<br />` :raw-html:`<br />`
+        List[:class:`BaseIniGraphGroupEdit`]: The edits that read the mod, in the order they run :raw-html:`<br />` :raw-html:`<br />`
         
-        Each is a :class:`BaseIniParseStep`, which reads the .ini file into :attr:`parseData`, or a
-        :class:`BaseIniGraphGroupEdit`, which edits the command graphs. They run after :attr:`commandEdits`, at the end
-        of :meth:`parse`; a deferred step runs on the first ask of the parse data instead (see
-        :attr:`BaseIniParseStep.deferred`), and so sees every edit of the list already made
+        They run after :attr:`commandEdits`, at the end of :meth:`parse`, on the command graphs. A reading edit changes no
+        graph and keeps what it found -- :class:`GraphCollect` is the primitive -- and an edit that is an
+        :class:`IParseResult` files its result in :attr:`parseData` right after it runs
         """
     @parseSteps.setter
     def parseSteps(self, arg1: typing.Any) -> None:
@@ -9797,6 +9720,267 @@ class GlobalRemapIniRemover(RemapIniRemover):
     @iniFile.setter
     def iniFile(self, arg0: typing.Any) -> None:
         ...
+
+class GraphCollect(BaseIniGraphGroupEdit, IParseResult):
+    """
+    
+    This class inherits from :class:`BaseIniGraphGroupEdit` and :class:`IParseResult`
+    
+    Collects the `KVPs`_ of some keys from :class:`IniSectionGraph`\\ s, editing nothing
+    
+    For each graph named in ``keys``, every :class:`IfContentPart` the graph reaches (through ``run =``, depth first)
+    is searched for each key, and every occurrence is recorded as a :class:`GraphCollect.Row`: where it is, its
+    value, and optionally
+    
+    * ``contextKeys``: what other keys hold at that point, as the part's :class:`IfContentPartColouring` tracks them
+      along the walk -- a key's occurrences in the part with their lines, or else the value it carries in from
+      earlier on the same path (a caller before its ``run =``, or an earlier part). A key the part sets replaces
+      the value carried in, and a value set on a sibling ``if`` branch is never carried
+    * ``withConditions``: the condition of the ``if`` blocks the part sits in
+    
+    The rows stay until the next :meth:`edit` or :meth:`clear`. Run as one of :attr:`GIMIParser.parseSteps` (or
+    :attr:`GIMIParser.deferredParseSteps`), a collect with a :attr:`name` files its rows in the parser's
+    :attr:`BaseIniParser.parseData` (:meth:`IniParseData.collected`)
+    
+    Parameters
+    ----------
+    keys: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`], Callable[[:class:`str`], :class:`bool`]]]
+        The keys to collect, keyed by which graph to search (``(.ini index, component, mod object)``) -- one key, a
+        list searched in order, or a test of a key's NAME: every key of the graph's `KVPs`_ the test accepts is
+        collected, in the order the keys first appear in the graph's `sections`_. The graphs given keys are searched
+        before the graphs given a test
+    
+    contextKeys: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], List[:class:`str`]]]
+        The keys whose state is recorded with each row, keyed by graph -- see :attr:`GraphCollect.Row.context`
+        :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    name: :class:`str`
+        The name the rows are filed under in :class:`IniParseData` when this runs as one of
+        :attr:`GIMIParser.parseSteps` -- empty files nothing :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``""``
+    
+    partPredicates: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`SectionIterData`], :class:`Ranges`]]]
+        Which order indices of each part to collect from, keyed by graph :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    valPredicates: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]]]
+        Which occurrences to collect, keyed by graph -- each takes the key, the value and the part's data
+        :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    trackKeys: Union[:class:`bool`, Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`bool`]]
+        Whether to track `KVPs`_ while searching -- one flag for every graph, or one per graph. A graph with
+        ``contextKeys`` is always tracked :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+    
+    keysToTrack: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Optional[Set[:class:`str`]]]]
+        Which keys to track while searching each graph; ``None`` tracks every key. A graph's ``contextKeys`` are
+        always tracked :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    withConditions: :class:`bool`
+        Whether each row records the condition its part sits in -- the walk then solves a predicate per part
+        :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+    
+    everyGroup: :class:`bool`
+        Whether every setting keyed by a graph applies in every group that holds that graph, rather than only in the
+        group its index names -- as :attr:`ResRegCollect.everyGroup` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+        
+    """
+    class Row:
+        """
+        
+        One collected occurrence of a key
+            
+        """
+        @property
+        def condition(self) -> FixRaidenBoss2.core.Z3Predicate | None:
+            """
+            Optional[:class:`Z3Predicate`]: The condition of the ``if`` blocks the part sits in -- only with ``withConditions``
+            """
+        @property
+        def context(self) -> list[tuple[str, list[tuple[int | None, str]]]]:
+            """
+            List[Tuple[:class:`str`, List[Tuple[Optional[:class:`int`], :class:`str`]]]]: What each of the graph's context keys
+            holds at the part, in the order they were named -- the key's occurrences in the part with their lines, or the value
+            carried in from earlier on the path with no line
+            """
+        @property
+        def graphId(self) -> tuple:
+            """
+            Tuple[:class:`int`, :class:`str`, :class:`str`]: The graph it was found in
+            """
+        @property
+        def key(self) -> str:
+            """
+            :class:`str`: Its key
+            """
+        @property
+        def line(self) -> int:
+            """
+            :class:`int`: Its order index within the part
+            """
+        @property
+        def partId(self) -> int:
+            """
+            :class:`int`: The id of its part within the `section`_
+            """
+        @property
+        def rootSection(self) -> str:
+            """
+            :class:`str`: The root `section`_ the walk reached it from -- only with ``withConditions``, else empty
+            """
+        @property
+        def section(self) -> str:
+            """
+            :class:`str`: The `section`_ it is in
+            """
+        @property
+        def value(self) -> str:
+            """
+            :class:`str`: Its value
+            """
+    def __init__(self, keys: typing.Any, contextKeys: typing.Any = None, name: str = '', partPredicates: typing.Any = None, valPredicates: typing.Any = None, trackKeys: typing.Any = False, keysToTrack: typing.Any = None, withConditions: bool = False, everyGroup: bool = False) -> None:
+        ...
+    def clear(self) -> None:
+        """
+        Empties :attr:`rows`
+        """
+    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
+        """
+        Collects the rows, replacing those of a previous run -- the groups are not changed
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to search for each .ini file
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in
+        """
+    def editFromIni(self, graphGroups: list, ini: typing.Any, modType: typing.Any, modName: str = '') -> list:
+        """
+        :meth:`edit`, for a .ini file -- collecting reads nothing more from it
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to search for each .ini file
+        
+        ini: :class:`IniFile`
+            The associated .ini file. Unused
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in
+        """
+    @property
+    def contextKeys(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], List[:class:`str`]]: The keys whose state is recorded with each row, keyed by graph
+        """
+    @contextKeys.setter
+    def contextKeys(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def everyGroup(self) -> bool:
+        """
+        :class:`bool`: Whether every setting keyed by a graph applies in every group that holds that graph
+        """
+    @everyGroup.setter
+    def everyGroup(self, arg0: bool) -> None:
+        ...
+    @property
+    def keys(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`], Callable[[:class:`str`], :class:`bool`]]]: The keys to collect, keyed by graph
+        """
+    @keys.setter
+    def keys(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def keysToTrack(self) -> typing.Any:
+        """
+        Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Optional[Set[:class:`str`]]]]: Which keys to track while searching each graph
+        """
+    @keysToTrack.setter
+    def keysToTrack(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def name(self) -> str:
+        """
+        :class:`str`: The name the rows are filed under in :class:`IniParseData` -- empty files nothing
+        """
+    @name.setter
+    def name(self, arg0: str) -> None:
+        ...
+    @property
+    def partPredicates(self) -> typing.Any:
+        """
+        Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`SectionIterData`], :class:`Ranges`]]]: Which order indices to collect from, keyed by graph
+        """
+    @partPredicates.setter
+    def partPredicates(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def rows(self) -> list[GraphCollect.Row]:
+        """
+        List[:class:`GraphCollect.Row`]: The rows the last :meth:`edit` collected, in the order they were found
+        """
+    @property
+    def trackKeys(self) -> typing.Any:
+        """
+        Union[:class:`bool`, Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`bool`]]: Whether to track `KVPs`_ while searching
+        """
+    @trackKeys.setter
+    def trackKeys(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def valPredicates(self) -> typing.Any:
+        """
+        Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]]]: Which occurrences to collect, keyed by graph
+        """
+    @valPredicates.setter
+    def valPredicates(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def withConditions(self) -> bool:
+        """
+        :class:`bool`: Whether each row records the condition its part sits in
+        """
+    @withConditions.setter
+    def withConditions(self, arg0: bool) -> None:
+        ...
 class GraphCopy(BaseIniGraphGroupEdit):
     """
     
@@ -9940,8 +10124,9 @@ class GraphCreate(BaseIniGraphGroupEdit):
         #. The name of the component
         #. The name of the mod object
     
-    graph: Optional[:class:`IniSectionGraph`]
-        The graph to add. ``None`` makes the edit a no-op
+    graph: Optional[Union[:class:`IniSectionGraph`, Callable[[], Optional[:class:`IniSectionGraph`]]]]
+        The graph to add, or a callable asked for it when the edit runs -- for a graph that only exists by then, such
+        as a parser's global graph. ``None`` makes the edit a no-op
     
     minimal: :class:`bool`
         Whether the copy taken of the graph is a minimal one :raw-html:`<br />` :raw-html:`<br />`
@@ -9981,7 +10166,7 @@ class GraphCreate(BaseIniGraphGroupEdit):
     @property
     def graph(self) -> typing.Any:
         """
-        Optional[:class:`IniSectionGraph`]: The graph to add, deep-copied in when the edit runs
+        Optional[Union[:class:`IniSectionGraph`, Callable[[], Optional[:class:`IniSectionGraph`]]]]: The graph to add, or a callable asked for it when the edit runs -- deep-copied in when the edit runs
         """
     @graph.setter
     def graph(self, arg1: typing.Any) -> None:
@@ -11370,6 +11555,21 @@ class IniParseData:
         """
         Forgets every mod object :meth:`addUndrawn` recorded
         """
+    def collected(self, name: str) -> list[GraphCollect.Row]:
+        """
+        The rows of the :class:`GraphCollect` named 'name' among the parser's :attr:`GIMIParser.parseSteps`, in the order
+        it collected them. Empty for a name nothing filed
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The collect's :attr:`GraphCollect.name`
+        
+        Returns
+        -------
+        List[:class:`GraphCollect.Row`]
+            The rows
+        """
     def defer(self, fill: typing.Any) -> None:
         """
         Fills the texture data -- :meth:`textureRoles`, :meth:`roleCandidates`, :meth:`roleFile`,
@@ -11637,6 +11837,18 @@ class IniParseData:
         ----------
         sections: :class:`str`
             The `sections`_, as .ini text
+        """
+    def setCollected(self, name: str, rows: collections.abc.Sequence[GraphCollect.Row]) -> None:
+        """
+        Files 'rows' under 'name', replacing what was filed there -- see :meth:`collected`
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name
+        
+        rows: List[:class:`GraphCollect.Row`]
+            The rows
         """
     def setLateBindings(self, modObj: tuple[str, str], regs: collections.abc.Sequence[str]) -> None:
         """
@@ -11955,6 +12167,26 @@ class IOrderedMultiMap:
     def splitByInds(self, inds: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], includeSplitKVP: bool = True, includeEmptyParts: bool = False, sortIndices: bool = True) -> list[IOrderedMultiMap]:
         """
         Splits this map into several smaller maps at the given indices; see :meth:`OrderedMultiMap.splitByInds` for the full semantics
+        """
+
+class IParseResult:
+    """
+    
+    An edit with a result a parser keeps: after running an edit of :attr:`GIMIParser.parseSteps` or
+    :attr:`GIMIParser.deferredParseSteps`, the parser hands its :class:`IniParseData` to the edit's :meth:`fileInto`
+    when the edit is one of these
+    
+    :class:`GraphCollect` files its rows this way
+        
+    """
+    def fileInto(self, data: ...) -> None:
+        """
+        Files what the last run found into 'data'
+        
+        Parameters
+        ----------
+        data: :class:`IniParseData`
+            The parser's data
         """
 class IbFile(CppBufFile):
     """
@@ -16451,45 +16683,6 @@ class KeyRemapData:
         """
         :class:`bool`: Whether a non-firing occurrence retains its original pair
         """
-
-class LibraryRead(BaseIniParseStep):
-    """
-    
-    This class inherits from :class:`BaseIniParseStep`
-    
-    Reads which libraries each mod object's root `sections`_ use: a library is used when any key or value of those
-    `sections`_ names it -- see :meth:`IniParseData.libraries`
-    
-    Parameters
-    ----------
-    libraries: List[Tuple[:class:`str`, :class:`str`]]
-        The libraries to look for, in the order they are filed: each is its name in :meth:`IniParseData.libraries`
-        and the text that names it in a line, ignoring case
-    
-    objs: Optional[Callable[[Tuple[:class:`str`, :class:`str`]], :class:`bool`]]
-        The mod objects to read :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``
-        
-    """
-    def __init__(self, libraries: collections.abc.Sequence[tuple[str, str]], objs: collections.abc.Callable[[tuple[str, str]], bool] = None) -> None:
-        ...
-    @property
-    def libraries(self) -> list[tuple[str, str]]:
-        """
-        List[Tuple[:class:`str`, :class:`str`]]: The libraries to look for: ``(name, text that names it)``
-        """
-    @libraries.setter
-    def libraries(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
-        ...
-    @property
-    def objs(self) -> collections.abc.Callable[[tuple[str, str]], bool]:
-        """
-        Optional[Callable[[Tuple[:class:`str`, :class:`str`]], :class:`bool`]]: Which mod objects are read, by their ``(component, mod object)``; ``None`` reads every one
-        """
-    @objs.setter
-    def objs(self, arg0: collections.abc.Callable[[tuple[str, str]], bool]) -> None:
-        ...
 class Logger(BaseLogger):
     """
     
@@ -25367,18 +25560,6 @@ class ResReplace(BaseResEdit):
     @resType.setter
     def resType(self, arg0: str) -> None:
         ...
-
-class ResourceRead(BaseIniParseStep):
-    """
-    
-    This class inherits from :class:`BaseIniParseStep`
-    
-    Reads the file every resource `section`_ names: each `section`_ with a ``filename`` goes into
-    :meth:`IniParseData.resourceFiles`, under its own name
-        
-    """
-    def __init__(self) -> None:
-        ...
 class SectionIterData:
     """
     
@@ -25682,17 +25863,17 @@ class SkeletonNumberingProbe:
             does not fit the others, or fewer than :attr:`MinVertices` vertices sit on disputed bones
         """
 
-class SkeletonNumberingRead(BaseIniParseStep):
+class SkeletonNumberingRead(BaseIniGraphGroupEdit, IParseResult):
     """
     
-    This class inherits from :class:`BaseIniParseStep`
+    This class inherits from :class:`BaseIniGraphGroupEdit` and :class:`IParseResult`
     
     Reads which skeleton numbering the mod's blend gives its bone ids in, with a :class:`SkeletonNumberingProbe` over
-    the mod's own buffers, into :meth:`IniParseData.blendVersion`
+    the mod's own buffers, editing nothing -- and files it as :meth:`IniParseData.blendVersion`
     
-    The buffers are the files of the resource `sections`_ this names, as :meth:`IniParseData.resourceFile` has them
-    -- so run :class:`ResourceRead` first. Nothing is read with fewer than two numberings, with no centroids, or when
-    a buffer is missing
+    The buffers are the files the .ini's resource `sections`_ named here give, found without regard to the case of their
+    names, so the probe runs only from :meth:`editFromIni` with a real .ini file. Nothing is read with fewer than two
+    numberings, with no centroids, or when a buffer is missing
     
     Parameters
     ----------
@@ -25716,19 +25897,58 @@ class SkeletonNumberingRead(BaseIniParseStep):
         **Default**: ``""``
     
     requiredKey: :class:`str`
-        A key at least one root `section`_ of :attr:`objs` must carry for the mod to be probed, or empty to probe
-        every mod :raw-html:`<br />` :raw-html:`<br />`
+        A key at least one root `section`_ of the graphs of :attr:`objs` (in the first group) must carry for the mod to
+        be probed, or empty to probe every mod :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``""``
     
     objs: Optional[Callable[[Tuple[:class:`str`, :class:`str`]], :class:`bool`]]
-        The mod objects whose root `sections`_ :attr:`requiredKey` is looked for in :raw-html:`<br />` :raw-html:`<br />`
+        The mod objects whose root `sections`_ :attr:`requiredKey` is looked for in; ``None`` looks in every one
+        :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``None``
         
     """
-    def __init__(self, numberings: collections.abc.Sequence[SkeletonNumberingProbe.Numbering], centroids: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]], positionResource: str, blendResource: str, vertexVGResource: str = '', requiredKey: str = '', objs: collections.abc.Callable[[tuple[str, str]], bool] = None) -> None:
+    def __init__(self, numberings: collections.abc.Sequence[...], centroids: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]], positionResource: str, blendResource: str, vertexVGResource: str = '', requiredKey: str = '', objs: collections.abc.Callable[[tuple[str, str]], bool] = None) -> None:
         ...
+    def clear(self) -> None:
+        """
+        Forgets :attr:`version`
+        """
+    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
+        """
+        Probes nothing: there is no .ini file to read the buffers' names from
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in
+        """
+    def editFromIni(self, graphGroups: list, ini: typing.Any, modType: typing.Any, modName: str = '') -> list:
+        """
+        Probes the mod's buffers -- see this class's own description
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs of each .ini file, for :attr:`requiredKey`
+        
+        ini: Optional[:class:`IniFile`]
+            The .ini file whose resources name the buffers -- ``None`` probes nothing
+        
+        modType: Optional[:class:`ModType`]
+            Unused
+        
+        modName: :class:`str`
+            Unused :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in
+        """
     @property
     def blendResource(self) -> str:
         """
@@ -25746,12 +25966,12 @@ class SkeletonNumberingRead(BaseIniParseStep):
     def centroids(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]]) -> None:
         ...
     @property
-    def numberings(self) -> list[SkeletonNumberingProbe.Numbering]:
+    def numberings(self) -> list[...]:
         """
         List[:class:`SkeletonNumberingProbe.Numbering`]: The candidate numberings
         """
     @numberings.setter
-    def numberings(self, arg0: collections.abc.Sequence[SkeletonNumberingProbe.Numbering]) -> None:
+    def numberings(self, arg0: collections.abc.Sequence[...]) -> None:
         ...
     @property
     def objs(self) -> collections.abc.Callable[[tuple[str, str]], bool]:
@@ -25777,6 +25997,11 @@ class SkeletonNumberingRead(BaseIniParseStep):
     @requiredKey.setter
     def requiredKey(self, arg0: str) -> None:
         ...
+    @property
+    def version(self) -> str | None:
+        """
+        Optional[:class:`str`]: The version the last run found, or ``None``
+        """
     @property
     def vertexVGResource(self) -> str:
         """
@@ -26631,35 +26856,6 @@ class TexReplace(BaseResEdit):
         """
     @texEditor.setter
     def texEditor(self, arg0: typing.Any) -> None:
-        ...
-
-class TextureOverrideRead(BaseIniParseStep):
-    """
-    
-    This class inherits from :class:`BaseIniParseStep`
-    
-    Reads whether the mod replaces textures by their hash: a ``TextureOverride`` `section`_ with a ``hash`` and a
-    ``this =`` puts its art on every draw that binds that texture, whatever the draw's own `section`_ binds -- see
-    :meth:`IniParseData.replacesTexturesByHash`
-    
-    Parameters
-    ----------
-    draws: Optional[Callable[[Tuple[:class:`str`, :class:`str`]], :class:`bool`]]
-        The mod objects whose root `sections`_ are draws rather than texture overrides, even with a ``hash`` and a
-        ``this =`` :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``
-        
-    """
-    def __init__(self, draws: collections.abc.Callable[[tuple[str, str]], bool] = None) -> None:
-        ...
-    @property
-    def draws(self) -> collections.abc.Callable[[tuple[str, str]], bool]:
-        """
-        Optional[Callable[[Tuple[:class:`str`, :class:`str`]], :class:`bool`]]: The mod objects whose root `sections`_ are draws
-        """
-    @draws.setter
-    def draws(self, arg0: collections.abc.Callable[[tuple[str, str]], bool]) -> None:
         ...
 class TextureRoleChooser:
     """

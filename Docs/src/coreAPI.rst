@@ -981,6 +981,28 @@ FileRefAdd
 
 :raw-html:`<br />`
 
+GraphCollect
+------------
+
+.. cppattributetable:: AGRemapCore::GraphCollect
+
+.. doxygenclass:: AGRemapCore::GraphCollect
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GraphCollectRow
+---------------
+
+.. cppattributetable:: AGRemapCore::GraphCollectRow
+
+.. doxygenstruct:: AGRemapCore::GraphCollectRow
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 GraphCreate
 -----------
 
@@ -1163,6 +1185,17 @@ ResReplace
 .. cppattributetable:: AGRemapCore::ResReplace
 
 .. doxygenclass:: AGRemapCore::ResReplace
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+SkeletonNumberingRead
+---------------------
+
+.. cppattributetable:: AGRemapCore::SkeletonNumberingRead
+
+.. doxygenclass:: AGRemapCore::SkeletonNumberingRead
     :members:
     :protected-members:
 
@@ -1716,34 +1749,12 @@ BaseIniParser
 
 :raw-html:`<br />`
 
-BaseIniParseStep
-----------------
-
-.. cppattributetable:: AGRemapCore::BaseIniParseStep
-
-.. doxygenclass:: AGRemapCore::BaseIniParseStep
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
 DownloadData
 ------------
 
 .. cppattributetable:: AGRemapCore::DownloadData
 
 .. doxygenclass:: AGRemapCore::DownloadData
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
-DrawRead
---------
-
-.. cppattributetable:: AGRemapCore::DrawRead
-
-.. doxygenclass:: AGRemapCore::DrawRead
     :members:
     :protected-members:
 
@@ -1793,6 +1804,17 @@ GIMISectionClassifier
 
 :raw-html:`<br />`
 
+IParseResult
+------------
+
+.. cppattributetable:: AGRemapCore::IParseResult
+
+.. doxygenclass:: AGRemapCore::IParseResult
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 IniFileParseContext
 -------------------
 
@@ -1832,50 +1854,6 @@ IniParseDownloadData
 .. cppattributetable:: AGRemapCore::IniParseDownloadData
 
 .. doxygenclass:: AGRemapCore::IniParseDownloadData
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
-LibraryRead
------------
-
-.. cppattributetable:: AGRemapCore::LibraryRead
-
-.. doxygenclass:: AGRemapCore::LibraryRead
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
-ResourceRead
-------------
-
-.. cppattributetable:: AGRemapCore::ResourceRead
-
-.. doxygenclass:: AGRemapCore::ResourceRead
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
-SkeletonNumberingRead
----------------------
-
-.. cppattributetable:: AGRemapCore::SkeletonNumberingRead
-
-.. doxygenclass:: AGRemapCore::SkeletonNumberingRead
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
-TextureOverrideRead
--------------------
-
-.. cppattributetable:: AGRemapCore::TextureOverrideRead
-
-.. doxygenclass:: AGRemapCore::TextureOverrideRead
     :members:
     :protected-members:
 

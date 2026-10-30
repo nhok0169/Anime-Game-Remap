@@ -31,7 +31,14 @@ void PyGraphCreate::refresh() {
     // Re-derived per edit rather than cached in the constructor, so reassigning `.graph` from Python
     // takes effect -- the convention every edit in this family follows. The Python object is what
     // keeps the graph alive across the call; the core member is only a borrowed view of it.
-    graph = graphObj.is_none() ? nullptr : graphObj.cast<PyIniSectionGraph*>();
+    //
+    // A callable is asked for the graph now, and what it returns is kept alive for the edit: see
+    // GraphCreate::graphOf
+    graphOfResult = graphObj;
+    if (!graphObj.is_none() && !py::isinstance<PyIniSectionGraph>(graphObj) && PyCallable_Check(graphObj.ptr())) {
+        graphOfResult = graphObj();
+    }
+    graph = graphOfResult.is_none() ? nullptr : graphOfResult.cast<PyIniSectionGraph*>();
 }
 
 
@@ -70,8 +77,9 @@ graphId: Tuple[:class:`int`, :class:`str`, :class:`str`]
     #. The name of the component
     #. The name of the mod object
 
-graph: Optional[:class:`IniSectionGraph`]
-    The graph to add. ``None`` makes the edit a no-op
+graph: Optional[Union[:class:`IniSectionGraph`, Callable[[], Optional[:class:`IniSectionGraph`]]]]
+    The graph to add, or a callable asked for it when the edit runs -- for a graph that only exists by then, such
+    as a parser's global graph. ``None`` makes the edit a no-op
 
 minimal: :class:`bool`
     Whether the copy taken of the graph is a minimal one :raw-html:`<br />` :raw-html:`<br />`
@@ -102,7 +110,7 @@ component name and the mod object name
     }, [](PyGraphCreate &self, py::object graph) {
         self.graphObj = std::move(graph);
     }, py::doc(R"doc(
-Optional[:class:`IniSectionGraph`]: The graph to add, deep-copied in when the edit runs
+Optional[Union[:class:`IniSectionGraph`, Callable[[], Optional[:class:`IniSectionGraph`]]]]: The graph to add, or a callable asked for it when the edit runs -- deep-copied in when the edit runs
     )doc"));
 
     cls.def_readwrite("minimal", &PyGraphCreate::minimal, py::doc(R"doc(

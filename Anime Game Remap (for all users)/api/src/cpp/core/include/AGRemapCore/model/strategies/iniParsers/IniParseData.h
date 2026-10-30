@@ -24,6 +24,7 @@
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
 
 
@@ -553,6 +554,30 @@ namespace AGRemapCore {
              */
             void reject(const std::string& file, const std::string& role, const std::string& why);
 
+            /**
+             * @brief One row a :cpp:class:`GraphCollect` collected
+             */
+            using CollectedRow = GraphCollectRow<>;
+
+            /**
+             * @brief
+             @rst
+             The rows of the :cpp:class:`GraphCollect` named 'name' among the parser's
+             :cpp:member:`GIMIParser::parseSteps`, in the order it collected them. Empty for a name nothing filed
+             @endrst
+             *
+             * @param name The collect's :cpp:member:`GraphCollect::name`
+             */
+            const std::vector<CollectedRow>& collected(const std::string& name) const;
+
+            /**
+             * @brief Files 'rows' under 'name', replacing what was filed there -- see #collected
+             *
+             * @param name The name
+             * @param rows The rows
+             */
+            void setCollected(const std::string& name, std::vector<CollectedRow> rows);
+
         private:
             void fill() const;
 
@@ -574,6 +599,7 @@ namespace AGRemapCore {
             std::vector<Rejection> rejections_;
             std::map<std::string, TextureToggle> thisToggles_;
             std::map<std::string, TextureToggle> registerToggles_;
+            std::map<std::string, std::vector<CollectedRow>> collected_;
             mutable Filler fill_;
     };
 }

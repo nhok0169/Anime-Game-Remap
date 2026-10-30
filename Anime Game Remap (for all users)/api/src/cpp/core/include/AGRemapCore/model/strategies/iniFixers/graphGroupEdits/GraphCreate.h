@@ -108,6 +108,17 @@ namespace AGRemapCore {
             Graph* graph;
 
             /**
+             * @brief
+             @rst
+             The graph to add, asked for when the edit runs -- set, it is used instead of \ref graph, for a graph
+             that only exists by then (eg. a parser's :cpp:func:`GIMIParser::globalGraph`, built during the
+             parse). What it returns is borrowed and deep-copied as \ref graph is; ``nullptr`` makes the edit a
+             no-op. **Default**: unset
+             @endrst
+             */
+            std::function<Graph*()> graphOf;
+
+            /**
              * @brief Whether the copy taken of \ref graph is a minimal one
              */
             bool minimal;

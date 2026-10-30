@@ -7,7 +7,10 @@
     <includes local="no">string</includes>
     <includes refid="_base_ini_graph_group_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h</includes>
     <includes local="yes">GraphCreate.tpp</includes>
+    <includedby refid="_template_fixer_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h</includedby>
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
+    <includedby refid="_z_z_m_i_fixer_8cpp" local="yes">src/data/IniFixData/ZZMIFixer.cpp</includedby>
+    <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
     <incdepgraph>
       <node id="34">
         <label>Algo.tpp</label>
@@ -17,9 +20,6 @@
       </node>
       <node id="40">
         <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="49">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="55">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -605,6 +605,9 @@
         <childnode refid="57" relation="include">
         </childnode>
       </node>
+      <node id="49">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="70">
         <label>Generator.tpp</label>
       </node>
@@ -730,15 +733,61 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h</label>
+        <link refid="_template_fixer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h</label>
         <link refid="_graph_create_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
       </node>
-      <node id="2">
+      <node id="3">
+        <label>src/data/IniFixData/GIMICharFixer.cpp</label>
+        <link refid="_g_i_m_i_char_fixer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
+        <link refid="_g_i_m_i_component_fixer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
+        <link refid="_g_i_m_i_merge_fixer_8cpp"/>
+      </node>
+      <node id="6">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/data/IniFixData/ZZMIFixer.cpp</label>
+        <link refid="_z_z_m_i_fixer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/model/strategies/iniFixers/TemplateFixer.cpp</label>
+        <link refid="_template_fixer_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_graph_create" prot="public">AGRemapCore::GraphCreate</innerclass>
@@ -793,19 +842,21 @@
 <codeline lineno="100"><highlight class="normal"></highlight></codeline>
 <codeline lineno="108" refid="class_a_g_remap_core_1_1_graph_create_1a928830144067760a88b9e9556a29235a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1ac97f88113919dd51136281ede515e54f" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a928830144067760a88b9e9556a29235a" kindref="member">graph</ref>;</highlight></codeline>
 <codeline lineno="109"><highlight class="normal"></highlight></codeline>
-<codeline lineno="113" refid="class_a_g_remap_core_1_1_graph_create_1a4fd89081bf0d0b904ec0eb341c7edba2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a4fd89081bf0d0b904ec0eb341c7edba2" kindref="member">minimal</ref>;</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight></codeline>
-<codeline lineno="118" refid="class_a_g_remap_core_1_1_graph_create_1a6167263b5bafbdc4e3cff39dc4a9d3fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a6167263b5bafbdc4e3cff39dc4a9d3fd" kindref="member">newPartIds</ref>;</highlight></codeline>
-<codeline lineno="119"><highlight class="normal"></highlight></codeline>
-<codeline lineno="128" refid="class_a_g_remap_core_1_1_graph_create_1a17daa3bd896435a77bdcc347eb9f2d56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a17daa3bd896435a77bdcc347eb9f2d56" kindref="member">GraphCreate</ref>(<ref refid="class_a_g_remap_core_1_1_graph_create_1ac1893d7c87927b058dd1e6993f057a52" kindref="member">GraphId</ref><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a86df6e5aaa1e2bae185dd66802f49b5d" kindref="member">graphId</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1ac97f88113919dd51136281ede515e54f" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a928830144067760a88b9e9556a29235a" kindref="member">graph</ref>,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a4fd89081bf0d0b904ec0eb341c7edba2" kindref="member">minimal</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a6167263b5bafbdc4e3cff39dc4a9d3fd" kindref="member">newPartIds</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="129"><highlight class="normal"></highlight></codeline>
-<codeline lineno="139" refid="class_a_g_remap_core_1_1_graph_create_1af65184484b4cc8bc8f84d71c01c7f0c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" kindref="member">GraphGroups</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1af65184484b4cc8bc8f84d71c01c7f0c6" kindref="member">edit</ref>(<ref refid="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/>modType,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="142"><highlight class="normal"></highlight></codeline>
-<codeline lineno="143"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;GraphCreate.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="144"><highlight class="normal"></highlight></codeline>
-<codeline lineno="145"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="119" refid="class_a_g_remap_core_1_1_graph_create_1a34b1ac63c3dd137347ff9fb78e2390d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;<ref refid="class_a_g_remap_core_1_1_graph_create_1ac97f88113919dd51136281ede515e54f" kindref="member">Graph</ref>*()&gt;<sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a34b1ac63c3dd137347ff9fb78e2390d0" kindref="member">graphOf</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="class_a_g_remap_core_1_1_graph_create_1a4fd89081bf0d0b904ec0eb341c7edba2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a4fd89081bf0d0b904ec0eb341c7edba2" kindref="member">minimal</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="class_a_g_remap_core_1_1_graph_create_1a6167263b5bafbdc4e3cff39dc4a9d3fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a6167263b5bafbdc4e3cff39dc4a9d3fd" kindref="member">newPartIds</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="class_a_g_remap_core_1_1_graph_create_1a17daa3bd896435a77bdcc347eb9f2d56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a17daa3bd896435a77bdcc347eb9f2d56" kindref="member">GraphCreate</ref>(<ref refid="class_a_g_remap_core_1_1_graph_create_1ac1893d7c87927b058dd1e6993f057a52" kindref="member">GraphId</ref><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a86df6e5aaa1e2bae185dd66802f49b5d" kindref="member">graphId</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1ac97f88113919dd51136281ede515e54f" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a928830144067760a88b9e9556a29235a" kindref="member">graph</ref>,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a4fd89081bf0d0b904ec0eb341c7edba2" kindref="member">minimal</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1a6167263b5bafbdc4e3cff39dc4a9d3fd" kindref="member">newPartIds</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="class_a_g_remap_core_1_1_graph_create_1af65184484b4cc8bc8f84d71c01c7f0c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" kindref="member">GraphGroups</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_graph_create_1af65184484b4cc8bc8f84d71c01c7f0c6" kindref="member">edit</ref>(<ref refid="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/>modType,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;GraphCreate.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"/>
   </compounddef>

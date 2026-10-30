@@ -52,6 +52,30 @@ class GraphCreateTest(BaseUnitTest):
         self.assertIn(("comp", "a"), group.graphs)
         self.assertIn(("comp", "b"), group.graphs)
 
+    def test_edit_aCallableGraph_isAskedWhenTheEditRuns(self):
+        # a graph that only exists by the time the edit runs: the callable is asked then, not at construction
+        made = []
+        def graphOf():
+            made.append(self._makeGraph("late"))
+            return made[-1]
+
+        edit = FRB.GraphCreate((0, "comp", "late"), graphOf)
+        self.assertEqual(made, [])
+
+        group = FRB.IniGraphGroup({("comp", "a"): self._makeGraph("a")})
+        edit.edit([group], None)
+        self.assertEqual(len(made), 1)
+        self.assertIn(("comp", "late"), group.graphs)
+        self.assertIsNot(group.graphs[("comp", "late")], made[0])
+
+    def test_edit_aCallableGivingNone_isANoOp(self):
+        group = FRB.IniGraphGroup({("comp", "a"): self._makeGraph("a")})
+        graphGroups = [group]
+        FRB.GraphCreate((0, "comp", "b"), lambda: None).edit(graphGroups, None)
+
+        self.assertEqual(list(group.graphs), [("comp", "a")])
+        self.assertEqual(len(graphGroups), 1)
+
     def test_edit_existingGroup_doesNotAppendAnotherGroup(self):
         # The group count is the half of "appends EXACTLY the one group the index asks for" that the
         # other tests miss: a condition that inserts whenever the index is in range still adds the

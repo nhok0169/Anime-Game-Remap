@@ -27,6 +27,7 @@
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/SectionIterData.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h"
@@ -46,9 +47,9 @@ namespace AGRemapCore {
      Creates the :cpp:class:`IniSectionGraph` for a particular resource :raw-html:`<br />`
      :raw-html:`<br />`
 
-     Runs in three phases. First it **collects** every reference to the resource -- walking each
-     source graph named in \ref srcRegs and recording where the register naming the resource
-     appears. Then, optionally, it **remaps** those source graphs (see \ref remaps). Finally, for
+     Runs in three phases. First it **collects** every reference to the resource -- a
+     :cpp:class:`GraphCollect` of the registers named in \ref srcRegs, \ref extraSrcRegs and
+     \ref srcRegMatches, recording where each register naming the resource appears. Then, optionally, it **remaps** those source graphs (see \ref remaps). Finally, for
      each resource subtype in \ref resEdits, it works out the fixed name of every collected
      reference, rewrites it in place, and hands the collected set to that subtype's
      :cpp:class:`BaseResEdit` to build the resource's own graph and models
@@ -426,7 +427,6 @@ namespace AGRemapCore {
             void putGraphSettings(GraphSettings settings);
             GraphSettings inEveryGroup(const GraphSettings& configured, const GraphGroups& graphGroups) const;
 
-            void collectFromGraphGroup(GraphGroups& graphGroups, const GraphId& srcModObj, const K& srcReg);
             GraphGroups& remapGraphs(GraphGroups& graphGroups, RemappedGraphs* remappedGraphs);
             void collectResourceNames(const std::string& resSubType, ResEdit& resEdit,
                                        typename ResEdit::CollectedSections& collectedSections, GraphGroups& graphGroups,

@@ -15,13 +15,16 @@
 // ##### EndCredits
 
 #include <array>
+#include <functional>
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "AGRemapCore/model/buffers/SkeletonNumberingProbe.h"
-#include "AGRemapCore/model/strategies/iniParsers/parseSteps/BaseIniParseStep.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h"
+#include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
 
 
 namespace AGRemapCore {
@@ -29,17 +32,24 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     Reads which skeleton numbering the mod's blend gives its bone ids in, with a
-     :cpp:class:`SkeletonNumberingProbe` over the mod's own buffers, into
-     :cpp:func:`IniParseData::blendVersion` :raw-html:`<br />` :raw-html:`<br />`
+     This class inherits from :cpp:class:`BaseIniGraphGroupEdit`
 
-     The buffers are the files of the resource `sections`_ this names, as
-     :cpp:func:`IniParseData::resourceFile` has them -- so run :cpp:class:`ResourceRead` first. Nothing is
-     read with fewer than two numberings, with no centroids, or when a buffer is missing
+     Reads which skeleton numbering the mod's blend gives its bone ids in, with a
+     :cpp:class:`SkeletonNumberingProbe` over the mod's own buffers, editing nothing -- and files it as
+     :cpp:func:`IniParseData::blendVersion` (see :cpp:class:`IParseResult`) :raw-html:`<br />` :raw-html:`<br />`
+
+     The buffers are the files the ``.ini``'s resource `sections`_ named here give, found without regard to the
+     case of their names, so the probe runs only from #editFromIni with a real ``.ini`` file. Nothing is read with
+     fewer than two numberings, with no centroids, or when a buffer is missing
      @endrst
      */
-    class SkeletonNumberingRead: public BaseIniParseStep<> {
+    class SkeletonNumberingRead: public BaseIniGraphGroupEdit<>, public IParseResult {
         public:
+            /**
+             * @brief Which mod objects to look in: empty selects every one
+             */
+            using ObjFilter = std::function<bool(const std::pair<std::string, std::string>&)>;
+
             /**
              * @param numberings The candidate numberings -- see :cpp:func:`SkeletonNumberingProbe::probe`
              * @param centroids Each bone's rest-pose centroid -- see :cpp:func:`SkeletonNumberingProbe::probe`
@@ -53,8 +63,8 @@ namespace AGRemapCore {
              @endrst
              * @param requiredKey
              @rst
-             A key at least one root `section`_ of #objs must carry for the mod to be probed, or empty to probe
-             every mod. **Default**: empty
+             A key at least one root `section`_ of the graphs of #objs (in the first group) must carry for the mod
+             to be probed, or empty to probe every mod. **Default**: empty
              @endrst
              * @param objs The mod objects whose root `sections`_ #requiredKey is looked for in. **Default**: every one
              */
@@ -98,7 +108,45 @@ namespace AGRemapCore {
              */
             ObjFilter objs;
 
-            void read(Context& ctx, const SectionTargets& targets, IniParseData& data) override;
+            /**
+             * @brief The version the last run found, or ``std::nullopt``
+             */
+            const std::optional<std::string>& version() const;
+
+            /**
+             * @brief Forgets #version
+             */
+            void clear() override;
+
+            /**
+             * @brief Probes the mod's buffers -- see this class's own description
+             *
+             * @param graphGroups The group of graphs of each .ini file, for #requiredKey
+             * @param ini The .ini file whose resources name the buffers -- ``nullptr`` probes nothing
+             * @param modType Unused
+             * @param modName Unused. **Default**: ``""``
+             *
+             * @return The same groups that were passed in
+             */
+            GraphGroups& editFromIni(GraphGroups& graphGroups, IniFile* ini, const ModType* modType,
+                                     const std::string& modName = "") override;
+
+            /**
+             * @brief Probes nothing: there is no ``.ini`` file to read the buffers' names from
+             *
+             * @return The same groups that were passed in
+             */
+            GraphGroups& edit(GraphGroups& graphGroups, const ModType* modType, const std::string& modName = "") override;
+
+            /**
+             * @brief Files #version as :cpp:func:`IniParseData::blendVersion`, when there is one
+             *
+             * @param data The parser's data
+             */
+            void fileInto(IniParseData& data) const override;
+
+        private:
+            std::optional<std::string> version_;
     };
 }
 

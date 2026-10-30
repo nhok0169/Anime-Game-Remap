@@ -276,20 +276,6 @@
     <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a1469210fa8041ccfb0a9dbaa2bb90a5d" kind="function"><name>parseData</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a14c7e94a7c0378deb1bddaa8c0747032" kind="function"><name>parseData</name></member>
   </compound>
-  <compound refid="class_a_g_remap_core_1_1_base_ini_parse_step" kind="class"><name>AGRemapCore::BaseIniParseStep</name>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" kind="typedef"><name>Context</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" kind="typedef"><name>Section</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" kind="typedef"><name>ContentPart</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kind="typedef"><name>ModObj</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" kind="typedef"><name>SectionTargets</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kind="typedef"><name>ObjFilter</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1adb66ea9feb504ebb1786e88ff6653e25" kind="variable"><name>deferred</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ac85149383247625a61fb2e77acf205f7" kind="function"><name>read</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a43f54d2809ad454df2f0c426e5e5c287" kind="function"><name>selects</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5aeaac814fdf663de99fd74096d77879" kind="function"><name>contentParts</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a4fbd10b4b37a1b336991f3fb06abe98a" kind="function"><name>firstVal</name></member>
-  </compound>
   <compound refid="class_a_g_remap_core_1_1_base_ini_part_edit" kind="class"><name>AGRemapCore::BaseIniPartEdit</name>
     <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" kind="function"><name>~BaseIniPartEdit</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
@@ -1315,24 +1301,6 @@
     <member refid="class_a_g_remap_core_1_1_download_tools_1aabf6162296d2fc99a0ad9abbfff3ceea" kind="function"><name>ibResourceKVPs</name></member>
     <member refid="class_a_g_remap_core_1_1_download_tools_1afbdfb811a3bb21b0dd448a4f55e4ee2a" kind="function"><name>blendRefKVPs</name></member>
   </compound>
-  <compound refid="class_a_g_remap_core_1_1_draw_read" kind="class"><name>AGRemapCore::DrawRead</name>
-    <member refid="class_a_g_remap_core_1_1_draw_read_1abe5e610b0f5bcb02f81662cfdee90c87" kind="variable"><name>objs</name></member>
-    <member refid="class_a_g_remap_core_1_1_draw_read_1a7629cd982a74c463ad8ca4588d87b527" kind="variable"><name>texRegPrefix</name></member>
-    <member refid="class_a_g_remap_core_1_1_draw_read_1af536ae103ea9fa17d69a6210c5844309" kind="variable"><name>silentLibraries</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1adb66ea9feb504ebb1786e88ff6653e25" kind="variable"><name>deferred</name></member>
-    <member refid="class_a_g_remap_core_1_1_draw_read_1ae83b86e6614333b6fa4a98b95c45be17" kind="function"><name>DrawRead</name></member>
-    <member refid="class_a_g_remap_core_1_1_draw_read_1a9a240ad7da125728831f18be13bb3572" kind="function"><name>read</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" kind="typedef"><name>Context</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" kind="typedef"><name>Section</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" kind="typedef"><name>ContentPart</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kind="typedef"><name>ModObj</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" kind="typedef"><name>SectionTargets</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kind="typedef"><name>ObjFilter</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a43f54d2809ad454df2f0c426e5e5c287" kind="function"><name>selects</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5aeaac814fdf663de99fd74096d77879" kind="function"><name>contentParts</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a4fbd10b4b37a1b336991f3fb06abe98a" kind="function"><name>firstVal</name></member>
-  </compound>
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute" kind="struct"><name>AGRemapCore::WWMIFixerConfig::DrawReroute</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" kind="variable"><name>from</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" kind="variable"><name>as</name></member>
@@ -1880,7 +1848,6 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4575eac6ccaa93070272d3c25ab155f0" kind="typedef"><name>Context</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab6facad22b15acdebe586f28ba567aff" kind="typedef"><name>DownloadData</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac54bd2ba5389186af894134edf1a4723" kind="typedef"><name>GroupEdit</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4cff096f344de8ccb777b5ba724303d8" kind="typedef"><name>ParseStep</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a7a565d30ed7abefdb949e4f6f9f6c7c9" kind="typedef"><name>Classifier</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6417d7ed1fa0dd9bc1593e7ff4556c9" kind="typedef"><name>ObjTargetFunc</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a952103f7dae7788e0c625a56022c8ce6" kind="typedef"><name>DownloadNeeds</name></member>
@@ -1890,7 +1857,8 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a7c35bf4324ada87fee9ecbc35fc37113" kind="typedef"><name>GraphMapEntry</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa16ee63543137b037ff10380059ee72a" kind="variable"><name>objTargetFuncs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a25483cc4ddfb668103f3d46f70b233d1" kind="variable"><name>downloads</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa231f1b4c91e8eee415df1e6f74c3fc4" kind="variable"><name>parseSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac9b3276b01d26403f4b3dd54b10ccd66" kind="variable"><name>parseSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2c3329560eb289b36bc8850bea9e1656" kind="variable"><name>deferredParseSteps</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a9884e677c16b9e934cff106b86dbf93f" kind="variable"><name>makeGlobalGraph</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ad9484497843f074cde878b26feacdc62" kind="variable"><name>disjointModObjs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a8db822664e08465ba2cfeeef2f3db859" kind="variable"><name>trackKeys</name></member>
@@ -1912,6 +1880,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1afaf96ae53d5efa955e635544e95d87d0" kind="variable"><name>defaultClassifier_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a19eaf48948e6c2f6e0d2e265d610eff8" kind="function"><name>defaultConfig</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab58845342b6264ddb068766b5205a509" kind="function"><name>classifyByTextureOverrideName</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a46c31c873379fc81e47939cb61d58be4" kind="function"><name>fileResult</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1acbfa91b5398204141ffdd3158b4e7470" kind="function"><name>GIMIParser</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a10cc2ae684b6aee36b4d4a9e61215b08" kind="function"><name>ctx</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a3c71864c8c229192681fba356e5249a8" kind="function"><name>setCtx</name></member>
@@ -1938,7 +1907,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6f94ad8c346904fecbbe75e926113c6a" kind="function"><name>addDownloads</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac8119931260c037232ded5a5b148335f" kind="function"><name>setupDownloads</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4d47b3d737fe7e557909cadc38853b70" kind="function"><name>editCommands</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a8d8254a465845d55cc518a644c0349ea" kind="function"><name>runParseSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa6a82f0acdd726ef7a88fad461a23409" kind="function"><name>runParseSteps</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a62f1220d29023cf3b1411ad204282b9b" kind="function"><name>collectParseResult</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af93c15b04646ae2e057a3e907f47757f" kind="function"><name>parse</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aaa12974b1ee1eb41cbdfdb562352a3bf" kind="function"><name>getSectionTargets</name></member>
@@ -2007,6 +1976,64 @@
     <member refid="class_a_g_remap_core_1_1_global_remap_ini_remover_1a9e6bb4154f5d40aef6e6ff88c2b17724" kind="function"><name>GlobalRemapIniRemover</name></member>
     <member refid="class_a_g_remap_core_1_1_global_remap_ini_remover_1ad091c7ccb8e24a53be5bf3fce25f27cb" kind="function"><name>remove</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_graph_collect" kind="class"><name>AGRemapCore::GraphCollect</name>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1aa08fc21751a488ab51baa0080b2cbc77" kind="typedef"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a601a6b2d80a21b573bf03fc547bcb0f8" kind="typedef"><name>GraphGroups</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a86a4c4265eca45aff19b0ebc387020f5" kind="typedef"><name>Graph</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a043f505323f3751a7d8ff36828edf153" kind="typedef"><name>GraphId</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1adc9cae9052bae80b1ddc83eacf1239f7" kind="typedef"><name>GraphIdHash</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1add2b8a8adc2bea891c9877da2e105a08" kind="typedef"><name>IterData</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1ac482965774af95924a25448e7c2b98f3" kind="typedef"><name>OrderRanges</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a1f09b56b4e2bd709d6db8bd2a67a9ded" kind="typedef"><name>KeySet</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a038158d532306a8d24eaf4c0b113679b" kind="typedef"><name>PartPredicate</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a8ac12024697fd21f67bae43d41cccc00" kind="typedef"><name>ValPredicate</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1ab049a2b6e6c6a9fb7b74aacca893dfc9" kind="typedef"><name>KeyMatch</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1aa042978dcc4bf3fb3dd9a21c66aba641" kind="typedef"><name>ByGraph</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a566934d19ddced889a9ef9fac1ff8312" kind="typedef"><name>Row</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a632c387ba9db8449961b4248bf01a783" kind="typedef"><name>KeyState</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" kind="typedef"><name>ModObj</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a162248ca9f60b772ba7d1d8918f5d198" kind="variable"><name>keys</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a9e5227cb9cf1efe683f59b554a760775" kind="variable"><name>keyMatches</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a5674f7375a59d4a1d296359adcc2817f" kind="variable"><name>contextKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a5440800d44f5d0520007f2f0b976615c" kind="variable"><name>partPredicates</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1adbefc0e1b437f38fee8475e73118f289" kind="variable"><name>valPredicates</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1aa5eca9841da6a0cb21f3a82752f312bd" kind="variable"><name>trackKeysIsGlobal</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a88623f41cca4975af7286a802b66273e" kind="variable"><name>trackKeysGlobal</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1afe8af26ad826ea4c66f9db54d29e4ba9" kind="variable"><name>trackKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1ab875f633b0b18717ff2e20cb95adbd74" kind="variable"><name>keysToTrack</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a6300367cecb931e4a7e58d92e8dad894" kind="variable"><name>withConditions</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a7822194f5061c1654bc4289013ef7d60" kind="variable"><name>everyGroup</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a22eb74759d3bb8e099f669e6a99a2c9d" kind="variable"><name>name</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1afafdb9ec971f7f506bd29a05bdd25251" kind="variable"><name>rows_</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1aa7d900a90017333448ffa7219647f2ed" kind="function"><name>GraphCollect</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1aab2d6590d003d3a20f5a8549c7eaf5ad" kind="function"><name>rows</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a3c713562e17061d3032679949225e575" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a99ba0c97ac25300c4bd25271d2ddaf4e" kind="function"><name>fileInto</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a33afb60765a088f303fd40d196cd5065" kind="function"><name>edit</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a1a9c5a06895ad79f20fee9eb09e30ccd" kind="function"><name>collectKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a3609207dbf45a041f705fd4d4982456b" kind="function"><name>matchedKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591" kind="function"><name>editFromIni</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1ac5c62251b8028d3d5cc548ab74ef1ae8" kind="function"><name>takeGraphSettings</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a03ba350ffe5f3d269ea3bd2250d429f5" kind="function"><name>putGraphSettings</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1aa66eabcb593e2b048fa109990ad8e816" kind="function"><name>inEveryGroup</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a007fa356b26f1960a25156c1b4f6c781" kind="function"><name>collectAll</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_collect_1a8f412309ce2a615ee54c04d5e96e9e45" kind="function"><name>addRows</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" kind="function"><name>getGraph</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" kind="function"><name>addGraph</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_graph_collect_row" kind="struct"><name>AGRemapCore::GraphCollectRow</name>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1afb340f80b4c3bf012a33c67b2f135299" kind="typedef"><name>GraphId</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a1927cdc1232896035cc481fe6258762c" kind="typedef"><name>KeyState</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1ae0ac73720479d825f2bed25dc9d42811" kind="variable"><name>graphId</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a8e07a9f46b19712cde99cf1e38eea439" kind="variable"><name>section</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a66d38345d9e8e69b0ce7624566a84f93" kind="variable"><name>rootSection</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a512a680d95a6661c897cf4ac161435bd" kind="variable"><name>partId</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a10aef0198194d3941bd4f0c0a8c9ed8f" kind="variable"><name>line</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a8bade5d8c864b28f0255f136da26d6a9" kind="variable"><name>key</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1add010cfb696f890672bda92cb4129d5c" kind="variable"><name>value</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a91104695cd98fab522db5a8f20363e4b" kind="variable"><name>context</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a07e554f085c798ec48976303429e7d9a" kind="variable"><name>condition</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_graph_create" kind="class"><name>AGRemapCore::GraphCreate</name>
     <member refid="class_a_g_remap_core_1_1_graph_create_1a3c528c8a25a5a26bc0be2ffd7c1cda19" kind="typedef"><name>Base</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" kind="typedef"><name>GraphGroups</name></member>
@@ -2015,6 +2042,7 @@
     <member refid="class_a_g_remap_core_1_1_graph_create_1ac1893d7c87927b058dd1e6993f057a52" kind="typedef"><name>GraphId</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_create_1a86df6e5aaa1e2bae185dd66802f49b5d" kind="variable"><name>graphId</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_create_1a928830144067760a88b9e9556a29235a" kind="variable"><name>graph</name></member>
+    <member refid="class_a_g_remap_core_1_1_graph_create_1a34b1ac63c3dd137347ff9fb78e2390d0" kind="variable"><name>graphOf</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_create_1a4fd89081bf0d0b904ec0eb341c7edba2" kind="variable"><name>minimal</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_create_1a6167263b5bafbdc4e3cff39dc4a9d3fd" kind="variable"><name>newPartIds</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_create_1a17daa3bd896435a77bdcc347eb9f2d56" kind="function"><name>GraphCreate</name></member>
@@ -2185,6 +2213,15 @@
     <member refid="class_a_g_remap_core_1_1_graph_rename_1a77f81656a881bfa064c5d9b114bbc1cc" kind="function"><name>edit</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a8cf7cc52f178d8774155d39261eb55a6" kind="function"><name>editFromIni</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings" kind="struct"><name>AGRemapCore::GraphCollect::GraphSettings</name>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a47965155c594e09ecaf3629d89897c79" kind="variable"><name>keys</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a695647b559cf5d59a5be9380ec319060" kind="variable"><name>keyMatches</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a0ff23ba60ef5758718b7322d64dac5f7" kind="variable"><name>contextKeys</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a9a32d5c738ba590394ca445ac775a020" kind="variable"><name>partPredicates</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a4d407242c3d859162ad4477f2fab783a" kind="variable"><name>valPredicates</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a30528e68a34d19dc5d95e6b440b20e53" kind="variable"><name>trackKeys</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1ad6a69d247081f777d43e060d277c9944" kind="variable"><name>keysToTrack</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings" kind="struct"><name>AGRemapCore::ResRegCollect::GraphSettings</name>
     <member refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings_1af081a4c7be044c7c3696ae16c6df522d" kind="variable"><name>srcRegs</name></member>
@@ -3557,6 +3594,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a6cb548cc937d71c3706ea1ad617351aa" kind="typedef"><name>ModObj</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a0fbf0cbf2a46959b52a43a02e51ba760" kind="typedef"><name>Filler</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a87702ee8353e4dda137a5cee50d9dced" kind="typedef"><name>DrawRange</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a02bb99ec0af7341da75c88756c346886" kind="typedef"><name>CollectedRow</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ab34f048e055fd7c4ce90f1ecb13d8c80" kind="variable"><name>remappable_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1adc42a26685a724ed8436a61e90381081" kind="variable"><name>recolourOnly_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a40cb27c86782895fc918dae6bf760f6e" kind="variable"><name>carriedSections_</name></member>
@@ -3575,6 +3613,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a11622ca7b7374086a0ff0454dcc31069" kind="variable"><name>rejections_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aef18ba173fdeaa86de3f2b8dfeaca114" kind="variable"><name>thisToggles_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aeebb6fea15d32f20797442ab18425884" kind="variable"><name>registerToggles_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ae9036a11bff3d8be7b770c84b7de4202" kind="variable"><name>collected_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a294729fcc1747659e76197c99f07549e" kind="variable"><name>fill_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a1522efd98cb579647d4b58b55701de40" kind="function"><name>clear</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ae86bd07375404f47ba551dd67cb55d73" kind="function"><name>hasRemappableContent</name></member>
@@ -3618,6 +3657,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a141a1658c04b597b78fb07502222d87e" kind="function"><name>rolesOfResource</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a99389479dfe8029268175554ef5cc477" kind="function"><name>refusedRoleOf</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a6364b89f0d3d967da5352efa86899ada" kind="function"><name>reject</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a77d55fe1d6666a9e459a92c70a56bfd4" kind="function"><name>collected</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1acb144ec1f0399e6c5f52663da3c9d070" kind="function"><name>setCollected</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a87bc4e1b90972b260c6a9baf964a0da2" kind="function"><name>fill</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_parse_download_data" kind="class"><name>AGRemapCore::IniParseDownloadData</name>
@@ -3931,6 +3972,10 @@
     <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a6d8f713ffd8d96c9f8ced6b7205c169f" kind="function"><name>splitByInds</name></member>
     <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a72fe34ab7f09f6f39f00b3c12ddc2ef6" kind="function"><name>clone</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_i_parse_result" kind="class"><name>AGRemapCore::IParseResult</name>
+    <member refid="class_a_g_remap_core_1_1_i_parse_result_1ace3009fcb292407a9acc5153830ec147" kind="function"><name>~IParseResult</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_parse_result_1a587ddbfe485d3565aff9a17f352af9d7" kind="function"><name>fileInto</name></member>
+  </compound>
   <compound refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1_1_item" kind="struct"><name>AGRemapCore::BaseOrderedMultiMap::Iterator::Item</name>
     <member refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1_1_item_1ad7db8883e07f362251c54c3aa18ce9fd" kind="variable"><name>key</name></member>
     <member refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1_1_item_1a0a66f1d4c20916f5018efddd496157af" kind="variable"><name>value</name></member>
@@ -4113,24 +4158,6 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift_1a8cd74de37a68662014c3c565431f5c8b" kind="variable"><name>indexPath</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift_1a65b6ae3249ca059846e4796efe58d804" kind="variable"><name>drawRanges</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift_1a8bb9766eedb72ef8248edcf0221b8b12" kind="variable"><name>vgMaps</name></member>
-  </compound>
-  <compound refid="class_a_g_remap_core_1_1_library_read" kind="class"><name>AGRemapCore::LibraryRead</name>
-    <member refid="class_a_g_remap_core_1_1_library_read_1a85798b289ffe884e4e1371c0e6c84ac1" kind="typedef"><name>Library</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" kind="typedef"><name>Context</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" kind="typedef"><name>Section</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" kind="typedef"><name>ContentPart</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kind="typedef"><name>ModObj</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" kind="typedef"><name>SectionTargets</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kind="typedef"><name>ObjFilter</name></member>
-    <member refid="class_a_g_remap_core_1_1_library_read_1af144998dabc67748b9ed7381713614fa" kind="variable"><name>libraries</name></member>
-    <member refid="class_a_g_remap_core_1_1_library_read_1a65fa2689d5d1c4f7979c6c2d280f104a" kind="variable"><name>objs</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1adb66ea9feb504ebb1786e88ff6653e25" kind="variable"><name>deferred</name></member>
-    <member refid="class_a_g_remap_core_1_1_library_read_1a12a29c9a98ec846a4533b562921e3f7e" kind="function"><name>LibraryRead</name></member>
-    <member refid="class_a_g_remap_core_1_1_library_read_1acd3ad9fe2f9ada026a06526df20b9710" kind="function"><name>read</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a43f54d2809ad454df2f0c426e5e5c287" kind="function"><name>selects</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5aeaac814fdf663de99fd74096d77879" kind="function"><name>contentParts</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a4fbd10b4b37a1b336991f3fb06abe98a" kind="function"><name>firstVal</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_lisa_fixer" kind="class"><name>AGRemapCore::LisaFixer</name>
     <member refid="class_a_g_remap_core_1_1_lisa_fixer_1ae42f3fb51840e2be5185cca1425a30ae" kind="function"><name>LisaFixer</name></member>
@@ -5978,20 +6005,6 @@
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6710f40b48ec3fe39ffa4ae31bc296bf" kind="function"><name>buildResources</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a7bc2fd1d2fe42716250c3d6d0715e241" kind="function"><name>fileAddGraphId</name></member>
   </compound>
-  <compound refid="class_a_g_remap_core_1_1_resource_read" kind="class"><name>AGRemapCore::ResourceRead</name>
-    <member refid="class_a_g_remap_core_1_1_resource_read_1a8be36994b8085cebebd5e2ad73041aa7" kind="function"><name>read</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" kind="typedef"><name>Context</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" kind="typedef"><name>Section</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" kind="typedef"><name>ContentPart</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kind="typedef"><name>ModObj</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" kind="typedef"><name>SectionTargets</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kind="typedef"><name>ObjFilter</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1adb66ea9feb504ebb1786e88ff6653e25" kind="variable"><name>deferred</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a43f54d2809ad454df2f0c426e5e5c287" kind="function"><name>selects</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5aeaac814fdf663de99fd74096d77879" kind="function"><name>contentParts</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a4fbd10b4b37a1b336991f3fb06abe98a" kind="function"><name>firstVal</name></member>
-  </compound>
   <compound refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role" kind="struct"><name>AGRemapCore::IniParseData::ResourceRole</name>
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role_1a28cae693c942d1962d69bd9603e99a6e" kind="variable"><name>role</name></member>
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role_1a73bf6e380ec70210e9e1b9b51a6e4f5a" kind="variable"><name>modObj</name></member>
@@ -6050,7 +6063,6 @@
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a6ae242a5b45ed56616e73fb66b4cc73a" kind="function"><name>takeGraphSettings</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a4640f798e6d4b9eebd5cc4fa7ec17a50" kind="function"><name>putGraphSettings</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a1d9eee9b8798ee19e6438a1e80a9f341" kind="function"><name>inEveryGroup</name></member>
-    <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a186112a0c420aed28beccb7ea5e61eb9" kind="function"><name>collectFromGraphGroup</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a3ff3038683952907b81ce249f776b25f" kind="function"><name>remapGraphs</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1ab3a243bad4fd648d6c18ac1dccfb686c" kind="function"><name>collectResourceNames</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a42b346a00f66ba288982f192fcb5033e" kind="function"><name>editImpl</name></member>
@@ -6258,6 +6270,10 @@
     <member refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1a88efd66aa3b6c437ebe51e3f58a7b1bb" kind="function"><name>probe</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_skeleton_numbering_read" kind="class"><name>AGRemapCore::SkeletonNumberingRead</name>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a0aa1049fb4a6008f2a82032a1c4ef4aa" kind="typedef"><name>ObjFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kind="typedef"><name>GraphGroups</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" kind="typedef"><name>Graph</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" kind="typedef"><name>ModObj</name></member>
     <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a35419feb8c8957d67adecf723bf9f123" kind="variable"><name>numberings</name></member>
     <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1abb8d5ea7ca5ee5f755c47fa73f5cfa54" kind="variable"><name>centroids</name></member>
     <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1afce8022e38964f909e34a1680793e83d" kind="variable"><name>positionResource</name></member>
@@ -6265,19 +6281,15 @@
     <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1aa451edebf9ab71c5147e11f073d11691" kind="variable"><name>vertexVGResource</name></member>
     <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a785cbe5f1cf07c8bb3fde567ce7140e8" kind="variable"><name>requiredKey</name></member>
     <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a881f9d26769158612b9a9f0a4e1e78fa" kind="variable"><name>objs</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1adb66ea9feb504ebb1786e88ff6653e25" kind="variable"><name>deferred</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1afcadee2ad7884a43e9ae76d8b9de6cb3" kind="variable"><name>version_</name></member>
     <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a3e42bd46af94de7c694823f51b942b99" kind="function"><name>SkeletonNumberingRead</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a8e7a7e82fa5dfc66851bd22e054b0d4b" kind="function"><name>read</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" kind="typedef"><name>Context</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" kind="typedef"><name>Section</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" kind="typedef"><name>ContentPart</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kind="typedef"><name>ModObj</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" kind="typedef"><name>SectionTargets</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kind="typedef"><name>ObjFilter</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a43f54d2809ad454df2f0c426e5e5c287" kind="function"><name>selects</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5aeaac814fdf663de99fd74096d77879" kind="function"><name>contentParts</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a4fbd10b4b37a1b336991f3fb06abe98a" kind="function"><name>firstVal</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1ac910e5ef81baa2dc2b9a51a1b7ee9521" kind="function"><name>version</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a8727479fc40ef9cc47a28ea4243ff320" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1ae1a0baeb3a6aa32546c528d2fff64213" kind="function"><name>editFromIni</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1ae04631f0ae802bac36cf7a5e6912f685" kind="function"><name>edit</name></member>
+    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a256430466de64041fe7bd9e9c8e9eb69" kind="function"><name>fileInto</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" kind="function"><name>getGraph</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" kind="function"><name>addGraph</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot" kind="struct"><name>AGRemapCore::GIMIComponentParserConfig::Slot</name>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a2932af3df10732450b1fb2aa9b53104a" kind="variable"><name>name</name></member>
@@ -6832,22 +6844,6 @@
     <member refid="class_a_g_remap_core_1_1_texture_file_1a57d75eb63d2d93bb8a43b5bad8972f5f" kind="function"><name>writeKey</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_file_1a118a425e73837773c0945e3d4e95710c" kind="function"><name>writeUncompressedDds</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_file_1a0f7ac70336284c42b1fecdd06b612fc3" kind="function"><name>writeTo</name></member>
-  </compound>
-  <compound refid="class_a_g_remap_core_1_1_texture_override_read" kind="class"><name>AGRemapCore::TextureOverrideRead</name>
-    <member refid="class_a_g_remap_core_1_1_texture_override_read_1a029ca08f7e77b93a4c7f4cae62b6c282" kind="variable"><name>draws</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1adb66ea9feb504ebb1786e88ff6653e25" kind="variable"><name>deferred</name></member>
-    <member refid="class_a_g_remap_core_1_1_texture_override_read_1aaeccd7c7cb3858e27fa775d83f7327a3" kind="function"><name>TextureOverrideRead</name></member>
-    <member refid="class_a_g_remap_core_1_1_texture_override_read_1a47004079e6d7bf49a7ad230854a71cf6" kind="function"><name>read</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a20d6a5788ce95e0792118baa8574ba54" kind="typedef"><name>Context</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a8445b5a62ef526c321e8f2d2cf4b3b87" kind="typedef"><name>Section</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5174d6ead271f2bbf483831ba1e383e7" kind="typedef"><name>ContentPart</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1abc4e169b46616ddf3261f309a0680a41" kind="typedef"><name>ModObj</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1af1d54411066d176a3294640efac1a8ea" kind="typedef"><name>SectionTargets</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1ad0e7c0f8512cba8ff415f590508a333c" kind="typedef"><name>ObjFilter</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a43f54d2809ad454df2f0c426e5e5c287" kind="function"><name>selects</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a5aeaac814fdf663de99fd74096d77879" kind="function"><name>contentParts</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_parse_step_1a4fbd10b4b37a1b336991f3fb06abe98a" kind="function"><name>firstVal</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_texture_overrides" kind="class"><name>AGRemapCore::TextureOverrides</name>
     <member refid="class_a_g_remap_core_1_1_texture_overrides_1a591e754cc7f19c1d0fcb5c3d4cbcfa7f" kind="function"><name>collect</name></member>
@@ -8709,6 +8705,10 @@
   </compound>
   <compound refid="_base_ini_graph_group_edit_8h" kind="file"><name>BaseIniGraphGroupEdit.h</name>
   </compound>
+  <compound refid="_graph_collect_8h" kind="file"><name>GraphCollect.h</name>
+  </compound>
+  <compound refid="_graph_collect_row_8h" kind="file"><name>GraphCollectRow.h</name>
+  </compound>
   <compound refid="_graph_create_8h" kind="file"><name>GraphCreate.h</name>
   </compound>
   <compound refid="_graph_group_edit_8h" kind="file"><name>GraphGroupEdit.h</name>
@@ -8812,17 +8812,9 @@
   </compound>
   <compound refid="_ini_parse_download_data_8h" kind="file"><name>IniParseDownloadData.h</name>
   </compound>
-  <compound refid="_base_ini_parse_step_8h" kind="file"><name>BaseIniParseStep.h</name>
-  </compound>
-  <compound refid="_draw_read_8h" kind="file"><name>DrawRead.h</name>
-  </compound>
-  <compound refid="_library_read_8h" kind="file"><name>LibraryRead.h</name>
-  </compound>
-  <compound refid="_resource_read_8h" kind="file"><name>ResourceRead.h</name>
-  </compound>
   <compound refid="_skeleton_numbering_read_8h" kind="file"><name>SkeletonNumberingRead.h</name>
   </compound>
-  <compound refid="_texture_override_read_8h" kind="file"><name>TextureOverrideRead.h</name>
+  <compound refid="_i_parse_result_8h" kind="file"><name>IParseResult.h</name>
   </compound>
   <compound refid="_texture_role_chooser_8h" kind="file"><name>TextureRoleChooser.h</name>
   </compound>

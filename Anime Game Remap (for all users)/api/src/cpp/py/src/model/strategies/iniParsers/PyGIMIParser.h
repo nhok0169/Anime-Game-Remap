@@ -275,7 +275,7 @@ class PyGIMIParser: public PyGIMIParserCore {
         PyGIMIParser(py::object iniFile, py::object modObjs, py::object objTargetFuncs, py::object downloads,
                       py::object commandEdits, bool makeGlobalGraph, bool disjointModObjs, bool trackKeys,
                       py::object keysToTrack, std::optional<int> modTypeId = std::nullopt,
-                      py::object parseSteps = py::none());
+                      py::object parseSteps = py::none(), py::object deferredParseSteps = py::none());
 
         /**
          * @brief The .ini file being parsed, and the graphs built from it
@@ -311,14 +311,19 @@ class PyGIMIParser: public PyGIMIParserCore {
          * @brief
          @rst
          The exact Python object given for ``parseSteps``: the core's
-         :cpp:member:`AGRemapCore::GIMIParser::parseSteps`, run by #editCommands, where a
-         ``GraphGroupEdit`` goes back through `Python`_ as #commandEditsObj does
+         :cpp:member:`AGRemapCore::GIMIParser::parseSteps`, run by #editCommands, each edit going back
+         through `Python`_ as #commandEditsObj does
          @endrst
          */
         py::object parseStepsObj;
 
         /**
-         * @brief The deferred steps of the last parse, kept alive until the parse data is filled
+         * @brief The exact Python object given for ``deferredParseSteps`` -- the core's :cpp:member:`AGRemapCore::GIMIParser::deferredParseSteps`
+         */
+        py::object deferredParseStepsObj;
+
+        /**
+         * @brief The deferred edits of the last parse, kept alive until the parse data is filled
          */
         py::list deferredStepsObj;
 
@@ -418,6 +423,11 @@ class PyGIMIParser: public PyGIMIParserCore {
          * @brief Applies one `Python`_ ``GraphGroupEdit`` to the command graphs, as #editCommands does #commandEditsObj
          */
         void editGroupsFromPy(const py::object& edit);
+
+        /**
+         * @brief Runs each edit of 'steps' through #editGroupsFromPy, filing each :cpp:class:`AGRemapCore::IParseResult` into 'data'
+         */
+        void runStepsFromPy(const py::object& steps, AGRC::IniParseData& data);
         void clear() override;
 
     private:

@@ -369,6 +369,31 @@ section: :class:`str`
 file: :class:`str`
     Its ``filename =``
        )doc")
+       .def("collected", &AGRC::IniParseData::collected, py::arg("name"), py::return_value_policy::copy, R"doc(
+The rows of the :class:`GraphCollect` named 'name' among the parser's :attr:`GIMIParser.parseSteps`, in the order
+it collected them. Empty for a name nothing filed
+
+Parameters
+----------
+name: :class:`str`
+    The collect's :attr:`GraphCollect.name`
+
+Returns
+-------
+List[:class:`GraphCollect.Row`]
+    The rows
+       )doc")
+       .def("setCollected", &AGRC::IniParseData::setCollected, py::arg("name"), py::arg("rows"), R"doc(
+Files 'rows' under 'name', replacing what was filed there -- see :meth:`collected`
+
+Parameters
+----------
+name: :class:`str`
+    The name
+
+rows: List[:class:`GraphCollect.Row`]
+    The rows
+       )doc")
        .def("textureRoles", &AGRC::IniParseData::textureRoles, py::return_value_policy::reference_internal, R"doc(
 What role each texture of the .ini plays, or ``None`` when the parser records none -- every role the
 .ini binds a file for, since one atlas can serve two objects

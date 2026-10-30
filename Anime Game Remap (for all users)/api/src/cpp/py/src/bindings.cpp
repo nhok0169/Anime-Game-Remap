@@ -123,6 +123,8 @@ void initCppBufReplace(pybind11::module_ &m);
 void initCppTexCreate(pybind11::module_ &m);
 void initCppTexReplace(pybind11::module_ &m);
 void initCppResRegCollect(pybind11::module_ &m);
+void initCppIParseResult(pybind11::module_ &m);
+void initCppGraphCollect(pybind11::module_ &m);
 void initCppResGroupCollect(pybind11::module_ &m);
 void initCppHash64(pybind11::module_ &m);
 void initCppHash128(pybind11::module_ &m);
@@ -200,7 +202,7 @@ void initCppTextureRoleChooser(pybind11::module_ &m);
 void initCppBaseIniParser(pybind11::module_ &m);
 void initCppGIMISectionClassifier(pybind11::module_ &m);
 void initCppGIMIParser(pybind11::module_ &m);
-void initCppParseSteps(pybind11::module_ &m);
+void initCppSkeletonNumberingRead(pybind11::module_ &m);
 void initCppBaseIniFixer(pybind11::module_ &m);
 void initCppGIMIFixer(pybind11::module_ &m);
 void initCppMultiModFixer(pybind11::module_ &m);
@@ -348,6 +350,9 @@ PYBIND11_MODULE(core, m) {
     initCppTexCreate(m); // must come after initCppResEdit (registers its base) and initCppRemapTexAddResource/initCppTexCreator (the model it builds)
     initCppTexReplace(m); // same ordering needs as initCppTexCreate above
     initCppResRegCollect(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppResEdit (its resEdits values)
+    initCppIParseResult(m);
+    initCppGraphCollect(m); // must come after initCppBaseIniGraphGroupEdit and initCppIParseResult (registers its bases)
+    initCppSkeletonNumberingRead(m); // must come after initCppIParseResult (registers its base) and initCppSkeletonNumberingProbe (its numberings)
     initCppResGroupCollect(m); // must come after initCppBaseIniGraphGroupEdit (registers its base), initCppResEdit and initCppIniGroupedResource (the groups it builds)
     initCppHash64(m);
     initCppHash128(m);
@@ -430,7 +435,6 @@ PYBIND11_MODULE(core, m) {
     initCppIniParseData(m); // must come after initCppTextureRoles (hands it across)
     initCppTextureRoleChooser(m); // must come after initCppIniParseData (fills one)
     initCppBaseIniParser(m); // must come after initCppIniParseData (its parseData)
-    initCppParseSteps(m); // must come after initCppBaseRegEdit (registers BaseIniPartEdit) and initCppSkeletonNumberingProbe (its numberings)
     initCppGIMISectionClassifier(m); // must come after initCppHashes/initCppIndices (its assets) and initCppIfContentPartColour (what it classifies from)
     initCppGIMIParser(m); // must come after initCppBaseIniParser (registers its base), initCppIniGraphGroup/initCppIniSectionGraph (the graphs it builds) and initCppRemapIniDownload (the downloads it records)
 

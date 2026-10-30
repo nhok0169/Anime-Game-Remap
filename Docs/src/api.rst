@@ -140,17 +140,6 @@ BaseIniParser
 
 :raw-html:`<br />`
 
-BaseIniParseStep
-================
-
-.. attributetable:: FixRaidenBoss2.BaseIniParseStep
-
-.. autoclass:: FixRaidenBoss2.BaseIniParseStep
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 BaseIniPartEdit
 ===============
 
@@ -866,17 +855,6 @@ DownloadData
 
 :raw-html:`<br />`
 
-DrawRead
-========
-
-.. attributetable:: FixRaidenBoss2.DrawRead
-
-.. autoclass:: FixRaidenBoss2.DrawRead
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 DrawUVCoverage
 ==============
 
@@ -1078,6 +1056,17 @@ GlobalRemapIniRemover
 .. attributetable:: FixRaidenBoss2.GlobalRemapIniRemover
 
 .. autoclass:: FixRaidenBoss2.GlobalRemapIniRemover
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphCollect
+============
+
+.. attributetable:: FixRaidenBoss2.GraphCollect
+
+.. autoclass:: FixRaidenBoss2.GraphCollect
     :members:
     :private-members:
 
@@ -1611,23 +1600,23 @@ InvertAlphaFilter
 
 :raw-html:`<br />`
 
+IParseResult
+============
+
+.. attributetable:: FixRaidenBoss2.IParseResult
+
+.. autoclass:: FixRaidenBoss2.IParseResult
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IterGraphGroupEdit
 ==================
 
 .. attributetable:: FixRaidenBoss2.IterGraphGroupEdit
 
 .. autoclass:: FixRaidenBoss2.IterGraphGroupEdit
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-LibraryRead
-===========
-
-.. attributetable:: FixRaidenBoss2.LibraryRead
-
-.. autoclass:: FixRaidenBoss2.LibraryRead
     :members:
     :private-members:
 
@@ -2223,17 +2212,6 @@ ResReplace
 
 :raw-html:`<br />`
 
-ResourceRead
-============
-
-.. attributetable:: FixRaidenBoss2.ResourceRead
-
-.. autoclass:: FixRaidenBoss2.ResourceRead
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 SectionIterData
 ===============
 
@@ -2405,17 +2383,6 @@ TextureFile
 .. attributetable:: FixRaidenBoss2.TextureFile
 
 .. autoclass:: FixRaidenBoss2.TextureFile
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-TextureOverrideRead
-===================
-
-.. attributetable:: FixRaidenBoss2.TextureOverrideRead
-
-.. autoclass:: FixRaidenBoss2.TextureOverrideRead
     :members:
     :private-members:
 

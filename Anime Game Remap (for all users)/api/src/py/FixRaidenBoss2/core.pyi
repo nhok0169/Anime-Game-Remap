@@ -14657,7 +14657,11 @@ class IniFile:
         """
     def clearRead(self, eraseSourceTxt: bool = False) -> None:
         """
-        Clears the text data read in from the .ini file
+        Clears the text data read in from the .ini file, and everything parsed from it: the parsed `sections`_, the
+        parsers and fixers built over them, and the last parse's data
+        
+        The next :meth:`getIfTemplates`, :meth:`parse` or :meth:`fix` reads the file again. A removal calls this after it
+        writes the file back, so a fix in the same run works from the file without the fix it removed
         
         Parameters
         ----------

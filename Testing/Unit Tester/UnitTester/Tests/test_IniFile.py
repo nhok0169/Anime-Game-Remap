@@ -290,6 +290,26 @@ class IniFileTest(BaseUnitTest):
         self.assertEqual(len(ini.readFileLines()), 6)
         self.assertTrue(ini.fileLinesRead)
 
+    def test_clearRead_alsoDropsTheParsedSections(self):
+        # A removal writes the file back and calls clearRead; a fix in the same run must then parse the file
+        # as it is now, not the sections cached from before the removal
+        path = self._writeTempIni()
+        ini = FRB.IniFile(path)
+        self.compareSet(set(ini.getIfTemplates().keys()), {"TextureOverrideBody", "ResourceBody"})
+
+        with open(path, "w", encoding = "utf-8") as file:
+            file.write("[ResourceOther]\nfilename = other.buf\n")
+        ini.clearRead()
+
+        self.compareSet(set(ini.getIfTemplates().keys()), {"ResourceOther"})
+
+    def test_clearRead_noFile_keepsTheParsedSections(self):
+        ini = FRB.IniFile(txt = self._iniTxt)
+        ini.getIfTemplates()
+        ini.clearRead()
+
+        self.compareSet(set(ini.getIfTemplates().keys()), {"TextureOverrideBody", "ResourceBody"})
+
     def test_folder_derivedFromFile(self):
         path = self._writeTempIni()
         self.assertEqual(FRB.IniFile(path).folder, os.path.dirname(path))

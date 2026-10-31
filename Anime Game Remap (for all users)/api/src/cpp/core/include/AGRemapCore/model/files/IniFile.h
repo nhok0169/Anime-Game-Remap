@@ -749,7 +749,13 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Clears the text read in from the ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+             Clears the text read in from the ``.ini`` file, and everything parsed from it: the
+             :cpp:class:`IfTemplate`\s, the parsers and fixers built over them, and #getParseData
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The next #getIfTemplates, #parse or #fix reads the file again. A removal calls this after it
+             writes the file back, so a fix in the same run works from the file without the fix it removed
+             :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
                 If #getFile is ``std::nullopt``, the default run of this (with 'eraseSourceTxt'
@@ -764,7 +770,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Clears all the saved data for the ``.ini`` file -- the read text (via #clearRead), the
+             Clears all the saved data for the ``.ini`` file -- the read text and what was parsed from it (via
+             #clearRead), the
              classification results (#isMod / #isFixed / #modTypes / #isClassified), the parsed
              :cpp:class:`IfTemplate`\s, the shared :cpp:class:`Z3Context`, and #getParseData
              :raw-html:`<br />` :raw-html:`<br />`
@@ -778,6 +785,15 @@ namespace AGRemapCore {
              * @param eraseSourceTxt Whether to also erase the text of a file-less .ini file -- forwarded to #clearRead. **Default**: ``false``
              */
             void clear(bool eraseSourceTxt = false);
+
+        private:
+            /**
+             * @brief Drops what was parsed from the read text: the built fixers and parsers, #getParseData and the
+             * :cpp:class:`IfTemplate`\s -- in that order, since each borrows from the next
+             */
+            void clearParse();
+
+        public:
 
             /**
              * @brief

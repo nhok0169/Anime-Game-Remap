@@ -128,16 +128,16 @@ namespace AGRemapCore {
         fileTxt_.clear();
         fileLinesRead_ = false;
         isFixed = false;
+
+        // WHAT WAS PARSED FROM THAT TEXT GOES WITH IT (2026-10-31). A removal writes the file back and
+        // calls this, and a fix in the same run then parsed the sections cached from BEFORE the removal
+        // -- the fix it had just removed still in them. A section the new fix declares under a name the
+        // old one used then resolved to the OLD declaration (the first one wins), so moving where the
+        // fix writes its downloads left every edit of one reading a file the removal had deleted.
+        clearParse();
     }
 
-    void IniFile::clear(bool eraseSourceTxt) {
-        clearRead(eraseSourceTxt);
-
-        isMod = false;
-        isFixed = false;
-        modTypes.clear();
-        isClassified_ = false;
-
+    void IniFile::clearParse() {
         ifTemplatesRead_ = false;
 
         // Matches the pure-Python original's own "self._iniParser = None" / "self._iniFixer = None"
@@ -161,9 +161,21 @@ namespace AGRemapCore {
         }
         builtParsers_.clear();
 
-        // Order matters: the IfTemplates hold predicates built against z3Ctx_, so they have to go
-        // before it is replaced.
+        // The last parse's graphs are built from the sections below
+        parseData_.reset();
         sectionIfTemplates_.clear();
+    }
+
+    void IniFile::clear(bool eraseSourceTxt) {
+        clearRead(eraseSourceTxt);
+
+        // again, for a file-less .ini whose text clearRead keeps
+        clearParse();
+
+        isMod = false;
+        isFixed = false;
+        modTypes.clear();
+        isClassified_ = false;
 
         // The pure-Python original's clear() ends with clearModels(), which empties ini.resources
         // and ini.fileDownloads among others. Same thing here -- and see getResources' own danger
@@ -172,9 +184,8 @@ namespace AGRemapCore {
 
         // A fresh context rather than an in-place clear, exactly as the pure-Python original does
         // ("self._z3Ctx = Z3Context()"). Z3Context is move-assignable but not copyable.
+        // The IfTemplates hold predicates built against z3Ctx_, and clearParse has dropped them first
         z3Ctx_ = Z3Context();
-
-        parseData_.reset();
     }
 
     BaseIniParser<>* IniFile::getParser(int modTypeId, ModType& modType) {

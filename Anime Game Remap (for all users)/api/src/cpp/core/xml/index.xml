@@ -2936,6 +2936,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_file_1ac04726dc43eb039726256445c1714e92" kind="function"><name>isSectionHeaderLine</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1ae452cb997094150f4ee0f9035e3d4830" kind="function"><name>getSectionNameFromLine</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a63e4dd16c580457743cd5adcd8104700" kind="function"><name>mergesRepeatedSection</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_file_1a863637d600459ddfae84e72f2e3f5117" kind="function"><name>clearParse</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1ad38e363848470eb39f27e4d5b406f0c0" kind="function"><name>getParser</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a0cc737d17e5953911397fdb10572492c" kind="function"><name>getFixers</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a7d5e3a376b4a6d6ca5cfe3ad89d0ecdb" kind="function"><name>parseModType</name></member>

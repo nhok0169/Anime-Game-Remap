@@ -96,6 +96,27 @@ namespace AGRemapCore {
             const std::vector<std::uint8_t>& getPixels() const;
 
             /**
+             * @brief
+             @rst
+             The values a shader reads from one channel of #getPixels, one byte a pixel :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A texture stored sRGB (one #getGamma is set for) reaches the shader DECODED: the sampler linearises
+             each of R, G and B. The decoded value times 255 is truncated when the shader casts it to an integer
+             code (a material-code map), or rounded when it is a value. Alpha, and every channel of a texture
+             not stored sRGB, is its byte
+             @endrst
+             *
+             * @param channel The channel: 0 (R), 1 (G), 2 (B) or 3 (A)
+             * @param truncate Whether a decoded value is truncated rather than rounded. **Default**: ``true``
+             *
+             * @return The values, row-major
+             *
+             * @throws std::out_of_range if 'channel' is past 3
+             */
+            std::vector<std::uint8_t> shaderChannel(std::size_t channel, bool truncate = true) const;
+
+            /**
              * @brief Replaces the current pixel buffer, eg. with pixels edited outside of this class
              *
              * @param pixels The new flat RGBA8 pixel buffer (4 bytes per pixel, row-major)

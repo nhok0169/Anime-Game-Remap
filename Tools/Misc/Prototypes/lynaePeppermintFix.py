@@ -161,6 +161,20 @@ def parserConfig(facts) -> "FRB.WWMIParserConfig":
     N = FRB.SkeletonNumberingProbe.Numbering
     config.skeletonNumberings = [N("3.6", Renumbered36To37), N("3.7", {})]
     config.referenceBoneCentroids = boneCentroids()
+    # the draws the fix's drawReroutes send elsewhere (core's LynaeParser): her jacket's and props' FILM (0x10) --
+    # a mod that draws its props with the game's code map is read through the game map's flag mask
+    # (Tools/Misc/Diagnostics/wwmiFlagMask.py -> data/lynaePropsFilmFlags.json) -- and any real share (1%) of
+    # 0x80 in a draw of her lower body: Lynae9 draws legs, tights and shorts in one range whose majority is skin
+    with open(os.path.join(Here, "data", "lynaePropsFilmFlags.json"), encoding="utf-8") as f:
+        maskData = json.load(f)
+    S = FRB.WWMIParserConfig.DrawSplit
+    flags = S.FlagMask()
+    flags.width, flags.height, flags.bits = maskData["width"], maskData["height"], maskData["bits"]
+    propsFilm = S("propsFilm", 6, "propsDetail", 0x10)
+    propsFilm.sourceFlags = flags
+    lowerTights = S("lowerTights", 4, "lowerDetail", 0x80)
+    lowerTights.share = 0.01
+    config.drawSplits = [S("jacketFilm", 5, "jacketDetail", 0x10), propsFilm, lowerTights]
     return config
 
 
@@ -324,7 +338,6 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     shader.ps = filmData["ps"]
     shader.constantBuffers = filmData["constantBuffers"]
     shader.lines = [("ps-t5", "role ramp")]
-    filmDraws = FRB.WWMIFixerConfig.DrawReroute(5, 105, "jacketDetail", 0x10)
     plan = config.plan                   # the shader goes on the reroutes' plan entries
     plan[105].shader = shader
     # ---- her JACKET itself through her own jacket shader on the skin's shirt slot: her register order (normal,
@@ -382,19 +395,11 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     # through her shorts in lime; the rest of her lower body keeps its outline (core's LynaeFixer)
     plan[104].offPasses = ["f8c96a270bf847dd"]
     config.plan = plan
-    # her PROPS mark film the same way; a mod that draws them with the game's code map is read through the
-    # game map's flag mask (Tools/Misc/Diagnostics/wwmiFlagMask.py -> data/lynaePropsFilmFlags.json)
-    with open(os.path.join(Here, "data", "lynaePropsFilmFlags.json"), encoding="utf-8") as f:
-        maskData = json.load(f)
-    flags = FRB.WWMIFixerConfig.DrawReroute.FlagMask()
-    flags.width, flags.height, flags.bits = maskData["width"], maskData["height"], maskData["bits"]
-    propsFilmDraws = FRB.WWMIFixerConfig.DrawReroute(6, 106, "propsDetail", 0x10)
-    propsFilmDraws.sourceFlags = flags
-    # (Lynae9's hat brim and shorts went through the skin's shader for a while; their lime was the outline pass, see
-    # offPasses, and the skin's shader drew the hat matte -- core's LynaeFixer)
-    tightsDraws = FRB.WWMIFixerConfig.DrawReroute(4, 104, "lowerDetail", 0x80)
-    tightsDraws.share = 0.01             # any real share of 0x80 in a draw (core's LynaeFixer)
-    config.drawReroutes = [filmDraws, propsFilmDraws, tightsDraws]
+    # which draws go is the parser's (parserConfig's drawSplits). (Lynae9's hat brim and shorts went through the
+    # skin's shader for a while; their lime was the outline pass, see offPasses, and the skin's shader drew the
+    # hat matte -- core's LynaeFixer)
+    R = FRB.WWMIFixerConfig.DrawReroute
+    config.drawReroutes = [R(5, 105, "jacketFilm"), R(6, 106, "propsFilm"), R(4, 104, "lowerTights")]
 
     # ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
     # pass sets ps-t0 only ----

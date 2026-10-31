@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseDataStep', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SkeletonNumberingRead', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsCreate', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseDataStep', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsCreate', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -5318,6 +5318,34 @@ class CppTextureFile:
         
         height: :class:`int`
             The height, in pixels, of 'pixels'
+        """
+    def shaderChannel(self, channel: typing.SupportsInt | typing.SupportsIndex, truncate: bool = True) -> bytes:
+        """
+        The values a shader reads from one channel of :meth:`getPixels`, one byte a pixel
+        
+        A texture stored sRGB (one :meth:`getGamma` is set for) reaches the shader DECODED: the sampler linearises each of
+        R, G and B. The decoded value times 255 is truncated when the shader casts it to an integer code (a material-code
+        map), or rounded when it is a value. Alpha, and every channel of a texture not stored sRGB, is its byte
+        
+        Parameters
+        ----------
+        channel: :class:`int`
+            The channel: 0 (R), 1 (G), 2 (B) or 3 (A)
+        
+        truncate: :class:`bool`
+            Whether a decoded value is truncated rather than rounded :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        Raises
+        ------
+        :class:`IndexError`
+            If ``channel`` is past 3
+        
+        Returns
+        -------
+        :class:`bytes`
+            The values, row-major
         """
     @property
     def gamma(self) -> float | None:
@@ -26447,153 +26475,6 @@ class SkeletonNumberingProbe:
             does not fit the others, or fewer than :attr:`MinVertices` vertices sit on disputed bones
         """
 
-class SkeletonNumberingRead(BaseIniGraphGroupEdit, IParseResult):
-    """
-    
-    This class inherits from :class:`BaseIniGraphGroupEdit` and :class:`IParseResult`
-    
-    Reads which skeleton numbering the mod's blend gives its bone ids in, with a :class:`SkeletonNumberingProbe` over
-    the mod's own buffers, editing nothing -- and files it as :meth:`IniParseData.blendVersion`
-    
-    The buffers are the files the .ini's resource `sections`_ named here give, found without regard to the case of their
-    names, so the probe runs only from :meth:`editFromIni` with a real .ini file. Nothing is read with fewer than two
-    numberings, with no centroids, or when a buffer is missing
-    
-    Parameters
-    ----------
-    numberings: List[:class:`SkeletonNumberingProbe.Numbering`]
-        The candidate numberings -- see :meth:`SkeletonNumberingProbe.probe`
-    
-    centroids: Dict[:class:`int`, Tuple[:class:`float`, :class:`float`, :class:`float`]]
-        Each bone's rest-pose centroid -- see :meth:`SkeletonNumberingProbe.probe`
-    
-    positionResource: :class:`str`
-        The resource `section`_ of the mod's positions
-    
-    blendResource: :class:`str`
-        The resource `section`_ of the mod's blend
-    
-    vertexVGResource: :class:`str`
-        Text in the name of the resource `section`_ of the mod's 16-bit bone ids, compared lowercased and with
-        underscores removed, or empty for none. The first such `section`_ in name order is read
-        :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``""``
-    
-    requiredKey: :class:`str`
-        A key at least one root `section`_ of the graphs of :attr:`objs` (in the first group) must carry for the mod to
-        be probed, or empty to probe every mod :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``""``
-    
-    objs: Optional[Callable[[Tuple[:class:`str`, :class:`str`]], :class:`bool`]]
-        The mod objects whose root `sections`_ :attr:`requiredKey` is looked for in; ``None`` looks in every one
-        :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``
-        
-    """
-    def __init__(self, numberings: collections.abc.Sequence[...], centroids: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]], positionResource: str, blendResource: str, vertexVGResource: str = '', requiredKey: str = '', objs: collections.abc.Callable[[tuple[str, str]], bool] = None) -> None:
-        ...
-    def clear(self) -> None:
-        """
-        Forgets :attr:`version`
-        """
-    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
-        """
-        Probes nothing: there is no .ini file to read the buffers' names from
-        
-        Returns
-        -------
-        List[:class:`IniGraphGroup`]
-            The same list that was passed in
-        """
-    def editFromIni(self, graphGroups: list, ini: typing.Any, modType: typing.Any, modName: str = '') -> list:
-        """
-        Probes the mod's buffers -- see this class's own description
-        
-        Parameters
-        ----------
-        graphGroups: List[:class:`IniGraphGroup`]
-            The group of graphs of each .ini file, for :attr:`requiredKey`
-        
-        ini: Optional[:class:`IniFile`]
-            The .ini file whose resources name the buffers -- ``None`` probes nothing
-        
-        modType: Optional[:class:`ModType`]
-            Unused
-        
-        modName: :class:`str`
-            Unused :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``""``
-        
-        Returns
-        -------
-        List[:class:`IniGraphGroup`]
-            The same list that was passed in
-        """
-    @property
-    def blendResource(self) -> str:
-        """
-        :class:`str`: The resource `section`_ of the mod's blend
-        """
-    @blendResource.setter
-    def blendResource(self, arg0: str) -> None:
-        ...
-    @property
-    def centroids(self) -> dict[int, typing.Annotated[list[float], "FixedSize(3)"]]:
-        """
-        Dict[:class:`int`, Tuple[:class:`float`, :class:`float`, :class:`float`]]: Each bone's rest-pose centroid
-        """
-    @centroids.setter
-    def centroids(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]]) -> None:
-        ...
-    @property
-    def numberings(self) -> list[...]:
-        """
-        List[:class:`SkeletonNumberingProbe.Numbering`]: The candidate numberings
-        """
-    @numberings.setter
-    def numberings(self, arg0: collections.abc.Sequence[...]) -> None:
-        ...
-    @property
-    def objs(self) -> collections.abc.Callable[[tuple[str, str]], bool]:
-        """
-        Optional[Callable[[Tuple[:class:`str`, :class:`str`]], :class:`bool`]]: The mod objects whose root `sections`_ the required key is looked for in
-        """
-    @objs.setter
-    def objs(self, arg0: collections.abc.Callable[[tuple[str, str]], bool]) -> None:
-        ...
-    @property
-    def positionResource(self) -> str:
-        """
-        :class:`str`: The resource `section`_ of the mod's positions
-        """
-    @positionResource.setter
-    def positionResource(self, arg0: str) -> None:
-        ...
-    @property
-    def requiredKey(self) -> str:
-        """
-        :class:`str`: A key the mod must carry to be probed, or empty for none
-        """
-    @requiredKey.setter
-    def requiredKey(self, arg0: str) -> None:
-        ...
-    @property
-    def version(self) -> str | None:
-        """
-        Optional[:class:`str`]: The version the last run found, or ``None``
-        """
-    @property
-    def vertexVGResource(self) -> str:
-        """
-        :class:`str`: Text in the name of the resource `section`_ of the mod's 16-bit bone ids
-        """
-    @vertexVGResource.setter
-    def vertexVGResource(self, arg0: str) -> None:
-        ...
 class SympyParser:
     """
     
@@ -30110,45 +29991,11 @@ class WWMIFixerConfig:
         :attr:`WWMIFixerConfig.drawReroutes`
             
         """
-        class FlagMask:
-            """
-            
-            Where a material-code map carries the reroute's :attr:`WWMIFixerConfig.DrawReroute.flags`, cut into
-            ``width x height`` blocks: a block's bit is set when more than half of its texels carry any of them.
-            Bits are row-major, the lowest bit of each byte first
-                
-            """
-            def __init__(self) -> None:
-                ...
-            @property
-            def bits(self) -> list[int]:
-                """
-                List[:class:`int`]: The blocks, one bit each
-                """
-            @bits.setter
-            def bits(self, arg0: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
-                ...
-            @property
-            def height(self) -> int:
-                """
-                :class:`int`: The number of blocks down
-                """
-            @height.setter
-            def height(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
-                ...
-            @property
-            def width(self) -> int:
-                """
-                :class:`int`: The number of blocks across
-                """
-            @width.setter
-            def width(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
-                ...
         @typing.overload
         def __init__(self) -> None:
             ...
         @typing.overload
-        def __init__(self, from_: typing.SupportsInt | typing.SupportsIndex, as_: typing.SupportsInt | typing.SupportsIndex, codeRole: str, flags: typing.SupportsInt | typing.SupportsIndex) -> None:
+        def __init__(self, from_: typing.SupportsInt | typing.SupportsIndex, as_: typing.SupportsInt | typing.SupportsIndex, split: str) -> None:
             ...
         @property
         def as_(self) -> int:
@@ -30160,23 +30007,6 @@ class WWMIFixerConfig:
         def as_(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         @property
-        def codeRole(self) -> str:
-            """
-            :class:`str`: The role of the material-code map that marks the draws
-            """
-        @codeRole.setter
-        def codeRole(self, arg0: str) -> None:
-            ...
-        @property
-        def flags(self) -> int:
-            """
-            :class:`int`: The flag bits that mark a texel: a draw goes when more than
-            :attr:`WWMIFixerConfig.DrawReroute.share` of the texels under its vertices carry any of them
-            """
-        @flags.setter
-        def flags(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
-            ...
-        @property
         def from_(self) -> int:
             """
             :class:`int`: The source component whose draws may go elsewhere
@@ -30185,25 +30015,13 @@ class WWMIFixerConfig:
         def from_(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         @property
-        def share(self) -> float:
+        def split(self) -> str:
             """
-            :class:`float`: The share of a draw's texels that must carry :attr:`WWMIFixerConfig.DrawReroute.flags`
-            for the draw to go, eg. ``0.01`` to take a draw that holds any real amount of the flagged material
-            among others. **Default**: ``0.5``, more than half
+            :class:`str`: The :attr:`WWMIParserConfig.drawSplits` entry whose draws go: its
+            :attr:`WWMIParserConfig.DrawSplit.name`
             """
-        @share.setter
-        def share(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
-            ...
-        @property
-        def sourceFlags(self) -> WWMIFixerConfig.DrawReroute.FlagMask:
-            """
-            :class:`WWMIFixerConfig.DrawReroute.FlagMask`: The SOURCE's own game code map of
-            :attr:`WWMIFixerConfig.DrawReroute.codeRole`, for a mod that binds no code map of its own for that
-            role: such a mod draws with the game's map on its own character, so that map decides which of its
-            draws carry the flags. **Default**: empty, and such a mod's component is left whole
-            """
-        @sourceFlags.setter
-        def sourceFlags(self, arg0: WWMIFixerConfig.DrawReroute.FlagMask) -> None:
+        @split.setter
+        def split(self, arg0: str) -> None:
             ...
     class RegRemoval:
         """
@@ -30729,10 +30547,8 @@ class WWMIFixerConfig:
     def drawReroutes(self) -> list[WWMIFixerConfig.DrawReroute]:
         """
         List[:class:`WWMIFixerConfig.DrawReroute`]: Draws that go through a different target slot than the
-        rest of their component, chosen by the mod's own material-code map -- never by its colours. A
-        component whose map is not the mod's own is read through
-        :attr:`WWMIFixerConfig.DrawReroute.sourceFlags`, or left whole without one; a component whose draws
-        carry no such texel is left whole.
+        rest of their component: the draws the parser picked out for one of its
+        :attr:`WWMIParserConfig.drawSplits`. A component the parser picked no draws of is left whole.
         **Default**: none
         """
     @drawReroutes.setter
@@ -31102,7 +30918,121 @@ class WWMIParserConfig:
     ``("", <obj>)``
         
     """
+    class DrawSplit:
+        """
+        
+        Some draws of one slot, picked out by the material-code map the mod draws them with -- see
+        :attr:`WWMIParserConfig.drawSplits`
+            
+        """
+        class FlagMask:
+            """
+            
+            Where a material-code map carries the split's :attr:`WWMIParserConfig.DrawSplit.flags`, cut into
+            ``width x height`` blocks: a block's bit is set when more than half of its texels carry any of them.
+            Bits are row-major, the lowest bit of each byte first
+                
+            """
+            def __init__(self) -> None:
+                ...
+            @property
+            def bits(self) -> list[int]:
+                """
+                List[:class:`int`]: The blocks, one bit each
+                """
+            @bits.setter
+            def bits(self, arg0: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
+                ...
+            @property
+            def height(self) -> int:
+                """
+                :class:`int`: The number of blocks down
+                """
+            @height.setter
+            def height(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+                ...
+            @property
+            def width(self) -> int:
+                """
+                :class:`int`: The number of blocks across
+                """
+            @width.setter
+            def width(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+                ...
+        @typing.overload
+        def __init__(self) -> None:
+            ...
+        @typing.overload
+        def __init__(self, name: str, component: typing.SupportsInt | typing.SupportsIndex, codeRole: str, flags: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def codeRole(self) -> str:
+            """
+            :class:`str`: The role of the material-code map, among the slot's textures, that marks the draws
+            """
+        @codeRole.setter
+        def codeRole(self, arg0: str) -> None:
+            ...
+        @property
+        def component(self) -> int:
+            """
+            :class:`int`: The source slot whose draws are read
+            """
+        @component.setter
+        def component(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def flags(self) -> int:
+            """
+            :class:`int`: The flag bits that mark a texel, in the code a shader reads off the map's red channel
+            (:meth:`TextureFile.shaderChannel`): a draw is picked when more than :attr:`WWMIParserConfig.DrawSplit.share`
+            of the texels under its vertices carry any of them
+            """
+        @flags.setter
+        def flags(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def name(self) -> str:
+            """
+            :class:`str`: The split's name: the parser files the draws it picks as the :meth:`IniParseData.drawRanges`
+            of the mod object ``(name, <the slot's own name>)``
+            """
+        @name.setter
+        def name(self, arg0: str) -> None:
+            ...
+        @property
+        def share(self) -> float:
+            """
+            :class:`float`: The share of a draw's texels that must carry :attr:`WWMIParserConfig.DrawSplit.flags` for
+            the draw to be picked, eg. ``0.01`` for a draw that holds any real amount of the flagged material among
+            others. **Default**: ``0.5``, more than half
+            """
+        @share.setter
+        def share(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def sourceFlags(self) -> WWMIParserConfig.DrawSplit.FlagMask:
+            """
+            :class:`WWMIParserConfig.DrawSplit.FlagMask`: The character's own game code map of
+            :attr:`WWMIParserConfig.DrawSplit.codeRole`, for a mod that binds no code map of its own for that role:
+            such a mod draws with the game's map on its own character, so that map decides which of its draws carry
+            the flags. **Default**: empty, and such a mod's slot is not split
+            """
+        @sourceFlags.setter
+        def sourceFlags(self, arg0: WWMIParserConfig.DrawSplit.FlagMask) -> None:
+            ...
     def __init__(self) -> None:
+        ...
+    @property
+    def drawSplits(self) -> list[WWMIParserConfig.DrawSplit]:
+        """
+        List[:class:`WWMIParserConfig.DrawSplit`]: Draws of a slot to pick out by the mod's own material-code map --
+        never by its colours -- for a fixer to treat apart (:attr:`WWMIFixerConfig.drawReroutes`). A slot whose map
+        is not the mod's own is read through :attr:`WWMIParserConfig.DrawSplit.sourceFlags`, or not split without
+        one; a split no draw carries is not filed. **Default**: none
+        """
+    @drawSplits.setter
+    def drawSplits(self, arg0: collections.abc.Sequence[WWMIParserConfig.DrawSplit]) -> None:
         ...
     @property
     def hashOnlyObjs(self) -> list[tuple[str, str]]:

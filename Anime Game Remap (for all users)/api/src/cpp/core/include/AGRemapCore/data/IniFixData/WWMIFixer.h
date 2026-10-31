@@ -559,75 +559,25 @@ namespace AGRemapCore {
              @endrst
              */
             int as = -1;
-            /**
-             * @brief The role of the material-code map, among ``from``'s textures, that marks the draws
-             */
-            std::string codeRole;
-            /**
-             * @brief
-             @rst
-             The flag bits that mark a texel: a draw goes when more than :cpp:member:`share` of the
-             texels under its vertices carry any of them
-             @endrst
-             */
-            int flags = 0;
 
             /**
              * @brief
              @rst
-             Where a material-code map carries the reroute's :cpp:member:`flags`, cut into
-             ``width x height`` blocks: a block's bit is set when more than half of its texels carry
-             any of them. Bits are row-major, the lowest bit of each byte first
+             The :cpp:member:`WWMIParserConfig::drawSplits` entry whose draws go: its
+             :cpp:member:`WWMIParserConfig::DrawSplit::name`
              @endrst
              */
-            struct FlagMask {
-                /**
-                 * @brief The number of blocks across
-                 */
-                int width = 0;
-
-                /**
-                 * @brief The number of blocks down
-                 */
-                int height = 0;
-
-                /**
-                 * @brief The blocks, one bit each
-                 */
-                std::vector<std::uint8_t> bits;
-            };
-
-            /**
-             * @brief
-             @rst
-             The SOURCE's own game code map of :cpp:member:`codeRole`, as a :cpp:struct:`FlagMask`,
-             for a mod that binds no code map of its own for that role: such a mod draws with the
-             game's map on its own character, so that map decides which of its draws carry the
-             flags. **Default**: empty, and such a mod's component is left whole
-             @endrst
-             */
-            FlagMask sourceFlags;
-
-            /**
-             * @brief
-             @rst
-             The share of a draw's texels that must carry :cpp:member:`flags` for the draw to go, eg.
-             ``0.01`` to take a draw that holds any real amount of the flagged material among others.
-             **Default**: ``0.5``, more than half
-             @endrst
-             */
-            double share = 0.5;
+            std::string split;
         };
 
         /**
          * @brief
          @rst
-         Draws that go through a different target slot than the rest of their component, chosen by
-         the mod's own material-code map -- never by its colours. Lynae paints a see-through film
-         with flag ``0x10`` and her jacket's shader draws it as one; LynaePeppermint's jacket slot has
-         no film, so those draws go through her hip pouch, whose foil is. A component whose map is
-         not the mod's own is read through :cpp:member:`DrawReroute::sourceFlags`, or left whole
-         without one; a component whose draws carry no such texel is left whole. The rerouted draws are
+         Draws that go through a different target slot than the rest of their component: the draws
+         the parser picked out for one of its :cpp:member:`WWMIParserConfig::drawSplits`. Lynae paints a
+         see-through film with flag ``0x10`` and her jacket's shader draws it as one; LynaePeppermint's
+         jacket slot has no film, so those draws go through her hip pouch, whose foil is. A component
+         the parser picked no draws of is left whole. The rerouted draws are
          a second copy of the component's sections, renamed, holding only those draws; the
          component's own copy drops them. **Default**: none
          @endrst

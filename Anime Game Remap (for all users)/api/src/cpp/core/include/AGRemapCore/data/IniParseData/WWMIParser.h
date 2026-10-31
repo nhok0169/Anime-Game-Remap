@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <cstdint>
 #include <string>
 #include <utility>
 #include <vector>
@@ -133,6 +134,98 @@ namespace AGRemapCore {
          @endrst
          */
         std::unordered_map<long long, std::array<double, 3>> referenceBoneCentroids;
+
+        /**
+         * @brief Some draws of one slot, picked out by the material-code map the mod draws them with
+         */
+        struct DrawSplit {
+            /**
+             * @brief
+             @rst
+             The split's name: the parser files the draws it picks as the
+             :cpp:func:`IniParseData::drawRanges` of the mod object ``(name, <the slot's own name>)``
+             @endrst
+             */
+            std::string name;
+
+            /**
+             * @brief The source slot whose draws are read
+             */
+            int component = -1;
+
+            /**
+             * @brief The role of the material-code map, among the slot's textures, that marks the draws
+             */
+            std::string codeRole;
+
+            /**
+             * @brief
+             @rst
+             The flag bits that mark a texel, in the code a shader reads off the map's red channel
+             (:cpp:func:`TextureFile::shaderChannel`): a draw is picked when more than :cpp:member:`share`
+             of the texels under its vertices carry any of them
+             @endrst
+             */
+            int flags = 0;
+
+            /**
+             * @brief
+             @rst
+             Where a material-code map carries the split's :cpp:member:`flags`, cut into ``width x height``
+             blocks: a block's bit is set when more than half of its texels carry any of them. Bits are
+             row-major, the lowest bit of each byte first
+             @endrst
+             */
+            struct FlagMask {
+                /**
+                 * @brief The number of blocks across
+                 */
+                int width = 0;
+
+                /**
+                 * @brief The number of blocks down
+                 */
+                int height = 0;
+
+                /**
+                 * @brief The blocks, one bit each
+                 */
+                std::vector<std::uint8_t> bits;
+            };
+
+            /**
+             * @brief
+             @rst
+             The character's own game code map of :cpp:member:`codeRole`, as a :cpp:struct:`FlagMask`, for a
+             mod that binds no code map of its own for that role: such a mod draws with the game's map on its
+             own character, so that map decides which of its draws carry the flags. **Default**: empty, and
+             such a mod's slot is not split
+             @endrst
+             */
+            FlagMask sourceFlags;
+
+            /**
+             * @brief
+             @rst
+             The share of a draw's texels that must carry :cpp:member:`flags` for the draw to be picked, eg.
+             ``0.01`` for a draw that holds any real amount of the flagged material among others.
+             **Default**: ``0.5``, more than half
+             @endrst
+             */
+            double share = 0.5;
+        };
+
+        /**
+         * @brief
+         @rst
+         Draws of a slot to pick out by the mod's own material-code map -- never by its colours -- for a fixer
+         to treat apart (:cpp:member:`WWMIFixerConfig::drawReroutes`). Lynae paints a see-through film with
+         flag ``0x10``. A slot whose map is not the mod's own is read through
+         :cpp:member:`DrawSplit::sourceFlags`, or not split without one; a split no draw carries is not filed.
+         **Default**: none
+         @endrst
+         */
+        std::vector<DrawSplit> drawSplits;
     };
 
 

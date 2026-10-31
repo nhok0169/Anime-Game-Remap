@@ -3,7 +3,7 @@
   <compounddef id="class_a_g_remap_core_1_1_i_parse_result" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>AGRemapCore::IParseResult</compoundname>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_collect" prot="public" virt="non-virtual">AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
-    <derivedcompoundref refid="class_a_g_remap_core_1_1_skeleton_numbering_read" prot="public" virt="non-virtual">AGRemapCore::SkeletonNumberingRead</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_parse_data_step" prot="public" virt="non-virtual">AGRemapCore::ParseDataStep</derivedcompoundref>
     <includes refid="_i_parse_result_8h" local="no">IParseResult.h</includes>
     <sectiondef kind="public-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_parse_result_1ace3009fcb292407a9acc5153830ec147" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
@@ -27,7 +27,7 @@
         <name>fileInto</name>
         <qualifiedname>AGRemapCore::IParseResult::fileInto</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_collect_1a99ba0c97ac25300c4bd25271d2ddaf4e">fileInto</reimplementedby>
-        <reimplementedby refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a256430466de64041fe7bd9e9c8e9eb69">fileInto</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_parse_data_step_1a686961607491336c6bdc5e4e43c5421a">fileInto</reimplementedby>
         <param>
           <type><ref refid="class_a_g_remap_core_1_1_ini_parse_data" kindref="compound">IniParseData</ref> &amp;</type>
           <declname>data</declname>
@@ -75,8 +75,8 @@ An edit with a result a parser keeps: after running an edit of :cpp:member:`GIMI
         <link refid="class_a_g_remap_core_1_1_i_parse_result"/>
       </node>
       <node id="3">
-        <label>AGRemapCore::SkeletonNumberingRead</label>
-        <link refid="class_a_g_remap_core_1_1_skeleton_numbering_read"/>
+        <label>AGRemapCore::ParseDataStep</label>
+        <link refid="class_a_g_remap_core_1_1_parse_data_step"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>

@@ -202,7 +202,6 @@ void initCppTextureRoleChooser(pybind11::module_ &m);
 void initCppBaseIniParser(pybind11::module_ &m);
 void initCppGIMISectionClassifier(pybind11::module_ &m);
 void initCppGIMIParser(pybind11::module_ &m);
-void initCppSkeletonNumberingRead(pybind11::module_ &m);
 void initCppParseDataStep(pybind11::module_ &m);
 void initCppGraphEditVariables(pybind11::module_ &m);
 void initCppShaderFilterTags(pybind11::module_ &m);
@@ -356,7 +355,6 @@ PYBIND11_MODULE(core, m) {
     initCppResRegCollect(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppResEdit (its resEdits values)
     initCppIParseResult(m);
     initCppGraphCollect(m); // must come after initCppBaseIniGraphGroupEdit and initCppIParseResult (registers its bases)
-    initCppSkeletonNumberingRead(m); // must come after initCppIParseResult (registers its base) and initCppSkeletonNumberingProbe (its numberings)
     initCppParseDataStep(m); // must come after initCppBaseIniGraphGroupEdit and initCppIParseResult (registers its bases)
     initCppGraphEditVariables(m); // must come after initCppBaseIniGraphGroupEdit (its edits' base), the IfTemplate and Z3Context bindings
     initCppShaderFilterTags(m); // must come after the IfTemplate binding (its sections)

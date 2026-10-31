@@ -9,7 +9,15 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/SkeletonNumberingRead.h"
+#include "AGRemapCore/model/buffers/BufElementType.h"
+#include "AGRemapCore/model/buffers/BufFloat.h"
+#include "AGRemapCore/model/files/BufFile.h"
+#include "AGRemapCore/model/buffers/DrawUVCoverage.h"
+#include "AGRemapCore/model/buffers/SkeletonNumberingProbe.h"
+#include "AGRemapCore/model/buffers/WWMIBlend.h"
+#include "AGRemapCore/model/files/IbFile.h"
+#include "AGRemapCore/model/files/TextureFile.h"
+#include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
 #include "AGRemapCore/model/strategies/iniParsers/TemplateParser.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ParseDataStep.h"
@@ -38,6 +46,7 @@
 #include <memory>
 #include <set>
 #include <cmath>
+#include <cstdint>
 #include <sstream>
 #include <optional>
 #include <string>
@@ -477,11 +486,9 @@ namespace AGRemapCore {
                     steps.push_back(std::move(toggles));
                     if (!onlyThisFile_) {
                         steps.push_back(std::make_unique<Filed>([this](IniParseData& data) { applyAnatomy(data); }));
-                        steps.push_back(std::make_unique<SkeletonNumberingRead>(
-                            config_.skeletonNumberings, config_.referenceBoneCentroids, IniKeywords::WWMIPositionBuffer,
-                            IniKeywords::WWMIBlendBuffer, "BlendRemapVertexVG", IniKeywords::WWMIVgOffset,
-                            [this](const ModObj& obj) { return isSlotObj(obj); }));
+                        steps.push_back(std::make_unique<Filed>([this](IniParseData& data) { readSkeletonNumbering(data); }));
                         steps.push_back(std::make_unique<Filed>([this](IniParseData& data) { readTextures(data); }));
+                        steps.push_back(std::make_unique<Filed>([this](IniParseData& data) { readDrawSplits(data); }));
                     }
 
                     // the global graph first, then the resource collect, then the steps in the order built
@@ -673,6 +680,171 @@ namespace AGRemapCore {
                     chooseRoleFiles(data, *data.textureRoles());
                     readThisToggles(data);
                     readRegisterToggles(data);
+                }
+
+                // the name the texcoord buffer's one element is read under
+                inline static const std::string UVElement = "Texcoord";
+
+                // ---- WWMIParserConfig::skeletonNumberings ----
+                // Which numbering the blend's bone ids are in, asked of the mod's own geometry
+                // (SkeletonNumberingProbe). Not asked of a mod with no vg_offset on any slot section: one from
+                // before WWMI's merged skeleton, whose ids are each component's own.
+                void readSkeletonNumbering(IniParseData& data) {
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr || config_.skeletonNumberings.size() < 2 || config_.referenceBoneCentroids.empty()) {
+                        return;
+                    }
+
+                    bool merged = false;
+                    for (const auto& entry : ownRows(data.collected(SlotsCollect), rootsOf([this](const ModObj& obj) { return isSlotObj(obj); }))) {
+                        for (const Row* row : entry.second) {
+                            merged = merged || row->key == IniKeywords::WWMIVgOffset;
+                        }
+                    }
+
+                    const std::optional<std::string> position = data.resourceFile(IniKeywords::WWMIPositionBuffer);
+                    const std::optional<std::string> blend = data.resourceFile(IniKeywords::WWMIBlendBuffer);
+                    if (!merged || !position.has_value() || !blend.has_value()) {
+                        return;
+                    }
+
+                    // the remapped skeleton's own 16-bit ids: the first resource, by name, naming them
+                    std::optional<std::string> vertexVG;
+                    for (const auto& [section, file] : data.resourceFiles()) {
+                        std::string name = section;
+                        name.erase(std::remove(name.begin(), name.end(), '_'), name.end());
+                        if (name.find("blendremapvertexvg") != std::string::npos) {
+                            vertexVG = file;
+                            break;
+                        }
+                    }
+
+                    const std::string folder = ini->getFolder();
+                    const auto pathOf = [&folder](const std::string& rel) {
+                        return FileService::absPathOfRelPath(FileService::iniPathToRel(rel), folder);
+                    };
+                    const std::optional<SkeletonNumberingProbe::Result> found = SkeletonNumberingProbe::probe(
+                        pathOf(*position), pathOf(*blend), vertexVG.has_value() ? std::optional<std::string>(pathOf(*vertexVG)) : std::nullopt,
+                        config_.skeletonNumberings, config_.referenceBoneCentroids);
+                    if (!found.has_value()) {
+                        return;
+                    }
+
+                    std::ostringstream how;
+                    for (std::size_t n = 0; n < found->medians.size(); ++n) {
+                        how << (n == 0 ? "" : ", ") << config_.skeletonNumberings[n].version << " "
+                            << static_cast<long long>(std::lround(found->medians[n] * 100)) / 100.0;
+                    }
+
+                    const std::string& version = config_.skeletonNumberings[found->best].version;
+                    data.setBlendVersion(version);
+                    ctx_.log("its bone ids are " + version + "'s numbering (" + std::to_string(found->vertices)
+                             + " vertices on renumbered bones; median distance to the bone by version: " + how.str() + ")");
+                }
+
+                // ---- WWMIParserConfig::drawSplits ----
+                // Which draws of a slot carry a split's flags, read off the code map the mod draws the slot with
+                // at the draws' vertices (DrawUVCoverage), filed as the draw ranges of `(split name, slot)`
+                void readDrawSplits(IniParseData& data) {
+                    IniFile* ini = ctx_.getIniFile();
+                    const std::optional<std::string> index = data.resourceFile(IniKeywords::WWMIIndexBuffer);
+                    const std::optional<std::string> texcoord = data.resourceFile(IniKeywords::WWMITexcoordBuffer);
+                    const std::optional<std::string> position = data.resourceFile(IniKeywords::WWMIPositionBuffer);
+                    if (config_.drawSplits.empty() || ini == nullptr || !index.has_value() || !texcoord.has_value() || !position.has_value()) {
+                        return;
+                    }
+
+                    const std::string folder = ini->getFolder();
+                    const std::string iniPath = ini->getFile().value_or(std::string());
+                    const std::map<int, std::vector<std::string>> drawn = drawnSlots();
+                    for (const WWMIParserConfig::DrawSplit& split : config_.drawSplits) {
+                        const ModObj obj = slotObj(split.component);
+                        const std::vector<IniParseData::DrawRange>& ranges = data.drawRanges(obj);
+                        const auto sections = drawn.find(split.component);
+                        if (ranges.empty() || data.isUndrawn(obj) || sections == drawn.end() || sections->second.empty()) {
+                            continue;
+                        }
+
+                        // the MOD's own map, when a resource of this .ini names the file chosen for the role (one a
+                        // previous fix declared is no evidence about the mod) -- else the character's own game map,
+                        // which DrawSplit::sourceFlags stands in for
+                        std::optional<std::string> codesPath;
+                        const IniParseData::RoleFile* chosen = data.roleFile(split.codeRole, obj);
+                        const TextureRoles* roles = data.textureRoles();
+                        if (chosen != nullptr && roles != nullptr) {
+                            for (const auto& [resource, file] : roles->resourcesOf(iniPath)) {
+                                if (file == chosen->file) {
+                                    if (!IniNamingTools::looksRemapped(resource, {})) {
+                                        codesPath = FileService::absPathOfRelPath(file, folder);
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+
+                        const WWMIParserConfig::DrawSplit::FlagMask& mask = split.sourceFlags;
+                        const bool useMask = !codesPath.has_value();
+                        if (useMask && (mask.width <= 0 || mask.height <= 0
+                                        || mask.bits.size() * 8 < static_cast<std::size_t>(mask.width) * static_cast<std::size_t>(mask.height))) {
+                            continue;
+                        }
+
+                        std::vector<IniParseData::DrawRange> taken;
+                        try {
+                            std::vector<std::uint8_t> codes;
+                            long long w = mask.width;
+                            long long h = mask.height;
+                            if (!useMask) {
+                                TextureFile map{*codesPath};
+                                map.open();
+                                if (!map.hasImage()) {
+                                    continue;
+                                }
+                                codes = map.shaderChannel(0);
+                                w = map.getWidth();
+                                h = map.getHeight();
+                            }
+
+                            const std::string uvPath = FileService::absPathOfRelPath(*texcoord, folder);
+                            const std::size_t uvBytes = static_cast<std::size_t>(FileService::fileSize(uvPath).value_or(0));
+                            const std::size_t vertices = static_cast<std::size_t>(std::filesystem::file_size(
+                                FileService::strToPath(FileService::absPathOfRelPath(*position, folder))) / WWMIBlend::PositionStride);
+                            if (vertices == 0 || uvBytes % vertices != 0 || uvBytes / vertices < 4) {
+                                continue;
+                            }
+
+                            // a texcoord line is the U and V of the first channel, then any more, each a half float
+                            std::vector<std::unique_ptr<BufElementType>> elements;
+                            elements.push_back(BufElementType::repeated(UVElement, uvBytes / vertices / 2,
+                                                                        [] { return std::make_unique<BufFloat16>(); }));
+                            BufFile uvFile{uvPath, std::move(elements)};
+                            const DrawUVCoverage coverage(IbFile{FileService::absPathOfRelPath(*index, folder)}.getIndices(),
+                                                          uvFile.column(UVElement, 0), uvFile.column(UVElement, 1), vertices);
+
+                            const DrawUVCoverage::TexelTest marked = [&](long long x, long long y) {
+                                const auto at = static_cast<std::size_t>(y * w + x);
+                                if (useMask) {
+                                    return ((mask.bits[at / 8] >> (at % 8)) & 1) != 0;
+                                }
+                                return at < codes.size() && (codes[at] & split.flags) != 0;
+                            };
+
+                            for (const IniParseData::DrawRange& range : ranges) {
+                                const DrawUVCoverage::Count counted = coverage.count(range.second, range.first, w, h, marked);
+                                if (counted.vertices > 0
+                                        && static_cast<double>(counted.matched) > split.share * static_cast<double>(counted.vertices)) {
+                                    taken.push_back(range);
+                                }
+                            }
+                        } catch (const std::exception& e) {
+                            ctx_.log("could not read which draws of " + obj.second + " carry the " + split.codeRole + " flags: " + e.what());
+                            continue;
+                        }
+
+                        for (const IniParseData::DrawRange& range : taken) {
+                            data.addDrawRange(ModObj(split.name, obj.second), range);
+                        }
+                    }
                 }
 
                 // A section a previous fix wrote: its name ends `<target>RemapFix`

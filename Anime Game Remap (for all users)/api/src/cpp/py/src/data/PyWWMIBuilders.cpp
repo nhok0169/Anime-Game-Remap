@@ -115,7 +115,7 @@ read (``Textures/textures.ini`` binding every texture of a ``mod.ini`` mesh), no
 above it; ``DISABLED`` folders are skipped. **Default**: ``False``
         )doc"));
 
-    py::class_<AGRC::WWMIParserConfig>(m, "WWMIParserConfig", R"doc(
+    py::class_<AGRC::WWMIParserConfig> parserConfig(m, "WWMIParserConfig", R"doc(
 What one Wuthering Waves character looks like to its parser, for :func:`makeWWMIParser`
 
 A WWMI mod is ONE mesh drawn in several ranges: every ``[TextureOverrideComponentN]`` matches the
@@ -124,8 +124,64 @@ and the shape keys are matched by hashes of their own. Nothing is named after th
 section is classified by hash and index alone. Every draw slot the library knows for the character
 becomes the mod object ``("", "componentN")``, and each entry of :attr:`hashOnlyObjs` becomes
 ``("", <obj>)``
+    )doc");
+
+    py::class_<AGRC::WWMIParserConfig::DrawSplit> drawSplit(parserConfig, "DrawSplit", R"doc(
+Some draws of one slot, picked out by the material-code map the mod draws them with -- see
+:attr:`WWMIParserConfig.drawSplits`
+    )doc");
+
+    py::class_<AGRC::WWMIParserConfig::DrawSplit::FlagMask>(drawSplit, "FlagMask", R"doc(
+Where a material-code map carries the split's :attr:`WWMIParserConfig.DrawSplit.flags`, cut into
+``width x height`` blocks: a block's bit is set when more than half of its texels carry any of them.
+Bits are row-major, the lowest bit of each byte first
     )doc")
         .def(py::init<>())
+        .def_readwrite("width", &AGRC::WWMIParserConfig::DrawSplit::FlagMask::width,
+                        py::doc(":class:`int`: The number of blocks across"))
+        .def_readwrite("height", &AGRC::WWMIParserConfig::DrawSplit::FlagMask::height,
+                        py::doc(":class:`int`: The number of blocks down"))
+        .def_readwrite("bits", &AGRC::WWMIParserConfig::DrawSplit::FlagMask::bits,
+                        py::doc("List[:class:`int`]: The blocks, one bit each"));
+
+    drawSplit
+        .def(py::init<>())
+        .def(py::init([](std::string name, int component, std::string codeRole, int flags) {
+            return AGRC::WWMIParserConfig::DrawSplit{std::move(name), component, std::move(codeRole), flags};
+        }), py::arg("name"), py::arg("component"), py::arg("codeRole"), py::arg("flags"))
+        .def_readwrite("name", &AGRC::WWMIParserConfig::DrawSplit::name, py::doc(R"doc(
+:class:`str`: The split's name: the parser files the draws it picks as the :meth:`IniParseData.drawRanges`
+of the mod object ``(name, <the slot's own name>)``
+        )doc"))
+        .def_readwrite("component", &AGRC::WWMIParserConfig::DrawSplit::component,
+                        py::doc(":class:`int`: The source slot whose draws are read"))
+        .def_readwrite("codeRole", &AGRC::WWMIParserConfig::DrawSplit::codeRole,
+                        py::doc(":class:`str`: The role of the material-code map, among the slot's textures, that marks the draws"))
+        .def_readwrite("flags", &AGRC::WWMIParserConfig::DrawSplit::flags, py::doc(R"doc(
+:class:`int`: The flag bits that mark a texel, in the code a shader reads off the map's red channel
+(:meth:`TextureFile.shaderChannel`): a draw is picked when more than :attr:`WWMIParserConfig.DrawSplit.share`
+of the texels under its vertices carry any of them
+        )doc"))
+        .def_readwrite("share", &AGRC::WWMIParserConfig::DrawSplit::share, py::doc(R"doc(
+:class:`float`: The share of a draw's texels that must carry :attr:`WWMIParserConfig.DrawSplit.flags` for
+the draw to be picked, eg. ``0.01`` for a draw that holds any real amount of the flagged material among
+others. **Default**: ``0.5``, more than half
+        )doc"))
+        .def_readwrite("sourceFlags", &AGRC::WWMIParserConfig::DrawSplit::sourceFlags, py::doc(R"doc(
+:class:`WWMIParserConfig.DrawSplit.FlagMask`: The character's own game code map of
+:attr:`WWMIParserConfig.DrawSplit.codeRole`, for a mod that binds no code map of its own for that role:
+such a mod draws with the game's map on its own character, so that map decides which of its draws carry
+the flags. **Default**: empty, and such a mod's slot is not split
+        )doc"));
+
+    parserConfig
+        .def(py::init<>())
+        .def_readwrite("drawSplits", &AGRC::WWMIParserConfig::drawSplits, py::doc(R"doc(
+List[:class:`WWMIParserConfig.DrawSplit`]: Draws of a slot to pick out by the mod's own material-code map --
+never by its colours -- for a fixer to treat apart (:attr:`WWMIFixerConfig.drawReroutes`). A slot whose map
+is not the mod's own is read through :attr:`WWMIParserConfig.DrawSplit.sourceFlags`, or not split without
+one; a split no draw carries is not filed. **Default**: none
+        )doc"))
         .def_readwrite("version", &AGRC::WWMIParserConfig::version, py::doc(R"doc(
 :class:`str`: The game version the library files the character's rows under, used when the ``.ini``
 carries no version of its own. A reverse lookup with no version resolves through the newest bucket
@@ -336,46 +392,20 @@ Some draws of one source component, sent through a different target slot -- see
 :attr:`WWMIFixerConfig.drawReroutes`
     )doc");
 
-    py::class_<AGRC::WWMIFixerConfig::DrawReroute::FlagMask>(drawReroute, "FlagMask", R"doc(
-Where a material-code map carries the reroute's :attr:`WWMIFixerConfig.DrawReroute.flags`, cut into
-``width x height`` blocks: a block's bit is set when more than half of its texels carry any of them.
-Bits are row-major, the lowest bit of each byte first
-    )doc")
-        .def(py::init<>())
-        .def_readwrite("width", &AGRC::WWMIFixerConfig::DrawReroute::FlagMask::width,
-                        py::doc(":class:`int`: The number of blocks across"))
-        .def_readwrite("height", &AGRC::WWMIFixerConfig::DrawReroute::FlagMask::height,
-                        py::doc(":class:`int`: The number of blocks down"))
-        .def_readwrite("bits", &AGRC::WWMIFixerConfig::DrawReroute::FlagMask::bits,
-                        py::doc("List[:class:`int`]: The blocks, one bit each"));
-
     drawReroute
         .def(py::init<>())
-        .def(py::init([](int from, int as, std::string codeRole, int flags) {
-            return AGRC::WWMIFixerConfig::DrawReroute{from, as, std::move(codeRole), flags};
-        }), py::arg("from_"), py::arg("as_"), py::arg("codeRole"), py::arg("flags"))
+        .def(py::init([](int from, int as, std::string split) {
+            return AGRC::WWMIFixerConfig::DrawReroute{from, as, std::move(split)};
+        }), py::arg("from_"), py::arg("as_"), py::arg("split"))
         .def_readwrite("from_", &AGRC::WWMIFixerConfig::DrawReroute::from,
                         py::doc(":class:`int`: The source component whose draws may go elsewhere"))
         .def_readwrite("as_", &AGRC::WWMIFixerConfig::DrawReroute::as, py::doc(R"doc(
 :class:`int`: The :attr:`WWMIFixerConfig.plan` entry the rerouted draws are drawn by -- an id that is
 not a source slot. Its slot and bindings say where they go and what they bind
         )doc"))
-        .def_readwrite("codeRole", &AGRC::WWMIFixerConfig::DrawReroute::codeRole,
-                        py::doc(":class:`str`: The role of the material-code map that marks the draws"))
-        .def_readwrite("flags", &AGRC::WWMIFixerConfig::DrawReroute::flags, py::doc(R"doc(
-:class:`int`: The flag bits that mark a texel: a draw goes when more than
-:attr:`WWMIFixerConfig.DrawReroute.share` of the texels under its vertices carry any of them
-        )doc"))
-        .def_readwrite("share", &AGRC::WWMIFixerConfig::DrawReroute::share, py::doc(R"doc(
-:class:`float`: The share of a draw's texels that must carry :attr:`WWMIFixerConfig.DrawReroute.flags`
-for the draw to go, eg. ``0.01`` to take a draw that holds any real amount of the flagged material
-among others. **Default**: ``0.5``, more than half
-        )doc"))
-        .def_readwrite("sourceFlags",&AGRC::WWMIFixerConfig::DrawReroute::sourceFlags, py::doc(R"doc(
-:class:`WWMIFixerConfig.DrawReroute.FlagMask`: The SOURCE's own game code map of
-:attr:`WWMIFixerConfig.DrawReroute.codeRole`, for a mod that binds no code map of its own for that
-role: such a mod draws with the game's map on its own character, so that map decides which of its
-draws carry the flags. **Default**: empty, and such a mod's component is left whole
+        .def_readwrite("split", &AGRC::WWMIFixerConfig::DrawReroute::split, py::doc(R"doc(
+:class:`str`: The :attr:`WWMIParserConfig.drawSplits` entry whose draws go: its
+:attr:`WWMIParserConfig.DrawSplit.name`
         )doc"));
 
     py::class_<AGRC::WWMIFixerConfig::CreatedTexture>(fixerConfig, "CreatedTexture", R"doc(
@@ -495,10 +525,8 @@ which in a copy follows the source components' numeric order
         )doc"))
         .def_readwrite("drawReroutes", &AGRC::WWMIFixerConfig::drawReroutes, py::doc(R"doc(
 List[:class:`WWMIFixerConfig.DrawReroute`]: Draws that go through a different target slot than the
-rest of their component, chosen by the mod's own material-code map -- never by its colours. A
-component whose map is not the mod's own is read through
-:attr:`WWMIFixerConfig.DrawReroute.sourceFlags`, or left whole without one; a component whose draws
-carry no such texel is left whole.
+rest of their component: the draws the parser picked out for one of its
+:attr:`WWMIParserConfig.drawSplits`. A component the parser picked no draws of is left whole.
 **Default**: none
         )doc"))
         .def_readwrite("typeRoles", &AGRC::WWMIFixerConfig::typeRoles, py::doc(R"doc(

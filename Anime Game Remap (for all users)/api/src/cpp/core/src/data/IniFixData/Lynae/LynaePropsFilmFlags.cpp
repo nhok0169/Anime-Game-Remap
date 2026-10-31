@@ -21,8 +21,8 @@
 
 
 namespace AGRemapCore {
-    WWMIFixerConfig::DrawReroute::FlagMask lynaePropsFilmFlags() {
-        WWMIFixerConfig::DrawReroute::FlagMask mask;
+    WWMIParserConfig::DrawSplit::FlagMask lynaePropsFilmFlags() {
+        WWMIParserConfig::DrawSplit::FlagMask mask;
         mask.width = 256;
         mask.height = 256;
         mask.bits = std::vector<std::uint8_t>{

@@ -84,6 +84,31 @@ class CppTextureFileTest(BaseUnitTest):
         tf.gamma = None
         self.assertIsNone(tf.gamma)
 
+    # ========== shaderChannel
+
+    def test_shaderChannel_notSrgb_isTheBytes(self):
+        tf = FRB.CppTextureFile(self._tmpPath("cpp_texturefile_shader_plain.dds"))
+        tf.setPixels(bytes([250, 128, 7, 200, 16, 0, 255, 1]), 2, 1)
+        self.assertEqual(tf.shaderChannel(0), bytes([250, 16]))
+        self.assertEqual(tf.shaderChannel(3), bytes([200, 1]))
+
+    def test_shaderChannel_srgb_decodesColourChannelsOnly(self):
+        tf = FRB.CppTextureFile(self._tmpPath("cpp_texturefile_shader_srgb.dds"))
+        tf.setPixels(bytes([250, 250, 0, 250]), 1, 1)
+        tf.gamma = 2.2
+
+        # 250 decodes to 243.6: a code truncates it, a value rounds it; alpha is never decoded
+        self.assertEqual(tf.shaderChannel(0), bytes([243]))
+        self.assertEqual(tf.shaderChannel(1, False), bytes([244]))
+        self.assertEqual(tf.shaderChannel(2), bytes([0]))
+        self.assertEqual(tf.shaderChannel(3), bytes([250]))
+
+    def test_shaderChannel_pastAlpha_raises(self):
+        tf = FRB.CppTextureFile(self._tmpPath("cpp_texturefile_shader_bad.dds"))
+        tf.setPixels(bytes([0, 0, 0, 0]), 1, 1)
+        with self.assertRaises(IndexError):
+            tf.shaderChannel(4)
+
     # ================================================
     # ================ save/open round trip ==========
 

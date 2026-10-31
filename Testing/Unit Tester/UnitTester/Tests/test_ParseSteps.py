@@ -91,31 +91,3 @@ filename = Textures\BodyLM.dds
         self.assertEqual(len(parser.parseData.collected("regs")), 2)
         self.assertEqual(len(collect.rows), 2)
 
-    # ====================== SkeletonNumberingRead ==============================
-
-    def numberingRead(self, requiredKey = ""):
-        numberings = [FRB.SkeletonNumberingProbe.Numbering("1.0"), FRB.SkeletonNumberingProbe.Numbering("2.0", {1: 2})]
-        return FRB.SkeletonNumberingRead(numberings, {1: (0.0, 0.0, 0.0)}, "ResourceBodyDiffuse", "ResourceBodyLightMap",
-                                         requiredKey = requiredKey)
-
-    def test_skeletonNumberingRead_isAGraphGroupEditWithAResult(self):
-        read = self.numberingRead()
-        self.assertIsInstance(read, FRB.BaseIniGraphGroupEdit)
-        self.assertIsInstance(read, FRB.IParseResult)
-
-    def test_skeletonNumberingRead_noSectionCarriesTheRequiredKey_readsNothing(self):
-        read = self.numberingRead(requiredKey = "vg_offset")
-        parser = self.parseWith([read])
-        self.assertIsNone(read.version)
-        self.assertIsNone(parser.parseData.blendVersion())
-
-    def test_skeletonNumberingRead_withoutAnIni_probesNothing(self):
-        read = self.numberingRead()
-        groups = self.parseWith([]).parse()
-        read.edit(groups, None)
-        self.assertIsNone(read.version)
-
-    def test_skeletonNumberingRead_fileInto_withNoVersion_leavesTheData(self):
-        data = FRB.IniParseData()
-        self.numberingRead().fileInto(data)
-        self.assertIsNone(data.blendVersion())

@@ -2322,17 +2322,6 @@ ParseDataStep
 
 :raw-html:`<br />`
 
-SkeletonNumberingRead
-=====================
-
-.. attributetable:: FixRaidenBoss2.SkeletonNumberingRead
-
-.. autoclass:: FixRaidenBoss2.SkeletonNumberingRead
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 SympyIfPredGenerator
 ====================
 

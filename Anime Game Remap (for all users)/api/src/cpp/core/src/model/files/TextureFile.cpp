@@ -17,11 +17,13 @@
 #include <algorithm>
 #include <array>
 #include <atomic>
+#include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <mutex>
+#include <stdexcept>
 #include <optional>
 #include <thread>
 #include <utility>
@@ -545,6 +547,29 @@ namespace AGRemapCore {
 
     const std::vector<std::uint8_t>& TextureFile::getPixels() const {
         return pixels_;
+    }
+
+    std::vector<std::uint8_t> TextureFile::shaderChannel(std::size_t channel, bool truncate) const {
+        if (channel > 3) {
+            throw std::out_of_range("a texture has channels 0 to 3, not " + std::to_string(channel));
+        }
+
+        // the sRGB decode of every byte, truncated or rounded
+        std::array<std::uint8_t, 256> decoded{};
+        for (int i = 0; i < 256; ++i) {
+            const double c = i / 255.0;
+            const double linear = (c <= 0.04045 ? c / 12.92 : std::pow((c + 0.055) / 1.055, 2.4)) * 255.0;
+            decoded[i] = static_cast<std::uint8_t>(std::min(255.0, std::floor(linear + (truncate ? 1e-6 : 0.5))));
+        }
+
+        const bool srgb = gamma_.has_value() && channel < 3;
+        std::vector<std::uint8_t> values(pixels_.size() / 4);
+        for (std::size_t i = 0; i < values.size(); ++i) {
+            const std::uint8_t byte = pixels_[i * 4 + channel];
+            values[i] = srgb ? decoded[byte] : byte;
+        }
+
+        return values;
     }
 
     void TextureFile::setPixels(std::vector<std::uint8_t> pixels, int width, int height) {

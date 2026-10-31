@@ -1256,17 +1256,6 @@ ParseDataStep
 
 :raw-html:`<br />`
 
-SkeletonNumberingRead
----------------------
-
-.. cppattributetable:: AGRemapCore::SkeletonNumberingRead
-
-.. doxygenclass:: AGRemapCore::SkeletonNumberingRead
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
 TexCreate
 ---------
 

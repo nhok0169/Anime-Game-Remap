@@ -1321,10 +1321,15 @@
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute" kind="struct"><name>AGRemapCore::WWMIFixerConfig::DrawReroute</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" kind="variable"><name>from</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" kind="variable"><name>as</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a0c5c56518bebc7baf13f50a23b602c7d" kind="variable"><name>codeRole</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aea876c752e4c16f99f50dc9296cf4f95" kind="variable"><name>flags</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a4656fbb0e665c0e5ab620e1efa3b47b2" kind="variable"><name>sourceFlags</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a700d5c2ae3fe68e796bc5d6a163fee99" kind="variable"><name>share</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a5ccbbe5b6db0579d5b9527ce20fa8057" kind="variable"><name>split</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split" kind="struct"><name>AGRemapCore::WWMIParserConfig::DrawSplit</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1a55f1361f6c19006fa060d563da3da123" kind="variable"><name>name</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1a1ad96a3c6b2247047a6427599fd5a204" kind="variable"><name>component</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1afc81fe07b361539753534d7008a1fa87" kind="variable"><name>codeRole</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1a2d86c9aae6867357796d0350cc961fff" kind="variable"><name>flags</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1ae37f09eee8525b4b7f8983bf329d0e61" kind="variable"><name>sourceFlags</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1af5909370048bbe7732dfd05f57bafa18" kind="variable"><name>share</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_draw_u_v_coverage" kind="class"><name>AGRemapCore::DrawUVCoverage</name>
     <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1aeb73e5da4c14ed8b4f2efb993dab08c6" kind="typedef"><name>TexelTest</name></member>
@@ -1556,10 +1561,10 @@
   <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_fixer_1_1_fixer_config" kind="struct"><name>AGRemapCore::GIMIFixer::FixerConfig</name>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_fixer_1_1_fixer_config_1aebe9fddbfc4f5ff5f2452b11f49ee921" kind="variable"><name>sectionToStr</name></member>
   </compound>
-  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask" kind="struct"><name>AGRemapCore::WWMIFixerConfig::DrawReroute::FlagMask</name>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask_1a28b21ab41dc87ec9a7fe3363fe0b759f" kind="variable"><name>width</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask_1aa412df98f495307f2639c8f3ac616b60" kind="variable"><name>height</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask_1a4fd13381275bf25a66f465cb8ad3ed4d" kind="variable"><name>bits</name></member>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1_1_flag_mask" kind="struct"><name>AGRemapCore::WWMIParserConfig::DrawSplit::FlagMask</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1_1_flag_mask_1a26b286d1704db96c6570d5953db62864" kind="variable"><name>width</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1_1_flag_mask_1af3e18ad21b44e5c6d1988f363cc44afc" kind="variable"><name>height</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1_1_flag_mask_1a5e9b1f2a74a5d4a5559f165a4af46789" kind="variable"><name>bits</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk" kind="struct"><name>AGRemapCore::RemapService::FolderWalk</name>
     <member refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1a7b8e8ba33afa18e0fc6fb139ca5a6d35" kind="variable"><name>dirs</name></member>
@@ -6344,28 +6349,6 @@
     <member refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1acb53d6c180b964ad2f80eb670541c132" kind="variable"><name>MinVertices</name></member>
     <member refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1a88efd66aa3b6c437ebe51e3f58a7b1bb" kind="function"><name>probe</name></member>
   </compound>
-  <compound refid="class_a_g_remap_core_1_1_skeleton_numbering_read" kind="class"><name>AGRemapCore::SkeletonNumberingRead</name>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a0aa1049fb4a6008f2a82032a1c4ef4aa" kind="typedef"><name>ObjFilter</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kind="typedef"><name>GraphGroups</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" kind="typedef"><name>Graph</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" kind="typedef"><name>ModObj</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a35419feb8c8957d67adecf723bf9f123" kind="variable"><name>numberings</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1abb8d5ea7ca5ee5f755c47fa73f5cfa54" kind="variable"><name>centroids</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1afce8022e38964f909e34a1680793e83d" kind="variable"><name>positionResource</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a205f86c6b1ebabccdc2dc7fdd02a63ae" kind="variable"><name>blendResource</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1aa451edebf9ab71c5147e11f073d11691" kind="variable"><name>vertexVGResource</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a785cbe5f1cf07c8bb3fde567ce7140e8" kind="variable"><name>requiredKey</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a881f9d26769158612b9a9f0a4e1e78fa" kind="variable"><name>objs</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1afcadee2ad7884a43e9ae76d8b9de6cb3" kind="variable"><name>version_</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a3e42bd46af94de7c694823f51b942b99" kind="function"><name>SkeletonNumberingRead</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1ac910e5ef81baa2dc2b9a51a1b7ee9521" kind="function"><name>version</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a8727479fc40ef9cc47a28ea4243ff320" kind="function"><name>clear</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1ae1a0baeb3a6aa32546c528d2fff64213" kind="function"><name>editFromIni</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1ae04631f0ae802bac36cf7a5e6912f685" kind="function"><name>edit</name></member>
-    <member refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a256430466de64041fe7bd9e9c8e9eb69" kind="function"><name>fileInto</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" kind="function"><name>getGraph</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" kind="function"><name>addGraph</name></member>
-  </compound>
   <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot" kind="struct"><name>AGRemapCore::GIMIComponentParserConfig::Slot</name>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1a2932af3df10732450b1fb2aa9b53104a" kind="variable"><name>name</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot_1ab05dab4e41dcc773f7a5a74b7aa05a13" kind="variable"><name>index</name></member>
@@ -6986,6 +6969,7 @@
     <member refid="class_a_g_remap_core_1_1_texture_file_1a39508e6c51347eefbf690181bd178079" kind="function"><name>getGamma</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_file_1ad07873565678e6f96d7fd7dbdbdebcd8" kind="function"><name>setGamma</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_file_1a236878438a59be2848050296790b1926" kind="function"><name>getPixels</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1af211daa9883de11b7cf9ce9319abd338" kind="function"><name>shaderChannel</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_file_1aed4d4a9f5aa6a9ae6ac72244c635d7d2" kind="function"><name>setPixels</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_file_1a3bdd3031b4efb8ce13e508664ba74429" kind="function"><name>getPixel</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_file_1ace7a7c132728c22d2fb8ddc91e9bb287" kind="function"><name>setPixel</name></member>
@@ -7649,6 +7633,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a82ed24bbf24f94b65ce6b44c25f886d3" kind="variable"><name>textures</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a04156e1f7970553bb1c5ed5c958895aa" kind="variable"><name>skeletonNumberings</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9aad93fe0e21d99a44dd18f578c94d79" kind="variable"><name>referenceBoneCentroids</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a573dcd823bef4c527e788b90743c12d1" kind="variable"><name>drawSplits</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_rows" kind="struct"><name>AGRemapCore::WWMIParseRows</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_rows_1a48b4ef9fc286ecea91118b20503ef447" kind="variable"><name>Declared</name></member>
@@ -7964,7 +7949,7 @@
     <member refid="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" kind="function"><name>makeGIMIMergeFixer</name></member>
     <member refid="namespace_a_g_remap_core_1a725ad2ea6514c2a70bc2dccef27771d5" kind="function"><name>lynaeBangsShader</name></member>
     <member refid="namespace_a_g_remap_core_1ad12df2c29ec26175edf9504a673d78d3" kind="function"><name>lynaeFilmShader</name></member>
-    <member refid="namespace_a_g_remap_core_1a4f62cd3bab3775daad0983581b6fdd75" kind="function"><name>lynaePropsFilmFlags</name></member>
+    <member refid="namespace_a_g_remap_core_1a29d5e00d7f7ae508623cdce155ea9078" kind="function"><name>lynaePropsFilmFlags</name></member>
     <member refid="namespace_a_g_remap_core_1ae7f0a0f04f3fa5293c832b5175cf1cf4" kind="function"><name>lynaeHairShader</name></member>
     <member refid="namespace_a_g_remap_core_1a151251f1ae51400183bab788c718ebf8" kind="function"><name>lynaeLowerShader</name></member>
     <member refid="namespace_a_g_remap_core_1ad6c61d8bba8c2389145b77521b31c090" kind="function"><name>lynaeRenumbered36To37</name></member>
@@ -9016,8 +9001,6 @@
   <compound refid="_ini_parse_data_8h" kind="file"><name>IniParseData.h</name>
   </compound>
   <compound refid="_ini_parse_download_data_8h" kind="file"><name>IniParseDownloadData.h</name>
-  </compound>
-  <compound refid="_skeleton_numbering_read_8h" kind="file"><name>SkeletonNumberingRead.h</name>
   </compound>
   <compound refid="_i_parse_result_8h" kind="file"><name>IParseResult.h</name>
   </compound>

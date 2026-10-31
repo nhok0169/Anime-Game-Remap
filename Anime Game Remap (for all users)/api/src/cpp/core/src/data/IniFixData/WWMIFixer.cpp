@@ -56,7 +56,6 @@
 #include "AGRemapCore/model/buffers/BufElementType.h"
 #include "AGRemapCore/model/buffers/BufFloat.h"
 #include "AGRemapCore/model/buffers/BufInt.h"
-#include "AGRemapCore/model/buffers/DrawUVCoverage.h"
 #include "AGRemapCore/model/buffers/WWMIBlend.h"
 #include "AGRemapCore/model/buffers/WWMIShapeKeys.h"
 #include "AGRemapCore/model/files/BinaryFile.h"
@@ -2762,108 +2761,24 @@ namespace AGRemapCore {
                     return names;
                 }
 
-                // The code a shader reads from one texel of a material-code map: the byte, decoded
-                // and truncated when the map is stored sRGB
-                static std::uint8_t shaderCode(std::uint8_t byte, bool srgb) {
-                    if (!srgb) {
-                        return byte;
-                    }
-
-                    const double c = byte / 255.0;
-                    const double linear = (c <= 0.04045 ? c / 12.92 : std::pow((c + 0.055) / 1.055, 2.4)) * 255.0;
-                    return static_cast<std::uint8_t>(std::min(255.0, std::floor(linear + 1e-6)));
-                }
-
-                // Which draws of each reroute's source component go elsewhere, read off the MOD's
-                // own code map at the draws' vertices. A reroute that takes draws becomes a present
-                // component of its own, sharing the source's sections and every texture it reads.
+                // Which draws of each reroute's source component go elsewhere: the ones the parser picked
+                // for the reroute's split (WWMIParserConfig::drawSplits). A reroute that takes draws becomes a
+                // present component of its own, sharing the source's sections and every texture it reads.
                 void readReroutes() {
                     if (config_.drawReroutes.empty() || hasGivenUp()) {
                         return;
                     }
 
-                    const std::string folder = ctx_.getIniFile()->getFolder();
+                    const IniParseData& data = parseData();
                     for (const WWMIFixerConfig::DrawReroute& reroute : config_.drawReroutes) {
-                        const auto ranges = drawRanges_.find(reroute.from);
                         if (present_.count(reroute.from) == 0 || config_.plan.count(reroute.as) == 0
-                                || ranges == drawRanges_.end() || present_.count(reroute.as) > 0) {
+                                || drawRanges_.count(reroute.from) == 0 || present_.count(reroute.as) > 0) {
                             continue;
                         }
 
-                        // the MOD's own map: a role it does not bind is the source's own, whose
-                        // texels the source's own shader already sorts out
-                        // ...and where the mod binds none, the GAME's map it draws with on its own
-                        // character, which DrawReroute::sourceFlags stands in for
-                        std::optional<std::string> codesPath;
-                        const auto resource = resourceOfSlotRole_.find({reroute.codeRole, reroute.from});
-                        if (resource != resourceOfSlotRole_.end()) {
-                            const auto file = fileOfResource_.find(StringTools::toLower(resource->second));
-                            if (file != fileOfResource_.end()) {
-                                codesPath = FileService::absPathOfRelPath(file->second, folder);
-                            }
-                        }
-
-                        const WWMIFixerConfig::DrawReroute::FlagMask& mask = reroute.sourceFlags;
-                        const bool useMask = !codesPath.has_value();
-                        if (useMask && (mask.width <= 0 || mask.height <= 0
-                                        || mask.bits.size() * 8 < static_cast<std::size_t>(mask.width) * static_cast<std::size_t>(mask.height))) {
-                            continue;
-                        }
-
-                        std::set<std::pair<long long, long long>> taken;
-                        try {
-                            std::optional<TextureFile> codes;
-                            if (!useMask) {
-                                codes.emplace(*codesPath);
-                                codes->open();
-                                if (!codes->hasImage()) {
-                                    continue;
-                                }
-                            }
-
-                            if (indexFile_.empty() || texcoordFile_.empty() || positionFile_.empty()) {
-                                continue;
-                            }
-
-                            const bool srgb = !useMask && codes->getGamma().has_value();
-                            static const std::vector<std::uint8_t> noPixels;
-                            const std::vector<std::uint8_t>& px = useMask ? noPixels : codes->getPixels();
-                            const long long w = useMask ? mask.width : codes->getWidth();
-                            const long long h = useMask ? mask.height : codes->getHeight();
-                            const std::string uvPath = FileService::absPathOfRelPath(texcoordFile_, folder);
-                            const std::size_t uvBytes = static_cast<std::size_t>(FileService::fileSize(uvPath).value_or(0));
-                            const std::size_t vertices = static_cast<std::size_t>(std::filesystem::file_size(
-                                FileService::strToPath(positionBufPath())) / WWMIBlend::PositionStride);
-                            if (vertices == 0 || uvBytes % vertices != 0 || uvBytes / vertices < 4) {
-                                continue;
-                            }
-
-                            BufFile uvFile{uvPath, texcoordElements(uvBytes / vertices)};
-                            const DrawUVCoverage coverage(IbFile{FileService::absPathOfRelPath(indexFile_, folder)}.getIndices(),
-                                                          uvFile.column(TexcoordElement, 0), uvFile.column(TexcoordElement, 1), vertices);
-
-                            // a texel is marked by the config's mask, or by the mod's code map carrying the flags
-                            const DrawUVCoverage::TexelTest marked = [&](long long x, long long y) {
-                                if (useMask) {
-                                    const auto bit = static_cast<std::size_t>(y * w + x);
-                                    return ((mask.bits[bit / 8] >> (bit % 8)) & 1) != 0;
-                                }
-                                const std::size_t at = static_cast<std::size_t>(y * w + x) * 4;
-                                return at < px.size() && (shaderCode(px[at], srgb) & reroute.flags) != 0;
-                            };
-
-                            for (const auto& range : ranges->second) {
-                                const DrawUVCoverage::Count counted = coverage.count(range.second, range.first, w, h, marked);
-                                if (counted.vertices > 0
-                                        && static_cast<double>(counted.matched) > reroute.share * static_cast<double>(counted.vertices)) {
-                                    taken.insert(range);
-                                }
-                            }
-                        } catch (const std::exception& e) {
-                            ctx_.log(std::string("could not read which draws to reroute: ") + e.what());
-                            continue;
-                        }
-
+                        const std::vector<IniParseData::DrawRange>& picked =
+                            data.drawRanges(ModObj(reroute.split, config_.slotPrefix + std::to_string(reroute.from)));
+                        const std::set<std::pair<long long, long long>> taken(picked.begin(), picked.end());
                         if (taken.empty()) {
                             continue;
                         }
@@ -2902,7 +2817,7 @@ namespace AGRemapCore {
                         }
 
                         ctx_.log(std::to_string(taken.size()) + " of " + config_.slotPrefix + std::to_string(reroute.from)
-                             + "'s draws carry the " + reroute.codeRole + " flag, and go through target slot "
+                             + "'s draws are in the split " + reroute.split + ", and go through target slot "
                              + std::to_string(config_.plan.at(reroute.as).slot) + " instead");
                     }
                 }

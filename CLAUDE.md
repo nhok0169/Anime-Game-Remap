@@ -438,6 +438,17 @@ texcoord byte cutter, band filter and `groupToStr` text passes -- and are being 
 new fixer code: name the edit each step is, grep the edit families for it (Overview habit 53), and if it is
 missing, the work item is the EDIT, not the fixer.
 
+**BUT A NEW EDIT MUST EDIT THE GRAPH (the maintainer, 2026-10-31).** Asked what a proposed `DrawTexelSplit` parse
+step, and the then-existing `SkeletonNumberingRead` (retired the same day), offered that the other edits could not express, the honest answer
+for both was NOTHING: each reads rows `GraphCollect` already files (resource filenames, keys, draw ranges) and then
+does BUFFER math. "You are making way too many design mistakes by putting modules that are too specific as new
+edits, when they are more game specific functionalities ... we don't want to fall into the same mistake of the old
+API where modules were too specific to GI." So before proposing an edit, say what it does to the GRAPH that no
+composition of existing edits can. Reading the files a `.ini` names is `GraphCollect` rows plus a `ParseDataStep`
+calling a bound capability of the buffer or texture class (`BlendFile`, `TextureFile`, `DrawUVCoverage`, ...); the
+game's policy -- which component, which flag -- stays in that game's parser or fixer config. See
+[Ini Graph Editing](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md)'s first section.
+
 If you're unsure which applies, start with **Overview** — it's the map the rest assume you have.
 These files were authored from hands-on, verified work in five subsystems: the C++ core / pybind11
 `OrderedMultiMap`/`IfContentPart` layer, the Python-side `.ini` graph model and its

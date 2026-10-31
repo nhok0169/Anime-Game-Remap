@@ -83,6 +83,37 @@ Returns
     The current pixel buffer
         )doc"))
 
+        .def("shaderChannel", [](const AGRC::TextureFile &self, std::size_t channel, bool truncate) {
+            const std::vector<std::uint8_t> values = self.shaderChannel(channel, truncate);
+            return py::bytes(reinterpret_cast<const char*>(values.data()), values.size());
+        }, py::arg("channel"), py::arg("truncate") = true, py::doc(R"doc(
+The values a shader reads from one channel of :meth:`getPixels`, one byte a pixel
+
+A texture stored sRGB (one :meth:`getGamma` is set for) reaches the shader DECODED: the sampler linearises each of
+R, G and B. The decoded value times 255 is truncated when the shader casts it to an integer code (a material-code
+map), or rounded when it is a value. Alpha, and every channel of a texture not stored sRGB, is its byte
+
+Parameters
+----------
+channel: :class:`int`
+    The channel: 0 (R), 1 (G), 2 (B) or 3 (A)
+
+truncate: :class:`bool`
+    Whether a decoded value is truncated rather than rounded :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``True``
+
+Raises
+------
+:class:`IndexError`
+    If ``channel`` is past 3
+
+Returns
+-------
+:class:`bytes`
+    The values, row-major
+        )doc"))
+
         .def("setPixels", [](AGRC::TextureFile &self, py::bytes pixels, int width, int height) {
             std::string raw = pixels;
             std::vector<std::uint8_t> data(raw.begin(), raw.end());

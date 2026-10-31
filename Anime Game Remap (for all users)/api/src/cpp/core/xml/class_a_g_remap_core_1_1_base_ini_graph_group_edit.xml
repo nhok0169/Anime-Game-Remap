@@ -3,15 +3,24 @@
   <compounddef id="class_a_g_remap_core_1_1_base_ini_graph_group_edit" kind="class" language="C++" prot="public">
     <compoundname>AGRemapCore::BaseIniGraphGroupEdit</compoundname>
     <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_part_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniPartEdit</basecompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_create" prot="public" virt="non-virtual">AGRemapCore::Section</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_group_remove" prot="public" virt="non-virtual">AGRemapCore::GraphGroupRemove&lt; std::string, std::string &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_res_group_collect" prot="public" virt="non-virtual">AGRemapCore::GraphId</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_collect" prot="public" virt="non-virtual">AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_copy" prot="public" virt="non-virtual">AGRemapCore::GraphCopy&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_create" prot="public" virt="non-virtual">AGRemapCore::GraphCreate&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_filter" prot="public" virt="non-virtual">AGRemapCore::GraphFilter&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_group_edit" prot="public" virt="non-virtual">AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_group_remap" prot="public" virt="non-virtual">AGRemapCore::GraphGroupRemap&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_group_remove" prot="public" virt="non-virtual">AGRemapCore::GraphGroupRemove&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_inherit" prot="public" virt="non-virtual">AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_remove" prot="public" virt="non-virtual">AGRemapCore::GraphRemove&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_iter_graph_group_edit" prot="public" virt="non-virtual">AGRemapCore::IterGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_parse_data_step" prot="public" virt="non-virtual">AGRemapCore::ParseDataStep</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_res_group_collect" prot="public" virt="non-virtual">AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_res_reg_collect" prot="public" virt="non-virtual">AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_var_sections_create" prot="public" virt="non-virtual">AGRemapCore::VarSectionsCreate</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_var_sections_take" prot="public" virt="non-virtual">AGRemapCore::VarSectionsTake</derivedcompoundref>
     <includes refid="_base_ini_graph_group_edit_8h" local="no">BaseIniGraphGroupEdit.h</includes>
     <innerclass refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id" prot="public">AGRemapCore::BaseIniGraphGroupEdit::GraphId</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_hash" prot="public">AGRemapCore::BaseIniGraphGroupEdit::GraphIdHash</innerclass>
@@ -93,6 +102,7 @@ equivalent of a `Python`_ ``Tuple[str, str]``
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_edit_1ab33bdc2d5a64a124d00f5025ac637f57">editFromIni</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_edit_1ab33bdc2d5a64a124d00f5025ac637f57">editFromIni</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_inherit_1a821135adeb849d731113e1a0e518546c">editFromIni</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1a7b6095857043caf379a9c0ba7e30a30d">editFromIni</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1ad4e28d301802e5740252e27d317672e0">editFromIni</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a49a20da6ec9db9f9d763c6d941632f9e">editFromIni</reimplementedby>
         <param>
@@ -170,7 +180,11 @@ Edits a group of caller/callee graphs with state info from &apos;ini&apos; :raw-
         <argsstring>(GraphGroups &amp;graphGroups, const ModType *modType, const std::string &amp;modName=&quot;&quot;)</argsstring>
         <name>edit</name>
         <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::edit</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_collect_1a33afb60765a088f303fd40d196cd5065">edit</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_copy_1a34a6877390d7e15fee19dcd9dbb18f53">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_create_1af65184484b4cc8bc8f84d71c01c7f0c6">edit</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_filter_1aa97307f3959ceccb373e8c1def486995">edit</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_filter_1aa97307f3959ceccb373e8c1def486995">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_edit_1a7b75a38f5c1b0c15f127a01e2d6849c2">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_edit_1a7b75a38f5c1b0c15f127a01e2d6849c2">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_remap_1a9a367cbccdb7e492237aa1fe7c893074">edit</reimplementedby>
@@ -178,8 +192,12 @@ Edits a group of caller/callee graphs with state info from &apos;ini&apos; :raw-
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_remove_1a07382ac437579793d2ba60926535b237">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_inherit_1a7dee68f4166fcc35813e215871413ecf">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_remove_1a8e80fbe4db7c2babb6fef1dea3238f95">edit</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1a8b8340380fa4ec0a0cf5a3ca61871be7">edit</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_parse_data_step_1a9e94ee802ae47206fdbca72dd6bb231f">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1a60ce4caa90f325f788bb322f52851fca">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1ab53e60e186ad53fbc495ac4d8b1392bf">edit</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_var_sections_create_1a3fffa688e3869756d326d78c38404803">edit</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_var_sections_take_1aaa385bade522882d1f038d88d3cd6775">edit</reimplementedby>
         <param>
           <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> &amp;</type>
           <declname>graphGroups</declname>
@@ -239,6 +257,7 @@ untouched)
         <argsstring>()</argsstring>
         <name>clear</name>
         <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_collect_1a3c713562e17061d3032679949225e575">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
@@ -456,57 +475,111 @@ Note that this derives from :cpp:class:`BaseIniPartEdit` **directly**, not from
         <label>AGRemapCore::BaseIniPartEdit</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
       </node>
-      <node id="4">
+      <node id="6">
+        <label>AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_collect"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore::GraphCopy&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_copy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
         <label>AGRemapCore::GraphCreate&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_create"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="3">
+        <label>AGRemapCore::Section&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_create"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>AGRemapCore::GraphFilter&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
         <label>AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_group_edit"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="11">
         <label>AGRemapCore::GraphGroupRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_group_remap"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="7">
+      <node id="4">
+        <label>AGRemapCore::GraphGroupRemove&lt; std::string, std::string &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_group_remove"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
         <label>AGRemapCore::GraphGroupRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_group_remove"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="8">
+      <node id="13">
         <label>AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_inherit"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="9">
+      <node id="14">
         <label>AGRemapCore::GraphRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_remove"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="10">
+      <node id="15">
+        <label>AGRemapCore::IterGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_iter_graph_group_edit"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>AGRemapCore::ParseDataStep&lt;&gt;</label>
+        <link refid="class_a_g_remap_core_1_1_parse_data_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
         <label>AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_res_group_collect"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="5">
         <label>AGRemapCore::GraphId&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
         <link refid="class_a_g_remap_core_1_1_res_group_collect"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="11">
+      <node id="18">
         <label>AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_res_reg_collect"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>AGRemapCore::VarSectionsCreate&lt;&gt;</label>
+        <link refid="class_a_g_remap_core_1_1_var_sections_create"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>AGRemapCore::VarSectionsTake&lt;&gt;</label>
+        <link refid="class_a_g_remap_core_1_1_var_sections_take"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>

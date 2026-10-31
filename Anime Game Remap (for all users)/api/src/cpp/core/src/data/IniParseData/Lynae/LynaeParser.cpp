@@ -18,6 +18,7 @@
 #include "AGRemapCore/data/IniParseData/WWMIParser.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkeleton.h"
+#include "AGRemapCore/data/IniFixData/Lynae/LynaeFilmShader.h"
 
 
 namespace AGRemapCore {
@@ -31,6 +32,14 @@ namespace AGRemapCore {
         // the numberings her skeleton has had, and her own bones' centroids -- see WWMIParserConfig::skeletonNumberings
         config.skeletonNumberings = {{"3.6", lynaeRenumbered36To37()}, {"3.7", {}}};
         config.referenceBoneCentroids = lynaeBoneCentroids();
+        // the draws LynaeFixer's drawReroutes send elsewhere: her jacket's and props' film (flag 0x10; Lynae9 draws
+        // its props with the game's code map, hence the mask), and any draw of her lower body with a real share
+        // of 0x80 -- Lynae9 draws legs, tights and shorts in one range whose majority is skin (see LynaeFixer)
+        WWMIParserConfig::DrawSplit propsFilm{"propsFilm", 6, "propsDetail", 0x10};
+        propsFilm.sourceFlags = lynaePropsFilmFlags();
+        WWMIParserConfig::DrawSplit lowerTights{"lowerTights", 4, "lowerDetail", 0x80};
+        lowerTights.share = 0.01;
+        config.drawSplits = {{"jacketFilm", 5, "jacketDetail", 0x10}, std::move(propsFilm), std::move(lowerTights)};
         return makeWWMIParser(std::move(config));
     }
 

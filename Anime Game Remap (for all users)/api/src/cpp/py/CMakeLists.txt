@@ -147,7 +147,6 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyTexEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyResRegCollect.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphCollect.cpp
-    src/model/strategies/iniFixers/graphGroupEdits/PySkeletonNumberingRead.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyParseDataStep.cpp
     src/model/strategies/iniFixers/PyGraphEditVariables.cpp
     src/model/strategies/iniFixers/PyShaderHelpers.cpp

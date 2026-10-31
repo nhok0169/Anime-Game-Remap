@@ -194,6 +194,12 @@ The rows stay until the next :meth:`edit` or :meth:`clear`. Run as one of :attr:
 :attr:`GIMIParser.deferredParseSteps`), a collect with a :attr:`name` files its rows in the parser's
 :attr:`BaseIniParser.parseData` (:meth:`IniParseData.collected`)
 
+.. warning::
+    The rows are a snapshot of the graphs as they were when the collect ran, and nothing keeps them up to date.
+    An edit run afterwards that renames, copies, moves or removes a section, or changes a value, leaves every
+    row it touched describing what is no longer there -- and such a row still reads like a good one. Read the
+    rows before any edit that changes the graphs they came from, or run the collect again
+
 Parameters
 ----------
 keys: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`], Callable[[:class:`str`], :class:`bool`]]]

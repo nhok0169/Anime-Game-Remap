@@ -60,6 +60,12 @@ namespace AGRemapCore {
      The rows stay until the next \ref edit or \ref clear. Run as one of :cpp:member:`GIMIParser::parseSteps` (or
      :cpp:member:`GIMIParser::deferredParseSteps`), a collect with a \ref name files its rows in the parser's
      :cpp:class:`IniParseData` (:cpp:func:`IniParseData::collected`) -- see :cpp:class:`IParseResult`
+
+     .. warning::
+        The rows are a snapshot of the graphs as they were when the collect ran, and nothing keeps them up to
+        date. An edit run afterwards that renames, copies, moves or removes a section, or changes a value, leaves
+        every row it touched describing what is no longer there -- and such a row still reads like a good one.
+        Read the rows before any edit that changes the graphs they came from, or run the collect again
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`

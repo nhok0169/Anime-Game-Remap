@@ -53,6 +53,12 @@ namespace AGRemapCore {
      each resource subtype in \ref resEdits, it works out the fixed name of every collected
      reference, rewrites it in place, and hands the collected set to that subtype's
      :cpp:class:`BaseResEdit` to build the resource's own graph and models
+
+     .. warning::
+        The references are collected once, from the graphs as they are when this edit runs, and the resource's
+        graph and models are built from that set. Nothing updates them afterwards: a later edit that renames,
+        copies, moves or removes a section holding one of the references leaves them describing where the
+        references used to be. Order it after the edits that reshape the graphs it reads
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`

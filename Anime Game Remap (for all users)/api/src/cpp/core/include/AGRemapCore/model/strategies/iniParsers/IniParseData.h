@@ -564,6 +564,12 @@ namespace AGRemapCore {
              @rst
              The rows of the :cpp:class:`GraphCollect` named 'name' among the parser's
              :cpp:member:`GIMIParser::parseSteps`, in the order it collected them. Empty for a name nothing filed
+
+             .. warning::
+                The rows describe the graphs as they were when the collect ran (see :cpp:class:`GraphCollect`).
+                A collect among :cpp:member:`GIMIParser::deferredParseSteps` runs on the FIRST ask of this data, so
+                that first ask has to come before any edit to the graphs it reads: a fixer asks in its constructor,
+                before its edits run. Asked first after an edit, the rows are read from the edited graphs
              @endrst
              *
              * @param name The collect's :cpp:member:`GraphCollect::name`

@@ -218,6 +218,12 @@ This class inherits from :class:`BaseIniGraphGroupEdit`
 
 Creates the :class:`IniSectionGraph` for a particular resource
 
+.. warning::
+    The references are collected once, from the graphs as they are when this edit runs, and the resource's graph and models are built
+    from that set. Nothing updates them afterwards: a later edit that renames, copies, moves or removes a section
+    holding one of the references leaves them describing where the references used to be. Order it after the
+    edits that reshape the graphs it reads
+
 Parameters
 ----------
 srcRegs: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`]]]

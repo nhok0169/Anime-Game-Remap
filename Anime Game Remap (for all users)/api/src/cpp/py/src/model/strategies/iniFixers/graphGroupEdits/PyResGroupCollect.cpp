@@ -367,6 +367,12 @@ Where :class:`ResRegCollect` handles one resource at a time, this handles severa
 together and works out which combinations of them can actually co-occur -- two resources belong in
 the same group only if the conditional branches they live under are simultaneously satisfiable
 
+.. warning::
+    The references are collected once, from the graphs as they are when this edit runs, and the groups and replicas are built
+    from that set. Nothing updates them afterwards: a later edit that renames, copies, moves or removes a section
+    holding one of the references leaves them describing where the references used to be. Order it after the
+    edits that reshape the graphs it reads
+
 Parameters
 ----------
 resGroupTypes: List[:class:`str`]

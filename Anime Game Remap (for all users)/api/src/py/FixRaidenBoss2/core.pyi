@@ -9742,6 +9742,12 @@ class GraphCollect(BaseIniGraphGroupEdit, IParseResult):
     :attr:`GIMIParser.deferredParseSteps`), a collect with a :attr:`name` files its rows in the parser's
     :attr:`BaseIniParser.parseData` (:meth:`IniParseData.collected`)
     
+    .. warning::
+        The rows are a snapshot of the graphs as they were when the collect ran, and nothing keeps them up to date.
+        An edit run afterwards that renames, copies, moves or removes a section, or changes a value, leaves every
+        row it touched describing what is no longer there -- and such a row still reads like a good one. Read the
+        rows before any edit that changes the graphs they came from, or run the collect again
+    
     Parameters
     ----------
     keys: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`], Callable[[:class:`str`], :class:`bool`]]]
@@ -11559,6 +11565,11 @@ class IniParseData:
         """
         The rows of the :class:`GraphCollect` named 'name' among the parser's :attr:`GIMIParser.parseSteps`, in the order
         it collected them. Empty for a name nothing filed
+        
+        .. warning::
+            The rows describe the graphs as they were when the collect ran (see :class:`GraphCollect`). A collect among
+            :attr:`GIMIParser.deferredParseSteps` runs on the FIRST ask of this data, so that first ask has to come
+            before any edit to the graphs it reads. Asked first after an edit, the rows are read from the edited graphs
         
         Parameters
         ----------
@@ -24423,6 +24434,12 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
     together and works out which combinations of them can actually co-occur -- two resources belong in
     the same group only if the conditional branches they live under are simultaneously satisfiable
     
+    .. warning::
+        The references are collected once, from the graphs as they are when this edit runs, and the groups and replicas are built
+        from that set. Nothing updates them afterwards: a later edit that renames, copies, moves or removes a section
+        holding one of the references leaves them describing where the references used to be. Order it after the
+        edits that reshape the graphs it reads
+    
     Parameters
     ----------
     resGroupTypes: List[:class:`str`]
@@ -24983,6 +25000,12 @@ class ResRegCollect(BaseIniGraphGroupEdit):
     This class inherits from :class:`BaseIniGraphGroupEdit`
     
     Creates the :class:`IniSectionGraph` for a particular resource
+    
+    .. warning::
+        The references are collected once, from the graphs as they are when this edit runs, and the resource's graph and models are built
+        from that set. Nothing updates them afterwards: a later edit that renames, copies, moves or removes a section
+        holding one of the references leaves them describing where the references used to be. Order it after the
+        edits that reshape the graphs it reads
     
     Parameters
     ----------

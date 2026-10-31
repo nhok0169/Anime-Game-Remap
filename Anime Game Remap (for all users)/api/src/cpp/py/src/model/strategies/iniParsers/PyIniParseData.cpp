@@ -373,6 +373,11 @@ file: :class:`str`
 The rows of the :class:`GraphCollect` named 'name' among the parser's :attr:`GIMIParser.parseSteps`, in the order
 it collected them. Empty for a name nothing filed
 
+.. warning::
+    The rows describe the graphs as they were when the collect ran (see :class:`GraphCollect`). A collect among
+    :attr:`GIMIParser.deferredParseSteps` runs on the FIRST ask of this data, so that first ask has to come
+    before any edit to the graphs it reads. Asked first after an edit, the rows are read from the edited graphs
+
 Parameters
 ----------
 name: :class:`str`

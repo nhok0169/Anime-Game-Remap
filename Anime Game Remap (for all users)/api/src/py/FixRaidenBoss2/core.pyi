@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseDataStep', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SkeletonNumberingRead', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsCreate', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseDataStep', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SkeletonNumberingRead', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsCreate', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -5501,6 +5501,106 @@ class CppTrie:
         """
     @handleDuplicate.setter
     def handleDuplicate(self, arg1: collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any]) -> None:
+        ...
+class CustomShaderBackups:
+    """
+    
+    Saves the resource registers a ``[CustomShader...]`` assigns before it runs, and puts them back after
+    
+    3DMigoto restores a CustomShader's shaders and render state when it returns, but NOT the resources its section assigns.
+    A later draw of the same game draw -- another part on the same slot, drawn by the game's own shader -- then reads them:
+    a body shaded with another character's material constants renders black. :meth:`wrap` puts a save line
+    (``<backup> = ref <reg>``) before the ``run =`` lines of a CustomShader for each register its lines assign, and a
+    restore line (``<reg> = ref <backup>``) after them. Each backup is a resource `section`_ of its own, which
+    :meth:`section` writes
+    
+    Parameters
+    ----------
+    backupName: Callable[[:class:`str`], :class:`str`]
+        The name of the resource `section`_ that backs up a register
+    
+    Examples
+    --------
+    
+    .. code-block:: python
+    
+        import FixRaidenBoss2 as FRB
+    
+        backups = FRB.CustomShaderBackups(lambda reg: "ResourceBackup" + reg.replace("-", ""))
+        backups.wrap([("run", "CustomShaderMine")], [("ps-t4", "ResourceMask"), ("drawindexed", "auto")])
+        # [('ResourceBackuppst4', 'ref ps-t4'), ('run', 'CustomShaderMine'), ('ps-t4', 'ref ResourceBackuppst4')]
+        sections = [backups.section(reg) for reg in backups.registers()]
+        
+    """
+    @staticmethod
+    def bindsRegister(key: str) -> bool:
+        """
+        Whether a key binds a resource register: ``ps-t<n>``, ``ps-cb<n>``, ``vs-t<n>`` or ``vs-cb<n>``
+        
+        Parameters
+        ----------
+        key: :class:`str`
+            The key
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether it binds a resource register
+        """
+    def __init__(self, backupName: collections.abc.Callable[[str], str]) -> None:
+        ...
+    def clear(self) -> None:
+        """
+        Forgets every register saved so far
+        """
+    def registers(self) -> list[str]:
+        """
+        Every register :meth:`wrap` has saved, in their sorted order
+        
+        Returns
+        -------
+        List[:class:`str`]
+            The registers
+        """
+    def section(self, reg: str) -> IfTemplate:
+        """
+        The resource `section`_ that backs up 'reg': empty, named by :attr:`backupName`
+        
+        Parameters
+        ----------
+        reg: :class:`str`
+            The register
+        
+        Returns
+        -------
+        :class:`IfTemplate`
+            The section
+        """
+    def wrap(self, runs: collections.abc.Sequence[tuple[str, str]], lines: collections.abc.Sequence[tuple[str, str]]) -> list[tuple[str, str]]:
+        """
+        'runs' with a save line for each register 'lines' assign before them, and a restore line for each after them, the
+        registers in their sorted order. The registers are remembered for :meth:`registers`
+        
+        Parameters
+        ----------
+        runs: List[Tuple[:class:`str`, :class:`str`]]
+            The ``run =`` lines of the CustomShaders
+        
+        lines: List[Tuple[:class:`str`, :class:`str`]]
+            The lines the CustomShaders' sections write
+        
+        Returns
+        -------
+        List[Tuple[:class:`str`, :class:`str`]]
+            The lines, saving and restoring
+        """
+    @property
+    def backupName(self) -> collections.abc.Callable[[str], str]:
+        """
+        Callable[[:class:`str`], :class:`str`]: The name of the resource `section`_ that backs up a register
+        """
+    @backupName.setter
+    def backupName(self, arg0: collections.abc.Callable[[str], str]) -> None:
         ...
 class DFA(BaseDFA):
     """
@@ -25950,6 +26050,129 @@ class SectionIterQueryDataIterator:
         ...
     def __next__(self) -> typing.Any:
         ...
+class ShaderFilterTags:
+    """
+    
+    The shaders a fix tells apart by a ``filter_index``, and what it writes for them
+    
+    3DMigoto sets a shader's ``filter_index`` from a ``[ShaderOverride...]`` `section`_ on its hash, and a section of the
+    mod then asks ``if ps == <index>`` (or ``vs``) to act on one pass of a draw only. This holds the shaders a fix tags, in
+    the order they were tagged, with their values; writes the ``[ShaderOverride...]`` sections (:meth:`section`); and
+    writes the condition true on a draw by any of some shaders, or by none of them (:meth:`condition`)
+    
+    Which value each shader gets is the fixer's choice. 3DMigoto keys a ``[ShaderOverride]`` by its shader hash across
+    EVERY loaded .ini, so two fixes that tag the same shader must give it the same value
+    
+    :example:
+    
+    .. code-block:: python
+    
+        import FixRaidenBoss2 as FRB
+    
+        tags = FRB.ShaderFilterTags()
+        tags.add("a24c103adbe204f1", "51840.1")
+        tags.add("a9f95d035488717a", "51840.2")
+        tags.condition("ps", ["a24c103adbe204f1", "a9f95d035488717a"])   # 'ps == 51840.1 || ps == 51840.2'
+        section = tags.section(0, "ShaderOverrideMain")                  # hash = a24c103adbe204f1 / filter_index = 51840.1
+        
+    """
+    class Tag:
+        """
+        One tagged shader
+        """
+        @property
+        def filterIndex(self) -> str:
+            """
+            :class:`str`: The ``filter_index`` it is given
+            """
+        @property
+        def shaderHash(self) -> str:
+            """
+            :class:`str`: The shader's hash
+            """
+    def __init__(self) -> None:
+        ...
+    def add(self, shaderHash: str, filterIndex: str) -> bool:
+        """
+        Tags a shader, unless it is tagged already (its first value stays)
+        
+        Parameters
+        ----------
+        shaderHash: :class:`str`
+            The shader's hash
+        
+        filterIndex: :class:`str`
+            The ``filter_index`` it is given
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the shader was tagged by this call
+        """
+    def condition(self, reg: str, shaderHashes: collections.abc.Sequence[str], none: bool = False) -> str:
+        """
+        The .ini condition true on a draw by any of 'shaderHashes' -- ``<reg> == <index> || ...`` -- or, with 'none', by none of
+        them -- ``<reg> != <index> && ...``. Each shader is named once, in the order given; a shader that is not tagged is left
+        out
+        
+        Parameters
+        ----------
+        reg: :class:`str`
+            The register a shader's ``filter_index`` is read from: ``ps`` or ``vs``
+        
+        shaderHashes: List[:class:`str`]
+            The shaders' hashes
+        
+        none: :class:`bool`
+            Whether the condition is true on a draw by none of the shaders :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        :class:`str`
+            The condition, or empty when no shader of 'shaderHashes' is tagged
+        """
+    def filterIndexOf(self, shaderHash: str) -> str | None:
+        """
+        The ``filter_index`` of a shader
+        
+        Parameters
+        ----------
+        shaderHash: :class:`str`
+            The shader's hash
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The value, or ``None`` when the shader is not tagged
+        """
+    def section(self, index: typing.SupportsInt | typing.SupportsIndex, name: str) -> IfTemplate:
+        """
+        The ``[ShaderOverride...]`` `section`_ that tags shader number 'index' (:meth:`tags`): ``hash`` and ``filter_index``
+        
+        Parameters
+        ----------
+        index: :class:`int`
+            The shader's position in :meth:`tags`
+        
+        name: :class:`str`
+            The section's name
+        
+        Returns
+        -------
+        :class:`IfTemplate`
+            The section
+        """
+    def tags(self) -> list[ShaderFilterTags.Tag]:
+        """
+        The tagged shaders, in the order they were tagged
+        
+        Returns
+        -------
+        List[:class:`ShaderFilterTags.Tag`]
+            The tags
+        """
 class ShapeKeyChecksums(ModMappedAssets):
     """
     

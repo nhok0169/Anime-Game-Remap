@@ -221,6 +221,8 @@ from .core import ParseDataStep
 from .core import GraphEditVariables
 from .core import VarSectionsTake
 from .core import VarSectionsCreate
+from .core import ShaderFilterTags
+from .core import CustomShaderBackups
 from .core import TextureRoleChooser
 from .core import CppBaseIniParser
 from .core import IniParseBuilder
@@ -392,7 +394,7 @@ __all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA",
            "BaseIniGraphEdit", "GraphRename", "RegFillMissing",
            "GraphRemove", "GraphInherit", "GraphGroupRemap", "GraphGroupEdit", "IterGraphGroupEdit",
            "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "TexCreate", "TexReplace", "ResRegCollect", "GraphCollect", "ResGroupCollect", "BaseIniGraphGroupEdit",
-           "TextureRoles", "IniParseData", "IParseResult", "SkeletonNumberingRead", "ParseDataStep", "GraphEditVariables", "VarSectionsTake", "VarSectionsCreate", "TextureRoleChooser", "CppBaseIniParser", "BaseIniParser", "CppIniParseBuilderArgs", "GIMISectionClassifier", "GIMIParser", "CppBaseIniFixer", "BaseIniFixer", "CppIniFixBuilderArgs", "GIMIFixer", "MultiModFixer", "IniFixingContext",
+           "TextureRoles", "IniParseData", "IParseResult", "SkeletonNumberingRead", "ParseDataStep", "GraphEditVariables", "VarSectionsTake", "VarSectionsCreate", "ShaderFilterTags", "CustomShaderBackups", "TextureRoleChooser", "CppBaseIniParser", "BaseIniParser", "CppIniParseBuilderArgs", "GIMISectionClassifier", "GIMIParser", "CppBaseIniFixer", "BaseIniFixer", "CppIniFixBuilderArgs", "GIMIFixer", "MultiModFixer", "IniFixingContext",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 

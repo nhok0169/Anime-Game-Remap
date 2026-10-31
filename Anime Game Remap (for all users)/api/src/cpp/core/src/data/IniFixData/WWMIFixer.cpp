@@ -73,6 +73,8 @@
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/TemplateFixer.h"
+#include "AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h"
+#include "AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCopy.h"
@@ -3399,23 +3401,6 @@ namespace AGRemapCore {
                     return modFile(meshFolder_, toModName_ + IniKeywords::Remap + shader.name + IniNamingTools::getRegTag(reg) + ".buf");
                 }
 
-                // Whether a CustomShader line binds a resource register (`ps-t4`, `ps-cb4`, `vs-t0`, ...)
-                static bool bindsRegister(const std::string& key) {
-                    const std::string k = StringTools::toLower(StringTools::strip(key));
-                    if (k.size() < 4 || k[2] != '-' || (k.compare(0, 2, "ps") != 0 && k.compare(0, 2, "vs") != 0)) {
-                        return false;
-                    }
-                    std::size_t digits = 3;
-                    if (k.compare(3, 2, "cb") == 0) {
-                        digits = 5;
-                    } else if (k[3] == 't') {
-                        digits = 4;
-                    } else {
-                        return false;
-                    }
-                    return digits < k.size() && k.find_first_not_of("0123456789", digits) == std::string::npos;
-                }
-
                 std::string shaderBackup(const std::string& reg) const {
                     return remapFixName(IniKeywords::Resource + std::string("ShaderBackup") + IniNamingTools::getRegTag(reg));
                 }
@@ -3425,32 +3410,17 @@ namespace AGRemapCore {
                 // component on the slot, drawn by the game's shader -- would read them (Lynae8's body on the skin,
                 // shaded with Lynae's material constants, rendered black). Each register the section assigns is
                 // saved before the run and put back after it.
+                // (CustomShaderBackups)
                 std::vector<std::pair<std::string, std::string>> restoringRuns(const std::vector<std::pair<std::string, std::string>>& runs,
                                                                    const std::vector<std::pair<std::string, std::string>>& lines) {
-                    std::set<std::string> regs;
-                    for (const Kvp& line : lines) {
-                        if (bindsRegister(line.first)) {
-                            regs.insert(StringTools::toLower(StringTools::strip(line.first)));
-                        }
-                    }
-
-                    std::vector<Kvp> result;
-                    for (const std::string& reg : regs) {
-                        result.emplace_back(shaderBackup(reg), IniKeywords::Ref + " " + reg);
-                        shaderBackupRegs_.insert(reg);
-                    }
-                    result.insert(result.end(), runs.begin(), runs.end());
-                    for (const std::string& reg : regs) {
-                        result.emplace_back(reg, IniKeywords::Ref + " " + shaderBackup(reg));
-                    }
-                    return result;
+                    return shaderBackups_.wrap(runs, lines);
                 }
 
                 // The sections: one CustomShader per rerouted draw, and the shader's constant buffers.
                 // The shader's source file is named by its `ps =`, which an undo removes with the block.
                 void rerouteShaderSections() {
                     std::set<std::string> declared;
-                    shaderBackupRegs_.clear();
+                    shaderBackups_.clear();
                     hasShaders_ = false;
                     shaderSources_.clear();
                     shaderBuffers_.clear();
@@ -3657,8 +3627,8 @@ namespace AGRemapCore {
                         }
                     }
 
-                    for (const std::string& reg : shaderBackupRegs_) {
-                        addFixSection(SectionText(z3_, shaderBackup(reg)).build());
+                    for (const std::string& reg : shaderBackups_.registers()) {
+                        addFixSection(shaderBackups_.section(reg));
                     }
 
                     for (const auto& [name, gated] : offLists_) {
@@ -4332,21 +4302,18 @@ namespace AGRemapCore {
                 // real version of the same shape: two DIFFERENT shaders resolving to one index.
                 std::string passCondition(const std::vector<std::string>& passes) {
                     passFilter("");
-                    const std::string reg = config_.passVertexShaders.empty() ? "ps" : "vs";
-                    std::vector<std::string> named;
-                    std::string out;
-                    for (const std::string& pass : passes) {
-                        for (const std::string& tagged : taggedFor(pass)) {
-                            if (std::find(named.begin(), named.end(), tagged) != named.end()) {
-                                continue;
-                            }
+                    return passTags_.condition(config_.passVertexShaders.empty() ? "ps" : "vs", taggedFor(passes));
+                }
 
-                            named.push_back(tagged);
-                            out += (out.empty() ? "" : " || ") + reg + " == " + passFilters_[tagged];
+                // The shaders tagged for any of 'passes', in order
+                std::vector<std::string> taggedFor(const std::vector<std::string>& passes) const {
+                    std::vector<std::string> tagged;
+                    for (const std::string& pass : passes) {
+                        for (const std::string& shader : taggedFor(pass)) {
+                            tagged.push_back(shader);
                         }
                     }
-
-                    return out;
+                    return tagged;
                 }
 
                 std::string passCondition(const std::string& pass) {
@@ -4356,21 +4323,7 @@ namespace AGRemapCore {
                 // The `.ini` condition true on a draw of none of 'passes' -- see SourceComponent::offPasses
                 std::string passNotCondition(const std::vector<std::string>& passes) {
                     passFilter("");
-                    const std::string reg = config_.passVertexShaders.empty() ? "ps" : "vs";
-                    std::vector<std::string> named;
-                    std::string out;
-                    for (const std::string& pass : passes) {
-                        for (const std::string& tagged : taggedFor(pass)) {
-                            if (std::find(named.begin(), named.end(), tagged) != named.end()) {
-                                continue;
-                            }
-
-                            named.push_back(tagged);
-                            out += (out.empty() ? "" : " && ") + reg + " != " + passFilters_[tagged];
-                        }
-                    }
-
-                    return out;
+                    return passTags_.condition(config_.passVertexShaders.empty() ? "ps" : "vs", taggedFor(passes), true);
                 }
 
                 // A component's draw, kept off the passes its SourceComponent::offPasses names: a `run =` of a
@@ -4401,7 +4354,8 @@ namespace AGRemapCore {
                     // pair always do: the hair, face and eye shaders are the same on a skin and its
                     // character) must agree on its value, or whichever file loads last wins and the
                     // other mod's `if ps == ...` never matches -- its textures silently unbound.
-                    if (passFilters_.empty()) {
+                    if (!passTagsBuilt_) {
+                        passTagsBuilt_ = true;
                         std::size_t i = 0;
                         // every pass either table names -- an extraPassRegs pass with no
                         // filter_index has nothing to match on, so its command list never fires and
@@ -4421,25 +4375,23 @@ namespace AGRemapCore {
                             for (const std::string& p : passes) {
 
                                 for (const std::string& tagged : taggedFor(p)) {
-                                    if (passFilters_.count(tagged) != 0) {
+                                    if (passTags_.filterIndexOf(tagged).has_value()) {
                                         continue;
                                     }
 
                                     auto given = config_.filterIndices.find(tagged);
                                     if (given != config_.filterIndices.end()) {
-                                        passFilters_[tagged] = given->second;
+                                        passTags_.add(tagged, given->second);
                                     } else {
-                                        passFilters_[tagged] = NumTools::formatDouble(config_.filterBase + config_.filterStep * static_cast<double>(i));
+                                        passTags_.add(tagged, NumTools::formatDouble(config_.filterBase + config_.filterStep * static_cast<double>(i)));
                                         ++i;
                                     }
-
-                                    passOrder_.push_back(tagged);
                                 }
                             }
                         }
                     }
 
-                    return passFilters_[pass];
+                    return passTags_.filterIndexOf(pass).value_or("");
                 }
 
                 // The merge list the fix supplies per target slot for a legacy mod
@@ -4893,12 +4845,8 @@ namespace AGRemapCore {
                     }
 
                     passFilter("");
-                    std::size_t i = 0;
-                    for (const std::string& pass : passOrder_) {
-                        addFixSection(SectionText(z3_, remapFixName("ShaderOverridePass" + std::to_string(i)))
-                                   .keys({{IniKeywords::Hash, pass}, {"filter_index", passFilters_[pass]}})
-                                   .build());
-                        ++i;
+                    for (std::size_t i = 0; i < passTags_.tags().size(); ++i) {
+                        addFixSection(passTags_.section(i, remapFixName("ShaderOverridePass" + std::to_string(i))));
                     }
 
                     // Other meshes the character draws -- see WWMIFixerConfig::sharedMeshes
@@ -6267,7 +6215,8 @@ namespace AGRemapCore {
                 std::map<int, std::vector<std::string>> lateBindRegs_;   // source component -> the registers its own section binds AFTER it has already drawn
                 std::set<std::string> leftToGame_;                    // roles whose only file was flat and whose config says not to stand anything in
 
-                std::unordered_map<std::string, std::string> passFilters_;
+                ShaderFilterTags passTags_;                            // the shaders the passes are told apart by -- passFilter
+                bool passTagsBuilt_ = false;
 
 
 
@@ -6287,7 +6236,7 @@ namespace AGRemapCore {
                 std::map<int, std::set<std::size_t>> drawParts_;      // ...and which PARTS those draws sit in -- see mirroredSet()
                 std::map<int, int> rerouteFrom_;                      // WWMIFixerConfig::DrawReroute: its `as` -> its `from`, for a reroute that took draws
                 std::map<int, const std::vector<std::pair<std::string, std::string>>*> markLines_;   // a drawn component -> SourceComponent::markLines
-                std::set<std::string> shaderBackupRegs_;   // the registers a CustomShader run saves and restores (restoringRuns)
+                CustomShaderBackups shaderBackups_{[this](const std::string& reg) { return shaderBackup(reg); }};   // what a CustomShader run saves and restores (restoringRuns)
                 bool hasShaders_ = false;                                                        // a CustomShader section was added
                 std::unordered_map<std::string, ByteVec> shaderSources_;                         // a `ps =` file -> its source
                 std::unordered_map<std::string, FileAddCreate<>::File> shaderBuffers_;           // a `ps-cbN =` resource -> its section and file
@@ -6326,7 +6275,6 @@ namespace AGRemapCore {
                 std::size_t blendStride_ = 8;
                 // ...and the mod's own N, which the widening starts from
                 std::size_t srcBlendInfluences_ = 4;
-                std::vector<std::string> passOrder_;
 
                 std::unique_ptr<GraphGroupRemap<>> slotRemap_;
                 std::unique_ptr<RegAssetRemap<>> assetRemap_;

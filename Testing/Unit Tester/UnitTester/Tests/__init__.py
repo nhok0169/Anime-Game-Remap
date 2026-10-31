@@ -131,6 +131,7 @@ from .test_VGComponentSplit import VGComponentSplitTest, VGSplitGroupResourceTes
 from .test_ResRegCollect import ResRegCollectTest
 from .test_GraphCollect import GraphCollectTest
 from .test_GraphEditVariables import GraphEditVariablesTest
+from .test_ShaderHelpers import ShaderFilterTagsTest, CustomShaderBackupsTest
 from .test_SectionIterData import SectionIterDataTest
 from .test_SympyIfPredGenerator import SympyIfPredGeneratorTest
 from .test_SympyParser import SympyParserTest
@@ -209,3 +210,4 @@ __all__ += ["NeuvilletteTemplateOptionsTest"]
 __all__ += ["InnerLayerOutlineTest", "VGSplitGroupInnerOutlineTest"]
 __all__ += ["GraphCreateTest", "GraphFilterTest", "GraphCopyTest", "RegIfTemplateAddTest"]
 __all__ += ["GraphEditVariablesTest"]
+__all__ += ["ShaderFilterTagsTest", "CustomShaderBackupsTest"]

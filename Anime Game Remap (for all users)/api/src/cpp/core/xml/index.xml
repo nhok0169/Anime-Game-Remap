@@ -1195,6 +1195,18 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_created_texture_1a298a816cda4903add5320528007a8a56" kind="variable"><name>colour</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_created_texture_1aa60d0952dfeb862c0aa32e8d50383df5" kind="variable"><name>size</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_custom_shader_backups" kind="class"><name>AGRemapCore::CustomShaderBackups</name>
+    <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1a7e0bc67823ccb473e9f939a5b6a85a4e" kind="typedef"><name>KVPs</name></member>
+    <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1afdb59a0ebc41ac3882b3704881c13423" kind="typedef"><name>BackupName</name></member>
+    <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1a4bcf81d9b84b4ea7e757c0911c2da095" kind="variable"><name>backupName</name></member>
+    <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1ae5001ae78fd257370139dd69458fbec9" kind="variable"><name>registers_</name></member>
+    <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1a6ce2dd4534e66ab7413f9ec8ccf55afc" kind="function"><name>CustomShaderBackups</name></member>
+    <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1a9e756dd2dd2d47aed473cdbe991fdbd8" kind="function"><name>wrap</name></member>
+    <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1a0ae08caf40daef32e080aa0c1cd26c84" kind="function"><name>registers</name></member>
+    <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1a4d9d6a398742e4a91e12c4ea069b57b2" kind="function"><name>section</name></member>
+    <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1acd9898f209eae0957e100a8c0598999c" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1a137192fbf03fe055be922a8dbc8fb6ac" kind="function"><name>bindsRegister</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_dark_diffuse" kind="class"><name>AGRemapCore::DarkDiffuse</name>
     <member refid="class_a_g_remap_core_1_1_dark_diffuse_1ad468f8b4a43736ad2095c13e727471c8" kind="variable"><name>Gamma</name></member>
     <member refid="class_a_g_remap_core_1_1_dark_diffuse_1a2bf24086da38dda4caf7122680f73681" kind="function"><name>DarkDiffuse</name></member>
@@ -6268,6 +6280,14 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a64fc798f150c19250d203acd7b2bc269" kind="variable"><name>registers</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a925fa2b98a7c1bedf5d1b88a129bde15" kind="variable"><name>after</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_shader_filter_tags" kind="class"><name>AGRemapCore::ShaderFilterTags</name>
+    <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a17335b93652b7dfb1d99347db27621b9" kind="variable"><name>tags_</name></member>
+    <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a762bf41f3756501f2c38563acdd65f11" kind="function"><name>add</name></member>
+    <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a05b040cbb40d4a7086d809a9f4fa042d" kind="function"><name>filterIndexOf</name></member>
+    <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1ad2ef302f946195131fe7a0f58b1d5a47" kind="function"><name>tags</name></member>
+    <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a4cbcfba8d3fcb4bd00dbab8ca1477c13" kind="function"><name>condition</name></member>
+    <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a9a4f353c6c2c8de45f77f494f02deaad" kind="function"><name>section</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_shape_key_checksums" kind="class"><name>AGRemapCore::ShapeKeyChecksums</name>
     <member refid="class_a_g_remap_core_1_1_shape_key_checksums_1a37a343d90c345ffee70a9bb5f4d91362" kind="function"><name>ShapeKeyChecksums</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e95cdb3162613cf5bb5530cea603d1a" kind="function"><name>addRepoRows</name></member>
@@ -6501,6 +6521,10 @@
     <member refid="class_a_g_remap_core_1_1_syntax_err_1a0d391fcf0679c2680cd00b79ea0b989d" kind="function"><name>token</name></member>
     <member refid="class_a_g_remap_core_1_1_syntax_err_1aa72b5a1383f393a7d42a6c8345dcd50b" kind="function"><name>process</name></member>
     <member refid="class_a_g_remap_core_1_1_syntax_err_1a2aed93517ee600aff3bd50a7c4630c27" kind="function"><name>buildMessage</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_shader_filter_tags_1_1_tag" kind="struct"><name>AGRemapCore::ShaderFilterTags::Tag</name>
+    <member refid="struct_a_g_remap_core_1_1_shader_filter_tags_1_1_tag_1a261b38f62b034dfc2f216f8f138da783" kind="variable"><name>shaderHash</name></member>
+    <member refid="struct_a_g_remap_core_1_1_shader_filter_tags_1_1_tag_1a48e8454243cda57c3e8cd7bae8410654" kind="variable"><name>filterIndex</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_temp_control" kind="class"><name>AGRemapCore::TempControl</name>
     <member refid="class_a_g_remap_core_1_1_temp_control_1a7c030829dc7836ceb4ebc2c26f0e0ceb" kind="variable"><name>temp</name></member>

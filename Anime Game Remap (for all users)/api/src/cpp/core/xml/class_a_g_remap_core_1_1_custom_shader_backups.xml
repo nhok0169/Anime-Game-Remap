@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_custom_shader_backups" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::CustomShaderBackups</compoundname>
+    <includes refid="_custom_shader_backups_8h" local="no">CustomShaderBackups.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_custom_shader_backups_1a7e0bc67823ccb473e9f939a5b6a85a4e" prot="public" static="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>using AGRemapCore::CustomShaderBackups::KVPs = std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>KVPs</name>
+        <qualifiedname>AGRemapCore::CustomShaderBackups::KVPs</qualifiedname>
+        <briefdescription>
+<para><computeroutput><ref refid="class_a_g_remap_core_1_1_custom_shader_backups_1a7e0bc67823ccb473e9f939a5b6a85a4e" kindref="member">KVPs</ref></computeroutput>_, in order </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" line="44" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_custom_shader_backups_1afdb59a0ebc41ac3882b3704881c13423" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;reg)&gt;</type>
+        <definition>using AGRemapCore::CustomShaderBackups::BackupName = std::function&lt;std::string(const std::string&amp; reg)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BackupName</name>
+        <qualifiedname>AGRemapCore::CustomShaderBackups::BackupName</qualifiedname>
+        <briefdescription>
+<para>The name of the resource <computeroutput><ref refid="class_a_g_remap_core_1_1_custom_shader_backups_1a4d9d6a398742e4a91e12c4ea069b57b2" kindref="member">section</ref></computeroutput>_ that backs up a register. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" line="49" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_custom_shader_backups_1a4bcf81d9b84b4ea7e757c0911c2da095" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_custom_shader_backups_1afdb59a0ebc41ac3882b3704881c13423" kindref="member">BackupName</ref></type>
+        <definition>BackupName AGRemapCore::CustomShaderBackups::backupName</definition>
+        <argsstring></argsstring>
+        <name>backupName</name>
+        <qualifiedname>AGRemapCore::CustomShaderBackups::backupName</qualifiedname>
+        <briefdescription>
+<para>The name of the resource <computeroutput><ref refid="class_a_g_remap_core_1_1_custom_shader_backups_1a4d9d6a398742e4a91e12c4ea069b57b2" kindref="member">section</ref></computeroutput>_ that backs up a register. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" line="61" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_custom_shader_backups_1ae5001ae78fd257370139dd69458fbec9" prot="private" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; AGRemapCore::CustomShaderBackups::registers_</definition>
+        <argsstring></argsstring>
+        <name>registers_</name>
+        <qualifiedname>AGRemapCore::CustomShaderBackups::registers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" line="106" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_custom_shader_backups_1a6ce2dd4534e66ab7413f9ec8ccf55afc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::CustomShaderBackups::CustomShaderBackups</definition>
+        <argsstring>(BackupName backupName)</argsstring>
+        <name>CustomShaderBackups</name>
+        <qualifiedname>AGRemapCore::CustomShaderBackups::CustomShaderBackups</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_custom_shader_backups_1afdb59a0ebc41ac3882b3704881c13423" kindref="member">BackupName</ref></type>
+          <declname>backupName</declname>
+        </param>
+        <briefdescription>
+<para>Constructs the backups. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backupName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the resource <computeroutput><ref refid="class_a_g_remap_core_1_1_custom_shader_backups_1a4d9d6a398742e4a91e12c4ea069b57b2" kindref="member">section</ref></computeroutput>_ that backs up a register </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" line="56" column="22" bodyfile="src/model/strategies/iniFixers/CustomShaderBackups.cpp" bodystart="19" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_custom_shader_backups_1a9e756dd2dd2d47aed473cdbe991fdbd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_custom_shader_backups_1a7e0bc67823ccb473e9f939a5b6a85a4e" kindref="member">KVPs</ref></type>
+        <definition>CustomShaderBackups::KVPs AGRemapCore::CustomShaderBackups::wrap</definition>
+        <argsstring>(const KVPs &amp;runs, const KVPs &amp;lines)</argsstring>
+        <name>wrap</name>
+        <qualifiedname>AGRemapCore::CustomShaderBackups::wrap</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_custom_shader_backups_1a7e0bc67823ccb473e9f939a5b6a85a4e" kindref="member">KVPs</ref> &amp;</type>
+          <declname>runs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_custom_shader_backups_1a7e0bc67823ccb473e9f939a5b6a85a4e" kindref="member">KVPs</ref> &amp;</type>
+          <declname>lines</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+&apos;runs&apos; with a save line for each register &apos;lines&apos; assign before them, and a restore line for each after them,
+the registers in their sorted order. The registers are remembered for :cpp:func:`registers`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>runs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>run =</computeroutput> lines of the CustomShaders </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lines</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The lines the CustomShaders&apos; sections write</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The lines, saving and restoring </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" line="84" column="18" bodyfile="src/model/strategies/iniFixers/CustomShaderBackups.cpp" bodystart="38" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_custom_shader_backups_1a0ae08caf40daef32e080aa0c1cd26c84" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::CustomShaderBackups::registers</definition>
+        <argsstring>() const</argsstring>
+        <name>registers</name>
+        <qualifiedname>AGRemapCore::CustomShaderBackups::registers</qualifiedname>
+        <briefdescription>
+<para>Every register :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_custom_shader_backups_1a9e756dd2dd2d47aed473cdbe991fdbd8" kindref="member">wrap</ref></computeroutput> has saved, in their sorted order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" line="89" column="25" bodyfile="src/model/strategies/iniFixers/CustomShaderBackups.cpp" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_custom_shader_backups_1a4d9d6a398742e4a91e12c4ea069b57b2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::unique_ptr&lt; IfTemplate&lt; std::string, std::string &gt; &gt; AGRemapCore::CustomShaderBackups::section</definition>
+        <argsstring>(const std::string &amp;reg) const</argsstring>
+        <name>section</name>
+        <qualifiedname>AGRemapCore::CustomShaderBackups::section</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <briefdescription>
+<para>The resource <computeroutput><ref refid="class_a_g_remap_core_1_1_custom_shader_backups_1a4d9d6a398742e4a91e12c4ea069b57b2" kindref="member">section</ref></computeroutput>_ that backs up &apos;reg&apos;: empty, named by <ref refid="class_a_g_remap_core_1_1_custom_shader_backups_1a4bcf81d9b84b4ea7e757c0911c2da095" kindref="member">backupName</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The section </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" line="98" column="29" bodyfile="src/model/strategies/iniFixers/CustomShaderBackups.cpp" bodystart="62" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_custom_shader_backups_1acd9898f209eae0957e100a8c0598999c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::CustomShaderBackups::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::CustomShaderBackups::clear</qualifiedname>
+        <briefdescription>
+<para>Forgets every register saved so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" line="103" column="18" bodyfile="src/model/strategies/iniFixers/CustomShaderBackups.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_custom_shader_backups_1a137192fbf03fe055be922a8dbc8fb6ac" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::CustomShaderBackups::bindsRegister</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>bindsRegister</name>
+        <qualifiedname>AGRemapCore::CustomShaderBackups::bindsRegister</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Whether a key binds a resource register: <computeroutput>ps-t&lt;n&gt;</computeroutput>, <computeroutput>ps-cb&lt;n&gt;</computeroutput>, <computeroutput>vs-t&lt;n&gt;</computeroutput> or <computeroutput>vs-cb&lt;n&gt;</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether it binds a resource register </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" line="70" column="25" bodyfile="src/model/strategies/iniFixers/CustomShaderBackups.cpp" bodystart="21" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Saves the resource registers a ``[CustomShader...]`` assigns before it runs, and puts them back after
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+3DMigoto restores a CustomShader&apos;s shaders and render state when it returns, but NOT the resources its section
+assigns. A later draw of the same game draw -- another part on the same slot, drawn by the game&apos;s own shader --
+then reads them: a body shaded with another character&apos;s material constants renders black. :cpp:func:`wrap` puts a
+save line (``&lt;backup&gt; = ref &lt;reg&gt;``) before the ``run =`` lines of a CustomShader for each register its lines
+assign, and a restore line (``&lt;reg&gt; = ref &lt;backup&gt;``) after them. Each backup is a resource `section`_ of its own,
+which :cpp:func:`section` writes
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" line="39" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h" bodystart="39" bodyend="107"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1afdb59a0ebc41ac3882b3704881c13423" prot="public" virt="non-virtual"><scope>AGRemapCore::CustomShaderBackups</scope><name>BackupName</name></member>
+      <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1a4bcf81d9b84b4ea7e757c0911c2da095" prot="public" virt="non-virtual"><scope>AGRemapCore::CustomShaderBackups</scope><name>backupName</name></member>
+      <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1a137192fbf03fe055be922a8dbc8fb6ac" prot="public" virt="non-virtual"><scope>AGRemapCore::CustomShaderBackups</scope><name>bindsRegister</name></member>
+      <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1acd9898f209eae0957e100a8c0598999c" prot="public" virt="non-virtual"><scope>AGRemapCore::CustomShaderBackups</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1a6ce2dd4534e66ab7413f9ec8ccf55afc" prot="public" virt="non-virtual"><scope>AGRemapCore::CustomShaderBackups</scope><name>CustomShaderBackups</name></member>
+      <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1a7e0bc67823ccb473e9f939a5b6a85a4e" prot="public" virt="non-virtual"><scope>AGRemapCore::CustomShaderBackups</scope><name>KVPs</name></member>
+      <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1a0ae08caf40daef32e080aa0c1cd26c84" prot="public" virt="non-virtual"><scope>AGRemapCore::CustomShaderBackups</scope><name>registers</name></member>
+      <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1ae5001ae78fd257370139dd69458fbec9" prot="private" virt="non-virtual"><scope>AGRemapCore::CustomShaderBackups</scope><name>registers_</name></member>
+      <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1a4d9d6a398742e4a91e12c4ea069b57b2" prot="public" virt="non-virtual"><scope>AGRemapCore::CustomShaderBackups</scope><name>section</name></member>
+      <member refid="class_a_g_remap_core_1_1_custom_shader_backups_1a9e756dd2dd2d47aed473cdbe991fdbd8" prot="public" virt="non-virtual"><scope>AGRemapCore::CustomShaderBackups</scope><name>wrap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

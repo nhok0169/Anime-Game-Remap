@@ -52,6 +52,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/TemplateFixer.h"
+#include "AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h"
@@ -768,9 +769,10 @@ namespace AGRemapCore {
                     }
                     std::unordered_map<std::string, FixSection*> sections;
                     std::vector<std::string> names;
-                    for (const ZZMIFixerConfig::PassFilter& filter : config_.passFilters) {
-                        const std::string name = "ShaderOverride" + config_.target + IniKeywords::Remap + filter.label;
-                        fallbackSections_.push_back(makeSection(name, {{IniKeywords::Hash, filter.shaderHash}, {"filter_index", filter.filterIndex}}));
+                    const std::vector<std::string> labels = passTags();
+                    for (std::size_t i = 0; i < passTags_.tags().size(); ++i) {
+                        const std::string name = "ShaderOverride" + config_.target + IniKeywords::Remap + labels[i];
+                        fallbackSections_.push_back(passTags_.section(i, name));
                         sections[name] = fallbackSections_.back().get();
                         names.push_back(name);
                     }
@@ -902,10 +904,12 @@ namespace AGRemapCore {
                     std::sort(drawn.begin(), drawn.end(), [](const std::string& a, const std::string& b) { return lowered(a) < lowered(b); });
                     const std::string into = orderedName(drawn.front(), remapFixName(drawn.front()));
 
-                    std::string passes;
-                    for (const ZZMIFixerConfig::PassFilter& filter : config_.passFilters) {
-                        passes += (passes.empty() ? "" : " || ") + std::string("ps == ") + filter.filterIndex;
+                    passTags();
+                    std::vector<std::string> shaders;
+                    for (const ShaderFilterTags::Tag& tag : passTags_.tags()) {
+                        shaders.push_back(tag.shaderHash);
                     }
+                    const std::string passes = passTags_.condition("ps", shaders);
                     const std::string bak = IniKeywords::Resource + toModName_ + IniKeywords::Remap + "Vb1Bak";
                     const std::string pad = IniKeywords::Resource + dlName("AccessoryTexcoord");
 
@@ -1442,6 +1446,23 @@ namespace AGRemapCore {
                 // before every section holding a predicate parsed under it: members are destroyed in reverse order
                 Z3Context templateZ3_;
                 std::vector<std::unique_ptr<FixSection>> fallbackSections_;
+                ShaderFilterTags passTags_;                            // config_.passFilters, tagged -- see passTags
+
+                // Tags the shaders of config_.passFilters in passTags_, once; the label of each tag, in its order
+                std::vector<std::string> passTags() {
+                    std::vector<std::string> labels;
+                    if (passTags_.tags().empty()) {
+                        for (const ZZMIFixerConfig::PassFilter& filter : config_.passFilters) {
+                            passTags_.add(filter.shaderHash, filter.filterIndex);
+                        }
+                    }
+                    for (const ShaderFilterTags::Tag& tag : passTags_.tags()) {
+                        const auto filter = std::find_if(config_.passFilters.begin(), config_.passFilters.end(),
+                            [&tag](const ZZMIFixerConfig::PassFilter& each) { return each.shaderHash == tag.shaderHash; });
+                        labels.push_back(filter->label);
+                    }
+                    return labels;
+                }
                 std::unique_ptr<GraphCreate<>::Graph> fallbackGraph_;
                 std::unique_ptr<GraphCreate<>::Graph> rawGraph_;
                 std::vector<std::unique_ptr<Fixer::GroupEdit>> extrasEdits_;

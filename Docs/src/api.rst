@@ -1105,6 +1105,28 @@ VarSectionsCreate
 
 :raw-html:`<br />`
 
+ShaderFilterTags
+================
+
+.. attributetable:: FixRaidenBoss2.ShaderFilterTags
+
+.. autoclass:: FixRaidenBoss2.ShaderFilterTags
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CustomShaderBackups
+===================
+
+.. attributetable:: FixRaidenBoss2.CustomShaderBackups
+
+.. autoclass:: FixRaidenBoss2.CustomShaderBackups
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 GraphCreate
 ===========
 

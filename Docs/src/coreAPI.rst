@@ -1025,6 +1025,28 @@ VarSectionsCreate
 
 :raw-html:`<br />`
 
+ShaderFilterTags
+----------------
+
+.. cppattributetable:: AGRemapCore::ShaderFilterTags
+
+.. doxygenclass:: AGRemapCore::ShaderFilterTags
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+CustomShaderBackups
+-------------------
+
+.. cppattributetable:: AGRemapCore::CustomShaderBackups
+
+.. doxygenclass:: AGRemapCore::CustomShaderBackups
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 GraphCollectRow
 ---------------
 

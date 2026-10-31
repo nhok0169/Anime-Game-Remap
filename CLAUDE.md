@@ -407,6 +407,17 @@ as well make you write the prototype without any library." **Before writing any 
 truly lacks something, say so in a comment and keep the custom part minimal.** Creating Remaps'
 "A prototype is built FROM the library" has the need -> class table.
 
+**EVERY C++ CLASS IS FOR PYTHON TOO (the maintainer, 2026-10-31).** "Ideally we want all classes from C++ to be
+exposed to Python. A Python API User should have the same capability of using the API compared to a C++ API User."
+So a change that adds or moves capability into a C++ class -- a base class, a helper, a config field, a row-name
+constant -- binds it in the same change (a trampoline when the class is meant to be derived from), with `core.pyi`
+and the docs refreshed. Before choosing where a helper goes, grep `core.pyi` for its class: on 2026-10-31
+`TemplateFixer`, the base of all four fixer templates, had no binding at all (its own doc said "C++ only"), and a
+rough header-vs-stub count found ~180 non-character classes and structs with no Python class of the same name. The
+acceptance test of the fixer refactor is rewriting a template fixer in Python from the API alone, which only works
+once what it needs is reachable. See [Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s "EVERY C++ CLASS IS
+FOR PYTHON TOO".
+
 **A FIXER IS A LIST OF EDITS, NOT A PROGRAM (the maintainer, 2026-10-27 -- the SECOND time they have had to say
 it, after the Chisa remap).** The intended shape of every fixer, template or not, is a composition of the
 library's `BaseIniPartEdit`s -- `GraphGroupEdit`s, `GraphEdit`s and `RegEdit`s -- as simple as the Kirara example

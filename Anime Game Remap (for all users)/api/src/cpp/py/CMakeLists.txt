@@ -148,6 +148,7 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/graphGroupEdits/PyResRegCollect.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphCollect.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PySkeletonNumberingRead.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyParseDataStep.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyResGroupCollect.cpp
     src/model/strategies/iniParsers/PyBaseIniParser.cpp
     src/model/strategies/iniParsers/PyIniParseData.cpp

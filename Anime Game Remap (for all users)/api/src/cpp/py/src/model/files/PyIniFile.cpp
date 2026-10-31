@@ -492,6 +492,31 @@ txt: :class:`str`
     The new text content
         )doc"))
 
+        .def("sibling", [](const AGRC::IniFile &self, const std::string &file, std::optional<std::unordered_set<int>> forcedFromModTypeIds) {
+            return self.sibling(file, std::move(forcedFromModTypeIds));
+        }, py::arg("file"), py::arg("forcedFromModTypeIds") = py::none(), py::doc(R"doc(
+Another .ini file of the same mod, read the way this one is, and classified
+
+The new file takes this one's :meth:`getModTypes` as its mod types to choose from, and its :attr:`downloadMode`,
+:attr:`fromVersion` and :attr:`toVersion`. A mod's files are one mod: a file beside the one being fixed that binds
+textures on the same draws, or a recolour in its own .ini, is read as the same character's
+
+Parameters
+----------
+file: :class:`str`
+    The path to the other .ini file
+
+forcedFromModTypeIds: Optional[Set[:class:`int`]]
+    The ids of the mod types the new file is forced to be classified as, or ``None`` to classify it among this
+    file's mod types :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
+Returns
+-------
+:class:`IniFile`
+    The new file
+        )doc"))
         .def("getModTypes", [](AGRC::IniFile &self) {
             py::dict result;
             for (const auto &entry : self.getModTypes()) {

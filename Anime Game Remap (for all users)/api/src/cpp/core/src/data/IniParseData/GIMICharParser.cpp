@@ -34,6 +34,7 @@
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
+#include "AGRemapCore/model/strategies/iniParsers/TemplateParser.h"
 #include "AGRemapCore/tools/DownloadTools.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/TextTools.h"
@@ -43,7 +44,7 @@
 
 namespace AGRemapCore {
     namespace {
-        using Parser = GIMIParser<>;
+        using Parser = TemplateParser;
         using Classifier = Parser::Classifier;
         using ModObj = Parser::ModObj;
 
@@ -175,9 +176,7 @@ namespace AGRemapCore {
                                     std::unordered_map<std::string, ModObj> hashKeyOnlyToModObj,
                                     std::unordered_map<std::string, Classifier::IndexModObjs> indexKeyToModObj,
                                     const GIMICharParserConfig& config, long long vertexCount):
-                    Parser(nullptr, std::move(modObjs)), ctx_(iniFile, modTypeId), config_(config), vertexCount_(vertexCount) {
-                    this->setCtx(&ctx_);
-                    this->setIniFile(iniFile);
+                    Parser(iniFile, modTypeId, std::move(modObjs)), config_(config), vertexCount_(vertexCount) {
 
                     // One section may name several mod objects -- see RaidenParser for the 3dmigoto
                     // grammar bug this works around.
@@ -189,9 +188,9 @@ namespace AGRemapCore {
                     const auto hashOnlyMap = hashKeyOnlyToModObj;
                     const auto indexMap = indexKeyToModObj;
 
-                    classifier_ = std::make_unique<Classifier>(
+                    classifier_ = &this->ownClassifier(std::make_unique<Classifier>(
                         std::move(hashKeyOnlyToModObj), ctx_.modTypeHashes(),
-                        std::move(indexKeyToModObj), ctx_.modTypeIndices(), ctx_.version());
+                        std::move(indexKeyToModObj), ctx_.modTypeIndices(), ctx_.version()));
 
                     // HASH lookups filtered to this character's own rows. A hash value is unique
                     // to one character, so for a well-formed mod this changes nothing -- what it
@@ -278,9 +277,9 @@ namespace AGRemapCore {
                             return kvps;
                         };
 
-                    Classifier* classifier = classifier_.get();
+                    Classifier* classifier = classifier_;
                     this->objTargetFuncs.emplace_back(
-                        [this, classifier](Parser&, const std::string& sectionName, Section* section, bool,
+                        [this, classifier](GIMIParser<>&, const std::string& sectionName, Section* section, bool,
                                             ContentPart*, const Colouring* kvps) {
                             if (kvps == nullptr) {
                                 return std::vector<ModObj>();
@@ -1411,12 +1410,11 @@ namespace AGRemapCore {
                                              refToSection));
                 }
 
-                IniFileParseContext ctx_;
                 GIMICharParserConfig config_;
 
                 // The game model's vertex count, for a recolour's invented VertexLimitRaise
                 long long vertexCount_;
-                std::unique_ptr<Classifier> classifier_;
+                Classifier* classifier_ = nullptr;     // owned by the base (ownClassifier)
                 DownloadStore downloadStore_;
 
                 // Every download the constructor registered: a parse drops the ones a texture override

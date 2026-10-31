@@ -1190,6 +1190,17 @@ ResReplace
 
 :raw-html:`<br />`
 
+ParseDataStep
+-------------
+
+.. cppattributetable:: AGRemapCore::ParseDataStep
+
+.. doxygenclass:: AGRemapCore::ParseDataStep
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 SkeletonNumberingRead
 ---------------------
 
@@ -1716,6 +1727,17 @@ TemplateFixer
 .. cppattributetable:: AGRemapCore::TemplateFixer
 
 .. doxygenclass:: AGRemapCore::TemplateFixer
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TemplateParser
+--------------
+
+.. cppattributetable:: AGRemapCore::TemplateParser
+
+.. doxygenclass:: AGRemapCore::TemplateParser
     :members:
     :protected-members:
 

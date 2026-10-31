@@ -310,6 +310,35 @@ class IniFileTest(BaseUnitTest):
 
         self.compareSet(set(ini.getIfTemplates().keys()), {"TextureOverrideBody", "ResourceBody"})
 
+    def test_sibling_readTheWayThisOneIs_andClassified(self):
+        ini = FRB.IniFile(txt = "[TextureOverrideAmberCNBody]\n", downloadMode = "disabled",
+                          fromVersion = FRB.Version.parse("4.0"), toVersion = FRB.Version.parse("5.0"))
+        ini.classify()
+
+        path = self._writeTempIni()
+        with open(path, "w", encoding = "utf-8") as file:
+            file.write("[TextureOverrideAmberCNHead]\n")
+        other = ini.sibling(path)
+
+        self.assertEqual(other.file, path)
+        self.assertTrue(other.isClassified)
+        self.assertEqual(other.availableType.name, "AmberCN")
+        self.assertEqual(other.downloadMode, ini.downloadMode)
+        self.assertEqual(str(other.fromVersion), str(ini.fromVersion))
+        self.assertEqual(str(other.toVersion), str(ini.toVersion))
+
+    def test_sibling_forced_classifiedAsTheForcedType(self):
+        ini = FRB.IniFile(txt = "[TextureOverrideAmberCNBody]\n")
+        ini.classify()
+        amberCN = list(ini.getModTypes().keys())
+
+        path = self._writeTempIni()
+        with open(path, "w", encoding = "utf-8") as file:
+            file.write("[SomethingElse]\nkey = value\n")
+
+        self.assertFalse(ini.sibling(path).isModIni)
+        self.compareList(list(ini.sibling(path, forcedFromModTypeIds = set(amberCN)).getModTypes().keys()), amberCN)
+
     def test_folder_derivedFromFile(self):
         path = self._writeTempIni()
         self.assertEqual(FRB.IniFile(path).folder, os.path.dirname(path))

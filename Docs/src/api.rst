@@ -2256,6 +2256,17 @@ SideMeshes
 
 :raw-html:`<br />`
 
+ParseDataStep
+=============
+
+.. attributetable:: FixRaidenBoss2.ParseDataStep
+
+.. autoclass:: FixRaidenBoss2.ParseDataStep
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 SkeletonNumberingRead
 =====================
 

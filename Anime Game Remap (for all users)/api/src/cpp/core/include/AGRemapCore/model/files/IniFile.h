@@ -727,6 +727,26 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Another ``.ini`` file of the same mod, read the way this one is, and classified :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The new file takes this one's #getModTypes as its mod types to choose from, and its #downloadMode,
+             #fromVersion and #toVersion. A mod's files are one mod: a file beside the one being fixed that binds
+             textures on the same draws, or a recolour in its own ``.ini``, is read as the same character's
+             @endrst
+             *
+             * @param file The path to the other ``.ini`` file
+             * @param forcedFromModTypeIds The ids of the mod types the new file is forced to be classified as, or
+             *      ``std::nullopt`` to classify it among this file's mod types. **Default**: ``std::nullopt``
+             *
+             * @return The new file
+             */
+            std::unique_ptr<IniFile> sibling(const std::string& file,
+                                             std::optional<std::unordered_set<int>> forcedFromModTypeIds = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
              The result of the last #parse, or ``std::nullopt`` if this ``.ini`` file has never been
              parsed :raw-html:`<br />` :raw-html:`<br />`
 

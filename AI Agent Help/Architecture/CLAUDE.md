@@ -5,6 +5,26 @@ and the separate Cython extensions (`api/src/cy`). See [Building](../Building/CL
 compile, [Testing](../Testing/CLAUDE.md) to verify, and [Documentation](../Documentation/CLAUDE.md)
 for how these conventions show up in rendered docs.
 
+## EVERY C++ CLASS IS FOR PYTHON TOO (the maintainer, 2026-10-31)
+
+"Ideally we want all classes from C++ to be exposed to Python. A Python API User should have the same capability of
+using the API compared to a C++ API User." What that means in practice:
+
+- **Bind in the same change.** A new class, method, config field or constant in `core/` gets its pybind11 binding,
+  its `core.pyi` splice and its docs entry in the change that adds it -- not a later "bindings pass". An unbound
+  helper is invisible to every Python user and to the Python rewrites the maintainer uses as acceptance tests.
+- **A base class meant to be derived from needs a trampoline** (`py::class_<Base, Trampoline, py::smart_holder>`,
+  the trampoline also inheriting `py::trampoline_self_life_support` -- see the pybind11 notes further down). A base
+  whose subclasses only add data and call its protected helpers may need none: check what C++ calls through it.
+- **Check before placing a helper.** "Put it in TemplateFixer" was the right home on 2026-10-31 and still meant
+  binding TemplateFixer first: grep `core.pyi` for the class, and if it is missing, say so in the proposal.
+- **Doc comments that say "C++ only" are a debt, not a design.** `TemplateFixer`'s header said a Python fixer had
+  "nothing of this class to reach"; that stopped being true the moment its helpers became the shared toolbox.
+- **The gap is measured roughly, not exactly.** Comparing `class`/`struct` names in `core/include` against
+  `core.pyi` finds ~180 non-character names unbound (plus 136 per-character `XxxFixer`/`XxxParser`), but some are
+  nested types bound under another name (`GraphCollectRow` is `GraphCollect.Row`) or private details
+  (`TemplateFixer::TakeFixSections`). Sort a candidate by hand before binding it.
+
 ## A BLEND'S INFLUENCE COUNT IS A PARAMETER, AND ONE CLASS STILL SAYS FOUR (2026-09-30)
 
 Four influences a vertex is the Genshin shape. A Wuthering Waves `blend`_ carries as many as **eight**

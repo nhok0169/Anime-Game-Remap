@@ -312,6 +312,7 @@ add_library(AGRemapCore STATIC
     src/model/strategies/iniFixers/IniFileFixContext.cpp
     src/model/strategies/iniFixers/TemplateFixer.cpp
     src/model/strategies/iniParsers/IniFileParseContext.cpp
+    src/model/strategies/iniParsers/TemplateParser.cpp
     src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp
     src/model/strategies/iniFixers/graphGroupEdits/ResGroupCollectInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEditInstantiation.cpp

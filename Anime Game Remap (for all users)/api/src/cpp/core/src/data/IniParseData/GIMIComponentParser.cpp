@@ -35,6 +35,7 @@
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
+#include "AGRemapCore/model/strategies/iniParsers/TemplateParser.h"
 #include "AGRemapCore/tools/DownloadTools.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/files/FileService.h"
@@ -42,7 +43,7 @@
 
 namespace AGRemapCore {
     namespace {
-        using Parser = GIMIParser<>;
+        using Parser = TemplateParser;
         using Classifier = Parser::Classifier;
         using ModObj = Parser::ModObj;
 
@@ -69,9 +70,7 @@ namespace AGRemapCore {
             public:
                 GIMIComponentGIMIParser(IniFile* iniFile, std::optional<int> modTypeId, std::vector<ModObj> modObjs,
                                          const GIMIComponentParserConfig& config):
-                    Parser(nullptr, std::move(modObjs)), ctx_(iniFile, modTypeId), config_(config) {
-                    this->setCtx(&ctx_);
-                    this->setIniFile(iniFile);
+                    Parser(iniFile, modTypeId, std::move(modObjs)), config_(config) {
 
                     // One section may name several mod objects -- see RaidenParser.
                     this->disjointModObjs = false;
@@ -80,6 +79,7 @@ namespace AGRemapCore {
                     // draw -- see GIMIParser::ParserConfig::drawKey.
                     this->setDrawKey(IniKeywords::DrawIndexed);
 
+                    std::vector<Classifier*> classifiers;
                     for (const GIMIComponentParserConfig::Component& component : config_.components) {
                         std::unordered_map<std::string, ModObj> hashOnly = {
                             {PositionHashKey, ModObj(component.name, "position")},
@@ -100,17 +100,13 @@ namespace AGRemapCore {
                             classifier->setHashNonVersionVals({component.modTypeName, std::nullopt});
                         }
 
-                        classifiers_.push_back(std::move(classifier));
+                        classifiers.push_back(&this->ownClassifier(std::move(classifier)));
                     }
 
                     const GIMIComponentParserConfig* cfg = &config_;
-                    std::vector<Classifier*> classifiers;
-                    for (const auto& classifier : classifiers_) {
-                        classifiers.push_back(classifier.get());
-                    }
 
                     this->objTargetFuncs.emplace_back(
-                        [cfg, classifiers](Parser&, const std::string& sectionName, Section* section, bool,
+                        [cfg, classifiers](GIMIParser<>&, const std::string& sectionName, Section* section, bool,
                                             ContentPart*, const Colouring* kvps) {
                             std::vector<ModObj> result;
                             if (kvps == nullptr) {
@@ -1113,9 +1109,7 @@ namespace AGRemapCore {
                                              std::move(resourceKVPs), std::move(downloadRefKVPs), refToSection));
                 }
 
-                IniFileParseContext ctx_;
                 GIMIComponentParserConfig config_;
-                std::vector<std::unique_ptr<Classifier>> classifiers_;
                 std::map<ModObj, std::vector<std::pair<std::string, std::string>>> textureBindings_;
 
                 // A sibling .ini's recolour -- see readTextureOverrides: the RemapRef resource name ->

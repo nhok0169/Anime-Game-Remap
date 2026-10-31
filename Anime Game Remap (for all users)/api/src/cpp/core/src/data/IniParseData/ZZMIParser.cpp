@@ -26,12 +26,13 @@
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
+#include "AGRemapCore/model/strategies/iniParsers/TemplateParser.h"
 #include "AGRemapCore/tools/StringTools.h"
 
 
 namespace AGRemapCore {
     namespace {
-        using Parser = GIMIParser<>;
+        using Parser = TemplateParser;
         using Classifier = Parser::Classifier;
         using ModObj = Parser::ModObj;
         using Section = Parser::Section;
@@ -52,13 +53,12 @@ namespace AGRemapCore {
             public:
                 ZZMIParserImpl(IniFile* iniFile, std::optional<int> modTypeId, std::vector<ModObj> modObjs,
                                 const ZZMIFixerConfig& config):
-                    Parser(nullptr, std::move(modObjs)), ctx_(iniFile, modTypeId), config_(config) {
-                    this->setCtx(&ctx_);
-                    this->setIniFile(iniFile);
+                    Parser(iniFile, modTypeId, std::move(modObjs)), config_(config) {
                     this->disjointModObjs = false;
                     this->trackKeys = true;
                     this->keysToTrack = std::unordered_set<std::string>{IniKeywords::Hash, IniKeywords::MatchFirstIndex};
 
+                    std::vector<Classifier*> classifiers;
                     for (const ZZMIFixerConfig::Component& c : config_.components) {
                         std::unordered_map<std::string, ModObj> hashOnly;
                         for (const auto& kind : HashKinds) {
@@ -73,17 +73,13 @@ namespace AGRemapCore {
                             std::unordered_map<std::string, Classifier::IndexModObjs>{}, ctx_.modTypeIndices(),
                             ctx_.version());
                         classifier->setHashNonVersionVals({config_.source + c.name, std::nullopt});
-                        classifiers_.push_back(std::move(classifier));
+                        classifiers.push_back(&this->ownClassifier(std::move(classifier)));
                     }
 
                     const ZZMIFixerConfig* cfg = &config_;
-                    std::vector<Classifier*> classifiers;
-                    for (const auto& classifier : classifiers_) {
-                        classifiers.push_back(classifier.get());
-                    }
 
                     this->objTargetFuncs.emplace_back(
-                        [cfg, classifiers](Parser&, const std::string& sectionName, Section* section, bool,
+                        [cfg, classifiers](GIMIParser<>&, const std::string& sectionName, Section* section, bool,
                                             ContentPart*, const Colouring* kvps) {
                             std::vector<ModObj> result;
                             if (kvps == nullptr) {
@@ -117,9 +113,7 @@ namespace AGRemapCore {
                 }
 
             private:
-                IniFileParseContext ctx_;
                 ZZMIFixerConfig config_;
-                std::vector<std::unique_ptr<Classifier>> classifiers_;
         };
     }
 

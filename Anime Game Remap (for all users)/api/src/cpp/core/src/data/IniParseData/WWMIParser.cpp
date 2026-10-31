@@ -11,6 +11,8 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/SkeletonNumberingRead.h"
 #include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
+#include "AGRemapCore/model/strategies/iniParsers/TemplateParser.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ParseDataStep.h"
 #include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/model/textures/TexThumbprint.h"
 #include "AGRemapCore/tools/files/FileService.h"
@@ -61,7 +63,7 @@
 
 namespace AGRemapCore {
     namespace {
-        using Parser = GIMIParser<>;
+        using Parser = TemplateParser;
         using Classifier = Parser::Classifier;
         using ModObj = Parser::ModObj;
 
@@ -87,11 +89,9 @@ namespace AGRemapCore {
                  */
                 WWMIParser(IniFile* iniFile, std::optional<int> modTypeId, const WWMIParserConfig& config,
                                std::optional<Version> version, bool onlyThisFile = false):
-                    Parser(nullptr, {}, {}, {}, nullptr, true, false, true,
-                           std::unordered_set<std::string>{IniKeywords::Hash, IniKeywords::MatchFirstIndex, MatchIndexCountKey}),
-                    ctx_(iniFile, modTypeId), config_(config), version_(version), modTypeId_(modTypeId), onlyThisFile_(onlyThisFile) {
-                    this->setCtx(&ctx_);
-                    this->setIniFile(iniFile);
+                    Parser(iniFile, modTypeId), config_(config), version_(version), modTypeId_(modTypeId), onlyThisFile_(onlyThisFile) {
+                    this->disjointModObjs = false;
+                    this->keysToTrack = std::unordered_set<std::string>{IniKeywords::Hash, IniKeywords::MatchFirstIndex, MatchIndexCountKey};
 
                     // The slots: every Indices row typed component0, component1, ... the character has.
                     const std::string ownName = ctx_.modTypeName();
@@ -163,8 +163,8 @@ namespace AGRemapCore {
                     // every GI head's index too, filed at 6.1 -- that bucket holds no WuWa row, so
                     // component 0 classified as nothing until the version was handed over.
                     std::unordered_map<std::string, Classifier::IndexModObjs> indexMap{{config.slotHashType, std::move(slotObjs)}};
-                    classifier_ = std::make_unique<Classifier>(
-                        std::move(hashOnly), ctx_.modTypeHashes(), std::move(indexMap), ctx_.modTypeIndices(), std::move(version));
+                    classifier_ = &this->ownClassifier(std::make_unique<Classifier>(
+                        std::move(hashOnly), ctx_.modTypeHashes(), std::move(indexMap), ctx_.modTypeIndices(), std::move(version)));
 
                     // Both lookups filtered to the character's own rows: a hash value is unique per
                     // character, and an index like `0` is not.
@@ -173,9 +173,9 @@ namespace AGRemapCore {
                         classifier_->setIndexNonVersionVals({ownName, std::nullopt, std::nullopt});
                     }
 
-                    Classifier* classifier = classifier_.get();
+                    Classifier* classifier = classifier_;
                     this->objTargetFuncs.emplace_back(
-                        [this, classifier](Parser&, const std::string& sectionName, Section* section, bool,
+                        [this, classifier](GIMIParser<>&, const std::string& sectionName, Section* section, bool,
                                      ContentPart* part, const Colouring* kvps) {
                             if (kvps == nullptr) {
                                 return std::vector<ModObj>();
@@ -218,22 +218,8 @@ namespace AGRemapCore {
                 inline static const GraphId ResourceGraph{0, "resource", ""};
                 inline static const GraphId GlobalGraph{0, "global", ""};
 
-                // A step of this parser's own, as an edit that changes nothing and does its work as it is filed
-                class Filed: public GroupEdit, public IParseResult {
-                    public:
-                        explicit Filed(std::function<void(IniParseData&)> file): file_(std::move(file)) {}
-
-                        GraphGroups& edit(GraphGroups& graphGroups, const ModType*, const std::string& = "") override {
-                            return graphGroups;
-                        }
-
-                        void fileInto(IniParseData& data) const override {
-                            file_(data);
-                        }
-
-                    private:
-                        std::function<void(IniParseData&)> file_;
-                };
+                // A step of this parser's own: an edit that changes nothing and does its work as it is filed
+                using Filed = ParseDataStep;
 
                 bool isSlotObj(const ModObj& obj) const {
                     return obj.first.empty() && StringTools::startsWith(obj.second, config_.slotPrefix);
@@ -383,6 +369,7 @@ namespace AGRemapCore {
 
                 void buildSteps() {
                     const auto anyKey = [](const std::string&) { return true; };
+                    std::vector<std::unique_ptr<GroupEdit>> steps;
 
                     auto global = std::make_unique<GraphCreate<>>(GlobalGraph, nullptr);
                     global->graphOf = [this]() { return globalGraphForResources(); };
@@ -478,35 +465,32 @@ namespace AGRemapCore {
                         }
                     }
 
-                    ownedSteps_.push_back(std::move(files));
-                    ownedSteps_.push_back(std::move(declared));
+                    steps.push_back(std::move(files));
+                    steps.push_back(std::move(declared));
                     if (!onlyThisFile_) {
-                        ownedSteps_.push_back(std::move(sections));
+                        steps.push_back(std::move(sections));
                     }
-                    ownedSteps_.push_back(std::make_unique<GraphRemove<>>(std::vector<GraphId>{ResourceGraph, GlobalGraph}));
-                    ownedSteps_.push_back(std::move(slots));
-                    ownedSteps_.push_back(std::move(overrides));
-                    ownedSteps_.push_back(std::move(roles));
-                    ownedSteps_.push_back(std::move(toggles));
+                    steps.push_back(std::make_unique<GraphRemove<>>(std::vector<GraphId>{ResourceGraph, GlobalGraph}));
+                    steps.push_back(std::move(slots));
+                    steps.push_back(std::move(overrides));
+                    steps.push_back(std::move(roles));
+                    steps.push_back(std::move(toggles));
                     if (!onlyThisFile_) {
-                        ownedSteps_.push_back(std::make_unique<Filed>([this](IniParseData& data) { applyAnatomy(data); }));
-                        ownedSteps_.push_back(std::make_unique<SkeletonNumberingRead>(
+                        steps.push_back(std::make_unique<Filed>([this](IniParseData& data) { applyAnatomy(data); }));
+                        steps.push_back(std::make_unique<SkeletonNumberingRead>(
                             config_.skeletonNumberings, config_.referenceBoneCentroids, IniKeywords::WWMIPositionBuffer,
                             IniKeywords::WWMIBlendBuffer, "BlendRemapVertexVG", IniKeywords::WWMIVgOffset,
                             [this](const ModObj& obj) { return isSlotObj(obj); }));
-                        ownedSteps_.push_back(std::make_unique<Filed>([this](IniParseData& data) { readTextures(data); }));
+                        steps.push_back(std::make_unique<Filed>([this](IniParseData& data) { readTextures(data); }));
                     }
 
-                    this->deferredParseSteps.push_back(global.get());
+                    // the global graph first, then the resource collect, then the steps in the order built
+                    this->addDeferredParseStep(std::move(global));
                     if (!onlyThisFile_) {
                         this->deferredParseSteps.push_back(resourceCollect_.get());
                     }
-                    ownedSteps_.push_back(std::move(global));
-                    for (const auto& step : ownedSteps_) {
-                        if (step.get() == this->deferredParseSteps.front()) {
-                            continue;              // the global graph's copy, already first
-                        }
-                        this->deferredParseSteps.push_back(step.get());
+                    for (auto& step : steps) {
+                        this->addDeferredParseStep(std::move(step));
                     }
                 }
 
@@ -1188,18 +1172,9 @@ namespace AGRemapCore {
 
                 // Another .ini of the mod, as this character's: the same mod types, forced, and version
                 std::unique_ptr<IniFile> otherIni(const std::string& path) const {
-                    IniFile* ini = const_cast<IniFileParseContext&>(ctx_).getIniFile();
-                    std::unordered_map<int, ModType> modTypes;
-                    for (const auto& [id, modType] : ini->getModTypes()) {
-                        modTypes.emplace(id, modType);
-                    }
-
-                    auto other = std::make_unique<IniFile>(
-                        path, "", std::nullopt, std::nullopt,
-                        modTypeId_.has_value() ? std::optional<std::unordered_set<int>>(std::unordered_set<int>{*modTypeId_}) : std::nullopt,
-                        std::move(modTypes), nullptr, std::nullopt, DownloadMode::Normal, ini->fromVersion);
-                    other->classify();
-                    return other;
+                    const IniFile* ini = const_cast<IniFileParseContext&>(ctx_).getIniFile();
+                    return ini->sibling(path, modTypeId_.has_value()
+                        ? std::optional<std::unordered_set<int>>(std::unordered_set<int>{*modTypeId_}) : std::nullopt);
                 }
 
                 // Parses 'other' with this character's parser in its only-this-file mode; its rows are read
@@ -1514,14 +1489,12 @@ namespace AGRemapCore {
                 }
 
             private:
-                IniFileParseContext ctx_;
-                std::unique_ptr<Classifier> classifier_;
+                Classifier* classifier_ = nullptr;     // owned by the base (ownClassifier)
                 std::unique_ptr<ResRegCollect<>> resourceCollect_;
                 std::unique_ptr<ResIdentity<>> resourceIdentity_;
                 std::unordered_set<std::string> resourceKeys_;
                 std::unordered_set<std::string> watchHashes_;     // her slot hashes at every version, lowercased
                 std::unordered_map<std::string, std::string> declaredResources_;     // lowercased -> as declared
-                std::vector<std::unique_ptr<BaseIniGraphGroupEdit<>>> ownedSteps_;
                 WWMIParserConfig config_;
                 std::optional<Version> version_;
                 std::optional<int> modTypeId_;

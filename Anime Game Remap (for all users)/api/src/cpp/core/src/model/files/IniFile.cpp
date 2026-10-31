@@ -108,6 +108,15 @@ namespace AGRemapCore {
         return modTypes;
     }
 
+    std::unique_ptr<IniFile> IniFile::sibling(const std::string& file,
+                                              std::optional<std::unordered_set<int>> forcedFromModTypeIds) const {
+        std::unordered_map<int, ModType> choices(modTypes.begin(), modTypes.end());
+        auto other = std::make_unique<IniFile>(file, "", std::nullopt, std::nullopt, std::move(forcedFromModTypeIds),
+                                               std::move(choices), nullptr, std::nullopt, downloadMode, fromVersion, toVersion);
+        other->classify();
+        return other;
+    }
+
     const std::optional<IniFile::ParseData>& IniFile::getParseData() const {
         return parseData_;
     }

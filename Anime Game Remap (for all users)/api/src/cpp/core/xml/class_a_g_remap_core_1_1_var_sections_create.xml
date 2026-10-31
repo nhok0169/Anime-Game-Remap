@@ -1,0 +1,624 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_var_sections_create" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::VarSectionsCreate</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphGroupEdit&lt;&gt;</basecompoundref>
+    <includes refid="_var_sections_create_8h" local="no">VarSectionsCreate.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_var_sections_create_1af3572f4c06f2080a0f5bd8ded7afd228" prot="public" static="no">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>using AGRemapCore::VarSectionsCreate::ModObj = std::pair&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>ModObj</name>
+        <qualifiedname>AGRemapCore::VarSectionsCreate::ModObj</qualifiedname>
+        <briefdescription>
+<para>A mod object: <computeroutput>(component, object)</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" line="46" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_var_sections_create_1ac12e8c509cbc424ae59d015f2b14561c" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::string &gt;(std::size_t group)&gt;</type>
+        <definition>using AGRemapCore::VarSectionsCreate::VariablesOf = std::function&lt;std::vector&lt;std::string&gt;(std::size_t group)&gt;</definition>
+        <argsstring></argsstring>
+        <name>VariablesOf</name>
+        <qualifiedname>AGRemapCore::VarSectionsCreate::VariablesOf</qualifiedname>
+        <briefdescription>
+<para>The names of the variables that make up a group&apos;s graph, in order, given the group&apos;s index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" line="51" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups" kindref="compound">IIniGraphGroups</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphGroups = IIniGraphGroups&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>GraphGroups</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::GraphGroups</qualifiedname>
+        <briefdescription>
+<para>The group of graphs for each <computeroutput>.ini</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="61" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">GraphGroups::Graph</ref></type>
+        <definition>using AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::Graph = typename GraphGroups::Graph</definition>
+        <argsstring></argsstring>
+        <name>Graph</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::Graph</qualifiedname>
+        <briefdescription>
+<para>The type of graph held in a group. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="66" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_var_sections_create_1a6e0a2c8e1118433c8e24eeafb238d8d3" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_var_sections_create_1af3572f4c06f2080a0f5bd8ded7afd228" kindref="member">ModObj</ref></type>
+        <definition>ModObj AGRemapCore::VarSectionsCreate::graph</definition>
+        <argsstring></argsstring>
+        <name>graph</name>
+        <qualifiedname>AGRemapCore::VarSectionsCreate::graph</qualifiedname>
+        <briefdescription>
+<para>The mod object the graph is added under in each group. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" line="72" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_var_sections_create_1adc72c5356ec32f750cad30c1cb44a852" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_var_sections_create_1ac12e8c509cbc424ae59d015f2b14561c" kindref="member">VariablesOf</ref></type>
+        <definition>VariablesOf AGRemapCore::VarSectionsCreate::variablesOf</definition>
+        <argsstring></argsstring>
+        <name>variablesOf</name>
+        <qualifiedname>AGRemapCore::VarSectionsCreate::variablesOf</qualifiedname>
+        <briefdescription>
+<para>The names of the variables that make up a group&apos;s graph, in order, given the group&apos;s index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" line="77" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_var_sections_create_1a18c5e177a0a7762a5083e1a86faa3587" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; std::string, std::string &gt;</type>
+        <definition>IfTemplateRunConfig&lt;std::string, std::string&gt; AGRemapCore::VarSectionsCreate::runConfig</definition>
+        <argsstring></argsstring>
+        <name>runConfig</name>
+        <qualifiedname>AGRemapCore::VarSectionsCreate::runConfig</qualifiedname>
+        <briefdescription>
+<para>How the graph follows <computeroutput>run =</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" line="82" column="33" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_var_sections_create_1a02934765f57594b0cb20fc12bbee967e" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> *</type>
+        <definition>Z3Context* AGRemapCore::VarSectionsCreate::z3</definition>
+        <argsstring></argsstring>
+        <name>z3</name>
+        <qualifiedname>AGRemapCore::VarSectionsCreate::z3</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>The context the graph builds its conditions in, or <computeroutput>nullptr</computeroutput> for its own. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>nullptr</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" line="87" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_var_sections_create_1aa7f67f7557a826533aa9f44ee380a668" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_edit_variables" kindref="compound">GraphEditVariables</ref> &amp;</type>
+        <definition>GraphEditVariables&amp; AGRemapCore::VarSectionsCreate::variables_</definition>
+        <argsstring></argsstring>
+        <name>variables_</name>
+        <qualifiedname>AGRemapCore::VarSectionsCreate::variables_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" line="101" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_var_sections_create_1a331dad5516c817226e3b7a682fe8d3db" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; std::string, std::string &gt;</type>
+        <definition>IfTemplateRunConfig&lt; std::string, std::string &gt; AGRemapCore::VarSectionsCreate::runCalls</definition>
+        <argsstring>()</argsstring>
+        <name>runCalls</name>
+        <qualifiedname>AGRemapCore::VarSectionsCreate::runCalls</qualifiedname>
+        <briefdescription>
+<para>How a graph made of a fix&apos;s own <computeroutput>sections</computeroutput>_ follows <computeroutput>run =</computeroutput>: each value names the section it calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" line="56" column="40" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.cpp" bodystart="22" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" kindref="member">Graph</ref> *</type>
+        <definition>static Graph * AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::getGraph</definition>
+        <argsstring>(const GraphGroups &amp;graphGroups, const GraphId &amp;id, bool errorOnNotFound=true)</argsstring>
+        <name>getGraph</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::getGraph</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id" kindref="compound">GraphId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>errorOnNotFound</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the corresponding graph from a group of graphs :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   ``nullptr`` is the &quot;not found&quot; answer, following
+   :cpp:func:`IniSectionGraph::getSection`&apos;s found-or-``nullptr``-or-throw
+   convention
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs for each .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which graph to retrieve </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>errorOnNotFound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to throw when no graph is found. <bold>Default</bold>: <computeroutput>true</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If no graph is found and &apos;errorOnNotFound&apos; is <computeroutput>true</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The found graph, or ``nullptr`` if there is none and &apos;errorOnNotFound&apos; is ``false``.
+Non-owning -- the graph stays owned by &apos;graphGroups&apos;
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="185" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::addGraph</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, const GraphId &amp;id, Graph *graph)</argsstring>
+        <name>addGraph</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::addGraph</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id" kindref="compound">GraphId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" kindref="member">Graph</ref> *</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+<para>Adds a graph to the group of graphs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs for each .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where to add the graph </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The graph to add -- one &apos;graphGroups&apos; already owns, per
+:cpp:class:`IIniGraphGroups`&apos;s ownership contract
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+Whether the graph was added -- ``false`` if ``id.iniIndex`` is out of range for
+&apos;graphGroups&apos;
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="204" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_var_sections_create_1aa1b598d36c167e0328f39e650e06416b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::VarSectionsCreate::VarSectionsCreate</definition>
+        <argsstring>(GraphEditVariables &amp;variables, ModObj graph, VariablesOf variablesOf, IfTemplateRunConfig&lt; std::string, std::string &gt; runConfig=runCalls())</argsstring>
+        <name>VarSectionsCreate</name>
+        <qualifiedname>AGRemapCore::VarSectionsCreate::VarSectionsCreate</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_edit_variables" kindref="compound">GraphEditVariables</ref> &amp;</type>
+          <declname>variables</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_var_sections_create_1af3572f4c06f2080a0f5bd8ded7afd228" kindref="member">ModObj</ref></type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_var_sections_create_1ac12e8c509cbc424ae59d015f2b14561c" kindref="member">VariablesOf</ref></type>
+          <declname>variablesOf</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; std::string, std::string &gt;</type>
+          <declname>runConfig</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_var_sections_create_1a331dad5516c817226e3b7a682fe8d3db" kindref="member">runCalls</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Constructs the edit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>variables</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The variables <ndash/> borrowed, they must outlive the edit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="class_a_g_remap_core_1_1_var_sections_create_1a6e0a2c8e1118433c8e24eeafb238d8d3" kindref="member">graph</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>variablesOf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="class_a_g_remap_core_1_1_var_sections_create_1adc72c5356ec32f750cad30c1cb44a852" kindref="member">variablesOf</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>runConfig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="class_a_g_remap_core_1_1_var_sections_create_1a18c5e177a0a7762a5083e1a86faa3587" kindref="member">runConfig</ref>. <bold>Default</bold>: :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_var_sections_create_1a331dad5516c817226e3b7a682fe8d3db" kindref="member">runCalls</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" line="66" column="13" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.cpp" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_var_sections_create_1a3fffa688e3869756d326d78c38404803" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>VarSectionsCreate::GraphGroups &amp; AGRemapCore::VarSectionsCreate::edit</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, const ModType *modType, const std::string &amp;modName=&quot;&quot;) override</argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::VarSectionsCreate::edit</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a59f31133ebce97ea9fce0fec632adf2f">edit</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Writes the graphs <ndash/> see this class&apos;s own description. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The groups of graphs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unused </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod, handed to the graph&apos;s creation</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>&apos;graphGroups&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" line="98" column="25" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.cpp" bodystart="34" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>virtual GraphGroups &amp; AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::editFromIni</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, IniFile *ini, const ModType *modType, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>editFromIni</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::editFromIni</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_edit_1ab33bdc2d5a64a124d00f5025ac637f57">editFromIni</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_edit_1ab33bdc2d5a64a124d00f5025ac637f57">editFromIni</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_inherit_1a821135adeb849d731113e1a0e518546c">editFromIni</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1a7b6095857043caf379a9c0ba7e30a30d">editFromIni</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1ad4e28d301802e5740252e27d317672e0">editFromIni</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a49a20da6ec9db9f9d763c6d941632f9e">editFromIni</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1ae1a0baeb3a6aa32546c528d2fff64213">editFromIni</reimplementedby>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Edits a group of caller/callee graphs with state info from &apos;ini&apos; :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The base implementation forwards straight to #edit and **ignores &apos;ini&apos; entirely**
+   -- see :cpp:func:`BaseIniGraphEdit::editFromIni`&apos;s own note
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs to edit for each .ini file, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ini</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated original .ini file. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same groups that were passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="143" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniPartEdit::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_collect_1a3c713562e17061d3032679949225e575">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_skeleton_numbering_read_1a8727479fc40ef9cc47a28ea4243ff320">clear</reimplementedby>
+        <briefdescription>
+<para>Clears any saved state information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseIniGraphGroupEdit`
+
+Writes sections variables of a :cpp:class:`GraphEditVariables` out as a graph in each group :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+For each group, :cpp:member:`variablesOf` names the variables whose `sections`_ make up that group&apos;s graph, in
+order; a section of a name already in the graph is left out, so the first one written wins. The graph is added
+under :cpp:member:`graph` in that group, and a group whose variables hold nothing gets no graph. When there are no
+groups at all, the first group&apos;s variables are written into a group of its own
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VarSectionsCreate</label>
+        <link refid="class_a_g_remap_core_1_1_var_sections_create"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::GraphEditVariables</label>
+        <link refid="class_a_g_remap_core_1_1_graph_edit_variables"/>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::IfTemplateRunConfig&lt; std::string, std::string &gt;</label>
+        <link refid="struct_a_g_remap_core_1_1_if_template_run_config"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VarSectionsCreate</label>
+        <link refid="class_a_g_remap_core_1_1_var_sections_create"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>runConfig</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>z3</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>variables_</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::Z3Context</label>
+        <link refid="class_a_g_remap_core_1_1_z3_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" line="41" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h" bodystart="41" bodyend="102"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>addGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_var_sections_create_1a3fffa688e3869756d326d78c38404803" prot="public" virt="virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591" prot="public" virt="virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" virt="non-virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>getGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" prot="public" virt="non-virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_var_sections_create_1a6e0a2c8e1118433c8e24eeafb238d8d3" prot="public" virt="non-virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" prot="public" virt="non-virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>GraphGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_var_sections_create_1af3572f4c06f2080a0f5bd8ded7afd228" prot="public" virt="non-virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_var_sections_create_1a331dad5516c817226e3b7a682fe8d3db" prot="public" virt="non-virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>runCalls</name></member>
+      <member refid="class_a_g_remap_core_1_1_var_sections_create_1a18c5e177a0a7762a5083e1a86faa3587" prot="public" virt="non-virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>runConfig</name></member>
+      <member refid="class_a_g_remap_core_1_1_var_sections_create_1aa7f67f7557a826533aa9f44ee380a668" prot="private" virt="non-virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>variables_</name></member>
+      <member refid="class_a_g_remap_core_1_1_var_sections_create_1ac12e8c509cbc424ae59d015f2b14561c" prot="public" virt="non-virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>VariablesOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_var_sections_create_1adc72c5356ec32f750cad30c1cb44a852" prot="public" virt="non-virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>variablesOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_var_sections_create_1aa1b598d36c167e0328f39e650e06416b" prot="public" virt="non-virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>VarSectionsCreate</name></member>
+      <member refid="class_a_g_remap_core_1_1_var_sections_create_1a02934765f57594b0cb20fc12bbee967e" prot="public" virt="non-virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>z3</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::VarSectionsCreate</scope><name>~BaseIniPartEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

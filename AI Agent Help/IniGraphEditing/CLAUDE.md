@@ -1,5 +1,29 @@
 # Ini Graph Editing
 
+## Edits pass data to each other through VARIABLES: `GraphEditVariables` (2026-10-31)
+
+**When one edit has to hand data to a later one, keep it in a named variable rather than a new holder class.**
+`GraphEditVariables` (`model/strategies/iniFixers/`) holds named variables, each one graph's worth of data; today a
+variable holds `sections`, in order, with places `reserve` can hold open. Two graph-group edits use it:
+`VarSectionsTake` copies named sections of a graph into a variable (optionally keeping the place held when the edit
+was made) and removes the graph, and `VarSectionsCreate` writes variables out as a graph in each group (a callable
+names, per group, which variables make up its graph). `TemplateFixer`'s own sections are the variables `fixSections`
+(no group) and `fixSections.<g>` (one group). All of it is bound to Python, so a fixer built on the Python
+`GIMIFixer` has the same thing.
+
+**The maintainer's naming rule:** `GraphEditVariables` is for data about ONE graph. If a use case ever needs data that
+spans several graphs, that is a `GraphGroupEditVariables` -- **made only when such a use case exists**, not ahead of
+it. A per-group piece of data is not that case: it is one variable per group (as `fixSections.<g>` is), and which
+groups a variable is written into is the writing edit's choice, not the variable's.
+
+**The other variable-like mechanism is `GraphCollect`** (KVP rows, filed by name into `IniParseData`). It predates
+this and was not moved onto it; putting its rows in the same store is a possible later step. The same warning applies
+to both: **a variable is a snapshot** -- an edit that changes a graph later does not change what was saved from it.
+
+**Before adding a holder for some edit's data, use a variable.** A first try at this was a `FixSections` class --
+the fix's sections plus two edits, bound -- and it was replaced the same day, because it was one more class for what is
+one idea: a named place an edit saves graph content into, and reads or writes back later.
+
 ## `RegNewVals` can write a value computed FROM the old one (2026-09-29)
 
 **The whole `regEdits` family moves a `KVP` around; until this, none of them could turn a value into

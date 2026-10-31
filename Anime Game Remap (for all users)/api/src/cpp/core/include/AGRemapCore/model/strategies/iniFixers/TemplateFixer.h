@@ -26,6 +26,9 @@
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
+#include "AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h"
@@ -420,21 +423,16 @@ namespace AGRemapCore {
             std::string toModName_;
 
         private:
-            class TakeFixSections;
-
-            // Adds 'section' at place 'place' of fixSections_, when giveUp has not emptied it since the place
-            // was held ('cleared'); otherwise as addFixSection does
-            void addFixSectionAt(std::unique_ptr<Section> section, std::size_t place, std::size_t cleared);
-
             void addFixSectionGraphs(const std::string& modName);
 
-            std::vector<std::unique_ptr<GroupEdit>> takeEdits_;
+            // The sections variable of the sections added with no group, and of the ones for group 'group'
+            static std::string fixSectionsVariable();
+            static std::string fixSectionsVariable(std::size_t group);
 
-            // the sections added with no group, as places: each addFixSection is one place, and an
-            // in-place takeFixSections holds one open for the sections it takes
-            std::vector<std::vector<std::unique_ptr<Section>>> fixSections_;
-            std::size_t fixSectionsCleared_ = 0;     // how many times giveUp emptied fixSections_
-            std::map<std::size_t, std::vector<std::unique_ptr<Section>>> groupFixSections_;
+            // the sections the fix writes of its own, as variables, and the edits that take and write them
+            GraphEditVariables fixVariables_;
+            std::vector<std::unique_ptr<VarSectionsTake>> takeEdits_;
+            std::unique_ptr<VarSectionsCreate> createEdit_;
             bool gaveUp_ = false;
             GraphGroupRemove<std::string, std::string> removeEveryGroup_;
     };

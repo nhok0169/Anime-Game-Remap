@@ -418,6 +418,12 @@ acceptance test of the fixer refactor is rewriting a template fixer in Python fr
 once what it needs is reachable. See [Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s "EVERY C++ CLASS IS
 FOR PYTHON TOO".
 
+**EDITS PASS DATA THROUGH NAMED VARIABLES: `GraphEditVariables` (2026-10-31).** When one edit hands data to a later
+one, keep it in a variable of a `GraphEditVariables` (`VarSectionsTake` saves sections into one, `VarSectionsCreate`
+writes them out as a graph) rather than writing a new holder class. It holds data about ONE graph; a
+`GraphGroupEditVariables` for data spanning several graphs is made only when a use case needs it (the maintainer's
+rule). See [Ini Graph Editing](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md)'s first section.
+
 **A FIXER IS A LIST OF EDITS, NOT A PROGRAM (the maintainer, 2026-10-27 -- the SECOND time they have had to say
 it, after the Chisa remap).** The intended shape of every fixer, template or not, is a composition of the
 library's `BaseIniPartEdit`s -- `GraphGroupEdit`s, `GraphEdit`s and `RegEdit`s -- as simple as the Kirara example

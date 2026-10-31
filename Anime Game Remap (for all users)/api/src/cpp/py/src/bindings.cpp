@@ -204,6 +204,7 @@ void initCppGIMISectionClassifier(pybind11::module_ &m);
 void initCppGIMIParser(pybind11::module_ &m);
 void initCppSkeletonNumberingRead(pybind11::module_ &m);
 void initCppParseDataStep(pybind11::module_ &m);
+void initCppGraphEditVariables(pybind11::module_ &m);
 void initCppBaseIniFixer(pybind11::module_ &m);
 void initCppGIMIFixer(pybind11::module_ &m);
 void initCppMultiModFixer(pybind11::module_ &m);
@@ -355,6 +356,7 @@ PYBIND11_MODULE(core, m) {
     initCppGraphCollect(m); // must come after initCppBaseIniGraphGroupEdit and initCppIParseResult (registers its bases)
     initCppSkeletonNumberingRead(m); // must come after initCppIParseResult (registers its base) and initCppSkeletonNumberingProbe (its numberings)
     initCppParseDataStep(m); // must come after initCppBaseIniGraphGroupEdit and initCppIParseResult (registers its bases)
+    initCppGraphEditVariables(m); // must come after initCppBaseIniGraphGroupEdit (its edits' base), the IfTemplate and Z3Context bindings
     initCppResGroupCollect(m); // must come after initCppBaseIniGraphGroupEdit (registers its base), initCppResEdit and initCppIniGroupedResource (the groups it builds)
     initCppHash64(m);
     initCppHash128(m);

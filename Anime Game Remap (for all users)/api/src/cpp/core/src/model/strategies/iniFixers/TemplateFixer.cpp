@@ -110,66 +110,13 @@ namespace AGRemapCore {
         gaveUp_ = true;
         this->graphGroupEdits = {&removeEveryGroup_};
         fixSectionEdits.clear();
-        fixSections_.clear();
-        ++fixSectionsCleared_;
-        groupFixSections_.clear();
+        fixVariables_.clear();
     }
-
-    // see TemplateFixer::takeFixSections
-    class TemplateFixer::TakeFixSections: public BaseIniGraphGroupEdit<std::string, std::string> {
-        public:
-            TakeFixSections(TemplateFixer& fixer, ModObj graph, std::vector<std::string> sections, std::string comment,
-                            std::optional<std::pair<std::size_t, std::size_t>> place):
-                fixer_(fixer), graph_(std::move(graph)), sections_(std::move(sections)), comment_(std::move(comment)),
-                place_(place) {}
-
-            GraphGroups& edit(GraphGroups& graphGroups, const ModType*, const std::string& = "") override {
-                if (graphGroups.size() == 0) {
-                    return graphGroups;
-                }
-
-                auto* graph = graphGroups.getGraph(0, graph_);
-                if (graph == nullptr) {
-                    return graphGroups;
-                }
-
-                for (const std::string& name : sections_) {
-                    Section* section = graph->getSection(name, false);
-                    if (section == nullptr) {
-                        continue;
-                    }
-
-                    std::unique_ptr<Section> copy = section->deepcopy();
-                    copy->prefix = comment_.empty() ? "" : "; " + comment_;
-                    copy->rebuild();
-                    if (place_.has_value()) {
-                        fixer_.addFixSectionAt(std::move(copy), place_->first, place_->second);
-                    } else {
-                        fixer_.addFixSection(std::move(copy));
-                    }
-                }
-
-                graphGroups.removeGraph(0, graph_);
-                return graphGroups;
-            }
-
-        private:
-            TemplateFixer& fixer_;
-            ModObj graph_;
-            std::vector<std::string> sections_;
-            std::string comment_;
-            std::optional<std::pair<std::size_t, std::size_t>> place_;     // (place, giveUp count) when in place
-    };
 
     TemplateFixer::GroupEdit* TemplateFixer::takeFixSections(const ModObj& graph, std::vector<std::string> sections,
                                                                   const std::string& comment, bool inPlace) {
-        std::optional<std::pair<std::size_t, std::size_t>> place;
-        if (inPlace) {
-            place.emplace(fixSections_.size(), fixSectionsCleared_);
-            fixSections_.emplace_back();
-        }
-
-        takeEdits_.push_back(std::make_unique<TakeFixSections>(*this, graph, std::move(sections), comment, place));
+        takeEdits_.push_back(std::make_unique<VarSectionsTake>(fixVariables_, fixSectionsVariable(), graph, std::move(sections),
+                                                               comment, inPlace));
         return takeEdits_.back().get();
     }
 
@@ -246,25 +193,16 @@ namespace AGRemapCore {
                                     {IniKeywords::TexFxUseDefaultShader, "-1"}});
     }
 
-    void TemplateFixer::addFixSection(std::unique_ptr<Section> section, std::optional<std::size_t> group) {
-        if (section == nullptr) {
-            return;
-        }
-
-        if (group.has_value()) {
-            groupFixSections_[*group].push_back(std::move(section));
-        } else {
-            fixSections_.emplace_back().push_back(std::move(section));
-        }
+    std::string TemplateFixer::fixSectionsVariable() {
+        return "fixSections";
     }
 
-    void TemplateFixer::addFixSectionAt(std::unique_ptr<Section> section, std::size_t place, std::size_t cleared) {
-        if (cleared != fixSectionsCleared_ || place >= fixSections_.size()) {
-            addFixSection(std::move(section));
-            return;
-        }
+    std::string TemplateFixer::fixSectionsVariable(std::size_t group) {
+        return fixSectionsVariable() + "." + std::to_string(group);
+    }
 
-        fixSections_[place].push_back(std::move(section));
+    void TemplateFixer::addFixSection(std::unique_ptr<Section> section, std::optional<std::size_t> group) {
+        fixVariables_.sections(group.has_value() ? fixSectionsVariable(*group) : fixSectionsVariable()).add(std::move(section));
     }
 
     GraphRemove<std::string, std::string>::GraphId TemplateFixer::fixSectionsGraphId(std::size_t group) {
@@ -272,42 +210,24 @@ namespace AGRemapCore {
     }
 
     void TemplateFixer::addFixSectionGraphs(const std::string& modName) {
-        Fixer::GraphGroups& groups = *this->graphGroups();
-        // ...and a group of their own when every group was removed (see giveUp)
-        const bool anyFixSection = std::any_of(fixSections_.begin(), fixSections_.end(),
-                                               [](const auto& place) { return !place.empty(); });
-        const std::size_t count = std::max<std::size_t>(groups.size(), anyFixSection ? 1 : 0);
-        for (std::size_t g = 0; g < count; ++g) {
-            std::vector<Section*> sections;
-            if (g == 0 || fixSectionsInCopies) {
-                for (const auto& place : fixSections_) {
-                    for (const auto& section : place) {
-                        sections.push_back(section.get());
+        // each group's graph: the sections added with no group (into the first group, or every copy too), then the
+        // group's own
+        if (createEdit_ == nullptr) {
+            createEdit_ = std::make_unique<VarSectionsCreate>(
+                fixVariables_, fixSectionsGraphId(0).modObj,
+                [this](std::size_t group) {
+                    std::vector<std::string> names;
+                    if (group == 0 || fixSectionsInCopies) {
+                        names.push_back(fixSectionsVariable());
                     }
-                }
-            }
-            const auto own = groupFixSections_.find(g);
-            if (own != groupFixSections_.end()) {
-                for (const auto& section : own->second) {
-                    sections.push_back(section.get());
-                }
-            }
-            if (sections.empty()) {
-                continue;
-            }
-
-            // in the order they were added; a repeated name keeps its first section
-            std::unordered_map<std::string, Section*> byName;
-            std::vector<std::string> names;
-            for (Section* section : sections) {
-                if (byName.emplace(section->name, section).second) {
-                    names.push_back(section->name);
-                }
-            }
-
-            GraphCreate<std::string, std::string>::Graph graph(std::move(byName), names, sectionRunConfig(), true, false, fixSectionsZ3);
-            GraphCreate<std::string, std::string>(fixSectionsGraphId(g), &graph).edit(groups, nullptr, modName);
+                    names.push_back(fixSectionsVariable(group));
+                    return names;
+                },
+                sectionRunConfig());
         }
+
+        createEdit_->z3 = fixSectionsZ3;
+        createEdit_->edit(*this->graphGroups(), nullptr, modName);
     }
 
     void TemplateFixer::giveUp(const std::string& logLine) {

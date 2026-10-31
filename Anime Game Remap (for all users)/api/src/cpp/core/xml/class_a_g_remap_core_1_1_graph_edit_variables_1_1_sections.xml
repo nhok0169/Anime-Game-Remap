@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GraphEditVariables::Sections</compoundname>
+    <includes refid="_graph_edit_variables_8h" local="no">GraphEditVariables.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a3b6831e9fe0a3e910c094bcec2ac8f17" prot="public" static="no">
+        <type>std::pair&lt; std::size_t, std::size_t &gt;</type>
+        <definition>using AGRemapCore::GraphEditVariables::Sections::Place = std::pair&lt;std::size_t, std::size_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>Place</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Sections::Place</qualifiedname>
+        <briefdescription>
+<para>A place :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1ae62833a0822b429f18a22e1b3a5f547f" kindref="member">reserve</ref></computeroutput> held open: its index, and how many times the variable was cleared when it was held. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="65" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1aae88b27c42efd42f4376b2d0d007a006" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_graph_edit_variables_1a593a8d711cd9c2db2520a5c880f3b80e" kindref="member">Section</ref> &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;std::unique_ptr&lt;Section&gt; &gt; &gt; AGRemapCore::GraphEditVariables::Sections::places_</definition>
+        <argsstring></argsstring>
+        <name>places_</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Sections::places_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="113" column="33" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1aea97283e12861c573100130d029559b3" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::GraphEditVariables::Sections::cleared_</definition>
+        <argsstring></argsstring>
+        <name>cleared_</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Sections::cleared_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="114" column="33" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1aff98a01f23d4e028ec01cf0301e68063" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GraphEditVariables::Sections::Sections</definition>
+        <argsstring>()=default</argsstring>
+        <name>Sections</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Sections::Sections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="67" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a5bbf263a1613a274a5f7a41e98904acb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GraphEditVariables::Sections::Sections</definition>
+        <argsstring>(const Sections &amp;)=delete</argsstring>
+        <name>Sections</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Sections::Sections</qualifiedname>
+        <param>
+          <type>const Sections &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="68" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a1487bb541bf561015d83bd5bf9e8426b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1aff98a01f23d4e028ec01cf0301e68063" kindref="member">Sections</ref> &amp;</type>
+        <definition>Sections &amp; AGRemapCore::GraphEditVariables::Sections::operator=</definition>
+        <argsstring>(const Sections &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Sections::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1aff98a01f23d4e028ec01cf0301e68063" kindref="member">Sections</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="69" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1af6d5f157daa98b1caca195f99085f5d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::GraphEditVariables::Sections::add</definition>
+        <argsstring>(std::unique_ptr&lt; Section &gt; section)</argsstring>
+        <name>add</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Sections::add</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_graph_edit_variables_1a593a8d711cd9c2db2520a5c880f3b80e" kindref="member">Section</ref> &gt;</type>
+          <declname>section</declname>
+        </param>
+        <briefdescription>
+<para>Adds a section at the end. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The section </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="76" column="26" bodyfile="src/model/strategies/iniFixers/GraphEditVariables.cpp" bodystart="18" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1ae62833a0822b429f18a22e1b3a5f547f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a3b6831e9fe0a3e910c094bcec2ac8f17" kindref="member">Place</ref></type>
+        <definition>GraphEditVariables::Sections::Place AGRemapCore::GraphEditVariables::Sections::reserve</definition>
+        <argsstring>()</argsstring>
+        <name>reserve</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Sections::reserve</qualifiedname>
+        <briefdescription>
+<para>Holds a place open at the end, for sections added later with :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a67db4e23bd050d7cc6ddd18918b1e76f" kindref="member">addAt</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The place </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="83" column="27" bodyfile="src/model/strategies/iniFixers/GraphEditVariables.cpp" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a67db4e23bd050d7cc6ddd18918b1e76f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::GraphEditVariables::Sections::addAt</definition>
+        <argsstring>(std::unique_ptr&lt; Section &gt; section, const Place &amp;place)</argsstring>
+        <name>addAt</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Sections::addAt</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_graph_edit_variables_1a593a8d711cd9c2db2520a5c880f3b80e" kindref="member">Section</ref> &gt;</type>
+          <declname>section</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a3b6831e9fe0a3e910c094bcec2ac8f17" kindref="member">Place</ref> &amp;</type>
+          <declname>place</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds a section at a place :cpp:func:`reserve` held, after the sections already added there --
+or at the end, when the variable was cleared since the place was held
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The section </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>place</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The place </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="95" column="26" bodyfile="src/model/strategies/iniFixers/GraphEditVariables.cpp" bodystart="29" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1aba2af7fc94553b0043277f693491b0f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_edit_variables_1a593a8d711cd9c2db2520a5c880f3b80e" kindref="member">Section</ref> * &gt;</type>
+        <definition>std::vector&lt; GraphEditVariables::Section * &gt; AGRemapCore::GraphEditVariables::Sections::list</definition>
+        <argsstring>() const</argsstring>
+        <name>list</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Sections::list</qualifiedname>
+        <briefdescription>
+<para>The sections, in order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="100" column="33" bodyfile="src/model/strategies/iniFixers/GraphEditVariables.cpp" bodystart="42" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a9858bb3758587ee3fbed66c0a15a634e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GraphEditVariables::Sections::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Sections::empty</qualifiedname>
+        <briefdescription>
+<para>Whether the variable holds no section. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="105" column="26" bodyfile="src/model/strategies/iniFixers/GraphEditVariables.cpp" bodystart="52" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a26756f05ee828dfef8d164c804943aec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::GraphEditVariables::Sections::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Sections::clear</qualifiedname>
+        <briefdescription>
+<para>Drops every section; a place held before is held no more. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="110" column="26" bodyfile="src/model/strategies/iniFixers/GraphEditVariables.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A variable holding the `sections`_ of one graph, in order :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Each :cpp:func:`add` is one place in the order. :cpp:func:`reserve` holds a place open so sections known
+only later (a :cpp:class:`VarSectionsTake` that runs at fix time) land where the reservation was made
+rather than after everything added since
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="59" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" bodystart="59" bodyend="115"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1af6d5f157daa98b1caca195f99085f5d8" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Sections</scope><name>add</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a67db4e23bd050d7cc6ddd18918b1e76f" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Sections</scope><name>addAt</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a26756f05ee828dfef8d164c804943aec" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Sections</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1aea97283e12861c573100130d029559b3" prot="private" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Sections</scope><name>cleared_</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a9858bb3758587ee3fbed66c0a15a634e" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Sections</scope><name>empty</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1aba2af7fc94553b0043277f693491b0f0" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Sections</scope><name>list</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a1487bb541bf561015d83bd5bf9e8426b" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Sections</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a3b6831e9fe0a3e910c094bcec2ac8f17" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Sections</scope><name>Place</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1aae88b27c42efd42f4376b2d0d007a006" prot="private" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Sections</scope><name>places_</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1ae62833a0822b429f18a22e1b3a5f547f" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Sections</scope><name>reserve</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1aff98a01f23d4e028ec01cf0301e68063" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Sections</scope><name>Sections</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_sections_1a5bbf263a1613a274a5f7a41e98904acb" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Sections</scope><name>Sections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

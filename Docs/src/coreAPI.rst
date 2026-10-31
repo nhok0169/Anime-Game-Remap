@@ -992,6 +992,39 @@ GraphCollect
 
 :raw-html:`<br />`
 
+GraphEditVariables
+------------------
+
+.. cppattributetable:: AGRemapCore::GraphEditVariables
+
+.. doxygenclass:: AGRemapCore::GraphEditVariables
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VarSectionsTake
+---------------
+
+.. cppattributetable:: AGRemapCore::VarSectionsTake
+
+.. doxygenclass:: AGRemapCore::VarSectionsTake
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VarSectionsCreate
+-----------------
+
+.. cppattributetable:: AGRemapCore::VarSectionsCreate
+
+.. doxygenclass:: AGRemapCore::VarSectionsCreate
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 GraphCollectRow
 ---------------
 

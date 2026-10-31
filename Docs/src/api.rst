@@ -1072,6 +1072,39 @@ GraphCollect
 
 :raw-html:`<br />`
 
+GraphEditVariables
+==================
+
+.. attributetable:: FixRaidenBoss2.GraphEditVariables
+
+.. autoclass:: FixRaidenBoss2.GraphEditVariables
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+VarSectionsTake
+===============
+
+.. attributetable:: FixRaidenBoss2.VarSectionsTake
+
+.. autoclass:: FixRaidenBoss2.VarSectionsTake
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+VarSectionsCreate
+=================
+
+.. attributetable:: FixRaidenBoss2.VarSectionsCreate
+
+.. autoclass:: FixRaidenBoss2.VarSectionsCreate
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 GraphCreate
 ===========
 

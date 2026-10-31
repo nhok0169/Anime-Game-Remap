@@ -80,7 +80,7 @@ namespace AGRemapCore {
         config.sharedMeshes = {
             {"646aa163", {{"57661bc080f261c6", {{"ps-t1", "blindfold"}}}}},
         };
-        config.meshCounterparts = {{"baaa6262", "646aa163"}};
+        config.meshCounterparts = {"blindfold"};
 
         // ---- ...and every tag NAMED. A shader holds ONE filter_index across every loaded .ini, so the
         // shaders other pairs already tag keep their values (Sanhua's hair .91, Chisa's face .76 and

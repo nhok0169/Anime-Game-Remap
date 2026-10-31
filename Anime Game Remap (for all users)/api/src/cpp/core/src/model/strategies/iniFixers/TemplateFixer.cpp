@@ -18,7 +18,6 @@
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/iftemplate/IfContentPart.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
-#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
 #include "AGRemapCore/tools/StringTools.h"
 
 #include <algorithm>
@@ -112,14 +111,17 @@ namespace AGRemapCore {
         this->graphGroupEdits = {&removeEveryGroup_};
         fixSectionEdits.clear();
         fixSections_.clear();
+        ++fixSectionsCleared_;
         groupFixSections_.clear();
     }
 
     // see TemplateFixer::takeFixSections
     class TemplateFixer::TakeFixSections: public BaseIniGraphGroupEdit<std::string, std::string> {
         public:
-            TakeFixSections(TemplateFixer& fixer, ModObj graph, std::vector<std::string> sections, std::string comment):
-                fixer_(fixer), graph_(std::move(graph)), sections_(std::move(sections)), comment_(std::move(comment)) {}
+            TakeFixSections(TemplateFixer& fixer, ModObj graph, std::vector<std::string> sections, std::string comment,
+                            std::optional<std::pair<std::size_t, std::size_t>> place):
+                fixer_(fixer), graph_(std::move(graph)), sections_(std::move(sections)), comment_(std::move(comment)),
+                place_(place) {}
 
             GraphGroups& edit(GraphGroups& graphGroups, const ModType*, const std::string& = "") override {
                 if (graphGroups.size() == 0) {
@@ -140,7 +142,11 @@ namespace AGRemapCore {
                     std::unique_ptr<Section> copy = section->deepcopy();
                     copy->prefix = comment_.empty() ? "" : "; " + comment_;
                     copy->rebuild();
-                    fixer_.addFixSection(std::move(copy));
+                    if (place_.has_value()) {
+                        fixer_.addFixSectionAt(std::move(copy), place_->first, place_->second);
+                    } else {
+                        fixer_.addFixSection(std::move(copy));
+                    }
                 }
 
                 graphGroups.removeGraph(0, graph_);
@@ -152,28 +158,19 @@ namespace AGRemapCore {
             ModObj graph_;
             std::vector<std::string> sections_;
             std::string comment_;
+            std::optional<std::pair<std::size_t, std::size_t>> place_;     // (place, giveUp count) when in place
     };
 
     TemplateFixer::GroupEdit* TemplateFixer::takeFixSections(const ModObj& graph, std::vector<std::string> sections,
-                                                                  const std::string& comment) {
-        takeEdits_.push_back(std::make_unique<TakeFixSections>(*this, graph, std::move(sections), comment));
-        return takeEdits_.back().get();
-    }
-
-    std::unique_ptr<TemplateFixer::Section> TemplateFixer::copyOnHash(const Section& section, const std::string& hash,
-                                                                       const std::string& comment) const {
-        std::unique_ptr<Section> copy = section.deepcopy();
-        copy->name = remapFixName(section.name);
-        copy->prefix = comment.empty() ? "" : "; " + comment;
-        for (const std::unique_ptr<IfTemplatePart>& part : copy->parts()) {
-            auto* content = dynamic_cast<IfContentPart<std::string, std::string>*>(part.get());
-            if (content != nullptr) {
-                RegNewVals<>({{std::string(IniKeywords::Hash), RegNewVals<>::NewVal(hash)}}).edit(*content, copy->name);
-            }
+                                                                  const std::string& comment, bool inPlace) {
+        std::optional<std::pair<std::size_t, std::size_t>> place;
+        if (inPlace) {
+            place.emplace(fixSections_.size(), fixSectionsCleared_);
+            fixSections_.emplace_back();
         }
 
-        copy->rebuild();
-        return copy;
+        takeEdits_.push_back(std::make_unique<TakeFixSections>(*this, graph, std::move(sections), comment, place));
+        return takeEdits_.back().get();
     }
 
     std::optional<Version> TemplateFixer::iniToVersion() const {
@@ -257,8 +254,17 @@ namespace AGRemapCore {
         if (group.has_value()) {
             groupFixSections_[*group].push_back(std::move(section));
         } else {
-            fixSections_.push_back(std::move(section));
+            fixSections_.emplace_back().push_back(std::move(section));
         }
+    }
+
+    void TemplateFixer::addFixSectionAt(std::unique_ptr<Section> section, std::size_t place, std::size_t cleared) {
+        if (cleared != fixSectionsCleared_ || place >= fixSections_.size()) {
+            addFixSection(std::move(section));
+            return;
+        }
+
+        fixSections_[place].push_back(std::move(section));
     }
 
     GraphRemove<std::string, std::string>::GraphId TemplateFixer::fixSectionsGraphId(std::size_t group) {
@@ -268,12 +274,16 @@ namespace AGRemapCore {
     void TemplateFixer::addFixSectionGraphs(const std::string& modName) {
         Fixer::GraphGroups& groups = *this->graphGroups();
         // ...and a group of their own when every group was removed (see giveUp)
-        const std::size_t count = std::max<std::size_t>(groups.size(), fixSections_.empty() ? 0 : 1);
+        const bool anyFixSection = std::any_of(fixSections_.begin(), fixSections_.end(),
+                                               [](const auto& place) { return !place.empty(); });
+        const std::size_t count = std::max<std::size_t>(groups.size(), anyFixSection ? 1 : 0);
         for (std::size_t g = 0; g < count; ++g) {
             std::vector<Section*> sections;
             if (g == 0 || fixSectionsInCopies) {
-                for (const auto& section : fixSections_) {
-                    sections.push_back(section.get());
+                for (const auto& place : fixSections_) {
+                    for (const auto& section : place) {
+                        sections.push_back(section.get());
+                    }
                 }
             }
             const auto own = groupFixSections_.find(g);

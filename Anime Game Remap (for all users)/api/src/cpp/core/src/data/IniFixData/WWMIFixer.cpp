@@ -668,6 +668,9 @@ namespace AGRemapCore {
                     buildToggleLists();
 
                     this->graphGroupEdits.clear();
+                    for (Fixer::GroupEdit* edit : copyEdits_) {
+                        this->graphGroupEdits.push_back(edit);
+                    }
                     for (Fixer::GroupEdit* edit : toggleEdits_) {
                         this->graphGroupEdits.push_back(edit);
                     }
@@ -875,29 +878,83 @@ namespace AGRemapCore {
                         return false;
                     }
 
-                    std::vector<std::string> watching;
-                    for (const std::string& section : sectionRows().order) {
-                        const std::optional<std::string> hash = ownVal(section, IniKeywords::Hash);
-                        const std::optional<std::string> index = ownVal(section, IniKeywords::MatchFirstIndex);
-                        if (hash.has_value() && !index.has_value() && isSourceVb0(StringTools::toLower(*hash))) {
-                            watching.push_back(section);
-                        }
-                    }
+                    const ModObj watch("", WWMIParseObjs::Watch);
+                    const std::vector<std::string> watching = sectionsOf(watch);
                     if (watching.empty()) {
                         return false;
                     }
 
                     // each section as the author wrote it, under the fix's name and the target's vb0 -- its
-                    // conditions are the .ini's own
+                    // conditions are the .ini's own -- copied before giveUp's removal of every group
                     this->fixSectionsZ3 = ini->getZ3Ctx();
-                    const auto& templates = ini->getIfTemplates();
-                    for (const std::string& name : watching) {
-                        addFixSection(copyOnHash(*templates.at(name), target_.vb0Hash));
-                    }
+                    const std::vector<Fixer::GroupEdit*> copies = copyOntoHash(
+                        watch, watching, target_.vb0Hash, [](const std::string&) { return std::string(); }, false);
+                    this->graphGroupEdits.insert(this->graphGroupEdits.begin(), copies.begin(), copies.end());
 
                     ctx_.log("only watches " + source_.name + ", so its " + std::to_string(watching.size())
                              + " watching section(s) are carried onto " + toModName_ + "'s vb0 and nothing is drawn");
                     return true;
+                }
+
+                // The sections the parser placed in its graph 'obj', in the order it placed them
+                std::vector<std::string> sectionsOf(const ModObj& obj) const {
+                    auto* parser = dynamic_cast<GIMIParser<>*>(this->getParser());
+                    if (parser == nullptr) {
+                        return {};
+                    }
+
+                    const auto found = parser->sectionTargets().find(obj);
+                    return found == parser->sectionTargets().end() ? std::vector<std::string>() : found->second;
+                }
+
+                // THE MOD'S SECTIONS ON ANOTHER HASH, BY EDITS: each of 'sections' of the parser's graph 'obj'
+                // copied into a graph of its own keeping only that section's lines (GraphCopy), renamed to the
+                // fix's name (GraphRename), its every `hash` set to 'hash' (RegNewVals) and taken into the fix
+                // (TemplateFixer::takeFixSections) under the comment 'commentOf' gives it -- in this call's place
+                // among the fix's sections when 'inPlace'. The edits, in the order they run
+                std::vector<Fixer::GroupEdit*> copyOntoHash(const ModObj& obj, const std::vector<std::string>& sections,
+                                                             const std::string& hash,
+                                                             const std::function<std::string(const std::string&)>& commentOf,
+                                                             bool inPlace) {
+                    std::vector<Fixer::GroupEdit*> copies;
+                    std::vector<Fixer::GroupEdit*> takes;
+                    std::vector<ObjGroupEdit::IniEdits> perGroup(1);
+                    for (const std::string& section : sections) {
+                        const std::string name = remapFixName(section);
+                        const ModObj copyObj("", name);
+                        auto copy = std::make_unique<GraphCopy<>>(
+                            GraphId(0, obj.first, obj.second), GraphId(0, copyObj.first, copyObj.second),
+                            [section](const IfTemplate<std::string, std::string>& owner, const IfContentPart<std::string, std::string>&,
+                                      std::size_t) {
+                                return owner.name == section;
+                            });
+                        copies.push_back(copy.get());
+                        toggleOwned_.push_back(std::move(copy));
+
+                        auto rename = std::make_unique<GraphRename<>>([section, name](const std::string& old) {
+                            return old == section ? name : old;
+                        });
+                        auto onHash = std::make_unique<RegNewVals<>>(
+                            std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{{std::string(IniKeywords::Hash), RegNewVals<>::NewVal(hash)}});
+
+                        std::vector<ObjGroupEdit::PartEdit*>& edits = perGroup[0].edits[copyObj];
+                        edits.push_back(adapt(std::make_unique<GraphPartEdit<>>(rename.get())));
+                        edits.push_back(adapt(std::make_unique<RegPartEdit<>>(onHash.get())));
+                        toggleOwned_.push_back(std::move(rename));
+                        toggleOwned_.push_back(std::move(onHash));
+
+                        takes.push_back(this->takeFixSections(copyObj, {name}, commentOf(section), inPlace));
+                    }
+
+                    if (sections.empty()) {
+                        return copies;
+                    }
+
+                    auto edits = std::make_unique<ObjGroupEdit>(std::move(perGroup), false);
+                    copies.push_back(edits.get());
+                    toggleOwned_.push_back(std::move(edits));
+                    copies.insert(copies.end(), takes.begin(), takes.end());
+                    return copies;
                 }
 
             private:
@@ -3615,7 +3672,8 @@ namespace AGRemapCore {
                     hashOnlyObjs_.clear();
                     if (auto* parser = dynamic_cast<GIMIParser<>*>(this->getParser())) {
                         for (const ModObj& obj : parser->modObjs()) {
-                            if (!StringTools::startsWith(obj.second, config_.slotPrefix) && obj.first != IniGraphModObjKeywords::Texture) {
+                            if (!StringTools::startsWith(obj.second, config_.slotPrefix) && obj.first != IniGraphModObjKeywords::Texture
+                                    && !isCopiedObj(obj)) {
                                 hashOnlyObjs_.push_back(obj);
                             }
                         }
@@ -4172,42 +4230,43 @@ namespace AGRemapCore {
                 // The mod's own sections on another mesh of the source, copied onto the target's mesh
                 // that plays the same part -- see WWMIFixerConfig::meshCounterparts
                 void meshCounterpartSections() {
-                    if (config_.meshCounterparts.empty()) {
-                        return;
-                    }
-
-                    std::map<std::string, std::string> counterparts;
-                    for (const auto& [from, to] : config_.meshCounterparts) {
-                        counterparts.emplace(StringTools::toLower(from), to);
-                    }
-
-                    const std::string ownSuffix = StringTools::toLower(remapFixName(""));
-                    const auto& templates = ctx_.getIniFile()->getIfTemplates();     // the copy is of the whole section
-                    for (const std::string& name : sectionRows().order) {
-                        if (StringTools::endsWithIgnoreCase(name, ownSuffix)) {
+                    copyEdits_.clear();
+                    for (const std::string& part : config_.meshCounterparts) {
+                        const std::optional<std::string> hash = targetType_->hashes == nullptr
+                            ? std::nullopt : targetType_->hashes->get({targetType_->name, part}, toVersion(), false);
+                        if (!hash.has_value()) {
+                            ctx_.log("the library files no '" + part + "' hash for " + toModName_ + ", so the mod's sections on "
+                                     + source_.name + "'s are not carried over");
                             continue;
                         }
 
-                        std::string target;
-                        for (const Row* row : ownRows(name)) {
-                            if (!StringTools::equalsIgnoreCase(StringTools::strip(row->key), IniKeywords::Hash)) {
-                                continue;
-                            }
-
-                            const auto found = counterparts.find(StringTools::toLower(std::string(StringTools::strip(row->value))));
-                            if (found != counterparts.end()) {
-                                target = found->second;
-                            }
-                        }
-
-                        const auto tpl = templates.find(name);
-                        if (target.empty() || tpl == templates.end() || tpl->second == nullptr) {
-                            continue;
-                        }
-
-                        addFixSection(copyOnHash(*tpl->second, target, name + " of the mod, on " + toModName_ + "'s counterpart of that mesh"));
+                        const ModObj obj("", part);
+                        const std::vector<Fixer::GroupEdit*> copies = copyOntoHash(
+                            obj, sectionsOf(obj), StringTools::toLower(*hash),
+                            [this](const std::string& name) { return name + " of the mod, on " + toModName_ + "'s counterpart of that mesh"; },
+                            true);
+                        copyEdits_.insert(copyEdits_.end(), copies.begin(), copies.end());
                     }
 
+                    // the parser's graphs the copies came from are the mod's own sections, which its own file keeps
+                    std::vector<GraphId> copied;
+                    if (auto* parser = dynamic_cast<GIMIParser<>*>(this->getParser())) {
+                        for (const ModObj& obj : parser->modObjs()) {
+                            if (isCopiedObj(obj)) {
+                                copied.emplace_back(0, obj.first, obj.second);
+                            }
+                        }
+                    }
+                    auto removeCopied = std::make_unique<GraphRemove<>>(std::move(copied));
+                    copyEdits_.push_back(removeCopied.get());
+                    toggleOwned_.push_back(std::move(removeCopied));
+                }
+
+                // A graph of the parser's whose sections the fix copies rather than remaps: the sections that only
+                // watch the source, and those of a mesh WWMIFixerConfig::meshCounterparts names
+                bool isCopiedObj(const ModObj& obj) const {
+                    return obj.first.empty() && (obj.second == WWMIParseObjs::Watch
+                        || std::find(config_.meshCounterparts.begin(), config_.meshCounterparts.end(), obj.second) != config_.meshCounterparts.end());
                 }
 
                 const std::string* sharedResourceFor(const std::string& role) const {
@@ -6172,6 +6231,7 @@ namespace AGRemapCore {
                     TexCreator creator;
                 };
                 std::vector<FixTexture> fixTextures_;
+                std::vector<Fixer::GroupEdit*> copyEdits_;           // meshCounterpartSections' copies, run first
                 std::vector<Fixer::GroupEdit*> toggleEdits_;
                 std::vector<std::shared_ptr<void>> toggleOwned_;
                 std::vector<std::unique_ptr<ObjGroupEdit::PartEdit>> toggleAdapters_;

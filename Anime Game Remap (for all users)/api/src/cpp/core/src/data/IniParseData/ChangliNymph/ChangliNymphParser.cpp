@@ -26,6 +26,8 @@ namespace AGRemapCore {
         config.version = "2.4";
         // Her own textures, so a mod of hers can be sorted into roles at PARSE time
         config.textures = changliNymphTextureFacts();
+        // her blindfold, which several mods hide: its sections go to a graph of their own for the fix to copy
+        config.hashOnlyObjs.emplace_back("blindfold", "blindfold");
         return makeWWMIParser(std::move(config));
     }
 

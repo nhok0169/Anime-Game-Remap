@@ -172,6 +172,25 @@ namespace AGRemapCore {
          */
         static inline const std::string Sections = "WWMIParser.sections";
     };
+
+    /**
+     * @brief
+     @rst
+     The mod objects the parser :cpp:func:`makeWWMIParser` builds places sections in besides the draw slots, the
+     :cpp:member:`WWMIParserConfig::hashOnlyObjs` and the texture roles
+     @endrst
+     */
+    struct WWMIParseObjs {
+        /**
+         * @brief
+         @rst
+         ``("", "watch")``: a `section`_ that only WATCHES the character -- it matches her
+         :cpp:member:`WWMIParserConfig::slotHashType` hash at any version, and has no ``match_first_index``, so it
+         draws nothing and is there to set a variable while she is on screen (a help overlay, a key menu)
+         @endrst
+         */
+        static inline const std::string Watch = "watch";
+    };
 }
 
 #endif

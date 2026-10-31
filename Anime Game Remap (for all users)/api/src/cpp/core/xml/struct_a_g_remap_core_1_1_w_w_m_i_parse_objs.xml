@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_parse_objs" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIParseObjs</compoundname>
+    <includes refid="_w_w_m_i_parser_8h" local="no">WWMIParser.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parse_objs_1a3e21730c5d3feebaa685d4856a8989af" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMIParseObjs::Watch</definition>
+        <argsstring></argsstring>
+        <name>Watch</name>
+        <qualifiedname>AGRemapCore::WWMIParseObjs::Watch</qualifiedname>
+        <initializer>= &quot;watch&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+``(&quot;&quot;, &quot;watch&quot;)``: a `section`_ that only WATCHES the character -- it matches her
+:cpp:member:`WWMIParserConfig::slotHashType` hash at any version, and has no ``match_first_index``, so it
+draws nothing and is there to set a variable while she is on screen (a help overlay, a key menu)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="192" column="41" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The mod objects the parser :cpp:func:`makeWWMIParser` builds places sections in besides the draw slots, the
+:cpp:member:`WWMIParserConfig::hashOnlyObjs` and the texture roles
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="183" column="5" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="183" bodyend="193"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_objs_1a3e21730c5d3feebaa685d4856a8989af" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParseObjs</scope><name>Watch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

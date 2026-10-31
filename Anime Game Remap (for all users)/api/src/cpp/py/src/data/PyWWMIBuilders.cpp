@@ -614,9 +614,10 @@ List[:class:`str`]: Other meshes the TARGET draws that a mod of her replaces, by
 hash: each is skipped while the mod is enabled (no index window, so wherever it is drawn)
         )doc"))
         .def_readwrite("meshCounterparts", &AGRC::WWMIFixerConfig::meshCounterparts, py::doc(R"doc(
-Dict[:class:`str`, :class:`str`]: Other meshes of the SOURCE a mod's own sections match by ``vb0`` hash,
-mapped to the TARGET's mesh that plays the same part: each such section is copied into the fix's block
-on the target's hash. **Default**: empty
+List[:class:`str`]: Other meshes the SOURCE and the TARGET both draw, by the hash type both characters file
+them under in the library's hashes -- also the mod object the parser places their sections in
+(:attr:`WWMIParserConfig.hashOnlyObjs`). Each such section is copied into the fix's block on the target's hash
+of the same type. **Default**: empty
         )doc"))
         .def_readwrite("texEdits", &AGRC::WWMIFixerConfig::texEdits,
                         py::doc("List[:class:`WWMIFixerConfig.TexEdit`]: Edits the fix makes to a role's texture before binding it"))

@@ -6467,7 +6467,8 @@
     <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a1a207dff991357c89eeaf9faa7e136c8" kind="variable"><name>graph_</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a4ec6dd190701ed611d20a8e0e3fe2682" kind="variable"><name>sections_</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1afa7ab8aa79536e3cb472dd647e11184d" kind="variable"><name>comment_</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a025049b495dd8896bd7b88b232d73b3d" kind="function"><name>TakeFixSections</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1aae9a1d722c8a8598517ee80c4b9100d8" kind="variable"><name>place_</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1af1490f409a0d36a68bef46c64f0ecaae" kind="function"><name>TakeFixSections</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a2b8280e6f09c21c323a0710093525a54" kind="function"><name>edit</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591" kind="function"><name>editFromIni</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
@@ -6521,7 +6522,8 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a20fa330cc7b17baf32d8fe2019f3df26" kind="variable"><name>fixTargets_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a1cec0133b1b43cbdedc741e848f8f33d" kind="variable"><name>fixedContents_</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a7cca7dc89cff6bbc066338fe7233848b" kind="variable"><name>takeEdits_</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_fixer_1ae922274df1da737d0c8c16b27a418594" kind="variable"><name>fixSections_</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a8ab41e289552d0c01b58b78b213f283b" kind="variable"><name>fixSections_</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a2dadf4e9c557610916fa97721e32c59f" kind="variable"><name>fixSectionsCleared_</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a9e4f0ab01d0bfced1212de84912b43ad" kind="variable"><name>groupFixSections_</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a1c8789814df39bd24cb2a286d91c5f1b" kind="variable"><name>gaveUp_</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a0be54ceaeea2db488acaacb8276373e9" kind="variable"><name>removeEveryGroup_</name></member>
@@ -6560,11 +6562,11 @@
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a8f1387e3e521c1000eb9a27ad55b2b23" kind="function"><name>remapRename</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a0b0c42176e6a6634f8bd9f067142edd7" kind="function"><name>hashRemap</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a40840bf4a5084d9627dbc1e3339af2b5" kind="function"><name>addFixSection</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_fixer_1a7e797360bf705003f62c410fa1226caf" kind="function"><name>copyOnHash</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_fixer_1a87f694138679da794eb25215faa4ff73" kind="function"><name>takeFixSections</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a1f6eaa19989d9767e8d3ef350c636bb6" kind="function"><name>takeFixSections</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4a8599309d747e4d2800778803df0bd9" kind="function"><name>snapshotPreEditSectionNames</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a2d333cb908e828d8d82fa45c73431fd7" kind="function"><name>fixImpl</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1aefc9b02bedaae3f41b27cde0afd95fbd" kind="function"><name>fixSectionsGraphId</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a46194b8528b58eb5d078454f79f5b5e9" kind="function"><name>addFixSectionAt</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1adc4d53d3b32d5e1cee7f9fe27d8f05c2" kind="function"><name>addFixSectionGraphs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1aef6dedcf6548f3ee419093a4f87e008e" kind="variable"><name>graphGroupEdits</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a69dae513284d257e88c97583cd3db751" kind="variable"><name>modsToFix</name></member>
@@ -7424,7 +7426,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a8599cd1301b993083ca14752d9af5dba" kind="variable"><name>sourceTextures</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aba0800fd4efa4fb7b4a5685016eae81a" kind="variable"><name>sharedMeshes</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aace2b91797a0810be8047688c88b1789" kind="variable"><name>hiddenMeshes</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ac8ceb33336024339edd32f10c5f8f295" kind="variable"><name>meshCounterparts</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a107e825205a4a508118ff150c0970bf4" kind="variable"><name>meshCounterparts</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae3fb103cb7cc035ee51af13e9864eee1" kind="variable"><name>stashRegs</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a62d26bafb7e13dbe52bb960ee5d03d34" kind="variable"><name>texEdits</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a20bc04c1e235777e39638dc4fb333d7b" kind="variable"><name>cleanTexcoords</name></member>
@@ -7443,6 +7445,9 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1afde91c6aa83f59b0dfb96a924e43ce81" kind="variable"><name>sourceLabels</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a644c193e090b6d6ba4bf83caa0f86628" kind="variable"><name>targetLabels</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a0ea8eef2b929fa4c8009bd32068c36a5" kind="variable"><name>copyPreamble</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_objs" kind="struct"><name>AGRemapCore::WWMIParseObjs</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_objs_1a3e21730c5d3feebaa685d4856a8989af" kind="variable"><name>Watch</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" kind="struct"><name>AGRemapCore::WWMIParserConfig</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ade553798b44b928e14a0ad40c1ec20a8" kind="variable"><name>version</name></member>

@@ -1009,21 +1009,23 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         Other meshes of the SOURCE a mod's own sections match by ``vb0`` hash, and the TARGET's mesh
-         that plays the same part -- ``{source mesh hash: target mesh hash}``.
+         Other meshes the SOURCE and the TARGET both draw, by the hash type both characters file them
+         under in :cpp:class:`HashData` -- which is also the mod object the parser places their
+         sections in (:cpp:member:`WWMIParserConfig::hashOnlyObjs`, ``{type, type}``).
 
-         Every section of the mod whose ``hash`` is a key is copied into the fix's block with the
-         hash swapped for the target's, so what the mod does to that part of the outfit -- skip it,
-         or mark when it is drawn -- happens on the target too. Changli draws her blindfold as its
-         own mesh (``baaa6262``), the Laurel Nymph skin draws hers as another (``646aa163``), and
-         several Changli mods hide the blindfold with a ``handling = skip`` section on the first
-         hash; without the copy that blindfold showed on every remap of them.
+         Every section of the mod the parser placed in such an object is copied into the fix's block
+         with its hash swapped for the target's of the same type, so what the mod does to that part of
+         the outfit -- skip it, or mark when it is drawn -- happens on the target too. Changli draws
+         her blindfold as its own mesh (``blindfold``: ``baaa6262``), the Laurel Nymph skin draws hers
+         as another (``646aa163``), and several Changli mods hide the blindfold with a
+         ``handling = skip`` section on the first hash; without the copy that blindfold showed on every
+         remap of them.
 
          Only the hash is changed: the copy keeps the section's every other line, so a condition or
          a variable it sets means what it meant on the source
          @endrst
          */
-        std::map<std::string, std::string> meshCounterparts;
+        std::vector<std::string> meshCounterparts;
 
         /**
          * @brief

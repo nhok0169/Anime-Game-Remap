@@ -344,42 +344,28 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             A copy of one of the mod's `sections`_ under the fix's name (:cpp:func:`remapFixName`), matching
-             'hash' instead of its own -- what carries a section that only WATCHES the source onto the
-             target, or a section of one mesh onto the target's counterpart of it. Hand it to
-             :cpp:func:`addFixSection` :raw-html:`<br />` :raw-html:`<br />`
-
-             Every ``hash`` the section sets is given 'hash' (:cpp:class:`RegNewVals`); everything else is
-             kept as the author wrote it
-             @endrst
-             *
-             * @param section The mod's section
-             * @param hash The hash the copy matches
-             * @param comment A comment written above the copy. **Default**: none
-             *
-             * @return The copy
-             */
-            std::unique_ptr<Section> copyOnHash(const Section& section, const std::string& hash, const std::string& comment = "") const;
-
-            /**
-             * @brief
-             @rst
              An edit for :cpp:member:`GIMIFixer::graphGroupEdits` that makes `sections`_ an earlier
              edit built in a graph into the fix's own: each named `section`_ of graph 'graph' goes to
              :cpp:func:`addFixSection`, and the graph is removed :raw-html:`<br />` :raw-html:`<br />`
 
              This is how a fix section is built from the mod's own sections by edits: copy them into a
              graph of their own (:cpp:class:`GraphCopy`), edit that graph, then take the result. The
-             edit is owned by this fixer
+             edit is owned by this fixer :raw-html:`<br />` :raw-html:`<br />`
+
+             The sections taken are written after every section :cpp:func:`addFixSection` added before the
+             edit runs -- or, with 'inPlace', where this call stands among them: after the sections added
+             before it and before the ones added after it
              @endrst
              *
              * @param graph The graph, in the first group
              * @param sections The `sections`_ to take, in order. A name the graph does not hold is skipped
              * @param comment A comment written above each section taken. **Default**: none
+             * @param inPlace Whether the sections keep this call's place among the fix's sections. **Default**: ``false``
              *
              * @return The edit
              */
-            GroupEdit* takeFixSections(const ModObj& graph, std::vector<std::string> sections, const std::string& comment = "");
+            GroupEdit* takeFixSections(const ModObj& graph, std::vector<std::string> sections, const std::string& comment = "",
+                                       bool inPlace = false);
 
             /**
              * @brief Whether a section :cpp:func:`addFixSection` adds with no group goes into every copy as well. **Default**: ``false``
@@ -436,11 +422,18 @@ namespace AGRemapCore {
         private:
             class TakeFixSections;
 
+            // Adds 'section' at place 'place' of fixSections_, when giveUp has not emptied it since the place
+            // was held ('cleared'); otherwise as addFixSection does
+            void addFixSectionAt(std::unique_ptr<Section> section, std::size_t place, std::size_t cleared);
+
             void addFixSectionGraphs(const std::string& modName);
 
             std::vector<std::unique_ptr<GroupEdit>> takeEdits_;
 
-            std::vector<std::unique_ptr<Section>> fixSections_;
+            // the sections added with no group, as places: each addFixSection is one place, and an
+            // in-place takeFixSections holds one open for the sections it takes
+            std::vector<std::vector<std::unique_ptr<Section>>> fixSections_;
+            std::size_t fixSectionsCleared_ = 0;     // how many times giveUp emptied fixSections_
             std::map<std::size_t, std::vector<std::unique_ptr<Section>>> groupFixSections_;
             bool gaveUp_ = false;
             GraphGroupRemove<std::string, std::string> removeEveryGroup_;

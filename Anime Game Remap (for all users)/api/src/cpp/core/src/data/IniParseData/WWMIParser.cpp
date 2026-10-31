@@ -146,6 +146,14 @@ namespace AGRemapCore {
                         }
 
                         modObjs.emplace_back(IniGraphModObjKeywords::Texture, "");
+
+                        // the sections that only watch her: her slot hash, at any version, and no index window
+                        for (const auto& row : Data::getHashDataRows()) {
+                            if (row.first.size() >= 3 && row.first[1] == ownName && row.first[2] == config.slotHashType) {
+                                watchHashes_.insert(StringTools::toLower(row.second));
+                            }
+                        }
+                        modObjs.emplace_back("", WWMIParseObjs::Watch);
                     }
 
                     this->setModObjs(std::move(modObjs));
@@ -171,6 +179,10 @@ namespace AGRemapCore {
                                      ContentPart* part, const Colouring* kvps) {
                             if (kvps == nullptr) {
                                 return std::vector<ModObj>();
+                            }
+
+                            if (watches(section, part)) {
+                                return std::vector<ModObj>{ModObj("", WWMIParseObjs::Watch)};
                             }
 
                             std::vector<ModObj> objs = classifier->classify(sectionName, section, *kvps);
@@ -706,6 +718,28 @@ namespace AGRemapCore {
                     }
 
                     return std::nullopt;
+                }
+
+                // The part of a section that only watches her (WWMIParseObjs::Watch) naming her hash: it has
+                // one of her slot hashes and, anywhere in the section, no `match_first_index`
+                bool watches(Section* section, ContentPart* part) const {
+                    if (section == nullptr || part == nullptr || watchHashes_.empty()) {
+                        return false;
+                    }
+
+                    const std::vector<std::string> hashes = part->getVals(IniKeywords::Hash);
+                    if (hashes.empty() || watchHashes_.count(StringTools::toLower(std::string(StringTools::strip(hashes.front())))) == 0) {
+                        return false;
+                    }
+
+                    for (const auto& other : section->parts()) {
+                        const auto* content = dynamic_cast<const ContentPart*>(other.get());
+                        if (content != nullptr && !content->getVals(IniKeywords::MatchFirstIndex).empty()) {
+                            return false;
+                        }
+                    }
+
+                    return true;
                 }
 
                 // The part of a texture override that names its hash, when the hash is not one the
@@ -1485,6 +1519,7 @@ namespace AGRemapCore {
                 std::unique_ptr<ResRegCollect<>> resourceCollect_;
                 std::unique_ptr<ResIdentity<>> resourceIdentity_;
                 std::unordered_set<std::string> resourceKeys_;
+                std::unordered_set<std::string> watchHashes_;     // her slot hashes at every version, lowercased
                 std::unordered_map<std::string, std::string> declaredResources_;     // lowercased -> as declared
                 std::vector<std::unique_ptr<BaseIniGraphGroupEdit<>>> ownedSteps_;
                 WWMIParserConfig config_;

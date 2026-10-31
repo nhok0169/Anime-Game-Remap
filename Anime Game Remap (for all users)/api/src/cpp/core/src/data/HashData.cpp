@@ -1966,6 +1966,10 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "cb4"}, "f02baf77"},
         {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_offsets"}, "d8decbca"},
         {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_scale"}, "fd9483ca"},
+        // Her blindfold, a mesh of its own that several mods hide (WWMIFixerConfig::meshCounterparts). Filed at
+        // her first version because the fix has always matched it whatever the mod's version; when it was
+        // first drawn on this hash is not recorded
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "blindfold"}, "baaa6262"},
         // Changli (1.2): rehashed, one bone fewer in component 5 (WWMI-Assets' 1.3 Metadata.json)
         {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "vb0"}, "5f8aac45"},
         {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_offsets"}, "1ccb8008"},
@@ -2007,6 +2011,8 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "cb4"}, "f02baf77"},
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "shapekey_offsets"}, "a90413a7"},
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "shapekey_scale"}, "05d2029d"},
+        // the skin's blindfold, her own mesh as Changli's is (WWMIFixerConfig::meshCounterparts)
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "blindfold"}, "646aa163"},
         // CHANGLINYMPH'S OLDER TEXTURES, TYPED BY THE ROLE EACH PLAYS (2026-10-20): WWMI-Assets' ChangliSkin1
         //   generation from 2.4 to 2.5, each row a rename git records at its "2.6 diff" whose old register in that
         //   commit's TextureUsage.json is the one its successor's role reads today (wwmiAssetLineage.py). Not

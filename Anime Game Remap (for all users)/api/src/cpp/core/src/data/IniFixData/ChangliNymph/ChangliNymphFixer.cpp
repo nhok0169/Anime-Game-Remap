@@ -176,7 +176,7 @@ namespace AGRemapCore {
         config.sharedMeshes = {
             {"baaa6262", {{"7f639abb370f996d", {{"ps-t1", "blindfold"}}}}},
         };
-        config.meshCounterparts = {{"646aa163", "baaa6262"}};
+        config.meshCounterparts = {"blindfold"};
 
         // ---- and every tag NAMED: the values the forward direction and the other pairs already give a
         // shader, and 3381.521 up for the vertex shaders only Changli's own draws use ----

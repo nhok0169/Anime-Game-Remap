@@ -1924,6 +1924,17 @@ WWMIParseRows
 
 :raw-html:`<br />`
 
+WWMIParseObjs
+-------------
+
+.. cppattributetable:: AGRemapCore::WWMIParseObjs
+
+.. doxygenstruct:: AGRemapCore::WWMIParseObjs
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 makeZZMIParser
 --------------
 

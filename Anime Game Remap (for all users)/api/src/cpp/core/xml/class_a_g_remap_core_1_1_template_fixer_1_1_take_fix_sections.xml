@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="151" column="27" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="151" bodyend="-1"/>
+        <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="157" column="27" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="157" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a1a207dff991357c89eeaf9faa7e136c8" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" kindref="member">ModObj</ref></type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="152" column="20" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="152" bodyend="-1"/>
+        <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="158" column="20" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="158" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a4ec6dd190701ed611d20a8e0e3fe2682" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="153" column="25" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="153" bodyend="-1"/>
+        <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="159" column="25" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="159" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1afa7ab8aa79536e3cb472dd647e11184d" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -58,14 +58,28 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="154" column="25" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="154" bodyend="-1"/>
+        <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="160" column="25" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1aae9a1d722c8a8598517ee80c4b9100d8" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; std::pair&lt; std::size_t, std::size_t &gt; &gt;</type>
+        <definition>std::optional&lt;std::pair&lt;std::size_t, std::size_t&gt; &gt; AGRemapCore::TemplateFixer::TakeFixSections::place_</definition>
+        <argsstring></argsstring>
+        <name>place_</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::TakeFixSections::place_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="161" column="27" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="161" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a025049b495dd8896bd7b88b232d73b3d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1af1490f409a0d36a68bef46c64f0ecaae" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
         <definition>AGRemapCore::TemplateFixer::TakeFixSections::TakeFixSections</definition>
-        <argsstring>(TemplateFixer &amp;fixer, ModObj graph, std::vector&lt; std::string &gt; sections, std::string comment)</argsstring>
+        <argsstring>(TemplateFixer &amp;fixer, ModObj graph, std::vector&lt; std::string &gt; sections, std::string comment, std::optional&lt; std::pair&lt; std::size_t, std::size_t &gt; &gt; place)</argsstring>
         <name>TakeFixSections</name>
         <qualifiedname>AGRemapCore::TemplateFixer::TakeFixSections::TakeFixSections</qualifiedname>
         <param>
@@ -84,13 +98,17 @@
           <type>std::string</type>
           <declname>comment</declname>
         </param>
+        <param>
+          <type>std::optional&lt; std::pair&lt; std::size_t, std::size_t &gt; &gt;</type>
+          <declname>place</declname>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="121" column="13" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="121" bodyend="122"/>
+        <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="121" column="13" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="121" bodyend="124"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a2b8280e6f09c21c323a0710093525a54" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> &amp;</type>
@@ -150,7 +168,7 @@ untouched)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="124" column="25" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="124" bodyend="148"/>
+        <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="126" column="25" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="126" bodyend="154"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> &amp;</type>
@@ -561,7 +579,7 @@ Whether the graph was added -- ``false`` if ``id.iniIndex`` is out of range for
         <label>BaseIniParser&lt;std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;&gt;</label>
       </node>
     </collaborationgraph>
-    <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="119" column="5" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="119" bodyend="155"/>
+    <location file="src/model/strategies/iniFixers/TemplateFixer.cpp" line="119" column="5" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="119" bodyend="162"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer::TakeFixSections</scope><name>addGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::TemplateFixer::TakeFixSections</scope><name>clear</name></member>
@@ -574,8 +592,9 @@ Whether the graph was added -- ``false`` if ``id.iniIndex`` is out of range for
       <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a1a207dff991357c89eeaf9faa7e136c8" prot="private" virt="non-virtual"><scope>AGRemapCore::TemplateFixer::TakeFixSections</scope><name>graph_</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer::TakeFixSections</scope><name>GraphGroups</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer::TakeFixSections</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1aae9a1d722c8a8598517ee80c4b9100d8" prot="private" virt="non-virtual"><scope>AGRemapCore::TemplateFixer::TakeFixSections</scope><name>place_</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a4ec6dd190701ed611d20a8e0e3fe2682" prot="private" virt="non-virtual"><scope>AGRemapCore::TemplateFixer::TakeFixSections</scope><name>sections_</name></member>
-      <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1a025049b495dd8896bd7b88b232d73b3d" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer::TakeFixSections</scope><name>TakeFixSections</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1_1_take_fix_sections_1af1490f409a0d36a68bef46c64f0ecaae" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer::TakeFixSections</scope><name>TakeFixSections</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::TemplateFixer::TakeFixSections</scope><name>~BaseIniPartEdit</name></member>
     </listofallmembers>
   </compounddef>

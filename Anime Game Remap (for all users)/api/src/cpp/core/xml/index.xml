@@ -3660,6 +3660,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a99389479dfe8029268175554ef5cc477" kind="function"><name>refusedRoleOf</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a6364b89f0d3d967da5352efa86899ada" kind="function"><name>reject</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a77d55fe1d6666a9e459a92c70a56bfd4" kind="function"><name>collected</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a31ce256750ee899f45f4c52b6e88540a" kind="function"><name>firstCollected</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1acb144ec1f0399e6c5f52663da3c9d070" kind="function"><name>setCollected</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a87bc4e1b90972b260c6a9baf964a0da2" kind="function"><name>fill</name></member>
   </compound>
@@ -7451,6 +7452,10 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a82ed24bbf24f94b65ce6b44c25f886d3" kind="variable"><name>textures</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a04156e1f7970553bb1c5ed5c958895aa" kind="variable"><name>skeletonNumberings</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9aad93fe0e21d99a44dd18f578c94d79" kind="variable"><name>referenceBoneCentroids</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_rows" kind="struct"><name>AGRemapCore::WWMIParseRows</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_rows_1a48b4ef9fc286ecea91118b20503ef447" kind="variable"><name>Declared</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_rows_1a28bd882a9516ed95ba2fb7bff1f50425" kind="variable"><name>Slots</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys" kind="class"><name>AGRemapCore::WWMIShapeKeys</name>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1abd0c4c6edba5cb9bc49bbe2e71a3f77c" kind="function"><name>layoutOf</name></member>

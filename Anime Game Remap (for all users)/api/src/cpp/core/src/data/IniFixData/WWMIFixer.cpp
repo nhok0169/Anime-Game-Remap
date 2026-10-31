@@ -1195,7 +1195,6 @@ namespace AGRemapCore {
                     // what each draws and binds after drawing, which components the mod hides, and the files
                     // its resources name -- see IniParseData. A fixer is built after its parser has parsed.
                     const IniParseData& data = parseData();
-                    const auto& templates = ini->getIfTemplates();
                     silent_.clear();
                     if (auto* parser = dynamic_cast<GIMIParser<>*>(this->getParser())) {
                         for (const auto& [obj, sections] : parser->sectionTargets()) {
@@ -1257,9 +1256,7 @@ namespace AGRemapCore {
                         }
                     }
                     for (const std::string& section : slotSections) {
-                        auto tpl = templates.find(section);
-                        if (tpl != templates.end() && tpl->second != nullptr
-                            && ModBranches::firstVal(*tpl->second, IniKeywords::WWMIVgOffset).has_value()) {
+                        if (data.firstCollected(WWMIParseRows::Slots, section, IniKeywords::WWMIVgOffset) != nullptr) {
                             legacy_ = false;
                         }
                     }
@@ -1277,10 +1274,9 @@ namespace AGRemapCore {
                              "through " + source_.name + "'s vg_map, and the fix supplies the merged skeleton it lacks");
                     }
 
-                    auto constants = templates.find(IniKeywords::Constants);
-                    if (constants != templates.end() && constants->second != nullptr) {
-                        std::optional<std::string> count = ModBranches::firstVal(*constants->second, MeshVertexCountKey);
-                        if (count.has_value()) {
+                    if (const auto* row = data.firstCollected(WWMIParseRows::Declared, IniKeywords::Constants, MeshVertexCountKey)) {
+                        const std::optional<std::string> count = std::string(StringTools::strip(row->value));
+                        {
                             try {
                                 meshVertexCount_ = std::stoll(*count);
                             } catch (const std::exception&) {
@@ -1314,21 +1310,27 @@ namespace AGRemapCore {
                     shapeKeyFiles_.clear();
                     if (!config_.shapeKeyOrder.empty()) {
                         for (const std::string& resource : ShapeKeyResources) {
-                            for (const auto& entry : templates) {
-                                if (entry.second == nullptr || !StringTools::equalsIgnoreCase(entry.first, resource)) {
-                                    continue;
-                                }
+                            const auto declared = [&data, &resource](const std::string& key) {
+                                return data.firstCollected(WWMIParseRows::Declared, resource, key);
+                            };
+                            const auto valueOf = [&declared](const std::string& key, const std::string& otherwise) {
+                                const auto* row = declared(key);
+                                return row == nullptr ? otherwise : std::string(StringTools::strip(row->value));
+                            };
 
-                                ShapeKeyFile file;
-                                file.section = entry.first;
-                                file.path = ModBranches::firstVal(*entry.second, IniKeywords::Filename).value_or("");
-                                file.type = ModBranches::firstVal(*entry.second, IniKeywords::Type).value_or(IniKeywords::Buffer);
-                                file.format = ModBranches::firstVal(*entry.second, IniKeywords::Format).value_or("");
-                                file.stride = ModBranches::firstVal(*entry.second, IniKeywords::Stride).value_or("");
-                                if (!file.path.empty()) {
-                                    shapeKeyFiles_[resource] = file;
-                                }
-                                break;
+                            const auto* filename = declared(IniKeywords::Filename);
+                            if (filename == nullptr) {
+                                continue;
+                            }
+
+                            ShapeKeyFile file;
+                            file.section = filename->section;
+                            file.path = std::string(StringTools::strip(filename->value));
+                            file.type = valueOf(IniKeywords::Type, IniKeywords::Buffer);
+                            file.format = valueOf(IniKeywords::Format, "");
+                            file.stride = valueOf(IniKeywords::Stride, "");
+                            if (!file.path.empty()) {
+                                shapeKeyFiles_[resource] = file;
                             }
                         }
 
@@ -5886,7 +5888,7 @@ namespace AGRemapCore {
 
                 // Where the mod's texcoord buffer is and how wide one vertex of it is.
                 struct TexcoordBuffer {
-                    const IfTemplate<std::string, std::string>* resource = nullptr;
+                    std::optional<std::string> format;  // as the .ini declares it
                     std::string rel;                    // as the .ini spells it
                     std::string path;                   // ...and on disk
                     std::size_t stride = 0;
@@ -5902,23 +5904,24 @@ namespace AGRemapCore {
 
                     // WITHOUT REGARD TO CASE: this mod spells it ResourceTexCoordBuffer, and asking
                     // for ResourceTexcoordBuffer finds nothing and says nothing.
-                    TexcoordBuffer found;
-                    for (const auto& entry : ini->getIfTemplates()) {
-                        if (entry.second != nullptr
-                            && StringTools::equalsIgnoreCase(entry.first, IniKeywords::WWMITexcoordBuffer)) {
-                            found.resource = entry.second.get();
-                            break;
-                        }
-                    }
+                    const IniParseData& data = parseData();
+                    const auto declared = [&data](const std::string& key) -> std::optional<std::string> {
+                        const auto* row = data.firstCollected(WWMIParseRows::Declared, IniKeywords::WWMITexcoordBuffer, key);
+                        return row == nullptr ? std::nullopt : std::optional<std::string>(StringTools::strip(row->value));
+                    };
 
-                    if (found.resource == nullptr) {
+                    TexcoordBuffer found;
+                    const bool isDeclared = std::any_of(data.collected(WWMIParseRows::Declared).begin(),
+                                                        data.collected(WWMIParseRows::Declared).end(), [](const auto& row) {
+                        return StringTools::equalsIgnoreCase(row.section, IniKeywords::WWMITexcoordBuffer);
+                    });
+                    if (!isDeclared) {
                         ctx_.log("this mod declares no " + IniKeywords::WWMITexcoordBuffer
                              + ", so its UVs are left alone");
                         return std::nullopt;
                     }
 
-                    const std::optional<std::string> name =
-                        ModBranches::firstVal(*found.resource, IniKeywords::Filename);
+                    const std::optional<std::string> name = declared(IniKeywords::Filename);
                     if (!name.has_value()) {
                         ctx_.log(IniKeywords::WWMITexcoordBuffer + " names no file, so this mod's UVs are left alone");
                         return std::nullopt;
@@ -5930,8 +5933,8 @@ namespace AGRemapCore {
                     // A DECLARED STRIDE THAT DOES NOT PARSE IS NOT A REASON TO GUESS ONE. This
                     // fell back to 16, which mis-reads every vertex of a buffer that is not 16 -- the
                     // mod said a number and the fix ignored it.
-                    const std::optional<std::string> strideVal =
-                        ModBranches::firstVal(*found.resource, IniKeywords::Stride);
+                    found.format = declared(IniKeywords::Format);
+                    const std::optional<std::string> strideVal = declared(IniKeywords::Stride);
                     found.stride = DefaultTexcoordStride;
                     if (strideVal.has_value()) {
                         try {
@@ -6104,7 +6107,6 @@ namespace AGRemapCore {
                         return;                         // findTexcoordBuffer said which way
                     }
 
-                    const IfTemplate<std::string, std::string>* resource = source->resource;
                     const std::size_t stride = source->stride;
 
                     BufFile texcoord{source->path, texcoordElements(stride)};
@@ -6182,7 +6184,7 @@ namespace AGRemapCore {
                     // from the same filter -- not here, where a parse alone would write it
                     const std::string fixedRel =
                         modFile(meshFolder_, toModName_ + IniKeywords::Remap + "Texcoord.buf");
-                    const std::optional<std::string> format = ModBranches::firstVal(*resource, IniKeywords::Format);
+                    const std::optional<std::string>& format = source->format;
                     texcoordResource_ = remapFixName(IniKeywords::Resource + "TexcoordNoNaN");
                     addFixFile(*texcoordResource_,
                                {{IniKeywords::Type, IniKeywords::Buffer},

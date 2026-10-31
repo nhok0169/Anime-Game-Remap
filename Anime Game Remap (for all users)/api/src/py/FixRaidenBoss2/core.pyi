@@ -11630,6 +11630,28 @@ class IniParseData:
         List[Tuple[:class:`int`, :class:`int`]]
             Each draw's ``(index count, first index)``
         """
+    def firstCollected(self, name: str, section: str, key: str) -> FixRaidenBoss2.core.GraphCollect.Row | None:
+        """
+        The first row of the :class:`GraphCollect` named 'name' that holds 'key' in 'section' itself -- not in a section it
+        ``run =``\\s -- in the order the collect found them. 'section' is matched regardless of case, as 3DMigoto matches a
+        section's name; 'key' exactly
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The collect's :attr:`GraphCollect.name`
+        
+        section: :class:`str`
+            The `section`_
+        
+        key: :class:`str`
+            The key
+        
+        Returns
+        -------
+        Optional[:class:`GraphCollect.Row`]
+            The row, or ``None`` when there is none
+        """
     def hasRemappableContent(self) -> bool:
         """
         Whether the .ini file carries anything to remap. ``False`` for a file that only WATCHES the character

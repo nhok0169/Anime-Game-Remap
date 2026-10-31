@@ -222,6 +222,16 @@ namespace AGRemapCore {
         return found == collected_.end() ? none : found->second;
     }
 
+    const IniParseData::CollectedRow* IniParseData::firstCollected(const std::string& name, const std::string& section,
+                                                                   const std::string& key) const {
+        for (const CollectedRow& row : collected(name)) {
+            if (row.key == key && StringTools::equalsIgnoreCase(row.section, section)) {
+                return &row;
+            }
+        }
+        return nullptr;
+    }
+
     void IniParseData::setCollected(const std::string& name, std::vector<CollectedRow> rows) {
         collected_.insert_or_assign(name, std::move(rows));
     }

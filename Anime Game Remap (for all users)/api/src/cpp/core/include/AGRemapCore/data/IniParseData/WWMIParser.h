@@ -144,6 +144,25 @@ namespace AGRemapCore {
      * @param config The character's config
      */
     IniParseBuilder::Factory makeWWMIParser(WWMIParserConfig config);
+
+    /**
+     * @brief
+     @rst
+     The names the parser :cpp:func:`makeWWMIParser` builds files its rows under -- read them with
+     :cpp:func:`IniParseData::collected` or :cpp:func:`IniParseData::firstCollected`
+     @endrst
+     */
+    struct WWMIParseRows {
+        /**
+         * @brief Every `section`_'s ``filename``, ``type``, ``format`` and ``stride``, and ``[Constants]``' mesh vertex count, over the whole file
+         */
+        static inline const std::string Declared = "WWMIParser.declared";
+
+        /**
+         * @brief Every key the sections of each draw slot reach, through ``run =``
+         */
+        static inline const std::string Slots = "WWMIParser.slots";
+    };
 }
 
 #endif

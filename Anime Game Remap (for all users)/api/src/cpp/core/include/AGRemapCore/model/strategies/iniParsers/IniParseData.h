@@ -577,6 +577,20 @@ namespace AGRemapCore {
             const std::vector<CollectedRow>& collected(const std::string& name) const;
 
             /**
+             * @brief
+             @rst
+             The first row of the :cpp:class:`GraphCollect` named 'name' that holds 'key' in 'section' itself -- not in
+             a section it ``run =``\s -- in the order the collect found them. 'section' is matched regardless of case,
+             as 3DMigoto matches a section's name; 'key' exactly. ``nullptr`` when there is none
+             @endrst
+             *
+             * @param name The collect's :cpp:member:`GraphCollect::name`
+             * @param section The `section`_
+             * @param key The key
+             */
+            const CollectedRow* firstCollected(const std::string& name, const std::string& section, const std::string& key) const;
+
+            /**
              * @brief Files 'rows' under 'name', replacing what was filed there -- see #collected
              *
              * @param name The name

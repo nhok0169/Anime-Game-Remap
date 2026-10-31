@@ -113,6 +113,14 @@ ps-t0 = ResourceD
                          [("ResourceA", ["$a == 1", "$b == 2"]), ("ResourceB", ["$a == 1", "$b == 3"]),
                           ("ResourceC", ["$a == 1"]), ("ResourceD", [])])
 
+    def test_firstCollected_aKeyInTheSectionItself_sectionMatchedRegardlessOfCase(self):
+        parser = self.parseWith([FRB.GraphCollect({self.Body: ["ps-t1", "ps-t2"]}, name = "body")])
+        data = parser.parseData
+        self.assertEqual(data.firstCollected("body", "textureoverridebody", "ps-t1").value, "ResourceB")
+        self.assertEqual(data.firstCollected("body", "CommandListBody", "ps-t2").value, "ResourceD")
+        self.assertIsNone(data.firstCollected("body", "TextureOverrideBody", "ps-t2"))
+        self.assertIsNone(data.firstCollected("other", "TextureOverrideBody", "ps-t1"))
+
     # ====================== context ============================================
 
     def test_context_aValueSetInTheCallerBeforeRun_isCarriedWithNoLine(self):

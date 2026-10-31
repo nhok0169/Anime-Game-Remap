@@ -1913,6 +1913,17 @@ WWMIParserConfig
 
 :raw-html:`<br />`
 
+WWMIParseRows
+-------------
+
+.. cppattributetable:: AGRemapCore::WWMIParseRows
+
+.. doxygenstruct:: AGRemapCore::WWMIParseRows
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 makeZZMIParser
 --------------
 

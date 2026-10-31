@@ -13,6 +13,7 @@
 
 #include "PyIniParseData.h"
 
+#include <optional>
 #include <string>
 #include <utility>
 
@@ -387,6 +388,31 @@ Returns
 -------
 List[:class:`GraphCollect.Row`]
     The rows
+       )doc")
+       .def("firstCollected", [](const AGRC::IniParseData& self, const std::string& name, const std::string& section,
+                                 const std::string& key) -> std::optional<AGRC::IniParseData::CollectedRow> {
+                const AGRC::IniParseData::CollectedRow* row = self.firstCollected(name, section, key);
+                return row == nullptr ? std::nullopt : std::optional<AGRC::IniParseData::CollectedRow>(*row);
+            }, py::arg("name"), py::arg("section"), py::arg("key"), R"doc(
+The first row of the :class:`GraphCollect` named 'name' that holds 'key' in 'section' itself -- not in a section it
+``run =``\s -- in the order the collect found them. 'section' is matched regardless of case, as 3DMigoto matches a
+section's name; 'key' exactly
+
+Parameters
+----------
+name: :class:`str`
+    The collect's :attr:`GraphCollect.name`
+
+section: :class:`str`
+    The `section`_
+
+key: :class:`str`
+    The key
+
+Returns
+-------
+Optional[:class:`GraphCollect.Row`]
+    The row, or ``None`` when there is none
        )doc")
        .def("setCollected", &AGRC::IniParseData::setCollected, py::arg("name"), py::arg("rows"), R"doc(
 Files 'rows' under 'name', replacing what was filed there -- see :meth:`collected`

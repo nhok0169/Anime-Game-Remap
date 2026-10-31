@@ -191,9 +191,9 @@ namespace AGRemapCore {
 
                 // The names the collects file their rows under (IniParseData::collected)
                 inline static const std::string ResourcesCollect = "WWMIParser.resources";
-                inline static const std::string SlotsCollect = "WWMIParser.slots";
+                inline static const std::string SlotsCollect = WWMIParseRows::Slots;
                 inline static const std::string TextureOverridesCollect = "WWMIParser.textureOverrides";
-                inline static const std::string DeclaredCollect = "WWMIParser.declared";
+                inline static const std::string DeclaredCollect = WWMIParseRows::Declared;
                 inline static const std::string TextureRolesCollect = "WWMIParser.textureRoles";
                 inline static const std::string TextureTogglesCollect = "WWMIParser.textureToggles";
 
@@ -406,9 +406,11 @@ namespace AGRemapCore {
                     auto files = std::make_unique<Collect>(Collect::ByGraph<std::vector<std::string>>{{ResourceGraph, {IniKeywords::Filename}}});
                     files->name = ResourcesCollect;
 
-                    // every section's `filename`, bound or not: the files the .ini names, which the texture
-                    // roles are chosen among
-                    auto declared = std::make_unique<Collect>(Collect::ByGraph<std::vector<std::string>>{{GlobalGraph, {IniKeywords::Filename}}});
+                    // every section's declaration, bound or not: the files the .ini names (which the texture roles
+                    // are chosen among) with their type, format and stride, and [Constants]' mesh vertex count
+                    auto declared = std::make_unique<Collect>(Collect::ByGraph<std::vector<std::string>>{{GlobalGraph,
+                        {IniKeywords::Filename, IniKeywords::Type, IniKeywords::Format, IniKeywords::Stride,
+                         IniKeywords::Global + " " + IniKeywords::WWMIMeshVertexCount}}});
                     declared->name = DeclaredCollect;
 
                     // THE TEXTURE ROLES THE .ini STATES, per root section and through `run =`: a texture
@@ -1173,7 +1175,7 @@ namespace AGRemapCore {
                     std::unordered_map<std::string, std::string> fileOf;
                     std::unordered_set<std::string> seen;
                     for (const Row& row : data.collected(DeclaredCollect)) {
-                        if (seen.insert(row.section).second) {
+                        if (row.key == IniKeywords::Filename && seen.insert(row.section).second) {
                             fileOf[StringTools::toLower(row.section)] = FileService::absPathOfRelPath(
                                 FileService::iniPathToRel(std::string(StringTools::strip(row.value))), folder);
                         }
@@ -1330,7 +1332,7 @@ namespace AGRemapCore {
                     std::unordered_map<std::string, std::string> fileOf;
                     std::unordered_set<std::string> declared;
                     for (const Row& row : data.collected(DeclaredCollect)) {
-                        if (!declared.insert(row.section).second) {
+                        if (row.key != IniKeywords::Filename || !declared.insert(row.section).second) {
                             continue;
                         }
 

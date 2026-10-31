@@ -80,6 +80,39 @@ ps-t2 = ResourceD
         self.assertTrue(all(row.condition is not None for row in rows))
         self.assertEqual({row.rootSection for row in rows}, {"TextureOverrideBody"})
 
+    def test_guards_theBranchesThePartSitsIn_inItsOwnSection(self):
+        rows = self.collect(["ps-t0", "ps-t1"])
+        self.assertEqual([(row.value, row.guards) for row in rows],
+                         [("ResourceA", []), ("ResourceB", ["$x == 1"]), ("ResourceC", ["else"])])
+
+    def test_guards_ofACalledSection_leaveOutTheCallersBranches(self):
+        rows = self.collect(["ps-t2"], withConditions = True)
+        self.assertEqual(rows[0].guards, [])
+
+    def test_guards_nested_outermostFirst_andAnElseIfReplacesItsBranch(self):
+        self.setupIniTxt(r"""
+[TextureOverrideBody]
+hash = 1
+match_first_index = 0
+if $a == 1
+    if $b == 2
+        ps-t0 = ResourceA
+    else if $b == 3
+        ps-t0 = ResourceB
+    endif
+    ps-t0 = ResourceC
+endif
+ps-t0 = ResourceD
+""")
+        self.createIniFile()
+        collect = FRB.GraphCollect({self.Body: ["ps-t0"]})
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = [("", "body")], trackKeys = False, parseSteps = [collect])
+        self.useStrategies(parser = self._parser)
+        self._iniFile.parse()
+        self.assertEqual([(row.value, row.guards) for row in collect.rows],
+                         [("ResourceA", ["$a == 1", "$b == 2"]), ("ResourceB", ["$a == 1", "$b == 3"]),
+                          ("ResourceC", ["$a == 1"]), ("ResourceD", [])])
+
     # ====================== context ============================================
 
     def test_context_aValueSetInTheCallerBeforeRun_isCarriedWithNoLine(self):

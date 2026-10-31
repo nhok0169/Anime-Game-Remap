@@ -9828,6 +9828,13 @@ class GraphCollect(BaseIniGraphGroupEdit, IParseResult):
             Tuple[:class:`int`, :class:`str`, :class:`str`]: The graph it was found in
             """
         @property
+        def guards(self) -> list[str]:
+            """
+            List[:class:`str`]: The test of each ``if`` / ``else if`` branch the part sits in within its own `section`_, outermost
+            first, as written without its surrounding whitespace (``$swapvar == 1``); an ``else`` branch is recorded as ``else``. Unlike :attr:`condition`, this is
+            the text of the section alone -- the conditions of a caller's ``run =`` are not in it -- and it is always filled
+            """
+        @property
         def key(self) -> str:
             """
             :class:`str`: Its key

@@ -95,6 +95,17 @@ namespace AGRemapCore {
          * @brief The condition of the ``if`` blocks the part sits in -- only with :cpp:member:`GraphCollect::withConditions`
          */
         std::optional<Z3Predicate> condition;
+
+        /**
+         * @brief
+         @rst
+         The test of each ``if`` / ``else if`` branch the part sits in within its own `section`_, outermost first,
+         as written without its surrounding whitespace (``$swapvar == 1``); an ``else`` branch is recorded as ``else``. Unlike \ref condition, this
+         is the text of the section alone -- the conditions of a caller's ``run =`` are not in it -- and it is
+         always filled
+         @endrst
+         */
+        std::vector<std::string> guards;
     };
 }
 

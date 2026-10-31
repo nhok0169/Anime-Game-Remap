@@ -17,10 +17,59 @@
 #include <type_traits>
 #include <utility>
 
+#include "AGRemapCore/constants/IfPredPartType.h"
+#include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
+#include "AGRemapCore/tools/StringTools.h"
 
 
 namespace AGRemapCore {
+    namespace GraphCollectDetail {
+        // The test of each if / else if branch 'part' sits in within 'section', outermost first, stripped
+        template <typename SectionT, typename PartT>
+        std::vector<std::string> guardsOf(const SectionT* section, const PartT* part) {
+            std::vector<std::string> open;
+            if (section == nullptr || part == nullptr) {
+                return open;
+            }
+
+            for (const auto& each : section->parts()) {
+                if (static_cast<const void*>(each.get()) == static_cast<const void*>(part)) {
+                    return open;
+                }
+
+                const auto* pred = dynamic_cast<const IfPredPart*>(each.get());
+                if (pred == nullptr) {
+                    continue;
+                }
+
+                switch (pred->type) {
+                    case IfPredPartType::If:
+                        open.push_back(std::string(StringTools::strip(pred->getTestStr())));
+                        break;
+                    case IfPredPartType::Elif:
+                        if (!open.empty()) {
+                            open.back() = std::string(StringTools::strip(pred->getTestStr()));
+                        }
+                        break;
+                    case IfPredPartType::Else:
+                        if (!open.empty()) {
+                            open.back() = "else";
+                        }
+                        break;
+                    case IfPredPartType::EndIf:
+                        if (!open.empty()) {
+                            open.pop_back();
+                        }
+                        break;
+                }
+            }
+
+            return {};
+        }
+    }
+
+
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     GraphCollect<K, V, KeyHash, KeyEqual>::GraphCollect(ByGraph<std::vector<K>> keys, ByGraph<std::vector<K>> contextKeys, std::string name):
         keys(std::move(keys)), contextKeys(std::move(contextKeys)), name(std::move(name)) {}
@@ -70,6 +119,7 @@ namespace AGRemapCore {
             partRanges = partPredicate->second(iterData).ranges;
         }
 
+        std::optional<std::vector<std::string>> guards;
         for (const auto& [line, value] : part->getValsWithInds(key, true, partRanges)) {
             if (valPredicate != valPredicates.end() && valPredicate->second && !valPredicate->second(key, value, iterData)) {
                 continue;
@@ -84,6 +134,10 @@ namespace AGRemapCore {
             row.key = key;
             row.value = value;
             row.condition = condition;
+            if (!guards.has_value()) {
+                guards = GraphCollectDetail::guardsOf(iterData.section, part);
+            }
+            row.guards = *guards;
             if (context != contextKeys.end()) {
                 for (const K& contextKey : context->second) {
                     row.context.emplace_back(contextKey, iterData.colouring != nullptr ? iterData.colouring->getIndVals(contextKey)

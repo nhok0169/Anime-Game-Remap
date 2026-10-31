@@ -274,7 +274,12 @@ holds at the part, in the order they were named -- the key's occurrences in the 
 carried in from earlier on the path with no line
         )doc"))
         .def_readonly("condition", &Row::condition,
-                      py::doc(R"doc(Optional[:class:`Z3Predicate`]: The condition of the ``if`` blocks the part sits in -- only with ``withConditions``)doc"));
+                      py::doc(R"doc(Optional[:class:`Z3Predicate`]: The condition of the ``if`` blocks the part sits in -- only with ``withConditions``)doc"))
+        .def_readonly("guards", &Row::guards, py::doc(R"doc(
+List[:class:`str`]: The test of each ``if`` / ``else if`` branch the part sits in within its own `section`_, outermost
+first, as written without its surrounding whitespace (``$swapvar == 1``); an ``else`` branch is recorded as ``else``. Unlike :attr:`condition`, this is
+the text of the section alone -- the conditions of a caller's ``run =`` are not in it -- and it is always filled
+        )doc"));
 
     cls.def(py::init([](py::object keys, py::object contextKeys, std::string name, py::object partPredicates,
                         py::object valPredicates, py::object trackKeys, py::object keysToTrack, bool withConditions,

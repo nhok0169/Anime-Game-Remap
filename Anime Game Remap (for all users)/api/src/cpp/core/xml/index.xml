@@ -2033,6 +2033,7 @@
     <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1add010cfb696f890672bda92cb4129d5c" kind="variable"><name>value</name></member>
     <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a91104695cd98fab522db5a8f20363e4b" kind="variable"><name>context</name></member>
     <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a07e554f085c798ec48976303429e7d9a" kind="variable"><name>condition</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a80ca9804fed880268606e46eaa6a206d" kind="variable"><name>guards</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_graph_create" kind="class"><name>AGRemapCore::GraphCreate</name>
     <member refid="class_a_g_remap_core_1_1_graph_create_1a3c528c8a25a5a26bc0be2ffd7c1cda19" kind="typedef"><name>Base</name></member>

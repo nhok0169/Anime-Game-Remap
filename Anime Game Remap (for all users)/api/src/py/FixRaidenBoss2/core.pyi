@@ -9811,6 +9811,14 @@ class GraphCollect(BaseIniGraphGroupEdit, IParseResult):
             
         """
         @property
+        def blocks(self) -> list[int]:
+            """
+            List[:class:`int`]: Which branch of each ``if`` block the part sits in within its own `section`_, outermost first: the
+            position, among the section's parts, of the ``if`` / ``else if`` / ``else`` line that opens the branch. It names the
+            same branches as :attr:`guards`, but tells apart two branches whose tests read the same -- two parts share a branch
+            exactly when one's list starts with the other's. Always filled
+            """
+        @property
         def condition(self) -> FixRaidenBoss2.core.Z3Predicate | None:
             """
             Optional[:class:`Z3Predicate`]: The condition of the ``if`` blocks the part sits in -- only with ``withConditions``

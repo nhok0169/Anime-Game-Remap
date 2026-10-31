@@ -279,6 +279,12 @@ carried in from earlier on the path with no line
 List[:class:`str`]: The test of each ``if`` / ``else if`` branch the part sits in within its own `section`_, outermost
 first, as written without its surrounding whitespace (``$swapvar == 1``); an ``else`` branch is recorded as ``else``. Unlike :attr:`condition`, this is
 the text of the section alone -- the conditions of a caller's ``run =`` are not in it -- and it is always filled
+        )doc"))
+        .def_readonly("blocks", &Row::blocks, py::doc(R"doc(
+List[:class:`int`]: Which branch of each ``if`` block the part sits in within its own `section`_, outermost first: the
+position, among the section's parts, of the ``if`` / ``else if`` / ``else`` line that opens the branch. It names the
+same branches as :attr:`guards`, but tells apart two branches whose tests read the same -- two parts share a branch
+exactly when one's list starts with the other's. Always filled
         )doc"));
 
     cls.def(py::init([](py::object keys, py::object contextKeys, std::string name, py::object partPredicates,

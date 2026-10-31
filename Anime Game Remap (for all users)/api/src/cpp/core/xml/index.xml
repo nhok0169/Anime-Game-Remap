@@ -2034,6 +2034,7 @@
     <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a91104695cd98fab522db5a8f20363e4b" kind="variable"><name>context</name></member>
     <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a07e554f085c798ec48976303429e7d9a" kind="variable"><name>condition</name></member>
     <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a80ca9804fed880268606e46eaa6a206d" kind="variable"><name>guards</name></member>
+    <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a868e06cff836b616dd04817bc5c054a5" kind="variable"><name>blocks</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_graph_create" kind="class"><name>AGRemapCore::GraphCreate</name>
     <member refid="class_a_g_remap_core_1_1_graph_create_1a3c528c8a25a5a26bc0be2ffd7c1cda19" kind="typedef"><name>Base</name></member>
@@ -7456,6 +7457,7 @@
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_rows" kind="struct"><name>AGRemapCore::WWMIParseRows</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_rows_1a48b4ef9fc286ecea91118b20503ef447" kind="variable"><name>Declared</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_rows_1a28bd882a9516ed95ba2fb7bff1f50425" kind="variable"><name>Slots</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_rows_1a318868d9da86969f2a3a779101780bb3" kind="variable"><name>Sections</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys" kind="class"><name>AGRemapCore::WWMIShapeKeys</name>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1abd0c4c6edba5cb9bc49bbe2e71a3f77c" kind="function"><name>layoutOf</name></member>

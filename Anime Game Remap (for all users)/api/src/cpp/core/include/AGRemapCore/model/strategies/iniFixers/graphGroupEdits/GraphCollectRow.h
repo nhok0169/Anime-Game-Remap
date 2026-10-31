@@ -106,6 +106,17 @@ namespace AGRemapCore {
          @endrst
          */
         std::vector<std::string> guards;
+
+        /**
+         * @brief
+         @rst
+         Which branch of each ``if`` block the part sits in within its own `section`_, outermost first: the
+         position, among the section's parts, of the ``if`` / ``else if`` / ``else`` line that opens the branch.
+         It names the same branches as \ref guards, but tells apart two branches whose tests read the same -- two
+         parts share a branch exactly when one's list starts with the other's. Always filled
+         @endrst
+         */
+        std::vector<std::size_t> blocks;
     };
 }
 

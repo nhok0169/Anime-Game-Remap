@@ -162,6 +162,15 @@ namespace AGRemapCore {
          * @brief Every key the sections of each draw slot reach, through ``run =``
          */
         static inline const std::string Slots = "WWMIParser.slots";
+
+        /**
+         * @brief
+         @rst
+         Every key of every `section`_ over the whole file. A section ``run =`` reaches is met again under its
+         caller, so a reader of one section's own lines keeps each line once
+         @endrst
+         */
+        static inline const std::string Sections = "WWMIParser.sections";
     };
 }
 

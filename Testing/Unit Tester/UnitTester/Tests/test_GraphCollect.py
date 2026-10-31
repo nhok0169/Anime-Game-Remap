@@ -113,6 +113,39 @@ ps-t0 = ResourceD
                          [("ResourceA", ["$a == 1", "$b == 2"]), ("ResourceB", ["$a == 1", "$b == 3"]),
                           ("ResourceC", ["$a == 1"]), ("ResourceD", [])])
 
+    def test_blocks_twoBranchesOfTheSameTest_areTwoBlocks_andANestedPartStartsWithItsParents(self):
+        self.setupIniTxt(r"""
+[TextureOverrideBody]
+hash = 1
+match_first_index = 0
+if $a == 1
+    ps-t0 = ResourceA
+    if $b == 2
+        ps-t0 = ResourceB
+    else
+        ps-t0 = ResourceC
+    endif
+endif
+if $a == 1
+    ps-t0 = ResourceD
+endif
+ps-t0 = ResourceE
+""")
+        self.createIniFile()
+        collect = FRB.GraphCollect({self.Body: ["ps-t0"]})
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = [("", "body")], trackKeys = False, parseSteps = [collect])
+        self.useStrategies(parser = self._parser)
+        self._iniFile.parse()
+        blocks = {row.value: row.blocks for row in collect.rows}
+
+        self.assertEqual({row.value: row.guards for row in collect.rows}["ResourceD"], ["$a == 1"])
+        self.assertEqual(len(blocks["ResourceA"]), 1)
+        self.assertNotEqual(blocks["ResourceA"], blocks["ResourceD"])
+        self.assertEqual(blocks["ResourceB"][:1], blocks["ResourceA"])
+        self.assertEqual(blocks["ResourceC"][:1], blocks["ResourceA"])
+        self.assertNotEqual(blocks["ResourceB"], blocks["ResourceC"])
+        self.assertEqual(blocks["ResourceE"], [])
+
     def test_firstCollected_aKeyInTheSectionItself_sectionMatchedRegardlessOfCase(self):
         parser = self.parseWith([FRB.GraphCollect({self.Body: ["ps-t1", "ps-t2"]}, name = "body")])
         data = parser.parseData

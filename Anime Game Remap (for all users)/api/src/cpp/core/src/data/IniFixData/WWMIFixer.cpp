@@ -687,9 +687,9 @@ namespace AGRemapCore {
                     // (The skeleton block re-declares the bone-data marker, which a mod that has its own
                     // already carries as a remapped section of the same name and text: a group renders a
                     // section of one name and text once -- see TemplateFixer::addFixSection.)
-                    for (const auto& entry : ctx_.getIniFile()->getIfTemplates()) {
-                        if (StringTools::startsWith(entry.first, IniKeywords::TextureOverride)) {
-                            this->copyHiddenSectionNames.insert(entry.first);
+                    for (const std::string& section : sectionRows().order) {
+                        if (StringTools::startsWith(section, IniKeywords::TextureOverride)) {
+                            this->copyHiddenSectionNames.insert(section);
                         }
                     }
                 }
@@ -876,14 +876,11 @@ namespace AGRemapCore {
                     }
 
                     std::vector<std::string> watching;
-                    for (const auto& entry : ini->getIfTemplates()) {
-                        if (entry.second == nullptr) {
-                            continue;
-                        }
-                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
-                        const std::optional<std::string> index = ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex);
-                        if (hash.has_value() && !index.has_value() && isSourceVb0(StringTools::toLower(std::string(StringTools::strip(*hash))))) {
-                            watching.push_back(entry.first);
+                    for (const std::string& section : sectionRows().order) {
+                        const std::optional<std::string> hash = ownVal(section, IniKeywords::Hash);
+                        const std::optional<std::string> index = ownVal(section, IniKeywords::MatchFirstIndex);
+                        if (hash.has_value() && !index.has_value() && isSourceVb0(StringTools::toLower(*hash))) {
+                            watching.push_back(section);
                         }
                     }
                     if (watching.empty()) {
@@ -908,20 +905,16 @@ namespace AGRemapCore {
                 // writes there, `post $object_detected = 0`, anywhere inside that section. A [Present]
                 // declared more than once is ONE section, as 3DMigoto merges it (Changli4 has three, the
                 // reset in the second) -- see IniFile::mergesRepeatedSection.
-                static bool presentResetsObjectDetected(IniFile& ini) {
-                    for (const auto& [name, section] : ini.getIfTemplates()) {
-                        if (section == nullptr || !StringTools::equalsIgnoreCase(name, IniKeywords::Present)) {
+                bool presentResetsObjectDetected() const {
+                    for (const std::string& section : sectionRows().order) {
+                        if (!StringTools::equalsIgnoreCase(section, IniKeywords::Present)) {
                             continue;
                         }
 
-                        for (const std::unique_ptr<IfTemplatePart>& part : section->parts()) {
-                            const auto* content = dynamic_cast<const ContentPart*>(part.get());
-                            for (std::size_t k = 0; content != nullptr && k < content->size(); ++k) {
-                                const auto& [key, value] = content->getByInd(static_cast<long long>(k));
-                                if (StringTools::startsWith(StringTools::toLower(key), IniKeywords::Post + " " + IniKeywords::WWMIObjectDetected)
-                                        && StringTools::strip(value) == "0") {
-                                    return true;
-                                }
+                        for (const Row* row : ownRows(section)) {
+                            if (StringTools::startsWith(StringTools::toLower(row->key), IniKeywords::Post + " " + IniKeywords::WWMIObjectDetected)
+                                    && StringTools::strip(row->value) == "0") {
+                                return true;
                             }
                         }
                     }
@@ -1089,24 +1082,21 @@ namespace AGRemapCore {
                     }
 
                     modVb0Version_ = std::optional<std::string>();
-                    IniFile* ini = ctx_.getIniFile();
-                    if (ini == nullptr) {
+                    if (this->getParser() == nullptr) {
                         return std::nullopt;
                     }
 
-                    for (const auto& entry : ini->getIfTemplates()) {
-                        if (entry.second == nullptr
-                                || !ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex).has_value()) {
+                    for (const std::string& section : sectionRows().order) {
+                        if (!ownVal(section, IniKeywords::MatchFirstIndex).has_value()) {
                             continue;
                         }
 
-                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                        const std::optional<std::string> hash = ownVal(section, IniKeywords::Hash);
                         if (!hash.has_value()) {
                             continue;
                         }
 
-                        const auto found = config_.sourceVersionByVb0.find(
-                            StringTools::toLower(std::string(StringTools::strip(*hash))));
+                        const auto found = config_.sourceVersionByVb0.find(StringTools::toLower(*hash));
                         if (found != config_.sourceVersionByVb0.end()) {
                             modVb0Version_ = found->second;
                             break;
@@ -1189,7 +1179,7 @@ namespace AGRemapCore {
                         return false;
                     }
 
-                    hostResetsDetected_ = presentResetsObjectDetected(*ini);
+                    hostResetsDetected_ = presentResetsObjectDetected();
 
                     // THE MOD'S ANATOMY IS THE PARSER'S (2026-10-28): which section is which source component,
                     // what each draws and binds after drawing, which components the mod hides, and the files
@@ -1213,6 +1203,7 @@ namespace AGRemapCore {
                             }
 
                             present_[*component] = sections;
+                            graphOf_[*component] = obj;
 
                             // Its draw ranges, read for EVERY mod: the remap of a toggled draw through the split
                             // and TexEditContext::drawRanges (what a texture edit knows a component covers) both
@@ -1452,23 +1443,13 @@ namespace AGRemapCore {
                     // name it chose last time: those sections are not the MOD's use, so they are skipped.
                     std::unordered_set<std::string> usedResources;
                     const std::string ourPrefix = StringTools::toLower(toModName_ + "Remap");
-                    if (IniFile* ini = ctx_.getIniFile()) {
-                        for (const auto& tpl : ini->getIfTemplates()) {
-                            if (tpl.second == nullptr
-                                    || StringTools::toLower(tpl.first).find(ourPrefix) != std::string::npos) {
-                                continue;
-                            }
-                            for (const auto& part : tpl.second->parts()) {
-                                const auto* content =
-                                    dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
-                                if (content == nullptr) {
-                                    continue;
-                                }
-                                for (const auto& kvp : content->entries()) {
-                                    usedResources.insert(StringTools::toLower(StringTools::strip(
-                                        IniNamingTools::removeRefPrefix(kvp.second)).data()));
-                                }
-                            }
+                    for (const std::string& section : sectionRows().order) {
+                        if (StringTools::toLower(section).find(ourPrefix) != std::string::npos) {
+                            continue;
+                        }
+                        for (const Row* row : ownRows(section)) {
+                            usedResources.insert(StringTools::toLower(StringTools::strip(
+                                IniNamingTools::removeRefPrefix(row->value)).data()));
                         }
                     }
 
@@ -1611,6 +1592,64 @@ namespace AGRemapCore {
                 // What the parser recorded about this .ini -- see IniParseData
                 const IniParseData& parseData() const {
                     return this->getParser()->parseData();
+                }
+
+                // THE MOD'S OWN LINES ARE THE PARSER'S ROWS (WWMIParseRows::Sections): every key of every
+                // section, each line once, as written. A collect files its rows key by key, so they are put back
+                // in the order of their parts, whose ids are handed out as the file is parsed
+                using Row = IniParseData::CollectedRow;
+                struct SectionRows {
+                    std::vector<std::string> order;
+                    std::unordered_map<std::string, std::vector<const Row*>> rows;
+                };
+
+                const SectionRows& sectionRows() const {
+                    if (sectionRows_.has_value()) {
+                        return *sectionRows_;
+                    }
+
+                    sectionRows_.emplace();
+                    std::set<std::tuple<std::string, std::size_t, long long>> seen;
+                    for (const Row& row : parseData().collected(WWMIParseRows::Sections)) {
+                        if (!seen.emplace(row.section, row.partId, row.line).second) {
+                            continue;
+                        }
+
+                        auto& rows = sectionRows_->rows[row.section];
+                        if (rows.empty()) {
+                            sectionRows_->order.push_back(row.section);
+                        }
+                        rows.push_back(&row);
+                    }
+
+                    const auto written = [](const Row* a, const Row* b) {
+                        return std::make_pair(a->partId, a->line) < std::make_pair(b->partId, b->line);
+                    };
+                    for (auto& entry : sectionRows_->rows) {
+                        std::stable_sort(entry.second.begin(), entry.second.end(), written);
+                    }
+                    std::stable_sort(sectionRows_->order.begin(), sectionRows_->order.end(),
+                                     [this, &written](const std::string& a, const std::string& b) {
+                                         return written(sectionRows_->rows.at(a).front(), sectionRows_->rows.at(b).front());
+                                     });
+                    return *sectionRows_;
+                }
+
+                // The section's own lines, in order; empty for a section with none
+                const std::vector<const Row*>& ownRows(const std::string& section) const {
+                    static const std::vector<const Row*> none;
+                    const auto found = sectionRows().rows.find(section);
+                    return found == sectionRows().rows.end() ? none : found->second;
+                }
+
+                // The first value of 'key' in the section's own lines, stripped
+                std::optional<std::string> ownVal(const std::string& section, const std::string& key) const {
+                    for (const Row* row : ownRows(section)) {
+                        if (row->key == key) {
+                            return std::string(StringTools::strip(row->value));
+                        }
+                    }
+                    return std::nullopt;
                 }
 
                 // Which of the mod's files serves one role on one source component, if any.
@@ -2023,21 +2062,13 @@ namespace AGRemapCore {
                 // configured: whatever the override binds and the cleanup does not already restore.
                 void buildBypasses() {
                     bypasses_.clear();
-                    IniFile* ini = ctx_.getIniFile();
-                    if (ini == nullptr) {
-                        return;
-                    }
-
-                    const auto& templates = ini->getIfTemplates();
-                    const auto overrideList = templates.find(config_.sharedResourcesList);
-                    const auto cleanupList = templates.find(config_.cleanupResourcesList);
-                    if (overrideList == templates.end() || cleanupList == templates.end()
-                            || overrideList->second == nullptr || cleanupList->second == nullptr) {
+                    const auto& rows = sectionRows().rows;
+                    if (rows.count(config_.sharedResourcesList) == 0 || rows.count(config_.cleanupResourcesList) == 0) {
                         return;            // a legacy mod with no such pair: nothing to be symmetric with
                     }
 
-                    std::vector<std::string> bound = buffersBoundBy(*overrideList->second);
-                    const std::vector<std::string> already = buffersBoundBy(*cleanupList->second);
+                    std::vector<std::string> bound = buffersBoundBy(config_.sharedResourcesList);
+                    const std::vector<std::string> already = buffersBoundBy(config_.cleanupResourcesList);
                     for (const std::string& reg : bound) {
                         if (std::find(already.begin(), already.end(), reg) != already.end()) {
                             continue;      // `vb0`, which WWMI's own pair already handles
@@ -2055,25 +2086,18 @@ namespace AGRemapCore {
                  * RESOURCE and is not one of these, which is what keeps the pair's own bookkeeping out
                  * of the answer.
                  */
-                static std::vector<std::string> buffersBoundBy(const IfTemplate<std::string, std::string>& list) {
+                std::vector<std::string> buffersBoundBy(const std::string& list) const {
                     std::vector<std::string> regs;
-                    for (const std::unique_ptr<IfTemplatePart>& part : list.parts()) {
-                        const auto* content = dynamic_cast<const IfContentPart<std::string, std::string>*>(part.get());
-                        if (content == nullptr) {
-                            continue;
+                    for (const Row* row : ownRows(list)) {
+                        const std::string key = StringTools::toLower(StringTools::strip(row->key));
+                        bool buffer = (key == IniKeywords::Ib);
+                        if (!buffer && key.size() > 2 && key.compare(0, 2, "vb") == 0) {
+                            buffer = std::all_of(key.begin() + 2, key.end(),
+                                                 [](unsigned char c) { return std::isdigit(c) != 0; });
                         }
 
-                        for (const auto& item : content->items()) {
-                            const std::string key = StringTools::toLower(StringTools::strip(item.key));
-                            bool buffer = (key == IniKeywords::Ib);
-                            if (!buffer && key.size() > 2 && key.compare(0, 2, "vb") == 0) {
-                                buffer = std::all_of(key.begin() + 2, key.end(),
-                                                     [](unsigned char c) { return std::isdigit(c) != 0; });
-                            }
-
-                            if (buffer) {
-                                ListTools::pushDistinct(regs, key);
-                            }
+                        if (buffer) {
+                            ListTools::pushDistinct(regs, key);
                         }
                     }
 
@@ -2789,6 +2813,7 @@ namespace AGRemapCore {
                         rerouteFrom_[reroute.as] = reroute.from;
                         reroutedDraws_[reroute.as] = taken;
                         present_[reroute.as] = present_.at(reroute.from);
+                        graphOf_[reroute.as] = graphOf_.at(reroute.from);
                         drawParts_[reroute.as] = drawParts_[reroute.from];
                         for (const auto& range : taken) {
                             drawRanges_[reroute.as].push_back(range);
@@ -2842,19 +2867,17 @@ namespace AGRemapCore {
                     }
 
                     const std::string folder = ctx_.getIniFile()->getFolder();
-                    const auto& templates = ctx_.getIniFile()->getIfTemplates();
 
                     // the mod's `this` overrides: game texture hash -> the resource put in its place
                     std::map<std::string, std::string> thisOf;
-                    for (const auto& entry : templates) {
-                        if (entry.second == nullptr || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)) {
+                    for (const std::string& section : sectionRows().order) {
+                        if (!StringTools::startsWith(section, IniKeywords::TextureOverride)) {
                             continue;
                         }
-                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
-                        const std::optional<std::string> ref = ModBranches::firstVal(*entry.second, IniKeywords::This);
+                        const std::optional<std::string> hash = ownVal(section, IniKeywords::Hash);
+                        const std::optional<std::string> ref = ownVal(section, IniKeywords::This);
                         if (hash.has_value() && ref.has_value()) {
-                            thisOf.emplace(StringTools::toLower(std::string(StringTools::strip(*hash))),
-                                           std::string(StringTools::strip(*ref)));
+                            thisOf.emplace(StringTools::toLower(*hash), *ref);
                         }
                     }
 
@@ -2946,27 +2969,30 @@ namespace AGRemapCore {
                 // Whether the component's own sections bind `reg` themselves
                 bool bindsRegister(int component, const std::string& reg) const {
                     const auto sections = present_.find(component);
-                    const auto& templates = ctx_.getIniFile()->getIfTemplates();
+                    const std::string want = ModBranches::looseKey(reg);
                     return sections != present_.end()
                            && std::any_of(sections->second.begin(), sections->second.end(), [&](const std::string& name) {
-                                  const auto section = templates.find(name);
-                                  return section != templates.end() && section->second != nullptr
-                                         && ModBranches::firstValLoose(*section->second, reg).has_value();
+                                  const auto& rows = ownRows(name);
+                                  return std::any_of(rows.begin(), rows.end(), [&want](const Row* row) {
+                                      return ModBranches::looseKey(row->key) == want;
+                                  });
                               });
                 }
 
                 // Whether the component's own sections run RabbitFX's SetTextures, directly or through
                 // a command list they call
-                bool callsSetTextures(int component) {
-                    const auto sections = present_.find(component);
-                    const auto& templates = ctx_.getIniFile()->getIfTemplates();
-                    return sections != present_.end()
-                           && std::any_of(sections->second.begin(), sections->second.end(), [&](const std::string& name) {
-                                  const std::vector<BranchVal> runs = branches_.valsThroughRun(templates, name, IniKeywords::Run);
-                                  return std::any_of(runs.begin(), runs.end(), [](const BranchVal& run) {
-                                      return StringTools::equalsIgnoreCase(StringTools::strip(run.val), IniKeywords::RabbitFXSetTexturesPath);
-                                  });
-                              });
+                bool callsSetTextures(int component) const {
+                    const auto obj = graphOf_.find(component);
+                    if (obj == graphOf_.end()) {
+                        return false;
+                    }
+
+                    // the component's graph: its sections and every one they `run =`
+                    const auto& rows = parseData().collected(WWMIParseRows::Slots);
+                    return std::any_of(rows.begin(), rows.end(), [&obj](const Row& row) {
+                        return row.graphId.modObj == obj->second && row.key == IniKeywords::Run
+                               && StringTools::equalsIgnoreCase(StringTools::strip(row.value), IniKeywords::RabbitFXSetTexturesPath);
+                    });
                 }
 
                 std::string rabbitFXPinList(int component) const {
@@ -3980,10 +4006,7 @@ namespace AGRemapCore {
                         return {std::string(IniKeywords::Run), cached->second};
                     }
 
-                    IniFile* ini = ctx_.getIniFile();
-                    const auto& templates = ini->getIfTemplates();
-                    const auto tpl = templates.find(toggle->section);
-                    if (tpl == templates.end() || tpl->second == nullptr) {
+                    if (sectionRows().rows.count(toggle->section) == 0) {
                         return direct;
                     }
 
@@ -4012,26 +4035,19 @@ namespace AGRemapCore {
                     //    `$Char != 0` the hair took variant 0's normal map. (The lists now bind the
                     //    mod's own names and the edits are collected from them -- addTexEditCollects.)
                     const RegRemove<>::RemoveKeyCheck isDead =
-                        [this, ini](long long, const std::string& val) {
+                        [this](long long, const std::string& val) {
                             const std::string bound = StringTools::toLower(val);
-                            return fileOfResource_.count(bound) == 0 && ini->getIfTemplates().count(val) == 0;
+                            return fileOfResource_.count(bound) == 0 && sectionRows().rows.count(val) == 0;
                         };
 
                     // The spellings of `this` the section writes -- `THIS = ResourceX` is legal 3dmigoto and
                     // a regEdit matches a key exactly -- and whether any binding outlives the dead ones
                     std::vector<std::string> thisKeys;
                     std::size_t bindings = 0;
-                    for (const std::unique_ptr<IfTemplatePart>& part : tpl->second->parts()) {
-                        const auto* content = dynamic_cast<const IfContentPart<std::string, std::string>*>(part.get());
-                        if (content == nullptr) {
-                            continue;
-                        }
-
-                        for (const auto& item : content->items()) {
-                            if (StringTools::toLower(item.key) == IniKeywords::This) {
-                                ListTools::pushDistinct(thisKeys, item.key);
-                                bindings += isDead(0, item.value) ? 0 : 1;
-                            }
+                    for (const Row* row : ownRows(toggle->section)) {
+                        if (StringTools::toLower(row->key) == IniKeywords::This) {
+                            ListTools::pushDistinct(thisKeys, row->key);
+                            bindings += isDead(0, row->value) ? 0 : 1;
                         }
                     }
 
@@ -4166,35 +4182,30 @@ namespace AGRemapCore {
                     }
 
                     const std::string ownSuffix = StringTools::toLower(remapFixName(""));
-                    for (const auto& [name, tpl] : ctx_.getIniFile()->getIfTemplates()) {
-                        if (tpl == nullptr || StringTools::endsWithIgnoreCase(name, ownSuffix)) {
+                    const auto& templates = ctx_.getIniFile()->getIfTemplates();     // the copy is of the whole section
+                    for (const std::string& name : sectionRows().order) {
+                        if (StringTools::endsWithIgnoreCase(name, ownSuffix)) {
                             continue;
                         }
 
                         std::string target;
-                        for (const std::unique_ptr<IfTemplatePart>& part : tpl->parts()) {
-                            const auto* content = dynamic_cast<const ContentPart*>(part.get());
-                            if (content == nullptr) {
+                        for (const Row* row : ownRows(name)) {
+                            if (!StringTools::equalsIgnoreCase(StringTools::strip(row->key), IniKeywords::Hash)) {
                                 continue;
                             }
 
-                            for (const auto& item : content->items()) {
-                                if (!StringTools::equalsIgnoreCase(StringTools::strip(item.key), IniKeywords::Hash)) {
-                                    continue;
-                                }
-
-                                const auto found = counterparts.find(StringTools::toLower(std::string(StringTools::strip(item.value))));
-                                if (found != counterparts.end()) {
-                                    target = found->second;
-                                }
+                            const auto found = counterparts.find(StringTools::toLower(std::string(StringTools::strip(row->value))));
+                            if (found != counterparts.end()) {
+                                target = found->second;
                             }
                         }
 
-                        if (target.empty()) {
+                        const auto tpl = templates.find(name);
+                        if (target.empty() || tpl == templates.end() || tpl->second == nullptr) {
                             continue;
                         }
 
-                        addFixSection(copyOnHash(*tpl, target, name + " of the mod, on " + toModName_ + "'s counterpart of that mesh"));
+                        addFixSection(copyOnHash(*tpl->second, target, name + " of the mod, on " + toModName_ + "'s counterpart of that mesh"));
                     }
 
                 }
@@ -5420,38 +5431,23 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    IniFile* ini = ctx_.getIniFile();
-                    if (ini == nullptr) {
-                        return;
-                    }
-
                     const std::string prefix = StringTools::toLower(config_.texRegPrefix);
                     const std::string ref = StringTools::toLower(IniKeywords::Ref);
-                    const auto& templates = ini->getIfTemplates();
 
                     // A resource the mod also binds with `this =` on a texture's hash is on for every draw
                     // of the source that binds that texture, whatever the register lines say: Lynae3
                     // binds its body diffuse that way and has one register line for it, under `$Wish`.
                     // Those roles keep the mod's file (the toggle lists of bindLine handle a `this` chain)
                     std::set<std::string> thisBound;
-                    for (const auto& entry : templates) {
-                        if (entry.second == nullptr) {
-                            continue;
-                        }
-
-                        for (const auto& part : entry.second->parts()) {
-                            const auto* content =
-                                dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
-                            if (content == nullptr) {
-                                continue;
-                            }
-
-                            for (const std::string& val : content->getVals(IniKeywords::This)) {
-                                thisBound.insert(StringTools::toLower(StringTools::strip(val)));
+                    for (const std::string& section : sectionRows().order) {
+                        for (const Row* row : ownRows(section)) {
+                            if (row->key == IniKeywords::This) {
+                                thisBound.insert(StringTools::toLower(StringTools::strip(row->value)));
                             }
                         }
                     }
 
+                    // a line's path is the branch of each `if` block it sits in (GraphCollectRow::blocks)
                     using Path = std::vector<std::size_t>;
                     const auto encloses = [](const Path& outer, const Path& inner) {
                         return outer.size() <= inner.size() && std::equal(outer.begin(), outer.end(), inner.begin());
@@ -5467,53 +5463,25 @@ namespace AGRemapCore {
                         std::map<std::string, std::vector<std::pair<Path, std::string>>> occurrences;
                         std::vector<Path> draws;
                         for (const std::string& section : sections) {
-                            const auto tpl = templates.find(section);
-                            if (tpl == templates.end() || tpl->second == nullptr) {
-                                continue;
-                            }
-
-                            Path path;
-                            std::size_t nextBlock = 0;
-                            for (const auto& part : tpl->second->parts()) {
-                                if (const auto* pred = dynamic_cast<const IfPredPart*>(part.get())) {
-                                    if (pred->type == IfPredPartType::If) {
-                                        path.push_back(++nextBlock);
-                                    } else if (pred->type == IfPredPartType::EndIf) {
-                                        if (!path.empty()) {
-                                            path.pop_back();
-                                        }
-                                    } else if (!path.empty()) {
-                                        path.back() = ++nextBlock;      // elif / else: a sibling block
-                                    }
-
+                            for (const Row* row : ownRows(section)) {
+                                const Path& path = row->blocks;
+                                const std::string key = StringTools::toLower(StringTools::strip(row->key));
+                                if (StringTools::startsWith(key, "draw")) {
+                                    draws.push_back(path);
                                     continue;
                                 }
 
-                                const auto* content =
-                                    dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
-                                if (content == nullptr) {
+                                if (!StringTools::startsWith(key, prefix)) {
                                     continue;
                                 }
 
-                                for (const auto& item : content->items()) {
-                                    const std::string key = StringTools::toLower(StringTools::strip(item.key));
-                                    if (StringTools::startsWith(key, "draw")) {
-                                        draws.push_back(path);
-                                        continue;
-                                    }
+                                std::string val(StringTools::strip(row->value));
+                                if (StringTools::startsWith(StringTools::toLower(val), ref + " ")) {
+                                    val = std::string(StringTools::lstrip(val.substr(ref.size())));
+                                }
 
-                                    if (!StringTools::startsWith(key, prefix)) {
-                                        continue;
-                                    }
-
-                                    std::string val(StringTools::strip(item.value));
-                                    if (StringTools::startsWith(StringTools::toLower(val), ref + " ")) {
-                                        val = std::string(StringTools::lstrip(val.substr(ref.size())));
-                                    }
-
-                                    if (!val.empty()) {
-                                        occurrences[StringTools::toLower(val)].emplace_back(path, key);
-                                    }
+                                if (!val.empty()) {
+                                    occurrences[StringTools::toLower(val)].emplace_back(path, key);
                                 }
                             }
                         }
@@ -6178,6 +6146,7 @@ namespace AGRemapCore {
                 Character source_;
                 Character target_;
                 std::map<int, std::vector<std::string>> present_;     // source component -> its sections
+                std::map<int, ModObj> graphOf_;                       // source component -> the parser's graph of those sections
                 std::vector<int> silent_;                              // components whose sections draw nothing
                 std::vector<int> dropped_;
                 std::vector<std::vector<int>> groups_;
@@ -6227,6 +6196,7 @@ namespace AGRemapCore {
                 std::map<std::pair<std::string, int>, std::string> resourceOfSlotRole_;   // (role, source component) -> the resource that component binds
                 std::vector<std::string> remapNames_;   // the mod names a fix of this .ini could have named its sections after
                 mutable std::optional<std::optional<std::string>> modVb0Version_;   // versionOfModVb0's answer, once asked
+                mutable std::optional<SectionRows> sectionRows_;       // sectionRows' index, once asked
                 std::vector<std::pair<std::string, std::string>> declared_;   // (file, path relative to the .ini) for a file no resource of the .ini names
                 std::map<std::string, std::string> declaredName_;      // that file -> the resource section the fix declares for it
                 std::set<std::string> usedDeclaredNames_;

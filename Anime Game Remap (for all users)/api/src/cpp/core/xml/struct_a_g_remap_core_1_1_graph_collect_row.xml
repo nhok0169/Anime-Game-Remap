@@ -211,6 +211,26 @@ always filled
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="108" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="108" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_row_1a868e06cff836b616dd04817bc5c054a5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; AGRemapCore::GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt;::blocks</definition>
+        <argsstring></argsstring>
+        <name>blocks</name>
+        <qualifiedname>AGRemapCore::GraphCollectRow::blocks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which branch of each ``if`` block the part sits in within its own `section`_, outermost first: the
+position, among the section&apos;s parts, of the ``if`` / ``else if`` / ``else`` line that opens the branch.
+It names the same branches as \ref guards, but tells apart two branches whose tests read the same -- two
+parts share a branch exactly when one&apos;s list starts with the other&apos;s. Always filled
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="119" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -273,8 +293,9 @@ One occurrence of a key a :cpp:class:`GraphCollect` collected -- its own header 
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="43" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="43" bodyend="109"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" line="43" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h" bodystart="43" bodyend="120"/>
     <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a868e06cff836b616dd04817bc5c054a5" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>blocks</name></member>
       <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a07e554f085c798ec48976303429e7d9a" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>condition</name></member>
       <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1a91104695cd98fab522db5a8f20363e4b" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>context</name></member>
       <member refid="struct_a_g_remap_core_1_1_graph_collect_row_1afb340f80b4c3bf012a33c67b2f135299" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollectRow</scope><name>GraphId</name></member>

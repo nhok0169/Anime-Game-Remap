@@ -36,6 +36,25 @@
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="164" column="41" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="164" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parse_rows_1a318868d9da86969f2a3a779101780bb3" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMIParseRows::Sections</definition>
+        <argsstring></argsstring>
+        <name>Sections</name>
+        <qualifiedname>AGRemapCore::WWMIParseRows::Sections</qualifiedname>
+        <initializer>= &quot;WWMIParser.sections&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every key of every `section`_ over the whole file. A section ``run =`` reaches is met again under its
+caller, so a reader of one section&apos;s own lines keeps each line once
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="173" column="41" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -45,9 +64,10 @@ The names the parser :cpp:func:`makeWWMIParser` builds files its rows under -- r
 :cpp:func:`IniParseData::collected` or :cpp:func:`IniParseData::firstCollected`
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="155" column="5" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="155" bodyend="165"/>
+    <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="155" column="5" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="155" bodyend="174"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_rows_1a48b4ef9fc286ecea91118b20503ef447" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParseRows</scope><name>Declared</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_rows_1a318868d9da86969f2a3a779101780bb3" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParseRows</scope><name>Sections</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_rows_1a28bd882a9516ed95ba2fb7bff1f50425" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParseRows</scope><name>Slots</name></member>
     </listofallmembers>
   </compounddef>

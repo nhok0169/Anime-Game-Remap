@@ -413,6 +413,11 @@ namespace AGRemapCore {
                          IniKeywords::Global + " " + IniKeywords::WWMIMeshVertexCount}}});
                     declared->name = DeclaredCollect;
 
+                    // every key of every section, for the fixer's reading of the mod's own lines
+                    auto sections = std::make_unique<Collect>();
+                    sections->name = WWMIParseRows::Sections;
+                    sections->keyMatches.insert_or_assign(GlobalGraph, anyKey);
+
                     // THE TEXTURE ROLES THE .ini STATES, per root section and through `run =`: a texture
                     // override's `this` (the role is its graph's), and the registers a slot's sections bind
                     // that WWMITextureFacts::registerRoles names. And the toggles: each texture override's own
@@ -463,6 +468,9 @@ namespace AGRemapCore {
 
                     ownedSteps_.push_back(std::move(files));
                     ownedSteps_.push_back(std::move(declared));
+                    if (!onlyThisFile_) {
+                        ownedSteps_.push_back(std::move(sections));
+                    }
                     ownedSteps_.push_back(std::make_unique<GraphRemove<>>(std::vector<GraphId>{ResourceGraph, GlobalGraph}));
                     ownedSteps_.push_back(std::move(slots));
                     ownedSteps_.push_back(std::move(overrides));

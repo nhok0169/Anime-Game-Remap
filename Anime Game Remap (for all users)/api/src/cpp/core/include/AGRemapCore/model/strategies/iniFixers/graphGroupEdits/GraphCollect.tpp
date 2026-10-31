@@ -25,41 +25,53 @@
 
 namespace AGRemapCore {
     namespace GraphCollectDetail {
-        // The test of each if / else if branch 'part' sits in within 'section', outermost first, stripped
+        // The branches 'part' sits in within 'section', outermost first: each one's test, stripped, and the
+        // position of the line that opens it
+        struct Branches {
+            std::vector<std::string> guards;
+            std::vector<std::size_t> blocks;
+        };
+
         template <typename SectionT, typename PartT>
-        std::vector<std::string> guardsOf(const SectionT* section, const PartT* part) {
-            std::vector<std::string> open;
+        Branches branchesOf(const SectionT* section, const PartT* part) {
+            Branches open;
             if (section == nullptr || part == nullptr) {
                 return open;
             }
 
+            std::size_t position = 0;
             for (const auto& each : section->parts()) {
                 if (static_cast<const void*>(each.get()) == static_cast<const void*>(part)) {
                     return open;
                 }
 
                 const auto* pred = dynamic_cast<const IfPredPart*>(each.get());
+                const std::size_t at = position++;
                 if (pred == nullptr) {
                     continue;
                 }
 
                 switch (pred->type) {
                     case IfPredPartType::If:
-                        open.push_back(std::string(StringTools::strip(pred->getTestStr())));
+                        open.guards.push_back(std::string(StringTools::strip(pred->getTestStr())));
+                        open.blocks.push_back(at);
                         break;
                     case IfPredPartType::Elif:
-                        if (!open.empty()) {
-                            open.back() = std::string(StringTools::strip(pred->getTestStr()));
+                        if (!open.guards.empty()) {
+                            open.guards.back() = std::string(StringTools::strip(pred->getTestStr()));
+                            open.blocks.back() = at;
                         }
                         break;
                     case IfPredPartType::Else:
-                        if (!open.empty()) {
-                            open.back() = "else";
+                        if (!open.guards.empty()) {
+                            open.guards.back() = "else";
+                            open.blocks.back() = at;
                         }
                         break;
                     case IfPredPartType::EndIf:
-                        if (!open.empty()) {
-                            open.pop_back();
+                        if (!open.guards.empty()) {
+                            open.guards.pop_back();
+                            open.blocks.pop_back();
                         }
                         break;
                 }
@@ -119,7 +131,7 @@ namespace AGRemapCore {
             partRanges = partPredicate->second(iterData).ranges;
         }
 
-        std::optional<std::vector<std::string>> guards;
+        std::optional<GraphCollectDetail::Branches> branches;
         for (const auto& [line, value] : part->getValsWithInds(key, true, partRanges)) {
             if (valPredicate != valPredicates.end() && valPredicate->second && !valPredicate->second(key, value, iterData)) {
                 continue;
@@ -134,10 +146,11 @@ namespace AGRemapCore {
             row.key = key;
             row.value = value;
             row.condition = condition;
-            if (!guards.has_value()) {
-                guards = GraphCollectDetail::guardsOf(iterData.section, part);
+            if (!branches.has_value()) {
+                branches = GraphCollectDetail::branchesOf(iterData.section, part);
             }
-            row.guards = *guards;
+            row.guards = branches->guards;
+            row.blocks = branches->blocks;
             if (context != contextKeys.end()) {
                 for (const K& contextKey : context->second) {
                     row.context.emplace_back(contextKey, iterData.colouring != nullptr ? iterData.colouring->getIndVals(contextKey)

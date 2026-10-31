@@ -20,6 +20,7 @@
 
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/iniresources/IniResource.h"
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/tools/hashing/HashTools.h"
 
 
@@ -340,6 +341,7 @@ namespace AGRemapCore {
             std::vector<std::pair<long long, V>> regVals = part->getValsWithInds(this->config.filenameKey);
             std::unordered_set<long long> indsToRemove;
             bool replacedHere = false;
+            std::string replacedSrc;
 
             for (const auto& regVal : regVals) {
                 long long ind = regVal.first;
@@ -363,15 +365,17 @@ namespace AGRemapCore {
                 part->setValByInd(ind, this->config.valOfFile(newVal));
                 this->buildResModel(this->resType, val, newVal, modName, fileKey, ctx);
                 replacedHere = true;
+                replacedSrc = FileService::absPathOfRelPath(val, ctx.iniFolder());
             }
 
-            // Anything the config wants to say about the FILE rather than about the mod -- see
-            // ResEditConfig::extraKVPs. Only where a filename was actually rewritten, so this
-            // reaches the generated resource section and nothing else in the graph.
-            if (replacedHere && !this->config.extraKVPs.empty()) {
+            // Anything to say about the FILE rather than about the mod -- see fileKVPs. Only where a
+            // filename was actually rewritten, so this reaches the generated resource section and
+            // nothing else in the graph.
+            const std::vector<std::pair<K, V>> fileKVPs = replacedHere ? this->fileKVPs(replacedSrc) : std::vector<std::pair<K, V>>{};
+            if (!fileKVPs.empty()) {
                 std::vector<std::pair<K, typename Base::ContentPart::ReplaceSpec>> extras;
-                extras.reserve(this->config.extraKVPs.size());
-                for (const auto& kvp : this->config.extraKVPs) {
+                extras.reserve(fileKVPs.size());
+                for (const auto& kvp : fileKVPs) {
                     extras.emplace_back(kvp.first, typename Base::ContentPart::ReplaceSpec(kvp.second));
                 }
 
@@ -385,6 +389,13 @@ namespace AGRemapCore {
                                  }));
             }
         }
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::vector<std::pair<K, V>> ResReplace<K, V, KeyHash, KeyEqual>::fileKVPs(const std::string& srcPath) const {
+        (void)srcPath;
+        return this->config.extraKVPs;
     }
 
 

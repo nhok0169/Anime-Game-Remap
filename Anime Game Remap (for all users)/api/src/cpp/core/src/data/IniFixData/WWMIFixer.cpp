@@ -3865,68 +3865,26 @@ namespace AGRemapCore {
                             };
                         }
 
-                        // A target whose draws read more influences than the mod carries
-                        // (WWMIFixerConfig::targetInfluences): whatever wrote the blend above, its
-                        // output is then padded to the target's width, and the generated section --
-                        // a copy of the mod's own -- is told the new stride.
                         BaseResEdit<>::ResEditConfig resConfig = resEditConfig();
-                        if (config_.targetInfluences != 0 && config_.targetInfluences < srcBlendInfluences_) {
-                            // ...or FEWER: each vertex keeps its heaviest slots
-                            const std::size_t wide = srcBlendInfluences_;
-                            const std::size_t narrow = config_.targetInfluences;
-                            const std::string posPath = positionBufPath();
-                            const std::string vgOut = targetPast256_
-                                ? FileService::absPathOfRelPath(blendRemapFile("VertexVG"), ctx_.getIniFile()->getFolder())
-                                : std::string();
-                            lift = [inner = std::move(lift), posPath, vgOut, narrow, wide](RemapBlendResource& resource) {
-                                const std::size_t vertices = blendShape(resource, posPath).vertices;
-                                if (inner) {
-                                    if (!inner(resource)) {
-                                        return false;
-                                    }
-                                } else {
-                                    BlendFile blend = resource.createBlend();
-                                    blend.remap(resource.vgRemap, resource.fixedPath);
-                                }
-
-                                return orBail(resource, [&] {
-                                    WWMIBlend::narrow(resource.fixedPath, vgOut, vertices, wide, narrow);
-                                });
-                            };
-                            resConfig.extraKVPs = {{IniKeywords::Stride, std::to_string(narrow * 2)}};
-                        } else if (config_.targetInfluences > srcBlendInfluences_) {
-                            const std::size_t narrow = srcBlendInfluences_;
-                            const std::size_t wide = config_.targetInfluences;
-                            const std::string posPath = positionBufPath();
-                            const std::string vgOut = targetPast256_
-                                ? FileService::absPathOfRelPath(blendRemapFile("VertexVG"), ctx_.getIniFile()->getFolder())
-                                : std::string();
-                            lift = [inner = std::move(lift), posPath, vgOut, narrow, wide](RemapBlendResource& resource) {
-                                const std::size_t vertices = blendShape(resource, posPath).vertices;
-                                if (inner) {
-                                    if (!inner(resource)) {
-                                        return false;
-                                    }
-                                } else {
-                                    BlendFile blend = resource.createBlend();
-                                    blend.remap(resource.vgRemap, resource.fixedPath);
-                                }
-
-                                return orBail(resource, [&] {
-                                    WWMIBlend::widen(resource.fixedPath, vertices, narrow, wide, 1, true);
-                                    if (!vgOut.empty()) {
-                                        WWMIBlend::widen(vgOut, vertices, narrow, wide, 2, false);
-                                    }
-                                });
-                            };
-                            resConfig.extraKVPs = {{IniKeywords::Stride, std::to_string(wide * 2)}};
-                        }
 
                         // The library's vertex-group row over the WWMI layout: the line is N ids then N
                         // weights, N read off the mod's own Blend.buf
                         auto replace = std::make_unique<VGRemapBlendReplace<>>(GraphId(g, "", "blend"), std::move(resConfig), source, from, to);
                         replace->fixFunc = std::move(lift);
                         replace->anchorChains = config_.anchorChains;
+
+                        // A target whose draws read a different number of influences than the mod carries
+                        // (WWMIFixerConfig::targetInfluences): whatever wrote the blend above, it is then made the
+                        // target's width -- padded, or each vertex keeping its heaviest slots -- and the generated
+                        // section, a copy of the mod's own, is told the new stride. Past 256 bones the blend's ids
+                        // live in BlendRemapVertexVG.buf, which names the bones and keeps the same slots.
+                        replace->influences = config_.targetInfluences;
+                        if (targetPast256_) {
+                            const std::string vgOut = FileService::absPathOfRelPath(blendRemapFile("VertexVG"), ctx_.getIniFile()->getFolder());
+                            replace->pairedIds = [vgOut](const std::string&) {
+                                return std::vector<VGRemapBlendReplace<>::PairedIds>{{vgOut, 2}};
+                            };
+                        }
                         replace->elements = [vertices = meshVertexCount_, positionPath = positionBufPath()](const std::string& srcPath) {
                             return WWMIBlend::blendElements(WWMIBlend::influencesOf(srcPath, vertices, positionPath));
                         };

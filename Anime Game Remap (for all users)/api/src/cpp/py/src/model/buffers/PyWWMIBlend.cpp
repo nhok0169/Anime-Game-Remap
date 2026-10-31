@@ -69,8 +69,8 @@ of mod need more than :meth:`BlendFile.remap`:
   into the merged skeleton through that component's ``vg_map`` before the row applies -- :meth:`liftLegacy`
 * a remap ONTO a character past 256 bones has to write WWMI's own blend remap -- :meth:`writeRemap`
 
-and a target whose draws read a different number of influences than the mod carries is met by
-:meth:`widen` and :meth:`narrow`
+A target whose draws read a different number of influences than the mod carries is met by
+:meth:`BlendFile.setInfluences`
 
 Every method raises a :class:`RuntimeError` with the reason when a buffer cannot be read or written in
 the shape asked
@@ -342,59 +342,6 @@ Raises
     Also when ``row`` maps to a bone a remap of :attr:`RemapSize` entries cannot name
     )doc");
 
-    wwmiBlend.def_static("widen", &AGRC::WWMIBlend::widen, py::arg("path"), py::arg("vertices"), py::arg("fromInfluences"),
-                         py::arg("toInfluences"), py::arg("idBytes"), py::arg("hasWeights"), R"doc(
-Pads every vertex of a per-vertex buffer, in place, from ``fromInfluences`` slots to ``toInfluences``: ``fromInfluences`` ids of
-``idBytes`` bytes, then -- for a blend line -- ``fromInfluences`` one-byte weights. The new slots are bone 0 at
-weight 0, which no shader weighs. A file already ``toInfluences`` wide is left alone
-
-Parameters
-----------
-path: :class:`str`
-    The buffer
-
-vertices: :class:`int`
-    How many vertices it holds
-
-fromInfluences: :class:`int`
-    How many slots it has
-
-toInfluences: :class:`int`
-    How many it should have
-
-idBytes: :class:`int`
-    The bytes of one id: ``1`` in a blend, ``2`` in a ``BlendRemapVertexVG.buf``
-
-hasWeights: :class:`bool`
-    Whether each line carries weights after its ids
-    )doc");
-
-    wwmiBlend.def_static("narrow", &AGRC::WWMIBlend::narrow, py::arg("path"), py::arg("vertexVG"), py::arg("vertices"),
-                         py::arg("fromInfluences"), py::arg("toInfluences"), R"doc(
-Narrows every vertex of a blend, in place, from ``fromInfluences`` slots to ``toInfluences``
-
-Slots of one vertex naming the same bone are merged first, their weights summed onto the first; then each
-vertex keeps its ``toInfluences`` heaviest slots (a tie goes to the lower slot), their weights scaled so the vertex's
-total is what it was, the rounding remainder on the heaviest. ``vertexVG``, when given, names the bones and
-keeps the SAME slots. A blend already ``toInfluences`` wide is left alone
-
-Parameters
-----------
-path: :class:`str`
-    The blend
-
-vertexVG: :class:`str`
-    The ``BlendRemapVertexVG.buf`` beside it, or ``""`` for none
-
-vertices: :class:`int`
-    How many vertices it holds
-
-fromInfluences: :class:`int`
-    How many slots it has
-
-toInfluences: :class:`int`
-    How many it should keep
-    )doc");
 }
 
 

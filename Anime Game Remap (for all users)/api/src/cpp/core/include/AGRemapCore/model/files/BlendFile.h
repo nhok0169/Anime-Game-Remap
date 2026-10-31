@@ -111,7 +111,6 @@ namespace AGRemapCore {
             static inline const std::string BlendWeightKey = "BLENDWEIGHT";
             static inline const std::string BlendIndicesKey = "BLENDINDICES";
 
-        private:
             /**
              * @brief
              @rst
@@ -130,6 +129,84 @@ namespace AGRemapCore {
              * @return The elements
              */
             static std::vector<std::unique_ptr<BufElementType>> defaultElements(std::size_t influences = 4);
+
+            /**
+             * @brief
+             @rst
+             For each slot of a vertex after :cpp:func:`setInfluences`, the slot it came from -- or ``std::nullopt`` for
+             a new, empty slot. One list per vertex
+             @endrst
+             */
+            using KeptSlots = std::vector<std::vector<std::optional<std::size_t>>>;
+
+            /**
+             * @brief How many (weight, index) slots each vertex carries: the shorter of the two elements, or 0 when the
+             * file has neither
+             */
+            std::size_t influences() const;
+
+            /**
+             * @brief
+             @rst
+             'elements' with the weight and index elements made 'influences' wide, each slot of the same data type as
+             the element's first. Every other element is kept as it is, in its place
+             @endrst
+             *
+             * @param elements The elements of a `blend`_ line
+             * @param influences How many (weight, index) slots each vertex should carry
+             *
+             * @return The elements
+             */
+            static std::vector<std::unique_ptr<BufElementType>> elementsWithInfluences(
+                const std::vector<std::unique_ptr<BufElementType>>& elements, std::size_t influences);
+
+            /**
+             * @brief
+             @rst
+             Makes every vertex carry 'influences' (weight, index) slots, in place :raw-html:`<br />` :raw-html:`<br />`
+
+             * **Wider**: each vertex keeps its slots and gains new ones at the end: bone 0 at weight 0, which no
+               shader weighs
+             * **Narrower**: slots of one vertex naming the same bone are merged first, their weights summed onto the
+               first of them; then the vertex keeps its 'influences' heaviest slots (a tie goes to the lower slot),
+               their weights scaled so the vertex's total is what it was. Integer weights are scaled with rounding,
+               the remainder put on the heaviest slot, and a sum is capped at the largest value the weight's type
+               holds; float weights are scaled exactly
+             * **The same width**: nothing changes
+
+             Which bone a slot names is its index -- or, given 'bones', the value at the same slot there: a buffer of
+             ids beside the blend that names the bones for it (a remapped skeleton's own ids, say). The slots kept are
+             returned, so such a buffer can keep the same ones (:cpp:func:`keepSlots`)
+             @endrst
+             *
+             * @param influences How many (weight, index) slots each vertex should carry
+             * @param bones For each vertex, the bone each slot names, or ``nullptr`` to read it from the indices.
+             *      **Default**: ``nullptr``
+             *
+             * @return For each vertex, the slot each new slot came from
+             *
+             * @throws std::runtime_error if the file has no weight or index element, or 'bones' does not have a list
+             *      of the file's width for every vertex
+             */
+            KeptSlots setInfluences(std::size_t influences, const std::vector<std::vector<long long>>* bones = nullptr);
+
+            /**
+             * @brief
+             @rst
+             A buffer of ids beside a `blend`_ -- each vertex 'fromSlots' unsigned little-endian ids of 'idBytes'
+             bytes -- rewritten to the slots :cpp:func:`setInfluences` kept. A new slot is id 0
+             @endrst
+             *
+             * @param ids The buffer
+             * @param idBytes The bytes of one id
+             * @param fromSlots How many ids each vertex has in 'ids'
+             * @param kept What :cpp:func:`setInfluences` returned
+             *
+             * @return The rewritten buffer
+             *
+             * @throws std::runtime_error if 'ids' does not hold one line for each vertex of 'kept'
+             */
+            static ByteVec keepSlots(const ByteVec& ids, std::size_t idBytes, std::size_t fromSlots, const KeptSlots& kept);
     };
 }
 

@@ -151,32 +151,76 @@ class WWMIBlendTest(BaseUnitTest):
     # ================================================
     # ============== widening/narrowing ==============
 
-    def test_widen_padsWithBoneZeroAtWeightZero(self):
-        path = self._write("Blend.buf", _blendLine([1, 2], [100, 155]))
+    # A WuWa blend at 'influences' slots, through BlendFile.setInfluences
+    def _blend(self, data, influences):
+        return FRB.BlendFile(data, FRB.WWMIBlend.blendElements(influences))
 
-        FRB.WWMIBlend.widen(path, 1, 2, 4, 1, True)
-        self.assertEqual(self._read("Blend.buf"), _blendLine([1, 2, 0, 0], [100, 155, 0, 0]))
+    def test_setInfluences_wider_padsWithBoneZeroAtWeightZero(self):
+        blend = self._blend(_blendLine([1, 2], [100, 155]), 2)
 
-        FRB.WWMIBlend.widen(path, 1, 2, 4, 1, True)              # already wide: left alone
-        self.assertEqual(self._read("Blend.buf"), _blendLine([1, 2, 0, 0], [100, 155, 0, 0]))
+        kept = blend.setInfluences(4)
 
-    def test_narrow_mergesRepeatsAndKeepsTheHeaviest(self):
+        self.assertEqual(bytes(blend.data), _blendLine([1, 2, 0, 0], [100, 155, 0, 0]))
+        self.assertEqual(kept, [[0, 1, None, None]])
+        self.assertEqual(blend.influences(), 4)
+
+    def test_setInfluences_sameWidth_leftAlone(self):
+        blend = self._blend(_blendLine([1, 2, 0, 0], [100, 155, 0, 0]), 4)
+
+        self.assertEqual(blend.setInfluences(4), [[0, 1, 2, 3]])
+        self.assertEqual(bytes(blend.data), _blendLine([1, 2, 0, 0], [100, 155, 0, 0]))
+
+    def test_setInfluences_narrower_mergesRepeatsAndKeepsTheHeaviest(self):
         # bone 5 twice (50 + 40 = 90), then 100, 60: keeps 100 and 90, scaled to the total of 250
-        path = self._write("Blend.buf", _blendLine([5, 7, 5, 9], [50, 100, 40, 60]))
+        blend = self._blend(_blendLine([5, 7, 5, 9], [50, 100, 40, 60]), 4)
 
-        FRB.WWMIBlend.narrow(path, "", 1, 4, 2)
+        kept = blend.setInfluences(2)
 
-        ids = list(self._read("Blend.buf")[:2])
-        weights = list(self._read("Blend.buf")[2:])
+        ids = list(bytes(blend.data)[:2])
+        weights = list(bytes(blend.data)[2:])
         self.assertEqual(ids, [7, 5])
         self.assertEqual(sum(weights), 250)
         self.assertEqual(weights, [132, 118])
+        self.assertEqual(kept, [[1, 0]])
 
-    def test_narrow_wrongSize_raises(self):
-        path = self._write("Blend.buf", b"\0" * 6)
+    def test_setInfluences_narrower_bonesFromBesideTheBlend(self):
+        # the blend's own ids all differ, but the ids beside it name bone 3 twice: those merge
+        blend = self._blend(_blendLine([1, 2, 3, 4], [50, 100, 40, 60]), 4)
 
+        blend.setInfluences(2, [[3, 7, 3, 9]])
+
+        self.assertEqual(list(bytes(blend.data)), [2, 1, 132, 118])
+
+    def test_setInfluences_aMergedSum_cappedAtTheWeightsLargestValue(self):
+        blend = self._blend(_blendLine([5, 5, 7, 9], [200, 200, 0, 0]), 4)
+
+        blend.setInfluences(2)
+
+        # 200 + 200 caps at 255 on the first slot of bone 5; the rest tie at 0 and keep their order
+        self.assertEqual(list(bytes(blend.data)), [5, 5, 255, 0])
+
+    def test_setInfluences_floatWeights_scaledExactly(self):
+        # the GI layout: four float weights, then four int indices
+        line = struct.pack("<4f4i", 0.5, 0.25, 0.15, 0.1, 10, 11, 12, 13)
+        blend = FRB.BlendFile(line)
+
+        blend.setInfluences(2)
+
+        values = struct.unpack("<2f2i", bytes(blend.data))
+        self.assertAlmostEqual(values[0], 0.5 / 0.75, places = 6)
+        self.assertAlmostEqual(values[1], 0.25 / 0.75, places = 6)
+        self.assertEqual(values[2:], (10, 11))
+
+    def test_keepSlots_followsTheKeptSlots_newSlotsZero(self):
+        ids = struct.pack("<4H", 300, 400, 500, 600)
+
+        self.assertEqual(FRB.BlendFile.keepSlots(ids, 2, 4, [[3, 0]]), struct.pack("<2H", 600, 300))
+        self.assertEqual(FRB.BlendFile.keepSlots(struct.pack("<2H", 300, 400), 2, 2, [[0, 1, None]]),
+                         struct.pack("<3H", 300, 400, 0))
+
+    def test_keepSlots_wrongSize_raises(self):
         with self.assertRaises(RuntimeError):
-            FRB.WWMIBlend.narrow(path, "", 1, 4, 2)
+            FRB.BlendFile.keepSlots(b"\0" * 6, 2, 4, [[0, 1]])
 
 
 class SkeletonNumberingProbeTest(BaseUnitTest):

@@ -50,8 +50,8 @@ namespace AGRemapCore {
        blend plus its ``VertexVG``, ``Forward`` and ``Reverse`` buffers -- exactly as WWMI Tools
        writes one for that character's own mods -- :cpp:func:`writeRemap`
 
-     and a target whose draws read a different number of influences than the mod carries is met by
-     :cpp:func:`widen` and :cpp:func:`narrow` :raw-html:`<br />` :raw-html:`<br />`
+     A target whose draws read a different number of influences than the mod carries is met by
+     :cpp:func:`BlendFile::setInfluences` :raw-html:`<br />` :raw-html:`<br />`
 
      Every function throws ``std::runtime_error`` with the reason when a buffer cannot be read or
      written in the shape asked, so a caller can say which file failed and why
@@ -281,47 +281,6 @@ namespace AGRemapCore {
                                    const std::string& srcVertexVGPath, const std::string& positionPath,
                                    const VGRemap& row, const RemapFiles& out,
                                    const std::optional<LegacyLift>& legacy = std::nullopt);
-
-            /**
-             * @brief
-             @rst
-             Pads every vertex of a per-vertex buffer, in place, from 'from' slots to 'to': 'from'
-             ids of 'idBytes' bytes, then -- for a `blend`_ line -- 'from' one-byte weights. The new
-             slots are bone 0 at weight 0, which no shader weighs. A file already 'to' wide is left
-             alone, so a buffer several fixes share is widened once
-             @endrst
-             *
-             * @param path The buffer
-             * @param vertices How many vertices it holds
-             * @param from How many slots it has
-             * @param to How many it should have
-             * @param idBytes The bytes of one id: ``1`` in a blend, ``2`` in a ``BlendRemapVertexVG.buf``
-             * @param hasWeights Whether each line carries weights after its ids
-             */
-            static void widen(const std::string& path, std::size_t vertices, std::size_t from, std::size_t to,
-                              std::size_t idBytes, bool hasWeights);
-
-            /**
-             * @brief
-             @rst
-             Narrows every vertex of a `blend`_, in place, from 'from' slots to 'to' :raw-html:`<br />`
-             :raw-html:`<br />`
-
-             Slots of one vertex naming the same bone are merged first, their weights summed onto the
-             first; then each vertex keeps its 'to' heaviest slots (a tie goes to the lower slot),
-             their weights scaled so the vertex's total is what it was, the rounding remainder on the
-             heaviest. 'vertexVG', when given, names the bones and keeps the SAME slots, so its ids
-             stay paired with those weights. A blend already 'to' wide is left alone
-             @endrst
-             *
-             * @param path The blend
-             * @param vertexVG The ``BlendRemapVertexVG.buf`` beside it, or ``""`` for none
-             * @param vertices How many vertices it holds
-             * @param from How many slots it has
-             * @param to How many it should keep
-             */
-            static void narrow(const std::string& path, const std::string& vertexVG, std::size_t vertices,
-                               std::size_t from, std::size_t to);
     };
 }
 

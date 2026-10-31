@@ -1725,6 +1725,42 @@ class BlendFile(CppBufFile):
         
     """
     @staticmethod
+    def defaultElements(influences: typing.SupportsInt | typing.SupportsIndex = 4) -> list:
+        """
+        The ordinary `blend`_ layout: 'influences' 32-bit float weights then 'influences' 32-bit signed indices
+        
+        Parameters
+        ----------
+        influences: :class:`int`
+            How many (weight, index) slots each vertex carries :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``4``
+        
+        Returns
+        -------
+        List[:class:`BufElementType`]
+            The elements
+        """
+    @staticmethod
+    def elementsWithInfluences(elements: collections.abc.Sequence[BufElementType], influences: typing.SupportsInt | typing.SupportsIndex) -> list:
+        """
+        A `blend`_ layout made 'influences' wide: a copy of 'elements' whose weight and index elements each carry 'influences'
+        of their first data type, the other elements unchanged
+        
+        Parameters
+        ----------
+        elements: List[:class:`BufElementType`]
+            The layout
+        
+        influences: :class:`int`
+            How many (weight, index) slots each vertex should carry
+        
+        Returns
+        -------
+        List[:class:`BufElementType`]
+            The new layout
+        """
+    @staticmethod
     def getMissingIndicesRemap(src: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]], vgRemap: VGRemap) -> dict[int, int]:
         """
         Retrieves the temporary remap for any missing blend indices not included in 'vgRemap'
@@ -1742,6 +1778,31 @@ class BlendFile(CppBufFile):
         Dict[:class:`int`, :class:`int`]
             The temporary remap for the missing indices. The keys are the missing indices found and the
             values are the temporary remapped values for these missing indices
+        """
+    @staticmethod
+    def keepSlots(ids: bytes, idBytes: typing.SupportsInt | typing.SupportsIndex, fromSlots: typing.SupportsInt | typing.SupportsIndex, kept: collections.abc.Sequence[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | None]]) -> bytes:
+        """
+        A buffer of ids beside a `blend`_ -- each vertex 'fromSlots' unsigned little-endian ids of 'idBytes' bytes -- rewritten
+        to the slots :meth:`setInfluences` kept. A new slot is id 0
+        
+        Parameters
+        ----------
+        ids: :class:`bytes`
+            The buffer
+        
+        idBytes: :class:`int`
+            The bytes of one id
+        
+        fromSlots: :class:`int`
+            How many ids each vertex has in 'ids'
+        
+        kept: List[List[Optional[:class:`int`]]]
+            What :meth:`setInfluences` returned
+        
+        Returns
+        -------
+        :class:`bytes`
+            The rewritten buffer
         """
     @staticmethod
     def remapIndices(src: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]], vgRemap: VGRemap, remapMissingIndices: bool = True) -> dict[str, list[int | int | float]]:
@@ -1785,6 +1846,15 @@ class BlendFile(CppBufFile):
         :class:`BadBufData`
             If 'src' holds raw bytes that are not valid for a blend file
         """
+    def influences(self) -> int:
+        """
+        How many (weight, index) slots each vertex carries: the shorter of the two elements, or 0 when the file has neither
+        
+        Returns
+        -------
+        :class:`int`
+            The number of slots
+        """
     def remap(self, vgRemap: VGRemap, fixedBlendFile: typing.Any = None, remapMissingIndices: bool = True) -> typing.Any:
         """
         Remaps the blend indices in a ``Blend.buf`` file
@@ -1806,6 +1876,37 @@ class BlendFile(CppBufFile):
             If ``fixedBlendFile`` is ``None`` and no correction was needed, returns ``None``. If
             ``fixedBlendFile`` is ``None`` and correction was needed, returns the fixed bytes. Otherwise
             returns ``fixedBlendFile`` itself
+        """
+    def setInfluences(self, influences: typing.SupportsInt | typing.SupportsIndex, bones: collections.abc.Sequence[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]] | None = None) -> list[list[int | None]]:
+        """
+        Makes every vertex carry 'influences' (weight, index) slots, in place
+        
+        * **Wider**: each vertex keeps its slots and gains new ones at the end: bone 0 at weight 0, which no shader weighs
+        * **Narrower**: slots of one vertex naming the same bone are merged first, their weights summed onto the first of them;
+          then the vertex keeps its 'influences' heaviest slots (a tie goes to the lower slot), their weights scaled so the
+          vertex's total is what it was. Integer weights are scaled with rounding, the remainder put on the heaviest slot, and a
+          sum is capped at the largest value the weight's type holds; float weights are scaled exactly
+        * **The same width**: nothing changes
+        
+        Which bone a slot names is its index -- or, given 'bones', the value at the same slot there: a buffer of ids beside the
+        blend that names the bones for it. The slots kept are returned, so such a buffer can keep the same ones
+        (:meth:`keepSlots`). The new bytes are :attr:`data`
+        
+        Parameters
+        ----------
+        influences: :class:`int`
+            How many (weight, index) slots each vertex should carry
+        
+        bones: Optional[List[List[:class:`int`]]]
+            For each vertex, the bone each slot names, or ``None`` to read it from the indices :raw-html:`<br />`
+            :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        List[List[Optional[:class:`int`]]]
+            For each vertex, the slot each new slot came from -- ``None`` for a new, empty slot
         """
 class BufBaseFloat(BufDataType):
     """
@@ -29544,8 +29645,8 @@ class WWMIBlend:
       into the merged skeleton through that component's ``vg_map`` before the row applies -- :meth:`liftLegacy`
     * a remap ONTO a character past 256 bones has to write WWMI's own blend remap -- :meth:`writeRemap`
     
-    and a target whose draws read a different number of influences than the mod carries is met by
-    :meth:`widen` and :meth:`narrow`
+    A target whose draws read a different number of influences than the mod carries is met by
+    :meth:`BlendFile.setInfluences`
     
     Every method raises a :class:`RuntimeError` with the reason when a buffer cannot be read or written in
     the shape asked
@@ -29778,33 +29879,6 @@ class WWMIBlend:
             The vertex group remap
         """
     @staticmethod
-    def narrow(path: str, vertexVG: str, vertices: typing.SupportsInt | typing.SupportsIndex, fromInfluences: typing.SupportsInt | typing.SupportsIndex, toInfluences: typing.SupportsInt | typing.SupportsIndex) -> None:
-        """
-        Narrows every vertex of a blend, in place, from ``fromInfluences`` slots to ``toInfluences``
-        
-        Slots of one vertex naming the same bone are merged first, their weights summed onto the first; then each
-        vertex keeps its ``toInfluences`` heaviest slots (a tie goes to the lower slot), their weights scaled so the vertex's
-        total is what it was, the rounding remainder on the heaviest. ``vertexVG``, when given, names the bones and
-        keeps the SAME slots. A blend already ``toInfluences`` wide is left alone
-        
-        Parameters
-        ----------
-        path: :class:`str`
-            The blend
-        
-        vertexVG: :class:`str`
-            The ``BlendRemapVertexVG.buf`` beside it, or ``""`` for none
-        
-        vertices: :class:`int`
-            How many vertices it holds
-        
-        fromInfluences: :class:`int`
-            How many slots it has
-        
-        toInfluences: :class:`int`
-            How many it should keep
-        """
-    @staticmethod
     def remapThroughVertexVG(blendPath: str, fixedPath: str, vertexVGPath: str, positionPath: str, row: typing.Any) -> None:
         """
         Remaps the blend of a mod whose skeleton passes 256 bones: each weighted slot's id is read from its
@@ -29843,33 +29917,6 @@ class WWMIBlend:
         -------
         List[:class:`BufElementType`]
             The elements
-        """
-    @staticmethod
-    def widen(path: str, vertices: typing.SupportsInt | typing.SupportsIndex, fromInfluences: typing.SupportsInt | typing.SupportsIndex, toInfluences: typing.SupportsInt | typing.SupportsIndex, idBytes: typing.SupportsInt | typing.SupportsIndex, hasWeights: bool) -> None:
-        """
-        Pads every vertex of a per-vertex buffer, in place, from ``fromInfluences`` slots to ``toInfluences``: ``fromInfluences`` ids of
-        ``idBytes`` bytes, then -- for a blend line -- ``fromInfluences`` one-byte weights. The new slots are bone 0 at
-        weight 0, which no shader weighs. A file already ``toInfluences`` wide is left alone
-        
-        Parameters
-        ----------
-        path: :class:`str`
-            The buffer
-        
-        vertices: :class:`int`
-            How many vertices it holds
-        
-        fromInfluences: :class:`int`
-            How many slots it has
-        
-        toInfluences: :class:`int`
-            How many it should have
-        
-        idBytes: :class:`int`
-            The bytes of one id: ``1`` in a blend, ``2`` in a ``BlendRemapVertexVG.buf``
-        
-        hasWeights: :class:`bool`
-            Whether each line carries weights after its ids
         """
     @staticmethod
     def writeRemap(blendPath: str, fixedPath: str, srcVertexVGPath: str, positionPath: str, row: typing.Any, out: WWMIBlend.RemapFiles, legacy: FixRaidenBoss2.core.WWMIBlend.LegacyLift | None = None) -> None:

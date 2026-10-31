@@ -527,6 +527,22 @@ namespace AGRemapCore {
              */
             void buildResModel(const std::string& resType, const std::string& srcPath, const std::string& fixedPath,
                                 const std::string& modName, const std::string& fileKey, Context& ctx) override;
+
+        protected:
+            /**
+             * @brief
+             @rst
+             The `KVPs`_ written into a resource `section`_ whose file this edit has just replaced, about that file
+             rather than about the mod :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: :cpp:member:`ResEditConfig::extraKVPs`
+             @endrst
+             *
+             * @param srcPath The absolute file path to the original resource
+             *
+             * @return The `KVPs`_
+             */
+            virtual std::vector<std::pair<K, V>> fileKVPs(const std::string& srcPath) const;
     };
 
 

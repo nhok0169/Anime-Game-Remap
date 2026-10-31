@@ -204,6 +204,54 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             A buffer of bone ids beside the fixed ``Blend.buf`` that names the bones for it, and keeps the same
+             slots when \ref influences changes the blend's width
+             @endrst
+             */
+            struct PairedIds {
+                /**
+                 * @brief The path to the buffer
+                 */
+                std::string path;
+
+                /**
+                 * @brief The bytes of one id
+                 */
+                std::size_t idBytes = 2;
+            };
+
+            /**
+             * @brief
+             @rst
+             How many (weight, index) slots each vertex of the fixed ``Blend.buf`` carries -- the width the target's
+             draws read -- or 0 to keep the source's :raw-html:`<br />` :raw-html:`<br />`
+
+             After the blend is remapped (by \ref fixFunc or the resource's own remap) it is made this wide with
+             :cpp:func:`BlendFile::setInfluences`, the buffers \ref pairedIds names keep the same slots
+             (:cpp:func:`BlendFile::keepSlots`), and the generated resource `section`_ declares the new ``stride``. A
+             source already this wide is left alone, and its section gets no ``stride`` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             **Default**: ``0``
+             @endrst
+             */
+            std::size_t influences = 0;
+
+            /**
+             * @brief
+             @rst
+             The id buffers beside the fixed ``Blend.buf`` that follow its slots when \ref influences changes its
+             width, given the source file's path. The first names the bones the blend's slots are merged by
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: an empty function, none
+             @endrst
+             */
+            std::function<std::vector<PairedIds>(const std::string& srcPath)> pairedIds;
+
+            /**
+             * @brief
+             @rst
              Builds a real :cpp:class:`RemapBlendResource`, carrying the vertex group remap
              :cpp:func:`ModType::getVGRemap` gives for this pair of mods (with \\ref anchorChains pinned),
              \\ref fixFunc and the line layout \\ref elements gives :raw-html:`<br />`
@@ -222,6 +270,24 @@ namespace AGRemapCore {
              */
             void buildResModel(const std::string& resType, const std::string& srcPath, const std::string& fixedPath,
                                 const std::string& modName, const std::string& fileKey, Context& ctx) override;
+
+        protected:
+            /**
+             * @brief
+             @rst
+             :cpp:member:`ResEditConfig::extraKVPs`, and the new ``stride`` when \ref influences changes the width of
+             the file at 'srcPath'
+             @endrst
+             *
+             * @param srcPath The absolute file path to the original resource
+             *
+             * @return The `KVPs`_
+             */
+            std::vector<std::pair<K, V>> fileKVPs(const std::string& srcPath) const override;
+
+        private:
+            // The source's width and the fixed line's bytes at \ref influences, from \ref elements
+            std::pair<std::size_t, std::size_t> widths(const std::string& srcPath) const;
     };
 }
 

@@ -1175,6 +1175,10 @@ oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. 
   `WWMIFixerConfig::targetInfluences` widens (forward, 4 -> 8) and NARROWS (reverse, 8 -> 4: each vertex keeps its
   heaviest slots after merging slots that name one bone, weights scaled to the same total; under 1% of the skin's
   vertices use more than four). Check `Blend.buf` size / `Position.buf` count on BOTH identity mods for every pair.
+  Since 2026-10-31 the width is a general capability, not WuWa code: `BlendFile::setInfluences` (either direction,
+  any weight type, returns the slots kept) and `BlendFile::keepSlots` for an id buffer beside the blend, driven by
+  `VGRemapBlendReplace::influences` / `pairedIds` (the edit also writes the new `stride`). `WWMIBlend::widen` /
+  `narrow` are gone; a GI or ZZZ pair with different widths sets the same two fields.
 * **A mod's older texture hashes are in WWMI-Assets' own git history.** Most Changli mods predate her 2.6 rehash, so
   the fix downloaded the GAME's texture over their art (Changli1: 13 of its roles). WWMI-Assets keeps
   `Components-N t=<hash>.dds`, so a rehash is a git RENAME: `Tools/Misc/Diagnostics/wwmiAssetLineage.py --char <Name>

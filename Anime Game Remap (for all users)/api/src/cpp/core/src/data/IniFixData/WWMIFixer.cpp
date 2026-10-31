@@ -1483,70 +1483,13 @@ namespace AGRemapCore {
                         fileOfResource_.emplace(StringTools::toLower(entry.first), entry.second);
                     }
 
-                    // WHERE THE FIX WRITES ITS OWN TEXTURES: the folder MOST of the mod's textures
-                    // are already in, and never an absolute one.
-                    //
-                    // This used to read `scan.resourceOfFile.begin()`, which on an unordered_map is
-                    // whichever entry the table hashed first -- so a mod whose textures are not all
-                    // in one folder got a folder picked at random, and the pick could move between
-                    // runs. That is what made Chisa13's mod.ini come out with four different hashes
-                    // over four corpus sweeps while six isolated runs agreed.
-                    //
-                    // And the folder-scanning index this replaced keyed everything by a
-                    // LOWERCASED path and answered with its argument when the key was absent, so an
-                    // absolute path came back lowercased -- which `getRelPath` cannot relativise
-                    // against a real-cased `scan.iniFolder`. The folder then came out absolute and every
-                    // download, edit and created texture was written into the mod's .ini as
-                    // `c:/users/.../textures/...`: broken the moment the mod moves, and the fixing
-                    // machine's paths in someone else's file. A path that is not relative is
-                    // refused, which leaves `Textures` -- what a mod with no textures of its own
-                    // already gets (2026-09-29).
-                    readTextureFolder(scan);
+                    // THE FIX'S OWN TEXTURES -- a download, a created texture -- GO BESIDE THE .ini, the
+                    // library's default (an edit goes beside the file it edits). Picking the folder most of
+                    // the mod's textures sat in was a vote, and a mod whose textures are spread evenly
+                    // over its folders gave it no answer (the maintainer, 2026-10-31).
                     dumpTextureRoles(scan);
                     readRefusals(scan);
                     applyTextureRoles(scan);
-                }
-
-                void readTextureFolder(TextureScan& scan) {
-                    textureFolder_.clear();                 // beside the .ini until the mod says otherwise
-                    std::map<std::string, std::size_t> folderCounts;
-                    for (const auto& entry : scan.resourceOfFile) {
-                        const std::string rel =
-                            FileService::iniPathToRel(FileService::getRelPath(entry.first, scan.iniFolder));
-                        if (FileService::strToPath(rel).is_absolute()) {
-                            continue;                   // the index could not place it: not a folder of this mod
-                        }
-
-                        // THE ROOT IS A FOLDER TOO, which is what `parentOf` answers "" for. This
-                        // counted a file only when its path had a slash, so "beside the .ini" could
-                        // never win however many files were there and a minority folder took it by
-                        // default: Chisa12 declares 50 files in its root (37 .dds and 13 .assets)
-                        // against 41 in `res/`, which holds only its UI art, and every texture the
-                        // fix made went into the UI folder (2026-09-30). The library's own answer had
-                        // ...and only a TEXTURE votes on where the textures are. This counted
-                        // every resource the .ini declares, a mod's Meshes/*.buf included, and was
-                        // only ever right because an already-fixed mod's previous RemapDL / RemapTex
-                        // sections were being counted as the mod's own -- many of them, all
-                        // textures, outvoting the buffers by accident. The moment those stopped
-                        // counting (they name sections the undo is about to delete) five mods wrote
-                        // every texture they own into Meshes/ (2026-09-30).
-                        if (StringTools::endsWithIgnoreCase(rel, FileExt::Buf)) {
-                            continue;
-                        }
-
-                        ++folderCounts[FileService::parentOf(rel)];
-                    }
-
-                    // most textures wins; a tie goes to the lowest path, so the answer is the mod's
-                    // rather than an iteration order's
-                    std::size_t best = 0;
-                    for (const auto& entry : folderCounts) {
-                        if (entry.second > best) {
-                            best = entry.second;
-                            textureFolder_ = entry.first;
-                        }
-                    }
-
                 }
 
                 // AGREMAP_WWMI_ROLES=1: one line per file per role, so the identification this does
@@ -1863,7 +1806,7 @@ namespace AGRemapCore {
                  mod keeps that kind of file in one, beside the ``.ini`` when it does not
                  @endrst
                  *
-                 * @param folder #meshFolder_ or #textureFolder_, empty for the mod's own root
+                 * @param folder #meshFolder_, empty for the mod's own root
                  * @param name The file's name
                  *
                  * @return The path, with no leading separator when there is no folder
@@ -5089,7 +5032,7 @@ namespace AGRemapCore {
                 }
 
                 std::string createdTextureFile(const WWMIFixerConfig::CreatedTexture& created) const {
-                    return modFile(textureFolder_,
+                    return std::string(
                                    created.role + toModName_ + IniKeywords::RemapTex + FileExt::DDS);
                 }
 
@@ -5661,7 +5604,7 @@ namespace AGRemapCore {
                         DownloadTools::url(source.downloadGameFolder, source.downloadCharFolder,
                                                      source.downloadVersionFolder, source.downloadPrefix,
                                                      "Texture" + hash->second, FileExt::DDS),
-                        fileName, modFile(textureFolder_, fileName),
+                        fileName, fileName,
                         IniKeywords::Resource + source.downloadPrefix + kind + IniKeywords::RemapDL};
                     return true;
                 }
@@ -6222,7 +6165,7 @@ namespace AGRemapCore {
                         DownloadTools::url(source.downloadGameFolder, source.downloadCharFolder,
                                                      source.downloadVersionFolder, source.downloadPrefix,
                                                      "Texture" + hash, FileExt::DDS),
-                        fileName, modFile(textureFolder_, fileName), resource};
+                        fileName, fileName, resource};
                     resourceOfRole_[role] = resource;
                 }
 
@@ -6280,7 +6223,6 @@ namespace AGRemapCore {
                 std::set<int> drawnSlots_;
                 long long meshVertexCount_ = 0;
                 std::string meshFolder_;
-                std::string textureFolder_;
                 std::map<std::string, std::string> resourceOfRole_;   // role -> resource, for what every component shares (a created texture, a download)
                 std::map<std::pair<std::string, int>, std::string> resourceOfSlotRole_;   // (role, source component) -> the resource that component binds
                 std::vector<std::string> remapNames_;   // the mod names a fix of this .ini could have named its sections after

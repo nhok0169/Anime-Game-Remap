@@ -80,11 +80,16 @@ namespace AGRemapCore {
          */
         class WWMIParser: public Parser {
             public:
+                /**
+                 * 'onlyThisFile': the parser of ANOTHER .ini of the mod, which one of this character's parsers
+                 * reads the rows of (see readOther) -- it classifies and collects as usual, and reads nothing
+                 * further: no resources, no anatomy, no skeleton, no textures, and none of its own siblings
+                 */
                 WWMIParser(IniFile* iniFile, std::optional<int> modTypeId, const WWMIParserConfig& config,
-                               std::optional<Version> version):
+                               std::optional<Version> version, bool onlyThisFile = false):
                     Parser(nullptr, {}, {}, {}, nullptr, true, false, true,
                            std::unordered_set<std::string>{IniKeywords::Hash, IniKeywords::MatchFirstIndex, MatchIndexCountKey}),
-                    ctx_(iniFile, modTypeId), config_(config), version_(version) {
+                    ctx_(iniFile, modTypeId), config_(config), version_(version), modTypeId_(modTypeId), onlyThisFile_(onlyThisFile) {
                     this->setCtx(&ctx_);
                     this->setIniFile(iniFile);
 
@@ -423,6 +428,9 @@ namespace AGRemapCore {
                             if (!obj.second.empty()) {
                                 roles->keys.insert_or_assign(id, std::vector<std::string>{IniKeywords::This});
                             }
+                            if (onlyThisFile_) {
+                                continue;
+                            }
                             toggles->keys.insert_or_assign(id, std::vector<std::string>{IniKeywords::This});
                             toggles->keyMatches.insert_or_assign(id, [regPrefix](const std::string& key) {
                                 return StringTools::startsWith(StringTools::toLower(StringTools::strip(key)), regPrefix);
@@ -432,7 +440,16 @@ namespace AGRemapCore {
 
                         const std::optional<int> slot = slotOf(obj);
                         const auto layout = slot.has_value() ? config_.textures.registerRoles.find(*slot) : config_.textures.registerRoles.end();
-                        if (layout != config_.textures.registerRoles.end()) {
+                        if (layout != config_.textures.registerRoles.end() && onlyThisFile_) {
+                            std::unordered_set<std::string> loose;
+                            for (const auto& [reg, role] : layout->second) {
+                                (void)role;
+                                loose.insert(ModBranches::looseKey(reg));
+                            }
+                            roles->keyMatches.insert_or_assign(id, [loose](const std::string& key) {
+                                return loose.count(ModBranches::looseKey(key)) > 0;
+                            });
+                        } else if (layout != config_.textures.registerRoles.end()) {
                             std::vector<std::string> regs;
                             for (const auto& [reg, role] : layout->second) {
                                 (void)role;
@@ -449,15 +466,19 @@ namespace AGRemapCore {
                     ownedSteps_.push_back(std::move(overrides));
                     ownedSteps_.push_back(std::move(roles));
                     ownedSteps_.push_back(std::move(toggles));
-                    ownedSteps_.push_back(std::make_unique<Filed>([this](IniParseData& data) { applyAnatomy(data); }));
-                    ownedSteps_.push_back(std::make_unique<SkeletonNumberingRead>(
-                        config_.skeletonNumberings, config_.referenceBoneCentroids, IniKeywords::WWMIPositionBuffer,
-                        IniKeywords::WWMIBlendBuffer, "BlendRemapVertexVG", IniKeywords::WWMIVgOffset,
-                        [this](const ModObj& obj) { return isSlotObj(obj); }));
-                    ownedSteps_.push_back(std::make_unique<Filed>([this](IniParseData& data) { readTextures(data); }));
+                    if (!onlyThisFile_) {
+                        ownedSteps_.push_back(std::make_unique<Filed>([this](IniParseData& data) { applyAnatomy(data); }));
+                        ownedSteps_.push_back(std::make_unique<SkeletonNumberingRead>(
+                            config_.skeletonNumberings, config_.referenceBoneCentroids, IniKeywords::WWMIPositionBuffer,
+                            IniKeywords::WWMIBlendBuffer, "BlendRemapVertexVG", IniKeywords::WWMIVgOffset,
+                            [this](const ModObj& obj) { return isSlotObj(obj); }));
+                        ownedSteps_.push_back(std::make_unique<Filed>([this](IniParseData& data) { readTextures(data); }));
+                    }
 
                     this->deferredParseSteps.push_back(global.get());
-                    this->deferredParseSteps.push_back(resourceCollect_.get());
+                    if (!onlyThisFile_) {
+                        this->deferredParseSteps.push_back(resourceCollect_.get());
+                    }
                     ownedSteps_.push_back(std::move(global));
                     for (const auto& step : ownedSteps_) {
                         if (step.get() == this->deferredParseSteps.front()) {
@@ -855,42 +876,6 @@ namespace AGRemapCore {
                     }
                 }
 
-                // A vb0 hash of this character's, of ANY version: a mod carries whichever version's
-                // hashes its author dumped, and the slot test beside it is what keeps this safe -- the
-                // section must still carry a match_first_index one of the slots declares.
-                bool isOwnVb0(const std::string& hash) const {
-                    const auto* hashes = const_cast<IniFileParseContext&>(ctx_).modTypeHashes();
-                    const std::string ownName = const_cast<IniFileParseContext&>(ctx_).modTypeName();
-                    return hashes != nullptr && !ownName.empty()
-                           && hashes->hasFrom(hash, std::nullopt, {std::optional<std::string>(ownName),
-                                                                   std::optional<std::string>(config_.slotHashType)});
-                }
-
-                // The slot a match_first_index belongs to, in ANY version the library files this
-                // character under: a mod is drawn at whichever generation its author dumped, and the
-                // slots move between them -- Changli's components 4 to 7 sit 1020 indices later at 1.4
-                // than at 1.1, so asking only the parser's own version left them undrawn.
-                std::optional<int> slotOfIndex(const std::string& index) const {
-                    const auto* indices = const_cast<IniFileParseContext&>(ctx_).modTypeIndices();
-                    const std::string ownName = const_cast<IniFileParseContext&>(ctx_).modTypeName();
-                    if (indices == nullptr || ownName.empty()) {
-                        return std::nullopt;
-                    }
-
-                    const std::optional<std::vector<std::string>> key =
-                        indices->getKey(std::string(StringTools::strip(index)), std::nullopt,
-                                        {std::optional<std::string>(ownName), std::nullopt, std::nullopt}, false);
-                    if (!key.has_value() || key->size() < 3 || key->back().rfind(config_.slotPrefix, 0) != 0) {
-                        return std::nullopt;
-                    }
-
-                    try {
-                        return std::stoi(key->back().substr(config_.slotPrefix.size()));
-                    } catch (const std::exception&) {
-                        return std::nullopt;
-                    }
-                }
-
                 // slot -> the sections that draw it, in the order they are written: the slot graphs' roots
                 std::map<int, std::vector<std::string>> drawnSlots() const {
                     std::map<int, std::vector<std::string>> result;
@@ -908,23 +893,6 @@ namespace AGRemapCore {
                         sections.erase(std::unique(sections.begin(), sections.end()), sections.end());
                     }
                     return result;
-                }
-
-                // The file a resource section names, resolved as the rest of this parser resolves one --
-                // so a file found two ways is one path, and its two candidates one
-                static std::string fileOfResource(const ModBranches::Templates& templates, const std::string& resource,
-                                                  const std::string& folder) {
-                    const auto found = templates.find(resource);
-                    if (found == templates.end() || found->second == nullptr) {
-                        return "";
-                    }
-
-                    const std::optional<std::string> file = ModBranches::firstVal(*found->second, IniKeywords::Filename);
-                    if (!file.has_value() || file->empty()) {
-                        return "";
-                    }
-
-                    return FileService::absPathOfRelPath(FileService::iniPathToRel(*file), folder);
                 }
 
                 ModObj slotObj(int slot) const {
@@ -1067,35 +1035,24 @@ namespace AGRemapCore {
                 // hashes never appear. The role is STATED rather than guessed -- the hash is this
                 // character's texture of that role -- and the mod's own candidates come first.
                 void addSiblingRecolours(TextureRoleChooser& chooser, const std::string& iniPath) {
-                    const auto& byHash = config_.textures.roles;
-                    if (byHash.empty()) {
+                    if (config_.textures.roles.empty()) {
                         return;
                     }
 
                     std::size_t found = 0;
                     const std::filesystem::path own = FileService::strToPath(iniPath);
                     for (const std::string& path : TextureOverrides::loadedInis(own.parent_path(), own)) {
-                        IniFile sibling(path);
-                        const std::string folder = sibling.getFolder();
-                        const ModBranches::Templates& templates = sibling.getIfTemplates();
-                        for (const TextureOverrides::Override& override : TextureOverrides::collect(templates)) {
-                            if (!StringTools::startsWith(override.section, IniKeywords::TextureOverride)) {
-                                continue;
-                            }
-
-                            const auto role = byHash.find(override.hash);
-                            if (role == byHash.end()) {
-                                continue;   // not one of this character's textures
-                            }
-
-                            const std::string file = fileOfResource(templates, override.resource, folder);
+                        const std::unique_ptr<IniFile> sibling = otherIni(path);
+                        const std::unique_ptr<WWMIParser> reader = readOther(*sibling);
+                        for (const auto& [section, role, hash, file] : reader->recolours()) {
+                            (void)section;
                             std::error_code error;
-                            if (file.empty() || !std::filesystem::is_regular_file(FileService::strToPath(file), error)) {
+                            if (!std::filesystem::is_regular_file(FileService::strToPath(file), error)) {
                                 continue;
                             }
 
-                            chooser.candidates[role->second].emplace_back(
-                                file, "a sibling .ini overrides " + override.hash + ", the game texture it replaces");
+                            chooser.candidates[role].emplace_back(
+                                file, "a sibling .ini overrides " + hash + ", the game texture it replaces");
                             ++found;
                         }
                     }
@@ -1156,51 +1113,23 @@ namespace AGRemapCore {
 
                     std::size_t found = 0;
                     for (const std::string& path : inis) {
-                        IniFile other(path);
-                        const ModBranches::Templates& templates = other.getIfTemplates();
-                        const std::string folder = other.getFolder();
-                        for (const auto& entry : templates) {
-                            if (entry.second == nullptr) {
+                        const std::unique_ptr<IniFile> other = otherIni(path);
+                        const std::unique_ptr<WWMIParser> reader = readOther(*other);
+                        for (const auto& [slot, reg, role, file] : reader->drawBindings()) {
+                            if (drawn.count(slot) == 0) {
                                 continue;
                             }
 
-                            const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
-                            const std::optional<std::string> index = ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex);
-                            if (!hash.has_value() || !index.has_value()
-                                    || !isOwnVb0(StringTools::toLower(std::string(StringTools::strip(*hash))))) {
+                            std::error_code error;
+                            if (!std::filesystem::is_regular_file(FileService::strToPath(file), error)) {
                                 continue;
                             }
 
-                            const std::optional<int> indexSlot = slotOfIndex(*index);
-                            for (const int slot : indexSlot.has_value() ? std::vector<int>{*indexSlot} : std::vector<int>{}) {
-                                const auto layout = layouts.find(slot);
-                                if (drawn.count(slot) == 0 || layout == layouts.end()) {
-                                    continue;
-                                }
-
-                                for (const auto& [reg, role] : layout->second) {
-                                    for (const std::string& bound : ModBranches::looseValsThroughRun(templates, entry.first, reg)) {
-                                        const auto declared = std::find_if(templates.begin(), templates.end(), [&](const auto& t) {
-                                            return StringTools::equalsIgnoreCase(t.first, IniNamingTools::removeRefPrefix(bound));
-                                        });
-                                        if (declared == templates.end() || declared->second == nullptr) {
-                                            continue;
-                                        }
-
-                                        const std::string file = fileOfResource(templates, declared->first, folder);
-                                        std::error_code error;
-                                        if (file.empty() || !std::filesystem::is_regular_file(FileService::strToPath(file), error)) {
-                                            continue;
-                                        }
-
-                                        chooser.candidates[role].emplace_back(
-                                            file, "the " + reg + " " + FileService::pathToStr(FileService::strToPath(path).filename())
-                                                  + " binds on the same draw");
-                                        chooser.bindings[file][slotObj(slot)].insert(role);
-                                        ++found;
-                                    }
-                                }
-                            }
+                            chooser.candidates[role].emplace_back(
+                                file, "the " + reg + " " + FileService::pathToStr(FileService::strToPath(path).filename())
+                                      + " binds on the same draw");
+                            chooser.bindings[file][slotObj(slot)].insert(role);
+                            ++found;
                         }
                     }
 
@@ -1211,6 +1140,149 @@ namespace AGRemapCore {
                     }
                 }
 
+                // ---- another .ini of the mod, read through a parser of its own ----
+
+                // Another .ini of the mod, as this character's: the same mod types, forced, and version
+                std::unique_ptr<IniFile> otherIni(const std::string& path) const {
+                    IniFile* ini = const_cast<IniFileParseContext&>(ctx_).getIniFile();
+                    std::unordered_map<int, ModType> modTypes;
+                    for (const auto& [id, modType] : ini->getModTypes()) {
+                        modTypes.emplace(id, modType);
+                    }
+
+                    auto other = std::make_unique<IniFile>(
+                        path, "", std::nullopt, std::nullopt,
+                        modTypeId_.has_value() ? std::optional<std::unordered_set<int>>(std::unordered_set<int>{*modTypeId_}) : std::nullopt,
+                        std::move(modTypes), nullptr, std::nullopt, DownloadMode::Normal, ini->fromVersion);
+                    other->classify();
+                    return other;
+                }
+
+                // Parses 'other' with this character's parser in its only-this-file mode; its rows are read
+                // through #recolours and #drawBindings, while 'other' lives
+                std::unique_ptr<WWMIParser> readOther(IniFile& other) const {
+                    auto reader = std::make_unique<WWMIParser>(&other, modTypeId_, config_, version_, true);
+                    reader->parse();
+                    return reader;
+                }
+
+                // resource (lowercased) -> the file it names: each section's first `filename`, from the
+                // folder of this parser's .ini
+                std::unordered_map<std::string, std::string> declaredFiles(const IniParseData& data) const {
+                    const std::string folder = const_cast<IniFileParseContext&>(ctx_).getIniFile()->getFolder();
+                    std::unordered_map<std::string, std::string> fileOf;
+                    std::unordered_set<std::string> seen;
+                    for (const Row& row : data.collected(DeclaredCollect)) {
+                        if (seen.insert(row.section).second) {
+                            fileOf[StringTools::toLower(row.section)] = FileService::absPathOfRelPath(
+                                FileService::iniPathToRel(std::string(StringTools::strip(row.value))), folder);
+                        }
+                    }
+                    return fileOf;
+                }
+
+                // THIS FILE'S RECOLOURS: each texture override placed in a role's graph, its first own
+                // `this`, as (section, role, hash, file), in the order the sections are written
+                std::vector<std::tuple<std::string, std::string, std::string, std::string>> recolours() {
+                    const IniParseData& data = this->parseData();
+                    const auto fileOf = declaredFiles(data);
+                    std::unordered_map<std::string, std::string> hashOf;
+                    for (const Row& row : data.collected(TextureOverridesCollect)) {
+                        if (row.key == IniKeywords::Hash) {
+                            hashOf.emplace(row.section, StringTools::toLower(StringTools::strip(row.value).data()));
+                        }
+                    }
+
+                    std::unordered_map<std::string, std::vector<const Row*>> own;
+                    for (const Row& row : data.collected(TextureRolesCollect)) {
+                        if (row.graphId.modObj.first == IniGraphModObjKeywords::Texture && row.key == IniKeywords::This
+                                && row.section == row.rootSection) {
+                            own[row.section].push_back(&row);
+                        }
+                    }
+
+                    std::vector<std::string> sections;
+                    for (const auto& entry : own) {
+                        sections.push_back(entry.first);
+                    }
+                    std::sort(sections.begin(), sections.end(),
+                              [this](const std::string& a, const std::string& b) { return sectionAt(a) < sectionAt(b); });
+
+                    std::vector<std::tuple<std::string, std::string, std::string, std::string>> result;
+                    for (const std::string& name : sections) {
+                        if (!StringTools::startsWith(name, IniKeywords::TextureOverride)) {
+                            continue;
+                        }
+
+                        std::vector<const Row*>& rows = own[name];
+                        sortAsWritten(rows);
+                        const auto file = fileOf.find(StringTools::toLower(std::string(StringTools::strip(rows.front()->value))));
+                        const auto hash = hashOf.find(name);
+                        if (file != fileOf.end() && hash != hashOf.end()) {
+                            result.emplace_back(name, rows.front()->graphId.modObj.second, hash->second, file->second);
+                        }
+                    }
+                    return result;
+                }
+
+                // THIS FILE'S BINDINGS ON THE SLOTS' DRAWS: every value a slot section binds, through `run =`,
+                // at a register WWMITextureFacts::registerRoles names for the slot, as (slot, register, role,
+                // file) -- the sections in the order they are written, each register in the table's order,
+                // each part counted once
+                std::vector<std::tuple<int, std::string, std::string, std::string>> drawBindings() {
+                    const IniParseData& data = this->parseData();
+                    const auto fileOf = declaredFiles(data);
+
+                    std::unordered_map<std::string, std::vector<const Row*>> byRoot;
+                    std::set<std::tuple<std::string, std::string, std::size_t, long long, std::string>> seen;
+                    for (const Row& row : data.collected(TextureRolesCollect)) {
+                        if (isSlotObj(row.graphId.modObj)
+                                && seen.emplace(row.rootSection, row.section, row.partId, row.line, row.key).second) {
+                            byRoot[row.rootSection].push_back(&row);
+                        }
+                    }
+
+                    std::vector<std::string> sections;
+                    for (const auto& entry : byRoot) {
+                        sections.push_back(entry.first);
+                    }
+                    std::sort(sections.begin(), sections.end(),
+                              [this](const std::string& a, const std::string& b) { return sectionAt(a) < sectionAt(b); });
+
+                    std::vector<std::tuple<int, std::string, std::string, std::string>> result;
+                    for (const std::string& name : sections) {
+                        const std::vector<const Row*>& rows = byRoot[name];
+                        std::set<int> slots;
+                        for (const Row* row : rows) {
+                            if (const std::optional<int> slot = slotOf(row->graphId.modObj)) {
+                                slots.insert(*slot);
+                            }
+                        }
+
+                        for (const int slot : slots) {
+                            const auto layout = config_.textures.registerRoles.find(slot);
+                            if (layout == config_.textures.registerRoles.end()) {
+                                continue;
+                            }
+
+                            for (const auto& [reg, role] : layout->second) {
+                                const std::string want = ModBranches::looseKey(reg);
+                                for (const Row* row : rows) {
+                                    if (slotOf(row->graphId.modObj) != slot || ModBranches::looseKey(row->key) != want) {
+                                        continue;
+                                    }
+
+                                    const std::string val = IniNamingTools::removeRefPrefix(std::string(StringTools::strip(row->value)));
+                                    const auto file = fileOf.find(StringTools::toLower(val));
+                                    if (file != fileOf.end()) {
+                                        result.emplace_back(slot, reg, role, file->second);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return result;
+                }
 
                 /**
                  * Every texture the .ini names, with the role it plays. Nothing here looks at the
@@ -1407,6 +1479,8 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<BaseIniGraphGroupEdit<>>> ownedSteps_;
                 WWMIParserConfig config_;
                 std::optional<Version> version_;
+                std::optional<int> modTypeId_;
+                bool onlyThisFile_ = false;
                 mutable std::unordered_map<std::string, std::size_t> sectionAt_;
                 mutable std::map<std::pair<std::string, std::size_t>, std::size_t> partAt_;
         };

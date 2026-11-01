@@ -244,6 +244,7 @@ namespace AGRemapCore {
 
 
         using AnchorAdd = RegAnchorAdd<>;
+        using Kvp = std::pair<std::string, std::string>;
         using Kvps = std::vector<std::pair<std::string, std::string>>;
         using DrawRange = std::pair<long long, long long>;
 
@@ -414,7 +415,7 @@ namespace AGRemapCore {
          * @brief What a config's role name says the texture IS, with the part it belongs to stripped
          *
          * `upperDiffuse`, `lowerDiffuse` and `panelDiffuse` all have the kind `Diffuse`. The names
-         * are the config's own, so the convention is this repo's -- see carriedTexRegs.
+         * are the config's own, so the convention is this repo's -- see CarriedLines.
          */
         std::string roleKind(const std::string& role) {
             for (std::size_t i = 0; i < role.size(); ++i) {
@@ -427,101 +428,40 @@ namespace AGRemapCore {
         }
 
 
-        /** @brief resource (lowered) -> the role it plays, if the scan knows one */
-        using CarriedRoleOf = std::function<std::optional<std::string>(const std::string&)>;
+        /**
+         * @brief
+         @rst
+         What becomes of each of the mod's own texture lines in one component's remapped sections, as
+         ``(register lowered, value stripped) -> the line in its place``: no line drops it, and a line the
+         table does not name is left where it is :raw-html:`<br />` :raw-html:`<br />`
 
-        /** @brief role -> the register the TARGET's draw reads it at */
-        using CarriedRegOf = std::function<std::optional<std::string>(const std::string&)>;
-
-        /** @brief resource + role -> the fix's edited copy of it, where one was written */
-        using CarriedEditedOf = std::function<std::string(const std::string&, const std::string&)>;
-
-        /** @brief source register (lowered) -> the role the SOURCE reads there, if known */
-        using CarriedRegRoleOf = std::function<std::optional<std::string>(const std::string&)>;
-
-        /** @brief register (lowered) -> whether the fix's own texture list binds it as a default */
-        using CarriedDefaulted = std::function<bool(const std::string&)>;
-
+         A mod may bind its textures per DRAW rather than once per section, to give different parts
+         different art. Those lines are copied into the remapped section and land after the fix's own
+         ``run = CommandList<Char>Component<N>Textures``, so they win -- in the source's order, which is
+         a role rotation on the target's shader. Re-keyed in place, the author's own ordering still
+         decides who wins where two of them land on one register
+         @endrst
+         */
+        using CarriedLines = std::map<std::pair<std::string, std::string>, std::optional<Kvp>>;
 
         /**
          * @brief
          @rst
-         Re-keys the lines the MOD itself writes to bind a texture inside a component section, from
-         the source's register layout to the target's -- see :cpp:member:`WWMIFixerConfig::plan`
+         The edit that puts 'lines' in place: one :cpp:class:`RegAnchorAdd` over every line whose key
+         starts with 'regPrefix'
          @endrst
-         *
-         * A mod may bind its textures per DRAW rather than once per section, to give different
-         * parts different art. Those lines are copied into the remapped section and land after the
-         * fix's own `run = CommandList<Char>Component<N>Textures`, so they win -- in the source's
-         * order, which is a role rotation on the target's shader.
-         *
-         * The role is asked of the RESOURCE, which the texture scan has already decided, and the
-         * register is the one the target reads for that role. A line whose role is unknown is left
-         * exactly where it is: this fix has no opinion about a register no plan row names, and the
-         * re-keyed lines are put in place, so the author's own ordering still decides who wins
-         * where two of them land on one register.
          */
-        std::unique_ptr<AnchorAdd> carriedTexRegs(const std::string& regPrefix, CarriedRoleOf roleOf, CarriedRegOf regOf,
-                                                  CarriedEditedOf editedOf, CarriedRegRoleOf regRoleOf = nullptr,
-                                                  CarriedDefaulted defaulted = nullptr) {
+        std::unique_ptr<AnchorAdd> carriedTexRegs(const std::string& regPrefix, CarriedLines lines) {
             const std::string prefix = StringTools::toLower(regPrefix);
             return std::make_unique<AnchorAdd>(
                 std::vector<std::string>{},
-                [roleOf = std::move(roleOf), regOf = std::move(regOf), editedOf = std::move(editedOf),
-                 regRoleOf = std::move(regRoleOf), defaulted = std::move(defaulted)]
-                (const std::string& key, const std::string& rawValue) -> std::optional<Kvps> {
-                    // `ps-t1 = ref ResourceFoo` names the same resource as `ps-t1 = ResourceFoo`
-                    std::string value(StringTools::strip(rawValue));
-                    const std::string ref = StringTools::toLower(IniKeywords::Ref);
-                    if (StringTools::startsWith(StringTools::toLower(value), ref + " ")) {
-                        value = std::string(StringTools::lstrip(value.substr(ref.size())));
-                    }
-
-                    const std::optional<std::string> role = roleOf(StringTools::toLower(value));
-
-                    // A TEXTURE PUT INTO ANOTHER KIND OF SLOT ON PURPOSE goes by the slot (see
-                    // WWMIFixerConfig::carryByRegisterRole): to the target's register for the role
-                    // the source reads at this one, its file unchanged -- or left where it is when
-                    // the source's register has no role here
-                    if (role.has_value() && regRoleOf) {
-                        const std::optional<std::string> slotRole = regRoleOf(StringTools::toLower(key));
-                        if (!slotRole.has_value() || roleKind(*slotRole) != roleKind(*role)) {
-                            const std::optional<std::string> slotReg =
-                                slotRole.has_value() ? regOf(*slotRole) : std::nullopt;
-                            if (slotReg.has_value() && !StringTools::equalsIgnoreCase(*slotReg, key)) {
-                                return Kvps{{*slotReg, rawValue}};
-                            }
-                            return std::nullopt;
-                        }
-                    }
-
-                    const std::optional<std::string> reg = role.has_value() ? regOf(*role) : std::nullopt;
-
-                    // LEFT ALONE rather than dropped. A role the scan does not know is a
-                    // register this fix has no opinion about -- `ps-t17 = ResourceClothFX` is
-                    // one, and the first cut of this edit took it out of two Sanhua mods.
-                    //
-                    // ...UNLESS THE FIX'S LIST BINDS THAT REGISTER (2026-10-28). Then the register
-                    // means a role of the TARGET's, and a file the scan cannot place in it is art
-                    // for another slot of the source's layout: ChisaParfait2's `ps-t2` texture lands
-                    // on Chisa's diffuse register. The list sets the target's binding first, so the
-                    // line goes and the list's default stands.
-                    if (!reg.has_value()) {
-                        if (defaulted && defaulted(StringTools::toLower(key))) {
-                            return Kvps{};
-                        }
+                [lines = std::move(lines)](const std::string& key, const std::string& value) -> std::optional<Kvps> {
+                    const auto found = lines.find({StringTools::toLower(std::string(StringTools::strip(key))),
+                                                   std::string(StringTools::strip(value))});
+                    if (found == lines.end()) {
                         return std::nullopt;
                     }
-
-                    // An EMPTY answer means the fix refused this file for this role and has
-                    // nothing to stand in: the line goes and nothing replaces it, so the game's
-                    // own texture stays bound.
-                    const std::string replacement = editedOf(value, *role);
-                    if (replacement.empty()) {
-                        return Kvps{};
-                    }
-
-                    return Kvps{{*reg, replacement}};
+                    return found->second.has_value() ? Kvps{*found->second} : Kvps{};
                 },
                 AnchorAdd::Placement::Replace,
                 [prefix](const std::string& key) {
@@ -2273,15 +2213,6 @@ namespace AGRemapCore {
                                 {IniKeywords::WWMIVgOffset, RegNewVals<>::NewVal(s.vgOffset)},
                                 {IniKeywords::WWMIVgCount, RegNewVals<>::NewVal(s.vgCount)}},
                             false);
-                        for (const auto& planned : config_.plan) {
-                            if (planned.second.slot != slot || present_.count(planned.first) == 0) {
-                                continue;
-                            }
-
-                            for (const std::string& section : present_.at(planned.first)) {
-                            }
-                        }
-
                         auto adapter = std::make_unique<RegPartEdit<>>(newVals.get());
                         newValsOf_[slot] = adapter.get();
                         newVals_.push_back(std::move(newVals));
@@ -2443,14 +2374,10 @@ namespace AGRemapCore {
                             }
                         }
 
-                        // THE MOD'S OWN `ps-t` LINES, RE-KEYED BY ROLE (2026-10-02). Before the
-                        // twin because it reads what the mod wrote and the twin only adds draws.
-                        //
-                        // `regOfRole` is this component's own plan row, so the registers are the
-                        // ones the fix's list for this component already uses -- the carried lines
-                        // end up speaking the same layout as the list they sit after, which is the
-                        // whole point. `roleOf` prefers a role this component serves and falls back
-                        // to any, because one file may serve several components.
+                        // THE MOD'S OWN `ps-t` LINES, RE-KEYED BY ROLE (2026-10-02), each to the register this
+                        // component's plan row reads its texture's role at -- the layout of the fix's own list,
+                        // which they sit after. Before the twin, because it reads what the mod wrote and the
+                        // twin only adds draws. See CarriedLines.
                         {
                             std::map<std::string, std::string> regOfRole;
                             for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
@@ -2459,136 +2386,142 @@ namespace AGRemapCore {
                                 }
                             }
 
-                            // THE ROLE A LINE'S RESOURCE PLAYS IS THE PARSER'S ANSWER (2026-10-29): every
-                            // (role, component) it chose the resource's file for (IniParseData::rolesOfResource),
-                            // among the roles this fix binds on a component it draws -- this component's first,
-                            // then any. One file may serve several components under different roles: Lynae9
-                            // draws one sweater through her jacket (5) and her props (6).
-                            const IniParseData& data = parseData();
-                            const auto alias = rerouteFrom_.find(component);
-                            const int ownSource = alias != rerouteFrom_.end() ? alias->second : component;
-                            auto chosenRole = [this, &data, ownSource](const std::string& resource) -> std::optional<std::string> {
-                                std::optional<std::string> own;
-                                std::optional<std::string> any;
-                                for (const IniParseData::ResourceRole& chosen : data.rolesOfResource(resource)) {
-                                    const std::optional<int> of = sourceComponentOf(chosen.modObj);
-                                    if (!of.has_value() || present_.count(*of) == 0 || !bindsRole(*of, chosen.role)) {
-                                        continue;
-                                    }
-
-                                    if (*of == ownSource) {
-                                        own = chosen.role;
-                                    } else if (!any.has_value()) {
-                                        any = chosen.role;
-                                    }
-                                }
-                                return own.has_value() ? own : any;
-                            };
-
-                            auto roleOf = [&data, chosenRole, regOfRole](const std::string& resource)
-                                    -> std::optional<std::string> {
-                                // a role this component's row binds comes first
-                                auto rowRoleOf = [&chosenRole, &regOfRole](const std::string& name) -> std::optional<std::string> {
-                                    const std::optional<std::string> role = chosenRole(name);
-                                    if (role.has_value() && regOfRole.count(*role) > 0) {
-                                        return role;
-                                    }
-                                    return std::nullopt;
-                                };
-
-                                // (a toggle's variant has the role its chosen sibling plays: IniParseData::RoleFile::variants)
-                                if (const auto own = rowRoleOf(resource)) {
-                                    return own;
-                                }
-
-                                if (const auto chosen = chosenRole(resource)) {
-                                    return chosen;
-                                }
-
-                                // ...and a file the parser REFUSED for a role (2026-10-03): it was chosen for
-                                // nothing precisely because it was refused, and a line left alone puts the
-                                // refused file back (ChisaParfait3's flat `3_1.dds` across her whole body)
-                                return data.refusedRoleOf(resource);
-                            };
-
-                            // ...and the same row by KIND, for a carried binding whose role belongs
-                            // to another component. `ResourceTexture4_3` is a `lowerDiffuse` and
-                            // this row names `panelDiffuse`; both are the config's OWN names, so
-                            // their shared tail is a convention this repo controls rather than a
-                            // guess about the mod. Only where the tail is unambiguous in the row --
-                            // `irisDiffuse` and `eyeDiffuse` share one, at different registers.
-                            std::map<std::string, std::string> regOfKind;
-                            std::set<std::string> ambiguous;
-                            for (const auto& [role, reg] : regOfRole) {
-                                const std::string kind = roleKind(role);
-                                const auto seen = regOfKind.find(kind);
-                                if (seen != regOfKind.end() && seen->second != reg) {
-                                    ambiguous.insert(kind);
-                                } else {
-                                    regOfKind.emplace(kind, reg);
-                                }
-                            }
-
-                            auto regOf = [regOfRole, regOfKind, ambiguous](const std::string& role)
-                                    -> std::optional<std::string> {
-                                const auto found = regOfRole.find(role);
-                                if (found != regOfRole.end()) {
+                            // The register for a role: the row's own, or else the one the row binds the same
+                            // KIND at, for a role of another component. `ResourceTexture4_3` is a `lowerDiffuse`
+                            // and this row names `panelDiffuse`; both are the config's OWN names, so their shared
+                            // tail is a convention this repo controls rather than a guess about the mod. Only
+                            // where the kind is unambiguous in the row -- `irisDiffuse` and `eyeDiffuse` share
+                            // one, at different registers.
+                            const auto regOf = [&regOfRole](const std::string& role) -> std::optional<std::string> {
+                                if (const auto found = regOfRole.find(role); found != regOfRole.end()) {
                                     return found->second;
                                 }
 
                                 const std::string kind = roleKind(role);
-                                const auto byKind = regOfKind.find(kind);
-                                if (kind.empty() || ambiguous.count(kind) > 0 || byKind == regOfKind.end()) {
-                                    return std::nullopt;
+                                std::optional<std::string> byKind;
+                                for (const auto& [rowRole, reg] : regOfRole) {
+                                    if (kind.empty() || roleKind(rowRole) != kind) {
+                                        continue;
+                                    }
+                                    if (byKind.has_value() && *byKind != reg) {
+                                        return std::nullopt;
+                                    }
+                                    byKind = reg;
                                 }
-
-                                return byKind->second;
+                                return byKind;
                             };
 
-                            // What a carried line binds once re-keyed: the mod's own resource (its
-                            // texture edit, if any, is collected from the line -- addTexEditCollects)
-                            auto editedOf = [this, component](const std::string& resource, const std::string& role) {
-                                if (rerouteShaders_.count(component) > 0) {
-                                    return resource;            // see rerouteShaders_: the mod's own art
-                                }
-
-
-                                // A FILE REFUSED FOR THIS ROLE DOES NOT GO BACK. The role resolved
-                                // to something else -- the source's own, downloaded and edited -- so
-                                // the carried line follows it. Where nothing stands in
-                                // (`flatLeftToGame`), an EMPTY answer asks for the line to be
-                                // dropped instead, which leaves the game's own texture bound: that
-                                // is what the mod did on its own character, and binding the refused
-                                // file is strictly worse than binding nothing.
-                                if (parseData().refusedRoleOf(resource) == role) {
-                                    const std::string* resolved = resourceFor(role, component);
-                                    return resolved != nullptr ? *resolved : std::string();
-                                }
-
-                                return resource;
-                            };
-
-                            // see WWMIFixerConfig::carryByRegisterRole
-                            CarriedRegRoleOf regRoleOf = nullptr;
+                            // see WWMIFixerConfig::carryByRegisterRole: the role the source reads at each register
+                            // -- a reroute reads its source component's layout, it is that component's art
+                            const auto alias = rerouteFrom_.find(component);
+                            const int ownSource = alias != rerouteFrom_.end() ? alias->second : component;
+                            std::optional<std::map<std::string, std::string>> slotRoles;
                             if (config_.carryByRegisterRole) {
-                                std::map<std::string, std::string> slotRoles;
-                                // a reroute reads its source component's layout -- it is that component's art
-                                const auto alias = rerouteFrom_.find(component);
-                                const auto own = config_.sourceTextures.registerRoles.find(
-                                    alias != rerouteFrom_.end() ? alias->second : component);
+                                slotRoles.emplace();
+                                const auto own = config_.sourceTextures.registerRoles.find(ownSource);
                                 if (own != config_.sourceTextures.registerRoles.end()) {
                                     for (const auto& [reg, role] : own->second) {
-                                        slotRoles.emplace(StringTools::toLower(reg), role);
+                                        slotRoles->emplace(StringTools::toLower(reg), role);
                                     }
                                 }
-                                regRoleOf = [slotRoles](const std::string& reg) -> std::optional<std::string> {
-                                    const auto found = slotRoles.find(reg);
-                                    return found == slotRoles.end() ? std::nullopt : std::optional<std::string>(found->second);
-                                };
                             }
 
-                            auto carried = carriedTexRegs(config_.texRegPrefix, roleOf, regOf, editedOf, regRoleOf,
-                                                          [listRegs](const std::string& reg) { return listRegs.count(reg) > 0; });
+                            const IniParseData& data = parseData();
+                            // the line in this one's place -- no answer leaves it alone, an empty line drops it
+                            const auto fateOf = [&](const std::string& key, const std::string& value) -> std::optional<std::optional<Kvp>> {
+                                // `ps-t1 = ref ResourceFoo` names the same resource as `ps-t1 = ResourceFoo`
+                                std::string resource = value;
+                                const std::string ref = StringTools::toLower(IniKeywords::Ref);
+                                if (StringTools::startsWith(StringTools::toLower(resource), ref + " ")) {
+                                    resource = std::string(StringTools::lstrip(resource.substr(ref.size())));
+                                }
+
+                                // THE ROLE IS THE PARSER'S ANSWER (2026-10-29): a (role, component) it chose the
+                                // resource's file for (IniParseData::rolesOfResource; a toggle's variants count),
+                                // among the roles this fix binds on a component it draws -- this component's
+                                // first, then any. One file may serve several components under different roles:
+                                // Lynae9 draws one sweater through her jacket (5) and her props (6).
+                                std::optional<std::string> own;
+                                std::optional<std::string> role;
+                                for (const IniParseData::ResourceRole& chosen : data.rolesOfResource(StringTools::toLower(resource))) {
+                                    const std::optional<int> of = sourceComponentOf(chosen.modObj);
+                                    if (!of.has_value() || present_.count(*of) == 0 || !bindsRole(*of, chosen.role)) {
+                                        continue;
+                                    }
+                                    if (*of == ownSource) {
+                                        own = chosen.role;
+                                    } else if (!role.has_value()) {
+                                        role = chosen.role;
+                                    }
+                                }
+                                if (own.has_value()) {
+                                    role = own;
+                                }
+
+                                // ...or the role the parser REFUSED the file for (2026-10-03): it was chosen for
+                                // nothing precisely because it was refused, and a line left alone puts the refused
+                                // file back (ChisaParfait3's flat `3_1.dds` across her whole body)
+                                if (!role.has_value()) {
+                                    role = data.refusedRoleOf(StringTools::toLower(resource));
+                                }
+
+                                // A TEXTURE PUT INTO ANOTHER KIND OF SLOT ON PURPOSE goes by the slot: to the
+                                // target's register for the role the source reads at this one, its file unchanged
+                                // -- or left where it is when the source's register has no role here
+                                if (role.has_value() && slotRoles.has_value()) {
+                                    const auto slotRole = slotRoles->find(key);
+                                    if (slotRole == slotRoles->end() || roleKind(slotRole->second) != roleKind(*role)) {
+                                        const std::optional<std::string> slotReg =
+                                            slotRole != slotRoles->end() ? regOf(slotRole->second) : std::nullopt;
+                                        if (slotReg.has_value() && !StringTools::equalsIgnoreCase(*slotReg, key)) {
+                                            return std::optional<Kvp>(Kvp{*slotReg, value});
+                                        }
+                                        return std::nullopt;
+                                    }
+                                }
+
+                                // LEFT ALONE rather than dropped when the role or its register is unknown: a
+                                // register this fix has no opinion about -- `ps-t17 = ResourceClothFX` is one, and
+                                // the first cut of this edit took it out of two Sanhua mods. ...UNLESS THE FIX'S LIST
+                                // BINDS THAT REGISTER (2026-10-28): then it means a role of the TARGET's, and a file
+                                // the scan cannot place there is art for another slot of the source's layout
+                                // (ChisaParfait2's `ps-t2` texture on Chisa's diffuse register), so the line goes
+                                // and the list's default stands.
+                                const std::optional<std::string> reg = role.has_value() ? regOf(*role) : std::nullopt;
+                                if (!reg.has_value()) {
+                                    return listRegs.count(key) > 0 ? std::optional<std::optional<Kvp>>(std::optional<Kvp>())
+                                                                   : std::nullopt;
+                                }
+
+                                // The mod's own resource (its texture edit, if any, is collected from the line --
+                                // addTexEditCollects), except that A FILE REFUSED FOR THIS ROLE DOES NOT GO BACK:
+                                // the line follows what the role resolved to -- the source's own, downloaded and
+                                // edited -- or, where nothing stands in (`flatLeftToGame`), goes, leaving the
+                                // game's own texture bound as the mod did on its own character. A rerouted
+                                // component keeps the mod's own art (rerouteShaders_).
+                                if (rerouteShaders_.count(component) == 0 && data.refusedRoleOf(resource) == role) {
+                                    const std::string* resolved = resourceFor(*role, component);
+                                    return resolved != nullptr ? std::optional<Kvp>(Kvp{*reg, *resolved}) : std::optional<Kvp>();
+                                }
+                                return std::optional<Kvp>(Kvp{*reg, resource});
+                            };
+
+                            CarriedLines lines;
+                            const std::string prefix = StringTools::toLower(config_.texRegPrefix);
+                            for (const std::string& section : sectionRows().order) {
+                                for (const Row* row : ownRows(section)) {
+                                    const std::string key = StringTools::toLower(std::string(StringTools::strip(row->key)));
+                                    const std::string value(StringTools::strip(row->value));
+                                    if (!StringTools::startsWith(key, prefix) || lines.count({key, value}) > 0) {
+                                        continue;
+                                    }
+                                    if (auto fate = fateOf(key, value)) {
+                                        lines.emplace(std::make_pair(key, value), std::move(*fate));
+                                    }
+                                }
+                            }
+
+                            auto carried = carriedTexRegs(config_.texRegPrefix, std::move(lines));
                             auto adapter = std::make_unique<RegPartEdit<>>(carried.get());
                             editsOf_[component].push_back(adapter.get());
                             carriedEdits_.push_back(std::move(carried));
@@ -3765,7 +3698,6 @@ namespace AGRemapCore {
                  * @brief `<reg> = null` -- bind NOTHING, rather than letting the game's own
                  *        texture serve the register (see WWMIFixerConfig::Binding::role)
                  */
-                using Kvp = std::pair<std::string, std::string>;
 
                 Kvp nullLine(const std::string& reg) {
                     return {reg, std::string(IniKeywords::Null)};

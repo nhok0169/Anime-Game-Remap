@@ -7,10 +7,12 @@
     <includes local="no">string</includes>
     <includes refid="_base_ini_graph_group_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h</includes>
     <includes local="yes">GraphCreate.tpp</includes>
-    <includedby refid="_template_fixer_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h</includedby>
+    <includedby refid="_template_fixer_8h" local="yes">include/AGRemapCore/data/IniFixData/TemplateFixer.h</includedby>
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <includedby refid="_z_z_m_i_fixer_8cpp" local="yes">src/data/IniFixData/ZZMIFixer.cpp</includedby>
+    <includedby refid="_template_parser_8cpp" local="yes">src/data/IniParseData/TemplateParser.cpp</includedby>
     <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
+    <includedby refid="_var_sections_create_8cpp" local="yes">src/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.cpp</includedby>
     <incdepgraph>
       <node id="34">
         <label>Algo.tpp</label>
@@ -734,7 +736,7 @@
     </incdepgraph>
     <invincdepgraph>
       <node id="2">
-        <label>include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h</label>
+        <label>include/AGRemapCore/data/IniFixData/TemplateFixer.h</label>
         <link refid="_template_fixer_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
@@ -754,11 +756,15 @@
         <link refid="_graph_create_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="7" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
         <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -774,20 +780,28 @@
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
       <node id="6">
+        <label>src/data/IniFixData/TemplateFixer.cpp</label>
+        <link refid="_template_fixer_8cpp"/>
+      </node>
+      <node id="7">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
-      <node id="7">
+      <node id="8">
         <label>src/data/IniFixData/ZZMIFixer.cpp</label>
         <link refid="_z_z_m_i_fixer_8cpp"/>
       </node>
       <node id="9">
+        <label>src/data/IniParseData/TemplateParser.cpp</label>
+        <link refid="_template_parser_8cpp"/>
+      </node>
+      <node id="10">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
-      <node id="8">
-        <label>src/model/strategies/iniFixers/TemplateFixer.cpp</label>
-        <link refid="_template_fixer_8cpp"/>
+      <node id="11">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.cpp</label>
+        <link refid="_var_sections_create_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_graph_create" prot="public">AGRemapCore::GraphCreate</innerclass>

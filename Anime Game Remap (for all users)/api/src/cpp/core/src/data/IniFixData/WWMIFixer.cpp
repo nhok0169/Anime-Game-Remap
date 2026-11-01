@@ -72,7 +72,7 @@
 #include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
-#include "AGRemapCore/model/strategies/iniFixers/TemplateFixer.h"
+#include "AGRemapCore/data/IniFixData/TemplateFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h"
 #include "AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"

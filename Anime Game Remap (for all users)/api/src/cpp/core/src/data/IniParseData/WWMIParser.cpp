@@ -19,7 +19,7 @@
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
-#include "AGRemapCore/model/strategies/iniParsers/TemplateParser.h"
+#include "AGRemapCore/data/IniParseData/TemplateParser.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ParseDataStep.h"
 #include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/model/textures/TexThumbprint.h"

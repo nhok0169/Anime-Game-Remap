@@ -11,7 +11,7 @@
 
 // ##### EndCredits
 
-#include "AGRemapCore/model/strategies/iniFixers/TemplateFixer.h"
+#include "AGRemapCore/data/IniFixData/TemplateFixer.h"
 
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/IniNamingTools.h"

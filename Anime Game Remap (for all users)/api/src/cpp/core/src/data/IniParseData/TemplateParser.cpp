@@ -9,7 +9,7 @@
 //   HazrateGolabi#1364 (for being awesome, and improving the code)
 // ##### EndCredits
 
-#include "AGRemapCore/model/strategies/iniParsers/TemplateParser.h"
+#include "AGRemapCore/data/IniParseData/TemplateParser.h"
 
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/IniNamingTools.h"

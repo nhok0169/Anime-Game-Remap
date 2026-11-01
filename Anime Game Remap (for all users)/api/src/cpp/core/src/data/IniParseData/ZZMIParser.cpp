@@ -26,7 +26,7 @@
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
-#include "AGRemapCore/model/strategies/iniParsers/TemplateParser.h"
+#include "AGRemapCore/data/IniParseData/TemplateParser.h"
 #include "AGRemapCore/tools/StringTools.h"
 
 

@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" line="114" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" bodystart="114" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TemplateParser.h" line="114" column="22" bodyfile="include/AGRemapCore/data/IniParseData/TemplateParser.h" bodystart="114" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1af06cb98641023f5067428f0474906dad" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" line="119" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" bodystart="119" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TemplateParser.h" line="119" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TemplateParser.h" bodystart="119" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1ac1929bf05f314bfc60ee0af6503b7b61" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" line="124" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" bodystart="124" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TemplateParser.h" line="124" column="22" bodyfile="include/AGRemapCore/data/IniParseData/TemplateParser.h" bodystart="124" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1a69eb110d72fd6d9efd5f64ad6280cfa3" prot="public" static="no" mutable="no">
         <type>std::function&lt; bool(const <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref> &amp;)&gt;</type>
@@ -66,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" line="129" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" bodystart="129" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TemplateParser.h" line="129" column="31" bodyfile="include/AGRemapCore/data/IniParseData/TemplateParser.h" bodystart="129" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -74,7 +74,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" line="110" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" bodystart="110" bodyend="130"/>
+    <location file="include/AGRemapCore/data/IniParseData/TemplateParser.h" line="110" column="13" bodyfile="include/AGRemapCore/data/IniParseData/TemplateParser.h" bodystart="110" bodyend="130"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1af06cb98641023f5067428f0474906dad" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateParser::RowSteps</scope><name>declaredKeys</name></member>
       <member refid="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1a69eb110d72fd6d9efd5f64ad6280cfa3" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateParser::RowSteps</scope><name>objs</name></member>

@@ -310,14 +310,14 @@ add_library(AGRemapCore STATIC
     src/model/strategies/iniParsers/TextureRoleChooser.cpp
     src/model/strategies/iniFixers/IniFixBuilder.cpp
     src/model/strategies/iniFixers/IniFileFixContext.cpp
-    src/model/strategies/iniFixers/TemplateFixer.cpp
+    src/data/IniFixData/TemplateFixer.cpp
     src/model/strategies/iniFixers/GraphEditVariables.cpp
     src/model/strategies/iniFixers/ShaderFilterTags.cpp
     src/model/strategies/iniFixers/CustomShaderBackups.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.cpp
     src/model/strategies/iniParsers/IniFileParseContext.cpp
-    src/model/strategies/iniParsers/TemplateParser.cpp
+    src/data/IniParseData/TemplateParser.cpp
     src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp
     src/model/strategies/iniFixers/graphGroupEdits/ResGroupCollectInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEditInstantiation.cpp

@@ -8693,6 +8693,8 @@
   </compound>
   <compound refid="_shenhe_frost_flower_parser_8h" kind="file"><name>ShenheFrostFlowerParser.h</name>
   </compound>
+  <compound refid="_template_parser_8h" kind="file"><name>TemplateParser.h</name>
+  </compound>
   <compound refid="_texture_overrides_8h" kind="file"><name>TextureOverrides.h</name>
   </compound>
   <compound refid="_w_w_m_i_parser_8h" kind="file"><name>WWMIParser.h</name>
@@ -9462,6 +9464,8 @@
   </compound>
   <compound refid="_side_meshes_8cpp" kind="file"><name>SideMeshes.cpp</name>
   </compound>
+  <compound refid="_template_fixer_8cpp" kind="file"><name>TemplateFixer.cpp</name>
+  </compound>
   <compound refid="_tex_fx_layout_8cpp" kind="file"><name>TexFxLayout.cpp</name>
   </compound>
   <compound refid="_tex_reg_layout_8cpp" kind="file"><name>TexRegLayout.cpp</name>
@@ -9603,6 +9607,8 @@
   <compound refid="_shenhe_parser_8cpp" kind="file"><name>ShenheParser.cpp</name>
   </compound>
   <compound refid="_shenhe_frost_flower_parser_8cpp" kind="file"><name>ShenheFrostFlowerParser.cpp</name>
+  </compound>
+  <compound refid="_template_parser_8cpp" kind="file"><name>TemplateParser.cpp</name>
   </compound>
   <compound refid="_texture_overrides_8cpp" kind="file"><name>TextureOverrides.cpp</name>
   </compound>

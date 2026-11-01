@@ -1776,17 +1776,6 @@ TemplateFixer
 
 :raw-html:`<br />`
 
-TemplateParser
---------------
-
-.. cppattributetable:: AGRemapCore::TemplateParser
-
-.. doxygenclass:: AGRemapCore::TemplateParser
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
 WWMIFixerConfig
 ---------------
 
@@ -1931,6 +1920,17 @@ IniParseDownloadData
 .. cppattributetable:: AGRemapCore::IniParseDownloadData
 
 .. doxygenclass:: AGRemapCore::IniParseDownloadData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TemplateParser
+--------------
+
+.. cppattributetable:: AGRemapCore::TemplateParser
+
+.. doxygenclass:: AGRemapCore::TemplateParser
     :members:
     :protected-members:
 

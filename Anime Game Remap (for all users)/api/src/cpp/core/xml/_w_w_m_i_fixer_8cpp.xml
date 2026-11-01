@@ -60,7 +60,7 @@
     <includes refid="_mod_type_8h" local="yes">AGRemapCore/model/strategies/ModType.h</includes>
     <includes refid="_g_i_m_i_fixer_8h" local="yes">AGRemapCore/model/strategies/iniFixers/GIMIFixer.h</includes>
     <includes refid="_ini_file_fix_context_8h" local="yes">AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h</includes>
-    <includes refid="_template_fixer_8h" local="yes">AGRemapCore/model/strategies/iniFixers/TemplateFixer.h</includes>
+    <includes refid="_template_fixer_8h" local="yes">AGRemapCore/data/IniFixData/TemplateFixer.h</includes>
     <includes refid="_shader_filter_tags_8h" local="yes">AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h</includes>
     <includes refid="_custom_shader_backups_8h" local="yes">AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h</includes>
     <includes refid="_graph_rename_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h</includes>
@@ -261,6 +261,54 @@
         <childnode refid="76" relation="include">
         </childnode>
         <childnode refid="77" relation="include">
+        </childnode>
+      </node>
+      <node id="193">
+        <label>AGRemapCore/data/IniFixData/TemplateFixer.h</label>
+        <link refid="_template_fixer_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="120" relation="include">
+        </childnode>
+        <childnode refid="185" relation="include">
+        </childnode>
+        <childnode refid="194" relation="include">
+        </childnode>
+        <childnode refid="195" relation="include">
+        </childnode>
+        <childnode refid="196" relation="include">
+        </childnode>
+        <childnode refid="197" relation="include">
+        </childnode>
+        <childnode refid="199" relation="include">
+        </childnode>
+        <childnode refid="201" relation="include">
+        </childnode>
+        <childnode refid="203" relation="include">
+        </childnode>
+        <childnode refid="192" relation="include">
+        </childnode>
+        <childnode refid="207" relation="include">
+        </childnode>
+        <childnode refid="209" relation="include">
+        </childnode>
+        <childnode refid="93" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -1643,54 +1691,6 @@
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="72" relation="include">
-        </childnode>
-      </node>
-      <node id="193">
-        <label>AGRemapCore/model/strategies/iniFixers/TemplateFixer.h</label>
-        <link refid="_template_fixer_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="76" relation="include">
-        </childnode>
-        <childnode refid="72" relation="include">
-        </childnode>
-        <childnode refid="120" relation="include">
-        </childnode>
-        <childnode refid="185" relation="include">
-        </childnode>
-        <childnode refid="194" relation="include">
-        </childnode>
-        <childnode refid="195" relation="include">
-        </childnode>
-        <childnode refid="196" relation="include">
-        </childnode>
-        <childnode refid="197" relation="include">
-        </childnode>
-        <childnode refid="199" relation="include">
-        </childnode>
-        <childnode refid="201" relation="include">
-        </childnode>
-        <childnode refid="203" relation="include">
-        </childnode>
-        <childnode refid="192" relation="include">
-        </childnode>
-        <childnode refid="207" relation="include">
-        </childnode>
-        <childnode refid="209" relation="include">
-        </childnode>
-        <childnode refid="93" relation="include">
         </childnode>
       </node>
       <node id="139">
@@ -3822,7 +3822,7 @@
 <codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_8h" kindref="compound">AGRemapCore/model/strategies/ModType.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_g_i_m_i_fixer_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/GIMIFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_file_fix_context_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_template_fixer_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/TemplateFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_template_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/TemplateFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_shader_filter_tags_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="77"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_custom_shader_backups_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="78"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_graph_rename_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>

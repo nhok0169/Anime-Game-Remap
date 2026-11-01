@@ -56,7 +56,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
-#include "AGRemapCore/model/strategies/iniFixers/TemplateFixer.h"
+#include "AGRemapCore/data/IniFixData/TemplateFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h"

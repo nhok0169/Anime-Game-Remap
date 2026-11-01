@@ -103,15 +103,41 @@ namespace AGRemapCore {
                     return rank(role, a.first, modObj) < rank(role, b.first, modObj);
                 });
 
+                const auto equal = [&](const std::string& a, const std::string& b) {
+                    const Rank x = rank(role, a, modObj);
+                    const Rank y = rank(role, b, modObj);
+                    return std::get<0>(x) == std::get<0>(y) && std::get<1>(x) == std::get<1>(y)
+                           && std::get<2>(x) == std::get<2>(y) && std::get<3>(x) == std::get<3>(y);
+                };
+
                 IniParseData::RoleFile chosen{ranked.front().first, ranked.front().second, "", ""};
-                if (ranked.size() > 1) {
-                    const Rank first = rank(role, ranked[0].first, modObj);
-                    const Rank second = rank(role, ranked[1].first, modObj);
-                    if (std::get<0>(first) == std::get<0>(second) && std::get<1>(first) == std::get<1>(second)
-                            && std::get<2>(first) == std::get<2>(second) && std::get<3>(first) == std::get<3>(second)) {
-                        chosen.tiedFile = ranked[1].first;
-                        chosen.tiedHow = ranked[1].second;
+                std::vector<std::string> variants = variantsOf ? variantsOf(ranked.front().first) : std::vector<std::string>{};
+                const auto isVariant = [&variants](const std::string& file) {
+                    return std::find(variants.begin(), variants.end(), file) != variants.end();
+                };
+
+                if (!variants.empty()) {
+                    // VARIANTS OF ONE TOGGLE ARE NOT RANKED AGAINST EACH OTHER: they play one role, so how
+                    // specifically each is bound says nothing (a toggle repeated on one object's section binds
+                    // every variant there). The toggle's first-named variant the mod does not declare as
+                    // another role is the one chosen
+                    const int declaredElsewhere = std::get<0>(rank(role, ranked.front().first, modObj));
+                    for (const std::string& file : variants) {
+                        const auto candidate = std::find_if(ranked.begin(), ranked.end(),
+                                                            [&file](const auto& entry) { return entry.first == file; });
+                        if (candidate != ranked.end() && std::get<0>(rank(role, candidate->first, modObj)) == declaredElsewhere) {
+                            chosen.file = candidate->first;
+                            chosen.how = candidate->second;
+                            break;
+                        }
                     }
+                } else if (ranked.size() > 1 && equal(ranked[0].first, ranked[1].first)) {
+                    chosen.tiedFile = ranked[1].first;
+                    chosen.tiedHow = ranked[1].second;
+                }
+
+                if (isVariant(chosen.file)) {
+                    chosen.variants = std::move(variants);
                 }
 
                 data.setRoleFile(role, modObj, std::move(chosen));

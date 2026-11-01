@@ -808,6 +808,10 @@ tiedHow: :class:`str`
         .def_readwrite("file", &AGRC::IniParseData::RoleFile::file, py::doc(":class:`str`: The file"))
         .def_readwrite("how", &AGRC::IniParseData::RoleFile::how, py::doc(":class:`str`: How it was found, for the log"))
         .def_readwrite("tiedFile", &AGRC::IniParseData::RoleFile::tiedFile, py::doc(":class:`str`: Another file ranked equally good, or empty"))
+        .def_readwrite("variants", &AGRC::IniParseData::RoleFile::variants, py::doc(R"doc(
+List[:class:`str`]: The files of the toggle :attr:`file` is a variant of, in the order the toggle names them
+(:attr:`file` among them), or empty when it is no toggle's. Each plays the same role on the same object
+        )doc"))
         .def_readwrite("tiedHow", &AGRC::IniParseData::RoleFile::tiedHow, py::doc(":class:`str`: How :attr:`tiedFile` was found"));
 
     py::class_<AGRC::IniParseData::TextureToggle>(cls, "TextureToggle", R"doc(
@@ -886,6 +890,12 @@ Dict[:class:`str`, Dict[Tuple[:class:`str`, :class:`str`], Set[:class:`str`]]]: 
         .def_readwrite("declared", &AGRC::TextureRoleChooser::declared, py::doc(R"doc(
 Dict[:class:`str`, Set[:class:`str`]]: The roles the mod DECLARES each file as, by writing the game
 texture's ``hash =`` over it
+        )doc"))
+        .def_readwrite("variantsOf", &AGRC::TextureRoleChooser::variantsOf, py::doc(R"doc(
+Optional[Callable[[:class:`str`], List[:class:`str`]]]: The files of the toggle a file is a variant of, in the order
+the toggle names them, or empty for a file that is no toggle's. Variants of one toggle are not ranked against each
+other: the one the toggle names first is chosen and every one is recorded (:attr:`IniParseData.RoleFile.variants`).
+**Default**: no file is a toggle's
         )doc"))
         .def_readwrite("declaredFiles", &AGRC::TextureRoleChooser::declaredFiles,
                         py::doc("Set[:class:`str`]: The files the .ini declares a resource `section`_ for"))

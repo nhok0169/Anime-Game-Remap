@@ -2487,8 +2487,7 @@ namespace AGRemapCore {
 
                             auto roleOf = [&data, chosenRole, regOfRole](const std::string& resource)
                                     -> std::optional<std::string> {
-                                // a role this component's row binds comes first -- the resource's own, then
-                                // through its toggle siblings
+                                // a role this component's row binds comes first
                                 auto rowRoleOf = [&chosenRole, &regOfRole](const std::string& name) -> std::optional<std::string> {
                                     const std::optional<std::string> role = chosenRole(name);
                                     if (role.has_value() && regOfRole.count(*role) > 0) {
@@ -2497,21 +2496,9 @@ namespace AGRemapCore {
                                     return std::nullopt;
                                 };
 
+                                // (a toggle's variant has the role its chosen sibling plays: IniParseData::RoleFile::variants)
                                 if (const auto own = rowRoleOf(resource)) {
                                     return own;
-                                }
-
-                                std::vector<std::string> siblings;
-                                if (const IniParseData::TextureToggle* toggle = data.thisToggleOf(resource)) {
-                                    siblings = toggle->variants;
-                                }
-                                if (const IniParseData::TextureToggle* toggle = data.registerToggleOf(resource)) {
-                                    siblings.insert(siblings.end(), toggle->variants.begin(), toggle->variants.end());
-                                }
-                                for (const std::string& sibling : siblings) {
-                                    if (const auto shared = rowRoleOf(StringTools::toLower(sibling))) {
-                                        return shared;
-                                    }
                                 }
 
                                 if (const auto chosen = chosenRole(resource)) {

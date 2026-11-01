@@ -454,9 +454,9 @@ namespace AGRemapCore {
                     TextureRoles roles;
                     buildRoles(roles, data);
                     data.setTextureRoles(std::move(roles));
-                    chooseRoleFiles(data, *data.textureRoles());
                     readThisToggles(data);
                     readRegisterToggles(data);
+                    chooseRoleFiles(data, *data.textureRoles());
                 }
 
                 // the name the texcoord buffer's one element is read under
@@ -895,9 +895,34 @@ namespace AGRemapCore {
                     TextureRoleChooser chooser;
                     chooser.folder = ini->getFolder();
                     chooser.regionRoles = config_.textures.regionRoles;
+                    // the toggles' variants, as files: a resource's toggle (IniParseData::thisToggleOf / registerToggleOf)
+                    // names resources, each declared for one file
+                    std::unordered_map<std::string, std::string> fileOfResource;
+                    std::unordered_map<std::string, std::vector<std::string>> resourcesOfFile;
                     for (const auto& entry : roles.resourcesOf(iniPath)) {
                         chooser.declaredFiles.insert(entry.second);
+                        fileOfResource.emplace(StringTools::toLower(entry.first), entry.second);
+                        resourcesOfFile[entry.second].push_back(StringTools::toLower(entry.first));
                     }
+                    chooser.variantsOf = [&data, fileOfResource, resourcesOfFile](const std::string& file) {
+                        std::vector<std::string> files;
+                        const auto resources = resourcesOfFile.find(file);
+                        for (const std::string& resource : resources != resourcesOfFile.end() ? resources->second : std::vector<std::string>{}) {
+                            for (const IniParseData::TextureToggle* toggle : {data.thisToggleOf(resource), data.registerToggleOf(resource)}) {
+                                if (toggle == nullptr || toggle->variants.size() < 2) {
+                                    continue;
+                                }
+                                for (const std::string& variant : toggle->variants) {
+                                    const auto variantFile = fileOfResource.find(StringTools::toLower(variant));
+                                    if (variantFile != fileOfResource.end()
+                                            && std::find(files.begin(), files.end(), variantFile->second) == files.end()) {
+                                        files.push_back(variantFile->second);
+                                    }
+                                }
+                            }
+                        }
+                        return files.size() >= 2 ? files : std::vector<std::string>{};
+                    };
 
                     addOwnCandidates(chooser, roles, data, iniPath, drawn);
                     if (!drawn.empty() && !iniPath.empty()) {

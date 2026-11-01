@@ -11911,6 +11911,15 @@ class IniParseData:
         @tiedHow.setter
         def tiedHow(self, arg0: str) -> None:
             ...
+        @property
+        def variants(self) -> list[str]:
+            """
+            List[:class:`str`]: The files of the toggle :attr:`file` is a variant of, in the order the toggle names them
+            (:attr:`file` among them), or empty when it is no toggle's. Each plays the same role on the same object
+            """
+        @variants.setter
+        def variants(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
     class TextureToggle:
         """
         
@@ -27736,6 +27745,17 @@ class TextureRoleChooser:
         """
     @regionRoles.setter
     def regionRoles(self, arg0: collections.abc.Set[str]) -> None:
+        ...
+    @property
+    def variantsOf(self) -> collections.abc.Callable[[str], list[str]]:
+        """
+        Optional[Callable[[:class:`str`], List[:class:`str`]]]: The files of the toggle a file is a variant of, in the order
+        the toggle names them, or empty for a file that is no toggle's. Variants of one toggle are not ranked against each
+        other: the one the toggle names first is chosen and every one is recorded (:attr:`IniParseData.RoleFile.variants`).
+        **Default**: no file is a toggle's
+        """
+    @variantsOf.setter
+    def variantsOf(self, arg0: collections.abc.Callable[[str], list[str]]) -> None:
         ...
 
 class TextureRoles:

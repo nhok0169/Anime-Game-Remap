@@ -58,7 +58,11 @@ namespace AGRemapCore {
         #. whether the ``.ini`` declares a resource for it -- a file nothing names is a spare
         #. how far it is from the ``.ini``: folders up, then path length, then the path
 
-        Two files equal on the first four are a tie, recorded in :cpp:member:`IniParseData::RoleFile::tiedFile`
+        Two files equal on the first four are a tie, recorded in :cpp:member:`IniParseData::RoleFile::tiedFile`.
+     #. **Variants of one toggle** (:cpp:member:`variantsOf`) are not ranked against each other: when the best
+        file is a variant, the toggle's first-named variant among the candidates that ranks equal to it on the
+        first key is chosen, and the toggle's files are recorded as
+        :cpp:member:`IniParseData::RoleFile::variants`
      @endrst
      */
     class TextureRoleChooser {
@@ -112,6 +116,17 @@ namespace AGRemapCore {
              @endrst
              */
             std::function<bool(const std::string& file)> isFlat;
+
+            /**
+             * @brief
+             @rst
+             The files of the toggle a file is a variant of, in the order the toggle names them, or empty for a file
+             that is no toggle's. Variants of one toggle are not ranked against each other: the one the toggle names
+             first is chosen and every one is recorded (:cpp:member:`IniParseData::RoleFile::variants`). **Default**:
+             no file is a toggle's
+             @endrst
+             */
+            std::function<std::vector<std::string>(const std::string& file)> variantsOf;
 
             /**
              * @brief

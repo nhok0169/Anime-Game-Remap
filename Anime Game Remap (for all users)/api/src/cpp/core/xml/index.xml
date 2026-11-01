@@ -6337,6 +6337,7 @@
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a8345fad8c254b8422bdf43d9a17d67ce" kind="variable"><name>how</name></member>
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a7380cc078ec4c0b19cae11ac74593bd3" kind="variable"><name>tiedFile</name></member>
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a3eaf45fb154dbbd964ecd0f3f59623fa" kind="variable"><name>tiedHow</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a7fc933443e8ac93eefc52dff0a850ae4" kind="variable"><name>variants</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_tex_reg_layout_1_1_roles" kind="struct"><name>AGRemapCore::TexRegLayout::Roles</name>
     <member refid="struct_a_g_remap_core_1_1_tex_reg_layout_1_1_roles_1ab9365434a39a86f8fc9d241251395c49" kind="variable"><name>normalMap</name></member>
@@ -7233,6 +7234,7 @@
     <member refid="class_a_g_remap_core_1_1_texture_role_chooser_1ae3f6901b731c3a845cb6f15abd3513bb" kind="variable"><name>regionRoles</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_role_chooser_1ae690f94a76bb968e2c351fc2207a6001" kind="variable"><name>folder</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_role_chooser_1a2997f2e5219878b408acd6e323941a43" kind="variable"><name>isFlat</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_role_chooser_1aec18afa3175b6ab756c52f630a028016" kind="variable"><name>variantsOf</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_role_chooser_1a5b41de36dd09a3dd91d87c704e83377d" kind="function"><name>choose</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_role_chooser_1a84236a671b7444179b703222f120596c" kind="function"><name>rank</name></member>
   </compound>

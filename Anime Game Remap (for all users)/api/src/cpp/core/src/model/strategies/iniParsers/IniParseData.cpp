@@ -434,7 +434,8 @@ namespace AGRemapCore {
         }
 
         for (const auto& [key, chosen] : roleFiles_) {
-            if (chosen.file == file->second) {
+            if (chosen.file == file->second
+                    || std::find(chosen.variants.begin(), chosen.variants.end(), file->second) != chosen.variants.end()) {
                 result.push_back(ResourceRole{key.first, key.second});
             }
         }

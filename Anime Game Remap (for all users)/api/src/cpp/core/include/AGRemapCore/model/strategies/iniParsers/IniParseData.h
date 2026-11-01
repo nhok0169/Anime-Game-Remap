@@ -91,6 +91,15 @@ namespace AGRemapCore {
                  * @brief How #tiedFile was found
                  */
                 std::string tiedHow;
+
+                /**
+                 * @brief
+                 @rst
+                 The files of the toggle #file is a variant of, in the order the toggle names them (#file among
+                 them), or empty when it is no toggle's. Each plays the same role on the same object
+                 @endrst
+                 */
+                std::vector<std::string> variants;
             };
 
             /**
@@ -583,7 +592,8 @@ namespace AGRemapCore {
              * @brief
              @rst
              What a texture line binding 'resource' binds: every ``(role, mod object)`` the parser chose
-             the resource's file for (#roleFile), by role and then by mod object. Empty for a resource
+             the resource's file for (#roleFile) -- or a file of the same toggle (:cpp:member:`RoleFile::variants`) --
+             by role and then by mod object. Empty for a resource
              naming no texture, or one chosen for nothing
              @endrst
              *

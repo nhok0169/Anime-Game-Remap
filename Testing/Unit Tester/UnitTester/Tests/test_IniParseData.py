@@ -262,3 +262,41 @@ class TextureRoleChooserTest(BaseUnitTest):
 
         chosen = data.roleFile("bodyDiffuse", ("", "component0"))
         self.assertEqual((chosen.file, chosen.tiedFile), ("mod/ab.dds", "mod/cd.dds"))
+
+    def test_choose_variantsOfOneToggle_areNotATie_theToggleOrderDecides(self):
+        chooser = self._chooser()
+        # the longer name comes first in the toggle, and would lose a tie on length
+        chooser.candidates = {"bodyDiffuse": [("mod/b.dds", "by hash"), ("mod/alt-a.dds", "by hash")]}
+        chooser.variantsOf = lambda file: ["mod/alt-a.dds", "mod/b.dds"] if file in ("mod/alt-a.dds", "mod/b.dds") else []
+        data = FRB.IniParseData()
+        chooser.choose(data, [("", "component0")])
+
+        chosen = data.roleFile("bodyDiffuse", ("", "component0"))
+        self.assertEqual((chosen.file, chosen.tiedFile, chosen.variants), ("mod/alt-a.dds", "", ["mod/alt-a.dds", "mod/b.dds"]))
+
+    def test_choose_variantsOfOneToggle_specificityDoesNotRankThem(self):
+        chooser = self._chooser()
+        # the first variant is bound only on ANOTHER object, which would rank it below the second here
+        chooser.candidates = {"bodyDiffuse": [("mod/a.dds", "by hash"), ("mod/b.dds", "by hash")]}
+        chooser.bindings = {"mod/a.dds": {("", "component3"): {"bodyDiffuse"}}}
+        chooser.variantsOf = lambda file: ["mod/a.dds", "mod/b.dds"] if file in ("mod/a.dds", "mod/b.dds") else []
+        data = FRB.IniParseData()
+        chooser.choose(data, [("", "component0")])
+
+        chosen = data.roleFile("bodyDiffuse", ("", "component0"))
+        self.assertEqual((chosen.file, chosen.tiedFile), ("mod/a.dds", ""))
+
+        chooser.variantsOf = None
+        data = FRB.IniParseData()
+        chooser.choose(data, [("", "component0")])
+        self.assertEqual(data.roleFile("bodyDiffuse", ("", "component0")).file, "mod/b.dds")
+
+    def test_rolesOfResource_aVariantHasItsSiblingsRole(self):
+        data = FRB.IniParseData()
+        data.setRoleFile("bodyDiffuse", ("", "component0"), FRB.IniParseData.RoleFile("mod/a.dds"))
+        chosen = data.roleFile("bodyDiffuse", ("", "component0"))
+        chosen.variants = ["mod/a.dds", "mod/b.dds"]
+        data.setRoleFile("bodyDiffuse", ("", "component0"), chosen)
+        data.setTextureResource("ResourceB", "mod/b.dds")
+
+        self.assertEqual([(r.role, r.modObj) for r in data.rolesOfResource("ResourceB")], [("bodyDiffuse", ("", "component0"))])

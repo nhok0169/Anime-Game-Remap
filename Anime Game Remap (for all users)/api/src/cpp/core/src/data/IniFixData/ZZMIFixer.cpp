@@ -532,7 +532,7 @@ namespace AGRemapCore {
                         const GraphId srcGraph(0, "", ref.graph);
                         auto replace = std::make_unique<TexEditorReplace<>>(
                             GraphId(0, "", comp_.name + "_" + ref.res),
-                            TexEditor({bandEdit(config_, comp_.bandMoves)}, false, true), resEditConfig(),
+                            std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{bandEdit(config_, comp_.bandMoves)}, false, true), resEditConfig(),
                             "resourceRemapTexEdit", comp_.target + "LightMap");
                         auto collect = std::make_unique<Collector>();
                         collect->srcRegs = {{srcGraph, ref.reg}};
@@ -1099,7 +1099,7 @@ namespace AGRemapCore {
                         file.url = DownloadTools::url(config_.downloadGameFolder, config_.downloadCharFolder,
                                                      config_.downloadVersionFolder, srcName(), "A" + capitalised(tex.role), FileExt::DDS);
                         if (tex.role == LightMapRole && !comp_.bandMoves.empty()) {
-                            file.texEdit = TexEditor({bandEdit(config_, comp_.bandMoves)}, false, true);
+                            file.texEdit = std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{bandEdit(config_, comp_.bandMoves)}, false, true);
                             file.rawFile = name + "Raw" + FileExt::DDS;
                             // the raw download is named by a section too: an undo deletes the files the fix's own
                             // sections name

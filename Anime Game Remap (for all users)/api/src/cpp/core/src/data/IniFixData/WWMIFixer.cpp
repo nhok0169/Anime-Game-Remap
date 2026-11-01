@@ -2570,8 +2570,6 @@ namespace AGRemapCore {
 
                 }
 
-                // The hash-only objects: the hidden ones (the shape keys) commented out of the
-                // original and copied nowhere, the rest (the bone-data override) into every group
                 // ---- WWMIFixerConfig::drawReroutes ----
 
                 // Every name a mod's command list can carry in the remapped graphs: its own, the
@@ -3523,8 +3521,6 @@ namespace AGRemapCore {
                                 perGroup[g].edits[obj].push_back(shapeKeyAdapter_.get());
                             }
                             perGroup[g].trackKeys[obj] = false;
-                            if (g == 0) {
-                                }
                         }
                     }
 
@@ -3642,9 +3638,6 @@ namespace AGRemapCore {
                 // ---- what the WRITTEN text must say ----
 
 
-                // The resource a component binds for a role: its own choice (readTextures), else what
-                // every component shares -- a created texture, or a download of the source's own
-                // A shared mesh has no component, so take whichever present component owns the art
                 // Every role bound only by a slot's other passes or by a shared mesh -- the ones
                 // config_.plan does not name
                 std::vector<std::string> passOnlyRoles() const {
@@ -4496,8 +4489,6 @@ namespace AGRemapCore {
                                    created.role + toModName_ + IniKeywords::RemapTex + FileExt::DDS);
                 }
 
-                // ---- at fix time ----
-
                 // ---- the fix's own files: each made by a FileAddCreate, collected where the fix binds it ----
 
                 // One file the fix makes: the section naming it (its keys, then `filename =`), its bytes,
@@ -4535,7 +4526,7 @@ namespace AGRemapCore {
                     }
 
                     for (const FixTexture& texture : fixTextures_) {
-                        auto create = std::make_unique<TexCreatorCreate<>>(GraphId(g, "", "fixTexture" + texture.section), "", texture.creator,
+                        auto create = std::make_unique<TexCreatorCreate<>>(GraphId(g, "", "fixTexture" + texture.section), "", std::make_shared<TexCreator>(texture.creator),
                                                                            resEditConfig());
                         create->files = {{texture.section, texture.file}};
                         const std::string section = texture.section;
@@ -5142,7 +5133,7 @@ namespace AGRemapCore {
 
                         auto editor = std::make_unique<TexEditorReplace<>>(
                             GraphId(0, "", "texEdit" + TextTools::capitalize(edit.role) + edit.name),
-                            TexEditor({std::move(filter)}, edit.compress), resEditConfig(), "resourceRemapTexEdit",
+                            std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{std::move(filter)}, edit.compress), resEditConfig(), "resourceRemapTexEdit",
                             TextTools::capitalize(edit.role) + edit.name + editFileTag());
                         // the role is the binding's: a file the role's edit applies to, bound at the role's
                         // register -- in the fix's sections, by one of the role's own lists

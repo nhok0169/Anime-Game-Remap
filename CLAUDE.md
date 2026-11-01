@@ -415,7 +415,10 @@ and the docs refreshed. Before choosing where a helper goes, grep `core.pyi` for
 `TemplateFixer`, the base of all four fixer templates, had no binding at all (its own doc said "C++ only"), and a
 rough header-vs-stub count found ~180 non-character classes and structs with no Python class of the same name. The
 acceptance test of the fixer refactor is rewriting a template fixer in Python from the API alone, which only works
-once what it needs is reachable. See [Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s "EVERY C++ CLASS IS
+once what it needs is reachable. **And it is an IF AND ONLY IF (the maintainer, 2026-11-01): the C++ side must be as
+powerful as the Python side too** -- a capability that exists only in a binding's Python override (a `fixFunc`, a
+Python `buildResModel` doing the real work) is a C++ gap, and one class doing a job is bound ONCE rather than as two
+Python classes for the same thing. See [Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s "EVERY C++ CLASS IS
 FOR PYTHON TOO".
 
 **EDITS PASS DATA THROUGH NAMED VARIABLES: `GraphEditVariables` (2026-10-31).** When one edit hands data to a later

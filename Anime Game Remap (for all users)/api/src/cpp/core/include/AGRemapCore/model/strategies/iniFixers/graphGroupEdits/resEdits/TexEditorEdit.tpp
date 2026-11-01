@@ -23,7 +23,7 @@
 namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     TexEditorReplace<K, V, KeyHash, KeyEqual>::TexEditorReplace(
-            GraphId resModObj, TexEditor texEditor, ResEditConfig config, std::string resType,
+            GraphId resModObj, std::shared_ptr<BaseTexEditor> texEditor, ResEditConfig config, std::string resType,
             std::optional<std::string> resSubType):
         Base(std::move(resModObj), std::move(config), std::move(resType), std::move(resSubType)),
         texEditor(std::move(texEditor)) {}
@@ -37,8 +37,7 @@ namespace AGRemapCore {
         (void)modName;
 
         auto resource = std::make_unique<RemapTexEditResource>(
-            ctx.iniFolder(), srcPath, fixedPath, texEditor, this->resType,
-            std::function<bool(RemapTexEditResource&)>{});
+            ctx.iniFolder(), srcPath, fixedPath, texEditor, this->resType, fixFunc);
 
         resource->logger = ctx.logger();
         ctx.storeResource(fileKey, std::move(resource));

@@ -877,12 +877,45 @@ File
 
 :raw-html:`<br />`
 
+FileAddCreate
+=============
+
+.. attributetable:: FixRaidenBoss2.FileAddCreate
+
+.. autoclass:: FixRaidenBoss2.FileAddCreate
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 FileDownload
 ============
 
 .. attributetable:: FixRaidenBoss2.FileDownload
 
 .. autoclass:: FixRaidenBoss2.FileDownload
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+FileDownloadCreate
+==================
+
+.. attributetable:: FixRaidenBoss2.FileDownloadCreate
+
+.. autoclass:: FixRaidenBoss2.FileDownloadCreate
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+FileRefAdd
+==========
+
+.. attributetable:: FixRaidenBoss2.FileRefAdd
+
+.. autoclass:: FixRaidenBoss2.FileRefAdd
     :members:
     :private-members:
 
@@ -2713,6 +2746,17 @@ VGRemap
 .. attributetable:: FixRaidenBoss2.VGRemap
 
 .. autoclass:: FixRaidenBoss2.VGRemap
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+VGRemapBlendReplace
+===================
+
+.. attributetable:: FixRaidenBoss2.VGRemapBlendReplace
+
+.. autoclass:: FixRaidenBoss2.VGRemapBlendReplace
     :members:
     :private-members:
 

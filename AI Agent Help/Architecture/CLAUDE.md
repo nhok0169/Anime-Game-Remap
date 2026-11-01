@@ -5,7 +5,15 @@ and the separate Cython extensions (`api/src/cy`). See [Building](../Building/CL
 compile, [Testing](../Testing/CLAUDE.md) to verify, and [Documentation](../Documentation/CLAUDE.md)
 for how these conventions show up in rendered docs.
 
-## EVERY C++ CLASS IS FOR PYTHON TOO (the maintainer, 2026-10-31)
+## EVERY C++ CLASS IS FOR PYTHON TOO (the maintainer, 2026-10-31) -- AND EVERY PYTHON CAPABILITY IS FOR C++ (2026-11-01)
+
+**The rule is an if and only if** (the maintainer, 2026-11-01: "the C++ side should also be as powerful as the python
+side"). A Python class whose binding overrides a core method to do the real work (`TexReplace`'s `buildResModel`
+building the edited texture, `RemapBlendReplace`'s remap read off a Python `ModType`) left a plain C++ caller with an
+edit that renamed everything and wrote nothing -- which is why `TexEditorReplace`, `TexCreatorCreate` and
+`VGRemapBlendReplace` exist. When binding, compare BOTH directions: what the C++ class has that Python lacks, and
+what the Python class (fields such as `fixFunc`, overridable methods) has that C++ lacks. Where the two already do one
+job, extend the existing Python class rather than binding a second one beside it.
 
 "Ideally we want all classes from C++ to be exposed to Python. A Python API User should have the same capability of
 using the API compared to a C++ API User." What that means in practice:

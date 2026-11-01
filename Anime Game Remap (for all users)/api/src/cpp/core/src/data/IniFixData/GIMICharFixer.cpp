@@ -459,7 +459,7 @@ namespace AGRemapCore {
                             const GraphId resGraph(group, "", texEdit.obj + "RemapTex" + texEdit.name);
 
                             auto replace = std::make_unique<TexEditorReplace<>>(
-                                resGraph, TexEditor({texEdit.filter}, texEdit.compress), resEditConfig(),
+                                resGraph, std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{texEdit.filter}, texEdit.compress), resEditConfig(),
                                 "resourceRemapTexEdit", texEdit.name);
 
                             // Which object this edit is for, so the file it writes is named per EDIT
@@ -515,7 +515,7 @@ namespace AGRemapCore {
                             const GraphId resGraph(group, "", texAdd.obj + "RemapTexAdd");
 
                             auto create = std::make_unique<TexCreatorCreate<>>(
-                                resGraph, texAdd.name, texAdd.texCreator, resEditConfig());
+                                resGraph, texAdd.name, std::make_shared<TexCreator>(texAdd.texCreator), resEditConfig());
 
                             auto collect = std::make_unique<Collector>();
                             collect->srcRegs = {{srcGraph, texAdd.reg}};

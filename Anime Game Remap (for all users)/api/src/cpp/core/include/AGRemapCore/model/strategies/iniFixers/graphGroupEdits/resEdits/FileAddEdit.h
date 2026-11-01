@@ -91,7 +91,7 @@ namespace AGRemapCore {
                  @rst
                  The contents computed when the file is written -- see
                  :cpp:member:`RemapFileAddResource::makeBytes` (a buffer made from files the run downloads
-                 first). Set, it replaces ef bytes. **Default**: empty
+                 first). Set, it replaces \ref bytes. **Default**: empty
                  @endrst
                  */
                 std::function<std::vector<std::uint8_t>()> makeBytes;

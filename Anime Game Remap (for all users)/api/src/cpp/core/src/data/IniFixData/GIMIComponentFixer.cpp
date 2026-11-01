@@ -1040,7 +1040,7 @@ namespace AGRemapCore {
 
                             auto replace = std::make_unique<TexEditorReplace<>>(
                                 GraphId(group, "", component_.slot + "RemapTexDiffuse"),
-                                TexEditor({entry.second}, config_.compressTextures, config_.mipmaps), resEditConfig(),
+                                std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{entry.second}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                 "resourceRemapTexEdit", std::string("Diffuse"));
 
                             // TWO OBJECTS ON ONE DIFFUSE (2026-10-24): Aether9 draws his head and body from
@@ -1106,7 +1106,7 @@ namespace AGRemapCore {
                                 const std::string suffix = (i == 0) ? std::string() : ("Diffuse" + std::to_string(i));
                                 auto replace = std::make_unique<TexEditorReplace<>>(
                                     GraphId(group, "", component_.slot + "RemapTexLightMap" + suffix),
-                                    TexEditor({filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
+                                    std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                     "resourceRemapTexEdit", std::string("LightMap") + suffix);
                                 if (i > 0) {
                                     replace->modObj = name + "LightMap" + std::to_string(i);
@@ -1176,7 +1176,7 @@ namespace AGRemapCore {
                         // The flat normal map, created on the scratch register the shift filled.
                         auto create = std::make_unique<TexCreatorCreate<>>(
                             GraphId(group, "", component_.slot + "RemapNormal"), "NormalMap",
-                            TexCreator(config_.flatNormalSize, config_.flatNormalSize, config_.flatNormal, true, config_.mipmaps),
+                            std::make_shared<TexCreator>(config_.flatNormalSize, config_.flatNormalSize, config_.flatNormal, true, config_.mipmaps),
                             resEditConfig());
 
                         auto collect = std::make_unique<Collector>();

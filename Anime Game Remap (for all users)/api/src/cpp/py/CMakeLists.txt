@@ -145,6 +145,8 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyBlendEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyBufEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyTexEdit.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyFileEdit.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyVGRemapBlendEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyResRegCollect.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphCollect.cpp
     src/model/strategies/iniFixers/PyGraphEditVariables.cpp

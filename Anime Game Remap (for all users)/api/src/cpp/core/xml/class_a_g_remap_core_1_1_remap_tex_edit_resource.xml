@@ -5,20 +5,44 @@
     <basecompoundref refid="class_a_g_remap_core_1_1_remap_ini_fix_resource" prot="public" virt="non-virtual">AGRemapCore::RemapIniFixResource</basecompoundref>
     <includes refid="_remap_tex_resource_8h" local="no">RemapTexResource.h</includes>
     <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1afacf14ab1a9b2ddb8f298bf241c09b09" prot="public" static="no" mutable="no">
-        <type><ref refid="class_a_g_remap_core_1_1_tex_editor" kindref="compound">TexEditor</ref></type>
-        <definition>TexEditor AGRemapCore::RemapTexEditResource::texEditor</definition>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1af7bc9587daf7a64785f4ecdb8c6a6306" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_tex_editor" kindref="compound">BaseTexEditor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;BaseTexEditor&gt; AGRemapCore::RemapTexEditResource::texEditor</definition>
         <argsstring></argsstring>
         <name>texEditor</name>
         <qualifiedname>AGRemapCore::RemapTexEditResource::texEditor</qualifiedname>
         <briefdescription>
-<para>The texture editor used to edit the <computeroutput>.dds</computeroutput> file. </para>
         </briefdescription>
         <detaileddescription>
+<para><verbatim>embed:rst 
+The texture editor used to edit the ``.dds`` file -- held through its base, so a subclass&apos;s
+:cpp:func:`BaseTexEditor::fix` (a `Python`_ one included) is the one that runs, and shared with
+whoever handed it over. ``nullptr`` edits nothing
+</verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="151" column="23" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="151" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="174" column="29" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a330d8eb857f38d746c67eef63138d2b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapTexEditResource::compressAllowed</definition>
+        <argsstring></argsstring>
+        <name>compressAllowed</name>
+        <qualifiedname>AGRemapCore::RemapTexEditResource::compressAllowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the edited texture may be written compressed. ``false`` runs \ref texEditor with its
+compression off -- when it is a :cpp:class:`TexEditor` -- and puts its own setting back afterwards,
+so an editor shared with other resources is left as it was. **Default**: ``true``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="184" column="18" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="184" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1aaa12c875d83102b57ac2c5919ae934b1" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_tex_cache" kindref="compound">TexCache</ref> *</type>
@@ -38,10 +62,10 @@ The run&apos;s texture cache, or ``nullptr`` for none -- handed over by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="161" column="22" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="161" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="194" column="22" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="194" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a9ef99f9b5c8b35a961839f72302e33e8" prot="public" static="no" mutable="no">
-        <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a1c6accd4d1ac9d50b054db6e30ffddf0" kindref="member">RemapTexEditResource</ref> &amp;)&gt;</type>
+        <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a8492b13eb9539d8bc305391d8ec21e11" kindref="member">RemapTexEditResource</ref> &amp;)&gt;</type>
         <definition>std::function&lt;bool(RemapTexEditResource&amp;)&gt; AGRemapCore::RemapTexEditResource::fixFunc</definition>
         <argsstring></argsstring>
         <name>fixFunc</name>
@@ -53,7 +77,7 @@ The run&apos;s texture cache, or ``nullptr`` for none -- handed over by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="166" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="166" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="199" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="199" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_fix_resource_1a3ce7acb06c3113444317ead9d91e3ca8" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -142,10 +166,10 @@ for exactly as long as this resource holds it
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a1c6accd4d1ac9d50b054db6e30ffddf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a8492b13eb9539d8bc305391d8ec21e11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>AGRemapCore::RemapTexEditResource::RemapTexEditResource</definition>
-        <argsstring>(const std::string &amp;iniFolderPath, const std::string &amp;srcPath, const std::string &amp;fixedPath, TexEditor texEditor, std::string type=&quot;resourceRemapTexEdit&quot;, std::function&lt; bool(RemapTexEditResource &amp;)&gt; fixFunc=nullptr)</argsstring>
+        <argsstring>(const std::string &amp;iniFolderPath, const std::string &amp;srcPath, const std::string &amp;fixedPath, std::shared_ptr&lt; BaseTexEditor &gt; texEditor, std::string type=&quot;resourceRemapTexEdit&quot;, std::function&lt; bool(RemapTexEditResource &amp;)&gt; fixFunc=nullptr)</argsstring>
         <name>RemapTexEditResource</name>
         <qualifiedname>AGRemapCore::RemapTexEditResource::RemapTexEditResource</qualifiedname>
         <param>
@@ -161,7 +185,7 @@ for exactly as long as this resource holds it
           <declname>fixedPath</declname>
         </param>
         <param>
-          <type><ref refid="class_a_g_remap_core_1_1_tex_editor" kindref="compound">TexEditor</ref></type>
+          <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_tex_editor" kindref="compound">BaseTexEditor</ref> &gt;</type>
           <declname>texEditor</declname>
         </param>
         <param>
@@ -231,7 +255,7 @@ for exactly as long as this resource holds it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="143" column="13" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="71" bodyend="75"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="161" column="13" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="102" bodyend="106"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a15e9b71614b930c7cc28f9decb170de9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -263,7 +287,7 @@ for exactly as long as this resource holds it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="168" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="77" bodyend="79"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="201" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="108" bodyend="110"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a736a92ad4203cbb2da34aedb03f2c671" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -295,7 +319,7 @@ for exactly as long as this resource holds it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="169" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="81" bodyend="83"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="202" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="112" bodyend="114"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a12493a0ca8ad236d842b53bf7460f130" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -327,7 +351,7 @@ for exactly as long as this resource holds it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="170" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="85" bodyend="87"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="203" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="116" bodyend="118"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1ae594c18d600de30d20c3d46a3f5b1889" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -359,7 +383,7 @@ for exactly as long as this resource holds it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="171" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="89" bodyend="91"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="204" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="120" bodyend="122"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a653ddb62aafb68b21a007adea815e6e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -377,7 +401,7 @@ for exactly as long as this resource holds it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="178" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="100" bodyend="111"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="211" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="135" bodyend="146"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_resource_1ab3e243f4ef62ea99c38095373d7f940f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -511,7 +535,7 @@ for exactly as long as this resource holds it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="187" column="26" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="93" bodyend="98"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="220" column="26" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="124" bodyend="133"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -566,10 +590,6 @@ has only the one path, which is why that class sits on :cpp:class:`AGRemapCore::
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="7">
-        <label>AGRemapCore::BaseTexEditor</label>
-        <link refid="class_a_g_remap_core_1_1_base_tex_editor"/>
-      </node>
       <node id="3">
         <label>AGRemapCore::IniFixResource</label>
         <link refid="class_a_g_remap_core_1_1_ini_fix_resource"/>
@@ -598,26 +618,18 @@ has only the one path, which is why that class sits on :cpp:class:`AGRemapCore::
         <childnode refid="2" relation="public-inheritance">
         </childnode>
         <childnode refid="6" relation="usage">
-          <edgelabel>texEditor</edgelabel>
-        </childnode>
-        <childnode refid="8" relation="usage">
           <edgelabel>texCache</edgelabel>
         </childnode>
       </node>
-      <node id="8">
+      <node id="6">
         <label>AGRemapCore::TexCache</label>
         <link refid="class_a_g_remap_core_1_1_tex_cache"/>
       </node>
-      <node id="6">
-        <label>AGRemapCore::TexEditor</label>
-        <link refid="class_a_g_remap_core_1_1_tex_editor"/>
-        <childnode refid="7" relation="public-inheritance">
-        </childnode>
-      </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="130" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="130" bodyend="188"/>
+    <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="148" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="148" bodyend="221"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1af97e1898746336df5fca8a43ba2ebb61" prot="protected" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>_fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a330d8eb857f38d746c67eef63138d2b8" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>compressAllowed</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a653ddb62aafb68b21a007adea815e6e3" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>fix</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_resource_1a3ce7acb06c3113444317ead9d91e3ca8" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>fixedPath</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a12493a0ca8ad236d842b53bf7460f130" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>fixEncounteredError</name></member>
@@ -628,12 +640,12 @@ has only the one path, which is why that class sits on :cpp:class:`AGRemapCore::
       <member refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a937e1e64d43384b1ee81e234f0f0a035" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>IniFixResource</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>IniResource</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>logger</name></member>
-      <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a1c6accd4d1ac9d50b054db6e30ffddf0" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>RemapTexEditResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a8492b13eb9539d8bc305391d8ec21e11" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>RemapTexEditResource</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a15e9b71614b930c7cc28f9decb170de9" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>srcEncounteredError</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a736a92ad4203cbb2da34aedb03f2c671" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>srcIsFixed</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>srcPath</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1aaa12c875d83102b57ac2c5919ae934b1" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>texCache</name></member>
-      <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1afacf14ab1a9b2ddb8f298bf241c09b09" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>texEditor</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1af7bc9587daf7a64785f4ecdb8c6a6306" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>texEditor</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1a1a89276cd64472806d89e52ec4bed401" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>type</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1ab4dc362ba0c8f578c5ff9b753378cf87" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>~IniResource</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1aab8ed5f480a8417202e9ce5029145ba3" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>~RemapIniResourceMixin</name></member>

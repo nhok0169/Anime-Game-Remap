@@ -17,8 +17,11 @@
 #include <functional>
 #include <string>
 
+#include <memory>
+
 #include "AGRemapCore/model/files/TexCache.h"
 #include "AGRemapCore/model/iniresources/RemapIniResource.h"
+#include "AGRemapCore/model/strategies/texEditors/BaseTexEditor.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 
@@ -49,13 +52,28 @@ namespace AGRemapCore {
              * @param type The name for the type of resource
              * @param fixFunc Custom function for fixing the resource, overriding #_fix if given
              */
-            RemapTexAddResource(const std::string& iniFolderPath, const std::string& srcPath, TexCreator texCreator,
+            RemapTexAddResource(const std::string& iniFolderPath, const std::string& srcPath, std::shared_ptr<BaseTexEditor> texCreator,
                                  std::string type = "resourceRemapTexAdd", std::function<bool(RemapTexAddResource&)> fixFunc = nullptr);
 
             /**
-             * @brief The texture creator used to create the ``.dds`` file if it's missing
+             * @brief
+             @rst
+             The texture creator used to create the ``.dds`` file if it's missing -- held through its base, so
+             a subclass's :cpp:func:`BaseTexEditor::fix` (a `Python`_ one included) is the one that runs, and
+             shared with whoever handed it over. ``nullptr`` creates nothing
+             @endrst
              */
-            TexCreator texCreator;
+            std::shared_ptr<BaseTexEditor> texCreator;
+
+            /**
+             * @brief
+             @rst
+             Whether the created texture may be written compressed. ``false`` runs \ref texCreator with its
+             compression off -- when it is a :cpp:class:`TexCreator` -- and puts its own setting back afterwards,
+             so a creator shared with other resources is left as it was. **Default**: ``true``
+             @endrst
+             */
+            bool compressAllowed = true;
 
             /**
              * @brief
@@ -141,14 +159,29 @@ namespace AGRemapCore {
              * @param fixFunc Custom function for fixing the resource, overriding #_fix if given
              */
             RemapTexEditResource(const std::string& iniFolderPath, const std::string& srcPath,
-                                  const std::string& fixedPath, TexEditor texEditor,
+                                  const std::string& fixedPath, std::shared_ptr<BaseTexEditor> texEditor,
                                   std::string type = "resourceRemapTexEdit",
                                   std::function<bool(RemapTexEditResource&)> fixFunc = nullptr);
 
             /**
-             * @brief The texture editor used to edit the ``.dds`` file
+             * @brief
+             @rst
+             The texture editor used to edit the ``.dds`` file -- held through its base, so a subclass's
+             :cpp:func:`BaseTexEditor::fix` (a `Python`_ one included) is the one that runs, and shared with
+             whoever handed it over. ``nullptr`` edits nothing
+             @endrst
              */
-            TexEditor texEditor;
+            std::shared_ptr<BaseTexEditor> texEditor;
+
+            /**
+             * @brief
+             @rst
+             Whether the edited texture may be written compressed. ``false`` runs \ref texEditor with its
+             compression off -- when it is a :cpp:class:`TexEditor` -- and puts its own setting back afterwards,
+             so an editor shared with other resources is left as it was. **Default**: ``true``
+             @endrst
+             */
+            bool compressAllowed = true;
 
             /**
              * @brief

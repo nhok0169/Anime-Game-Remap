@@ -44,16 +44,13 @@ namespace AGRemapCore {
      correctly, rewrites the registers, reports success, and writes no file at all
      :raw-html:`<br />` :raw-html:`<br />`
 
-     This one was missing **two** overrides rather than one, which is why
-     :cpp:class:`TexCreate` is not merely inert from C++ but abstract:
+     This one supplies **two** overrides rather than one, which is why :cpp:class:`TexCreate` is not
+     merely inert from C++ but abstract:
 
-     ===================== ================================================================
-     :cpp:func:`buildResModel`  builds the :cpp:class:`RemapTexAddResource` that holds the
-                                :cpp:class:`TexCreator` and writes the ``.dds``
-     :cpp:func:`buildSection`   builds the ``[Resource...]`` `section`_ naming that file ---
-                                pure virtual on :cpp:class:`ResCreate`, since a created
-                                resource has no existing `section`_ to copy
-     ===================== ================================================================
+     * :cpp:func:`buildResModel` builds the :cpp:class:`RemapTexAddResource` that holds the creator
+       and writes the ``.dds``
+     * :cpp:func:`buildSection` builds the ``[Resource...]`` `section`_ naming that file -- pure
+       virtual on :cpp:class:`ResCreate`, since a created resource has no existing `section`_ to copy
 
      Use it through :cpp:class:`ResRegCollect`, exactly as the `blend`_ and the texture edit are:
 
@@ -63,8 +60,8 @@ namespace AGRemapCore {
         normalMapCollect_.resEdits = {{"head", normalMapCreate_.get()}};
 
      .. note::
-        The :cpp:class:`TexCreator` is held **by value**, for the same reason
-        :cpp:class:`TexEditorReplace` holds its editor that way
+        The creator is held through a ``std::shared_ptr`` to its base and shared by every resource
+        this builds, for the same reason :cpp:class:`TexEditorReplace` holds its editor that way
 
      .. note::
         The `sections`_ this builds are owned **here**, in \\ref sections_, because
@@ -87,29 +84,19 @@ namespace AGRemapCore {
             using Section = typename Base::Section;
 
             /**
-             * @brief The creator that produces every texture this resource edit adds
-             */
-            TexCreator texCreator;
-
-            /**
              * @brief
              @rst
-             The textures to create under the names their registers already give them, as
-             ``section name -> file`` (relative to the ``.ini`` file) :raw-html:`<br />` :raw-html:`<br />`
-
-             Set, a collected resource keeps its name, only the `sections`_ listed here are built, and
-             each names its file -- for a fix that names its created textures itself. Empty (the
-             default), every collected resource is renamed from the mod's name and the texture's (see
-             :cpp:func:`TexCreate::getFixResourceName`) and its file from that
+             The creator that produces every texture this resource edit adds -- held through its base, so a
+             subclass's :cpp:func:`BaseTexEditor::fix` (a `Python`_ one included) is the one that runs, and
+             shared by every resource built
              @endrst
              */
-            std::unordered_map<std::string, std::string> files;
+            std::shared_ptr<BaseTexEditor> texCreator;
 
             /**
-             * @brief ``std::nullopt`` when \ref files is set: the resource keeps its register's name.
-             *        Otherwise :cpp:func:`TexCreate::getFixResourceName`
+             * @brief What fixes each built resource in place of running \ref texCreator, or empty. **Default**: empty
              */
-            std::optional<std::string> getFixResourceName(const std::string& resource, const std::string& modName = "") const override;
+            std::function<bool(RemapTexAddResource&)> fixFunc;
 
             /**
              * @brief Constructs a new texture-creating resource edit
@@ -120,7 +107,7 @@ namespace AGRemapCore {
              * @param config The domain customization points this instance uses
              * @param resType The name of the type of resource. **Default**: ``"resourceRemapTexAdd"``
              */
-            TexCreatorCreate(GraphId resModObj, std::string texName, TexCreator texCreator,
+            TexCreatorCreate(GraphId resModObj, std::string texName, std::shared_ptr<BaseTexEditor> texCreator,
                               ResEditConfig config, std::string resType = "resourceRemapTexAdd");
 
             /**

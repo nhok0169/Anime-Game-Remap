@@ -49,10 +49,9 @@ namespace AGRemapCore {
         faceCollect_.resEdits = {{"face", faceReplace_.get()}};
 
      .. note::
-        The :cpp:class:`TexEditor` is held **by value**. It is small (a vector of
-        ``std::function``\\ s), it has to outlive every resource this builds, and copying it is what
-        lets one fixer hand the same edit to several resources without owning a separate lifetime
-        for it
+        The editor is held through a ``std::shared_ptr`` to its base and SHARED by every resource this
+        builds, so a subclass's own :cpp:func:`BaseTexEditor::fix` -- a `Python`_ :class:`TexEditor`'s
+        included -- is the one that runs. A copy of the base would drop it
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -69,9 +68,19 @@ namespace AGRemapCore {
             using Context = typename Base::Context;
 
             /**
-             * @brief The editor run over every texture this resource edit collects
+             * @brief
+             @rst
+             The editor run over every texture this resource edit collects -- held through its base, so a
+             subclass's :cpp:func:`BaseTexEditor::fix` (a `Python`_ one included) is the one that runs, and
+             shared by every resource built
+             @endrst
              */
-            TexEditor texEditor;
+            std::shared_ptr<BaseTexEditor> texEditor;
+
+            /**
+             * @brief What fixes each built resource in place of running \ref texEditor, or empty. **Default**: empty
+             */
+            std::function<bool(RemapTexEditResource&)> fixFunc;
 
             /**
              * @brief Constructs a new editing texture resource edit
@@ -82,7 +91,7 @@ namespace AGRemapCore {
              * @param resType The name of the type of resource. **Default**: ``"resourceRemapTexEdit"``
              * @param resSubType The name of the subtype of the resource, folded into every fixed name. **Default**: none
              */
-            TexEditorReplace(GraphId resModObj, TexEditor texEditor, ResEditConfig config,
+            TexEditorReplace(GraphId resModObj, std::shared_ptr<BaseTexEditor> texEditor, ResEditConfig config,
                               std::string resType = "resourceRemapTexEdit",
                               std::optional<std::string> resSubType = std::nullopt);
 

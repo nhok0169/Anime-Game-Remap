@@ -18,6 +18,8 @@
 
 #include <filesystem>
 
+#include "AGRemapCore/constants/FileExt.h"
+#include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/tools/TextTools.h"
 #include "AGRemapCore/tools/files/FileService.h"
@@ -38,8 +40,31 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::optional<std::string> TexCreate<K, V, KeyHash, KeyEqual>::fileOfSection(const std::string& sectionName,
+                                                                                const std::string& modName) const {
+        if (!files.empty()) {
+            const auto found = files.find(sectionName);
+            return found == files.end() ? std::nullopt : std::optional<std::string>(found->second);
+        }
+
+        // The leading "Resource" comes off to recover the file's base name -- the pure-Python
+        // original's own sectionName[len(IniKeywords.Resource):] slice
+        std::string fileBaseName = sectionName;
+        if (sectionName.rfind(IniKeywords::Resource, 0) == 0) {
+            fileBaseName = sectionName.substr(IniKeywords::Resource.size());
+        }
+        return this->getFixFile(fileBaseName + FileExt::DDS, modName);
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     std::optional<std::string> TexCreate<K, V, KeyHash, KeyEqual>::getFixResourceName(const std::string& resource,
                                                                                        const std::string& modName) const {
+        // the fix names its own textures: the resource keeps the name its register gives it
+        if (!files.empty()) {
+            return std::nullopt;
+        }
+
         // 'resource' is deliberately discarded: a created texture has no original resource name to
         // build on, so the name comes entirely from the mod being fixed to and the texture type.
         (void)resource;

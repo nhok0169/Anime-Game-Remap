@@ -59,6 +59,33 @@ namespace AGRemapCore {
             std::string texName;
 
             /**
+             * @brief
+             @rst
+             The textures to create under the names their registers already give them, as
+             ``section name -> file`` (relative to the ``.ini`` file) :raw-html:`<br />` :raw-html:`<br />`
+
+             Set, a collected resource keeps its name (:cpp:func:`getFixResourceName` answers ``std::nullopt``),
+             only the `sections`_ listed here are built, and each names its file -- for a fix that names its
+             created textures itself. Empty (the default), every collected resource is renamed from the mod's
+             name and the texture's, and its file from that
+             @endrst
+             */
+            std::unordered_map<std::string, std::string> files;
+
+            /**
+             * @brief
+             @rst
+             The file the `section`_ 'sectionName' names: its entry in \ref files when that is set (and
+             ``std::nullopt`` for a name it does not list, which builds no `section`_), otherwise
+             :cpp:func:`getFixFile` of the `section`_'s name without its leading ``Resource``, as a ``.dds``
+             @endrst
+             *
+             * @param sectionName The name of the `section`_ to build
+             * @param modName The name of the mod to fix to
+             */
+            std::optional<std::string> fileOfSection(const std::string& sectionName, const std::string& modName) const;
+
+            /**
              * @brief Constructs a new texture-creating resource edit
              *
              * @param resModObj The mod object to hold the newly created graph for the resource

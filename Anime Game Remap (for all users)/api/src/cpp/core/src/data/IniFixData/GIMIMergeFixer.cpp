@@ -1557,7 +1557,7 @@ namespace AGRemapCore {
 
                             auto replace = std::make_unique<TexEditorReplace<>>(
                                 GraphId(0, "", obj + "RemapTexDiffuse"),
-                                TexEditor({*filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
+                                std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{*filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                 "resourceRemapTexEdit", std::string("Diffuse"));
 
                             auto collect = std::make_unique<Collector>();
@@ -1586,7 +1586,7 @@ namespace AGRemapCore {
 
                             auto replace = std::make_unique<TexEditorReplace<>>(
                                 GraphId(0, member.first, member.second + "RemapTexDiffuse"),
-                                TexEditor({*filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
+                                std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{*filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                 "resourceRemapTexEdit", std::string("Diffuse"));
 
                             auto collect = std::make_unique<Collector>();
@@ -1629,7 +1629,7 @@ namespace AGRemapCore {
 
                         auto replace = std::make_unique<TexEditorReplace<>>(
                             GraphId(0, "", obj + "RemapTexLightMap"),
-                            TexEditor({filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
+                            std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                             "resourceRemapTexEdit", std::string("LightMap"));
 
                         auto collect = std::make_unique<Collector>();
@@ -1688,7 +1688,7 @@ namespace AGRemapCore {
 
                             auto replace = std::make_unique<TexEditorReplace<>>(
                                 GraphId(0, member.first, member.second + "RemapTexLightMap"),
-                                TexEditor({filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
+                                std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                 "resourceRemapTexEdit", std::string("LightMap"));
 
                             auto collect = std::make_unique<Collector>();

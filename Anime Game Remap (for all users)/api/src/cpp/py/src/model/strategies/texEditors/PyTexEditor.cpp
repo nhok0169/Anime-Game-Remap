@@ -19,6 +19,7 @@
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 #include "AGRemapCore/model/strategies/texEditors/BaseTexEditor.h"
+#include "PyTexEditorTrampoline.h"
 #include "../../../tools/PyRefFunction.h"
 
 namespace py = pybind11;
@@ -35,7 +36,7 @@ AGRC::TexEditor::Filter toTexFilter(const py::object &fn) {
 
 
 void initCppTexEditor(pybind11::module_ &m) {
-    py::class_<AGRC::TexEditor, AGRC::BaseTexEditor, py::smart_holder>(m, "CppTexEditor", R"doc(
+    py::class_<AGRC::TexEditor, PyTexEditorTrampoline<AGRC::TexEditor>, AGRC::BaseTexEditor, py::smart_holder>(m, "CppTexEditor", R"doc(
 This class inherits from :class:`CppBaseTexEditor`
 
 The pure-C++-SDK-facing engine behind :class:`TexEditor` -- runs a fixed sequence of
@@ -50,7 +51,8 @@ filter list was passed to the constructor.
     )doc")
 
         .def(py::init([](bool compress, bool mipmaps) {
-                 return std::make_unique<AGRC::TexEditor>(std::vector<AGRC::TexEditor::Filter>{}, compress, mipmaps);
+                 // the trampoline, so a Python subclass's fix is the one C++ reaches
+                 return std::make_unique<PyTexEditorTrampoline<AGRC::TexEditor>>(std::vector<AGRC::TexEditor::Filter>{}, compress, mipmaps);
              }),
              py::arg("compress") = true, py::arg("mipmaps") = false)
 

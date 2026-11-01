@@ -992,6 +992,17 @@ FileAddCreate
 
 :raw-html:`<br />`
 
+FileDownloadCreate
+------------------
+
+.. cppattributetable:: AGRemapCore::FileDownloadCreate
+
+.. doxygenclass:: AGRemapCore::FileDownloadCreate
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 FileRefAdd
 ----------
 
@@ -1278,6 +1289,28 @@ TexCreate
 
 :raw-html:`<br />`
 
+TexCreatorCreate
+----------------
+
+.. cppattributetable:: AGRemapCore::TexCreatorCreate
+
+.. doxygenclass:: AGRemapCore::TexCreatorCreate
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TexEditorReplace
+----------------
+
+.. cppattributetable:: AGRemapCore::TexEditorReplace
+
+.. doxygenclass:: AGRemapCore::TexEditorReplace
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 TexReplace
 ----------
 
@@ -1295,6 +1328,17 @@ VGMergeGroupResBuilder
 .. cppattributetable:: AGRemapCore::VGMergeGroupResBuilder
 
 .. doxygenclass:: AGRemapCore::VGMergeGroupResBuilder
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGRemapBlendReplace
+-------------------
+
+.. cppattributetable:: AGRemapCore::VGRemapBlendReplace
+
+.. doxygenclass:: AGRemapCore::VGRemapBlendReplace
     :members:
     :protected-members:
 

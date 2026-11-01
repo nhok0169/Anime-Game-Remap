@@ -21,7 +21,34 @@
 
 
 namespace AGRemapCore {
-    RemapTexAddResource::RemapTexAddResource(const std::string& iniFolderPath, const std::string& srcPath, TexCreator texCreator,
+    namespace {
+        // Runs 'fix' with a TexEditor's or TexCreator's compression off for its duration when
+        // 'compressAllowed' is false, and puts the editor's own setting back however 'fix' ends
+        template <typename Fn>
+        void withCompression(BaseTexEditor* editor, bool compressAllowed, Fn&& fix) {
+            TexEditor* texEditor = compressAllowed ? nullptr : dynamic_cast<TexEditor*>(editor);
+            TexCreator* texCreator = compressAllowed ? nullptr : dynamic_cast<TexCreator*>(editor);
+            const bool was = texEditor != nullptr ? texEditor->getCompress() : (texCreator != nullptr && texCreator->compress);
+            const auto set = [&](bool compress) {
+                if (texEditor != nullptr) {
+                    texEditor->setCompress(compress);
+                } else if (texCreator != nullptr) {
+                    texCreator->compress = compress;
+                }
+            };
+
+            set(false);
+            try {
+                fix();
+            } catch (...) {
+                set(was);
+                throw;
+            }
+            set(was);
+        }
+    }
+
+    RemapTexAddResource::RemapTexAddResource(const std::string& iniFolderPath, const std::string& srcPath, std::shared_ptr<BaseTexEditor> texCreator,
                                               std::string type, std::function<bool(RemapTexAddResource&)> fixFunc):
         RemapIniResource(std::move(type), iniFolderPath, srcPath), texCreator(std::move(texCreator)), fixFunc(std::move(fixFunc)) {}
 
@@ -47,9 +74,13 @@ namespace AGRemapCore {
     }
 
     bool RemapTexAddResource::_fix() {
+        if (texCreator == nullptr) {
+            return true;
+        }
+
         TextureFile texture(srcPath);
         texture.setCache(texCache);
-        texCreator.fix(texture, srcPath);
+        withCompression(texCreator.get(), compressAllowed, [&] { texCreator->fix(texture, srcPath); });
         return true;
     }
 
@@ -69,7 +100,7 @@ namespace AGRemapCore {
     }
 
     RemapTexEditResource::RemapTexEditResource(const std::string& iniFolderPath, const std::string& srcPath,
-                                                const std::string& fixedPath, TexEditor texEditor, std::string type,
+                                                const std::string& fixedPath, std::shared_ptr<BaseTexEditor> texEditor, std::string type,
                                                 std::function<bool(RemapTexEditResource&)> fixFunc):
         RemapIniFixResource(std::move(type), iniFolderPath, srcPath, fixedPath), texEditor(std::move(texEditor)),
         fixFunc(std::move(fixFunc)) {}
@@ -91,9 +122,13 @@ namespace AGRemapCore {
     }
 
     bool RemapTexEditResource::_fix() {
+        if (texEditor == nullptr) {
+            return true;
+        }
+
         TextureFile texture(srcPath);
         texture.setCache(texCache);
-        texEditor.fix(texture, fixedPath);
+        withCompression(texEditor.get(), compressAllowed, [&] { texEditor->fix(texture, fixedPath); });
         return true;
     }
 

@@ -105,6 +105,15 @@ Optional[Callable[[:class:`RemapTexAddResource`], :class:`bool`]]: The custom fu
 the texture
     )doc"));
 
+    cls.def_readwrite("files", &PyTexCreate::files, py::doc(R"doc(
+Dict[:class:`str`, :class:`str`]: The textures to create under the names their registers already give them,
+as ``section name -> file`` (relative to the ``.ini`` file) :raw-html:`<br />` :raw-html:`<br />`
+
+Set, a collected resource keeps its name (:meth:`getFixResourceName` answers ``None``), only the `sections`_
+listed here are built, and each names its file -- for a fix that names its created textures itself. Empty (the
+default), every collected resource is renamed from the mod's name and the texture's, and its file from that
+    )doc"));
+
     cls.def("buildResModel", [](PyTexCreate &self, const std::string &resType, const py::object &ini,
                                 const std::string &srcPath, const py::object &modType, const py::args &,
                                 const std::string &modName, const py::kwargs &) -> py::object {
@@ -150,25 +159,32 @@ Returns
 
     cls.def("buildSection", [](PyTexCreate &self, const std::string &sectionName, const py::object &modType,
                                const std::string &modName) -> py::object {
-        // Strips the leading "Resource" from the section name to recover the file's base name --
-        // the pure-Python original's own sectionName[len(IniKeywords.Resource.value):] slice.
-        const std::string &resourcePrefix = AGRC::IniKeywords::Resource;
-        std::string fileBaseName = sectionName;
-        if (sectionName.rfind(resourcePrefix, 0) == 0) {
-            fileBaseName = sectionName.substr(resourcePrefix.size());
+        // The core's answer (TexCreate::fileOfSection: `files`, else getFixFile of the name without its
+        // "Resource"), asked under the modType this call was given -- getFixFile reaches Python through it
+        py::object previous = self.modTypeObj;
+        self.modTypeObj = modType;
+        std::optional<std::string> file;
+        try {
+            file = self.fileOfSection(sectionName, modName);
+        } catch (...) {
+            self.modTypeObj = previous;
+            throw;
+        }
+        self.modTypeObj = previous;
+
+        if (!file.has_value()) {
+            return py::none();
         }
 
-        py::object file = self.pySelf().attr("getFixFile")(py::str(fileBaseName + AGRC::FileExt::DDS), modType,
-                                                            py::arg("modName") = modName);
-
         py::dict src;
-        src[py::cast(std::string("filename"))] = py::make_tuple(py::make_tuple(0, file));
+        src[py::cast(std::string("filename"))] = py::make_tuple(py::make_tuple(0, py::str(*file)));
 
         py::object contentPart = pyCoreModule().attr("IfContentPart")(src, 0);
         return pyCoreModule().attr("IfTemplate")(py::make_tuple(contentPart), py::arg("name") = py::str(sectionName));
     }, py::arg("sectionName"), py::arg("modType") = py::none(), py::arg("modName") = "", py::doc(R"doc(
 Builds a `section`_ for the resource -- a single ``filename =`` `KVP`_ pointing at the ``.dds`` file
-this edit creates
+this edit creates: its entry in :attr:`files` when that is set, otherwise :meth:`getFixFile` of the
+`section`_'s name without its leading ``Resource``
 
 Parameters
 ----------
@@ -185,8 +201,8 @@ modName: :class:`str`
 
 Returns
 -------
-:class:`IfTemplate`
-    The generated `section`_
+Optional[:class:`IfTemplate`]
+    The generated `section`_, or ``None`` for a name :attr:`files` does not list
     )doc"));
 
     bindResEditCommonMethods(cls);

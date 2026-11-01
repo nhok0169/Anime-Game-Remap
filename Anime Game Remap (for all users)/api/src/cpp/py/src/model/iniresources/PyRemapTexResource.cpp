@@ -21,6 +21,7 @@
 #include <pybind11/stl.h>
 
 #include "AGRemapCore/model/iniresources/RemapTexResource.h"
+#include "AGRemapCore/model/strategies/texEditors/BaseTexEditor.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 #include "../../tools/PyRefFunction.h"
@@ -43,7 +44,7 @@ Class for adding a brand new texture file used by the overall remap process
 
         // 'fixFunc' through toPyRefFunction: pybind11's own conversion hands the callable a COPY of
         // the resource, so anything it set on the resource was lost.
-        .def(py::init([](const std::string &iniFolderPath, const std::string &srcPath, AGRC::TexCreator texCreator,
+        .def(py::init([](const std::string &iniFolderPath, const std::string &srcPath, std::shared_ptr<AGRC::BaseTexEditor> texCreator,
                          std::string type, const PyOptionalCallable<bool(AGRC::RemapTexAddResource&)> &fixFunc) {
                  return std::make_unique<AGRC::RemapTexAddResource>(iniFolderPath, srcPath, std::move(texCreator), std::move(type),
                                                                     toPyRefFunction<bool(AGRC::RemapTexAddResource&)>(fixFunc));
@@ -60,8 +61,9 @@ iniFolderPath: :class:`str`
 srcPath: :class:`str`
     The file path to the resource
 
-texCreator: :class:`CppTexCreator`
-    The texture creator used to create the ``.dds`` file if it's missing
+texCreator: :class:`CppBaseTexEditor`
+    The texture creator used to create the ``.dds`` file if it's missing -- eg. a :class:`TexCreator`. Held, not
+    copied, so a subclass's own :meth:`~CppBaseTexEditor.fix` is the one that runs
 
 type: :class:`str`
     The name for the type of resource
@@ -75,7 +77,15 @@ fixFunc: Optional[Callable[[:class:`RemapTexAddResource`], :class:`bool`]]
         )doc"))
 
         .def_readwrite("texCreator", &AGRC::RemapTexAddResource::texCreator, py::doc(R"doc(
-:class:`CppTexCreator`: The texture creator used to create the ``.dds`` file if it's missing
+Optional[:class:`CppBaseTexEditor`]: The texture creator used to create the ``.dds`` file if it's missing --
+held, not copied, so a subclass's own :meth:`~CppBaseTexEditor.fix` is the one that runs. ``None`` creates nothing
+        )doc"))
+        .def_readwrite("compressAllowed", &AGRC::RemapTexAddResource::compressAllowed, py::doc(R"doc(
+:class:`bool`: Whether the created texture may be written compressed. ``False`` runs :attr:`texCreator` with its
+compression off -- when it is a :class:`CppTexCreator` -- and puts its own setting back afterwards, so a creator
+shared with other resources is left as it was
+
+**Default**: ``True``
         )doc"))
 
         .def_property("fixFunc",
@@ -113,7 +123,7 @@ The texture counterpart to :class:`RemapBlendResource`, and shaped like it rathe
     )doc")
 
         .def(py::init([](const std::string &iniFolderPath, const std::string &srcPath, const std::string &fixedPath,
-                         AGRC::TexEditor texEditor, std::string type, const PyOptionalCallable<bool(AGRC::RemapTexEditResource&)> &fixFunc) {
+                         std::shared_ptr<AGRC::BaseTexEditor> texEditor, std::string type, const PyOptionalCallable<bool(AGRC::RemapTexEditResource&)> &fixFunc) {
                  return std::make_unique<AGRC::RemapTexEditResource>(iniFolderPath, srcPath, fixedPath, std::move(texEditor), std::move(type),
                                                                      toPyRefFunction<bool(AGRC::RemapTexEditResource&)>(fixFunc));
              }),
@@ -133,8 +143,9 @@ srcPath: :class:`str`
 fixedPath: :class:`str`
     The file path to the fixed resource
 
-texEditor: :class:`CppTexEditor`
-    The texture editor used to edit the ``.dds`` file
+texEditor: :class:`CppBaseTexEditor`
+    The texture editor used to edit the ``.dds`` file -- eg. a :class:`TexEditor`. Held, not copied, so a
+    subclass's own :meth:`~CppBaseTexEditor.fix` is the one that runs
 
 type: :class:`str`
     The name for the type of resource
@@ -148,7 +159,15 @@ fixFunc: Optional[Callable[[:class:`RemapTexEditResource`], :class:`bool`]]
         )doc"))
 
         .def_readwrite("texEditor", &AGRC::RemapTexEditResource::texEditor, py::doc(R"doc(
-:class:`CppTexEditor`: The texture editor used to edit the ``.dds`` file
+Optional[:class:`CppBaseTexEditor`]: The texture editor used to edit the ``.dds`` file -- held, not copied, so a
+subclass's own :meth:`~CppBaseTexEditor.fix` is the one that runs. ``None`` edits nothing
+        )doc"))
+        .def_readwrite("compressAllowed", &AGRC::RemapTexEditResource::compressAllowed, py::doc(R"doc(
+:class:`bool`: Whether the edited texture may be written compressed. ``False`` runs :attr:`texEditor` with its
+compression off -- when it is a :class:`CppTexEditor` -- and puts its own setting back afterwards, so an editor
+shared with other resources is left as it was
+
+**Default**: ``True``
         )doc"))
 
         .def_property("fixFunc",

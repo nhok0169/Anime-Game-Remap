@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexcoordFile', 'TexCreate', 'TexReplace', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsCreate', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMIRuntime', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexcoordFile', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsCreate', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMIRuntime', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -6241,6 +6241,106 @@ class DrawUVCoverage:
             The counts
         """
 
+class FileAddCreate(BaseResEdit):
+    """
+    
+    This class inherits from :class:`BaseResEdit`
+    
+    Creates a brand new file of contents the fix already knows -- eg. the constant buffer a ``CustomShader``
+    reads -- together with the ``[Resource...]`` `section`_ that names it
+    
+    Use it through :class:`ResRegCollect`: the collect finds the register naming the resource (eg.
+    ``ps-cb4 = ResourceShaderCB4``), and this edit builds the `section`_ of that name from :attr:`files` and a
+    :class:`RemapFileAddResource` that writes the file. The `section`_ keeps the name the register gives it,
+    and a name :attr:`files` does not list builds no `section`_
+    
+    Parameters
+    ----------
+    resModObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The mod object to hold the newly created :class:`IniSectionGraph` for the resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        The tuple contains:
+    
+        #. The index for the .ini file
+        #. The name of the component
+        #. The name of the object
+    
+    files: Dict[:class:`str`, :class:`FileAddCreate.File`]
+        The files to make, as ``section name -> file``
+    
+    resType: :class:`str`
+        The name of the type of resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``"resourceRemapFileAdd"``
+        
+    """
+    class File:
+        """
+        
+        One file a :class:`FileAddCreate` makes, and the `section`_ naming it
+        
+        Parameters
+        ----------
+        keys: List[Tuple[:class:`str`, :class:`str`]]
+            The `section`_'s keys before its ``filename =``, eg. ``type``, ``format``, ``stride``
+        
+        file: :class:`str`
+            The file, relative to the ``.ini`` file
+        
+        bytes: :class:`bytes`
+            The contents
+        
+        makeBytes: Optional[Callable[[], :class:`bytes`]]
+            The contents computed when the file is written, in place of ``bytes`` -- eg. a buffer made from files
+            the run downloads first. **Default**: ``None``
+            
+        """
+        def __init__(self, keys: collections.abc.Sequence[tuple[str, str]] = [], file: str = '', bytes: bytes = b'', makeBytes: typing.Any = None) -> None:
+            ...
+        @property
+        def bytes(self) -> bytes:
+            """
+            :class:`bytes`: The contents
+            """
+        @bytes.setter
+        def bytes(self, arg1: bytes) -> None:
+            ...
+        @property
+        def file(self) -> str:
+            """
+            :class:`str`: The file, relative to the ``.ini`` file
+            """
+        @file.setter
+        def file(self, arg0: str) -> None:
+            ...
+        @property
+        def keys(self) -> list[tuple[str, str]]:
+            """
+            List[Tuple[:class:`str`, :class:`str`]]: The `section`_'s keys before its ``filename =``
+            """
+        @keys.setter
+        def keys(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
+            ...
+        @property
+        def makeBytes(self) -> typing.Any:
+            """
+            Optional[Callable[[], :class:`bytes`]]: The contents computed when the file is written, in place of :attr:`bytes`
+            """
+        @makeBytes.setter
+        def makeBytes(self, arg1: typing.Any) -> None:
+            ...
+    def __init__(self, resModObj: typing.Any, files: collections.abc.Mapping[str, FileAddCreate.File] = {}, resType: str = 'resourceRemapFileAdd') -> None:
+        ...
+    @property
+    def files(self) -> dict[str, FileAddCreate.File]:
+        """
+        Dict[:class:`str`, :class:`FileAddCreate.File`]: The files to make, as ``section name -> file`` -- a copy is
+        handed back, so assign a whole new dictionary to change it
+        """
+    @files.setter
+    def files(self, arg0: collections.abc.Mapping[str, FileAddCreate.File]) -> None:
+        ...
+
 class FileDownload:
     """
     
@@ -6328,6 +6428,121 @@ class FileDownload:
     @url.setter
     def url(self, arg0: str) -> None:
         ...
+class FileDownloadCreate(BaseResEdit):
+    """
+    
+    This class inherits from :class:`BaseResEdit`
+    
+    Downloads a file the fix needs -- eg. the source character's own game texture for a role a mod ships no file
+    for -- together with the ``[Resource...]`` `section`_ that names it
+    
+    The download counterpart of :class:`FileAddCreate`, and used the same way, through :class:`ResRegCollect`.
+    The `section`_ keeps the name the register gives it, and a file the name :attr:`files` gives it: name a
+    download ``...RemapDL...``, the naming an undo recognises a download by. A name :attr:`files` does not list
+    builds no `section`_
+    
+    Parameters
+    ----------
+    resModObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The mod object to hold the newly created :class:`IniSectionGraph` for the resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        The tuple contains:
+    
+        #. The index for the .ini file
+        #. The name of the component
+        #. The name of the object
+    
+    files: Dict[:class:`str`, :class:`FileDownloadCreate.File`]
+        The files to download, as ``section name -> file``
+    
+    resType: :class:`str`
+        The name of the type of resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``"download"``
+        
+    """
+    class File:
+        """
+        
+        One file a :class:`FileDownloadCreate` downloads, and the `section`_ naming it
+        
+        Parameters
+        ----------
+        keys: List[Tuple[:class:`str`, :class:`str`]]
+            The `section`_'s keys before its ``filename =``
+        
+        file: :class:`str`
+            The file the `section`_ names, relative to the ``.ini`` file
+        
+        url: :class:`str`
+            Where the file is downloaded from
+        
+        texEdit: Optional[:class:`CppBaseTexEditor`]
+            An edit of the downloaded texture -- eg. a :class:`TexEditor` moving a light map's bands. Set, the
+            download goes to ``rawFile`` and the edit writes ``file`` from it, so the `section`_ names the EDITED
+            file. Held, not copied, so a subclass's own :meth:`~CppBaseTexEditor.fix` is the one that runs.
+            **Default**: ``None``, the download is ``file`` itself
+        
+        rawFile: :class:`str`
+            Where the download goes when there is a ``texEdit``, relative to the ``.ini`` file. Name it
+            ``...RemapDL...`` too: no `section`_ names it, and the undo recognises it by that name. **Default**: ``""``
+            
+        """
+        def __init__(self, keys: collections.abc.Sequence[tuple[str, str]] = [], file: str = '', url: str = '', texEdit: CppBaseTexEditor = None, rawFile: str = '') -> None:
+            ...
+        @property
+        def file(self) -> str:
+            """
+            :class:`str`: The file the `section`_ names, relative to the ``.ini`` file
+            """
+        @file.setter
+        def file(self, arg0: str) -> None:
+            ...
+        @property
+        def keys(self) -> list[tuple[str, str]]:
+            """
+            List[Tuple[:class:`str`, :class:`str`]]: The `section`_'s keys before its ``filename =``
+            """
+        @keys.setter
+        def keys(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
+            ...
+        @property
+        def rawFile(self) -> str:
+            """
+            :class:`str`: Where the download goes when there is a :attr:`texEdit`, relative to the ``.ini`` file
+            """
+        @rawFile.setter
+        def rawFile(self, arg0: str) -> None:
+            ...
+        @property
+        def texEdit(self) -> CppBaseTexEditor:
+            """
+            Optional[:class:`CppBaseTexEditor`]: An edit of the downloaded texture, or ``None`` -- held, not copied
+            """
+        @texEdit.setter
+        def texEdit(self, arg0: CppBaseTexEditor) -> None:
+            ...
+        @property
+        def url(self) -> str:
+            """
+            :class:`str`: Where the file is downloaded from
+            """
+        @url.setter
+        def url(self, arg0: str) -> None:
+            ...
+    def __init__(self, resModObj: typing.Any, files: collections.abc.Mapping[str, FileDownloadCreate.File] = {}, resType: str = 'download') -> None:
+        ...
+    @property
+    def files(self) -> dict[str, FileDownloadCreate.File]:
+        """
+        Dict[:class:`str`, :class:`FileDownloadCreate.File`]: The files to download, as ``section name -> file`` -- a copy
+        is handed back, so assign a whole new dictionary to change it
+        """
+    @files.setter
+    def files(self, arg0: collections.abc.Mapping[str, FileDownloadCreate.File]) -> None:
+        ...
+
+
 class FileExt:
     """
     
@@ -6348,6 +6563,42 @@ class FilePrefixes:
     DisabledPrefix: typing.ClassVar[str] = 'disabled'
     OldBackupFilePrefixV3: typing.ClassVar[str] = 'DISABLED_BossFixBackup_'
     OldBackupFilePrefixV4_3: typing.ClassVar[str] = 'DISABLED_RemapBackup_'
+class FileRefAdd(BaseResEdit):
+    """
+    
+    This class inherits from :class:`BaseResEdit`
+    
+    Creates a brand new file that a register names DIRECTLY by its path -- 3DMigoto's ``ps = <file>.hlsl`` in a
+    ``CustomShader``, which takes no ``[Resource...]`` `section`_
+    
+    Use it through :class:`ResRegCollect` like any other resource edit: the collect hands over each value of the
+    register, which here is the file itself, and this edit builds a :class:`RemapFileAddResource` for every value
+    :attr:`files` lists. It builds no graph and changes no register
+    
+    Parameters
+    ----------
+    files: Dict[:class:`str`, :class:`bytes`]
+        The files to make, as ``file -> contents``, each file as the register names it
+    
+    resType: :class:`str`
+        The name of the type of resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``"resourceRemapFileAdd"``
+        
+    """
+    def __init__(self, files: dict = {}, resType: str = 'resourceRemapFileAdd') -> None:
+        ...
+    @property
+    def files(self) -> dict:
+        """
+        Dict[:class:`str`, :class:`bytes`]: The files to make, as ``file -> contents`` -- a copy is handed back, so assign
+        a whole new dictionary to change it
+        """
+    @files.setter
+    def files(self, arg1: dict) -> None:
+        ...
+
+
 class FileStats:
     """
     
@@ -24493,7 +24744,7 @@ class RemapTexAddResource(RemapIniResource):
     Class for adding a brand new texture file used by the overall remap process
         
     """
-    def __init__(self, iniFolderPath: str, srcPath: str, texCreator: CppTexCreator, type: str = 'resourceRemapTexAdd', fixFunc: collections.abc.Callable[[RemapTexAddResource], bool] | None = None) -> None:
+    def __init__(self, iniFolderPath: str, srcPath: str, texCreator: CppBaseTexEditor, type: str = 'resourceRemapTexAdd', fixFunc: collections.abc.Callable[[RemapTexAddResource], bool] | None = None) -> None:
         """
         Constructs a new texture-add resource
         
@@ -24505,8 +24756,9 @@ class RemapTexAddResource(RemapIniResource):
         srcPath: :class:`str`
             The file path to the resource
         
-        texCreator: :class:`CppTexCreator`
-            The texture creator used to create the ``.dds`` file if it's missing
+        texCreator: :class:`CppBaseTexEditor`
+            The texture creator used to create the ``.dds`` file if it's missing -- eg. a :class:`TexCreator`. Held, not
+            copied, so a subclass's own :meth:`~CppBaseTexEditor.fix` is the one that runs
         
         type: :class:`str`
             The name for the type of resource
@@ -24529,6 +24781,18 @@ class RemapTexAddResource(RemapIniResource):
             Whether the resource was fixed
         """
     @property
+    def compressAllowed(self) -> bool:
+        """
+        :class:`bool`: Whether the created texture may be written compressed. ``False`` runs :attr:`texCreator` with its
+        compression off -- when it is a :class:`CppTexCreator` -- and puts its own setting back afterwards, so a creator
+        shared with other resources is left as it was
+        
+        **Default**: ``True``
+        """
+    @compressAllowed.setter
+    def compressAllowed(self, arg0: bool) -> None:
+        ...
+    @property
     def fixFunc(self) -> collections.abc.Callable[[RemapTexAddResource], bool] | None:
         """
         Optional[Callable[[:class:`RemapTexAddResource`], :class:`bool`]]: Custom function for fixing the resource, overriding the default behavior if set
@@ -24537,12 +24801,13 @@ class RemapTexAddResource(RemapIniResource):
     def fixFunc(self, arg1: collections.abc.Callable[[RemapTexAddResource], bool] | None) -> None:
         ...
     @property
-    def texCreator(self) -> CppTexCreator:
+    def texCreator(self) -> CppBaseTexEditor:
         """
-        :class:`CppTexCreator`: The texture creator used to create the ``.dds`` file if it's missing
+        Optional[:class:`CppBaseTexEditor`]: The texture creator used to create the ``.dds`` file if it's missing --
+        held, not copied, so a subclass's own :meth:`~CppBaseTexEditor.fix` is the one that runs. ``None`` creates nothing
         """
     @texCreator.setter
-    def texCreator(self, arg0: CppTexCreator) -> None:
+    def texCreator(self, arg0: CppBaseTexEditor) -> None:
         ...
 class RemapTexEditResource(RemapIniFixResource):
     """
@@ -24556,7 +24821,7 @@ class RemapTexEditResource(RemapIniFixResource):
     ``srcPath``/``fixedPath`` pair. An *add* has only the one path
         
     """
-    def __init__(self, iniFolderPath: str, srcPath: str, fixedPath: str, texEditor: CppTexEditor, type: str = 'resourceRemapTexEdit', fixFunc: collections.abc.Callable[[RemapTexEditResource], bool] | None = None) -> None:
+    def __init__(self, iniFolderPath: str, srcPath: str, fixedPath: str, texEditor: CppBaseTexEditor, type: str = 'resourceRemapTexEdit', fixFunc: collections.abc.Callable[[RemapTexEditResource], bool] | None = None) -> None:
         """
         Constructs a new texture-edit resource
         
@@ -24571,8 +24836,9 @@ class RemapTexEditResource(RemapIniFixResource):
         fixedPath: :class:`str`
             The file path to the fixed resource
         
-        texEditor: :class:`CppTexEditor`
-            The texture editor used to edit the ``.dds`` file
+        texEditor: :class:`CppBaseTexEditor`
+            The texture editor used to edit the ``.dds`` file -- eg. a :class:`TexEditor`. Held, not copied, so a
+            subclass's own :meth:`~CppBaseTexEditor.fix` is the one that runs
         
         type: :class:`str`
             The name for the type of resource
@@ -24595,6 +24861,18 @@ class RemapTexEditResource(RemapIniFixResource):
             Whether the resource was fixed
         """
     @property
+    def compressAllowed(self) -> bool:
+        """
+        :class:`bool`: Whether the edited texture may be written compressed. ``False`` runs :attr:`texEditor` with its
+        compression off -- when it is a :class:`CppTexEditor` -- and puts its own setting back afterwards, so an editor
+        shared with other resources is left as it was
+        
+        **Default**: ``True``
+        """
+    @compressAllowed.setter
+    def compressAllowed(self, arg0: bool) -> None:
+        ...
+    @property
     def fixFunc(self) -> collections.abc.Callable[[RemapTexEditResource], bool] | None:
         """
         Optional[Callable[[:class:`RemapTexEditResource`], :class:`bool`]]: Custom function for fixing the resource, overriding the default behavior if set
@@ -24603,12 +24881,13 @@ class RemapTexEditResource(RemapIniFixResource):
     def fixFunc(self, arg1: collections.abc.Callable[[RemapTexEditResource], bool] | None) -> None:
         ...
     @property
-    def texEditor(self) -> CppTexEditor:
+    def texEditor(self) -> CppBaseTexEditor:
         """
-        :class:`CppTexEditor`: The texture editor used to edit the ``.dds`` file
+        Optional[:class:`CppBaseTexEditor`]: The texture editor used to edit the ``.dds`` file -- held, not copied, so a
+        subclass's own :meth:`~CppBaseTexEditor.fix` is the one that runs. ``None`` edits nothing
         """
     @texEditor.setter
-    def texEditor(self, arg0: CppTexEditor) -> None:
+    def texEditor(self, arg0: CppBaseTexEditor) -> None:
         ...
 class RemappedKeyData:
     """
@@ -27356,7 +27635,8 @@ class TexCreate(BaseResEdit):
     def buildSection(self, sectionName: str, modType: typing.Any = None, modName: str = '') -> typing.Any:
         """
         Builds a `section`_ for the resource -- a single ``filename =`` `KVP`_ pointing at the ``.dds`` file
-        this edit creates
+        this edit creates: its entry in :attr:`files` when that is set, otherwise :meth:`getFixFile` of the
+        `section`_'s name without its leading ``Resource``
         
         Parameters
         ----------
@@ -27373,8 +27653,8 @@ class TexCreate(BaseResEdit):
         
         Returns
         -------
-        :class:`IfTemplate`
-            The generated `section`_
+        Optional[:class:`IfTemplate`]
+            The generated `section`_, or ``None`` for a name :attr:`files` does not list
         """
     def clear(self: BaseResEdit) -> None:
         """
@@ -27510,6 +27790,19 @@ class TexCreate(BaseResEdit):
         :class:`str`
             The new name for the `section`_
         """
+    @property
+    def files(self) -> dict[str, str]:
+        """
+        Dict[:class:`str`, :class:`str`]: The textures to create under the names their registers already give them,
+        as ``section name -> file`` (relative to the ``.ini`` file) :raw-html:`<br />` :raw-html:`<br />`
+        
+        Set, a collected resource keeps its name (:meth:`getFixResourceName` answers ``None``), only the `sections`_
+        listed here are built, and each names its file -- for a fix that names its created textures itself. Empty (the
+        default), every collected resource is renamed from the mod's name and the texture's, and its file from that
+        """
+    @files.setter
+    def files(self, arg0: collections.abc.Mapping[str, str]) -> None:
+        ...
     @property
     def fixFunc(self) -> typing.Any:
         """
@@ -28901,6 +29194,193 @@ class VGRemap:
     @remap.setter
     def remap(self, arg1: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
         ...
+class VGRemapBlendReplace(BaseResEdit):
+    """
+    
+    This class inherits from :class:`BaseResEdit`
+    
+    A ``Blend.buf`` replacement that remaps the vertex groups, with the remap :meth:`ModType.getVGRemap` gives
+    for the mod type being fixed from -- the edit every template fixer uses for a `blend`_
+    
+    Use it through :class:`ResRegCollect`, as the texture edits are. Beyond the remap itself it can pin chains of
+    vertex groups to their root (:attr:`anchorChains`), read the source's line layout off its file
+    (:attr:`elements`), change the blend's width to the one the target's draws read (:attr:`influences`, with the id
+    buffers :attr:`pairedIds` names following), or fix the resource its own way (:attr:`fixFunc`)
+    
+    Parameters
+    ----------
+    resModObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The mod object to hold the newly created :class:`IniSectionGraph` for the resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        The tuple contains:
+    
+        #. The index for the .ini file
+        #. The name of the component
+        #. The name of the object
+    
+    modType: Optional[:class:`ModType`]
+        The mod type being fixed from -- where the vertex group remap comes from. ``None`` remaps nothing
+    
+    fromVersion: Optional[:class:`Version`]
+        The game version the remap is read from. **Default**: ``None``, the latest
+    
+    toVersion: Optional[:class:`Version`]
+        The game version the remap is read to. **Default**: ``None``, the latest
+    
+    resType: :class:`str`
+        The name of the type of resource -- what the run's statistics count it under. **Default**: ``"blend"``
+    
+    resSubType: Optional[:class:`str`]
+        The name of the subtype of the resource, folded into every fixed name. **Default**: ``None``
+    
+    fromComp: Optional[:class:`str`]
+        The specific component to remap from. **Default**: ``None``
+    
+    toComp: Optional[:class:`str`]
+        The specific component to remap to. **Default**: ``None``
+        
+    """
+    class PairedIds:
+        """
+        
+        A buffer of bone ids beside the fixed ``Blend.buf`` that names the bones for it, and keeps the same slots when
+        :attr:`VGRemapBlendReplace.influences` changes the blend's width
+        
+        Parameters
+        ----------
+        path: :class:`str`
+            The buffer's path
+        
+        idBytes: :class:`int`
+            The bytes of one id. **Default**: ``2``
+            
+        """
+        def __init__(self, path: str, idBytes: typing.SupportsInt | typing.SupportsIndex = 2) -> None:
+            ...
+        @property
+        def idBytes(self) -> int:
+            """
+            :class:`int`: The bytes of one id
+            """
+        @idBytes.setter
+        def idBytes(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def path(self) -> str:
+            """
+            :class:`str`: The buffer's path
+            """
+        @path.setter
+        def path(self, arg0: str) -> None:
+            ...
+    def __init__(self, resModObj: typing.Any, modType: typing.Any, fromVersion: FixRaidenBoss2.core.Version | None = None, toVersion: FixRaidenBoss2.core.Version | None = None, resType: str = 'blend', resSubType: str | None = None, fromComp: str | None = None, toComp: str | None = None) -> None:
+        ...
+    @property
+    def anchorChains(self) -> dict[int, list[int]]:
+        """
+        Dict[:class:`int`, List[:class:`int`]]: Vertex groups that move as one part: each key is a ROOT group of the source,
+        and every group in its list is remapped to whatever the root is remapped to -- a chain the target has no
+        counterpart for, pinned to the bone it hangs from
+        """
+    @anchorChains.setter
+    def anchorChains(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
+        ...
+    @property
+    def elements(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`str`], List[:class:`BufElementType`]]]: The line layout of the source ``Blend.buf``,
+        given its path -- eg. a layout whose number of bone influences per vertex is read off the file's size
+        """
+    @elements.setter
+    def elements(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def fixFunc(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`RemapBlendResource`], :class:`bool`]]: What fixes the built resource in place of
+        its own remap -- eg. a blend whose true bone ids live in another buffer. Answers whether the fixed file was
+        written
+        """
+    @fixFunc.setter
+    def fixFunc(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def fromComp(self) -> str | None:
+        """
+        Optional[:class:`str`]: The specific component to remap from
+        """
+    @fromComp.setter
+    def fromComp(self, arg0: str | None) -> None:
+        ...
+    @property
+    def fromVersion(self) -> FixRaidenBoss2.core.Version | None:
+        """
+        Optional[:class:`Version`]: The game version the remap is read from
+        """
+    @fromVersion.setter
+    def fromVersion(self, arg0: FixRaidenBoss2.core.Version | None) -> None:
+        ...
+    @property
+    def influences(self) -> int:
+        """
+        :class:`int`: How many (weight, index) slots each vertex of the fixed ``Blend.buf`` carries -- the width the
+        target's draws read -- or ``0`` to keep the source's. A changed width is also written into the generated
+        `section`_'s ``stride``. **Default**: ``0``
+        """
+    @influences.setter
+    def influences(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def modType(self) -> typing.Any:
+        """
+        Optional[:class:`ModType`]: The mod type being fixed from -- where the vertex group remap comes from
+        """
+    @property
+    def pairedIds(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`str`], List[:class:`VGRemapBlendReplace.PairedIds`]]]: The id buffers beside the fixed
+        ``Blend.buf`` that follow its slots when :attr:`influences` changes its width, given the source file's path.
+        The first names the bones the blend's slots are merged by
+        """
+    @pairedIds.setter
+    def pairedIds(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resSubType(self) -> str | None:
+        """
+        Optional[:class:`str`]: The name of the subtype of the resource, folded into every fixed name
+        """
+    @resSubType.setter
+    def resSubType(self, arg0: str | None) -> None:
+        ...
+    @property
+    def rowModName(self) -> str | None:
+        """
+        Optional[:class:`str`]: The mod name the vertex group row is looked up under, in place of the mod being fixed to
+        -- eg. the skin, for a fixer whose target is one COMPONENT of it (:attr:`toComp` names the component).
+        **Default**: ``None``
+        """
+    @rowModName.setter
+    def rowModName(self, arg0: str | None) -> None:
+        ...
+    @property
+    def toComp(self) -> str | None:
+        """
+        Optional[:class:`str`]: The specific component to remap to
+        """
+    @toComp.setter
+    def toComp(self, arg0: str | None) -> None:
+        ...
+    @property
+    def toVersion(self) -> FixRaidenBoss2.core.Version | None:
+        """
+        Optional[:class:`Version`]: The game version the remap is read to
+        """
+    @toVersion.setter
+    def toVersion(self, arg0: FixRaidenBoss2.core.Version | None) -> None:
+        ...
+
+
 class VGRemaps:
     """
     

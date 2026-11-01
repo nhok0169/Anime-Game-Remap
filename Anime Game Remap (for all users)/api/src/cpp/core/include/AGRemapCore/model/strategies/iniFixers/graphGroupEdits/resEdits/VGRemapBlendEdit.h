@@ -167,7 +167,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             What fixes the built resource in place of :cpp:func:`RemapBlendResource`'s own remap -- eg. a
+             What fixes the built resource in place of :cpp:class:`RemapBlendResource`'s own remap -- eg. a
              blend whose true bone ids live in another buffer. It is handed the resource, and returns whether
              the fixed file was written :raw-html:`<br />` :raw-html:`<br />`
 

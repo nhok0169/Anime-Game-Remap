@@ -55,7 +55,7 @@ namespace AGRemapCore {
 
      .. note::
         A download is fetched in the order the resources were collected. An edit of the downloaded
-        texture itself is ef File::texEdit: a second collect cannot reach a `section`_ this one
+        texture itself is \ref File::texEdit: a second collect cannot reach a `section`_ this one
         created
      @endrst
      *
@@ -96,16 +96,18 @@ namespace AGRemapCore {
                  * @brief
                  @rst
                  An edit of the downloaded texture -- eg. a light map's bands moved for the target. Set,
-                 the download goes to ef rawFile and the edit writes ef file from it, so the
-                 `section`_ names the EDITED file. **Default**: none, the download is ef file itself
+                 the download goes to \ref rawFile and the edit writes \ref file from it, so the
+                 `section`_ names the EDITED file. Held through its base, so a subclass's
+                 :cpp:func:`BaseTexEditor::fix` (a `Python`_ one included) is the one that runs.
+                 **Default**: ``nullptr``, the download is \ref file itself
                  @endrst
                  */
-                std::optional<TexEditor> texEdit;
+                std::shared_ptr<BaseTexEditor> texEdit;
 
                 /**
                  * @brief
                  @rst
-                 Where the download goes when there is a ef texEdit, relative to the ``.ini`` file. Name
+                 Where the download goes when there is a \ref texEdit, relative to the ``.ini`` file. Name
                  it ``...RemapDL...`` too: no `section`_ names it, and the undo recognises it by that name
                  @endrst
                  */

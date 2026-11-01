@@ -27,47 +27,23 @@
 namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     TexCreatorCreate<K, V, KeyHash, KeyEqual>::TexCreatorCreate(
-            GraphId resModObj, std::string texName, TexCreator texCreator, ResEditConfig config,
+            GraphId resModObj, std::string texName, std::shared_ptr<BaseTexEditor> texCreator, ResEditConfig config,
             std::string resType):
         Base(std::move(resModObj), std::move(texName), std::move(config), std::move(resType)),
         texCreator(std::move(texCreator)) {}
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    std::optional<std::string> TexCreatorCreate<K, V, KeyHash, KeyEqual>::getFixResourceName(const std::string& resource,
-                                                                                              const std::string& modName) const {
-        if (!files.empty()) {
-            return std::nullopt;
-        }
-        return Base::getFixResourceName(resource, modName);
-    }
-
-
-    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename TexCreatorCreate<K, V, KeyHash, KeyEqual>::Section*
             TexCreatorCreate<K, V, KeyHash, KeyEqual>::buildSection(const std::string& sectionName,
                                                                      const std::string& modName) {
-        // the fix's own names: only the sections it lists, each naming its own file
-        std::optional<V> named;
-        if (!files.empty()) {
-            const auto found = files.find(sectionName);
-            if (found == files.end()) {
-                return nullptr;
-            }
-            named = this->config.valOfFile(found->second);
-        }
-
-        // The leading "Resource" comes off to recover the file's base name -- the pure-Python
-        // original's own sectionName[len(IniKeywords.Resource):] slice, and what the pybind11
-        // override does too.
-        std::string fileBaseName = sectionName;
-        if (sectionName.rfind(IniKeywords::Resource, 0) == 0) {
-            fileBaseName = sectionName.substr(IniKeywords::Resource.size());
+        const std::optional<std::string> file = this->fileOfSection(sectionName, modName);
+        if (!file.has_value()) {
+            return nullptr;
         }
 
         std::vector<std::pair<K, V>> src;
-        src.emplace_back(this->config.filenameKey,
-                          named.has_value() ? *named : this->config.valOfFile(this->getFixFile(fileBaseName + FileExt::DDS, modName)));
+        src.emplace_back(this->config.filenameKey, this->config.valOfFile(*file));
 
         std::vector<std::unique_ptr<IfTemplatePart>> parts;
         parts.push_back(std::make_unique<IfContentPart<K, V, KeyHash, KeyEqual>>(src, 0));
@@ -101,8 +77,7 @@ namespace AGRemapCore {
         // source, which is why ResCreate::collectResourceName returns the fixed name for both
         // halves.
         auto resource = std::make_unique<RemapTexAddResource>(
-            ctx.iniFolder(), srcPath, texCreator, resType,
-            std::function<bool(RemapTexAddResource&)>{});
+            ctx.iniFolder(), srcPath, texCreator, resType, fixFunc);
 
         resource->logger = ctx.logger();
         ctx.storeResource(fileKey, std::move(resource));

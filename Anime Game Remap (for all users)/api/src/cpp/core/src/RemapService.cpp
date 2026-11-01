@@ -1268,12 +1268,12 @@ namespace AGRemapCore {
         // (TexEditor), and an add encodes one it invented (TexCreator). Handling only one of them
         // would leave the option half true, and silently so.
         if (RemapTexEditResource* texEdit = dynamic_cast<RemapTexEditResource*>(&resource)) {
-            texEdit->texEditor.setCompress(false);
+            texEdit->compressAllowed = false;
             return;
         }
 
         if (RemapTexAddResource* texAdd = dynamic_cast<RemapTexAddResource*>(&resource)) {
-            texAdd->texCreator.compress = false;
+            texAdd->compressAllowed = false;
         }
     }
 

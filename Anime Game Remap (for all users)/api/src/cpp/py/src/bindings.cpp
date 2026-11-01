@@ -122,6 +122,8 @@ void initCppRemapBlendReplace(pybind11::module_ &m);
 void initCppBufReplace(pybind11::module_ &m);
 void initCppTexCreate(pybind11::module_ &m);
 void initCppTexReplace(pybind11::module_ &m);
+void initCppFileEdits(pybind11::module_ &m);
+void initCppVGRemapBlendReplace(pybind11::module_ &m);
 void initCppResRegCollect(pybind11::module_ &m);
 void initCppIParseResult(pybind11::module_ &m);
 void initCppGraphCollect(pybind11::module_ &m);
@@ -353,6 +355,7 @@ PYBIND11_MODULE(core, m) {
     initCppBufReplace(m); // must come after initCppResEdit (registers its base) and initCppRemapIniFixResource (the model it builds)
     initCppTexCreate(m); // must come after initCppResEdit (registers its base) and initCppRemapTexAddResource/initCppTexCreator (the model it builds)
     initCppTexReplace(m); // same ordering needs as initCppTexCreate above
+    initCppVGRemapBlendReplace(m); // must come after initCppResEdit, initCppModType and initCppVersion (its arguments)
     initCppResRegCollect(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppResEdit (its resEdits values)
     initCppIParseResult(m);
     initCppGraphCollect(m); // must come after initCppBaseIniGraphGroupEdit and initCppIParseResult (registers its bases)
@@ -405,6 +408,7 @@ PYBIND11_MODULE(core, m) {
     initCppHueAdjust(m); // must come after initCppBaseTexFilter (registers its base)
     initCppPixelFilter(m); // must come after initCppBaseTexFilter/initCppBasePixelTransform
     initCppBaseTexEditor(m); // must come after initCppTextureFile (its 'fix' method signature references it)
+    initCppFileEdits(m); // must come after initCppResEdit (registers its base) and initCppBaseTexEditor (a download's texEdit)
     initCppTexEditor(m); // must come after initCppBaseTexEditor (registers its base)
     initCppTexCreator(m); // must come after initCppBaseTexEditor (registers its base) and initCppColour (constructor arg type)
 

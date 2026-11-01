@@ -246,7 +246,7 @@ Removes every key in \ref removeKeys from &apos;part&apos;, by forwarding straig
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="115" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="130" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_reg_edit_1a6abe7383ceb199aa774a8afcab9090e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_remove_1ad61ad17f9f368996afe3e4c6a0c184c2" kindref="member">ContentPart</ref> &amp;</type>
@@ -373,6 +373,7 @@ The ranges that indicate the valid order indices to process for &apos;part&apos;
         <argsstring>()</argsstring>
         <name>clear</name>
         <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_collect_1a3c713562e17061d3032679949225e575">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
@@ -431,6 +432,42 @@ The ranges that indicate the valid order indices to process for &apos;part&apos;
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="98" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_remove_1a1656b18797931f4ad697ae57f1f32f21" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_remove_1a940113c3e0e7a90d53a8fcd4d2c0fcb4" kindref="member">RemoveKeyCheck</ref></type>
+        <definition>static RemoveKeyCheck AGRemapCore::RegRemove&lt; K, V, KeyHash, KeyEqual &gt;::valueStartsWith</definition>
+        <argsstring>(std::string prefix)</argsstring>
+        <name>valueStartsWith</name>
+        <qualifiedname>AGRemapCore::RegRemove::valueStartsWith</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A check accepting a line whose value starts with &apos;prefix&apos;, ignoring case and leading space -- or whose value
+is ``ref`` followed by such a value, since a binding may name its resource either way (``vs-cb4 =
+ResourceMergedSkeleton`` and ``vs-cb4 = ref ResourceMergedSkeleton``). A &apos;prefix&apos; of ``ref`` itself
+accepts every ``ref`` binding
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start of the value, in any case</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The check </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="113" column="35"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-static-func">
@@ -561,7 +598,7 @@ Bulk-removes register keys for some :cpp:class:`IfContentPart`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="45" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" bodystart="45" bodyend="117"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="45" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" bodystart="45" bodyend="132"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_remove_1ab7b97599da3e20875aee19685cc6defb" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemove</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::RegRemove</scope><name>clear</name></member>
@@ -575,6 +612,7 @@ Bulk-removes register keys for some :cpp:class:`IfContentPart`
       <member refid="class_a_g_remap_core_1_1_reg_remove_1a940113c3e0e7a90d53a8fcd4d2c0fcb4" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemove</scope><name>RemoveKeyCheck</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_remove_1aee9fb92ae2e0aed7d8984f1dda372353" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemove</scope><name>removeKeys</name></member>
       <member refid="class_a_g_remap_core_1_1_base_reg_edit_1a8a91f054bda96df86a050433d03c992d" prot="protected" virt="non-virtual"><scope>AGRemapCore::RegRemove</scope><name>toRangeSpec</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_remove_1a1656b18797931f4ad697ae57f1f32f21" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemove</scope><name>valueStartsWith</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::RegRemove</scope><name>~BaseIniPartEdit</name></member>
     </listofallmembers>
   </compounddef>

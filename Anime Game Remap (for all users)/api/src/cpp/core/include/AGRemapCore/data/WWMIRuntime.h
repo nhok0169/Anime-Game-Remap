@@ -188,6 +188,96 @@ namespace AGRemapCore {
              * @return The sections, in order
              */
             static std::vector<std::unique_ptr<Section>> blendRemapSections(Z3Context& z3, const BlendRemap& blendRemap);
+
+            /**
+             * @brief
+             @rst
+             The lines a remapped `section`_ drops when the target is past 256 bones, as ``(key, value prefix)`` -- each
+             value matched with :cpp:func:`RegRemove::valueStartsWith`. They are the mod's own merge list and the two
+             other routes to it (``CheckTextureOverride`` on ``vs-cb3`` / ``vs-cb4``), and its own bindings of the merged
+             skeletons: each would write or bind the MOD's skeleton, sized for the source, and consume the bone-data
+             marker the fix's own merge list is gated on -- which leaves the draw skinning target-space blend indices
+             against the source's skeleton, or smears a second body through the motion vectors
+             @endrst
+             */
+            static std::vector<std::pair<std::string, std::string>> remappedSkeletonRemovals();
+
+            /**
+             * @brief What #hideSection writes
+             */
+            struct Hide {
+                /**
+                 * @brief The `section`_'s name
+                 */
+                std::string name;
+
+                /**
+                 * @brief The comment written above it
+                 */
+                std::string comment;
+
+                /**
+                 * @brief The target's ``vb0`` hash
+                 */
+                std::string vb0Hash;
+
+                /**
+                 * @brief The slot's ``match_first_index`` and ``match_index_count``
+                 */
+                std::string indexOffset, indexCount;
+
+                /**
+                 * @brief The slot's bone window, ``vg_offset`` and ``vg_count``
+                 */
+                std::string vgOffset, vgCount;
+
+                /**
+                 * @brief A name of the slot for its frame latch (``$state_id_<slot>``)
+                 */
+                std::string slot;
+
+                /**
+                 * @brief
+                 @rst
+                 For a mod from before WWMI's merged skeleton: the list that merges the slot's bones
+                 (:cpp:func:`mergeListName`), run before the draw is skipped -- or empty for a mod with a merged skeleton
+                 @endrst
+                 */
+                std::string legacyMergeList;
+
+                /**
+                 * @brief
+                 @rst
+                 For a target past 256 bones: the list that merges the slot's window into the fix's own skeleton, run on
+                 every draw -- or empty, which runs ``CommandListMergeSkeleton`` once a frame through the slot's latch
+                 @endrst
+                 */
+                std::string mergeWindowList;
+
+                /**
+                 * @brief The list run once a frame without #mergeWindowList
+                 */
+                std::string mergeSkeletonList;
+
+                /**
+                 * @brief Lines that capture the game's own bindings on the slot, run while a pixel shader is bound
+                 */
+                std::vector<std::pair<std::string, std::string>> stashed;
+            };
+
+            /**
+             * @brief
+             @rst
+             The ``TextureOverride`` of a target draw slot nothing of the mod is drawn through: it skips the skin's own
+             geometry and still merges the slot's bones, which other slots' vertices may be weighted to
+             @endrst
+             *
+             * @param z3 The Z3 context the `if` lines are parsed in
+             * @param hide What to write
+             *
+             * @return The section
+             */
+            static std::unique_ptr<Section> hideSection(Z3Context& z3, const Hide& hide);
     };
 }
 

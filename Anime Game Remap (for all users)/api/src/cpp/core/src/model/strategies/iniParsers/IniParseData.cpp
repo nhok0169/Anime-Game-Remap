@@ -33,6 +33,52 @@ namespace AGRemapCore {
             }
         }
 
+        // every `this =`, and each TextureOverride's first hash and first `this` -- a section's own lines once each,
+        // the sections in the order they are written
+        if (!rules.sections.empty()) {
+            std::set<std::tuple<std::string, std::size_t, long long>> once;
+            std::map<std::string, std::vector<const CollectedRow*>> own;
+            std::vector<std::string> order;
+            for (const auto& row : collected(rules.sections)) {
+                if (!once.emplace(row.section, row.partId, row.line).second) {
+                    continue;
+                }
+                auto& lines = own[row.section];
+                if (lines.empty()) {
+                    order.push_back(row.section);
+                }
+                lines.push_back(&row);
+            }
+
+            const auto written = [](const CollectedRow* a, const CollectedRow* b) {
+                return std::make_pair(a->partId, a->line) < std::make_pair(b->partId, b->line);
+            };
+            for (auto& entry : own) {
+                std::stable_sort(entry.second.begin(), entry.second.end(), written);
+            }
+            std::stable_sort(order.begin(), order.end(), [&own, &written](const std::string& a, const std::string& b) {
+                return written(own.at(a).front(), own.at(b).front());
+            });
+
+            for (const std::string& section : order) {
+                std::optional<std::string> hash;
+                std::optional<std::string> resource;
+                for (const CollectedRow* row : own.at(section)) {
+                    if (row->key == IniKeywords::This) {
+                        addThisBound(std::string(StringTools::strip(row->value)));
+                        if (!resource.has_value()) {
+                            resource = std::string(StringTools::strip(row->value));
+                        }
+                    } else if (row->key == IniKeywords::Hash && !hash.has_value()) {
+                        hash = std::string(StringTools::strip(row->value));
+                    }
+                }
+                if (StringTools::startsWith(section, IniKeywords::TextureOverride) && hash.has_value() && resource.has_value()) {
+                    setThisOverride(*hash, *resource);
+                }
+            }
+        }
+
         // every row of each object, once each
         std::map<ModObj, std::vector<const CollectedRow*>> rowsOf;
         std::set<std::tuple<ModObj, std::string, std::size_t, long long, std::string>> seen;
@@ -78,6 +124,66 @@ namespace AGRemapCore {
                 return std::make_tuple(std::get<0>(a), std::get<1>(a), std::get<2>(a))
                        < std::make_tuple(std::get<0>(b), std::get<1>(b), std::get<2>(b));
             });
+
+            // THE RESOURCES BOUND ONLY UNDER A TOGGLE: a line's path is the branch of each `if` block it sits in
+            // (GraphCollectRow::blocks), and a line reaches a draw when its path encloses the draw's
+            {
+                using Path = std::vector<std::size_t>;
+                const auto encloses = [](const Path& outer, const Path& inner) {
+                    return outer.size() <= inner.size() && std::equal(outer.begin(), outer.end(), inner.begin());
+                };
+                const std::string ref = StringTools::toLower(IniKeywords::Ref) + " ";
+                std::map<std::string, std::vector<std::pair<Path, std::string>>> occurrences;
+                std::vector<Path> drawPaths;
+                for (const auto& [rootAt, partAt, line, row] : inRoots) {
+                    (void)rootAt;
+                    (void)partAt;
+                    (void)line;
+                    const std::string key = StringTools::toLower(std::string(StringTools::strip(row->key)));
+                    if (StringTools::startsWith(key, "draw")) {
+                        drawPaths.push_back(row->blocks);
+                        continue;
+                    }
+                    if (!StringTools::startsWith(key, regPrefix)) {
+                        continue;
+                    }
+                    std::string val(StringTools::strip(row->value));
+                    if (StringTools::startsWith(StringTools::toLower(val), ref)) {
+                        val = std::string(StringTools::lstrip(val.substr(ref.size())));
+                    }
+                    if (!val.empty()) {
+                        occurrences[StringTools::toLower(val)].emplace_back(row->blocks, key);
+                    }
+                }
+
+                if (!drawPaths.empty()) {
+                    const auto reaches = [&drawPaths, &encloses](const Path& path) {
+                        return std::any_of(drawPaths.begin(), drawPaths.end(), [&](const Path& draw) { return encloses(path, draw); });
+                    };
+                    std::set<std::string> defaulted;
+                    for (const auto& [resource, lines] : occurrences) {
+                        (void)resource;
+                        for (const auto& [path, key] : lines) {
+                            if (reaches(path)) {
+                                defaulted.insert(key);
+                            }
+                        }
+                    }
+
+                    std::set<std::string> toggled;
+                    for (const auto& [resource, lines] : occurrences) {
+                        const bool onlyToggled = std::none_of(lines.begin(), lines.end(), [&](const auto& line) {
+                            return reaches(line.first) || defaulted.count(line.second) > 0;
+                        });
+                        if (onlyToggled) {
+                            toggled.insert(resource);
+                        }
+                    }
+                    if (!toggled.empty()) {
+                        setToggledBindings(obj, std::move(toggled));
+                    }
+                }
+            }
 
             bool drew = false;
             bool skipped = false;
@@ -150,6 +256,9 @@ namespace AGRemapCore {
         drawParts_.clear();
         libraries_.clear();
         lateBindings_.clear();
+        toggledBindings_.clear();
+        thisOverrides_.clear();
+        thisBound_.clear();
         replacesByHash_ = false;
         resourceFiles_.clear();
         textureResources_.clear();
@@ -248,6 +357,36 @@ namespace AGRemapCore {
 
     void IniParseData::setLateBindings(const ModObj& modObj, std::vector<std::string> regs) {
         lateBindings_[modObj] = std::move(regs);
+    }
+
+    const std::set<std::string>& IniParseData::toggledBindings(const ModObj& modObj) const {
+        static const std::set<std::string> none;
+        fill();
+        const auto found = toggledBindings_.find(modObj);
+        return found == toggledBindings_.end() ? none : found->second;
+    }
+
+    void IniParseData::setToggledBindings(const ModObj& modObj, std::set<std::string> resources) {
+        toggledBindings_[modObj] = std::move(resources);
+    }
+
+    std::optional<std::string> IniParseData::thisOverrideOf(const std::string& hash) const {
+        fill();
+        const auto found = thisOverrides_.find(StringTools::toLower(hash));
+        return found == thisOverrides_.end() ? std::nullopt : std::optional<std::string>(found->second);
+    }
+
+    void IniParseData::setThisOverride(const std::string& hash, std::string resource) {
+        thisOverrides_.emplace(StringTools::toLower(hash), std::move(resource));
+    }
+
+    bool IniParseData::isThisBound(const std::string& resource) const {
+        fill();
+        return thisBound_.count(StringTools::toLower(resource)) > 0;
+    }
+
+    void IniParseData::addThisBound(const std::string& resource) {
+        thisBound_.insert(StringTools::toLower(resource));
     }
 
     bool IniParseData::replacesTexturesByHash() const {

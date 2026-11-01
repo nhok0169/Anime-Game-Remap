@@ -11803,6 +11803,15 @@ class IniParseData:
         def runDraws(self, arg0: collections.abc.Callable[[str], bool]) -> None:
             ...
         @property
+        def sections(self) -> str:
+            """
+            :class:`str`: The collect whose rows hold every key of every `section`_ -- see :attr:`IniParseRows.Sections` -- for
+            :meth:`IniParseData.thisOverrideOf` and :meth:`IniParseData.isThisBound`, or empty for none
+            """
+        @sections.setter
+        def sections(self, arg0: str) -> None:
+            ...
+        @property
         def texRegPrefix(self) -> str:
             """
             :class:`str`: The register family a mod binds its textures with. **Default**: ``"ps-t"``
@@ -11996,6 +12005,15 @@ class IniParseData:
         library: :class:`str`
             The library's name
         """
+    def addThisBound(self, resource: str) -> None:
+        """
+        Records that a `section`_ binds 'resource' with ``this =`` -- see :meth:`isThisBound`
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The resource, in any case
+        """
     def addUndrawn(self, modObj: tuple[str, str]) -> None:
         """
         Records that the mod leaves ``modObj`` undrawn
@@ -12161,6 +12179,20 @@ class IniParseData:
         -------
         :class:`bool`
             Whether the file is a recolour and nothing else
+        """
+    def isThisBound(self, resource: str) -> bool:
+        """
+        Whether any `section`_ binds 'resource' with ``this =``
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The resource, in any case
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether it is
         """
     def isUndrawn(self, modObj: tuple[str, str]) -> bool:
         """
@@ -12484,6 +12516,18 @@ class IniParseData:
         roles: :class:`TextureRoles`
             The roles
         """
+    def setThisOverride(self, hash: str, resource: str) -> None:
+        """
+        Sets :meth:`thisOverrideOf`, unless a resource is already recorded for 'hash'
+        
+        Parameters
+        ----------
+        hash: :class:`str`
+            The texture's hash, in any case
+        
+        resource: :class:`str`
+            The resource
+        """
     def setThisToggle(self, resource: str, toggle: ...) -> None:
         """
         Records the ``this =`` toggle that chooses ``resource``
@@ -12496,6 +12540,18 @@ class IniParseData:
         toggle: :class:`IniParseData.TextureToggle`
             The toggle
         """
+    def setToggledBindings(self, modObj: tuple[str, str], resources: collections.abc.Set[str]) -> None:
+        """
+        Sets :meth:`toggledBindings`
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The mod object, ``(component, object)``
+        
+        resources: Set[:class:`str`]
+            The resources, lowercased
+        """
     def textureRoles(self) -> TextureRoles:
         """
         What role each texture of the .ini plays, or ``None`` when the parser records none -- every role the
@@ -12505,6 +12561,21 @@ class IniParseData:
         -------
         Optional[:class:`TextureRoles`]
             The roles
+        """
+    def thisOverrideOf(self, hash: str) -> str | None:
+        """
+        The resource a ``TextureOverride`` `section`_ with ``hash`` 'hash' puts in the texture's place with ``this =``, as
+        written -- the first such section's -- or ``None``
+        
+        Parameters
+        ----------
+        hash: :class:`str`
+            The texture's hash, in any case
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The resource
         """
     def thisToggleOf(self, resource: str) -> ...:
         """
@@ -12520,6 +12591,22 @@ class IniParseData:
         -------
         Optional[:class:`IniParseData.TextureToggle`]
             The toggle
+        """
+    def toggledBindings(self, modObj: tuple[str, str]) -> set[str]:
+        """
+        The texture resources a mod object's own `sections`_ bind ONLY under a toggle, lowercased: every line binding one sits
+        in a branch that no draw of the object sits in, at a register no line reaching a draw binds. The game's own texture is
+        what those draws render with whenever the toggle is off
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The mod object, ``(component, object)``
+        
+        Returns
+        -------
+        Set[:class:`str`]
+            The resources
         """
     def undrawnObjs(self) -> set[tuple[str, str]]:
         """
@@ -22830,6 +22917,23 @@ class RegRemove(BaseRegEdit):
         which occurrences of a key actually get removed
         
     """
+    @staticmethod
+    def valueStartsWith(prefix: str) -> collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex, str], bool]:
+        """
+        A check accepting a line whose value starts with 'prefix', ignoring case and leading space -- or whose value is ``ref``
+        followed by such a value, since a binding may name its resource either way (``vs-cb4 = ResourceMergedSkeleton`` and
+        ``vs-cb4 = ref ResourceMergedSkeleton``). A 'prefix' of ``ref`` itself accepts every ``ref`` binding
+        
+        Parameters
+        ----------
+        prefix: :class:`str`
+            The start of the value, in any case
+        
+        Returns
+        -------
+        Callable[[:class:`int`, :class:`str`], :class:`bool`]
+            The check, for :attr:`removeKeys`
+        """
     def __init__(self, removeKeys: typing.Any) -> None:
         ...
     def edit(self, part: typing.Any, sectionName: str, modType: typing.Any, modName: str = '', partRanges: typing.Any = None) -> typing.Any:
@@ -31392,6 +31496,111 @@ class WWMIRuntime:
         @remapFile.setter
         def remapFile(self, arg0: collections.abc.Callable[[str], str]) -> None:
             ...
+    class Hide:
+        """
+        What :meth:`WWMIRuntime.hideSection` writes
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def comment(self) -> str:
+            """
+            :class:`str`: The comment written above it
+            """
+        @comment.setter
+        def comment(self, arg0: str) -> None:
+            ...
+        @property
+        def indexCount(self) -> str:
+            """
+            :class:`str`: The slot's ``match_index_count``
+            """
+        @indexCount.setter
+        def indexCount(self, arg0: str) -> None:
+            ...
+        @property
+        def indexOffset(self) -> str:
+            """
+            :class:`str`: The slot's ``match_first_index``
+            """
+        @indexOffset.setter
+        def indexOffset(self, arg0: str) -> None:
+            ...
+        @property
+        def legacyMergeList(self) -> str:
+            """
+            :class:`str`: For a mod from before WWMI's merged skeleton: the list that merges the slot's bones
+            (:meth:`WWMIRuntime.mergeListName`), run before the draw is skipped -- or empty for a mod with a merged skeleton
+            """
+        @legacyMergeList.setter
+        def legacyMergeList(self, arg0: str) -> None:
+            ...
+        @property
+        def mergeSkeletonList(self) -> str:
+            """
+            :class:`str`: The list run once a frame without :attr:`mergeWindowList`
+            """
+        @mergeSkeletonList.setter
+        def mergeSkeletonList(self, arg0: str) -> None:
+            ...
+        @property
+        def mergeWindowList(self) -> str:
+            """
+            :class:`str`: For a target past 256 bones: the list that merges the slot's window into the fix's own skeleton, run on
+            every draw -- or empty, which runs :attr:`mergeSkeletonList` once a frame through the slot's latch
+            """
+        @mergeWindowList.setter
+        def mergeWindowList(self, arg0: str) -> None:
+            ...
+        @property
+        def name(self) -> str:
+            """
+            :class:`str`: The `section`_'s name
+            """
+        @name.setter
+        def name(self, arg0: str) -> None:
+            ...
+        @property
+        def slot(self) -> str:
+            """
+            :class:`str`: A name of the slot for its frame latch (``$state_id_<slot>``)
+            """
+        @slot.setter
+        def slot(self, arg0: str) -> None:
+            ...
+        @property
+        def stashed(self) -> list[tuple[str, str]]:
+            """
+            List[Tuple[:class:`str`, :class:`str`]]: Lines that capture the game's own bindings on the slot, run while a pixel
+            shader is bound
+            """
+        @stashed.setter
+        def stashed(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
+            ...
+        @property
+        def vb0Hash(self) -> str:
+            """
+            :class:`str`: The target's ``vb0`` hash
+            """
+        @vb0Hash.setter
+        def vb0Hash(self, arg0: str) -> None:
+            ...
+        @property
+        def vgCount(self) -> str:
+            """
+            :class:`str`: The slot's ``vg_count``
+            """
+        @vgCount.setter
+        def vgCount(self, arg0: str) -> None:
+            ...
+        @property
+        def vgOffset(self) -> str:
+            """
+            :class:`str`: The slot's ``vg_offset``
+            """
+        @vgOffset.setter
+        def vgOffset(self, arg0: str) -> None:
+            ...
     class Skeleton:
         """
         What :meth:`WWMIRuntime.skeletonSections` writes
@@ -31522,6 +31731,25 @@ class WWMIRuntime:
             The sections, in order
         """
     @staticmethod
+    def hideSection(z3: Z3Context, hide: WWMIRuntime.Hide) -> IfTemplate:
+        """
+        The ``TextureOverride`` of a target draw slot nothing of the mod is drawn through: it skips the skin's own geometry
+        and still merges the slot's bones, which other slots' vertices may be weighted to
+        
+        Parameters
+        ----------
+        z3: :class:`Z3Context`
+            The Z3 context the `if` lines are parsed in
+        
+        hide: :class:`WWMIRuntime.Hide`
+            What to write
+        
+        Returns
+        -------
+        :class:`IfTemplate`
+            The section
+        """
+    @staticmethod
     def mergeListName(skeleton: WWMIRuntime.Skeleton, slot: typing.SupportsInt | typing.SupportsIndex) -> str:
         """
         The merge list of one target draw slot
@@ -31538,6 +31766,19 @@ class WWMIRuntime:
         -------
         :class:`str`
             The list's name
+        """
+    @staticmethod
+    def remappedSkeletonRemovals() -> list[tuple[str, str]]:
+        """
+        The lines a remapped `section`_ drops when the target is past 256 bones, as ``(key, value prefix)`` -- each value
+        matched with :meth:`RegRemove.valueStartsWith`. They are the mod's own merge list and the two other routes to it
+        (``CheckTextureOverride`` on ``vs-cb3`` / ``vs-cb4``), and its own bindings of the merged skeletons: each would write
+        or bind the MOD's skeleton, sized for the source, and consume the bone-data marker the fix's own merge list is gated on
+        
+        Returns
+        -------
+        List[Tuple[:class:`str`, :class:`str`]]
+            The lines
         """
     @staticmethod
     def skeletonSections(z3: Z3Context, skeleton: WWMIRuntime.Skeleton) -> list[IfTemplate]:

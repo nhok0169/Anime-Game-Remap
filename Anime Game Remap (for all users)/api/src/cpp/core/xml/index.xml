@@ -42,6 +42,7 @@
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules_1afa83538151a3e3ffba7c719cfeaa4d76" kind="variable"><name>runDraws</name></member>
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules_1a1cb9dd198e60bb5df2d994acfd96975d" kind="variable"><name>libraries</name></member>
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules_1a4a0791c10ced6b06e29aae617dfb3edf" kind="variable"><name>noneUndrawnWhenAll</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules_1a9748b2b04e078b3faf830b6ee01027f8" kind="variable"><name>sections</name></member>
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules_1a3dd08a5658980d66a8a3ff89c02e00b2" kind="variable"><name>log</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_arlecchino_fixer" kind="class"><name>AGRemapCore::ArlecchinoFixer</name>
@@ -2513,6 +2514,20 @@
     <member refid="class_a_g_remap_core_1_1_heading_1a85baf15045ea56a626b73495a2193eb7" kind="function"><name>open</name></member>
     <member refid="class_a_g_remap_core_1_1_heading_1a4d844f7573879ffb898c6b9d25d71ef6" kind="function"><name>close</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide" kind="struct"><name>AGRemapCore::WWMIRuntime::Hide</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide_1ad79b76aa9c24873665b2f2b70fb609de" kind="variable"><name>name</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide_1ab63a2e2583bc6a6b358ed97f993d835e" kind="variable"><name>comment</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide_1a5bb179c8d7e8f9ca7cb59edbb5e19094" kind="variable"><name>vb0Hash</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide_1a878326e036eac7ac632dcc0b10f0d7f7" kind="variable"><name>indexOffset</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide_1acbd07947a4a91207bcb18eb5252f4a07" kind="variable"><name>indexCount</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide_1a9ed179740a983219f8ce16cb283ccff7" kind="variable"><name>vgOffset</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide_1af20ed72692ac0213a8fe9780ab89dda3" kind="variable"><name>vgCount</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide_1a127c5f684e0be10c3aa23e1b490fd7a8" kind="variable"><name>slot</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide_1adba325c458ff3583240de719fe9fea5a" kind="variable"><name>legacyMergeList</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide_1ae6474eeb7d8aaaf63d7f148a94672a30" kind="variable"><name>mergeWindowList</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide_1a302ee05be68a46ab4702f324a5451a25" kind="variable"><name>mergeSkeletonList</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide_1a91544ad596fc660e18ec2e3d49aa3da6" kind="variable"><name>stashed</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_highlight_shadow" kind="class"><name>AGRemapCore::HighlightShadow</name>
     <member refid="class_a_g_remap_core_1_1_highlight_shadow_1a6d22ff4eb640fdf09a3081bb185cf2ff" kind="variable"><name>highlight</name></member>
     <member refid="class_a_g_remap_core_1_1_highlight_shadow_1a95564abc3f8ba28ad40ae71986d45d24" kind="variable"><name>shadow</name></member>
@@ -3779,6 +3794,9 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af4dc02d59f717c09bc6be7209c805be1" kind="variable"><name>drawParts_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ac7751a1fb1f940caa185442198f4df96" kind="variable"><name>libraries_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ab872682c1a88e80e578fbdfa485d9d8c" kind="variable"><name>lateBindings_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a97cbec76a95a0583c5c1af9340bac837" kind="variable"><name>toggledBindings_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ab56872351459c67de0d98d3d5ca69c7d" kind="variable"><name>thisOverrides_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a9299828a86365bfc09686059765e7739" kind="variable"><name>thisBound_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ad79ee62e80cbf24ffa81cd107d87c95d" kind="variable"><name>replacesByHash_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ac67d8b5c752689e0106fb0e478f83f80" kind="variable"><name>resourceFiles_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ae4854559291a0026d47e855b9036dd55" kind="variable"><name>textureResources_</name></member>
@@ -3810,6 +3828,12 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af9b7c7837a4fb82b5133216e6f9a1750" kind="function"><name>addLibrary</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1afdae76ba804ad4046d207a98ece47fbc" kind="function"><name>lateBindings</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ad22e0d7860eb5e804f1ace802a3ac734" kind="function"><name>setLateBindings</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a7151c9cea8fb0b1749f4fd9e1c49e5be" kind="function"><name>toggledBindings</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ad0425619f8d951b2c8c275c6cbc1006b" kind="function"><name>setToggledBindings</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aaccf5b0adde215f5a8b4db970d349144" kind="function"><name>thisOverrideOf</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aa96beba5374df3b1644c21258a52cbfc" kind="function"><name>setThisOverride</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af71f163d0c3171346894d1aff2d45e7b" kind="function"><name>isThisBound</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1acac52b39a1f4daa2fefabcda9df5dcee" kind="function"><name>addThisBound</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a4b96f1f6ea19bc020fc8a70e6fffb497" kind="function"><name>replacesTexturesByHash</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aae930b76d835f4f7a4400e5e49abaaed" kind="function"><name>setReplacesTexturesByHash</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1abed7b05e0650a535242bd72110bf4f22" kind="function"><name>resourceFile</name></member>
@@ -5491,6 +5515,7 @@
     <member refid="class_a_g_remap_core_1_1_base_reg_edit_1a6abe7383ceb199aa774a8afcab9090e1" kind="function"><name>editFromIni</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" kind="function"><name>clear</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_remove_1a6250721023303d6cdb24a512e99ef69f" kind="function"><name>of</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_remove_1a1656b18797931f4ad697ae57f1f32f21" kind="function"><name>valueStartsWith</name></member>
     <member refid="class_a_g_remap_core_1_1_base_reg_edit_1a8a91f054bda96df86a050433d03c992d" kind="function"><name>toRangeSpec</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_reg_restrict" kind="class"><name>AGRemapCore::RegRestrict</name>
@@ -7847,6 +7872,8 @@
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1a52f53dd820b94edaa4029d70524fa4aa" kind="function"><name>skeletonSections</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ad8e84ea8f851f9a4f39ad7e880be413a" kind="function"><name>blendRemapInitList</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1a98069b4206d69ba0687fdb59c48c2bd0" kind="function"><name>blendRemapSections</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1a827ef27860936ae6b93e34a882451164" kind="function"><name>remappedSkeletonRemovals</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ab9ae8d6531ed3d6b92f4b21a4fafd59a" kind="function"><name>hideSection</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys" kind="class"><name>AGRemapCore::WWMIShapeKeys</name>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1abd0c4c6edba5cb9bc49bbe2e71a3f77c" kind="function"><name>layoutOf</name></member>

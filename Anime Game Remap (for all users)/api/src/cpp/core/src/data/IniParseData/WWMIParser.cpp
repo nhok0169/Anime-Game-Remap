@@ -410,6 +410,7 @@ namespace AGRemapCore {
                     IniParseData::AnatomyRules rules;
                     rules.rows = SlotsCollect;
                     rules.resources = IniParseRows::Resources;
+                    rules.sections = IniParseRows::Sections;
                     rules.texRegPrefix = config_.texRegPrefix;
                     rules.noneUndrawnWhenAll = true;
                     rules.libraries = {{RabbitFX::Name, [](const std::string& text) { return RabbitFX::names(text); }}};

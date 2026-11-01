@@ -14,7 +14,12 @@
 #include "PyRegRemove.h"
 
 #include <memory>
+#include <string>
 #include <utility>
+
+#include <pybind11/functional.h>
+
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h"
 
 
 namespace py = pybind11;
@@ -50,6 +55,24 @@ removeKeys: Dict[Any, Optional[Callable[[:class:`int`, Any], :class:`bool`]]]
     cls.def(py::init([](py::object removeKeys) {
         return std::make_unique<PyRegRemove>(std::move(removeKeys));
     }), py::arg("removeKeys"));
+
+    cls.def_static("valueStartsWith", [](std::string prefix) {
+        return AGRC::RegRemove<>::valueStartsWith(std::move(prefix));
+    }, py::arg("prefix"), py::doc(R"doc(
+A check accepting a line whose value starts with 'prefix', ignoring case and leading space -- or whose value is ``ref``
+followed by such a value, since a binding may name its resource either way (``vs-cb4 = ResourceMergedSkeleton`` and
+``vs-cb4 = ref ResourceMergedSkeleton``). A 'prefix' of ``ref`` itself accepts every ``ref`` binding
+
+Parameters
+----------
+prefix: :class:`str`
+    The start of the value, in any case
+
+Returns
+-------
+Callable[[:class:`int`, :class:`str`], :class:`bool`]
+    The check, for :attr:`removeKeys`
+    )doc"));
 
     cls.def_property("removeKeys", [](const PyRegRemove &self) {
         return self.removeKeysObj;

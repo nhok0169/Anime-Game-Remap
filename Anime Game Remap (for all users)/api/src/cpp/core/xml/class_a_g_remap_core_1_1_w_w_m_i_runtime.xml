@@ -5,6 +5,7 @@
     <includes refid="_w_w_m_i_runtime_8h" local="no">WWMIRuntime.h</includes>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_skeleton" prot="public">AGRemapCore::WWMIRuntime::Skeleton</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap" prot="public">AGRemapCore::WWMIRuntime::BlendRemap</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide" prot="public">AGRemapCore::WWMIRuntime::Hide</innerclass>
     <sectiondef kind="public-type">
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ad4331075384613a6cd0dd1be2c87e03d" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt;</type>
@@ -109,7 +110,7 @@ runs (for :cpp:member:`Skeleton::remapped`), and one merge list per slot (#merge
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="134" column="32" bodyfile="src/data/WWMIRuntime.cpp" bodystart="34" bodyend="239"/>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="134" column="32" bodyfile="src/data/WWMIRuntime.cpp" bodystart="95" bodyend="300"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ad8e84ea8f851f9a4f39ad7e880be413a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -138,7 +139,7 @@ runs (for :cpp:member:`Skeleton::remapped`), and one merge list per slot (#merge
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="176" column="32" bodyfile="src/data/WWMIRuntime.cpp" bodystart="27" bodyend="29"/>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="176" column="32" bodyfile="src/data/WWMIRuntime.cpp" bodystart="88" bodyend="90"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_runtime_1a98069b4206d69ba0687fdb59c48c2bd0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ad4331075384613a6cd0dd1be2c87e03d" kindref="member">Section</ref> &gt; &gt;</type>
@@ -184,7 +185,75 @@ by a ``local`` so it costs one dispatch on the first drawn frame and binds the r
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="190" column="32" bodyfile="src/data/WWMIRuntime.cpp" bodystart="244" bodyend="296"/>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="190" column="32" bodyfile="src/data/WWMIRuntime.cpp" bodystart="305" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_runtime_1a827ef27860936ae6b93e34a882451164" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; AGRemapCore::WWMIRuntime::remappedSkeletonRemovals</definition>
+        <argsstring>()</argsstring>
+        <name>remappedSkeletonRemovals</name>
+        <qualifiedname>AGRemapCore::WWMIRuntime::remappedSkeletonRemovals</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The lines a remapped `section`_ drops when the target is past 256 bones, as ``(key, value prefix)`` -- each
+value matched with :cpp:func:`RegRemove::valueStartsWith`. They are the mod&apos;s own merge list and the two
+other routes to it (``CheckTextureOverride`` on ``vs-cb3`` / ``vs-cb4``), and its own bindings of the merged
+skeletons: each would write or bind the MOD&apos;s skeleton, sized for the source, and consume the bone-data
+marker the fix&apos;s own merge list is gated on -- which leaves the draw skinning target-space blend indices
+against the source&apos;s skeleton, or smears a second body through the motion vectors
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="203" column="32" bodyfile="src/data/WWMIRuntime.cpp" bodystart="27" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ab9ae8d6531ed3d6b92f4b21a4fafd59a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ad4331075384613a6cd0dd1be2c87e03d" kindref="member">Section</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; WWMIRuntime::Section &gt; AGRemapCore::WWMIRuntime::hideSection</definition>
+        <argsstring>(Z3Context &amp;z3, const Hide &amp;hide)</argsstring>
+        <name>hideSection</name>
+        <qualifiedname>AGRemapCore::WWMIRuntime::hideSection</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> &amp;</type>
+          <declname>z3</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_hide" kindref="compound">Hide</ref> &amp;</type>
+          <declname>hide</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``TextureOverride`` of a target draw slot nothing of the mod is drawn through: it skips the skin&apos;s own
+geometry and still merges the slot&apos;s bones, which other slots&apos; vertices may be weighted to
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>z3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The Z3 context the <computeroutput>if</computeroutput> lines are parsed in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hide</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What to write</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The section </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="280" column="36" bodyfile="src/data/WWMIRuntime.cpp" bodystart="46" bodyend="86"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -200,11 +269,13 @@ Every name goes through :cpp:member:`Skeleton::name` / :cpp:member:`BlendRemap::
 fix&apos;s own names and an undo takes them
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/WWMIRuntime.h" line="42" column="5" bodyfile="include/AGRemapCore/data/WWMIRuntime.h" bodystart="42" bodyend="191"/>
+    <location file="include/AGRemapCore/data/WWMIRuntime.h" line="42" column="5" bodyfile="include/AGRemapCore/data/WWMIRuntime.h" bodystart="42" bodyend="281"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ad8e84ea8f851f9a4f39ad7e880be413a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime</scope><name>blendRemapInitList</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1a98069b4206d69ba0687fdb59c48c2bd0" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime</scope><name>blendRemapSections</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ab9ae8d6531ed3d6b92f4b21a4fafd59a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime</scope><name>hideSection</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ae85322d1302241dfeca6415787aee599" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime</scope><name>mergeListName</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1a827ef27860936ae6b93e34a882451164" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime</scope><name>remappedSkeletonRemovals</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ad4331075384613a6cd0dd1be2c87e03d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime</scope><name>Section</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1a52f53dd820b94edaa4029d70524fa4aa" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime</scope><name>skeletonSections</name></member>
     </listofallmembers>

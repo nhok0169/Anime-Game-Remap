@@ -2167,118 +2167,22 @@ namespace AGRemapCore {
                 void buildRegRemovals() {
                     std::vector<WWMIFixerConfig::RegRemoval> removals = config_.removedRegs;
                     if (targetPast256_) {
-                        // The MOD's own merge list, dropped from the remapped sections. It writes
-                        // the TARGET's bones -- Chisa's slot 3 starts at merged offset 142 and runs
-                        // to 269 -- into the mod's own merged skeleton, which every ChisaParfait mod
-                        // declares for 256 bones. The writes past the end are dropped by D3D, but
-                        // the ones that land corrupt the SOURCE's skeleton whenever both characters
-                        // are on screen at once. The fix's own merge list (CommandListMergeSlot<N>)
-                        // does the same work into a buffer sized for the target, and is added to
-                        // these sections beside it.
-                        //
-                        // Matched by prefix, which covers the name both before and after the group
-                        // remap renames it. A mod whose merge list is named something else keeps it,
-                        // which is wasted work rather than a wrong picture.
-                        removals.push_back(WWMIFixerConfig::RegRemoval{IniKeywords::Run, "commandlistmergeskeleton"});
-
-                        // AND the two other routes to that same list (2026-10-01), without which
-                        // dropping the `run` above achieves nothing.
-                        //
-                        // `CheckTextureOverride = vs-cb4` makes 3dmigoto run whatever section
-                        // matches the buffer bound there, and on a mod of a character WWMI merges a
-                        // skeleton for, that IS the mod's own merge. So it does the work this block
-                        // exists to prevent -- and, like the explicit binding below it, consumes the
-                        // `boneDataFilter` marker on the way.
-                        //
-                        // That matters because the fix's own `CommandListMergeSlot<N>` is guarded by
-                        // the same marker. With either line present it never runs: measured in
-                        // 3dmigoto's log as `if vs-cb4 == 3381.7777` false 2565 times and true ZERO,
-                        // its SkeletonMerger and SkeletonRemapper never firing, and the model
-                        // invisible in game -- the draws issue, but they skin blend indices in the
-                        // TARGET's space against the SOURCE's skeleton, so the mesh collapses.
-                        // Removing both puts the guard at true 2630 and runs both shaders 4734 times.
-                        //
-                        // Nothing is lost by dropping the mod's own binding: `CommandListMergeSlot<N>`
-                        // binds the remapped skeleton itself, which is the one sized for the target.
-                        // A mod that does not carry these lines -- every Chisa mod, which is why the
-                        // forward direction never hit this -- is unaffected.
-                        removals.push_back(WWMIFixerConfig::RegRemoval{"CheckTextureOverride", "vs-cb3"});
-                        removals.push_back(WWMIFixerConfig::RegRemoval{"CheckTextureOverride", "vs-cb4"});
-                        removals.push_back(WWMIFixerConfig::RegRemoval{"vs-cb3", "resourceextramergedskeleton"});
-                        removals.push_back(WWMIFixerConfig::RegRemoval{"vs-cb4", "resourcemergedskeleton"});
-
-                        // AND THE THIRD BRANCH (2026-10-02). A real WWMI Tools mod writes
-                        // `if vs-cb4 == marker / ... / elif vs-cb3 == marker / vs-cb3 = ref
-                        // ResourceMergedSkeleton`, and that last line is named by NEITHER pair
-                        // above -- it is cb3 carrying the NON-extra resource.
-                        //
-                        // `vs-cb3` is the second skeleton: the PREVIOUS frame's pose, which the
-                        // shader turns into motion vectors. The survivor consumes its marker, so
-                        // the fix's merge list skips cb3 on those draws and they keep the game's --
-                        // the current pose from our remapped skeleton and the previous pose from
-                        // the TARGET's own. The motion vectors are then wrong and TAA smears a
-                        // second body, visible only while the character moves and in no still.
-                        // Measured on ChisaParfait1, inside the fix's own merge list:
-                        // `if vs-cb3 == 3381.7777` true 8827, FALSE 4418 -- a third of the draws.
-                        removals.push_back(WWMIFixerConfig::RegRemoval{"vs-cb3", "resourcemergedskeleton"});
+                        for (const auto& [reg, prefix] : WWMIRuntime::remappedSkeletonRemovals()) {
+                            removals.push_back(WWMIFixerConfig::RegRemoval{reg, prefix});
+                        }
                     }
 
                     if (!removals.empty()) {
+                        // each value matched with or without `ref`: an identity mod writes `vs-cb4 = ResourceMergedSkeleton`
+                        // and WWMI Tools `vs-cb4 = ref ResourceMergedSkeleton`, and ChisaFixer.cpp's
+                        // `{"ResourceBlendBufferOverride", "ref"}` drops a binding however it reaches its resource
                         std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> keys;
                         keys.reserve(removals.size());
                         for (const WWMIFixerConfig::RegRemoval& removal : removals) {
-                            if (removal.valuePrefix.empty()) {
-                                keys.emplace_back(removal.reg, std::nullopt);
-                                continue;
-                            }
-
-                            const std::string prefix = StringTools::toLower(removal.valuePrefix);
-                            keys.emplace_back(removal.reg, RegRemove<>::RemoveKeyCheck(
-                                [prefix](long long, const std::string& value) {
-                                    // STEP OVER `ref` (2026-10-02). The prefix names the RESOURCE,
-                                    // and a binding may reach it either way: an identity mod built
-                                    // by wwmiIdentityMod.py writes `vs-cb4 = ResourceMergedSkeleton`
-                                    // and WWMI Tools -- which every downloadable mod is built with --
-                                    // writes `vs-cb4 = ref ResourceMergedSkeleton`. Comparing the raw
-                                    // value matched the first and missed the second.
-                                    //
-                                    // On a >256-bone target that is fatal and silent: the surviving
-                                    // line binds the MOD's merged skeleton and consumes the
-                                    // `boneDataFilter` marker, so the fix's own merge list -- guarded
-                                    // by that marker -- never runs and the draw skins target-space
-                                    // blend indices against the source's skeleton. The model is
-                                    // invisible, which is what this function's comment above already
-                                    // predicted. It showed on no identity mod, which is every mod the
-                                    // earlier rounds were tested on.
-                                    // EITHER FORM, because the two conventions are both in use and
-                                    // stepping over `ref` unconditionally broke the second
-                                    // (2026-10-03). A prefix may name the RESOURCE -- the case
-                                    // above -- or it may be the word `ref` itself, which is how
-                                    // ChisaFixer.cpp says "drop this binding however it reaches its
-                                    // resource":
-                                    //
-                                    //     {"ResourceBlendBufferOverride", "ref"}
-                                    //
-                                    // Stripping first made that stop matching, so those three lines
-                                    // survived into the REMAPPED sections -- the three a source past
-                                    // 256 bones carries that UNDO the remap, feeding the draw the
-                                    // source's own merged index against the target's skeleton. Real
-                                    // Chisa mods' bodies collapsed under an intact head; the identity
-                                    // mod did not show it, because it is the one mod whose own
-                                    // sections carry no such line.
-                                    const std::string lowered = StringTools::toLower(StringTools::lstrip(value));
-                                    const std::string ref = StringTools::toLower(IniKeywords::Ref);
-                                    if (StringTools::startsWith(lowered, prefix)) {
-                                        return true;
-                                    }
-
-                                    if (!StringTools::startsWith(lowered, ref + " ")) {
-                                        return false;
-                                    }
-
-                                    return StringTools::startsWith(
-                                        StringTools::lstrip(lowered.substr(ref.size())), prefix);
-                                }));
+                            keys.emplace_back(removal.reg, removal.valuePrefix.empty()
+                                                               ? std::nullopt
+                                                               : std::optional<RegRemove<>::RemoveKeyCheck>(
+                                                                     RegRemove<>::valueStartsWith(removal.valuePrefix)));
                         }
 
                         // the same without RabbitFX's own lines, for a component that keeps them
@@ -2842,18 +2746,6 @@ namespace AGRemapCore {
 
                     const std::string folder = ctx_.getIniFile()->getFolder();
 
-                    // the mod's `this` overrides: game texture hash -> the resource put in its place
-                    std::map<std::string, std::string> thisOf;
-                    for (const std::string& section : sectionRows().order) {
-                        if (!StringTools::startsWith(section, IniKeywords::TextureOverride)) {
-                            continue;
-                        }
-                        const std::optional<std::string> hash = ownVal(section, IniKeywords::Hash);
-                        const std::optional<std::string> ref = ownVal(section, IniKeywords::This);
-                        if (hash.has_value() && ref.has_value()) {
-                            thisOf.emplace(StringTools::toLower(*hash), *ref);
-                        }
-                    }
 
                     const auto tagOfResource = [this, &folder](const std::string& resource) -> std::optional<int> {
                         std::string name(StringTools::strip(resource));
@@ -2913,9 +2805,10 @@ namespace AGRemapCore {
                             // ...else the game's texture there, or the mod's `this` in its place
                             const auto gameHash = config_.sourceTextures.fallbackTextures.find(role->second);
                             if (gameHash != config_.sourceTextures.fallbackTextures.end()) {
-                                const auto over = thisOf.find(StringTools::toLower(gameHash->second));
-                                if (over != thisOf.end()) {
-                                    const std::optional<int> tag = tagOfResource(over->second);
+                                // the mod's `this` override of that texture, if any (IniParseData::thisOverrideOf)
+                                const std::optional<std::string> over = parseData().thisOverrideOf(gameHash->second);
+                                if (over.has_value()) {
+                                    const std::optional<int> tag = tagOfResource(*over);
                                     if (tag.has_value()) {
                                         tags[static_cast<std::size_t>(k)] = *tag;
                                     }
@@ -4434,42 +4327,20 @@ namespace AGRemapCore {
                         const Slot& s = target_.slots[slot];
                         auto label = config_.targetLabels.find(static_cast<int>(slot));
                         const std::string labelText = label == config_.targetLabels.end() ? std::to_string(slot) : label->second;
-                        const std::string state = IniKeywords::WWMIStateId + "_" + std::to_string(slot);
-                        SectionText hide(z3_, IniKeywords::TextureOverride + toModName_
-                                                 + TextTools::capitalize(config_.slotPrefix)
-                                                 + std::to_string(slot) + IniKeywords::Remap + "Hide");
-                        hide.prefix("; nothing of the mod is drawn through " + toModName_ + "'s " + labelText
-                                    + " slot: the skin's own geometry is skipped and its bones still merged")
-                            .keys({{IniKeywords::Hash, target_.vb0Hash},
-                                   {IniKeywords::MatchFirstIndex, s.indexOffset},
-                                   {IniKeywords::MatchIndexCount, s.indexCount}});
-                        hide.key(IniKeywords::WWMIObjectDetected, "1")
-                            .open(IniKeywords::WWMIModEnabled);
-
-                        if (legacy_) {
-                            hide.keys({{IniKeywords::Run, mergeListName(slot)}, {IniKeywords::Handling, IniKeywords::Skip}});
-                        } else {
-                            if (targetPast256_) {
-                                // Unconditional, for the reason above: these mods keep no `$state_id`, so the
-                                // guard never fires and a hidden slot's window never reaches the fix's skeleton.
-                                // The merge is idempotent, so running it per draw is waste rather than a fault.
-                                hide.keys({{IniKeywords::WWMIVgOffset, s.vgOffset},
-                                           {IniKeywords::WWMIVgCount, s.vgCount},
-                                           {IniKeywords::Run, remapFixName("CommandListMergeWindow")}});
-                            } else {
-                                hide.key(IniKeywords::Local + " " + state)
-                                    .open(state + " != $state_id")
-                                    .keys({{state, IniKeywords::WWMIStateId},
-                                           {IniKeywords::WWMIVgOffset, s.vgOffset},
-                                           {IniKeywords::WWMIVgCount, s.vgCount},
-                                           {IniKeywords::Run, remapFixName("CommandListMergeSkeleton")}})
-                                    .close();
-                            }
-
-                            hide.open("ResourceMergedSkeleton !== null")
-                                .key(IniKeywords::Handling, IniKeywords::Skip)
-                                .close();
-                        }
+                        WWMIRuntime::Hide hide;
+                        hide.name = IniKeywords::TextureOverride + toModName_ + TextTools::capitalize(config_.slotPrefix)
+                                    + std::to_string(slot) + IniKeywords::Remap + "Hide";
+                        hide.comment = "; nothing of the mod is drawn through " + toModName_ + "'s " + labelText
+                                       + " slot: the skin's own geometry is skipped and its bones still merged";
+                        hide.vb0Hash = target_.vb0Hash;
+                        hide.indexOffset = s.indexOffset;
+                        hide.indexCount = s.indexCount;
+                        hide.vgOffset = s.vgOffset;
+                        hide.vgCount = s.vgCount;
+                        hide.slot = std::to_string(slot);
+                        hide.legacyMergeList = legacy_ ? mergeListName(static_cast<int>(slot)) : std::string();
+                        hide.mergeWindowList = targetPast256_ ? remapFixName("CommandListMergeWindow") : std::string();
+                        hide.mergeSkeletonList = remapFixName("CommandListMergeSkeleton");
 
                         // WWMIFixerConfig::stashRegs: the game's own bindings on this slot, for a shader
                         // drawn on another
@@ -4477,15 +4348,13 @@ namespace AGRemapCore {
                         if (stash != config_.stashRegs.end() && !stashRead(static_cast<int>(slot))) {
                             stash = config_.stashRegs.end();      // no shader drawn for this mod reads it
                         }
-                        if (stash != config_.stashRegs.end() && !stash->second.empty()) {
-                            hide.open("o3 !== null");
+                        if (stash != config_.stashRegs.end()) {
                             for (const std::string& reg : stash->second) {
-                                hide.key(stashResource(static_cast<int>(slot), reg), IniKeywords::Ref + " " + reg);
+                                hide.stashed.emplace_back(stashResource(static_cast<int>(slot), reg), IniKeywords::Ref + " " + reg);
                             }
-                            hide.close();
                         }
 
-                        addFixSection(hide.close().build());
+                        addFixSection(WWMIRuntime::hideSection(z3_, hide));
 
                         if (stash != config_.stashRegs.end()) {
                             for (const std::string& reg : stash->second) {
@@ -5092,78 +4961,25 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    const std::string prefix = StringTools::toLower(config_.texRegPrefix);
-                    const std::string ref = StringTools::toLower(IniKeywords::Ref);
-
-                    // A resource the mod also binds with `this =` on a texture's hash is on for every draw
-                    // of the source that binds that texture, whatever the register lines say: Lynae3
-                    // binds its body diffuse that way and has one register line for it, under `$Wish`.
-                    // Those roles keep the mod's file (the toggle lists of bindLine handle a `this` chain)
-                    std::set<std::string> thisBound;
-                    for (const std::string& section : sectionRows().order) {
-                        for (const Row* row : ownRows(section)) {
-                            if (row->key == IniKeywords::This) {
-                                thisBound.insert(StringTools::toLower(StringTools::strip(row->value)));
-                            }
-                        }
-                    }
-
-                    // a line's path is the branch of each `if` block it sits in (GraphCollectRow::blocks)
-                    using Path = std::vector<std::size_t>;
-                    const auto encloses = [](const Path& outer, const Path& inner) {
-                        return outer.size() <= inner.size() && std::equal(outer.begin(), outer.end(), inner.begin());
-                    };
-
+                    // Which resources a component binds only under a toggle is the parser's
+                    // (IniParseData::toggledBindings); a reroute reads its source component's. A resource the
+                    // mod also binds with `this =` on a texture's hash is on for every draw of the source that
+                    // binds that texture, whatever the register lines say: Lynae3 binds its body diffuse that
+                    // way and has one register line for it, under `$Wish`. Those roles keep the mod's file (the
+                    // toggle lists of bindLine handle a `this` chain)
+                    const IniParseData& data = parseData();
                     for (const auto& [component, sections] : present_) {
+                        (void)sections;
                         const auto planned = config_.plan.find(component);
                         if (planned == config_.plan.end()) {
                             continue;
                         }
 
-                        // resource -> the (path, register) of every line binding it; and every draw's path
-                        std::map<std::string, std::vector<std::pair<Path, std::string>>> occurrences;
-                        std::vector<Path> draws;
-                        for (const std::string& section : sections) {
-                            for (const Row* row : ownRows(section)) {
-                                const Path& path = row->blocks;
-                                const std::string key = StringTools::toLower(StringTools::strip(row->key));
-                                if (StringTools::startsWith(key, "draw")) {
-                                    draws.push_back(path);
-                                    continue;
-                                }
-
-                                if (!StringTools::startsWith(key, prefix)) {
-                                    continue;
-                                }
-
-                                std::string val(StringTools::strip(row->value));
-                                if (StringTools::startsWith(StringTools::toLower(val), ref + " ")) {
-                                    val = std::string(StringTools::lstrip(val.substr(ref.size())));
-                                }
-
-                                if (!val.empty()) {
-                                    occurrences[StringTools::toLower(val)].emplace_back(path, key);
-                                }
-                            }
-                        }
-
-                        if (draws.empty()) {
+                        const auto alias = rerouteFrom_.find(component);
+                        const std::set<std::string>& toggledOnly = data.toggledBindings(
+                            ModObj("", config_.slotPrefix + std::to_string(alias != rerouteFrom_.end() ? alias->second : component)));
+                        if (toggledOnly.empty()) {
                             continue;
-                        }
-
-                        const auto reaches = [&draws, &encloses](const Path& path) {
-                            return std::any_of(draws.begin(), draws.end(),
-                                               [&](const Path& draw) { return encloses(path, draw); });
-                        };
-
-                        // the registers some reaching line binds: the mod's own default there
-                        std::set<std::string> defaulted;
-                        for (const auto& [resource, lines] : occurrences) {
-                            for (const auto& [path, key] : lines) {
-                                if (reaches(path)) {
-                                    defaulted.insert(key);
-                                }
-                            }
                         }
 
                         for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned->first)) {
@@ -5177,22 +4993,9 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                                                        const std::string base = StringTools::toLower(*resource);
-                            const auto lines = occurrences.find(base);
-                            if (lines == occurrences.end() || thisBound.count(base) > 0) {
-                                continue;                   // bound some other way (a `this` override, a RabbitFX line)
-                            }
-
-                            bool toggled = true;
-                            for (const auto& [path, key] : lines->second) {
-                                if (reaches(path) || defaulted.count(key) > 0) {
-                                    toggled = false;
-                                    break;
-                                }
-                            }
-
-                            if (!toggled) {
-                                continue;
+                            const std::string base = StringTools::toLower(*resource);
+                            if (toggledOnly.count(base) == 0 || data.isThisBound(base)) {
+                                continue;                   // bound unconditionally, or some other way (a `this` override)
                             }
 
                             if (!planGameResource(binding.role)) {

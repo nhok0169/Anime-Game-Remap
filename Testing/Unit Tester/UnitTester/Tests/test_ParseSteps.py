@@ -145,3 +145,40 @@ run = CommandList\Lib\Draw
 """, libraries = [("Lib", lambda text: "\lib\\" in text.lower())], runDraws = lambda called: True)
         self.assertEqual(data.libraries(self.Body), {"Lib"})
         self.assertFalse(data.isUndrawn(self.Body))
+
+    def test_fileAnatomy_aResourceBoundOnlyUnderAToggle_isAToggledBinding(self):
+        data = self.anatomy(r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+ps-t0 = ResourceBodyDiffuse
+if $alt == 1
+    ps-t1 = ResourceAlt
+endif
+drawindexed = 300, 0, 0
+""")
+        self.assertEqual(data.toggledBindings(self.Body), {"resourcealt"})
+
+    def test_fileAnatomy_aToggledLineAtARegisterWithADefault_isNotAToggledBinding(self):
+        data = self.anatomy(r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+ps-t0 = ResourceBodyDiffuse
+if $alt == 1
+    ps-t0 = ResourceAlt
+endif
+drawindexed = 300, 0, 0
+""")
+        self.assertEqual(data.toggledBindings(self.Body), set())
+
+    def test_thisOverrides_firstWins_andThisBoundIgnoresCase(self):
+        data = FRB.IniParseData()
+        data.setThisOverride("ABCD1234", "ResourceFirst")
+        data.setThisOverride("abcd1234", "ResourceSecond")
+        data.addThisBound("ResourceFirst")
+
+        self.assertEqual(data.thisOverrideOf("abcd1234"), "ResourceFirst")
+        self.assertIsNone(data.thisOverrideOf("ffffffff"))
+        self.assertTrue(data.isThisBound("resourcefirst"))
+        self.assertFalse(data.isThisBound("ResourceSecond"))

@@ -332,6 +332,59 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The texture resources a mod object's own `sections`_ bind ONLY under a toggle, lowercased: every line binding
+             one sits in a branch that no draw of the object sits in, at a register no line reaching a draw binds. The
+             game's own texture is what those draws render with whenever the toggle is off
+             @endrst
+             *
+             * @param modObj The mod object
+             */
+            const std::set<std::string>& toggledBindings(const ModObj& modObj) const;
+
+            /**
+             * @brief Sets #toggledBindings
+             *
+             * @param modObj The mod object
+             * @param resources The resources, lowercased
+             */
+            void setToggledBindings(const ModObj& modObj, std::set<std::string> resources);
+
+            /**
+             * @brief
+             @rst
+             The resource a ``TextureOverride`` `section`_ with ``hash`` 'hash' puts in the texture's place with
+             ``this =``, as written -- the first such section's -- or ``std::nullopt``
+             @endrst
+             *
+             * @param hash The texture's hash, in any case
+             */
+            std::optional<std::string> thisOverrideOf(const std::string& hash) const;
+
+            /**
+             * @brief Sets #thisOverrideOf, unless a resource is already recorded for 'hash'
+             *
+             * @param hash The texture's hash, in any case
+             * @param resource The resource
+             */
+            void setThisOverride(const std::string& hash, std::string resource);
+
+            /**
+             * @brief Whether any `section`_ binds 'resource' with ``this =``
+             *
+             * @param resource The resource, in any case
+             */
+            bool isThisBound(const std::string& resource) const;
+
+            /**
+             * @brief Records that a `section`_ binds 'resource' with ``this =`` -- see #isThisBound
+             *
+             * @param resource The resource, in any case
+             */
+            void addThisBound(const std::string& resource);
+
+            /**
+             * @brief
+             @rst
              Whether the mod replaces a game texture BY HASH anywhere -- a texture override with a
              ``hash`` and a ``this =`` -- so its art reaches every draw that binds that texture,
              whatever the draw's own `section`_ binds
@@ -646,6 +699,15 @@ namespace AGRemapCore {
                 bool noneUndrawnWhenAll = false;
 
                 /**
+                 * @brief
+                 @rst
+                 The collect whose rows hold every key of every `section`_ -- see :cpp:member:`IniParseRows::Sections` --
+                 for #thisOverrideOf and #isThisBound, or empty for none
+                 @endrst
+                 */
+                std::string sections;
+
+                /**
                  * @brief Where a draw range that cannot be read is reported, or empty
                  */
                 std::function<void(const std::string& message)> log;
@@ -657,8 +719,9 @@ namespace AGRemapCore {
              Reads the mod's anatomy off collected rows and records it: each resource's file (#resourceFiles), and for
              each object its numbered draws (#drawRanges) and the parts they sit in (#drawParts), the texture registers it
              binds only after it has drawn (#lateBindings, unless #replacesTexturesByHash), the libraries it names
-             (#libraries), and whether it is hidden -- its `sections`_ draw nothing and skip the game's draw
-             (#isUndrawn). Only the rows in an object's own root `sections`_ count, except that a draw or a ``run =``
+             (#libraries), the texture resources it binds only under a toggle (#toggledBindings), and whether it is
+             hidden -- its `sections`_ draw nothing and skip the game's draw (#isUndrawn). Given
+             :cpp:member:`AnatomyRules::sections`, also every ``this =`` override (#thisOverrideOf, #isThisBound). Only the rows in an object's own root `sections`_ count, except that a draw or a ``run =``
              anywhere it reaches counts as drawing
              @endrst
              *
@@ -677,6 +740,9 @@ namespace AGRemapCore {
             std::map<ModObj, std::set<std::size_t>> drawParts_;
             std::map<ModObj, std::set<std::string>> libraries_;
             std::map<ModObj, std::vector<std::string>> lateBindings_;
+            std::map<ModObj, std::set<std::string>> toggledBindings_;
+            std::map<std::string, std::string> thisOverrides_;
+            std::set<std::string> thisBound_;
             bool replacesByHash_ = false;
             std::map<std::string, std::string> resourceFiles_;
             std::map<std::string, std::string> textureResources_;

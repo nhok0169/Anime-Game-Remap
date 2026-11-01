@@ -436,7 +436,9 @@ a hand-written `[Section]` string inside the fixer. The templates grew the oppos
 lines, `GIMIMergeFixer.cpp` 3421, `GIMIComponentFixer.cpp` 2578, `ZZMIFixer.cpp` 1294 with its own section parser,
 texcoord byte cutter, band filter and `groupToStr` text passes -- and are being moved back onto edits. Before any
 new fixer code: name the edit each step is, grep the edit families for it (Overview habit 53), and if it is
-missing, the work item is the EDIT, not the fixer.
+missing, the work item is the EDIT, not the fixer. **And the refactor is not moving code (the maintainer,
+2026-10-31):** a slice is judged by how much of the fixer's logic BECOMES configured edits plus data -- a loop
+relocated into a data module or a helper, doing the same thing, is no progress.
 
 **BUT A NEW EDIT MUST EDIT THE GRAPH (the maintainer, 2026-10-31).** Asked what a proposed `DrawTexelSplit` parse
 step, and the then-existing `SkeletonNumberingRead` (retired the same day), offered that the other edits could not express, the honest answer

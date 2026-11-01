@@ -321,6 +321,78 @@ modObj: Tuple[:class:`str`, :class:`str`]
 regs: List[:class:`str`]
     The registers
        )doc")
+       .def("toggledBindings", &AGRC::IniParseData::toggledBindings, py::arg("modObj"), py::return_value_policy::copy, R"doc(
+The texture resources a mod object's own `sections`_ bind ONLY under a toggle, lowercased: every line binding one sits
+in a branch that no draw of the object sits in, at a register no line reaching a draw binds. The game's own texture is
+what those draws render with whenever the toggle is off
+
+Parameters
+----------
+modObj: Tuple[:class:`str`, :class:`str`]
+    The mod object, ``(component, object)``
+
+Returns
+-------
+Set[:class:`str`]
+    The resources
+       )doc")
+       .def("setToggledBindings", &AGRC::IniParseData::setToggledBindings, py::arg("modObj"), py::arg("resources"), R"doc(
+Sets :meth:`toggledBindings`
+
+Parameters
+----------
+modObj: Tuple[:class:`str`, :class:`str`]
+    The mod object, ``(component, object)``
+
+resources: Set[:class:`str`]
+    The resources, lowercased
+       )doc")
+       .def("thisOverrideOf", &AGRC::IniParseData::thisOverrideOf, py::arg("hash"), R"doc(
+The resource a ``TextureOverride`` `section`_ with ``hash`` 'hash' puts in the texture's place with ``this =``, as
+written -- the first such section's -- or ``None``
+
+Parameters
+----------
+hash: :class:`str`
+    The texture's hash, in any case
+
+Returns
+-------
+Optional[:class:`str`]
+    The resource
+       )doc")
+       .def("setThisOverride", &AGRC::IniParseData::setThisOverride, py::arg("hash"), py::arg("resource"), R"doc(
+Sets :meth:`thisOverrideOf`, unless a resource is already recorded for 'hash'
+
+Parameters
+----------
+hash: :class:`str`
+    The texture's hash, in any case
+
+resource: :class:`str`
+    The resource
+       )doc")
+       .def("isThisBound", &AGRC::IniParseData::isThisBound, py::arg("resource"), R"doc(
+Whether any `section`_ binds 'resource' with ``this =``
+
+Parameters
+----------
+resource: :class:`str`
+    The resource, in any case
+
+Returns
+-------
+:class:`bool`
+    Whether it is
+       )doc")
+       .def("addThisBound", &AGRC::IniParseData::addThisBound, py::arg("resource"), R"doc(
+Records that a `section`_ binds 'resource' with ``this =`` -- see :meth:`isThisBound`
+
+Parameters
+----------
+resource: :class:`str`
+    The resource, in any case
+       )doc")
        .def("replacesTexturesByHash", &AGRC::IniParseData::replacesTexturesByHash, R"doc(
 Whether the mod replaces a game texture BY HASH anywhere -- a texture override with a ``hash`` and a
 ``this =`` -- so its art reaches every draw that binds that texture, whatever the draw's own `section`_ binds
@@ -687,6 +759,10 @@ each by whether a key or value names it
         .def_readwrite("noneUndrawnWhenAll", &AGRC::IniParseData::AnatomyRules::noneUndrawnWhenAll, py::doc(R"doc(
 :class:`bool`: When EVERY object read looks hidden (draws nothing and skips the game's draw), record none of them as
 undrawn: a mod the reading does not understand. **Default**: ``False``
+        )doc"))
+        .def_readwrite("sections", &AGRC::IniParseData::AnatomyRules::sections, py::doc(R"doc(
+:class:`str`: The collect whose rows hold every key of every `section`_ -- see :attr:`IniParseRows.Sections` -- for
+:meth:`IniParseData.thisOverrideOf` and :meth:`IniParseData.isThisBound`, or empty for none
         )doc"))
         .def_readwrite("log", &AGRC::IniParseData::AnatomyRules::log, py::doc(R"doc(
 Optional[Callable[[:class:`str`], None]]: Where a draw range that cannot be read is reported, or ``None``

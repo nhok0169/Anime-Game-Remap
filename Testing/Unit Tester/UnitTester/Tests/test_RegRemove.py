@@ -63,3 +63,14 @@ class RegRemoveTest(BaseUnitTest):
 
         edit.edit(part, "root", None, partRanges = FRB.Ranges([(1, 2)]))
         self.compareList(part.entries(), [("a", "1"), ("a", "3")])
+
+    def test_valueStartsWith_matchesTheResourceWithOrWithoutRef_ignoringCase(self):
+        check = FRB.RegRemove.valueStartsWith("ResourceMergedSkeleton")
+        self.assertTrue(check(0, "ResourceMergedSkeleton"))
+        self.assertTrue(check(0, "  ref resourcemergedskeletonRW"))
+        self.assertFalse(check(0, "ResourceExtraMergedSkeleton"))
+
+    def test_valueStartsWith_ref_acceptsEveryRefBinding(self):
+        check = FRB.RegRemove.valueStartsWith("ref")
+        self.assertTrue(check(0, "ref ResourceBlend"))
+        self.assertFalse(check(0, "ResourceBlend"))

@@ -24,6 +24,67 @@ namespace AGRemapCore {
         return skeleton.name("CommandListMergeSlot" + std::to_string(slot));
     }
 
+    std::vector<std::pair<std::string, std::string>> WWMIRuntime::remappedSkeletonRemovals() {
+        return {
+            // the mod's own merge list: it writes the TARGET's bones into the mod's merged skeleton, sized for 256 --
+            // the fix's own CommandListMergeSlot<N> does that work into a buffer sized for the target. Matched by
+            // prefix, which covers the name before and after the group remap renames it
+            {IniKeywords::Run, "commandlistmergeskeleton"},
+            // the two other routes to that list: `CheckTextureOverride = vs-cb4` runs whatever section matches the
+            // buffer bound there, which on such a mod IS its merge, and consumes the bone-data marker the fix's merge
+            // list is guarded by
+            {"CheckTextureOverride", "vs-cb3"},
+            {"CheckTextureOverride", "vs-cb4"},
+            // the mod's own bindings of its merged skeletons, the fix's merge list binds the remapped ones
+            {"vs-cb3", "resourceextramergedskeleton"},
+            {"vs-cb4", "resourcemergedskeleton"},
+            // and the third branch WWMI Tools writes: cb3 carrying the NON-extra resource -- left in, it consumes the
+            // marker on a third of the draws and smears a second body through the motion vectors
+            {"vs-cb3", "resourcemergedskeleton"}};
+    }
+
+    std::unique_ptr<WWMIRuntime::Section> WWMIRuntime::hideSection(Z3Context& z3, const Hide& hide) {
+        SectionText text(z3, hide.name);
+        text.prefix(hide.comment)
+            .keys({{IniKeywords::Hash, hide.vb0Hash},
+                   {IniKeywords::MatchFirstIndex, hide.indexOffset},
+                   {IniKeywords::MatchIndexCount, hide.indexCount}});
+        text.key(IniKeywords::WWMIObjectDetected, "1")
+            .open(IniKeywords::WWMIModEnabled);
+
+        if (!hide.legacyMergeList.empty()) {
+            text.keys({{IniKeywords::Run, hide.legacyMergeList}, {IniKeywords::Handling, IniKeywords::Skip}});
+        } else {
+            if (!hide.mergeWindowList.empty()) {
+                // Unconditional: these mods keep no `$state_id`, so a latch never fires and a hidden slot's window
+                // never reaches the fix's skeleton. The merge is idempotent, so running it per draw is waste rather
+                // than a fault.
+                text.keys({{IniKeywords::WWMIVgOffset, hide.vgOffset},
+                           {IniKeywords::WWMIVgCount, hide.vgCount},
+                           {IniKeywords::Run, hide.mergeWindowList}});
+            } else {
+                const std::string state = IniKeywords::WWMIStateId + "_" + hide.slot;
+                text.key(IniKeywords::Local + " " + state)
+                    .open(state + " != $state_id")
+                    .keys({{state, IniKeywords::WWMIStateId},
+                           {IniKeywords::WWMIVgOffset, hide.vgOffset},
+                           {IniKeywords::WWMIVgCount, hide.vgCount},
+                           {IniKeywords::Run, hide.mergeSkeletonList}})
+                    .close();
+            }
+
+            text.open("ResourceMergedSkeleton !== null")
+                .key(IniKeywords::Handling, IniKeywords::Skip)
+                .close();
+        }
+
+        if (!hide.stashed.empty()) {
+            text.open("o3 !== null").keys(hide.stashed).close();
+        }
+
+        return text.close().build();
+    }
+
     std::string WWMIRuntime::blendRemapInitList(const BlendRemap& blendRemap) {
         return blendRemap.name("CommandListBlendRemap");
     }

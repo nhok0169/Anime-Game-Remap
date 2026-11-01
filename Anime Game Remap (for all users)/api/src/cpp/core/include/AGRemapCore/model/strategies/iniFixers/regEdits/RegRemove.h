@@ -100,6 +100,21 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             A check accepting a line whose value starts with 'prefix', ignoring case and leading space -- or whose value
+             is ``ref`` followed by such a value, since a binding may name its resource either way (``vs-cb4 =
+             ResourceMergedSkeleton`` and ``vs-cb4 = ref ResourceMergedSkeleton``). A 'prefix' of ``ref`` itself
+             accepts every ``ref`` binding
+             @endrst
+             *
+             * @param prefix The start of the value, in any case
+             *
+             * @return The check
+             */
+            static RemoveKeyCheck valueStartsWith(std::string prefix);
+
+            /**
+             * @brief
+             @rst
              Removes every key in \ref removeKeys from 'part', by forwarding straight to
              :cpp:func:`IfContentPart::removeKeys`
              @endrst

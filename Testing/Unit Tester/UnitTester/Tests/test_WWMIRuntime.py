@@ -55,3 +55,25 @@ class WWMIRuntimeTest(BaseUnitTest):
         names = self.names(FRB.WWMIRuntime.blendRemapSections(FRB.Z3Context(), blendRemap))
         self.assertEqual(names[-1], FRB.WWMIRuntime.blendRemapInitList(blendRemap))
         self.assertEqual(len(names), 8)
+
+    def test_remappedSkeletonRemovals_theMergeListItsRoutesAndTheSkeletonBindings(self):
+        removals = FRB.WWMIRuntime.remappedSkeletonRemovals()
+        self.assertIn(("run", "commandlistmergeskeleton"), removals)
+        self.assertIn(("CheckTextureOverride", "vs-cb4"), removals)
+        self.assertIn(("vs-cb3", "resourcemergedskeleton"), removals)
+        self.assertEqual(len(removals), 6)
+
+    def hide(self, **fields):
+        hide = FRB.WWMIRuntime.Hide()
+        hide.name = "TextureOverrideHide"
+        hide.vb0Hash = "abcd1234"
+        hide.indexOffset, hide.indexCount, hide.vgOffset, hide.vgCount = "0", "300", "10", "20"
+        hide.slot = "3"
+        hide.mergeSkeletonList = "CommandListMergeSkeleton"
+        for name, value in fields.items():
+            setattr(hide, name, value)
+        return FRB.WWMIRuntime.hideSection(FRB.Z3Context(), hide)
+
+    def test_hideSection_isNamedAndCarriesTheSlotsMatchKeys(self):
+        section = self.hide()
+        self.assertEqual(section.name, "TextureOverrideHide")

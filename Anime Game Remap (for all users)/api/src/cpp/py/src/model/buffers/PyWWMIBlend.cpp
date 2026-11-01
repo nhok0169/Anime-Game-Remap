@@ -619,7 +619,60 @@ Callable[[:class:`str`], :class:`str`]: The files of the remap's three id buffer
         .def_readwrite("blendReg", &Runtime::BlendRemap::blendReg,
                        ":class:`str`: The register the remapped blend is bound at");
 
+    py::class_<Runtime::Hide>(runtime, "Hide", "What :meth:`WWMIRuntime.hideSection` writes")
+        .def(py::init<>())
+        .def_readwrite("name", &Runtime::Hide::name, ":class:`str`: The `section`_'s name")
+        .def_readwrite("comment", &Runtime::Hide::comment, ":class:`str`: The comment written above it")
+        .def_readwrite("vb0Hash", &Runtime::Hide::vb0Hash, ":class:`str`: The target's ``vb0`` hash")
+        .def_readwrite("indexOffset", &Runtime::Hide::indexOffset, ":class:`str`: The slot's ``match_first_index``")
+        .def_readwrite("indexCount", &Runtime::Hide::indexCount, ":class:`str`: The slot's ``match_index_count``")
+        .def_readwrite("vgOffset", &Runtime::Hide::vgOffset, ":class:`str`: The slot's ``vg_offset``")
+        .def_readwrite("vgCount", &Runtime::Hide::vgCount, ":class:`str`: The slot's ``vg_count``")
+        .def_readwrite("slot", &Runtime::Hide::slot, ":class:`str`: A name of the slot for its frame latch (``$state_id_<slot>``)")
+        .def_readwrite("legacyMergeList", &Runtime::Hide::legacyMergeList, R"doc(
+:class:`str`: For a mod from before WWMI's merged skeleton: the list that merges the slot's bones
+(:meth:`WWMIRuntime.mergeListName`), run before the draw is skipped -- or empty for a mod with a merged skeleton
+        )doc")
+        .def_readwrite("mergeWindowList", &Runtime::Hide::mergeWindowList, R"doc(
+:class:`str`: For a target past 256 bones: the list that merges the slot's window into the fix's own skeleton, run on
+every draw -- or empty, which runs :attr:`mergeSkeletonList` once a frame through the slot's latch
+        )doc")
+        .def_readwrite("mergeSkeletonList", &Runtime::Hide::mergeSkeletonList,
+                       ":class:`str`: The list run once a frame without :attr:`mergeWindowList`")
+        .def_readwrite("stashed", &Runtime::Hide::stashed, R"doc(
+List[Tuple[:class:`str`, :class:`str`]]: Lines that capture the game's own bindings on the slot, run while a pixel
+shader is bound
+        )doc");
+
     runtime
+        .def_static("remappedSkeletonRemovals", &Runtime::remappedSkeletonRemovals, R"doc(
+The lines a remapped `section`_ drops when the target is past 256 bones, as ``(key, value prefix)`` -- each value
+matched with :meth:`RegRemove.valueStartsWith`. They are the mod's own merge list and the two other routes to it
+(``CheckTextureOverride`` on ``vs-cb3`` / ``vs-cb4``), and its own bindings of the merged skeletons: each would write
+or bind the MOD's skeleton, sized for the source, and consume the bone-data marker the fix's own merge list is gated on
+
+Returns
+-------
+List[Tuple[:class:`str`, :class:`str`]]
+    The lines
+        )doc")
+        .def_static("hideSection", &Runtime::hideSection, py::arg("z3"), py::arg("hide"), R"doc(
+The ``TextureOverride`` of a target draw slot nothing of the mod is drawn through: it skips the skin's own geometry
+and still merges the slot's bones, which other slots' vertices may be weighted to
+
+Parameters
+----------
+z3: :class:`Z3Context`
+    The Z3 context the `if` lines are parsed in
+
+hide: :class:`WWMIRuntime.Hide`
+    What to write
+
+Returns
+-------
+:class:`IfTemplate`
+    The section
+        )doc")
         .def_static("mergeListName", &Runtime::mergeListName, py::arg("skeleton"), py::arg("slot"), R"doc(
 The merge list of one target draw slot
 

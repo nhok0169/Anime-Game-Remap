@@ -309,7 +309,7 @@ add_library(AGRemapCore STATIC
     src/model/strategies/iniParsers/IniParseBuilder.cpp
     src/model/strategies/iniParsers/IniParseData.cpp
     src/model/strategies/iniParsers/TextureRoles.cpp
-    src/model/strategies/iniParsers/TextureRoleChooser.cpp
+    src/data/IniParseData/TextureRoleChooser.cpp
     src/model/strategies/iniFixers/IniFixBuilder.cpp
     src/model/strategies/iniFixers/IniFileFixContext.cpp
     src/data/IniFixData/TemplateFixer.cpp

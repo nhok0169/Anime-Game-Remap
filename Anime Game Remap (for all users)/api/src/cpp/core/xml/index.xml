@@ -9828,6 +9828,8 @@
   </compound>
   <compound refid="_texture_overrides_8cpp" kind="file"><name>TextureOverrides.cpp</name>
   </compound>
+  <compound refid="_texture_role_chooser_8cpp" kind="file"><name>TextureRoleChooser.cpp</name>
+  </compound>
   <compound refid="_w_w_m_i_parser_8cpp" kind="file"><name>WWMIParser.cpp</name>
   </compound>
   <compound refid="_xiangling_parser_8cpp" kind="file"><name>XianglingParser.cpp</name>

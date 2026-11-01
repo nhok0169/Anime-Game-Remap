@@ -11,7 +11,7 @@
 
 // ##### EndCredits
 
-#include "AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h"
+#include "AGRemapCore/data/IniParseData/TextureRoleChooser.h"
 
 #include <algorithm>
 #include <tuple>

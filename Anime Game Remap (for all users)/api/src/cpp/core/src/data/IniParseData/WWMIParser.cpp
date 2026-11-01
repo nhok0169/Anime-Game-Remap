@@ -3,7 +3,7 @@
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 #include "AGRemapCore/data/RabbitFX.h"
-#include "AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h"
+#include "AGRemapCore/data/IniParseData/TextureRoleChooser.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"

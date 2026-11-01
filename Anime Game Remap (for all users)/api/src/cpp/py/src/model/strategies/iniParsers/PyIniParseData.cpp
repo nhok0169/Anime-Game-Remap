@@ -22,7 +22,7 @@
 
 #include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseRows.h"
-#include "AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h"
+#include "AGRemapCore/data/IniParseData/TextureRoleChooser.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
 
 namespace py = pybind11;

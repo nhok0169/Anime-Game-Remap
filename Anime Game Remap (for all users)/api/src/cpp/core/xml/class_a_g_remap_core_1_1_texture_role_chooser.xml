@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" line="69" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" bodystart="69" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" line="69" column="13" bodyfile="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" bodystart="69" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-type">
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" line="130" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" bodystart="130" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" line="130" column="13" bodyfile="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" bodystart="130" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" line="74" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" bodystart="74" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" line="74" column="22" bodyfile="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" bodystart="74" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_role_chooser_1abb4074cb6504d1bdaff5e41e45fd4499" prot="public" static="no" mutable="no">
         <type>std::map&lt; std::string, std::map&lt; <ref refid="class_a_g_remap_core_1_1_texture_role_chooser_1a354b65e4ebdd972780b3fe2181d068cb" kindref="member">ModObj</ref>, std::set&lt; std::string &gt; &gt; &gt;</type>
@@ -69,7 +69,7 @@ saying what that object&apos;s role is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" line="84" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" bodystart="84" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" line="84" column="22" bodyfile="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" bodystart="84" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_role_chooser_1af4d8ad0a45290cc9396b9fd77fd73d5e" prot="public" static="no" mutable="no">
         <type>std::map&lt; std::string, std::set&lt; std::string &gt; &gt;</type>
@@ -84,7 +84,7 @@ saying what that object&apos;s role is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" line="89" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" bodystart="89" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" line="89" column="22" bodyfile="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" bodystart="89" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_role_chooser_1a453a30b087d67583bb837ba54c709a86" prot="public" static="no" mutable="no">
         <type>std::set&lt; std::string &gt;</type>
@@ -99,7 +99,7 @@ saying what that object&apos;s role is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" line="94" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" bodystart="94" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" line="94" column="22" bodyfile="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" bodystart="94" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_role_chooser_1ae3f6901b731c3a845cb6f15abd3513bb" prot="public" static="no" mutable="no">
         <type>std::set&lt; std::string &gt;</type>
@@ -114,7 +114,7 @@ saying what that object&apos;s role is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" line="99" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" bodystart="99" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" line="99" column="22" bodyfile="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" bodystart="99" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_role_chooser_1ae690f94a76bb968e2c351fc2207a6001" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -129,7 +129,7 @@ saying what that object&apos;s role is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" line="104" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" bodystart="104" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" line="104" column="25" bodyfile="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" bodystart="104" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_role_chooser_1a2997f2e5219878b408acd6e323941a43" prot="public" static="no" mutable="no">
         <type>std::function&lt; bool(const std::string &amp;file)&gt;</type>
@@ -148,7 +148,7 @@ Whether a file is flat, for a :cpp:member:`regionRoles` role. **Default**: its c
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" line="114" column="27" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" bodystart="114" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" line="114" column="27" bodyfile="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" bodystart="114" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -195,7 +195,7 @@ Narrows the candidates and chooses a file for every role and mod object, into &a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" line="127" column="18" bodyfile="src/model/strategies/iniParsers/TextureRoleChooser.cpp" bodystart="24" bodyend="122"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" line="127" column="18" bodyfile="src/data/IniParseData/TextureRoleChooser.cpp" bodystart="24" bodyend="122"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -223,7 +223,7 @@ Narrows the candidates and chooses a file for every role and mod object, into &a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" line="132" column="18" bodyfile="src/model/strategies/iniParsers/TextureRoleChooser.cpp" bodystart="125" bodyend="160"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" line="132" column="18" bodyfile="src/data/IniParseData/TextureRoleChooser.cpp" bodystart="125" bodyend="160"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -262,7 +262,7 @@ three steps:
    Two files equal on the first four are a tie, recorded in :cpp:member:`IniParseData::RoleFile::tiedFile`
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" line="64" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h" bodystart="64" bodyend="133"/>
+    <location file="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" line="64" column="5" bodyfile="include/AGRemapCore/data/IniParseData/TextureRoleChooser.h" bodystart="64" bodyend="133"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_texture_role_chooser_1abb4074cb6504d1bdaff5e41e45fd4499" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureRoleChooser</scope><name>bindings</name></member>
       <member refid="class_a_g_remap_core_1_1_texture_role_chooser_1a950f0c77b36240624f3ec284ecffb4dc" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureRoleChooser</scope><name>candidates</name></member>

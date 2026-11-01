@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_texcoord_file_1_1_clean_stats" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::TexcoordFile::CleanStats</compoundname>
+    <includes refid="_texcoord_file_8h" local="no">TexcoordFile.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texcoord_file_1_1_clean_stats_1af2d6b1c4389e3901758d6c67c282a112" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::TexcoordFile::CleanStats::cleared</definition>
+        <argsstring></argsstring>
+        <name>cleared</name>
+        <qualifiedname>AGRemapCore::TexcoordFile::CleanStats::cleared</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many values that were not a number it set to <computeroutput>0</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexcoordFile.h" line="58" column="29" bodyfile="include/AGRemapCore/model/files/TexcoordFile.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texcoord_file_1_1_clean_stats_1a7ce0e06ce6435892fd16ecba6fdbad2e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::TexcoordFile::CleanStats::folded</definition>
+        <argsstring></argsstring>
+        <name>folded</name>
+        <qualifiedname>AGRemapCore::TexcoordFile::CleanStats::folded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many U values it folded into <computeroutput>[0, 1)</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexcoordFile.h" line="63" column="29" bodyfile="include/AGRemapCore/model/files/TexcoordFile.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What <ref refid="class_a_g_remap_core_1_1_texcoord_file_1af90954cbf903c5d9f352e36bb3b25f37" kindref="member">clean</ref> changed. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/files/TexcoordFile.h" line="54" column="13" bodyfile="include/AGRemapCore/model/files/TexcoordFile.h" bodystart="54" bodyend="64"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_texcoord_file_1_1_clean_stats_1af2d6b1c4389e3901758d6c67c282a112" prot="public" virt="non-virtual"><scope>AGRemapCore::TexcoordFile::CleanStats</scope><name>cleared</name></member>
+      <member refid="struct_a_g_remap_core_1_1_texcoord_file_1_1_clean_stats_1a7ce0e06ce6435892fd16ecba6fdbad2e" prot="public" virt="non-virtual"><scope>AGRemapCore::TexcoordFile::CleanStats</scope><name>folded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

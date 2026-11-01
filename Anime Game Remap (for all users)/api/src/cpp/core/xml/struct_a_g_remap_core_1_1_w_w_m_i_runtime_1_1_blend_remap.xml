@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIRuntime::BlendRemap</compoundname>
+    <includes refid="_w_w_m_i_runtime_8h" local="no">WWMIRuntime.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap_1a846f367ea5680e2d408ede57823bd1ed" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp;)&gt; AGRemapCore::WWMIRuntime::BlendRemap::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::WWMIRuntime::BlendRemap::name</qualifiedname>
+        <briefdescription>
+<para>The fix&apos;s name for a <computeroutput>section</computeroutput>_ of the given name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="143" column="31" bodyfile="include/AGRemapCore/data/WWMIRuntime.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap_1a7d31adea7e08c8778f0a24653f31a65f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIRuntime::BlendRemap::blendFile</definition>
+        <argsstring></argsstring>
+        <name>blendFile</name>
+        <qualifiedname>AGRemapCore::WWMIRuntime::BlendRemap::blendFile</qualifiedname>
+        <briefdescription>
+<para>The remapped blend file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="148" column="29" bodyfile="include/AGRemapCore/data/WWMIRuntime.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap_1a3919f43302598aaedd6f160c6e9aa728" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;which)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp; which)&gt; AGRemapCore::WWMIRuntime::BlendRemap::remapFile</definition>
+        <argsstring></argsstring>
+        <name>remapFile</name>
+        <qualifiedname>AGRemapCore::WWMIRuntime::BlendRemap::remapFile</qualifiedname>
+        <briefdescription>
+<para>The files of the remap&apos;s three id buffers: <computeroutput>VertexVG</computeroutput>, <computeroutput>Forward</computeroutput> and <computeroutput>Reverse</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="153" column="31" bodyfile="include/AGRemapCore/data/WWMIRuntime.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap_1a018e1a8711c7cfd62d1017d0cedcb0b0" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::WWMIRuntime::BlendRemap::blendStride</definition>
+        <argsstring></argsstring>
+        <name>blendStride</name>
+        <qualifiedname>AGRemapCore::WWMIRuntime::BlendRemap::blendStride</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The blend&apos;s stride. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="158" column="29" bodyfile="include/AGRemapCore/data/WWMIRuntime.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap_1a4b5b2b7563e6707abed29ca27faf1dbb" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::WWMIRuntime::BlendRemap::influences</definition>
+        <argsstring></argsstring>
+        <name>influences</name>
+        <qualifiedname>AGRemapCore::WWMIRuntime::BlendRemap::influences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many influences each vertex of the blend carries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="163" column="29" bodyfile="include/AGRemapCore/data/WWMIRuntime.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap_1af3f861b242ca4b515d6269d819f4d179" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIRuntime::BlendRemap::blendReg</definition>
+        <argsstring></argsstring>
+        <name>blendReg</name>
+        <qualifiedname>AGRemapCore::WWMIRuntime::BlendRemap::blendReg</qualifiedname>
+        <briefdescription>
+<para>The register the remapped blend is bound at. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="168" column="29" bodyfile="include/AGRemapCore/data/WWMIRuntime.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What <ref refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1a98069b4206d69ba0687fdb59c48c2bd0" kindref="member">blendRemapSections</ref> writes. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/WWMIRuntime.h" line="139" column="13" bodyfile="include/AGRemapCore/data/WWMIRuntime.h" bodystart="139" bodyend="169"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap_1a7d31adea7e08c8778f0a24653f31a65f" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime::BlendRemap</scope><name>blendFile</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap_1af3f861b242ca4b515d6269d819f4d179" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime::BlendRemap</scope><name>blendReg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap_1a018e1a8711c7cfd62d1017d0cedcb0b0" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime::BlendRemap</scope><name>blendStride</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap_1a4b5b2b7563e6707abed29ca27faf1dbb" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime::BlendRemap</scope><name>influences</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap_1a846f367ea5680e2d408ede57823bd1ed" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime::BlendRemap</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap_1a3919f43302598aaedd6f160c6e9aa728" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime::BlendRemap</scope><name>remapFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

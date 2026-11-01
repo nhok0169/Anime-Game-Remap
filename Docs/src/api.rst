@@ -2322,17 +2322,6 @@ SideMeshes
 
 :raw-html:`<br />`
 
-ParseDataStep
-=============
-
-.. attributetable:: FixRaidenBoss2.ParseDataStep
-
-.. autoclass:: FixRaidenBoss2.ParseDataStep
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 SympyIfPredGenerator
 ====================
 
@@ -2383,6 +2372,17 @@ TexCache
 .. attributetable:: FixRaidenBoss2.TexCache
 
 .. autoclass:: FixRaidenBoss2.TexCache
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TexcoordFile
+============
+
+.. attributetable:: FixRaidenBoss2.TexcoordFile
+
+.. autoclass:: FixRaidenBoss2.TexcoordFile
     :members:
     :private-members:
 
@@ -2779,6 +2779,17 @@ WWMIParserConfig
 .. attributetable:: FixRaidenBoss2.WWMIParserConfig
 
 .. autoclass:: FixRaidenBoss2.WWMIParserConfig
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+WWMIRuntime
+===========
+
+.. attributetable:: FixRaidenBoss2.WWMIRuntime
+
+.. autoclass:: FixRaidenBoss2.WWMIRuntime
     :members:
     :private-members:
 

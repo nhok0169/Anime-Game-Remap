@@ -39,6 +39,7 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/RabbitFX.h"
+#include "AGRemapCore/data/WWMIRuntime.h"
 #include "AGRemapCore/data/WWMITextureFacts.h"
 #include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
@@ -61,6 +62,7 @@
 #include "AGRemapCore/model/buffers/WWMIShapeKeys.h"
 #include "AGRemapCore/model/files/BinaryFile.h"
 #include "AGRemapCore/model/files/IbFile.h"
+#include "AGRemapCore/model/files/TexcoordFile.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/files/IniScan.h"
@@ -141,9 +143,6 @@ namespace AGRemapCore {
 
 
 
-        // The one element a texcoord line decodes into: `stride / 2` halves, named so
-        // the BufFile filters can find it in the decoded line.
-        const std::string TexcoordElement = "Texcoord";
         const std::string Cb4HashKey = "cb4";
 
         // THE HALF CODEC THAT USED TO LIVE HERE IS GONE (2026-09-29). It was a second
@@ -4270,221 +4269,48 @@ namespace AGRemapCore {
 
                 // The merge list the fix supplies per target slot for a legacy mod
                 std::string mergeListName(int slot) const {
-                    return remapFixName("CommandListMergeSlot" + std::to_string(slot));
+                    return WWMIRuntime::mergeListName(runtimeSkeleton(), slot);
                 }
 
-                // What a mod from before WWMI's merged skeleton has none of: the two skeleton buffers and
-                // their read-only copies, the marker on the game's bone-data constant buffer, and one
-                // merge list per target slot -- each gated on the marker, so a pass with something else in
-                // that slot cannot merge junk into the skeleton.
+                // What WWMIRuntime writes the fix's skeleton and blend remap from
+                WWMIRuntime::Skeleton runtimeSkeleton() const {
+                    WWMIRuntime::Skeleton skeleton;
+                    skeleton.name = [this](const std::string& name) { return remapFixName(name); };
+                    skeleton.cb4Hash = target_.cb4Hash;
+                    skeleton.boneDataFilter = config_.boneDataFilter;
+                    skeleton.mergedSkeletonSlots = config_.mergedSkeletonSlots;
+                    skeleton.remapped = targetPast256_;
+                    skeleton.latched = hostResetsDetected_;
+                    skeleton.currentPoseInCb3Only = config_.currentPoseInCb3Only;
+                    skeleton.bindPrevPoseAlways = config_.bindPrevPoseAlways;
+                    skeleton.blendRemapBones = blendRemapBones_;
+                    skeleton.blendRemapForward = remapFixName(IniKeywords::Resource + std::string("BlendRemapForwardBuffer"));
+                    for (const Slot& slot : target_.slots) {
+                        skeleton.slotWindows.emplace_back(slot.vgOffset, slot.vgCount);
+                    }
+                    return skeleton;
+                }
+
+                WWMIRuntime::BlendRemap runtimeBlendRemap() const {
+                    WWMIRuntime::BlendRemap blendRemap;
+                    blendRemap.name = [this](const std::string& name) { return remapFixName(name); };
+                    blendRemap.blendFile = blendFixedFile();
+                    blendRemap.remapFile = [this](const std::string& which) { return blendRemapFile(which); };
+                    blendRemap.blendStride = blendStride_;
+                    blendRemap.influences = blendInfluences_;
+                    blendRemap.blendReg = config_.blendReg;
+                    return blendRemap;
+                }
+
+                // The skeleton's sections (WWMIRuntime::skeletonSections), and the blend remap's after them
                 void legacySkeletonSections() {
-                    const std::string merged = remapFixName(IniKeywords::Resource + std::string("MergedSkeleton"));
-                    const std::string mergedRW = remapFixName(IniKeywords::Resource + std::string("MergedSkeletonRW"));
-                    const std::string extra = remapFixName(IniKeywords::Resource + std::string("ExtraMergedSkeleton"));
-                    const std::string extraRW = remapFixName(IniKeywords::Resource + std::string("ExtraMergedSkeletonRW"));
-                    addFixSection(SectionText(z3_, merged).build());
-                    addFixSection(SectionText(z3_, extra).build());
-                    for (const std::string& name : {mergedRW, extraRW}) {
-                        addFixSection(SectionText(z3_, name)
-                                   .keys({{IniKeywords::Type, "RWBuffer"},
-                                          {IniKeywords::Format, "R32G32B32A32_FLOAT"},
-                                          {IniKeywords::Array, std::to_string(config_.mergedSkeletonSlots)}})
-                                   .build());
-                    }
-
-                    addFixSection(SectionText(z3_, remapFixName("TextureOverrideMarkBoneDataCB"))
-                               .keys({{IniKeywords::Hash, target_.cb4Hash},
-                                      {IniKeywords::MatchPriority, "0"},
-                                      {IniKeywords::FilterIndex, config_.boneDataFilter}})
-                               .build());
-
-                    // The private skeleton a blend remap needs, gathered right after the merge:
-                    // SkeletonRemapper writes remapped[i] = merged[forward[i]], so a vertex whose
-                    // blend names LOCAL i reaches the bone forward[i] -- which is how an 8-bit index
-                    // addresses a 420-slot skeleton at all. Bound in place of the merged one.
-                    const std::string remappedRW = remapFixName(IniKeywords::Resource + std::string("RemappedSkeletonRW"));
-                    const std::string remapped = remapFixName(IniKeywords::Resource + std::string("RemappedSkeleton"));
-                    const std::string extraRemappedRW = remapFixName(IniKeywords::Resource + std::string("ExtraRemappedSkeletonRW"));
-                    const std::string extraRemapped = remapFixName(IniKeywords::Resource + std::string("ExtraRemappedSkeleton"));
-                    if (targetPast256_) {
-                        for (const std::string& name : {remapped, extraRemapped, remappedRW, extraRemappedRW}) {
-                            addFixSection(SectionText(z3_, name).build());
-                        }
-                    }
-
-                    // The remap, run ONCE PER FRAME from the COMPLETE merged skeleton rather than per draw
-                    // from a partly filled one (2026-10-02).
-                    //
-                    // WWMI's own design: each component's draw merges its window into a persistent RW
-                    // buffer, and `[Present]` snapshots the result and remaps it, so the NEXT frame's draws
-                    // all bind one complete skeleton. Remapping inside each draw instead reads a buffer
-                    // holding only the windows merged so far this frame -- which differs per slot and per
-                    // frame, so the render comes out UNSTABLE rather than wrong: five reloads of one mod,
-                    // same files and same build, gave four different pictures.
-                    //
-                    // Anchored on the frame's first remapped draw rather than on `[Present]`, which is
-                    // equivalent -- nothing but these merge lists writes the RW buffer, so between
-                    // `[Present]` and the first draw it still holds exactly the previous frame's complete
-                    // merge. It also keeps the hook inside the fix's OWN sections: the mod's `[Present]` is
-                    // the host's, and no .ini in the corpus carries two of them, so appending one would bet
-                    // on 3dmigoto merging duplicate sections within a file, which nothing here establishes.
-                    //
-                    // `$state_id` is the host's frame counter, flipped once a frame at `[Present]`.
-                    if (targetPast256_) {
-                        // NO FRAME LATCH (2026-10-02). It was latched on `$state_id`, which the identity mod
-                        // maintains and a real WWMI Tools mod of the current generation does NOT -- it declares
-                        // `global $state_id = 0`, never assigns it, and keeps its own `$merge_status_id`. The
-                        // latch then read 0 != 0 forever: `if $remapped_state != $state_id: false` 118841 times
-                        // and true ZERO in 3dmigoto's log, so the remap never ran, the remapped skeleton was
-                        // never created, and binding that null UNBOUND vs-cb4 -- an invisible model.
-                        //
-                        // Unconditional costs a few dispatches a frame and needs no frame counter, because the
-                        // property that matters never came from the latch: the merged RW buffer is PERSISTENT
-                        // and accumulates, so at any draw it holds every window from this frame or the last, and
-                        // a remap taken at any point reads a COMPLETE skeleton. That is what moving it out of
-                        // the per-draw path was for, and it survives a mod that keeps no frame counter.
-                        SectionText remap(z3_, remapFixName("CommandListRemapMergedSkeleton"));
-                        for (const auto& cb : {std::make_tuple(mergedRW, merged, remappedRW, remapped),
-                                               std::make_tuple(extraRW, extra, extraRemappedRW, extraRemapped)}) {
-                            remap.keys({{std::get<1>(cb), "copy " + std::get<0>(cb)},
-                                            {"cs-t37", remapFixName(IniKeywords::Resource + std::string("BlendRemapForwardBuffer"))},
-                                            {IniKeywords::WWMIBlendRemapId, "0"},
-                                            {IniKeywords::WWMIVgCount, std::to_string(blendRemapBones_)},
-                                            {"cs-t38", std::get<1>(cb)},
-                                            // Seeded from the merged RW, which is declared with a size. An empty
-                                            // resource bound to `cs-u5` has no backing buffer: the dispatch writes
-                                            // nowhere, the `copy` below then finds no source, and binding that null
-                                            // UNBINDS the slot -- invisible rather than wrong.
-                                            {std::get<2>(cb), "copy " + std::get<0>(cb)},
-                                            {"cs-u5", std::get<2>(cb)},
-                                            {IniKeywords::Run, IniKeywords::WWMISkeletonRemapper},
-                                            {std::get<3>(cb), "copy " + std::get<2>(cb)}});
-                        }
-
-                        addFixSection(remap.build());
-                    }
-
-                    // The merge a HIDDEN slot runs. A target slot nothing is remapped onto still
-                    // contributes bones -- Chisa's [391, 419) carries bone 409, which 1185 of the identity
-                    // mod's weighted influence slots name -- and its `...RemapHide` section used to run the
-                    // host's copied `CommandListMergeSkeleton`, which writes the MOD's merged skeleton,
-                    // sized for the source. The bone was then never written into the buffer the remap
-                    // reads, so every vertex on it skinned against a zero matrix and collapsed to the
-                    // origin -- and a triangle with one corner there is a plane across the scene.
-                    //
-                    // Merge only, no bind: the caller sets vg_offset / vg_count and the draw is skipped.
-                    if (targetPast256_) {
-                        SectionText window(z3_, remapFixName("CommandListMergeWindow"));
-                        window.key(IniKeywords::WWMICustomMeshScale, "1.00");
-                        for (const auto& cb : {std::make_pair(std::string("vs-cb4"), mergedRW),
-                                               std::make_pair(std::string("vs-cb3"), extraRW)}) {
-                            window.open(cb.first + " == " + config_.boneDataFilter)
-                                  .keys({{"cs-cb8", IniKeywords::Ref + " " + cb.first},
-                                         {"cs-u6", cb.second},
-                                         {IniKeywords::Run, IniKeywords::WWMISkeletonMerger}})
-                                  .close();
-                        }
-
-                        addFixSection(window.build());
-                    }
-
-                    for (std::size_t slot = 0; slot < target_.slots.size(); ++slot) {
-                        const Slot& s = target_.slots[slot];
-                        SectionText mergeList(z3_, mergeListName(static_cast<int>(slot)));
-                        if (targetPast256_ && !hostResetsDetected_) {
-                            // Only without a frame latch (see latchEdits): a remap here runs before
-                            // EVERY slot's merge and so reads a buffer whose windows differ in age.
-                            mergeList.key(IniKeywords::Run, remapFixName("CommandListRemapMergedSkeleton"));
-                        }
-
-                        // see WWMIFixerConfig::currentPoseInCb3Only. Decided BEFORE anything is rebound: a
-                        // `vs-cbN == filter` test reads the buffer bound at that moment, and once vs-cb4
-                        // holds the fix's own skeleton it no longer carries the marker.
-                        const std::string Cb3Only = "$cb3_only";
-                        if (config_.currentPoseInCb3Only) {
-                            mergeList.key(IniKeywords::Local + " " + Cb3Only)
-                                     .key(Cb3Only, "0")
-                                     .open("vs-cb3 == " + config_.boneDataFilter + " && vs-cb4 != " + config_.boneDataFilter)
-                                     .key(Cb3Only, "1")
-                                     .close();
-                        }
-
-                        for (const auto& cb : {std::make_tuple(std::string("vs-cb4"), mergedRW, merged, remappedRW, remapped),
-                                               std::make_tuple(std::string("vs-cb3"), extraRW, extra, extraRemappedRW, extraRemapped)}) {
-                            const bool cb3 = std::get<0>(cb) == "vs-cb3";
-                            mergeList.open(std::get<0>(cb) + " == " + config_.boneDataFilter
-                                           + (cb3 && config_.currentPoseInCb3Only ? " && " + Cb3Only + " == 0" : ""))
-                                     .keys({{IniKeywords::WWMIVgOffset, s.vgOffset},
-                                            {IniKeywords::WWMIVgCount, s.vgCount},
-                                            {IniKeywords::WWMICustomMeshScale, "1.00"},
-                                            {"cs-cb8", IniKeywords::Ref + " " + std::get<0>(cb)},
-                                            {"cs-u6", std::get<1>(cb)},
-                                            {IniKeywords::Run, IniKeywords::WWMISkeletonMerger}});
-
-                            if (targetPast256_) {
-                                // Bind what the frame's remap produced. The snapshot and the SkeletonRemapper
-                                // dispatch that used to sit here moved into CommandListRemapMergedSkeleton,
-                                // which runs once a frame from the complete merge.
-                                mergeList.key(std::get<0>(cb), std::get<4>(cb));
-                            } else {
-                                // The snapshot the two branches used to share, kept here so a legacy mod writes
-                                // exactly the lines it wrote before.
-                                mergeList.keys({{std::get<2>(cb), "copy " + std::get<1>(cb)},
-                                                {std::get<0>(cb), std::get<2>(cb)}});
-                            }
-
-                            mergeList.close();
-                        }
-
-                        // ...and a draw whose current pose is in vs-cb3 alone: into the MAIN skeleton
-                        if (config_.currentPoseInCb3Only) {
-                            mergeList.open(Cb3Only + " == 1")
-                                     .keys({{IniKeywords::WWMIVgOffset, s.vgOffset},
-                                            {IniKeywords::WWMIVgCount, s.vgCount},
-                                            {IniKeywords::WWMICustomMeshScale, "1.00"},
-                                            {"cs-cb8", IniKeywords::Ref + " vs-cb3"},
-                                            {"cs-u6", mergedRW},
-                                            {IniKeywords::Run, IniKeywords::WWMISkeletonMerger}});
-                            if (targetPast256_) {
-                                mergeList.key("vs-cb3", remapped);
-                            } else {
-                                mergeList.keys({{merged, "copy " + mergedRW}, {"vs-cb3", merged}});
-                            }
-
-                            mergeList.close();
-                        }
-
-                        // AND THE PREVIOUS POSE AGAIN, OUTSIDE THE GUARD (2026-10-03).
-                        //
-                        // The game does not set `boneDataFilter` on cb3 for every pass. Measured in a
-                        // frame dump of a remapped mod: five draws -- one for EVERY main body slot --
-                        // had cb4 replaced and cb3 still holding the TARGET's own skeleton, so the
-                        // shader reprojected our pose from hers. The motion is nonsense and TAA smears
-                        // a second body across the character: the "double ghost body" reported on every
-                        // mod of the pair AND on the identity mod, which is the target skin's own model
-                        // and so proves the fault is the remap rather than any mod's content.
-                        //
-                        // Binding the remapped PREVIOUS pose rather than the current one keeps genuine
-                        // motion vectors; both clear the smear in game, and this one does not flatten
-                        // the character's motion blur to zero. On a pass that does carry the marker the
-                        // guarded block above has already bound the same resource, so this is a no-op.
-                        if (config_.bindPrevPoseAlways) {
-                            if (config_.currentPoseInCb3Only) {
-                                mergeList.open(Cb3Only + " == 0")
-                                         .key("vs-cb3", targetPast256_ ? extraRemapped : extra)
-                                         .close();
-                            } else {
-                                mergeList.key("vs-cb3", targetPast256_ ? extraRemapped : extra);
-                            }
-                        }
-
-                        addFixSection(mergeList.build());
+                    for (auto& section : WWMIRuntime::skeletonSections(z3_, runtimeSkeleton())) {
+                        addFixSection(std::move(section));
                     }
 
                     if (targetPast256_) {
                         blendRemapSections();
                     }
-
                 }
 
                 // The blend remap's resources, and the one-time run of WWMI's BlendRemapper that
@@ -4496,55 +4322,9 @@ namespace AGRemapCore {
                 // declaring it here keeps this text independent of what the collect happened to
                 // name its resource.
                 void blendRemapSections() {
-                    const std::string vertexVG = remapFixName(IniKeywords::Resource + std::string("BlendRemapVertexVGBuffer"));
-                    const std::string forward = remapFixName(IniKeywords::Resource + std::string("BlendRemapForwardBuffer"));
-                    const std::string reverse = remapFixName(IniKeywords::Resource + std::string("BlendRemapReverseBuffer"));
-                    const std::string noStride = remapFixName(IniKeywords::Resource + std::string("BlendNoStride"));
-                    const std::string strided = remapFixName(IniKeywords::Resource + std::string("BlendStrided"));
-                    const std::string blendRW = remapFixName(IniKeywords::Resource + std::string("RemappedBlendBufferRW"));
-                    const std::string blendOut = remapFixName(IniKeywords::Resource + std::string("RemappedBlendBuffer"));
-                    const std::string blendPath = blendFixedFile();
-
-                    // no stride on the three the compute shader reads: a Buffer declared with one
-                    // cannot be addressed by a compute shader (wwmiIdentityMod.py's own note)
-                    for (const auto& entry : {std::make_pair(vertexVG, blendRemapFile("VertexVG")),
-                                              std::make_pair(forward, blendRemapFile("Forward")),
-                                              std::make_pair(reverse, blendRemapFile("Reverse")),
-                                              std::make_pair(noStride, blendPath)}) {
-                        addFixSection(SectionText(z3_, entry.first)
-                                   .keys({{IniKeywords::Type, IniKeywords::Buffer},
-                                          {IniKeywords::Format, entry.first == noStride ? "DXGI_FORMAT_R8_UINT"
-                                                                             : "DXGI_FORMAT_R16_UINT"},
-                                          {IniKeywords::Filename, entry.second}})
-                                   .build());
+                    for (auto& section : WWMIRuntime::blendRemapSections(z3_, runtimeBlendRemap())) {
+                        addFixSection(std::move(section));
                     }
-
-                    addFixSection(SectionText(z3_, strided)
-                               .keys({{IniKeywords::Type, IniKeywords::Buffer},
-                                      {IniKeywords::Format, "DXGI_FORMAT_R8_UINT"},
-                                      {IniKeywords::Stride, std::to_string(blendStride_)},
-                                      {IniKeywords::Filename, blendPath}})
-                               .build());
-                    addFixSection(SectionText(z3_, blendRW).build());
-                    addFixSection(SectionText(z3_, blendOut).build());
-
-                    addFixSection(SectionText(z3_, blendRemapInitList())
-                               .key(IniKeywords::Local + " $blendRemapReady")
-                               .open("!$blendRemapReady")
-                               .keys({{IniKeywords::WWMICustomVertexCount, IniKeywords::WWMIMeshVertexCount},
-                                      {IniKeywords::WWMIWeightsPerVertexCount, std::to_string(blendInfluences_)},
-                                      {IniKeywords::WWMIBlendRemapId, "0"},
-                                      {"cs-t34", IniKeywords::Ref + " " + reverse},
-                                      {"cs-t35", IniKeywords::Ref + " " + vertexVG},
-                                      {blendRW, "copy " + noStride},
-                                      {"cs-u4", IniKeywords::Ref + " " + blendRW},
-                                      {IniKeywords::Run, IniKeywords::WWMIBlendRemapper},
-                                      {blendOut, "copy " + blendRW},
-                                      {blendOut, "copy_desc " + strided},
-                                      {"$blendRemapReady", "1"}})
-                               .close()
-                               .key(config_.blendReg, blendOut)
-                               .build());
                 }
 
                 // ---- the fix's own sections ----
@@ -4837,7 +4617,7 @@ namespace AGRemapCore {
                 // wrote carries the target's name and `Remap`, and the resource section that names
                 // it lives inside the fix's block.
                 std::string blendRemapInitList() const {
-                    return remapFixName("CommandListBlendRemap");
+                    return WWMIRuntime::blendRemapInitList(runtimeBlendRemap());
                 }
 
                 // The remapped blend as the collect writes it, which is what the BlendRemapper reads
@@ -5749,148 +5529,36 @@ namespace AGRemapCore {
                     return found;
                 }
 
-                // One element of `stride / 2` halves, rounded the way a folded UV needs. That mode
-                // is the whole reason this can be a BufFile at all -- see the note where this file's
-                // own half codec used to be.
-                static std::vector<std::unique_ptr<BufElementType>> texcoordElements(std::size_t stride) {
-                    std::vector<std::unique_ptr<BufElementType>> elements;
-                    elements.push_back(BufElementType::repeated(
-                        TexcoordElement, stride / 2,
-                        [] { return std::make_unique<BufFloat16>(false, BufFloat16::Rounding::NearestEven); }));
-
-                    return elements;
-                }
-
-                // Every vertex's U, with a NaN read as the 0 the clean pass will make it -- the
-                // straddle test has to see the same values the write does.
-                static std::vector<float> readTexcoordU(BufFile& texcoord) {
-                    std::vector<float> u;
-                    for (const double value : texcoord.column(TexcoordElement, 0)) {
-                        u.push_back(std::isnan(value) ? 0.0f : static_cast<float>(value));
-                    }
-
-                    return u;
-                }
-
-                // The vertices of any triangle whose corners sit in DIFFERENT U tiles, which the
-                // fold must leave alone.
-                //
-                // Folding one corner of a straddling triangle would widen its U span from a few
-                // hundredths to nearly 1 and interpolate it backwards across the atlas, so such a
-                // vertex is left alone -- which also protects deliberate TILING.
-                //
-                // Still read at 4 bytes per index, which is what the hand-rolled loop assumed;
-                // `IbFile::bytesPerIndexOf(<the declared format>)` is how a mod declaring
-                // `DXGI_FORMAT_R16_UINT` gets answered, and that is a BEHAVIOUR change rather than a
-                // refactor. A failure here leaves every entry false, which folds more rather than
-                // less -- the same answer the unopenable-file branch gave before.
-                std::vector<bool> straddlingVertices(const std::vector<float>& u) const {
-                    std::vector<bool> keep(u.size(), false);
-                    if (indexFile_.empty()) {
-                        return keep;
-                    }
-
+                // The vertices TexcoordFile::clean must leave alone: the corners of every triangle whose corners sit in
+                // different U tiles (TexcoordFile::straddling). Still read at 4 bytes per index, which is what the fold
+                // has always assumed; `IbFile::bytesPerIndexOf(<the declared format>)` is how a mod declaring
+                // `DXGI_FORMAT_R16_UINT` gets answered, and that is a BEHAVIOUR change rather than a refactor. An index
+                // buffer that cannot be read keeps nothing, which folds more rather than less.
+                std::vector<bool> straddlingVertices(const TexcoordFile& texcoord) const {
                     IniFile* ini = ctx_.getIniFile();
-                    if (ini == nullptr) {
-                        return keep;
+                    if (indexFile_.empty() || ini == nullptr) {
+                        return std::vector<bool>(texcoord.us().size(), false);
                     }
-
-                    const std::size_t vertices = u.size();
-                    const std::string indexPath = FileService::absPathOfRelPath(
-                        FileService::iniPathToRel(indexFile_), ini->getFolder());
 
                     try {
-                        IbFile indices{indexPath};
-                        const BufFile::Filter straddles =
-                            [&keep, &u, vertices](const BufLineData& line, long long, double, long long) {
-                                const auto at = line.find(IbFile::TriangleBufElementKey);
-                                if (at == line.end() || at->second.size() < IbFile::VerticesPerTriangle) {
-                                    return line;
-                                }
-
-                                std::size_t tri[3] = {0, 0, 0};
-                                for (std::size_t i = 0; i < IbFile::VerticesPerTriangle; ++i) {
-                                    tri[i] = static_cast<std::size_t>(bufValueAsInt(at->second[i]));
-                                    if (tri[i] >= vertices) {
-                                        return line;
-                                    }
-                                }
-
-                                const float a = std::floor(u[tri[0]]);
-                                const float b = std::floor(u[tri[1]]);
-                                const float c = std::floor(u[tri[2]]);
-                                if (a != b || b != c) {
-                                    keep[tri[0]] = true;
-                                    keep[tri[1]] = true;
-                                    keep[tri[2]] = true;
-                                }
-
-                                return line;
-                            };
-
-                        indices.fix(std::nullopt, {straddles});
+                        return texcoord.straddling(IbFile{FileService::absPathOfRelPath(
+                            FileService::iniPathToRel(indexFile_), ini->getFolder())}.getIndices());
                     } catch (const std::exception&) {
-                        // no index buffer to read: every vertex stays foldable, as before
+                        return std::vector<bool>(texcoord.us().size(), false);
                     }
-
-                    return keep;
-                }
-
-                // How many NaNs a clean pass cleared and how many UVs it folded.
-                struct TexcoordCleanTally {
-                    std::size_t cleared = 0;
-                    std::size_t folded = 0;
-                };
-
-                // A NaN in any half set to 0, and the fold in U. A NaN is `std::isnan` on the
-                // decoded value rather than an exponent and mantissa test on the raw bits.
-                //
-                // Returned rather than applied so the caller can run it TWICE -- once to count and
-                // once to write -- which is how the counts it reports describe the file it wrote.
-                static BufFile::Filter texcoordCleaner(TexcoordCleanTally& tally,
-                                                        const std::vector<bool>& keep) {
-                    const std::size_t vertices = keep.size();
-                    return [&tally, &keep, vertices](const BufLineData& line, long long,
-                                                      double index, long long) {
-                        BufLineData out = line;
-                        const auto at = out.find(TexcoordElement);
-                        if (at == out.end() || at->second.empty()) {
-                            return out;
-                        }
-
-                        for (BufValue& value : at->second) {
-                            if (std::holds_alternative<double>(value)
-                                    && std::isnan(std::get<double>(value))) {
-                                value = 0.0;
-                                ++tally.cleared;
-                            }
-                        }
-
-                        if (!std::holds_alternative<double>(at->second.front())) {
-                            return out;
-                        }
-
-                        const auto vertex = static_cast<std::size_t>(index);
-                        const auto first = static_cast<float>(std::get<double>(at->second.front()));
-                        if (first >= 1.0f && vertex < vertices && !keep[vertex]) {
-                            at->second.front() = static_cast<double>(std::fmod(first, 1.0f));
-                            ++tally.folded;
-                        }
-
-                        return out;
-                    };
                 }
 
                 // A remap-only copy of the mod's texcoord buffer -- see
                 // WWMIFixerConfig::cleanTexcoords for what is wrong with the original and why
-                // neither fault is the mod's bug.
+                // neither fault is the mod's bug, and TexcoordFile::clean for what the copy changes.
+                //
+                // NOT U BELOW 0 (2026-09-27). The fold exists for a mod that UVs half a part into the [1, 2) TILE
+                // and relies on the sampler wrapping (47% of one Chisa mod's component 3). A U just BELOW zero is
+                // the edge bleed around a UV island; folded, `-0.054` became `0.945`, and on Chisa13's black hair
+                // dye every island's fringe sampled the far side of the atlas as a checkerboard of blonde blocks.
+                // The fold is wrap-equivalent per VERTEX only while the pass WRAPS, and this one does not.
                 void buildTexcoordCopy() {
                     if (!config_.cleanTexcoords || texcoordResource_.has_value()) {
-                        return;
-                    }
-
-                    IniFile* ini = ctx_.getIniFile();
-                    if (ini == nullptr) {
                         return;
                     }
 
@@ -5900,80 +5568,30 @@ namespace AGRemapCore {
                     }
 
                     const std::size_t stride = source->stride;
-
-                    BufFile texcoord{source->path, texcoordElements(stride)};
-                    if (!texcoord.isValid()) {
-                        return;                         // not a whole number of vertices: leave it alone
-                    }
-
-                    std::vector<float> u;
+                    std::vector<bool> keep;
+                    TexcoordFile::CleanStats stats;
                     try {
-                        u = readTexcoordU(texcoord);
+                        TexcoordFile texcoord{source->path, TexcoordFile::halfElements(stride)};
+                        if (!texcoord.isValid() || texcoord.us().empty()) {
+                            return;                     // not a whole number of vertices, or none: leave it alone
+                        }
+
+                        // Counted before anything is written, because the copy exists only when it
+                        // differs -- a mod with clean texcoords keeps its own buffer and its own binding.
+                        keep = straddlingVertices(texcoord);
+                        stats = texcoord.clean(keep);
                     } catch (const std::exception& exception) {
                         ctx_.log(std::string("its Texcoord.buf could not be read: ") + exception.what()
                              + " -- so this mod's UVs are left alone");
                         return;
                     }
 
-                    const std::size_t vertices = u.size();
-                    if (vertices == 0) {
-                        return;
-                    }
-
-                    // U at or above 1, except on a triangle whose vertices straddle a tile.
-                    //
-                    // NOT U BELOW 0 (2026-09-27). The fold exists for a mod that UVs half a part
-                    // into the [1, 2) TILE and relies on the sampler wrapping -- a large, coherent,
-                    // deliberate region (47% of one Chisa mod's component 3). A U just BELOW zero is
-                    // the opposite thing: the edge bleed an authoring tool leaves around a UV
-                    // island, a fringe a few hundredths wide that a clamping sampler is meant to
-                    // extend. Folding it sends those texels to the FAR SIDE of the atlas --
-                    // `-0.054` became `0.945` -- so the fringe of every island sampled unrelated
-                    // art. On Chisa13's black hair dye that drew a regular checkerboard of blonde
-                    // blocks through the lock: 905 such vertices on the bangs and 2 elsewhere in
-                    // the mesh, which is why one part of one mod showed it.
-                    //
-                    // The fold is wrap-equivalent per VERTEX, which is what was measured when it
-                    // went in, and that holds only while the pass WRAPS. Neither character's own
-                    // model leaves [0, 1), so the game never exercises its own address mode there
-                    // and the two passes are free to differ -- and this one demonstrably does not
-                    // wrap: the mod's own UVs and a fold restricted to `>= 1` both render the dye
-                    // as one solid sweep, and the full fold does not. Leaving the fringe alone is
-                    // also the pre-fold behaviour for it, so it cannot regress a mod that was
-                    // right before the fold existed.
-                    //
-                    // Folding one corner of a straddling triangle would widen its U span from a few
-                    // hundredths to nearly 1 and interpolate it backwards across the atlas, so such
-                    // a vertex is left alone -- which also protects deliberate TILING.
-                    //
-                    // Still read at 4 bytes per index, which is what the hand-rolled loop assumed;
-                    // `IbFile::bytesPerIndexOf(<the declared format>)` is how a mod declaring
-                    // `DXGI_FORMAT_R16_UINT` gets answered, and that is a BEHAVIOUR change rather
-                    // than a refactor. A failure here leaves `keep` false, which folds more rather
-                    // than less -- the same answer the unopenable-file branch gave before.
-                    const std::vector<bool> keep = straddlingVertices(u);
-
-                    TexcoordCleanTally tally;
-                    const BufFile::Filter clean = texcoordCleaner(tally, keep);
-
-                    // Counted before anything is written, because the copy exists only when it
-                    // differs -- a mod with clean texcoords keeps its own buffer and its own binding.
-                    try {
-                        texcoord.fix(std::nullopt, {clean});
-                    } catch (const std::exception& exception) {
-                        ctx_.log(std::string("its Texcoord.buf could not be read: ") + exception.what()
-                             + " -- so this mod's UVs are left alone");
-                        return;
-                    }
-
-                    const std::size_t clearedCount = tally.cleared;
-                    const std::size_t foldedCount = tally.folded;
-                    if (clearedCount == 0 && foldedCount == 0) {
+                    if (stats.cleared == 0 && stats.folded == 0) {
                         return;
                     }
 
                     // THE COPY IS ONE OF THE FIX'S FILES (2026-10-29): written by the service when the fix is,
-                    // from the same filter -- not here, where a parse alone would write it
+                    // from the same clean -- not here, where a parse alone would write it
                     const std::string fixedRel =
                         modFile(meshFolder_, toModName_ + IniKeywords::Remap + "Texcoord.buf");
                     const std::optional<std::string>& format = source->format;
@@ -5986,13 +5604,13 @@ namespace AGRemapCore {
                                 {IniKeywords::Stride, std::to_string(stride)}},
                                fixedRel,
                                [path = source->path, stride, keep]() {
-                                   TexcoordCleanTally written;
-                                   BufFile copy{path, texcoordElements(stride)};
-                                   return std::get<ByteVec>(copy.fix(std::nullopt, {texcoordCleaner(written, keep)}));
+                                   TexcoordFile copy{path, TexcoordFile::halfElements(stride)};
+                                   copy.clean(keep);
+                                   return copy.getData();
                                },
                                {config_.texcoordReg});
-                    ctx_.log("texcoords: " + std::to_string(clearedCount) + " NaN halves set to 0 and "
-                             + std::to_string(foldedCount) + " U values folded into [0, 1) in a remap-only copy");
+                    ctx_.log("texcoords: " + std::to_string(stats.cleared) + " NaN halves set to 0 and "
+                             + std::to_string(stats.folded) + " U values folded into [0, 1) in a remap-only copy");
                 }
 
                 /**

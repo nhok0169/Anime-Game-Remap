@@ -293,6 +293,7 @@ add_library(AGRemapCore STATIC
     src/model/buffers/WWMIShapeKeys.cpp
     src/model/buffers/SkeletonNumberingProbe.cpp
     src/data/RabbitFX.cpp
+    src/data/WWMIRuntime.cpp
     src/model/files/BufFileErrors.cpp
     src/model/files/BinaryFile.cpp
     src/model/files/BufFile.cpp
@@ -300,6 +301,7 @@ add_library(AGRemapCore STATIC
     src/model/VGRemap.cpp
     src/model/files/BlendFile.cpp
     src/model/files/PositionFile.cpp
+    src/model/files/TexcoordFile.cpp
     src/model/files/IbFile.cpp
     src/model/files/VbFile.cpp
     src/model/strategies/bufEditors/BaseBufEditor.cpp

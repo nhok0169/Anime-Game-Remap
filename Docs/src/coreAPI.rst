@@ -409,6 +409,17 @@ PositionFile
 
 :raw-html:`<br />`
 
+TexcoordFile
+------------
+
+.. cppattributetable:: AGRemapCore::TexcoordFile
+
+.. doxygenclass:: AGRemapCore::TexcoordFile
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 VbFile
 ------
 
@@ -827,6 +838,17 @@ RabbitFX
 :raw-html:`<br />`
 :raw-html:`<br />`
 
+WWMIRuntime
+-----------
+
+.. cppattributetable:: AGRemapCore::WWMIRuntime
+
+.. doxygenclass:: AGRemapCore::WWMIRuntime
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 Graph Edits
 ===========
 
@@ -1240,17 +1262,6 @@ ResReplace
 .. cppattributetable:: AGRemapCore::ResReplace
 
 .. doxygenclass:: AGRemapCore::ResReplace
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
-ParseDataStep
--------------
-
-.. cppattributetable:: AGRemapCore::ParseDataStep
-
-.. doxygenclass:: AGRemapCore::ParseDataStep
     :members:
     :protected-members:
 

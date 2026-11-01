@@ -6,6 +6,7 @@
     <derivedcompoundref refid="class_a_g_remap_core_1_1_blend_file" prot="public" virt="non-virtual">AGRemapCore::BlendFile</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_ib_file" prot="public" virt="non-virtual">AGRemapCore::IbFile</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_position_file" prot="public" virt="non-virtual">AGRemapCore::PositionFile</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_texcoord_file" prot="public" virt="non-virtual">AGRemapCore::TexcoordFile</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_vb_file" prot="public" virt="non-virtual">AGRemapCore::VbFile</derivedcompoundref>
     <includes refid="_buf_file_8h" local="no">BufFile.h</includes>
     <innerclass refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data" prot="public">AGRemapCore::BufFile::BufColumnData</innerclass>
@@ -1392,6 +1393,12 @@ no header or footer, just the lines themselves back-to-back
         </childnode>
       </node>
       <node id="6">
+        <label>AGRemapCore::TexcoordFile</label>
+        <link refid="class_a_g_remap_core_1_1_texcoord_file"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
         <label>AGRemapCore::VbFile</label>
         <link refid="class_a_g_remap_core_1_1_vb_file"/>
         <childnode refid="1" relation="public-inheritance">

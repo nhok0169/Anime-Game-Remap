@@ -20,7 +20,6 @@
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
 #include "AGRemapCore/data/IniParseData/TemplateParser.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ParseDataStep.h"
 #include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/model/textures/TexThumbprint.h"
 #include "AGRemapCore/tools/files/FileService.h"
@@ -220,9 +219,6 @@ namespace AGRemapCore {
                 using Row = IniParseData::CollectedRow;
 
 
-                // A step of this parser's own: an edit that changes nothing and does its work as it is filed
-                using Filed = ParseDataStep;
-
                 bool isSlotObj(const ModObj& obj) const {
                     return obj.first.empty() && StringTools::startsWith(obj.second, config_.slotPrefix);
                 }
@@ -383,10 +379,11 @@ namespace AGRemapCore {
                     steps.push_back(std::move(roles));
                     steps.push_back(std::move(toggles));
                     if (!onlyThisFile_) {
-                        steps.push_back(std::make_unique<Filed>([this](IniParseData& data) { applyAnatomy(data); }));
-                        steps.push_back(std::make_unique<Filed>([this](IniParseData& data) { readSkeletonNumbering(data); }));
-                        steps.push_back(std::make_unique<Filed>([this](IniParseData& data) { readTextures(data); }));
-                        steps.push_back(std::make_unique<Filed>([this](IniParseData& data) { readDrawSplits(data); }));
+                        this->deferredParseReaders = {
+                            [this](IniParseData& data) { applyAnatomy(data); },
+                            [this](IniParseData& data) { readSkeletonNumbering(data); },
+                            [this](IniParseData& data) { readTextures(data); },
+                            [this](IniParseData& data) { readDrawSplits(data); }};
                     }
 
                     // the standard rows first -- with [Constants]' mesh vertex count among the declarations -- then

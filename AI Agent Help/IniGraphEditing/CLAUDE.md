@@ -6,9 +6,10 @@
 became GI-only.** `SkeletonNumberingRead` (a parse step that probes which skeleton numbering a WuWa blend uses) and a
 proposed `DrawTexelSplit` (which draws of a component carry a material-code flag) were both edits that added nothing
 to the graph side: the keys and resource filenames they look for are already `GraphCollect` rows, and the rest is
-buffer math (`SkeletonNumberingProbe`, `DrawUVCoverage`). Both are `ParseDataStep`s in `WWMIParser` now (the first
+buffer math (`SkeletonNumberingProbe`, `DrawUVCoverage`). Both are plain functions in `WWMIParser`'s `deferredParseReaders` now (the first
 retired, the second never built), with the one general piece -- the value a shader reads off a texture channel -- as
-`TextureFile::shaderChannel`. The right shape for such a read is a `ParseDataStep` (or a
+`TextureFile::shaderChannel`. The right shape for such a read is a function in the parser's `parseReaders` / `deferredParseReaders` (`ParseDataStep`,
+a step that only carried a function, was the same mistake and is gone), or a
 fixer step) over the rows, calling a bound capability of the buffer / texture class, with the game's choices in the
 game's config. Before proposing an edit, write down what it does to the graphs that `GraphCollect`, `ResRegCollect`,
 `GraphCopy`, `RegNewVals` and the rest cannot -- if that sentence is empty, it is not an edit.

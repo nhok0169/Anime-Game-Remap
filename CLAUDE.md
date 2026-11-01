@@ -444,10 +444,19 @@ for both was NOTHING: each reads rows `GraphCollect` already files (resource fil
 does BUFFER math. "You are making way too many design mistakes by putting modules that are too specific as new
 edits, when they are more game specific functionalities ... we don't want to fall into the same mistake of the old
 API where modules were too specific to GI." So before proposing an edit, say what it does to the GRAPH that no
-composition of existing edits can. Reading the files a `.ini` names is `GraphCollect` rows plus a `ParseDataStep`
-calling a bound capability of the buffer or texture class (`BlendFile`, `TextureFile`, `DrawUVCoverage`, ...); the
+composition of existing edits can. Reading the files a `.ini` names is `GraphCollect` rows plus a plain function in the parser's `parseReaders`
+(not an edit: `ParseDataStep` was the same mistake, and is gone) calling a bound capability of the buffer or texture class (`BlendFile`, `TextureFile`, `DrawUVCoverage`, ...); the
 game's policy -- which component, which flag -- stays in that game's parser or fixer config. See
 [Ini Graph Editing](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md)'s first section.
+
+**A DESIGN MISTAKE COSTS EXPONENTIALLY, AND HERE EVERY ONE COSTS A SWEEP (the maintainer, 2026-10-31).** One session
+built `DrawTexelSplit`'s proposal, `SkeletonNumberingRead` and `ParseDataStep`, each an "edit" that edited nothing,
+and each cost a build, a doc splice and a ~30-minute sweep to add and again to remove; the fixer refactor itself is the
+same cost at scale. So, BEFORE any code: read the code a slice touches (two slices were estimated unread and turned
+out to be fixer policy, not moves); write in the proposal which layer it is (edit, buffer / texture capability,
+parser data, game data, fixer policy), what an edit does to the graph that existing edits cannot, why an existing
+class (`IniParseData::defer`, `GraphCollect`, ...) does not already cover it, and that no game rule hides behind a
+library name; then build several slices and sweep them ONCE, keeping each slice's build to bisect a difference.
 
 If you're unsure which applies, start with **Overview** — it's the map the rest assume you have.
 These files were authored from hands-on, verified work in five subsystems: the C++ core / pybind11

@@ -30,10 +30,11 @@ ps-t2 = ResourceD
 
     Body = (0, "", "body")
 
-    def parseWith(self, steps):
+    def parseWith(self, steps, readers = None):
         self.setupIniTxt(self._collectIniTxt)
         self.createIniFile()
-        self._parser = FRB.GIMIParser(self._iniFile, modObjs = [("", "body")], trackKeys = False, parseSteps = steps)
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = [("", "body")], trackKeys = False, parseSteps = steps,
+                                      parseReaders = readers)
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
         return self._parser
@@ -163,20 +164,22 @@ ps-t0 = ResourceE
         self.assertNotEqual(blocks["ResourceB"], blocks["ResourceC"])
         self.assertEqual(blocks["ResourceE"], [])
 
-    def test_parseDataStep_readsWhatEarlierStepsFiled_andFilesIntoTheParsersOwnData(self):
+    def test_parseReaders_readWhatEarlierStepsFiled_andFilesIntoTheParsersOwnData(self):
         seen = []
         def file(data):
             seen.extend(row.value for row in data.collected("body"))
             data.setResourceFile("ResourceStep", "step.buf")
 
-        parser = self.parseWith([FRB.GraphCollect({self.Body: ["ps-t1"]}, name = "body"), FRB.ParseDataStep(file)])
+        parser = self.parseWith([FRB.GraphCollect({self.Body: ["ps-t1"]}, name = "body")], [file])
 
         self.assertEqual(seen, ["ResourceB", "ResourceC"])
         self.assertEqual(parser.parseData.resourceFile("ResourceStep"), "step.buf")
 
-    def test_parseDataStep_noFunction_filesNothing(self):
-        parser = self.parseWith([FRB.ParseDataStep()])
-        self.assertEqual(parser.parseData.collected("body"), [])
+    def test_parseReaders_runInOrder_aLaterOneSeesWhatAnEarlierOneFiled(self):
+        seen = []
+        parser = self.parseWith([], [lambda data: data.setResourceFile("ResourceA", "a.buf"),
+                                     lambda data: seen.append(data.resourceFile("ResourceA"))])
+        self.assertEqual(seen, ["a.buf"])
 
     def test_firstCollected_aKeyInTheSectionItself_sectionMatchedRegardlessOfCase(self):
         parser = self.parseWith([FRB.GraphCollect({self.Body: ["ps-t1", "ps-t2"]}, name = "body")])

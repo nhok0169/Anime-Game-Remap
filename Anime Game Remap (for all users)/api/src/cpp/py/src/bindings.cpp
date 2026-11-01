@@ -139,11 +139,13 @@ void initCppBinaryFile(pybind11::module_ &m);
 void initCppBufFile(pybind11::module_ &m);
 void initCppBlendFile(pybind11::module_ &m);
 void initCppPositionFile(pybind11::module_ &m);
+void initCppTexcoordFile(pybind11::module_ &m);
 void initCppIbFile(pybind11::module_ &m);
 void initCppWWMIBlend(pybind11::module_ &m);
 void initCppWWMIShapeKeys(pybind11::module_ &m);
 void initCppSkeletonNumberingProbe(pybind11::module_ &m);
 void initCppRabbitFX(pybind11::module_ &m);
+void initCppWWMIRuntime(pybind11::module_ &m);
 void initCppDrawUVCoverage(pybind11::module_ &m);
 void initCppVbFile(pybind11::module_ &m);
 void initCppBaseBufEditor(pybind11::module_ &m);
@@ -202,7 +204,6 @@ void initCppTextureRoleChooser(pybind11::module_ &m);
 void initCppBaseIniParser(pybind11::module_ &m);
 void initCppGIMISectionClassifier(pybind11::module_ &m);
 void initCppGIMIParser(pybind11::module_ &m);
-void initCppParseDataStep(pybind11::module_ &m);
 void initCppGraphEditVariables(pybind11::module_ &m);
 void initCppShaderFilterTags(pybind11::module_ &m);
 void initCppCustomShaderBackups(pybind11::module_ &m);
@@ -355,7 +356,6 @@ PYBIND11_MODULE(core, m) {
     initCppResRegCollect(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppResEdit (its resEdits values)
     initCppIParseResult(m);
     initCppGraphCollect(m); // must come after initCppBaseIniGraphGroupEdit and initCppIParseResult (registers its bases)
-    initCppParseDataStep(m); // must come after initCppBaseIniGraphGroupEdit and initCppIParseResult (registers its bases)
     initCppGraphEditVariables(m); // must come after initCppBaseIniGraphGroupEdit (its edits' base), the IfTemplate and Z3Context bindings
     initCppShaderFilterTags(m); // must come after the IfTemplate binding (its sections)
     initCppCustomShaderBackups(m); // must come after the IfTemplate binding (its sections)
@@ -373,11 +373,13 @@ PYBIND11_MODULE(core, m) {
     initCppBufFile(m); // must come after initCppBinaryFile/initCppBufElementType (registers its base / constructor arg type)
     initCppBlendFile(m); // must come after initCppBufFile/initCppVGRemap
     initCppPositionFile(m); // must come after initCppBufFile
+    initCppTexcoordFile(m); // must come after initCppBufFile
     initCppIbFile(m); // must come after initCppBufFile (registers its base)
     initCppWWMIBlend(m); // must come after initCppBufElementType and initCppVGRemap (hands both across)
     initCppWWMIShapeKeys(m);
     initCppSkeletonNumberingProbe(m);
     initCppRabbitFX(m);
+    initCppWWMIRuntime(m); // must come after initCppIfTemplate and initCppZ3Context
     initCppDrawUVCoverage(m);
     initCppVbFile(m); // must come after initCppBufFile/initCppBufElementType (registers its base / constructor arg type)
     initCppBaseBufEditor(m); // must come after initCppBufFile (its 'fix' method signature references it)

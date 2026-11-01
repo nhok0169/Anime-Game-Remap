@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_w_w_m_i_runtime" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIRuntime</compoundname>
+    <includes refid="_w_w_m_i_runtime_8h" local="no">WWMIRuntime.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_skeleton" prot="public">AGRemapCore::WWMIRuntime::Skeleton</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap" prot="public">AGRemapCore::WWMIRuntime::BlendRemap</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ad4331075384613a6cd0dd1be2c87e03d" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt;</type>
+        <definition>using AGRemapCore::WWMIRuntime::Section = IfTemplate&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>Section</name>
+        <qualifiedname>AGRemapCore::WWMIRuntime::Section</qualifiedname>
+        <briefdescription>
+<para>One <computeroutput>section</computeroutput>_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="47" column="13" bodyfile="include/AGRemapCore/data/WWMIRuntime.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ae85322d1302241dfeca6415787aee599" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIRuntime::mergeListName</definition>
+        <argsstring>(const Skeleton &amp;skeleton, int slot)</argsstring>
+        <name>mergeListName</name>
+        <qualifiedname>AGRemapCore::WWMIRuntime::mergeListName</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_skeleton" kindref="compound">Skeleton</ref> &amp;</type>
+          <declname>skeleton</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>slot</declname>
+        </param>
+        <briefdescription>
+<para>The merge list of one target draw slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>skeleton</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What the sections are named by </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>slot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The slot </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="119" column="32" bodyfile="src/data/WWMIRuntime.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_runtime_1a52f53dd820b94edaa4029d70524fa4aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ad4331075384613a6cd0dd1be2c87e03d" kindref="member">Section</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; WWMIRuntime::Section &gt; &gt; AGRemapCore::WWMIRuntime::skeletonSections</definition>
+        <argsstring>(Z3Context &amp;z3, const Skeleton &amp;skeleton)</argsstring>
+        <name>skeletonSections</name>
+        <qualifiedname>AGRemapCore::WWMIRuntime::skeletonSections</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> &amp;</type>
+          <declname>z3</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_skeleton" kindref="compound">Skeleton</ref> &amp;</type>
+          <declname>skeleton</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The skeleton&apos;s `sections`_: the merged skeleton and its read-write copies, the marker on the game&apos;s
+bone-data constant buffer, the remapped skeleton with the list that remaps it and the merge a hidden slot
+runs (for :cpp:member:`Skeleton::remapped`), and one merge list per slot (#mergeListName)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>z3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The Z3 context the <computeroutput>if</computeroutput> lines are parsed in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>skeleton</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What to write</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The sections, in order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="134" column="32" bodyfile="src/data/WWMIRuntime.cpp" bodystart="34" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ad8e84ea8f851f9a4f39ad7e880be413a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIRuntime::blendRemapInitList</definition>
+        <argsstring>(const BlendRemap &amp;blendRemap)</argsstring>
+        <name>blendRemapInitList</name>
+        <qualifiedname>AGRemapCore::WWMIRuntime::blendRemapInitList</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap" kindref="compound">BlendRemap</ref> &amp;</type>
+          <declname>blendRemap</declname>
+        </param>
+        <briefdescription>
+<para>The list <ref refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1a98069b4206d69ba0687fdb59c48c2bd0" kindref="member">blendRemapSections</ref> runs WWMI&apos;s <computeroutput>BlendRemapper</computeroutput> from. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blendRemap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What the sections are named by </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="176" column="32" bodyfile="src/data/WWMIRuntime.cpp" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_runtime_1a98069b4206d69ba0687fdb59c48c2bd0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ad4331075384613a6cd0dd1be2c87e03d" kindref="member">Section</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; WWMIRuntime::Section &gt; &gt; AGRemapCore::WWMIRuntime::blendRemapSections</definition>
+        <argsstring>(Z3Context &amp;z3, const BlendRemap &amp;blendRemap)</argsstring>
+        <name>blendRemapSections</name>
+        <qualifiedname>AGRemapCore::WWMIRuntime::blendRemapSections</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> &amp;</type>
+          <declname>z3</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_runtime_1_1_blend_remap" kindref="compound">BlendRemap</ref> &amp;</type>
+          <declname>blendRemap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The blend remap&apos;s resources and the one-time run of WWMI&apos;s ``BlendRemapper`` (#blendRemapInitList), guarded
+by a ``local`` so it costs one dispatch on the first drawn frame and binds the remapped blend after
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>z3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The Z3 context the <computeroutput>if</computeroutput> lines are parsed in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>blendRemap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What to write</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The sections, in order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMIRuntime.h" line="190" column="32" bodyfile="src/data/WWMIRuntime.cpp" bodystart="244" bodyend="296"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The `sections`_ a fix of a Wuthering Waves mod writes to drive WWMI itself: the merged skeleton a mod from
+before WWMI&apos;s merged skeleton has none of, a remapped copy of it for a target past 256 bones, one merge list per
+target draw slot, and the blend remap that rewrites the remapped blend&apos;s ids into that remap&apos;s local space
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Every name goes through :cpp:member:`Skeleton::name` / :cpp:member:`BlendRemap::name`, so the sections carry the
+fix&apos;s own names and an undo takes them
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/WWMIRuntime.h" line="42" column="5" bodyfile="include/AGRemapCore/data/WWMIRuntime.h" bodystart="42" bodyend="191"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ad8e84ea8f851f9a4f39ad7e880be413a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime</scope><name>blendRemapInitList</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1a98069b4206d69ba0687fdb59c48c2bd0" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime</scope><name>blendRemapSections</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ae85322d1302241dfeca6415787aee599" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime</scope><name>mergeListName</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1ad4331075384613a6cd0dd1be2c87e03d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime</scope><name>Section</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_runtime_1a52f53dd820b94edaa4029d70524fa4aa" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIRuntime</scope><name>skeletonSections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

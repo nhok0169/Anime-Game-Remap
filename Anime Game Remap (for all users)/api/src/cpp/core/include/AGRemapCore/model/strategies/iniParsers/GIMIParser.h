@@ -390,6 +390,30 @@ namespace AGRemapCore {
             std::vector<GroupEdit*> deferredParseSteps;
 
             /**
+             * @brief A function that reads what the parse steps filed and files a conclusion of its own -- see #parseReaders
+             */
+            using Reader = std::function<void(IniParseData& data)>;
+
+            /**
+             * @brief
+             @rst
+             Functions run on :cpp:func:`BaseIniParser::parseData` after #parseSteps, in order -- for reading that is
+             not an edit of the graphs: buffer or texture math over the files the rows name, or a conclusion drawn from
+             what the steps filed. A later reader sees what an earlier one filed
+             @endrst
+             */
+            std::vector<Reader> parseReaders;
+
+            /**
+             * @brief
+             @rst
+             More such functions, run with #deferredParseSteps on the first ask of :cpp:func:`BaseIniParser::parseData`,
+             after them and in order
+             @endrst
+             */
+            std::vector<Reader> deferredParseReaders;
+
+            /**
              * @brief Whether to build a graph over the entire .ini file
              */
             bool makeGlobalGraph;

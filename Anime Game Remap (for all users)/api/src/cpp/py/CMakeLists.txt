@@ -147,7 +147,6 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyTexEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyResRegCollect.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphCollect.cpp
-    src/model/strategies/iniFixers/graphGroupEdits/PyParseDataStep.cpp
     src/model/strategies/iniFixers/PyGraphEditVariables.cpp
     src/model/strategies/iniFixers/PyShaderHelpers.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyResGroupCollect.cpp
@@ -187,6 +186,7 @@ pybind11_add_module(core
     src/model/buffers/PyWWMIBlend.cpp
     src/model/files/PyBlendFile.cpp
     src/model/files/PyPositionFile.cpp
+    src/model/files/PyTexcoordFile.cpp
     src/model/files/PyIbFile.cpp
     src/model/files/PyVbFile.cpp
     src/model/strategies/bufEditors/PyBaseBufEditor.cpp

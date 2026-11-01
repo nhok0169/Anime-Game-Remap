@@ -903,15 +903,25 @@ namespace AGRemapCore {
                 fileResult(*edit, this->parseData());
             }
         }
+        for (const Reader& reader : parseReaders) {
+            if (reader) {
+                reader(this->parseData());
+            }
+        }
 
         // Run where the graphs stand when the data is first asked for: the context is this parser's own,
         // and outlives the data it owns
-        if (!deferredParseSteps.empty()) {
-            this->parseData().defer([this, edits = deferredParseSteps](IniParseData& data) {
+        if (!deferredParseSteps.empty() || !deferredParseReaders.empty()) {
+            this->parseData().defer([this, edits = deferredParseSteps, readers = deferredParseReaders](IniParseData& data) {
                 for (GroupEdit* edit : edits) {
                     if (edit != nullptr && ctx_ != nullptr) {
                         edit->editFromIni(ctx_->graphGroups(), this->iniFile_, nullptr, ctx_->modTypeName());
                         fileResult(*edit, data);
+                    }
+                }
+                for (const Reader& reader : readers) {
+                    if (reader) {
+                        reader(data);
                     }
                 }
             });

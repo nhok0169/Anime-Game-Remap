@@ -113,11 +113,13 @@ from .core import CppBufFile
 from .core import VGRemap
 from .core import BlendFile
 from .core import PositionFile
+from .core import TexcoordFile
 from .core import IbFile
 from .core import WWMIBlend
 from .core import WWMIShapeKeys
 from .core import SkeletonNumberingProbe
 from .core import RabbitFX
+from .core import WWMIRuntime
 from .core import DrawUVCoverage
 from .core import VbFile
 from .core import BaseBufEditor
@@ -217,7 +219,6 @@ from .core import TextureRoles
 from .core import IniParseData
 from .core import IniParseRows
 from .core import IParseResult
-from .core import ParseDataStep
 from .core import GraphEditVariables
 from .core import VarSectionsTake
 from .core import VarSectionsCreate
@@ -380,7 +381,7 @@ from .main import remapMain
 
 __all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
            "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "FromOldVal", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "DownloadMode", "DownloadModeTools", "RegFillMissingMode", "IniGraphReplaceMode", "IfPredPartType", "IfPredPartTypeTools", "IniKeywords", "IniGraphModObjKeywords", "FileExt", "FilePrefixes", "FileTypes", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppGlobalModTypes", "CppStrategyOverrides", "IniClassifyStats", "BaseIniClassifier", "IniClassifier", "IniFile", "BaseLogger", "Logger", "Version", "VersionSet", "ModDictAssets", "ModMappedAssets", "ModAssets", "Hashes", "Indices", "VertexCounts", "VGRemaps", "IndexCounts", "VGOffsets", "VGCounts", "ShapeKeyChecksums",
-           "CppBufFile", "BlendFile", "PositionFile", "IbFile", "WWMIBlend", "WWMIShapeKeys", "SkeletonNumberingProbe", "RabbitFX", "DrawUVCoverage", "VbFile", "BaseBufEditor", "BufEditor",
+           "CppBufFile", "BlendFile", "PositionFile", "TexcoordFile", "IbFile", "WWMIBlend", "WWMIShapeKeys", "SkeletonNumberingProbe", "RabbitFX", "WWMIRuntime", "DrawUVCoverage", "VbFile", "BaseBufEditor", "BufEditor",
            "CppColour", "CppColourRange", "CppTextureFile",
            "CppBasePixelTransform", "CppCorrectGamma", "CppColourReplace", "CppHighlightShadow", "CppInvertAlpha", "CppTempControl", "CppTintTransform", "CppTransparency",
            "CppBaseTexFilter", "CppGammaFilter", "CppColourReplaceFilter", "CppTransparencyAdjustFilter", "CppInvertAlphaFilter", "CppMaterialBandRemapFilter", "CppHueAdjust", "CppPixelFilter",
@@ -394,7 +395,7 @@ __all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA",
            "BaseIniGraphEdit", "GraphRename", "RegFillMissing",
            "GraphRemove", "GraphInherit", "GraphGroupRemap", "GraphGroupEdit", "IterGraphGroupEdit",
            "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "TexCreate", "TexReplace", "ResRegCollect", "GraphCollect", "ResGroupCollect", "BaseIniGraphGroupEdit",
-           "TextureRoles", "IniParseData", "IniParseRows", "IParseResult", "ParseDataStep", "GraphEditVariables", "VarSectionsTake", "VarSectionsCreate", "ShaderFilterTags", "CustomShaderBackups", "TextureRoleChooser", "CppBaseIniParser", "BaseIniParser", "CppIniParseBuilderArgs", "GIMISectionClassifier", "GIMIParser", "CppBaseIniFixer", "BaseIniFixer", "CppIniFixBuilderArgs", "GIMIFixer", "MultiModFixer", "IniFixingContext",
+           "TextureRoles", "IniParseData", "IniParseRows", "IParseResult", "GraphEditVariables", "VarSectionsTake", "VarSectionsCreate", "ShaderFilterTags", "CustomShaderBackups", "TextureRoleChooser", "CppBaseIniParser", "BaseIniParser", "CppIniParseBuilderArgs", "GIMISectionClassifier", "GIMIParser", "CppBaseIniFixer", "BaseIniFixer", "CppIniFixBuilderArgs", "GIMIFixer", "MultiModFixer", "IniFixingContext",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 

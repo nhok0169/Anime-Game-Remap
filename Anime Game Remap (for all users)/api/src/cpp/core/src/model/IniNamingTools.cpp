@@ -162,10 +162,6 @@ namespace AGRemapCore {
         return std::string(StringTools::strip(stripped.substr(prefix.size())));
     }
 
-    bool IniNamingTools::hasRefPrefix(const std::string& value) {
-        return hasKeywordPrefix(value, IniKeywords::Ref);
-    }
-
     bool IniNamingTools::hasKeywordPrefix(const std::string& value, const std::string& keyword) {
         return StringTools::startsWith(
             StringTools::toLower(std::string(StringTools::lstrip(value))), StringTools::toLower(keyword) + " ");

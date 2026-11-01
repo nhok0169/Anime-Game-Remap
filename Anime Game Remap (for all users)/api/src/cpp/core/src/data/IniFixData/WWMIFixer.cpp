@@ -746,7 +746,7 @@ namespace AGRemapCore {
                         }
 
                         for (const std::string& value : part.getVals(config_.blendReg)) {
-                            if (!IniNamingTools::hasRefPrefix(value) && value.find(IniKeywords::Remap) != std::string::npos) {
+                            if (!IniNamingTools::hasKeywordPrefix(value, IniKeywords::Ref) && value.find(IniKeywords::Remap) != std::string::npos) {
                                 rebindTo_ = std::string(StringTools::strip(value));
                                 break;
                             }
@@ -760,7 +760,7 @@ namespace AGRemapCore {
                     if (rebind_ == nullptr) {
                         rebind_ = std::make_unique<RegNewVals<>>(std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{{config_.blendReg, RegNewVals<>::NewVal(
                             RegNewVals<>::OldValProducer([this](const std::string& oldValue, const ModType*) {
-                                return IniNamingTools::hasRefPrefix(oldValue) ? rebindTo_ : oldValue;
+                                return IniNamingTools::hasKeywordPrefix(oldValue, IniKeywords::Ref) ? rebindTo_ : oldValue;
                             }))}});
                         rebindAdapter_ = std::make_unique<RegPartEdit<>>(rebind_.get());
                     }

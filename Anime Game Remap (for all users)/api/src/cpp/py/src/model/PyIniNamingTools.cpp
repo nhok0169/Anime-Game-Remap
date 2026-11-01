@@ -62,6 +62,61 @@ Every method is static.
     cls.def_static("hasKeywordPrefix", &AGRC::IniNamingTools::hasKeywordPrefix, py::arg("value"), py::arg("keyword"),
                     py::doc("Whether a register's value is a 3dmigoto statement opening with 'keyword' -- ``ref``, :attr:`IniKeywords.Copy`, :attr:`IniKeywords.CopyDesc` -- rather than a resource name"));
 
+    cls.def_static("removeRefPrefix", &AGRC::IniNamingTools::removeRefPrefix, py::arg("value"),
+                    py::doc(R"doc(
+The resource `section`_ a register binding names, with any ``ref`` prefix taken off: ``ref ResourceX`` and
+``ResourceX`` both give ``ResourceX``
+
+Both spellings bind the register by reference, so the two mean the same thing. The prefix is matched
+without regard to case, as 3dmigoto reads it, and only as a whole word (``reference`` keeps its name).
+:meth:`hasKeywordPrefix` with :attr:`IniKeywords.Ref` tells the two spellings apart
+
+Parameters
+----------
+value: :class:`str`
+    The value of the register binding
+
+Returns
+-------
+:class:`str`
+    The `section`_ name it refers to, stripped
+    )doc"));
+
+    cls.def_static("looksRemapped", &AGRC::IniNamingTools::looksRemapped,
+                    py::arg("sectionName"), py::arg("modNames"), py::arg("remapKeyword") = AGRC::IniKeywords::Remap,
+                    py::doc(R"doc(
+Whether 'sectionName' is one a previous run of the fix wrote -- the shape :meth:`getRemapFixName` and
+the names built on it produce
+
+An undo asks it to decide what it removes outside the fix's own boilerplate, and a parser asks it
+because the undo runs before the fix: a resource `section`_ a previous fix declared is about to be
+removed, so a fix that binds its name would point at a `section`_ that is no longer there
+
+.. note::
+    ``Remap`` anywhere in the name is not the test: WWMI's own blend remap declares
+    ``ResourceBlendRemapVertexVGBuffer`` on a mod that has never been fixed. The name has to carry
+    ``<modName><remapKeyword>`` for one of 'modNames'
+
+Parameters
+----------
+sectionName: :class:`str`
+    The `section`_ name to test
+
+modNames: List[:class:`str`]
+    The mod names a fix of this file could have been written for -- its own and the ones it remaps
+    onto. An empty list tests for 'remapKeyword' anywhere in the name instead
+
+remapKeyword: :class:`str`
+    The keyword a fix's names are built around :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``"Remap"``
+
+Returns
+-------
+:class:`bool`
+    Whether a fix of this file could have written 'sectionName'
+    )doc"));
+
     cls.def_static("isDownloadFile", &AGRC::IniNamingTools::isDownloadFile, py::arg("path"),
                     py::doc("Whether a file is one the library DOWNLOADS rather than one a mod ships: its name carries :attr:`IniKeywords.RemapDL`"));
 

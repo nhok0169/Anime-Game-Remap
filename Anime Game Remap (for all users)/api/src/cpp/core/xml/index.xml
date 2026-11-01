@@ -3673,7 +3673,6 @@
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a84554a7fb766c11208ea17a13b43c135" kind="function"><name>getResourceName</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a7b2e0efb0187faca695485bee66c27ed" kind="function"><name>removeResourceName</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1aa0cdbe9f1ad26abc1bf4ba25032ecb86" kind="function"><name>removeRefPrefix</name></member>
-    <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a16ad99fd2b38e8d7ab214cece41cf875" kind="function"><name>hasRefPrefix</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1ae0262f15a6eae8f3a91b1d5ac7fd43d0" kind="function"><name>hasKeywordPrefix</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a52d86bfa44a92f8b03f8095b49c53e11" kind="function"><name>isDownloadFile</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a69a7a72287a46b580f0a814554af7a79" kind="function"><name>getRemapElementName</name></member>

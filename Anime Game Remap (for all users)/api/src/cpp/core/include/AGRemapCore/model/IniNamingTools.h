@@ -88,26 +88,12 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Whether a register binding names its resource `section`_ with the ``ref`` prefix
-             :raw-html:`<br />` :raw-html:`<br />`
-
-             The companion of \ref removeRefPrefix, for a caller that has to tell the two spellings
-             APART rather than read through them -- a mod that binds one register both ways means
-             two different things by it
-             @endrst
-             *
-             * @param value The value of the register binding
-             *
-             * @return Whether it carries the prefix
-             */
-            static bool hasRefPrefix(const std::string& value);
-
-            /**
-             * @brief
-             @rst
              Whether a register's value is a 3dmigoto statement opening with 'keyword' -- ``ref``,
              :cpp:member:`IniKeywords::Copy`, :cpp:member:`IniKeywords::CopyDesc` -- rather than a resource
-             name, ignoring case and leading whitespace. #hasRefPrefix is this for ``ref``
+             name, ignoring case and leading whitespace :raw-html:`<br />` :raw-html:`<br />`
+
+             With :cpp:member:`IniKeywords::Ref` it is the companion of \ref removeRefPrefix, for a
+             caller that has to tell ``ref X`` and ``X`` APART rather than read through them
              @endrst
              *
              * @param value The value of the register binding
@@ -389,25 +375,6 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Retrieves the new name of the `section`_ for a new mod object :raw-html:`<br />`
-             :raw-html:`<br />`
-
-             Finds the LAST case-insensitive occurrence of ``{objName.first}{objName.second}``
-             (each part capitalized, see :cpp:func:`AGRemapCore::TextTools::capitalize`) within 'name' and replaces it with
-             ``{newObjName.first}{newObjName.second}`` (also capitalized); if not found, falls back
-             to #getRemapFixName with 'modName' extended by the new object's name instead
-             @endrst
-             *
-             * @param name The name of the `section`_
-             * @param modName The name of the mod to be fixed
-             * @param objName The (component, object) name pair for the original mod object for the `section`_
-             * @param newObjName The (component, object) name pair for the new mod object for the `section`_
-             *
-             * @return The new name for the `section`_
-             */
-            /**
-             * @brief
-             @rst
              Whether 'name' names something a modder has turned OFF -- see
              :cpp:member:`FilePrefixes::DisabledPrefix` :raw-html:`<br />` :raw-html:`<br />`
 
@@ -438,6 +405,25 @@ namespace AGRemapCore {
              */
             static std::string getRegTag(const std::string& reg);
 
+            /**
+             * @brief
+             @rst
+             Retrieves the new name of the `section`_ for a new mod object :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Finds the LAST case-insensitive occurrence of ``{objName.first}{objName.second}``
+             (each part capitalized, see :cpp:func:`AGRemapCore::TextTools::capitalize`) within 'name' and replaces it with
+             ``{newObjName.first}{newObjName.second}`` (also capitalized); if not found, falls back
+             to #getRemapFixName with 'modName' extended by the new object's name instead
+             @endrst
+             *
+             * @param name The name of the `section`_
+             * @param modName The name of the mod to be fixed
+             * @param objName The (component, object) name pair for the original mod object for the `section`_
+             * @param newObjName The (component, object) name pair for the new mod object for the `section`_
+             *
+             * @return The new name for the `section`_
+             */
             static std::string getObjRemapFixName(const std::string& name, const std::string& modName,
                                                    const std::pair<std::string, std::string>& objName,
                                                    const std::pair<std::string, std::string>& newObjName);

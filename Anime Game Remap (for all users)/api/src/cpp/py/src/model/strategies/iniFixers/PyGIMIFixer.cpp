@@ -617,6 +617,21 @@ the mod's own file, on top of what :attr:`hiddenModObjs` hides everywhere. The W
 ``TextureOverride`` of the mod's own text here. **Default**: empty
         )doc"))
 
+       .def_readwrite("copyPreamble", &PyGIMIFixer::copyPreamble, py::doc(R"doc(
+:class:`str`: A comment written at the top of every generated COPY -- the extra ``.ini`` file a fix
+that merges several mod objects onto one writes per extra object -- saying what the file is. The
+mod's own ``.ini`` file never gets it. **Default**: ``""``, no preamble
+        )doc"))
+
+       .def_readwrite("hiddenModObjs", &PyGIMIFixer::hiddenModObjs, py::doc(R"doc(
+Set[Tuple[:class:`str`, :class:`str`]]: The mod objects, as ``(component, object)``, whose ORIGINAL
+`sections`_ are commented out of the source text the fix appends -- for a fix that REPLACES what an
+object drew rather than adding beside it, so the game does not draw both (Raiden's fix rewrites her
+``head``, ``body`` and ``dress`` in place). Independent of the ``hideOrig`` argument of :meth:`fix`,
+which is the user's request to hide the whole mod; when both apply, the two are hidden together.
+**Default**: empty
+        )doc"))
+
        .def("getModsToFix", [](PyGIMIFixer &self) {
             self.refresh();
             return self.getModsToFix();

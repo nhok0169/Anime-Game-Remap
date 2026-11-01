@@ -8781,6 +8781,16 @@ class GIMIFixer(BaseIniFixer):
     def copyHiddenSectionNames(self, arg0: collections.abc.Set[str]) -> None:
         ...
     @property
+    def copyPreamble(self) -> str:
+        """
+        :class:`str`: A comment written at the top of every generated COPY -- the extra ``.ini`` file a fix
+        that merges several mod objects onto one writes per extra object -- saying what the file is. The
+        mod's own ``.ini`` file never gets it. **Default**: ``""``, no preamble
+        """
+    @copyPreamble.setter
+    def copyPreamble(self, arg0: str) -> None:
+        ...
+    @property
     def graphGroupEdits(self) -> typing.Any:
         """
         List[:class:`BaseIniGraphGroupEdit`]: The edits to apply to the parsed caller/callee graphs
@@ -8796,6 +8806,19 @@ class GIMIFixer(BaseIniFixer):
         """
     @graphGroups.setter
     def graphGroups(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def hiddenModObjs(self) -> set[tuple[str, str]]:
+        """
+        Set[Tuple[:class:`str`, :class:`str`]]: The mod objects, as ``(component, object)``, whose ORIGINAL
+        `sections`_ are commented out of the source text the fix appends -- for a fix that REPLACES what an
+        object drew rather than adding beside it, so the game does not draw both (Raiden's fix rewrites her
+        ``head``, ``body`` and ``dress`` in place). Independent of the ``hideOrig`` argument of :meth:`fix`,
+        which is the user's request to hide the whole mod; when both apply, the two are hidden together.
+        **Default**: empty
+        """
+    @hiddenModObjs.setter
+    def hiddenModObjs(self, arg0: collections.abc.Set[tuple[str, str]]) -> None:
         ...
     @property
     def modsToFix(self) -> typing.Any:
@@ -16714,6 +16737,60 @@ class IniNamingTools:
     def isDownloadFile(path: str) -> bool:
         """
         Whether a file is one the library DOWNLOADS rather than one a mod ships: its name carries :attr:`IniKeywords.RemapDL`
+        """
+    @staticmethod
+    def looksRemapped(sectionName: str, modNames: collections.abc.Sequence[str], remapKeyword: str = 'Remap') -> bool:
+        """
+        Whether 'sectionName' is one a previous run of the fix wrote -- the shape :meth:`getRemapFixName` and
+        the names built on it produce
+        
+        An undo asks it to decide what it removes outside the fix's own boilerplate, and a parser asks it
+        because the undo runs before the fix: a resource `section`_ a previous fix declared is about to be
+        removed, so a fix that binds its name would point at a `section`_ that is no longer there
+        
+        .. note::
+            ``Remap`` anywhere in the name is not the test: WWMI's own blend remap declares
+            ``ResourceBlendRemapVertexVGBuffer`` on a mod that has never been fixed. The name has to carry
+            ``<modName><remapKeyword>`` for one of 'modNames'
+        
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The `section`_ name to test
+        
+        modNames: List[:class:`str`]
+            The mod names a fix of this file could have been written for -- its own and the ones it remaps
+            onto. An empty list tests for 'remapKeyword' anywhere in the name instead
+        
+        remapKeyword: :class:`str`
+            The keyword a fix's names are built around :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``"Remap"``
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether a fix of this file could have written 'sectionName'
+        """
+    @staticmethod
+    def removeRefPrefix(value: str) -> str:
+        """
+        The resource `section`_ a register binding names, with any ``ref`` prefix taken off: ``ref ResourceX`` and
+        ``ResourceX`` both give ``ResourceX``
+        
+        Both spellings bind the register by reference, so the two mean the same thing. The prefix is matched
+        without regard to case, as 3dmigoto reads it, and only as a whole word (``reference`` keeps its name).
+        :meth:`hasKeywordPrefix` with :attr:`IniKeywords.Ref` tells the two spellings apart
+        
+        Parameters
+        ----------
+        value: :class:`str`
+            The value of the register binding
+        
+        Returns
+        -------
+        :class:`str`
+            The `section`_ name it refers to, stripped
         """
     @staticmethod
     def removeResourceName(name: str) -> str:

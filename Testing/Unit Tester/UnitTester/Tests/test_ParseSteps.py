@@ -91,3 +91,57 @@ filename = Textures\BodyLM.dds
         self.assertEqual(len(parser.parseData.collected("regs")), 2)
         self.assertEqual(len(collect.rows), 2)
 
+
+    # ====================== IniParseData.fileAnatomy ===========================
+
+    def anatomy(self, iniTxt = None, **rules):
+        if (iniTxt is not None):
+            self._stepsIniTxt = iniTxt
+        everyKey = FRB.GraphCollect({self.BodyGraph: lambda key: True}, name = FRB.IniParseRows.Objs)
+        parser = self.parseWith([everyKey])
+        anatomy = FRB.IniParseData.AnatomyRules()
+        anatomy.rows = FRB.IniParseRows.Objs
+        anatomy.roots = [(self.Body, ["TextureOverrideBody"])]
+        for name, value in rules.items():
+            setattr(anatomy, name, value)
+        parser.parseData.fileAnatomy(anatomy)
+        return parser.parseData
+
+    def test_fileAnatomy_drawsTheirPartsAndLateBindings(self):
+        data = self.anatomy()
+        self.assertEqual(data.drawRanges(self.Body), [(300, 0)])
+        self.assertEqual(data.drawParts(self.Body), {1})
+        self.assertEqual(data.lateBindings(self.Body), ["ps-t1"])
+        self.assertFalse(data.isUndrawn(self.Body))
+
+    def test_fileAnatomy_aDrawUnderAnIf_sitsInThePartAfterTheIfLine(self):
+        data = self.anatomy(r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+if $x == 1
+    drawindexed = 300, 0, 0
+endif
+""")
+        self.assertEqual(data.drawParts(self.Body), {3})
+
+    def test_fileAnatomy_aSectionThatSkipsAndDrawsNothing_isUndrawn(self):
+        hidden = r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+handling = skip
+"""
+        self.assertTrue(self.anatomy(hidden).isUndrawn(self.Body))
+        self.assertFalse(self.anatomy(hidden, noneUndrawnWhenAll = True).isUndrawn(self.Body))
+
+    def test_fileAnatomy_libraries_andARunThatDraws(self):
+        data = self.anatomy(r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+handling = skip
+run = CommandList\Lib\Draw
+""", libraries = [("Lib", lambda text: "\lib\\" in text.lower())], runDraws = lambda called: True)
+        self.assertEqual(data.libraries(self.Body), {"Lib"})
+        self.assertFalse(data.isUndrawn(self.Body))

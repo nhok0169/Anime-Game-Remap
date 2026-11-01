@@ -117,6 +117,15 @@ namespace AGRemapCore {
          @endrst
          */
         std::vector<std::size_t> blocks;
+
+        /**
+         * @brief
+         @rst
+         The part's position among its `section`_'s parts, counted from 0 as \ref blocks counts them (an ``if`` line
+         is a part too). Always filled
+         @endrst
+         */
+        std::size_t position = 0;
     };
 }
 

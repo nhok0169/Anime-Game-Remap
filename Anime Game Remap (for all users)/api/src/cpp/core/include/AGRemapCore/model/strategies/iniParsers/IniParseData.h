@@ -598,6 +598,74 @@ namespace AGRemapCore {
              */
             void setCollected(const std::string& name, std::vector<CollectedRow> rows);
 
+            /**
+             * @brief What #fileAnatomy reads, and the rules a game reads it by
+             */
+            struct AnatomyRules {
+                /**
+                 * @brief The collect whose rows it reads: every key each object's `sections`_ reach -- see :cpp:member:`IniParseRows::Objs`
+                 */
+                std::string rows;
+
+                /**
+                 * @brief The collect whose rows name each bound resource's ``filename`` -- see :cpp:member:`IniParseRows::Resources` -- or empty for none
+                 */
+                std::string resources;
+
+                /**
+                 * @brief The objects to read, each with its root `sections`_ in the order they are written
+                 */
+                std::vector<std::pair<ModObj, std::vector<std::string>>> roots;
+
+                /**
+                 * @brief The register family a mod binds its textures with. **Default**: ``"ps-t"``
+                 */
+                std::string texRegPrefix = "ps-t";
+
+                /**
+                 * @brief
+                 @rst
+                 Whether a ``run =`` of a `section`_ counts as a draw -- eg. one of a library this file does not hold.
+                 **Default**: none does
+                 @endrst
+                 */
+                std::function<bool(const std::string& called)> runDraws;
+
+                /**
+                 * @brief The libraries to record (#libraries), each by whether a key or value names it
+                 */
+                std::vector<std::pair<std::string, std::function<bool(const std::string& text)>>> libraries;
+
+                /**
+                 * @brief
+                 @rst
+                 When EVERY object read looks hidden (draws nothing and skips the game's draw), record none of them as
+                 #isUndrawn: a mod the reading does not understand. **Default**: ``false``
+                 @endrst
+                 */
+                bool noneUndrawnWhenAll = false;
+
+                /**
+                 * @brief Where a draw range that cannot be read is reported, or empty
+                 */
+                std::function<void(const std::string& message)> log;
+            };
+
+            /**
+             * @brief
+             @rst
+             Reads the mod's anatomy off collected rows and records it: each resource's file (#resourceFiles), and for
+             each object its numbered draws (#drawRanges) and the parts they sit in (#drawParts), the texture registers it
+             binds only after it has drawn (#lateBindings, unless #replacesTexturesByHash), the libraries it names
+             (#libraries), and whether it is hidden -- its `sections`_ draw nothing and skip the game's draw
+             (#isUndrawn). Only the rows in an object's own root `sections`_ count, except that a draw or a ``run =``
+             anywhere it reaches counts as drawing
+             @endrst
+             *
+             * @param rules What to read, and how
+             */
+            void fileAnatomy(const AnatomyRules& rules);
+
         private:
             void fill() const;
 

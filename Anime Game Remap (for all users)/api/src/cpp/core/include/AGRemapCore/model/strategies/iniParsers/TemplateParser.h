@@ -11,14 +11,20 @@
 //   HazrateGolabi#1364 (for being awesome, and improving the code)
 // ##### EndCredits
 
+#include <functional>
 #include <memory>
 #include <optional>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseRows.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h"
 
 
 namespace AGRemapCore {
@@ -99,13 +105,71 @@ namespace AGRemapCore {
             GroupEdit& addDeferredParseStep(std::unique_ptr<GroupEdit> step);
 
             /**
+             * @brief Which of the standard row sets #addRowSteps adds -- see :cpp:struct:`IniParseRows`
+             */
+            struct RowSteps {
+                /**
+                 * @brief Whether to collect :cpp:member:`IniParseRows::Resources`. **Default**: ``true``
+                 */
+                bool resources = true;
+
+                /**
+                 * @brief The keys :cpp:member:`IniParseRows::Declared` collects besides ``filename``, ``type``, ``format`` and ``stride``
+                 */
+                std::vector<std::string> declaredKeys;
+
+                /**
+                 * @brief Whether to collect :cpp:member:`IniParseRows::Sections`. **Default**: ``true``
+                 */
+                bool sections = true;
+
+                /**
+                 * @brief The mod objects :cpp:member:`IniParseRows::Objs` collects every key of; empty takes none
+                 */
+                std::function<bool(const ModObj&)> objs;
+            };
+
+            /**
+             * @brief
+             @rst
+             Adds the standard row sets to :cpp:member:`GIMIParser::deferredParseSteps`, in this order: a copy of the
+             parser's global graph is put in the groups (:cpp:class:`GraphCreate`); a :cpp:class:`ResRegCollect` over
+             the keys that ever name a resource builds a graph of the resource `sections`_ bound anywhere
+             (:cpp:class:`ResIdentity`: nothing renamed, no models) and a :cpp:class:`GraphCollect` reads their
+             ``filename``; the declarations and every key of every `section`_ are collected off the global graph; both
+             graphs are taken out again (:cpp:class:`GraphRemove`); and every key of the chosen objects is collected.
+             A step a subclass adds afterwards runs after these
+             @endrst
+             *
+             * @param rows Which row sets to add
+             */
+            void addRowSteps(const RowSteps& rows);
+
+            /**
+             * @brief
+             @rst
+             The resource `section`_ 'value' names, as a binding names one, under the name it is declared by -- or empty.
+             Without regard to case, as 3DMigoto reads a section name: a mod may declare ``[ResourceTexCoordBuffer]``
+             and bind ``vb2 = ResourceTexcoordBuffer``. Known once #addRowSteps' global graph has been put in the groups
+             @endrst
+             *
+             * @param value The value
+             */
+            std::string resourceNamed(const std::string& value) const;
+
+            /**
              * @brief The parse context over the .ini file being parsed
              */
             IniFileParseContext ctx_;
 
         private:
+            Graph* globalGraphForResources();
+
             std::vector<std::unique_ptr<Classifier>> classifiers_;
             std::vector<std::unique_ptr<GroupEdit>> steps_;
+            std::unordered_set<std::string> resourceKeys_;
+            std::unordered_map<std::string, std::string> declaredResources_;     // lowercased -> as declared
+            std::unique_ptr<BaseResEdit<>> resourceIdentity_;
     };
 }
 

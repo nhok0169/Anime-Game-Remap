@@ -218,6 +218,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_ini_parse_context" prot="public">AGRemapCore::IniParseContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_parse_data" prot="public">AGRemapCore::IniParseData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_parse_download_data" prot="public">AGRemapCore::IniParseDownloadData</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_ini_parse_rows" prot="public">AGRemapCore::IniParseRows</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_ini_removal_context" prot="public">AGRemapCore::IniRemovalContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_remove_builder" prot="public">AGRemapCore::IniRemoveBuilder</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_remove_builder_data" prot="public">AGRemapCore::IniRemoveBuilderData</innerclass>
@@ -446,7 +447,6 @@
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config" prot="public">AGRemapCore::WWMIFixerConfig</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_objs" prot="public">AGRemapCore::WWMIParseObjs</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" prot="public">AGRemapCore::WWMIParserConfig</innerclass>
-    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_rows" prot="public">AGRemapCore::WWMIParseRows</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys" prot="public">AGRemapCore::WWMIShapeKeys</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" prot="public">AGRemapCore::WWMITextureFacts</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_xiangling_cheer_fixer" prot="public">AGRemapCore::XianglingCheerFixer</innerclass>
@@ -3224,7 +3224,7 @@ of their own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/WWMIFixer.cpp" line="6205" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="6205" bodyend="6209" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="1318" declcolumn="28"/>
+        <location file="src/data/IniFixData/WWMIFixer.cpp" line="6206" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="6206" bodyend="6210" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="1318" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1add108ea30a6b29f945e77947f8fa7577" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -3387,7 +3387,7 @@ Builds the parser for a mod of one Wuthering Waves character -- see :cpp:struct:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/WWMIParser.cpp" line="1680" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="1680" bodyend="1691" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="239" declcolumn="30"/>
+        <location file="src/data/IniParseData/WWMIParser.cpp" line="1455" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="1455" bodyend="1466" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="239" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1aad3c3e3d2d3d9a180071dc09ae8b1565" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>

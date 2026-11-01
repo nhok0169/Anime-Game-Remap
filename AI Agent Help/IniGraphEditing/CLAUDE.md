@@ -13,6 +13,12 @@ fixer step) over the rows, calling a bound capability of the buffer / texture cl
 game's config. Before proposing an edit, write down what it does to the graphs that `GraphCollect`, `ResRegCollect`,
 `GraphCopy`, `RegNewVals` and the rest cannot -- if that sentence is empty, it is not an edit.
 
+**The shared readers a parser starts from (2026-10-31):** `TemplateParser::addRowSteps` adds the standard row sets
+(`IniParseRows`: every bound resource's file, every declaration, every key of every section, every key of chosen
+objects), and `IniParseData::fileAnatomy` reads draws, draw parts (`GraphCollectRow::position`), late bindings,
+libraries and hidden objects off those rows, with the game's choices in `IniParseData::AnatomyRules`. WWMIParser is
+built on both; the GI parsers are next. Reach for these before writing a reader of your own.
+
 ## Edits pass data to each other through VARIABLES: `GraphEditVariables` (2026-10-31)
 
 **When one edit has to hand data to a later one, keep it in a named variable rather than a new holder class.**

@@ -1545,6 +1545,17 @@ IniParseData
 
 :raw-html:`<br />`
 
+IniParseRows
+============
+
+.. attributetable:: FixRaidenBoss2.IniParseRows
+
+.. autoclass:: FixRaidenBoss2.IniParseRows
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IniRemovalContext
 =================
 

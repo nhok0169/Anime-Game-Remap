@@ -113,6 +113,23 @@ ps-t0 = ResourceD
                          [("ResourceA", ["$a == 1", "$b == 2"]), ("ResourceB", ["$a == 1", "$b == 3"]),
                           ("ResourceC", ["$a == 1"]), ("ResourceD", [])])
 
+    def test_position_thePartsPlaceInItsSection_countingIfLines(self):
+        self.setupIniTxt(r"""
+[TextureOverrideBody]
+hash = 1
+match_first_index = 0
+if $a == 1
+    ps-t0 = ResourceA
+endif
+ps-t0 = ResourceB
+""")
+        self.createIniFile()
+        collect = FRB.GraphCollect({self.Body: ["ps-t0"]})
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = [("", "body")], trackKeys = False, parseSteps = [collect])
+        self.useStrategies(parser = self._parser)
+        self._iniFile.parse()
+        self.assertEqual([(row.value, row.position) for row in collect.rows], [("ResourceA", 2), ("ResourceB", 4)])
+
     def test_blocks_twoBranchesOfTheSameTest_areTwoBlocks_andANestedPartStartsWithItsParents(self):
         self.setupIniTxt(r"""
 [TextureOverrideBody]

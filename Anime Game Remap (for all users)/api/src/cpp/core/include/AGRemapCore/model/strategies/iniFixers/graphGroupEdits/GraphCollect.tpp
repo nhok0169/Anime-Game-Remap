@@ -30,6 +30,7 @@ namespace AGRemapCore {
         struct Branches {
             std::vector<std::string> guards;
             std::vector<std::size_t> blocks;
+            std::size_t position = 0;
         };
 
         template <typename SectionT, typename PartT>
@@ -42,6 +43,7 @@ namespace AGRemapCore {
             std::size_t position = 0;
             for (const auto& each : section->parts()) {
                 if (static_cast<const void*>(each.get()) == static_cast<const void*>(part)) {
+                    open.position = position;
                     return open;
                 }
 
@@ -151,6 +153,7 @@ namespace AGRemapCore {
             }
             row.guards = branches->guards;
             row.blocks = branches->blocks;
+            row.position = branches->position;
             if (context != contextKeys.end()) {
                 for (const K& contextKey : context->second) {
                     row.context.emplace_back(contextKey, iterData.colouring != nullptr ? iterData.colouring->getIndVals(contextKey)

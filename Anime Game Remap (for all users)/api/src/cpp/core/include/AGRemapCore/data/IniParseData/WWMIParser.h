@@ -241,34 +241,6 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     The names the parser :cpp:func:`makeWWMIParser` builds files its rows under -- read them with
-     :cpp:func:`IniParseData::collected` or :cpp:func:`IniParseData::firstCollected`
-     @endrst
-     */
-    struct WWMIParseRows {
-        /**
-         * @brief Every `section`_'s ``filename``, ``type``, ``format`` and ``stride``, and ``[Constants]``' mesh vertex count, over the whole file
-         */
-        static inline const std::string Declared = "WWMIParser.declared";
-
-        /**
-         * @brief Every key the sections of each draw slot reach, through ``run =``
-         */
-        static inline const std::string Slots = "WWMIParser.slots";
-
-        /**
-         * @brief
-         @rst
-         Every key of every `section`_ over the whole file. A section ``run =`` reaches is met again under its
-         caller, so a reader of one section's own lines keeps each line once
-         @endrst
-         */
-        static inline const std::string Sections = "WWMIParser.sections";
-    };
-
-    /**
-     * @brief
-     @rst
      The mod objects the parser :cpp:func:`makeWWMIParser` builds places sections in besides the draw slots, the
      :cpp:member:`WWMIParserConfig::hashOnlyObjs` and the texture roles
      @endrst

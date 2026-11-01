@@ -12,10 +12,135 @@
 // ##### EndCredits
 
 #include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
+#include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegDrawRangeRemap.h"
+#include "AGRemapCore/tools/ListTools.h"
 #include "AGRemapCore/tools/StringTools.h"
+
+#include <algorithm>
+#include <tuple>
 
 
 namespace AGRemapCore {
+    void IniParseData::fileAnatomy(const AnatomyRules& rules) {
+        // the files of the resources the graphs bind -- each section's first `filename`
+        if (!rules.resources.empty()) {
+            std::set<std::string> filed;
+            for (const auto& row : collected(rules.resources)) {
+                if (filed.insert(row.section).second) {
+                    setResourceFile(row.section, std::string(StringTools::strip(row.value)));
+                }
+            }
+        }
+
+        // every row of each object, once each
+        std::map<ModObj, std::vector<const CollectedRow*>> rowsOf;
+        std::set<std::tuple<ModObj, std::string, std::size_t, long long, std::string>> seen;
+        for (const auto& row : collected(rules.rows)) {
+            if (seen.emplace(row.graphId.modObj, row.section, row.partId, row.line, row.key).second) {
+                rowsOf[row.graphId.modObj].push_back(&row);
+            }
+        }
+
+        const std::string drawKey = StringTools::toLower(IniKeywords::DrawIndexed);
+        const std::string runKey = StringTools::toLower(IniKeywords::Run);
+        const std::string regPrefix = StringTools::toLower(rules.texRegPrefix);
+        std::size_t read = 0;
+        std::vector<ModObj> hidden;
+        for (const auto& [obj, roots] : rules.roots) {
+            if (roots.empty()) {
+                continue;
+            }
+            ++read;
+
+            // the rows in the object's own root sections, in the order they are written: by root, then part, then line
+            std::map<std::string, std::size_t> rootIndex;
+            for (std::size_t i = 0; i < roots.size(); ++i) {
+                rootIndex.emplace(roots[i], i);
+            }
+
+            std::vector<std::tuple<std::size_t, std::size_t, long long, const CollectedRow*>> inRoots;
+            bool draws = false;
+            for (const CollectedRow* row : rowsOf[obj]) {
+                const std::string key = StringTools::toLower(std::string(StringTools::strip(row->key)));
+                if (StringTools::startsWith(key, "draw")) {
+                    draws = true;
+                } else if (key == runKey && rules.runDraws) {
+                    draws = draws || rules.runDraws(std::string(StringTools::strip(row->value)));
+                }
+
+                const auto root = rootIndex.find(row->section);
+                if (root != rootIndex.end()) {
+                    inRoots.emplace_back(root->second, row->position + 1, row->line, row);
+                }
+            }
+            std::sort(inRoots.begin(), inRoots.end(), [](const auto& a, const auto& b) {
+                return std::make_tuple(std::get<0>(a), std::get<1>(a), std::get<2>(a))
+                       < std::make_tuple(std::get<0>(b), std::get<1>(b), std::get<2>(b));
+            });
+
+            bool drew = false;
+            bool skipped = false;
+            std::vector<std::string> late;
+            for (const auto& [rootAt, partAt, line, row] : inRoots) {
+                (void)rootAt;
+                (void)line;
+                const std::string key = StringTools::toLower(std::string(StringTools::strip(row->key)));
+
+                // its draws, and which part each sits in
+                if (row->key == IniKeywords::DrawIndexed) {
+                    addDrawPart(obj, partAt);
+                    const std::string& draw = row->value;
+                    if (std::count(draw.begin(), draw.end(), ',') >= 2) {
+                        const std::optional<std::vector<long long>> numbers = RegDrawRangeRemap<>::parseRange(draw);
+                        if (numbers.has_value() && numbers->size() >= 3) {
+                            addDrawRange(obj, {(*numbers)[0], (*numbers)[1]});
+                        } else if (rules.log) {
+                            // a dropped draw range is a piece of the mesh that stops being remapped
+                            rules.log("could not read the draw range `" + std::string(StringTools::strip(draw)) + "` in ["
+                                      + row->section + "], so it is not remapped");
+                        }
+                    }
+                }
+
+                // the texture registers it binds only after it has drawn
+                if (key == drawKey) {
+                    drew = true;
+                } else if (drew && StringTools::startsWith(key, regPrefix)) {
+                    ListTools::pushDistinct(late, key);
+                }
+
+                // the libraries it names, on any line
+                for (const auto& [library, names] : rules.libraries) {
+                    if (names && (names(row->key) || names(row->value))) {
+                        addLibrary(obj, library);
+                    }
+                }
+
+                if (row->key == IniKeywords::Handling
+                        && StringTools::equalsIgnoreCase(std::string(StringTools::strip(row->value)), IniKeywords::Skip)) {
+                    skipped = true;
+                }
+            }
+
+            if (!late.empty() && !replacesTexturesByHash()) {
+                setLateBindings(obj, std::move(late));
+            }
+
+            // AN OBJECT WHOSE SECTIONS DRAW NOTHING AND SKIP THE GAME'S DRAW IS HIDDEN: the mod hides it. One that draws
+            // nothing and leaves the game's geometry on screen is not.
+            if (!draws && skipped) {
+                hidden.push_back(obj);
+            }
+        }
+
+        if (!rules.noneUndrawnWhenAll || hidden.size() < read) {
+            for (const ModObj& obj : hidden) {
+                addUndrawn(obj);
+            }
+        }
+    }
+
     void IniParseData::clear() {
         remappable_ = true;
         recolourOnly_ = false;

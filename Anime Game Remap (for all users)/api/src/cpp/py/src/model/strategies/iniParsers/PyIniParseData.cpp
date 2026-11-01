@@ -21,6 +21,7 @@
 #include <pybind11/stl.h>
 
 #include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseRows.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
 
@@ -425,6 +426,19 @@ name: :class:`str`
 rows: List[:class:`GraphCollect.Row`]
     The rows
        )doc")
+       .def("fileAnatomy", &AGRC::IniParseData::fileAnatomy, py::arg("rules"), R"doc(
+Reads the mod's anatomy off collected rows and records it: each resource's file (:meth:`resourceFiles`), and for each
+object its numbered draws (:meth:`drawRanges`) and the parts they sit in (:meth:`drawParts`), the texture registers it
+binds only after it has drawn (:meth:`lateBindings`, unless :meth:`replacesTexturesByHash`), the libraries it names
+(:meth:`libraries`), and whether it is hidden -- its `sections`_ draw nothing and skip the game's draw
+(:meth:`isUndrawn`). Only the rows in an object's own root `sections`_ count, except that a draw or a ``run =``
+anywhere it reaches counts as drawing
+
+Parameters
+----------
+rules: :class:`IniParseData.AnatomyRules`
+    What to read, and how
+       )doc")
        .def("textureRoles", &AGRC::IniParseData::textureRoles, py::return_value_policy::reference_internal, R"doc(
 What role each texture of the .ini plays, or ``None`` when the parser records none -- every role the
 .ini binds a file for, since one atlas can serve two objects
@@ -644,6 +658,55 @@ role: :class:`str`
 why: :class:`str`
     Why, as a sentence about the file, eg. ``is a flat hairMask, which marks no regions``
        )doc");
+
+    py::class_<AGRC::IniParseData::AnatomyRules>(cls, "AnatomyRules", R"doc(
+What :meth:`IniParseData.fileAnatomy` reads, and the rules a game reads it by
+    )doc")
+        .def(py::init<>())
+        .def_readwrite("rows", &AGRC::IniParseData::AnatomyRules::rows, py::doc(R"doc(
+:class:`str`: The collect whose rows it reads: every key each object's `sections`_ reach -- see :attr:`IniParseRows.Objs`
+        )doc"))
+        .def_readwrite("resources", &AGRC::IniParseData::AnatomyRules::resources, py::doc(R"doc(
+:class:`str`: The collect whose rows name each bound resource's ``filename`` -- see :attr:`IniParseRows.Resources` -- or
+empty for none
+        )doc"))
+        .def_readwrite("roots", &AGRC::IniParseData::AnatomyRules::roots, py::doc(R"doc(
+List[Tuple[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]]: The objects to read, each with its root `sections`_ in
+the order they are written
+        )doc"))
+        .def_readwrite("texRegPrefix", &AGRC::IniParseData::AnatomyRules::texRegPrefix,
+                        py::doc(":class:`str`: The register family a mod binds its textures with. **Default**: ``\"ps-t\"``"))
+        .def_readwrite("runDraws", &AGRC::IniParseData::AnatomyRules::runDraws, py::doc(R"doc(
+Optional[Callable[[:class:`str`], :class:`bool`]]: Whether a ``run =`` of a `section`_ counts as a draw -- eg. one of a
+library this file does not hold. **Default**: none does
+        )doc"))
+        .def_readwrite("libraries", &AGRC::IniParseData::AnatomyRules::libraries, py::doc(R"doc(
+List[Tuple[:class:`str`, Callable[[:class:`str`], :class:`bool`]]]: The libraries to record (:meth:`IniParseData.libraries`),
+each by whether a key or value names it
+        )doc"))
+        .def_readwrite("noneUndrawnWhenAll", &AGRC::IniParseData::AnatomyRules::noneUndrawnWhenAll, py::doc(R"doc(
+:class:`bool`: When EVERY object read looks hidden (draws nothing and skips the game's draw), record none of them as
+undrawn: a mod the reading does not understand. **Default**: ``False``
+        )doc"))
+        .def_readwrite("log", &AGRC::IniParseData::AnatomyRules::log, py::doc(R"doc(
+Optional[Callable[[:class:`str`], None]]: Where a draw range that cannot be read is reported, or ``None``
+        )doc"));
+
+    py::class_<AGRC::IniParseRows>(m, "IniParseRows", R"doc(
+The names the standard row sets of a parser are filed under (:meth:`IniParseData.collected`)
+    )doc")
+        .def_readonly_static("Resources", &AGRC::IniParseRows::Resources,
+                             ":class:`str`: Every resource `section`_ the mod binds anywhere, by its ``filename``")
+        .def_readonly_static("Declared", &AGRC::IniParseRows::Declared, R"doc(
+:class:`str`: Every `section`_'s ``filename``, ``type``, ``format`` and ``stride`` (and any key the parser adds), over the
+whole file
+        )doc")
+        .def_readonly_static("Objs", &AGRC::IniParseRows::Objs,
+                             ":class:`str`: Every key the `sections`_ of the mod objects the parser chose reach, through ``run =``")
+        .def_readonly_static("Sections", &AGRC::IniParseRows::Sections, R"doc(
+:class:`str`: Every key of every `section`_ over the whole file. A section ``run =`` reaches is met again under its
+caller, so a reader of one section's own lines keeps each line once
+        )doc");
 
     py::class_<AGRC::IniParseData::RoleFile>(cls, "RoleFile", R"doc(
 The file a mod object takes for a role -- see :meth:`IniParseData.roleFile`

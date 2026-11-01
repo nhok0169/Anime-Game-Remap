@@ -1914,6 +1914,17 @@ IniParseData
 
 :raw-html:`<br />`
 
+IniParseRows
+------------
+
+.. cppattributetable:: AGRemapCore::IniParseRows
+
+.. doxygenstruct:: AGRemapCore::IniParseRows
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 IniParseDownloadData
 --------------------
 
@@ -1974,17 +1985,6 @@ WWMIParserConfig
 .. cppattributetable:: AGRemapCore::WWMIParserConfig
 
 .. doxygenstruct:: AGRemapCore::WWMIParserConfig
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
-WWMIParseRows
--------------
-
-.. cppattributetable:: AGRemapCore::WWMIParseRows
-
-.. doxygenstruct:: AGRemapCore::WWMIParseRows
     :members:
     :protected-members:
 

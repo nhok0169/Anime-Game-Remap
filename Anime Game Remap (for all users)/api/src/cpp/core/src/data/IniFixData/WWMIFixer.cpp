@@ -44,6 +44,7 @@
 #include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
 #include "AGRemapCore/data/IniParseData/WWMIParser.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseRows.h"
 #include "AGRemapCore/model/iftemplate/IfContentPart.h"
 #include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
@@ -1305,7 +1306,7 @@ namespace AGRemapCore {
                         }
                     }
                     for (const std::string& section : slotSections) {
-                        if (data.firstCollected(WWMIParseRows::Slots, section, IniKeywords::WWMIVgOffset) != nullptr) {
+                        if (data.firstCollected(IniParseRows::Objs, section, IniKeywords::WWMIVgOffset) != nullptr) {
                             legacy_ = false;
                         }
                     }
@@ -1323,7 +1324,7 @@ namespace AGRemapCore {
                              "through " + source_.name + "'s vg_map, and the fix supplies the merged skeleton it lacks");
                     }
 
-                    if (const auto* row = data.firstCollected(WWMIParseRows::Declared, IniKeywords::Constants, MeshVertexCountKey)) {
+                    if (const auto* row = data.firstCollected(IniParseRows::Declared, IniKeywords::Constants, MeshVertexCountKey)) {
                         const std::optional<std::string> count = std::string(StringTools::strip(row->value));
                         {
                             try {
@@ -1360,7 +1361,7 @@ namespace AGRemapCore {
                     if (!config_.shapeKeyOrder.empty()) {
                         for (const std::string& resource : ShapeKeyResources) {
                             const auto declared = [&data, &resource](const std::string& key) {
-                                return data.firstCollected(WWMIParseRows::Declared, resource, key);
+                                return data.firstCollected(IniParseRows::Declared, resource, key);
                             };
                             const auto valueOf = [&declared](const std::string& key, const std::string& otherwise) {
                                 const auto* row = declared(key);
@@ -1652,7 +1653,7 @@ namespace AGRemapCore {
                     return this->getParser()->parseData();
                 }
 
-                // THE MOD'S OWN LINES ARE THE PARSER'S ROWS (WWMIParseRows::Sections): every key of every
+                // THE MOD'S OWN LINES ARE THE PARSER'S ROWS (IniParseRows::Sections): every key of every
                 // section, each line once, as written. A collect files its rows key by key, so they are put back
                 // in the order of their parts, whose ids are handed out as the file is parsed
                 using Row = IniParseData::CollectedRow;
@@ -1668,7 +1669,7 @@ namespace AGRemapCore {
 
                     sectionRows_.emplace();
                     std::set<std::tuple<std::string, std::size_t, long long>> seen;
-                    for (const Row& row : parseData().collected(WWMIParseRows::Sections)) {
+                    for (const Row& row : parseData().collected(IniParseRows::Sections)) {
                         if (!seen.emplace(row.section, row.partId, row.line).second) {
                             continue;
                         }
@@ -2962,7 +2963,7 @@ namespace AGRemapCore {
                     }
 
                     // the component's graph: its sections and every one they `run =`
-                    const auto& rows = parseData().collected(WWMIParseRows::Slots);
+                    const auto& rows = parseData().collected(IniParseRows::Objs);
                     return std::any_of(rows.begin(), rows.end(), [&obj](const Row& row) {
                         return row.graphId.modObj == obj->second && row.key == IniKeywords::Run
                                && StringTools::equalsIgnoreCase(StringTools::strip(row.value), IniKeywords::RabbitFXSetTexturesPath);
@@ -5697,13 +5698,13 @@ namespace AGRemapCore {
                     // for ResourceTexcoordBuffer finds nothing and says nothing.
                     const IniParseData& data = parseData();
                     const auto declared = [&data](const std::string& key) -> std::optional<std::string> {
-                        const auto* row = data.firstCollected(WWMIParseRows::Declared, IniKeywords::WWMITexcoordBuffer, key);
+                        const auto* row = data.firstCollected(IniParseRows::Declared, IniKeywords::WWMITexcoordBuffer, key);
                         return row == nullptr ? std::nullopt : std::optional<std::string>(StringTools::strip(row->value));
                     };
 
                     TexcoordBuffer found;
-                    const bool isDeclared = std::any_of(data.collected(WWMIParseRows::Declared).begin(),
-                                                        data.collected(WWMIParseRows::Declared).end(), [](const auto& row) {
+                    const bool isDeclared = std::any_of(data.collected(IniParseRows::Declared).begin(),
+                                                        data.collected(IniParseRows::Declared).end(), [](const auto& row) {
                         return StringTools::equalsIgnoreCase(row.section, IniKeywords::WWMITexcoordBuffer);
                     });
                     if (!isDeclared) {

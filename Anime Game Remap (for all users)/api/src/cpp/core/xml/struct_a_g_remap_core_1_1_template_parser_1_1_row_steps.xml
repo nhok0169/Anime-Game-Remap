@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps" kind="struct" language="C++" prot="protected">
+    <compoundname>AGRemapCore::TemplateParser::RowSteps</compoundname>
+    <includes refid="_template_parser_8h" local="no">TemplateParser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1af8ad2dd26c48b9a258c3ba292eb44ae5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::TemplateParser::RowSteps::resources</definition>
+        <argsstring></argsstring>
+        <name>resources</name>
+        <qualifiedname>AGRemapCore::TemplateParser::RowSteps::resources</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether to collect :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_rows_1a10a5c7a73a23a6a99833749753aa68c3" kindref="member">IniParseRows::Resources</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" line="114" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1af06cb98641023f5067428f0474906dad" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::TemplateParser::RowSteps::declaredKeys</definition>
+        <argsstring></argsstring>
+        <name>declaredKeys</name>
+        <qualifiedname>AGRemapCore::TemplateParser::RowSteps::declaredKeys</qualifiedname>
+        <briefdescription>
+<para>The keys :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_rows_1aa4ecd75e84ef583039ca3a7693fc8af5" kindref="member">IniParseRows::Declared</ref></computeroutput> collects besides <computeroutput>filename</computeroutput>, <computeroutput>type</computeroutput>, <computeroutput>format</computeroutput> and <computeroutput>stride</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" line="119" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1ac1929bf05f314bfc60ee0af6503b7b61" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::TemplateParser::RowSteps::sections</definition>
+        <argsstring></argsstring>
+        <name>sections</name>
+        <qualifiedname>AGRemapCore::TemplateParser::RowSteps::sections</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether to collect :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_rows_1aacf65feec57fb8186edad9d215597abf" kindref="member">IniParseRows::Sections</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" line="124" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1a69eb110d72fd6d9efd5f64ad6280cfa3" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;bool(const ModObj&amp;)&gt; AGRemapCore::TemplateParser::RowSteps::objs</definition>
+        <argsstring></argsstring>
+        <name>objs</name>
+        <qualifiedname>AGRemapCore::TemplateParser::RowSteps::objs</qualifiedname>
+        <briefdescription>
+<para>The mod objects :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_rows_1ae072c1a06004a981191d68cdc06d4ee6" kindref="member">IniParseRows::Objs</ref></computeroutput> collects every key of; empty takes none. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" line="129" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Which of the standard row sets <ref refid="class_a_g_remap_core_1_1_template_parser_1a0ca747f703e54e09f042a5e23772b5f3" kindref="member">addRowSteps</ref> adds <ndash/> see :cpp:struct:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_rows" kindref="compound">IniParseRows</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" line="110" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TemplateParser.h" bodystart="110" bodyend="130"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1af06cb98641023f5067428f0474906dad" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateParser::RowSteps</scope><name>declaredKeys</name></member>
+      <member refid="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1a69eb110d72fd6d9efd5f64ad6280cfa3" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateParser::RowSteps</scope><name>objs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1af8ad2dd26c48b9a258c3ba292eb44ae5" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateParser::RowSteps</scope><name>resources</name></member>
+      <member refid="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1ac1929bf05f314bfc60ee0af6503b7b61" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateParser::RowSteps</scope><name>sections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -211,21 +211,14 @@ namespace AGRemapCore {
                 using GraphId = GroupEdit::GraphId;
 
                 // The names the collects file their rows under (IniParseData::collected)
-                inline static const std::string ResourcesCollect = "WWMIParser.resources";
-                inline static const std::string SlotsCollect = WWMIParseRows::Slots;
+                inline static const std::string SlotsCollect = IniParseRows::Objs;
                 inline static const std::string TextureOverridesCollect = "WWMIParser.textureOverrides";
-                inline static const std::string DeclaredCollect = WWMIParseRows::Declared;
+                inline static const std::string DeclaredCollect = IniParseRows::Declared;
                 inline static const std::string TextureRolesCollect = "WWMIParser.textureRoles";
                 inline static const std::string TextureTogglesCollect = "WWMIParser.textureToggles";
 
                 using Row = IniParseData::CollectedRow;
 
-                // The graph the resource collect builds of the resource sections the mod binds, and takes out
-                // again once their files are collected; and the copy of the parser's global graph it reads them
-                // from -- WWMI binds buffers from sections no mod object reaches: the blend remap's ids from
-                // [Present]'s CommandListInitializeBlendRemaps, the positions from a shape-key callback's list
-                inline static const GraphId ResourceGraph{0, "resource", ""};
-                inline static const GraphId GlobalGraph{0, "global", ""};
 
                 // A step of this parser's own: an edit that changes nothing and does its work as it is filed
                 using Filed = ParseDataStep;
@@ -321,110 +314,22 @@ namespace AGRemapCore {
                  * sorting the textures opens every candidate, and a parser is built for every `.ini` a run
                  * classifies -- most of which no WuWa fixer will ever ask about.
                  *
-                 * (1) the files of the resources the mod binds: a copy of the global graph is put in the groups,
-                 * a ResRegCollect over its registers builds a graph of the resource sections they name
-                 * (ResIdentity: nothing renamed, no models), a GraphCollect reads their `filename`, and both graphs
-                 * are taken out again. The collect walks the whole file once per key it searches, so it searches
-                 * only the keys that ever name a resource (resourceKeys_, found as the copy is taken); (2) every
-                 * key of every slot graph; (3) the hash and the `this` of every texture override; (4) WWMI's
-                 * reading of those rows (applyAnatomy); (5) the skeleton numbering; (6) the textures.
+                 * (1) the standard rows (TemplateParser::addRowSteps): the files of the resources the mod binds,
+                 * every section's declaration and every key of every section, and every key of every slot graph;
+                 * (2) the hash and the `this` of every texture override; (3) the textures' roles and toggles;
+                 * (4) the anatomy (IniParseData::fileAnatomy, by WWMI's rules); (5) the skeleton numbering;
+                 * (6) the textures; (7) the draw splits.
                  */
-                // The resource section 'value' names, as a binding names one, under the name it is declared by
-                // -- or empty. Without regard to case, as 3DMigoto reads a section name: a mod may declare
-                // [ResourceTexCoordBuffer] and bind `vb2 = ResourceTexcoordBuffer`
-                std::string resourceNamed(const std::string& value) const {
-                    const std::string name = IniNamingTools::removeRefPrefix(std::string(StringTools::strip(value)));
-                    const auto declared = declaredResources_.find(StringTools::toLower(name));
-                    return declared == declaredResources_.end() ? std::string() : declared->second;
-                }
-
-                // The global graph -- and, found as it is handed over, the resource sections the .ini declares
-                // and the keys of the graph that ever name one
-                Graph* globalGraphForResources() {
-                    resourceKeys_.clear();
-                    declaredResources_.clear();
-                    for (const std::string& name : ctx_.sectionNames()) {
-                        if (StringTools::startsWith(StringTools::toLower(name), "resource")) {
-                            declaredResources_.emplace(StringTools::toLower(name), name);
-                        }
-                    }
-
-                    Graph* graph = this->globalGraph();
-                    if (graph == nullptr) {
-                        return nullptr;
-                    }
-
-                    for (const auto& [name, section] : graph->sections()) {
-                        (void)name;
-                        if (section == nullptr) {
-                            continue;
-                        }
-
-                        for (const auto& part : section->parts()) {
-                            const auto* content = dynamic_cast<const ContentPart*>(part.get());
-                            if (content == nullptr) {
-                                continue;
-                            }
-
-                            for (const auto& item : content->items()) {
-                                if (!resourceNamed(item.value).empty()) {
-                                    resourceKeys_.insert(item.key);
-                                }
-                            }
-                        }
-                    }
-                    return graph;
-                }
-
                 void buildSteps() {
-                    const auto anyKey = [](const std::string&) { return true; };
                     std::vector<std::unique_ptr<GroupEdit>> steps;
 
-                    auto global = std::make_unique<GraphCreate<>>(GlobalGraph, nullptr);
-                    global->graphOf = [this]() { return globalGraphForResources(); };
-
-                    resourceCollect_ = std::make_unique<ResRegCollect<>>();
-                    resourceCollect_->srcRegMatches.insert_or_assign(GlobalGraph, [this](const std::string& key) {
-                        return resourceKeys_.count(key) > 0;
-                    });
-                    resourceCollect_->resPredicates.insert_or_assign(GlobalGraph, [this](const std::string&, const std::string& value,
-                                                                                         const ResRegCollect<>::IterData&) {
-                        return !resourceNamed(value).empty();
-                    });
-                    BaseResEdit<>::ResEditConfig resConfig{
-                        IniKeywords::Filename,
-                        [this](const std::string& value) { return resourceNamed(value); },
-                        [](const std::string& file) { return file; }
-                    };
-                    resourceIdentity_ = std::make_unique<ResIdentity<>>(ResourceGraph, std::move(resConfig), false);
-                    resourceCollect_->resEdits.insert_or_assign("", resourceIdentity_.get());
-
-                    auto slots = std::make_unique<Collect>();
-                    slots->name = SlotsCollect;
                     auto overrides = std::make_unique<Collect>();
                     overrides->name = TextureOverridesCollect;
                     for (const ModObj& obj : this->modObjs()) {
-                        const GraphId id(0, obj.first, obj.second);
-                        if (isSlotObj(obj)) {
-                            slots->keyMatches.insert_or_assign(id, anyKey);
-                        }
-                        overrides->keys.insert_or_assign(id, std::vector<std::string>{IniKeywords::Hash, IniKeywords::This});
+                        overrides->keys.insert_or_assign(GraphId(0, obj.first, obj.second),
+                                                         std::vector<std::string>{IniKeywords::Hash, IniKeywords::This});
                     }
 
-                    auto files = std::make_unique<Collect>(Collect::ByGraph<std::vector<std::string>>{{ResourceGraph, {IniKeywords::Filename}}});
-                    files->name = ResourcesCollect;
-
-                    // every section's declaration, bound or not: the files the .ini names (which the texture roles
-                    // are chosen among) with their type, format and stride, and [Constants]' mesh vertex count
-                    auto declared = std::make_unique<Collect>(Collect::ByGraph<std::vector<std::string>>{{GlobalGraph,
-                        {IniKeywords::Filename, IniKeywords::Type, IniKeywords::Format, IniKeywords::Stride,
-                         IniKeywords::Global + " " + IniKeywords::WWMIMeshVertexCount}}});
-                    declared->name = DeclaredCollect;
-
-                    // every key of every section, for the fixer's reading of the mod's own lines
-                    auto sections = std::make_unique<Collect>();
-                    sections->name = WWMIParseRows::Sections;
-                    sections->keyMatches.insert_or_assign(GlobalGraph, anyKey);
 
                     // THE TEXTURE ROLES THE .ini STATES, per root section and through `run =`: a texture
                     // override's `this` (the role is its graph's), and the registers a slot's sections bind
@@ -474,13 +379,6 @@ namespace AGRemapCore {
                         }
                     }
 
-                    steps.push_back(std::move(files));
-                    steps.push_back(std::move(declared));
-                    if (!onlyThisFile_) {
-                        steps.push_back(std::move(sections));
-                    }
-                    steps.push_back(std::make_unique<GraphRemove<>>(std::vector<GraphId>{ResourceGraph, GlobalGraph}));
-                    steps.push_back(std::move(slots));
                     steps.push_back(std::move(overrides));
                     steps.push_back(std::move(roles));
                     steps.push_back(std::move(toggles));
@@ -491,11 +389,14 @@ namespace AGRemapCore {
                         steps.push_back(std::make_unique<Filed>([this](IniParseData& data) { readDrawSplits(data); }));
                     }
 
-                    // the global graph first, then the resource collect, then the steps in the order built
-                    this->addDeferredParseStep(std::move(global));
-                    if (!onlyThisFile_) {
-                        this->deferredParseSteps.push_back(resourceCollect_.get());
-                    }
+                    // the standard rows first -- with [Constants]' mesh vertex count among the declarations -- then
+                    // the steps in the order built
+                    RowSteps rows;
+                    rows.resources = !onlyThisFile_;
+                    rows.sections = !onlyThisFile_;
+                    rows.declaredKeys = {IniKeywords::Global + " " + IniKeywords::WWMIMeshVertexCount};
+                    rows.objs = [this](const ModObj& obj) { return isSlotObj(obj); };
+                    this->addRowSteps(rows);
                     for (auto& step : steps) {
                         this->addDeferredParseStep(std::move(step));
                     }
@@ -508,18 +409,21 @@ namespace AGRemapCore {
                 // bound after a draw is late, unless the mod replaces textures by hash (its art reaches those
                 // draws anyway); a `run =` this file cannot resolve draws, unless it is WWMI's own library.
                 void applyAnatomy(IniParseData& data) {
-                    // the files of the resources the graphs bind -- each section's first `filename`
-                    std::set<std::string> filed;
-                    for (const auto& row : data.collected(ResourcesCollect)) {
-                        if (filed.insert(row.section).second) {
-                            data.setResourceFile(row.section, std::string(StringTools::strip(row.value)));
-                        }
-                    }
-
                     std::unordered_set<std::string> slotRoots;
+                    IniParseData::AnatomyRules rules;
+                    rules.rows = SlotsCollect;
+                    rules.resources = IniParseRows::Resources;
+                    rules.texRegPrefix = config_.texRegPrefix;
+                    rules.noneUndrawnWhenAll = true;
+                    rules.libraries = {{RabbitFX::Name, [](const std::string& text) { return RabbitFX::names(text); }}};
+                    rules.runDraws = [this](const std::string& called) {
+                        return ctx_.getSection(called) == nullptr && StringTools::toLower(called).find("\\wwmiv1\\") == std::string::npos;
+                    };
+                    rules.log = [this](const std::string& message) { ctx_.log(message); };
                     for (const auto& [obj, sections] : this->sectionTargets()) {
                         if (isSlotObj(obj)) {
                             slotRoots.insert(sections.begin(), sections.end());
+                            rules.roots.emplace_back(obj, sections);
                         }
                     }
 
@@ -540,132 +444,7 @@ namespace AGRemapCore {
                         }
                     }
 
-                    // every row of each slot, once each
-                    std::map<ModObj, std::vector<const IniParseData::CollectedRow*>> rowsOf;
-                    std::set<std::tuple<ModObj, std::string, std::size_t, long long, std::string>> seen;
-                    for (const auto& row : data.collected(SlotsCollect)) {
-                        if (seen.emplace(row.graphId.modObj, row.section, row.partId, row.line, row.key).second) {
-                            rowsOf[row.graphId.modObj].push_back(&row);
-                        }
-                    }
-
-                    std::size_t slots = 0;
-                    std::vector<ModObj> silent;
-                    for (const auto& [obj, sections] : this->sectionTargets()) {
-                        if (!isSlotObj(obj) || sections.empty()) {
-                            continue;
-                        }
-
-                        ++slots;
-                        readSlot(data, obj, sections, rowsOf[obj], silent);
-                    }
-
-                    if (silent.size() < slots) {
-                        for (const ModObj& obj : silent) {
-                            data.addUndrawn(obj);
-                        }
-                    }
-                }
-
-                // One slot: its draws and their parts, its late bindings, its libraries, and whether it hides
-                void readSlot(IniParseData& data, const ModObj& obj, const std::vector<std::string>& roots,
-                              const std::vector<const IniParseData::CollectedRow*>& rows, std::vector<ModObj>& silent) {
-                    // where each row sits: its root section, then its part (every part counted, `if` lines too)
-                    std::map<std::string, std::size_t> rootIndex;
-                    for (std::size_t i = 0; i < roots.size(); ++i) {
-                        rootIndex.emplace(roots[i], i);
-                    }
-
-                    std::map<std::pair<std::string, std::size_t>, std::size_t> partIndex;
-                    for (const std::string& root : roots) {
-                        const Section* section = ctx_.getSection(root);
-                        if (section == nullptr) {
-                            continue;
-                        }
-
-                        std::size_t index = 0;
-                        for (const auto& part : section->parts()) {
-                            ++index;
-                            partIndex.emplace(std::make_pair(root, part->id()), index);
-                        }
-                    }
-
-                    std::vector<std::tuple<std::size_t, std::size_t, long long, const IniParseData::CollectedRow*>> inRoots;
-                    bool draws = false;
-                    for (const IniParseData::CollectedRow* row : rows) {
-                        const std::string key = StringTools::toLower(std::string(StringTools::strip(row->key)));
-                        if (StringTools::startsWith(key, "draw")) {
-                            draws = true;
-                        } else if (key == StringTools::toLower(IniKeywords::Run)) {
-                            const std::string called(StringTools::strip(row->value));
-                            draws = draws || (ctx_.getSection(called) == nullptr
-                                              && StringTools::toLower(called).find("\\wwmiv1\\") == std::string::npos);
-                        }
-
-                        const auto root = rootIndex.find(row->section);
-                        const auto part = partIndex.find(std::make_pair(row->section, row->partId));
-                        if (root != rootIndex.end() && part != partIndex.end()) {
-                            inRoots.emplace_back(root->second, part->second, row->line, row);
-                        }
-                    }
-                    std::sort(inRoots.begin(), inRoots.end(), [](const auto& a, const auto& b) {
-                        return std::make_tuple(std::get<0>(a), std::get<1>(a), std::get<2>(a))
-                               < std::make_tuple(std::get<0>(b), std::get<1>(b), std::get<2>(b));
-                    });
-
-                    const std::string drawKey = StringTools::toLower(IniKeywords::DrawIndexed);
-                    const std::string regPrefix = StringTools::toLower(config_.texRegPrefix);
-                    bool drew = false;
-                    bool skipped = false;
-                    std::vector<std::string> late;
-                    for (const auto& [rootAt, partAt, line, row] : inRoots) {
-                        (void)rootAt;
-                        (void)line;
-                        const std::string key = StringTools::toLower(std::string(StringTools::strip(row->key)));
-
-                        // its draws, and which part each sits in
-                        if (row->key == IniKeywords::DrawIndexed) {
-                            data.addDrawPart(obj, partAt);
-                            const std::string& draw = row->value;
-                            if (std::count(draw.begin(), draw.end(), ',') >= 2) {
-                                const std::optional<std::vector<long long>> numbers = RegDrawRangeRemap<>::parseRange(draw);
-                                if (numbers.has_value() && numbers->size() >= 3) {
-                                    data.addDrawRange(obj, {(*numbers)[0], (*numbers)[1]});
-                                } else {
-                                    // a dropped draw range is a piece of the mesh that stops being remapped
-                                    ctx_.log("could not read the draw range `" + std::string(StringTools::strip(draw)) + "` in ["
-                                             + row->section + "], so it is not remapped");
-                                }
-                            }
-                        }
-
-                        // the texture registers it binds only after it has drawn
-                        if (key == drawKey) {
-                            drew = true;
-                        } else if (drew && StringTools::startsWith(key, regPrefix)) {
-                            ListTools::pushDistinct(late, key);
-                        }
-
-                        // the libraries it names, on any line
-                        if (RabbitFX::names(row->key) || RabbitFX::names(row->value)) {
-                            data.addLibrary(obj, RabbitFX::Name);
-                        }
-
-                        if (row->key == IniKeywords::Handling
-                                && StringTools::equalsIgnoreCase(std::string(StringTools::strip(row->value)), IniKeywords::Skip)) {
-                            skipped = true;
-                        }
-                    }
-
-                    if (!late.empty() && !data.replacesTexturesByHash()) {
-                        data.setLateBindings(obj, std::move(late));
-                    }
-
-                    // A SLOT WHOSE SECTION DRAWS NOTHING AND SKIPS THE GAME'S DRAW IS UNDRAWN: the mod hides that
-                    // component. One that draws nothing and leaves the game's geometry on screen is not hidden.
-                    if (!draws && skipped) {
-                        silent.push_back(obj);
-                    }
+                    data.fileAnatomy(rules);
                 }
 
                 // The texture roles, when the character's config carries textures to sort by
@@ -1662,11 +1441,7 @@ namespace AGRemapCore {
 
             private:
                 Classifier* classifier_ = nullptr;     // owned by the base (ownClassifier)
-                std::unique_ptr<ResRegCollect<>> resourceCollect_;
-                std::unique_ptr<ResIdentity<>> resourceIdentity_;
-                std::unordered_set<std::string> resourceKeys_;
                 std::unordered_set<std::string> watchHashes_;     // her slot hashes at every version, lowercased
-                std::unordered_map<std::string, std::string> declaredResources_;     // lowercased -> as declared
                 WWMIParserConfig config_;
                 std::optional<Version> version_;
                 std::optional<int> modTypeId_;

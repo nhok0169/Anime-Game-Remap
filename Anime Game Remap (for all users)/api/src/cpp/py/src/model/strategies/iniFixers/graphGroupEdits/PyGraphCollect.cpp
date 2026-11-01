@@ -285,6 +285,10 @@ List[:class:`int`]: Which branch of each ``if`` block the part sits in within it
 position, among the section's parts, of the ``if`` / ``else if`` / ``else`` line that opens the branch. It names the
 same branches as :attr:`guards`, but tells apart two branches whose tests read the same -- two parts share a branch
 exactly when one's list starts with the other's. Always filled
+        )doc"))
+        .def_readonly("position", &Row::position, py::doc(R"doc(
+:class:`int`: The part's position among its `section`_'s parts, counted from 0 as :attr:`blocks` counts them (an ``if``
+line is a part too). Always filled
         )doc"));
 
     cls.def(py::init([](py::object keys, py::object contextKeys, std::string name, py::object partPredicates,

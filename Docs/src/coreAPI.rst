@@ -1837,6 +1837,17 @@ GIMIComponentParserConfig
 
 :raw-html:`<br />`
 
+GIMITemplateParser
+------------------
+
+.. cppattributetable:: AGRemapCore::GIMITemplateParser
+
+.. doxygenclass:: AGRemapCore::GIMITemplateParser
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 GIMIParser
 ----------
 

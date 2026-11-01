@@ -72,6 +72,7 @@
     <innerdir refid="dir_00a830b2d0a3714ea23f1ff25ad8c93d">include/AGRemapCore/data/IniParseData/YelanTranquil</innerdir>
     <innerfile refid="_g_i_m_i_char_parser_8h">GIMICharParser.h</innerfile>
     <innerfile refid="_g_i_m_i_component_parser_8h">GIMIComponentParser.h</innerfile>
+    <innerfile refid="_g_i_m_i_template_parser_8h">GIMITemplateParser.h</innerfile>
     <innerfile refid="_template_parser_8h">TemplateParser.h</innerfile>
     <innerfile refid="_texture_overrides_8h">TextureOverrides.h</innerfile>
     <innerfile refid="_w_w_m_i_parser_8h">WWMIParser.h</innerfile>

@@ -3,6 +3,7 @@
   <compounddef id="class_a_g_remap_core_1_1_template_parser" kind="class" language="C++" prot="public">
     <compoundname>AGRemapCore::TemplateParser</compoundname>
     <basecompoundref refid="class_a_g_remap_core_1_1_g_i_m_i_parser" prot="public" virt="non-virtual">AGRemapCore::GIMIParser&lt;&gt;</basecompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser" prot="public" virt="non-virtual">AGRemapCore::GIMITemplateParser</derivedcompoundref>
     <includes refid="_template_parser_8h" local="no">TemplateParser.h</includes>
     <innerclass refid="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps" prot="protected">AGRemapCore::TemplateParser::RowSteps</innerclass>
     <sectiondef kind="public-type">
@@ -1188,6 +1189,7 @@ Runs #parseSteps on the context&apos;s graph groups, filing each result, and han
         <argsstring>() const</argsstring>
         <name>collectParseResult</name>
         <qualifiedname>AGRemapCore::GIMIParser::collectParseResult</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1ae5932df071fea74474a5b74488b2fa18">collectParseResult</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -2074,6 +2076,12 @@ parser built from `Python`_ on the bound :cpp:class:`GIMIParser` has the same pi
         <label>AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;</label>
         <link refid="class_a_g_remap_core_1_1_g_i_m_i_parser"/>
         <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::GIMITemplateParser</label>
+        <link refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser"/>
+        <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
       <node id="1">

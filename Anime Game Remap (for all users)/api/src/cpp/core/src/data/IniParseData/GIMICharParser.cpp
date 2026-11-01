@@ -34,7 +34,7 @@
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
-#include "AGRemapCore/data/IniParseData/TemplateParser.h"
+#include "AGRemapCore/data/IniParseData/GIMITemplateParser.h"
 #include "AGRemapCore/tools/DownloadTools.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/TextTools.h"
@@ -44,7 +44,7 @@
 
 namespace AGRemapCore {
     namespace {
-        using Parser = TemplateParser;
+        using Parser = GIMITemplateParser;
         using Classifier = Parser::Classifier;
         using ModObj = Parser::ModObj;
 
@@ -390,21 +390,14 @@ namespace AGRemapCore {
                     graph->build(std::unordered_map<std::string, Section*>{{name, section}}, std::vector<std::string>{name});
                 }
 
-                // The sibling textures' resources ride with the downloads' -- declared once per .ini
-                // file, and by every copy that binds one (GIMIFixer::groupToStr).
-                std::vector<Parser::GraphGroup> collectParseResult() const override {
-                    std::vector<Parser::GraphGroup> result = Parser::collectParseResult();
-                    if (result.empty()) {
-                        return result;
-                    }
+            protected:
+                std::vector<std::string> hashKeysOf(const std::string& hash) override {
+                    return {hashKeyOf(hash)};
+                }
 
-                    for (const auto& [name, graph] : refGraphs_) {
-                        const ModObj modObj(IniGraphModObjKeywords::Download, name);
-                        if (graph != nullptr && result.front().getGraph(modObj) == nullptr) {
-                            result.front().addGraph(modObj, graph->deepcopy());
-                        }
-                    }
-                    return result;
+                // The toggled bindings bindConditionally bound count as bound too
+                void addBound(std::set<std::string>& bound) const override {
+                    bound.insert(condBound_.begin(), condBound_.end());
                 }
 
             private:
@@ -584,44 +577,6 @@ namespace AGRemapCore {
                     }
                 }
 
-                // Whether 'templates' draws this character's mesh: a section matching one of its
-                // buffer or index hashes that binds a buffer.
-                bool drawsMesh(const ModBranches::Templates& templates) {
-                    for (const auto& entry : templates) {
-                        if (entry.second == nullptr) {
-                            continue;
-                        }
-
-                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
-                        if (!hash.has_value()) {
-                            continue;
-                        }
-
-                        const std::string key = hashKeyOf(*hash);
-                        if (key.empty() || StringTools::startsWith(key, TexKeyPrefix)) {
-                            continue;
-                        }
-
-                        for (const std::string& reg : {IniKeywords::Ib, IniKeywords::Vb0, IniKeywords::Vb1}) {
-                            const std::optional<std::string> value = ModBranches::firstVal(*entry.second, reg);
-                            if (value.has_value() && !ModBranches::resourceOf(value).empty()) {
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                }
-
-                bool siblingDrawsMesh() {
-                    for (const std::string& path : TextureOverrides::siblingInis(this->getIniFile())) {
-                        IniFile sibling(path);
-                        if (drawsMesh(sibling.getIfTemplates())) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-
                 // AN OBJECT THE MOD LEAVES UNDRAWN GETS NO DOWNLOAD (2026-10-10). A mod that carries the
                 // character's buffers and skips its index buffer (`handling = skip`) draws exactly the
                 // objects it writes a section for; any other is never drawn on its own character.
@@ -701,36 +656,6 @@ namespace AGRemapCore {
                             this->downloads.erase(ModObj("", obj));
                         }
                     }
-                }
-
-                // Whether a sibling .ini of the folder binds vb0 on this character's position hash,
-                // directly or through `run =`.
-                bool siblingBindsPosition() {
-                    for (const std::string& path : TextureOverrides::siblingInis(this->getIniFile())) {
-                        IniFile sibling(path);
-                        if (bindsPosition(sibling.getIfTemplates())) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-
-                // Whether 'templates' binds vb0 on this character's position hash, directly or through `run =`.
-                bool bindsPosition(const ModBranches::Templates& templates) {
-                    ModBranches branches;
-                    for (const auto& entry : templates) {
-                        if (entry.second == nullptr) {
-                            continue;
-                        }
-                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
-                        if (!hash.has_value() || hashKeyOf(*hash) != PositionHashKey) {
-                            continue;
-                        }
-                        if (!branches.valsThroughRun(templates, entry.first, IniKeywords::Vb0).empty()) {
-                            return true;
-                        }
-                    }
-                    return false;
                 }
 
                 // AN OBJECT DRAWN FROM A SIBLING .INI IS ADOPTED BY THE FILE THAT BINDS THE BUFFERS
@@ -929,107 +854,11 @@ namespace AGRemapCore {
                     }
                 }
 
-                // Whether any of the mod's OWN sections this parser targets -- or a command list one of
-                // them runs, if the file defines it -- binds a buffer, an index buffer, a texture
-                // register or a draw. A `this =` is not counted: an override is weighed on its own
-                // (readTextureOverrides). Asked before the downloads; see getSectionTargets.
-                bool targetsBindSomething() {
-                    IniFile* iniFile = this->getIniFile();
-                    if (iniFile == nullptr) {
-                        return true;
-                    }
-                    const auto& templates = iniFile->getIfTemplates();
-
-                    static const std::vector<std::string> BindingKeys = {
-                        IniKeywords::Vb0, IniKeywords::Vb1, "vb2", IniKeywords::Ib, IniKeywords::DrawIndexed,
-                        "draw", "ps-t0", "ps-t1", "ps-t2", "ps-t3"};
-
-                    std::unordered_set<std::string> visited;
-                    std::vector<std::string> toVisit;
-                    for (const auto& entry : this->sectionTargets()) {
-                        toVisit.insert(toVisit.end(), entry.second.begin(), entry.second.end());
-                    }
-
-                    while (!toVisit.empty()) {
-                        const std::string name = toVisit.back();
-                        toVisit.pop_back();
-                        if (!visited.insert(name).second) {
-                            continue;
-                        }
-
-                        auto found = templates.find(name);
-                        if (found == templates.end() || found->second == nullptr) {
-                            continue;     // an external command list (ORFix, ...) binds nothing of the mod's
-                        }
-
-                        for (const auto& part : found->second->parts()) {
-                            const auto* content = dynamic_cast<const ContentPart*>(part.get());
-                            if (content == nullptr) {
-                                continue;
-                            }
-                            for (const std::string& key : BindingKeys) {
-                                if (content->containsKey(key)) {
-                                    return true;
-                                }
-                            }
-                            for (const std::string& call : content->getVals(IniKeywords::Run)) {
-                                toVisit.emplace_back(StringTools::strip(call));
-                            }
-                        }
-                    }
-
-                    return false;
-                }
-
-                // Each sibling texture a binding names, as a resource of this file's own -- see
-                // readTextureOverrides. Only those some object binds.
-                void declareSiblingRefs() {
-                    refGraphs_.clear();
-                    std::set<std::string> bound;
-                    for (const auto& [modObj, bindings] : textureBindings_) {
-                        for (const auto& binding : bindings) {
-                            bound.insert(binding.second);
-                        }
-                    }
-                    bound.insert(condBound_.begin(), condBound_.end());
-
-                    for (const auto& [name, file] : siblingRefs_) {
-                        auto adopted = adoptedRefs_.find(name);
-                        if (bound.count(name) == 0 && adopted == adoptedRefs_.end()) {
-                            continue;
-                        }
-
-                        // An existing one is the PREVIOUS fix's, read before its undo, and is the right
-                        // section to render again.
-                        Section* section = ctx_.getSection(name);
-                        if (section == nullptr) {
-                            section = ctx_.addSection(name,
-                                std::make_unique<Section>(std::vector<std::unique_ptr<IfTemplatePart>>{}, this->config().runConfig, name));
-                            section->addKVPsToFront(adopted != adoptedRefs_.end() ? adopted->second
-                                : std::vector<std::pair<std::string, std::string>>{{IniKeywords::Filename, file}});
-                        }
-
-                        Graph* graph = ctx_.graphGroups().createGraph({}, {}, false, nullptr);
-                        graph->build(std::unordered_map<std::string, Section*>{{name, section}}, std::vector<std::string>{name});
-                        refGraphs_.emplace_back(name, graph);
-                    }
-                }
-
                 // At the TOP of the object's entry section, where a download is bound too: a GIMI
                 // TextureOverride binds for its whole draw, and one the mod wrote itself that binds
                 // the register as well keeps the last word.
                 void bindTextureOverrides() {
-                    for (const auto& [modObj, bindings] : textureBindings_) {
-                        Graph* graph = this->getCommandGraph(modObj);
-                        if (graph == nullptr || graph->isEmpty() || graph->roots().empty()) {
-                            continue;
-                        }
-
-                        Section* section = ctx_.getSection(graph->roots().front());
-                        if (section != nullptr) {
-                            section->addKVPsToFront(bindings);
-                        }
-                    }
+                    GIMITemplateParser::bindTextureOverrides();
 
                     condBound_.clear();
                     for (const auto& [modObj, bindings] : condBindings_) {
@@ -1421,18 +1250,11 @@ namespace AGRemapCore {
                 // replaces, and the next parse of the same file starts from all of them again.
                 Parser::Downloads allDownloads_;
 
-                // object -> (register, the mod's resource) for each texture override it binds
-                std::map<ModObj, std::vector<std::pair<std::string, std::string>>> textureBindings_;
-
-                // A sibling .ini's recolour -- see readTextureOverrides: the RemapRef resource name ->
-                // the file it names, and the graphs that declare the ones an object binds.
-                std::map<std::string, std::string> siblingRefs_;
-                std::map<std::string, std::vector<std::pair<std::string, std::string>>> adoptedRefs_;   // adopted resource -> its keys
                 std::set<std::string> givenAway_;      // objects of this file a sibling binding the buffers adopts
-                std::vector<std::pair<std::string, Graph*>> refGraphs_;
 
-                // Whether this file overrides any of the character's textures, and any the target
-                // does not draw itself.
+                // Whether any of the character's textures this file overrides is one the target does not draw itself
+                bool needsSourceModel_ = false;
+
                 // object -> its toggled overrides, and the resources bindConditionally bound
                 std::map<ModObj, std::vector<CondBinding>> condBindings_;
                 std::set<std::string> condBound_;
@@ -1440,8 +1262,6 @@ namespace AGRemapCore {
                 // What carriedSections() hands the fixer
                 std::string carriedSections_;
 
-                bool ownTextureOverrides_ = false;
-                bool needsSourceModel_ = false;
                 bool recolourOnly_ = false;
         };
     }

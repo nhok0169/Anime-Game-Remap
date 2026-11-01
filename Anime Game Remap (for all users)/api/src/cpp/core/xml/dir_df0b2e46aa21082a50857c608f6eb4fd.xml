@@ -72,6 +72,7 @@
     <innerdir refid="dir_213d24b3c6fff506f3a307d486eee033">src/data/IniParseData/YelanTranquil</innerdir>
     <innerfile refid="_g_i_m_i_char_parser_8cpp">GIMICharParser.cpp</innerfile>
     <innerfile refid="_g_i_m_i_component_parser_8cpp">GIMIComponentParser.cpp</innerfile>
+    <innerfile refid="_g_i_m_i_template_parser_8cpp">GIMITemplateParser.cpp</innerfile>
     <innerfile refid="_template_parser_8cpp">TemplateParser.cpp</innerfile>
     <innerfile refid="_texture_overrides_8cpp">TextureOverrides.cpp</innerfile>
     <innerfile refid="_w_w_m_i_parser_8cpp">WWMIParser.cpp</innerfile>

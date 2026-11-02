@@ -6753,6 +6753,7 @@
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a30973bbecb9f85387f64cbc42db7329a" kind="function"><name>renderSection</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1af5d0855b00478d949963e4c229da48cf" kind="function"><name>isFixLibraryCall</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a9124aee61a56e7d7035c1864612a6cb8" kind="function"><name>texFxGuardSection</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a465abdf8216baddd56068c301c7961d9" kind="function"><name>parseData</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1ad1330a6652783cf8e79dae68ddb2c7ea" kind="function"><name>applyGraphGroupEdits</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1adb5666b3659ce2be2cd5ed3f21e469b8" kind="function"><name>giveUp</name></member>
     <member refid="class_a_g_remap_core_1_1_template_fixer_1a183b6c6de40c4298220e46cf207c961f" kind="function"><name>giveUp</name></member>

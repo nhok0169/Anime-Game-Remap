@@ -229,6 +229,13 @@ namespace AGRemapCore {
 
         protected:
             /**
+             * @brief What the parser read of the ``.ini`` file -- its :cpp:func:`BaseIniParser::parseData`
+             */
+            const IniParseData& parseData() const {
+                return this->getParser()->parseData();
+            }
+
+            /**
              * @brief
              @rst
              Runs every :cpp:member:`GIMIFixer::graphGroupEdits` entry over the groups with the real

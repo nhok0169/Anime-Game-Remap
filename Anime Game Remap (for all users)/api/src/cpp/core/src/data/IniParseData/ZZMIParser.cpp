@@ -110,6 +110,11 @@ namespace AGRemapCore {
                             }
                             return result;
                         });
+
+                    // the mod's own lines, which the fixer reads (IniParseRows::Sections): every key of every section
+                    RowSteps rows;
+                    rows.resources = false;
+                    this->addRowSteps(rows);
                 }
 
             private:

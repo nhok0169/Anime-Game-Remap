@@ -437,6 +437,15 @@ texture hash (in a sibling `.ini` and in the mesh's own) and an object's section
 `regressBuilds.py`. **The recolour shapes reach the conditional binding only with downloads ON**
 (`--download normal`): the recolour is bound over the object's download, and `disabled` registers none. It covers the templates' STRUCTURAL axes on all 57 characters, not what real mods do; the
 maintainer's 245 real GI mods (on the other machine) are still the sweep that settles a GI change.
+**ZZZ has one too (2026-11-02):** `Tools/Misc/Diagnostics/zzzSynthCorpus.py <identity mod> <out> --list <corpus.txt>`
+adds to a character's identity mod the shapes a ZZMI fix reads it for -- a recolour by texture hash in a sibling, a
+subfolder and a `DISABLED` folder, the extra objects skipped behind a toggle (in an `if` and in an `else`), a Body
+pre-skinned and drawn from the Legs section, the same with toggled halves. This machine has no other ZZZ input: only
+the two identity mods, and the Integration Tester has no ZZZ fixture.
+**And the fixers' folder walks are an open design (2026-11-02):** ZZMI's `recolouredHashes` and WWMI's
+`addSameDrawInis` each walk the folders and re-parse the other `.ini` files, because a `TextureOverride` matched by
+hash links two files no text connects (a `Recolour.ini` beside the mesh). `RemapService` already walks and parses them
+all; the maintainer chose to design that cross-file view as its own round rather than merge the two walks.
 
 **EVERY C++ CLASS IS FOR PYTHON TOO (the maintainer, 2026-10-31).** "Ideally we want all classes from C++ to be
 exposed to Python. A Python API User should have the same capability of using the API compared to a C++ API User."
@@ -468,7 +477,9 @@ for a fixer." When a fix needs behaviour the API does not have, **add it to the 
 make the fixer use it**; never an ad-hoc helper, a raw-text pass over the rendered `.ini`, raw-byte buffer code or
 a hand-written `[Section]` string inside the fixer. The templates grew the opposite way -- `WWMIFixer.cpp` 9636
 lines, `GIMIMergeFixer.cpp` 3421, `GIMIComponentFixer.cpp` 2578, `ZZMIFixer.cpp` 1294 with its own section parser,
-texcoord byte cutter, band filter and `groupToStr` text passes -- and are being moved back onto edits. Before any
+texcoord byte cutter, band filter and `groupToStr` text passes -- and are being moved back onto edits (ZZMI reads
+the mod through the parser's rows since 2026-11-02, `IniParseRows::Sections` / `TemplateFixer::parseData`, as WWMI
+does; a skip gate is written as one `if <IfPredPart::getIfPredStr(condition)>`). Before any
 new fixer code: name the edit each step is, grep the edit families for it (Overview habit 53), and if it is
 missing, the work item is the EDIT, not the fixer. **And the refactor is not moving code (the maintainer,
 2026-10-31):** a slice is judged by how much of the fixer's logic BECOMES configured edits plus data -- a loop

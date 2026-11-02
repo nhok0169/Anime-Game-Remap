@@ -41,6 +41,11 @@
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/VGRemap.h"
 #include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseRows.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
+#include "AGRemapCore/model/files/BinaryFile.h"
+#include "AGRemapCore/model/iftemplate/ListValue.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
 #include "AGRemapCore/model/iniresources/RemapBlendResource.h"
@@ -139,42 +144,43 @@ namespace AGRemapCore {
 
         using Template = IfTemplate<std::string, std::string>;
 
-        // The mod's own sections, as the .ini file parsed to them: every one but those a previous fix of
-        // this pair wrote (their names carry `<target><component>Remap`)
-        std::vector<const Template*> ownSections(IniFile* ini, const ZZMIFixerConfig& config) {
-            std::vector<const Template*> out;
-            if (ini == nullptr) {
-                return out;
-            }
-            std::vector<std::string> fixed = {config.target + IniKeywords::Remap};
+        // THE MOD'S OWN LINES ARE THE PARSER'S ROWS (IniParseRows::Sections): every key of every section, each line
+        // once, in the order it is written (IniParseData::sectionRows)
+        using Row = IniParseData::CollectedRow;
+
+        // The mod's own sections, in the order they are written: every one but those a previous fix of this pair
+        // wrote (`<target>Remap...` / `<target><component>Remap...`)
+        std::vector<std::string> ownSections(const IniParseData& data, const ZZMIFixerConfig& config) {
+            std::vector<std::string> fixNames = {config.target};
             for (const ZZMIFixerConfig::Component& c : config.components) {
-                fixed.push_back(config.target + c.target + IniKeywords::Remap);
+                fixNames.push_back(config.target + c.target);
             }
-            for (const auto& entry : ini->getIfTemplates()) {
-                const bool isFix = std::any_of(fixed.begin(), fixed.end(), [&entry](const std::string& f) {
-                    return entry.first.find(f) != std::string::npos; });
-                if (!isFix && entry.second != nullptr) {
-                    out.push_back(entry.second.get());
+            std::vector<std::string> out;
+            for (const std::string& name : data.collectedSections(IniParseRows::Sections)) {
+                if (!IniNamingTools::looksRemapped(name, fixNames)) {
+                    out.push_back(name);
                 }
             }
             return out;
         }
 
-        // A section's KVPs in order, through every branch
-        std::vector<std::pair<std::string, std::string>> kvpsOf(const Template& tpl) {
+        // A section's KVPs in order, through every branch, stripped
+        std::vector<std::pair<std::string, std::string>> kvpsOf(const IniParseData& data, const std::string& section) {
             std::vector<std::pair<std::string, std::string>> out;
-            for (const auto& part : tpl.parts()) {
-                if (const auto* content = dynamic_cast<const IfContentPart<std::string, std::string>*>(part.get())) {
-                    for (const auto& kv : content->entries()) {
-                        out.emplace_back(std::string(StringTools::strip(kv.first)), std::string(StringTools::strip(kv.second)));
-                    }
-                }
+            for (const Row* row : data.sectionRows(IniParseRows::Sections, section)) {
+                out.emplace_back(std::string(StringTools::strip(row->key)), std::string(StringTools::strip(row->value)));
             }
             return out;
         }
 
-        std::optional<std::string> valOf(const Template& tpl, const std::string& key) {
-            return tpl.firstValMatching([&key](const std::string& candidate) { return IniNamingTools::sameKey(candidate, key); });
+        // The section's first value of 'key', as a mod's author spells the key (IniNamingTools::sameKey)
+        std::optional<std::string> valOf(const IniParseData& data, const std::string& section, const std::string& key) {
+            for (const Row* row : data.sectionRows(IniParseRows::Sections, section)) {
+                if (IniNamingTools::sameKey(row->key, key)) {
+                    return std::string(StringTools::strip(row->value));
+                }
+            }
+            return std::nullopt;
         }
 
         std::string lowered(const std::string& s) {
@@ -182,19 +188,20 @@ namespace AGRemapCore {
         }
 
         // {resource section: (file name, declared stride)} -- a borrowed texcoord is told by its stride
-        std::unordered_map<std::string, std::pair<std::string, int>> declaredStrides(const std::vector<const Template*>& own) {
+        std::unordered_map<std::string, std::pair<std::string, int>> declaredStrides(const IniParseData& data,
+                                                                                    const std::vector<std::string>& own) {
             std::unordered_map<std::string, std::pair<std::string, int>> out;
-            for (const Template* tpl : own) {
-                if (tpl->name.compare(0, IniKeywords::Resource.size(), IniKeywords::Resource) != 0) {
+            for (const std::string& tpl : own) {
+                if (tpl.compare(0, IniKeywords::Resource.size(), IniKeywords::Resource) != 0) {
                     continue;
                 }
-                const std::optional<std::string> stride = valOf(*tpl, IniKeywords::Stride);
-                const std::optional<std::string> file = valOf(*tpl, IniKeywords::Filename);
+                const std::optional<std::string> stride = valOf(data, tpl, IniKeywords::Stride);
+                const std::optional<std::string> file = valOf(data, tpl, IniKeywords::Filename);
                 if (stride.has_value() && file.has_value()) {
                     std::string name = *file;
                     std::replace(name.begin(), name.end(), '\\', '/');
                     name = lowered(name.substr(name.find_last_of('/') == std::string::npos ? 0 : name.find_last_of('/') + 1));
-                    out[tpl->name] = {name, std::atoi(stride->c_str())};
+                    out[tpl] = {name, std::atoi(stride->c_str())};
                 }
             }
             return out;
@@ -252,19 +259,18 @@ namespace AGRemapCore {
             long long end = 0;
         };
 
+        // `drawindexed = auto` (or a value of one field) draws whatever is bound; `<count>, <first>, ...` that
+        // range, and a value that is not whole numbers draws nothing this can tell
         DrawRange drawRange(const std::string& value) {
-            std::vector<std::string> parts;
-            std::stringstream ss(value);
-            std::string part;
-            while (std::getline(ss, part, ',')) {
-                parts.push_back(std::string(StringTools::strip(part)));
-            }
-            if (parts.size() < 2 || StringTools::equalsIgnoreCase(parts[0], "auto")) {
+            const ListValue fields(value);
+            if (fields.size() < 2 || StringTools::equalsIgnoreCase(fields.at(0).value_or(""), "auto")) {
                 return {};
             }
-            const long long count = std::atoll(parts[0].c_str());
-            const long long start = std::atoll(parts[1].c_str());
-            return {false, start, start + count};
+            const std::optional<std::vector<long long>> numbers = fields.numbers();
+            if (!numbers.has_value()) {
+                return {false, 0, 0};
+            }
+            return {false, (*numbers)[1], (*numbers)[1] + (*numbers)[0]};
         }
 
         bool overlaps(const DrawRange& r, const std::vector<DrawRange>& ranges) {
@@ -279,17 +285,18 @@ namespace AGRemapCore {
         // {ib resource: ranges} the mod's own sections on 'ibHash' draw, following each section's `ib =`
         // lines in order; a section with no `ib =` of its own draws whatever ib the hash's other sections
         // bound, credited to it when there is exactly one
-        std::unordered_map<std::string, std::vector<DrawRange>> rangesDrawnBy(const std::vector<const Template*>& own,
+        std::unordered_map<std::string, std::vector<DrawRange>> rangesDrawnBy(const IniParseData& data,
+                                                                             const std::vector<std::string>& own,
                                                                              const std::string& ibHash) {
-            std::vector<const Template*> sections;
+            std::vector<std::string> sections;
             std::set<std::string> bound;
-            for (const Template* tpl : own) {
-                const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
+            for (const std::string& tpl : own) {
+                const std::optional<std::string> hash = valOf(data, tpl, IniKeywords::Hash);
                 if (!hash.has_value() || !StringTools::equalsIgnoreCase(*hash, ibHash)) {
                     continue;
                 }
                 sections.push_back(tpl);
-                for (const auto& kv : kvpsOf(*tpl)) {
+                for (const auto& kv : kvpsOf(data, tpl)) {
                     if (StringTools::equalsIgnoreCase(kv.first, IniKeywords::Ib) && !StringTools::equalsIgnoreCase(removeRef(kv.second), IniKeywords::Null)) {
                         bound.insert(removeRef(kv.second));
                     }
@@ -297,9 +304,9 @@ namespace AGRemapCore {
             }
             const std::optional<std::string> inherited = bound.size() == 1 ? std::optional<std::string>(*bound.begin()) : std::nullopt;
             std::unordered_map<std::string, std::vector<DrawRange>> out;
-            for (const Template* tpl : sections) {
+            for (const std::string& tpl : sections) {
                 std::optional<std::string> cur = inherited;
-                for (const auto& kv : kvpsOf(*tpl)) {
+                for (const auto& kv : kvpsOf(data, tpl)) {
                     if (StringTools::equalsIgnoreCase(kv.first, IniKeywords::Ib)) {
                         cur = removeRef(kv.second);
                     } else if (StringTools::equalsIgnoreCase(kv.first, IniKeywords::DrawIndexed) && cur.has_value()
@@ -338,7 +345,7 @@ namespace AGRemapCore {
                         }
                     }
 
-                    own_ = ownSections(ctx_.getIniFile(), config_);
+                    own_ = ownSections(parseData(), config_);
                     buildCrossSlotEdits();
                     buildRemap();
                     buildBlendCollect();
@@ -371,6 +378,13 @@ namespace AGRemapCore {
 
             private:
                 std::string srcName() const { return config_.source + comp_.name; }
+
+                // The mod's own section 'name', as its .ini parsed it
+                Template* templateOf(const std::string& name) const {
+                    IniFile* ini = ctx_.getIniFile();
+                    auto found = ini->getIfTemplates().find(name);
+                    return found == ini->getIfTemplates().end() ? nullptr : found->second.get();
+                }
                 std::string targetName() const { return config_.target + comp_.target; }
 
                 std::optional<std::string> hashOf(const std::string& name, const std::string& type) const {
@@ -457,7 +471,7 @@ namespace AGRemapCore {
 
                     // a file is rewritten from the stride it DECLARES: the component's own (or none) for its
                     // own texcoord, the other one for a texcoord it borrows
-                    const auto declared = declaredStrides(own_);
+                    const auto declared = declaredStrides(parseData(), own_);
                     for (const GraphId& graph : graphs) {
                         collect->resPredicates[graph] = [declared, fromStride, onlyOtherStrides](
                                 const std::string&, const std::string& val, const Collector::IterData&) {
@@ -596,8 +610,8 @@ namespace AGRemapCore {
                         if (!mineHash.has_value() || !laterHash.has_value()) {
                             continue;
                         }
-                        const auto mine = rangesDrawnBy(own_, *mineHash);
-                        const auto later = rangesDrawnBy(own_, *laterHash);
+                        const auto mine = rangesDrawnBy(parseData(), own_, *mineHash);
+                        const auto later = rangesDrawnBy(parseData(), own_, *laterHash);
                         for (const auto& entry : mine) {
                             const auto found = later.find(entry.first);
                             if (found != later.end()) {
@@ -677,8 +691,8 @@ namespace AGRemapCore {
                     if (!ib.has_value()) {
                         return false;
                     }
-                    for (const Template* tpl : own_) {
-                        const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
+                    for (const std::string& tpl : own_) {
+                        const std::optional<std::string> hash = valOf(parseData(), tpl, IniKeywords::Hash);
                         if (hash.has_value() && StringTools::equalsIgnoreCase(*hash, *ib)) {
                             return true;
                         }
@@ -836,34 +850,32 @@ namespace AGRemapCore {
                 // None when a section skips it with no condition, or draws geometry of its own there
                 std::optional<std::vector<std::unique_ptr<IfTemplatePart>>> gatesOf(const std::string& ibHash, const std::string& var) {
                     std::vector<std::unique_ptr<IfTemplatePart>> gates;
-                    for (const Template* tpl : own_) {
-                        const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
+                    IniFile* ini = ctx_.getIniFile();
+                    for (const std::string& tpl : own_) {
+                        const std::optional<std::string> hash = valOf(parseData(), tpl, IniKeywords::Hash);
                         if (!hash.has_value() || !StringTools::equalsIgnoreCase(*hash, ibHash)) {
                             continue;
                         }
-                        if (valOf(*tpl, IniKeywords::Ib).has_value() || valOf(*tpl, IniKeywords::DrawIndexed).has_value()) {
+                        if (valOf(parseData(), tpl, IniKeywords::Ib).has_value() || valOf(parseData(), tpl, IniKeywords::DrawIndexed).has_value()) {
                             ctx_.log("the mod draws its own " + ibHash + ": the game's object is not added");
                             return std::nullopt;
                         }
-                        for (const auto& part : tpl->parts()) {
-                            if (const auto* p = dynamic_cast<const IfPredPart*>(part.get())) {
-                                gates.push_back(pred(p->src, p->type));
+
+                        // each `handling = skip` as `if <its condition> / <var> = 0 / endif`; one with no condition,
+                        // or with none this can write back, skips the object everywhere
+                        auto graph = ini->sectionGraph(tpl);
+                        for (const GraphCollectRow<>& row : GraphCollect<>::rowsOf(graph, IniKeywords::Handling)) {
+                            if (row.section != tpl || !StringTools::equalsIgnoreCase(row.value, IniKeywords::Skip)) {
                                 continue;
                             }
-                            const auto* content = dynamic_cast<const IfContentPart<std::string, std::string>*>(part.get());
-                            if (content == nullptr) {
-                                continue;
+                            const std::optional<std::string> condition = (row.guards.empty() || !row.condition.has_value())
+                                ? std::nullopt : IfPredPart::getIfPredStr(*row.condition);
+                            if (!condition.has_value()) {
+                                return std::nullopt;
                             }
-                            for (const auto& kv : content->entries()) {
-                                if (!StringTools::equalsIgnoreCase(std::string(StringTools::strip(kv.first)), IniKeywords::Handling)
-                                        || !StringTools::equalsIgnoreCase(std::string(StringTools::strip(kv.second)), "skip")) {
-                                    continue;
-                                }
-                                if (content->depth() == 0) {
-                                    return std::nullopt;
-                                }
-                                gates.push_back(kvps({{var, "0"}}, content->depth()));
-                            }
+                            gates.push_back(pred(IfPredPartTypeTools::getName(IfPredPartType::If) + " " + *condition, IfPredPartType::If));
+                            gates.push_back(kvps({{var, "0"}}, 1));
+                            gates.push_back(pred(IfPredPartTypeTools::getName(IfPredPartType::EndIf), IfPredPartType::EndIf));
                         }
                     }
                     return gates;
@@ -881,21 +893,21 @@ namespace AGRemapCore {
                     const std::optional<std::string> ib = hashOf(srcName(), "ib");
                     std::optional<std::size_t> n;
                     std::vector<std::string> drawn;
-                    for (const Template* tpl : own_) {
-                        const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
+                    for (const std::string& tpl : own_) {
+                        const std::optional<std::string> hash = valOf(parseData(), tpl, IniKeywords::Hash);
                         if (!hash.has_value()) {
                             continue;
                         }
                         if (drawVb.has_value() && StringTools::equalsIgnoreCase(*hash, *drawVb) && !n.has_value()) {
-                            const std::optional<std::string> count = valOf(*tpl, "override_vertex_count");
+                            const std::optional<std::string> count = valOf(parseData(), tpl, "override_vertex_count");
                             if (count.has_value()) {
                                 n = static_cast<std::size_t>(std::atoll(count->c_str()));
                             }
                         }
-                        const std::optional<std::string> first = valOf(*tpl, IniKeywords::MatchFirstIndex);
+                        const std::optional<std::string> first = valOf(parseData(), tpl, IniKeywords::MatchFirstIndex);
                         if (ib.has_value() && StringTools::equalsIgnoreCase(*hash, *ib) && first.has_value()
                                 && std::string(StringTools::strip(*first)) == comp_.slots.front().srcIndex) {
-                            drawn.push_back(tpl->name);
+                            drawn.push_back(tpl);
                         }
                     }
                     if (!n.has_value() || drawn.empty()) {
@@ -1037,8 +1049,8 @@ namespace AGRemapCore {
                     padFile.makeBytes = [folder, was, texcoordFiles]() {
                         std::vector<std::uint8_t> bytes(was * 20, 0);
                         for (const std::string& f : texcoordFiles) {
-                            std::ifstream in(FileService::strToPath(FileService::absPathOfRelPath(f, folder)), std::ios::binary);
-                            bytes.insert(bytes.end(), std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
+                            const ByteVec file = BinaryFile(FileService::absPathOfRelPath(f, folder)).read();
+                            bytes.insert(bytes.end(), file.begin(), file.end());
                         }
                         return bytes;
                     };
@@ -1170,10 +1182,10 @@ namespace AGRemapCore {
                     if (!ib.has_value()) {
                         return false;
                     }
-                    for (const Template* tpl : own_) {
-                        const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
+                    for (const std::string& tpl : own_) {
+                        const std::optional<std::string> hash = valOf(parseData(), tpl, IniKeywords::Hash);
                         if (hash.has_value() && StringTools::equalsIgnoreCase(*hash, *ib)
-                                && valOf(*tpl, IniKeywords::MatchFirstIndex).has_value()) {
+                                && valOf(parseData(), tpl, IniKeywords::MatchFirstIndex).has_value()) {
                             return true;
                         }
                     }
@@ -1191,15 +1203,15 @@ namespace AGRemapCore {
                             hashes.insert(lowered(*h));
                         }
                     }
-                    for (const Template* tpl : own_) {
-                        const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
+                    for (const std::string& tpl : own_) {
+                        const std::optional<std::string> hash = valOf(parseData(), tpl, IniKeywords::Hash);
                         if (!hash.has_value() || hashes.count(lowered(*hash)) == 0) {
                             continue;
                         }
                         // the stream-out of the pre-skin pass, or (at the component's own draw) the pre-skinned vb0
                         // it draws with
                         const bool ownDraw = lowered(*hash) == lowered(hashOf(config_.source + comp, "ib").value_or(""));
-                        for (const auto& kv : kvpsOf(*tpl)) {
+                        for (const auto& kv : kvpsOf(parseData(), tpl)) {
                             const std::string v = lowered(kv.second);
                             if (v == "so0" || v == "copy so0" || (ownDraw && v == "copy vb0")) {
                                 written.insert(kv.first);
@@ -1227,15 +1239,15 @@ namespace AGRemapCore {
                     if (cross.written.empty() || !secondIb.has_value() || !drawsFromOwnSection(pair.first)) {
                         return {};
                     }
-                    for (const Template* tpl : own_) {
-                        const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
+                    for (const std::string& tpl : own_) {
+                        const std::optional<std::string> hash = valOf(parseData(), tpl, IniKeywords::Hash);
                         if (!hash.has_value() || !StringTools::equalsIgnoreCase(*hash, *secondIb)
-                                || !valOf(*tpl, IniKeywords::MatchFirstIndex).has_value()) {
+                                || !valOf(parseData(), tpl, IniKeywords::MatchFirstIndex).has_value()) {
                             continue;
                         }
-                        cross.sectionNames.insert(tpl->name);
+                        cross.sectionNames.insert(tpl);
                         std::optional<std::string> ib, vb0;
-                        for (const auto& kv : kvpsOf(*tpl)) {
+                        for (const auto& kv : kvpsOf(parseData(), tpl)) {
                             if (StringTools::equalsIgnoreCase(kv.first, IniKeywords::Ib)) {
                                 ib = removeRef(kv.second);
                             } else if (StringTools::equalsIgnoreCase(kv.first, IniKeywords::Vb0)) {
@@ -1328,11 +1340,11 @@ namespace AGRemapCore {
                         // the first component's copy: the section the moved lines go to is its first drawn one
                         const std::optional<std::string> firstIb = hashOf(srcName(), "ib");
                         std::vector<std::string> drawn;
-                        for (const Template* tpl : own_) {
-                            const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
+                        for (const std::string& tpl : own_) {
+                            const std::optional<std::string> hash = valOf(parseData(), tpl, IniKeywords::Hash);
                             if (firstIb.has_value() && hash.has_value() && StringTools::equalsIgnoreCase(*hash, *firstIb)
-                                    && valOf(*tpl, IniKeywords::MatchFirstIndex).has_value()) {
-                                drawn.push_back(tpl->name);
+                                    && valOf(parseData(), tpl, IniKeywords::MatchFirstIndex).has_value()) {
+                                drawn.push_back(tpl);
                             }
                         }
                         if (drawn.empty()) {
@@ -1377,11 +1389,11 @@ namespace AGRemapCore {
                             }
                             std::unordered_map<std::string, FixSection*> recolours;
                             std::vector<std::string> names;
-                            for (const Template* tpl : own_) {
-                                const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
-                                if (hash.has_value() && StringTools::equalsIgnoreCase(*hash, *h) && valOf(*tpl, IniKeywords::This).has_value()) {
-                                    recolours[tpl->name] = const_cast<FixSection*>(tpl);
-                                    names.push_back(tpl->name);
+                            for (const std::string& tpl : own_) {
+                                const std::optional<std::string> hash = valOf(parseData(), tpl, IniKeywords::Hash);
+                                if (hash.has_value() && StringTools::equalsIgnoreCase(*hash, *h) && valOf(parseData(), tpl, IniKeywords::This).has_value()) {
+                                    recolours[tpl] = templateOf(tpl);
+                                    names.push_back(tpl);
                                 }
                             }
                             if (recolours.empty()) {
@@ -1428,7 +1440,7 @@ namespace AGRemapCore {
 
                 ZZMIFixerConfig config_;
                 ZZMIFixerConfig::Component comp_;
-                std::vector<const Template*> own_;
+                std::vector<std::string> own_;
 
                 std::unique_ptr<ObjGroupRemap> remap_;
                 std::vector<std::unique_ptr<Fixer::GroupEdit>> preRemapEdits_;

@@ -2030,11 +2030,6 @@ namespace AGRemapCore {
                     return result;
                 }
 
-                // What the parser recorded about this .ini -- see IniParseData
-                const IniParseData& parseData() const {
-                    return this->getParser()->parseData();
-                }
-
                 // THE MOD'S OWN LINES ARE THE PARSER'S ROWS (IniParseRows::Sections): every key of every section, each
                 // line once, in the order it is written (IniParseData::sectionRows)
                 using Row = IniParseData::CollectedRow;

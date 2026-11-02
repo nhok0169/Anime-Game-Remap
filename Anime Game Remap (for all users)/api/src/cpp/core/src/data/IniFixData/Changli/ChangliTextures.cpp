@@ -139,8 +139,6 @@ namespace AGRemapCore {
 
         // the masks a flat file, or one a slot also binds for another role, is refused for
         facts.regionRoles = {"upperMask", "lowerMask", "faceMask"};
-        // her mods bind textures from a Textures/textures.ini below the mesh's
-        facts.readInisBelow = true;
         return facts;
     }
 }

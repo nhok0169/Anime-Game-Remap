@@ -217,6 +217,7 @@ void initCppIniRemovalContext(pybind11::module_ &m);
 void initCppBaseIniRemover(pybind11::module_ &m);
 void initCppRemapIniRemover(pybind11::module_ &m);
 void initCppGlobalRemapIniRemover(pybind11::module_ &m);
+void initCppIniSharedState(pybind11::module_ &m);
 void initCppIniFile(pybind11::module_ &m);
 void initCppIniParseBuilder(pybind11::module_ &m);
 void initCppIniFixBuilder(pybind11::module_ &m);
@@ -417,6 +418,7 @@ PYBIND11_MODULE(core, m) {
     initCppFileStats(m);
     initCppCachedFileStats(m); // must come after initCppFileStats (registers its base)
     initCppRemapStats(m); // must come after initCppFileStats/initCppCachedFileStats (its members are those types)
+    initCppIniSharedState(m); // before initCppRemapService: RemapService::getSharedState returns one
     initCppRemapService(m); // must come after initCppIniFile/initCppBaseLogger (its members/arguments are those types)
     initCppRemapServiceCLI(m); // must come after initCppRemapService (its constructor takes one) and initCppLogger
     initCppFileDownload(m);

@@ -237,7 +237,7 @@ the blend through the TARGET's layout: `WWMIFixerConfig::targetInfluences` widen
 bone merged). Her older mods name texture hashes from before her 2.6 rehash, and WWMI-Assets' own git history records
 each rehash as a rename (`Tools/Misc/Diagnostics/wwmiAssetLineage.py`; the rows go into `HashData` typed by role). A file
 two resource sections declare is named by the one a section USES (and a re-fix must skip its own previous sections, which
-only a fix-twice comparison catches); `readInisBelow` reads an `.ini` in a mod's subfolder. And alpha MEANS different
+only a fix-twice comparison catches); an `.ini` in a mod's subfolder is read when it is LINKED (see below). And alpha MEANS different
 things per shader: on the skin's see-through shaders it is opacity (up to 255), on Changli's opaque ones a scalar that
 lights the part above ~117 -- so the reverse clamps it, and pads the texels the skin's shader cuts away, or her fine gold
 chains draw as dark cords. Limits: her chest tattoo (a cut-out shader) is not drawn on the skin, her arm feathers do not
@@ -442,10 +442,24 @@ adds to a character's identity mod the shapes a ZZMI fix reads it for -- a recol
 subfolder and a `DISABLED` folder, the extra objects skipped behind a toggle (in an `if` and in an `else`), a Body
 pre-skinned and drawn from the Legs section, the same with toggled halves. This machine has no other ZZZ input: only
 the two identity mods, and the Integration Tester has no ZZZ fixture.
-**And the fixers' folder walks are an open design (2026-11-02):** ZZMI's `recolouredHashes` and WWMI's
-`addSameDrawInis` each walk the folders and re-parse the other `.ini` files, because a `TextureOverride` matched by
-hash links two files no text connects (a `Recolour.ini` beside the mesh). `RemapService` already walks and parses them
-all; the maintainer chose to design that cross-file view as its own round rather than merge the two walks.
+**AGRemap is folder agnostic (the maintainer):** it does not care where `.ini` files or resources live -- `Mods`, a
+downloads folder, another drive. So "the same mod" is never a guess from folder layout (two folders up, the folder
+below) or from the game hashes two files share: it is what an `.ini` NAMES.
+**ONE `.ini` READS ANOTHER ONLY THROUGH THE RUN'S `IniSharedState`, AND ONLY A LINKED ONE (2026-11-02).** A fixing
+`RemapService::fix` reads every `.ini` it reaches -- `DISABLED` ones too, since the fix fixes them and re-enabling one
+must work -- undone, before it fixes any (`undoIni` in the walk, `fixIni` after), finds the folders to walk from what
+each undone file names (its resource files, on any drive), and hands every file it fixes the state
+(`IniFile::sharedState`, `IniFile::linkedInis`). Two files are LINKED when one references a namespace the other
+declares (`$\X\var`, `CommandList\X\...`, `Resource\X\...`) or both name one resource file -- the maintainer: "I
+don't really like heuristics unless you have no other choices". So the parsers' and fixers' folder walks went
+(`IniFile::loadedSiblings`, `GIMITemplateParser::siblingInis`, WWMI's "beside and two folders up",
+`WWMITextureFacts::readInisBelow`, ZZMI's walk below), and nothing re-reads another file from disk, where it may
+already hold a fix. Measured before building, with those walks switched off: of the real mods here only Sanhua2,
+Sanhua3 and Changli13 used another file, and all three are linked (copies sharing 22-35 resource files; LOD files
+referencing `sanhuacloak`; `textures.ini` referencing `entei`). What is lost: a split mod whose side file names
+nothing of the main file, and a recolour that shares no file and no namespace with its mesh -- each is fixed on its
+own. `IniFile::loadedInis` stays for one PHYSICAL question: WWMI's `editFileTag`, two files writing edits into one
+folder, now asked of the state's files there.
 
 **EVERY C++ CLASS IS FOR PYTHON TOO (the maintainer, 2026-10-31).** "Ideally we want all classes from C++ to be
 exposed to Python. A Python API User should have the same capability of using the API compared to a C++ API User."

@@ -241,6 +241,17 @@ compression each mod type's own texture edit asked for. ``False`` (the default) 
 
 ``None`` means nowhere -- messages are dropped rather than buffered)doc"))
 
+        .def("getSharedState", &AGRC::RemapService::getSharedState, py::doc(R"doc(
+What the .ini files of the last :meth:`fix` share: every file it reached, ``DISABLED`` ones included, as it read
+with no fix in it, and the links between them -- see :class:`IniSharedState`. A fixing run reads all of them,
+undone, before it fixes any, and each file is fixed with this as its :attr:`IniFile.sharedState`
+
+Returns
+-------
+:class:`IniSharedState`
+    The state
+        )doc"))
+
         .def_property_readonly("stats",
             [](const AGRC::RemapService &self) { return fromCppRemapStats(self.stats); },
             py::doc(R"doc(

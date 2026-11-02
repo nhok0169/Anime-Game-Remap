@@ -400,6 +400,10 @@ namespace AGRemapCore {
         FolderWalk walk;
         walk.push(path_);
 
+        sharedState_->clear();
+        std::unordered_set<std::string> seenInis;
+        std::vector<std::pair<std::string, std::string>> fixOrder;   // (folder, .ini file), as the walk met them
+
         // The separator below goes BETWEEN folders, so the first one does not get one. Without
         // this the run opened with a bare "#  -->" line: split() ran before the first
         // setPrefix(), so it printed an empty line under the empty prefix, immediately after the
@@ -453,7 +457,11 @@ namespace AGRemapCore {
                 // One bad .ini file stops that .ini file, not the whole walk -- the pure-Python
                 // original guarded 'createMod'/'fixMod' the same way.
                 try {
-                    handleIni(*ini);
+                    if (undoOnly) {
+                        handleIni(*ini);
+                    } else if (handles(*ini)) {
+                        undoIni(*ini);
+                    }
                 } catch (const std::exception& exception) {
                     if (logger != nullptr) {
                         logger->handleException(exception);
@@ -468,9 +476,24 @@ namespace AGRemapCore {
                     stats.ini.addSkipped(iniPath, std::current_exception());
                 }
 
-                // Deliberately outside the try: a .ini file that failed part way through may still
-                // have parsed enough resources to name folders worth visiting.
-                addIniNeighbourFolders(walk, *ini);
+                // A FIXING RUN READS EVERY .ini FILE, UNDONE, BEFORE IT FIXES ANY (2026-11-02). One file may
+                // read another -- a namespace it references, a resource file both name -- and must read it
+                // with no fix in it, wherever the walk meets the two. DISABLED files are read too: the fix
+                // fixes them, and re-enabling one must work. The folders a file's resources are in are the
+                // folders it names, on any drive, so they are walked from what the undone file says.
+                if (!undoOnly) {
+                    sharedState_->add(iniPath);
+                    if (seenInis.insert(iniPath).second) {
+                        fixOrder.emplace_back(folder, iniPath);
+                    }
+                    for (const std::string& file : sharedState_->resourceFiles(iniPath)) {
+                        walk.push(FileService::parentOf(file));
+                    }
+                } else {
+                    // Deliberately outside the try: a .ini file that failed part way through may still
+                    // have parsed enough resources to name folders worth visiting.
+                    addIniNeighbourFolders(walk, *ini);
+                }
 
                 // An undo does not parse, so the folders it can reach are the ones its removal
                 // took files out of -- see removedResourceFolders_.
@@ -478,18 +501,40 @@ namespace AGRemapCore {
                     walk.push(removedFolder);
                 }
                 removedResourceFolders_.clear();
-
-                // A blank line between .ini files, but not after the last one. Undoing is quiet
-                // enough not to need the separation.
-                if (!undoOnly && iniInd + 1 < iniPathsLen && logger != nullptr) {
-                    logger->space();
-                }
             }
 
             // Runs whether or not the folder held any .ini files. A mod's own subfolders are not
             // all reachable through its resources -- an .ini file references the resources it
             // knows about, and a folder can hold another mod entirely.
             addNeighbourFolders(walk, folder);
+        }
+
+        // ...and then each file is fixed, in the order the walk met them, reading the others through the state
+        std::string lastFolder;
+        for (std::size_t i = 0; i < fixOrder.size(); ++i) {
+            const auto& [folder, iniPath] = fixOrder[i];
+            if (logger != nullptr) {
+                if (folder != lastFolder) {
+                    logger->split();
+                    logger->setPrefix(FileService::getRelPath(folder, parentFolder));
+                } else {
+                    logger->space();
+                }
+            }
+            lastFolder = folder;
+
+            std::unique_ptr<IniFile> ini = createIni(iniPath);
+            ini->sharedState = sharedState_;
+            try {
+                if (handles(*ini)) {
+                    fixIni(*ini);
+                }
+            } catch (const std::exception& exception) {
+                if (logger != nullptr) {
+                    logger->handleException(exception);
+                }
+                stats.ini.addSkipped(iniPath, std::current_exception());
+            }
         }
     }
 
@@ -832,15 +877,23 @@ namespace AGRemapCore {
         return result;
     }
 
-    void RemapService::handleIni(IniFile& ini) {
+    bool RemapService::handles(IniFile& ini) {
         ini.classify();
 
         // Not a mod's .ini file at all, or one nothing recognised while the caller only asked for
         // recognised ones. Either way there is nothing here this fix has any business touching.
-        if (!ini.getIsMod() || (ini.getModTypes().empty() && !readAllInis)) {
+        return ini.getIsMod() && !(ini.getModTypes().empty() && !readAllInis);
+    }
+
+    void RemapService::handleIni(IniFile& ini) {
+        if (!handles(ini)) {
             return;
         }
+        undoIni(ini);
+        fixIni(ini);
+    }
 
+    void RemapService::undoIni(IniFile& ini) {
         const std::string iniName = _iniName(ini);
 
         // Empty for a .ini file built from raw text rather than a path. Every stats bucket below is
@@ -881,10 +934,15 @@ namespace AGRemapCore {
                 _removeRemapCopies(ini);
             }
         }
+    }
 
+    void RemapService::fixIni(IniFile& ini) {
         if (undoOnly) {
             return;
         }
+
+        const std::string iniName = _iniName(ini);
+        const std::string iniPath = ini.getFile().value_or("");
 
         // Three ways this .ini file needs no fixing, all of them from the pure-Python original's
         // own fixIni. The first two are keyed by PATH rather than by object: the walk can reach the

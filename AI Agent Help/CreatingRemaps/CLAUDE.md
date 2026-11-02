@@ -1188,7 +1188,8 @@ oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. 
   pixel correlation; a hash several characters share (`c235c6a7`, 27 of them) is not filed, and an "old" hash whose
   successor is the CURRENT asset hash belongs in the config's roles, not in HashData.
 * **A mod may bind its textures from an `.ini` in a SUBFOLDER** (`Textures/textures.ini` on the same draws).
-  `WWMITextureFacts::readInisBelow` (default off; on `WWMIFixerConfig` until 2026-10-28) reads those too; the old search looked beside and above only.
+  It is read when it is LINKED to the mesh's (`IniFile::linkedInis`: Changli's `textures.ini` references the mesh's `entei`
+  namespace), wherever it is; `WWMITextureFacts::readInisBelow` and the folder searches went on 2026-11-02 (root CLAUDE.md).
 * **One texture file, two resource sections: name it by the one a section USES.** Changli1 declares
   `[ResourceTexture19]` on its body diffuse and binds that file only as `[Resource-1]` inside a `$sawpvarA` toggle,
   so taking the first declaration lost the toggle. And the "used" scan must skip this pair's OWN previous fix
@@ -9831,8 +9832,9 @@ And the RabbitFX cloak mod (`Sanhua3`) found the second half the same day. Its m
 no textures. A namespaced `SanhuaCloak.ini` one folder up overrides the SAME draws (source `vb0`
 hash plus `match_first_index`) and hands its bangs, hair and bodice art to RabbitFX by name. The
 parser has only read the `.ini`'s own files since 2026-09-29, so those roles fell back to
-downloading Sanhua's GAME textures. `WWMIFixer::readSameDrawInis` now reads loaded `.ini` files beside
-the mesh's and up to two folders above it, takes only sections on one of this file's own draws, and
+downloading Sanhua's GAME textures. The parser now reads the `.ini` files LINKED to the mesh's (since 2026-11-02:
+the LOD files reference the cloak's `sanhuacloak` namespace; until then, the files beside it and two folders up),
+takes only sections on one of this file's own draws, and
 only the registers `WWMITextureFacts::registerRoles` names. Sanhua's facts gained the RabbitFX
 names (her `Lightmap` is the mask; component 6 is left out, its "Diffuse" is the ramp). Only Sanhua3
 moved among the eight Sanhua mods.

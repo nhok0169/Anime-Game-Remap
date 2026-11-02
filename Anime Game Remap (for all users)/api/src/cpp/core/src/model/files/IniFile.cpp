@@ -14,6 +14,7 @@
 #include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/files/IniSharedState.h"
 
 #include <algorithm>
 #include <array>
@@ -118,13 +119,47 @@ namespace AGRemapCore {
         return other;
     }
 
-    std::vector<std::string> IniFile::loadedSiblings() const {
-        if (!file_.has_value()) {
-            return {};
-        }
+    std::unique_ptr<IniFile> IniFile::sibling(const IniFile& other,
+                                              std::optional<std::unordered_set<int>> forcedFromModTypeIds) const {
+        std::unordered_map<int, ModType> choices(modTypes.begin(), modTypes.end());
+        auto result = std::make_unique<IniFile>(other.getFile(), "", std::nullopt, std::nullopt, std::move(forcedFromModTypeIds),
+                                                std::move(choices), nullptr, std::nullopt, downloadMode, fromVersion, toVersion);
+        result->setFileTxt(other.getFileTxt());
+        result->classify();
+        return result;
+    }
 
-        const std::filesystem::path self = FileService::strToPath(*file_);
-        return loadedInis(self.parent_path(), self);
+    std::vector<IniFile*> IniFile::linkedInis() const {
+        std::vector<IniFile*> result;
+        if (sharedState == nullptr || !file_.has_value()) {
+            return result;
+        }
+        for (const std::string& path : sharedState->linked(*file_)) {
+            if (IniFile* other = sharedState->file(path)) {
+                result.push_back(other);
+            }
+        }
+        return result;
+    }
+
+    std::optional<std::string> IniFile::getNamespace() {
+        for (const std::string& raw : readFileLines()) {
+            const std::string line(StringTools::strip(raw));
+            if (line.empty() || line.front() == ';') {
+                continue;
+            }
+            if (line.front() == '[') {
+                break;
+            }
+            const std::size_t eq = line.find('=');
+            if (eq != std::string::npos && StringTools::equalsIgnoreCase(std::string(StringTools::strip(line.substr(0, eq))), "namespace")) {
+                const std::string value(StringTools::strip(line.substr(eq + 1)));
+                if (!value.empty()) {
+                    return value;
+                }
+            }
+        }
+        return std::nullopt;
     }
 
     std::vector<std::string> IniFile::loadedInis(const std::filesystem::path& folder, const std::filesystem::path& exclude) {

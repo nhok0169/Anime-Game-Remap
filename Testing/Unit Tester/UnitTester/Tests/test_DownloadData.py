@@ -105,10 +105,67 @@ class LoadedInisTest(unittest.TestCase):
         self.assertNotIn("mod.ini", names)
         self.assertIn("MyRemapFixes.ini", names)
 
-    def test_loadedSiblings_theOthersOfItsFolder(self):
-        ini = FRB.IniFile(os.path.join(self._folder, "mod.ini"))
-        names = [os.path.basename(path) for path in ini.loadedSiblings()]
-        self.assertEqual(names, sorted(["Textures.INI", "MyRemapFixes.ini"]))
 
-    def test_loadedSiblings_noPath_isEmpty(self):
-        self.assertEqual(FRB.IniFile(txt = "[A]\nx = 1\n").loadedSiblings(), [])
+
+class IniSharedStateTest(unittest.TestCase):
+    """:class:`IniSharedState`: the files of a run and the links their text states -- a namespace one references
+    that another declares, or a resource file both name -- wherever the files are"""
+
+    def setUp(self):
+        self._root = tempfile.mkdtemp(prefix = "AGRemapSharedState")
+        self._write("mesh/mod.ini", "namespace = MyMod\n[TextureOverrideBody]\nhash = 11111111\nps-t0 = ResourceDiffuse\n"
+                                    "[ResourceDiffuse]\nfilename = Diffuse.dds\n")
+        self._write("elsewhere/far/textures.ini", "[TextureOverrideRecolour]\nhash = 22222222\nif $\\MyMod\\color == 1\n"
+                                                  "    this = ResourceRed\nendif\n[ResourceRed]\nfilename = Red.dds\n")
+        self._write("mesh/sub/copy.ini", "[ResourceDiffuse]\nfilename = ..\\Diffuse.dds\n")
+        self._write("mesh/other.ini", "[TextureOverrideBody]\nhash = 11111111\nps-t0 = ResourceOwn\n"
+                                      "[ResourceOwn]\nfilename = Own.dds\n")
+        self._state = FRB.IniSharedState()
+        for rel in ["mesh/mod.ini", "elsewhere/far/textures.ini", "mesh/sub/copy.ini", "mesh/other.ini"]:
+            self._state.add(self._path(rel))
+
+    def tearDown(self):
+        shutil.rmtree(self._root, ignore_errors = True)
+
+    def _path(self, rel):
+        return os.path.join(self._root, *rel.split("/"))
+
+    def _write(self, rel, text):
+        path = self._path(rel)
+        os.makedirs(os.path.dirname(path), exist_ok = True)
+        with open(path, "w") as f:
+            f.write(text)
+
+    def _linked(self, rel):
+        return sorted(os.path.normcase(path) for path in self._state.linked(self._path(rel)))
+
+    def _paths(self, *rels):
+        return sorted(os.path.normcase(self._path(rel)) for rel in rels)
+
+    def test_namespace_isTheDeclaredOne(self):
+        self.assertEqual(self._state.namespaceOf(self._path("mesh/mod.ini")), "MyMod")
+        self.assertIsNone(self._state.namespaceOf(self._path("mesh/other.ini")))
+
+    def test_linked_byANamespaceReference_inAnyFolder(self):
+        self.assertIn(self._paths("elsewhere/far/textures.ini")[0], self._linked("mesh/mod.ini"))
+        self.assertEqual(self._linked("elsewhere/far/textures.ini"), self._paths("mesh/mod.ini"))
+
+    def test_linked_byAResourceFileBothName(self):
+        self.assertIn(self._paths("mesh/sub/copy.ini")[0], self._linked("mesh/mod.ini"))
+
+    def test_notLinked_byFolderOrHashAlone(self):
+        # beside it, and on the same hash, but naming nothing of it
+        self.assertNotIn(self._paths("mesh/other.ini")[0], self._linked("mesh/mod.ini"))
+        self.assertEqual(self._linked("mesh/other.ini"), [])
+
+    def test_file_isTheTextAsAdded(self):
+        path = self._path("mesh/mod.ini")
+        with open(path, "a") as f:
+            f.write("[Later]\nx = 1\n")
+        self.assertNotIn("Later", self._state.file(path).getIfTemplates())
+
+    def test_iniFile_linkedInis_throughItsSharedState(self):
+        ini = FRB.IniFile(self._path("elsewhere/far/textures.ini"))
+        self.assertEqual(ini.linkedInis(), [])
+        ini.sharedState = self._state
+        self.assertEqual([os.path.basename(other.file) for other in ini.linkedInis()], ["mod.ini"])

@@ -170,7 +170,7 @@ Each comes as its hash, lowercased, and the row of its ``this =``: the resource 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="77" column="32" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="81" bodyend="101"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="77" column="32" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="80" bodyend="100"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a4085ef398c3e983abe87f812ba94ea80" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -232,7 +232,7 @@ share ``df127976`` -- and an override of that texture recolours all of them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="96" column="32" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="103" bodyend="113"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="96" column="32" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="102" bodyend="112"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a9d4e3358156d39934b98789a370c5066" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -262,7 +262,7 @@ reaches through ``run =`` is named there already -- see #adoptSection
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="164" column="25" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="115" bodyend="123"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="164" column="25" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="114" bodyend="122"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -361,14 +361,14 @@ Adds to &apos;bound&apos; the resources this parser binds besides #textureBindin
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="127" column="26" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="35" bodyend="38"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a57bf1a0eedee6ffb21049a987cafb140" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>std::vector&lt; std::string &gt;</type>
-        <definition>std::vector&lt; std::string &gt; AGRemapCore::GIMITemplateParser::siblingInis</definition>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a8aafe13c234d7851e4e30358db55a098" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> * &gt;</type>
+        <definition>std::vector&lt; IniFile * &gt; AGRemapCore::GIMITemplateParser::linkedInis</definition>
         <argsstring>() const</argsstring>
-        <name>siblingInis</name>
-        <qualifiedname>AGRemapCore::GIMITemplateParser::siblingInis</qualifiedname>
+        <name>linkedInis</name>
+        <qualifiedname>AGRemapCore::GIMITemplateParser::linkedInis</qualifiedname>
         <briefdescription>
-<para>The other <computeroutput>.ini</computeroutput> files of the mod&apos;s folder the game loads <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_file_1af9db1066e8334efe4898ced0c4cd9dd9" kindref="member">IniFile::loadedSiblings</ref></computeroutput>. </para>
+<para>The other <computeroutput>.ini</computeroutput> files of the mod linked to this one <ndash/> :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_file_1a0e47d4bef6d1a9854404bc8d312ce5f2" kindref="member">IniFile::linkedInis</ref></computeroutput>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -415,13 +415,13 @@ binds a resource at ``ib``, ``vb0`` or ``vb1``
         <name>siblingDrawsMesh</name>
         <qualifiedname>AGRemapCore::GIMITemplateParser::siblingDrawsMesh</qualifiedname>
         <briefdescription>
-<para>Whether a sibling <computeroutput>.ini</computeroutput> (<ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a57bf1a0eedee6ffb21049a987cafb140" kindref="member">siblingInis</ref>) draws the character&apos;s mesh <ndash/> see <ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a4897555be933648c7a292024925c2287" kindref="member">drawsMesh</ref>. </para>
+<para>Whether a sibling <computeroutput>.ini</computeroutput> (<ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a8aafe13c234d7851e4e30358db55a098" kindref="member">linkedInis</ref>) draws the character&apos;s mesh <ndash/> see <ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a4897555be933648c7a292024925c2287" kindref="member">drawsMesh</ref>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="148" column="18" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="71" bodyend="79"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="148" column="18" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="71" bodyend="78"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a0554b0b2f02819e83939097f47fed3d2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -450,7 +450,7 @@ binds a resource at ``ib``, ``vb0`` or ``vb1``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="155" column="18" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="211" bodyend="231"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="155" column="18" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="210" bodyend="230"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a3a7bb1f50f7d300520cbb6bfd48a91bd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -514,7 +514,7 @@ so a buffer keeps its ``type`` and ``format``), and an undo removes only the dec
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="185" column="18" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="125" bodyend="209"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="185" column="18" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="124" bodyend="208"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a6d3fa2adc04ea4ed687ca98cf8c7488f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -523,13 +523,13 @@ so a buffer keeps its ``type`` and ``format``), and an undo removes only the dec
         <name>siblingBindsPosition</name>
         <qualifiedname>AGRemapCore::GIMITemplateParser::siblingBindsPosition</qualifiedname>
         <briefdescription>
-<para>Whether a sibling <computeroutput>.ini</computeroutput> (<ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a57bf1a0eedee6ffb21049a987cafb140" kindref="member">siblingInis</ref>) binds the character&apos;s position buffer <ndash/> see <ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a0554b0b2f02819e83939097f47fed3d2" kindref="member">bindsPosition</ref>. </para>
+<para>Whether a sibling <computeroutput>.ini</computeroutput> (<ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a8aafe13c234d7851e4e30358db55a098" kindref="member">linkedInis</ref>) binds the character&apos;s position buffer <ndash/> see <ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a0554b0b2f02819e83939097f47fed3d2" kindref="member">bindsPosition</ref>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="190" column="18" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="233" bodyend="241"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="190" column="18" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="232" bodyend="239"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a99a1604e05f994173909d346d278d5f2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -548,7 +548,7 @@ declares -- a previous fix&apos;s, read before its undo -- is kept as it is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="200" column="18" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="243" bodyend="273"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="200" column="18" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="241" bodyend="271"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a3fc4244542611dc48532f66b1aa0358e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -567,7 +567,7 @@ well keeps the last word
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="210" column="18" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="275" bodyend="287"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="210" column="18" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="273" bodyend="285"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a778d0cc17389d374a2da6af84ba93db3" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -586,7 +586,7 @@ the file defines it -- binds something: a buffer, an index buffer, a texture reg
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="220" column="18" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="289" bodyend="342"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="220" column="18" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="287" bodyend="340"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1ae5932df071fea74474a5b74488b2fa18" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a1498c57d0ba299a4187dfce4ed1c82ee" kindref="member">GraphGroup</ref> &gt;</type>
@@ -602,7 +602,7 @@ the file defines it -- binds something: a buffer, an index buffer, a texture reg
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="225" column="25" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="344" bodyend="357"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="225" column="25" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="342" bodyend="355"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_template_parser_1ae776667cf96a60f5e22cad89b53a002d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a7a565d30ed7abefdb949e4f6f9f6c7c9" kindref="member">Classifier</ref> &amp;</type>
@@ -2819,6 +2819,7 @@ A subclass names the hash types a hash is filed under for it (#hashKeysOf) and f
       <member refid="class_a_g_remap_core_1_1_template_parser_1a619695a457cce49704ea099390337f8f" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>GroupEdit</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a83a927aecfbf5f52c3b96189d7606309" prot="protected" virt="pure-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>hashKeysOf</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2ecb6aa4174c9c42985685c3facf61ad" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>keysToTrack</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a8aafe13c234d7851e4e30358db55a098" prot="protected" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>linkedInis</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a9884e677c16b9e934cff106b86dbf93f" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>makeGlobalGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>ModObj</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a57a1473dadd837de24c8399c861bcc93" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>ModObjHash</name></member>
@@ -2862,7 +2863,6 @@ A subclass names the hash types a hash is filed under for it (#hashKeysOf) and f
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac8119931260c037232ded5a5b148335f" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>setupDownloads</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a6d3fa2adc04ea4ed687ca98cf8c7488f" prot="protected" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>siblingBindsPosition</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a6e7bdddda5e084e85c129b2c905c08f0" prot="protected" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>siblingDrawsMesh</name></member>
-      <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a57bf1a0eedee6ffb21049a987cafb140" prot="protected" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>siblingInis</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a7525f8476269c5acb40e6b9d60720316" prot="protected" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>siblingRefs_</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1ac9fbb1fd38a1e7c884253ecef7da2087" prot="protected" virt="virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>skipsBindCheck</name></member>
       <member refid="class_a_g_remap_core_1_1_template_parser_1ad4c59de790a96195e567479f915d7489" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>steps_</name></member>

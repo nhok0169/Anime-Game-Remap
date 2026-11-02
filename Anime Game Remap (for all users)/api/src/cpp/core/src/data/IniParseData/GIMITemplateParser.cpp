@@ -37,9 +37,9 @@ namespace AGRemapCore {
         return false;
     }
 
-    std::vector<std::string> GIMITemplateParser::siblingInis() const {
+    std::vector<IniFile*> GIMITemplateParser::linkedInis() const {
         IniFile* iniFile = const_cast<GIMITemplateParser*>(this)->getIniFile();
-        return iniFile == nullptr ? std::vector<std::string>{} : iniFile->loadedSiblings();
+        return iniFile == nullptr ? std::vector<IniFile*>{} : iniFile->linkedInis();
     }
 
     bool GIMITemplateParser::drawsMesh(const IfTemplates& templates) {
@@ -69,9 +69,8 @@ namespace AGRemapCore {
     }
 
     bool GIMITemplateParser::siblingDrawsMesh() {
-        for (const std::string& path : siblingInis()) {
-            IniFile sibling(path);
-            if (drawsMesh(sibling.getIfTemplates())) {
+        for (IniFile* sibling : linkedInis()) {
+            if (drawsMesh(sibling->getIfTemplates())) {
                 return true;
             }
         }
@@ -231,9 +230,8 @@ namespace AGRemapCore {
     }
 
     bool GIMITemplateParser::siblingBindsPosition() {
-        for (const std::string& path : siblingInis()) {
-            IniFile sibling(path);
-            if (bindsPosition(sibling)) {
+        for (IniFile* sibling : linkedInis()) {
+            if (bindsPosition(*sibling)) {
                 return true;
             }
         }

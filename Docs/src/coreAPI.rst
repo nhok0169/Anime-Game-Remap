@@ -2218,6 +2218,17 @@ IniResourceModel
 
 :raw-html:`<br />`
 
+IniSharedState
+--------------
+
+.. cppattributetable:: AGRemapCore::IniSharedState
+
+.. doxygenclass:: AGRemapCore::IniSharedState
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 IniSrcResourceModel
 -------------------
 

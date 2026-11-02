@@ -42,6 +42,8 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     class BaseIniRemover;
 
+    class IniSharedState;
+
     /**
      * @brief
      @rst
@@ -320,6 +322,18 @@ namespace AGRemapCore {
              @endrst
              */
             std::shared_ptr<BaseLogger> logger;
+
+            /**
+             * @brief
+             @rst
+             The ``.ini`` files this one is fixed among, as they read with no fix in them, or ``nullptr`` for none
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             :cpp:class:`RemapService` sets it to the state of its run before it fixes this file; the parsers and
+             fixers read another file only through it (#linkedInis). Set rather than passed, as #logger is
+             @endrst
+             */
+            std::shared_ptr<IniSharedState> sharedState;
 
             /**
              * @brief
@@ -766,13 +780,39 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The other ``.ini`` files of this file's folder that the game loads -- see #loadedInis. Empty for an
-             ``.ini`` file with no path
+             Another ``.ini`` file of the same mod, read the way this one is, and classified, from its text in
+             'other' rather than from the disk -- see the other overload :raw-html:`<br />` :raw-html:`<br />`
+
+             For a file of #sharedState: the disk may hold that file with a fix written into it by now
              @endrst
              *
-             * @return Their full paths, sorted
+             * @param other The other ``.ini`` file, read
+             * @param forcedFromModTypeIds The ids of the mod types the new file is forced to be classified as, or
+             *      ``std::nullopt`` to classify it among this file's mod types. **Default**: ``std::nullopt``
+             *
+             * @return The new file
              */
-            std::vector<std::string> loadedSiblings() const;
+            std::unique_ptr<IniFile> sibling(const IniFile& other,
+                                             std::optional<std::unordered_set<int>> forcedFromModTypeIds = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             The files of #sharedState linked to this one by what their text names -- see
+             :cpp:func:`IniSharedState::linked` -- each as it reads with no fix in it. Empty with no #sharedState
+             or no path
+             @endrst
+             */
+            std::vector<IniFile*> linkedInis() const;
+
+            /**
+             * @brief
+             @rst
+             The namespace this file declares -- a ``namespace = X`` line before its first `section`_, as
+             3DMigoto reads it -- or ``std::nullopt``
+             @endrst
+             */
+            std::optional<std::string> getNamespace();
 
             /**
              * @brief

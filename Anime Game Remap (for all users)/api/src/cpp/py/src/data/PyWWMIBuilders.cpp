@@ -108,11 +108,6 @@ Set[:class:`str`]: The roles whose texture marks REGIONS, such as a material mas
 for one is refused when it is flat, or when one slot binds it for this role and another too (a mask
 pointed at the slot's normal map); the role then takes :attr:`fallbackTextures`, unless the fix leaves
 it to the game (:attr:`WWMIFixerConfig.flatLeftToGame`). **Default**: empty
-        )doc"))
-        .def_readwrite("readInisBelow", &AGRC::WWMITextureFacts::readInisBelow, py::doc(R"doc(
-:class:`bool`: Also read a second ``.ini`` on the mod's own draws from the folders BELOW the one being
-read (``Textures/textures.ini`` binding every texture of a ``mod.ini`` mesh), not only beside it and
-above it; ``DISABLED`` folders are skipped. **Default**: ``False``
         )doc"));
 
     py::class_<AGRC::WWMIParserConfig> parserConfig(m, "WWMIParserConfig", R"doc(

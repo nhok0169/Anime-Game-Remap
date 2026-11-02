@@ -1020,9 +1020,9 @@ namespace AGRemapCore {
                     }
 
                     std::size_t found = 0;
-                    const std::filesystem::path own = FileService::strToPath(iniPath);
-                    for (const std::string& path : IniFile::loadedInis(own.parent_path(), own)) {
-                        const std::unique_ptr<IniFile> sibling = otherIni(path);
+                    (void)iniPath;
+                    for (IniFile* linked : const_cast<IniFileParseContext&>(ctx_).getIniFile()->linkedInis()) {
+                        const std::unique_ptr<IniFile> sibling = otherIni(*linked);
                         const std::unique_ptr<WWMIParser> reader = readOther(*sibling);
                         for (const auto& [section, role, hash, file] : reader->recolours()) {
                             (void)section;
@@ -1048,8 +1048,9 @@ namespace AGRemapCore {
                 // match_first_index. On the mod's own character both fire; remapped, the other never does,
                 // so every role it serves would be downloaded from the GAME over the mod's art. Only the
                 // registers WWMITextureFacts::registerRoles names for that slot are read, so this is the
-                // mod stating a role. Looked for beside this .ini and in the two folders above it -- and
-                // with WWMITextureFacts::readInisBelow, in every folder below it.
+                // mod stating a role. Looked for in the files LINKED to this one (IniFile::linkedInis: a
+                // namespace one references, a resource file both name), wherever they are -- Changli's
+                // Textures/textures.ini references the mesh's namespace, a RabbitFX cloak's LOD files the cloak's.
                 void addSameDrawInis(TextureRoleChooser& chooser, const std::string& iniPath,
                                      const std::map<int, std::vector<std::string>>& drawn) {
                     const auto& layouts = config_.textures.registerRoles;
@@ -1057,43 +1058,13 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    const std::filesystem::path own = FileService::strToPath(iniPath);
-                    std::vector<std::string> inis;
-                    std::filesystem::path dir = own.parent_path();
-                    for (int depth = 0; depth < 3 && !dir.empty(); ++depth) {
-                        for (const std::string& path : IniFile::loadedInis(dir, own)) {
-                            inis.push_back(path);
-                        }
-
-                        const std::filesystem::path parent = dir.parent_path();
-                        if (parent == dir) {
-                            break;
-                        }
-                        dir = parent;
-                    }
-
-                    if (config_.textures.readInisBelow) {
-                        std::error_code error;
-                        std::filesystem::recursive_directory_iterator it(own.parent_path(), error);
-                        for (; !error && it != std::filesystem::recursive_directory_iterator(); it.increment(error)) {
-                            if (!it->is_directory(error)) {
-                                continue;
-                            }
-
-                            if (IniNamingTools::isDisabled(FileService::pathToStr(it->path().filename()))) {
-                                it.disable_recursion_pending();
-                                continue;
-                            }
-
-                            for (const std::string& path : IniFile::loadedInis(it->path(), own)) {
-                                inis.push_back(path);
-                            }
-                        }
-                    }
+                    // the files of the mod linked to this one, wherever they are -- IniFile::linkedInis
+                    (void)iniPath;
+                    const std::vector<IniFile*> inis = const_cast<IniFileParseContext&>(ctx_).getIniFile()->linkedInis();
 
                     std::size_t found = 0;
-                    for (const std::string& path : inis) {
-                        const std::unique_ptr<IniFile> other = otherIni(path);
+                    for (IniFile* linked : inis) {
+                        const std::unique_ptr<IniFile> other = otherIni(*linked);
                         const std::unique_ptr<WWMIParser> reader = readOther(*other);
                         for (const auto& [slot, reg, role, file] : reader->drawBindings()) {
                             if (drawn.count(slot) == 0) {
@@ -1106,7 +1077,7 @@ namespace AGRemapCore {
                             }
 
                             chooser.candidates[role].emplace_back(
-                                file, "the " + reg + " " + FileService::pathToStr(FileService::strToPath(path).filename())
+                                file, "the " + reg + " " + FileService::pathToStr(FileService::strToPath(linked->getFile().value_or("")).filename())
                                       + " binds on the same draw");
                             chooser.bindings[file][slotObj(slot)].insert(role);
                             ++found;
@@ -1123,9 +1094,9 @@ namespace AGRemapCore {
                 // ---- another .ini of the mod, read through a parser of its own ----
 
                 // Another .ini of the mod, as this character's: the same mod types, forced, and version
-                std::unique_ptr<IniFile> otherIni(const std::string& path) const {
+                std::unique_ptr<IniFile> otherIni(const IniFile& linked) const {
                     const IniFile* ini = const_cast<IniFileParseContext&>(ctx_).getIniFile();
-                    return ini->sibling(path, modTypeId_.has_value()
+                    return ini->sibling(linked, modTypeId_.has_value()
                         ? std::optional<std::unordered_set<int>>(std::unordered_set<int>{*modTypeId_}) : std::nullopt);
                 }
 

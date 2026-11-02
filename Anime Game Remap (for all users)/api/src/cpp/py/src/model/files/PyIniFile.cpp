@@ -29,6 +29,7 @@
 #include "AGRemapCore/constants/DownloadMode.h"
 #include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/files/IniSharedState.h"
 #include "AGRemapCore/model/iniresources/IniResource.h"
 #include "../iniresources/PyIniGroupedResource.h"
 #include "../PyIniSectionGraph.h"
@@ -60,6 +61,84 @@ std::vector<AGRC::IniResource*> borrowAll(std::vector<std::unique_ptr<AGRC::IniR
     return result;
 }
 
+}
+
+
+// Before RemapService's binding, whose getSharedState returns one (bindings.cpp)
+void initCppIniSharedState(pybind11::module_ &m) {
+    py::class_<AGRC::IniSharedState, std::shared_ptr<AGRC::IniSharedState>>(m, "IniSharedState", R"doc(
+What the .ini files of one run share: each file as it reads with no fix in it, and the links its own text states
+to the others
+
+Two files are **linked** when either one's text names the other: one references a namespace the other declares
+(``namespace = X`` in the other; ``$\X\var``, ``CommandList\X\...`` or ``Resource\X\...`` in this one), or both
+name one resource file (``filename =``, resolved against each file's own folder). Nothing else links them -- not
+the folders they sit in, and not the game hashes they share. :class:`RemapService` fills one with every .ini file a
+run reaches, ``DISABLED`` ones included, before it fixes any of them, and hands it to each file it fixes
+(:attr:`IniFile.sharedState`)
+    )doc")
+        .def(py::init<>())
+        .def("add", &AGRC::IniSharedState::add, py::arg("path"), py::doc(R"doc(
+Reads the .ini file at 'path' as it is now, and files it with its links. A path already added is read again
+
+Parameters
+----------
+path: :class:`str`
+    The .ini file
+        )doc"))
+        .def("clear", &AGRC::IniSharedState::clear, py::doc("Forgets every file"))
+        .def("files", &AGRC::IniSharedState::files, py::doc(R"doc(
+Returns
+-------
+List[:class:`str`]
+    The files, in the order they were added
+        )doc"))
+        .def("file", &AGRC::IniSharedState::file, py::arg("path"), py::return_value_policy::reference_internal, py::doc(R"doc(
+The file at 'path' as it read when it was added -- its own :class:`IniFile`, never the one a fix changes
+
+Parameters
+----------
+path: :class:`str`
+    The .ini file
+
+Returns
+-------
+Optional[:class:`IniFile`]
+    The file, or ``None`` for a path not added
+        )doc"))
+        .def("namespaceOf", &AGRC::IniSharedState::namespaceOf, py::arg("path"), py::doc(R"doc(
+Parameters
+----------
+path: :class:`str`
+    The .ini file
+
+Returns
+-------
+Optional[:class:`str`]
+    The namespace 'path' declares (``namespace = X``, before its first section), or ``None``
+        )doc"))
+        .def("resourceFiles", &AGRC::IniSharedState::resourceFiles, py::arg("path"), py::doc(R"doc(
+Parameters
+----------
+path: :class:`str`
+    The .ini file
+
+Returns
+-------
+List[:class:`str`]
+    The resource files 'path' names, each resolved against its folder, in the order named, each once
+        )doc"))
+        .def("linked", &AGRC::IniSharedState::linked, py::arg("path"), py::doc(R"doc(
+Parameters
+----------
+path: :class:`str`
+    The .ini file
+
+Returns
+-------
+List[:class:`str`]
+    The other files linked to 'path' -- see this class's own description -- in the order they were added
+        )doc"));
 }
 
 
@@ -455,6 +534,12 @@ Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`Version` when se
 
 Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`Version` when set)doc"))
 
+        .def_readwrite("sharedState", &AGRC::IniFile::sharedState,
+    py::doc(R"doc(Optional[:class:`IniSharedState`]: The .ini files this one is fixed among, as they read with no fix in them
+
+:class:`RemapService` sets it to the state of its run before it fixes this file; the parsers and fixers read another
+file only through it (:meth:`linkedInis`). ``None`` (the default) means none)doc"))
+
         .def_readwrite("logger", &AGRC::IniFile::logger,
     py::doc(R"doc(Optional[:class:`BaseLogger`]: Where this .ini file reports progress and problems
 
@@ -540,14 +625,44 @@ Returns
 :class:`IniFile`
     The new file
         )doc"))
-        .def("loadedSiblings", &AGRC::IniFile::loadedSiblings, py::doc(R"doc(
-The other .ini files of this file's folder that the game loads -- see :meth:`loadedInis`. Empty for a .ini file
-with no path
+        .def("siblingOf", [](const AGRC::IniFile &self, const AGRC::IniFile &other, std::optional<std::unordered_set<int>> forcedFromModTypeIds) {
+            return self.sibling(other, std::move(forcedFromModTypeIds));
+        }, py::arg("other"), py::arg("forcedFromModTypeIds") = py::none(), py::doc(R"doc(
+Another .ini file of the same mod, read the way this one is, and classified, from its text in 'other' rather than
+from the disk -- see :meth:`sibling`. For a file of :attr:`sharedState`: the disk may hold that file with a fix
+written into it by now
+
+Parameters
+----------
+other: :class:`IniFile`
+    The other .ini file, read
+
+forcedFromModTypeIds: Optional[Set[:class:`int`]]
+    The ids of the mod types the new file is forced to be classified as, or ``None`` to classify it among this
+    file's mod types :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
 
 Returns
 -------
-List[:class:`str`]
-    Their full paths, sorted
+:class:`IniFile`
+    The new file
+        )doc"))
+        .def("linkedInis", &AGRC::IniFile::linkedInis, py::return_value_policy::reference_internal, py::doc(R"doc(
+The files of :attr:`sharedState` linked to this one by what their text names -- see :meth:`IniSharedState.linked`
+-- each as it reads with no fix in it. Empty with no :attr:`sharedState` or no path
+
+Returns
+-------
+List[:class:`IniFile`]
+    The files
+        )doc"))
+        .def("getNamespace", &AGRC::IniFile::getNamespace, py::doc(R"doc(
+Returns
+-------
+Optional[:class:`str`]
+    The namespace this file declares -- a ``namespace = X`` line before its first section, as 3DMigoto reads it
+    -- or ``None``
         )doc"))
         .def_static("loadedInis", [](const std::string &folder, const std::string &exclude) {
             return AGRC::IniFile::loadedInis(AGRC::FileService::strToPath(folder),

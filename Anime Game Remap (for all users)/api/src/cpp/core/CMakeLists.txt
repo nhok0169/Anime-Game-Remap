@@ -326,6 +326,7 @@ add_library(AGRemapCore STATIC
     src/model/strategies/iniRemovers/IniRemoveBuilder.cpp
     src/model/strategies/iniFixers/BaseIniPartEdit.cpp
     src/model/files/IniFile.cpp
+    src/model/files/IniSharedState.cpp
     src/model/IniNamingTools.cpp
     src/model/IniSectionGraphInstantiation.cpp
     src/model/strategies/iniRemovers/RemapIniRemoverInstantiation.cpp

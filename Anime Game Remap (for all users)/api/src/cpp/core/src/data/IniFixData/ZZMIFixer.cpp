@@ -706,16 +706,13 @@ namespace AGRemapCore {
                     if (ini == nullptr) {
                         return found;
                     }
-                    // the folder of the .ini and below, as readAllInis reads them
-                    std::error_code ec;
-                    for (const auto& entry : std::filesystem::recursive_directory_iterator(FileService::strToPath(ini->getFolder()), ec)) {
-                        const std::string name = FileService::pathToStr(entry.path().filename());
-                        if (!entry.is_regular_file() || !StringTools::endsWithIgnoreCase(name, FileExt::Ini)
-                                || IniNamingTools::isDisabled(name)) {
-                            continue;
-                        }
-                        IniFile other(FileService::pathToStr(entry.path()));
-                        for (const auto& [name, tpl] : other.getIfTemplates()) {
+                    // this file, and the files of the mod linked to it (IniFile::linkedInis), wherever they are
+                    std::vector<IniFile*> files{ini};
+                    for (IniFile* linked : ini->linkedInis()) {
+                        files.push_back(linked);
+                    }
+                    for (IniFile* other : files) {
+                        for (const auto& [name, tpl] : other->getIfTemplates()) {
                             if (tpl == nullptr || name.find(IniKeywords::Remap) != std::string::npos) {
                                 continue;
                             }

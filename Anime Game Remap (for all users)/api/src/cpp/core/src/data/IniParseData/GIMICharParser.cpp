@@ -555,8 +555,8 @@ namespace AGRemapCore {
                     addOverrides(*iniFile, [](const std::string& resource) { return resource; }, true);
 
                     if (drawsMesh(own)) {
-                        for (const std::string& path : iniFile->loadedSiblings()) {
-                            IniFile sibling(path);
+                        for (IniFile* linked : iniFile->linkedInis()) {
+                            IniFile& sibling = *linked;
                             const IfTemplates& templates = sibling.getIfTemplates();
                             addOverrides(sibling, [&](const std::string& resource) {
                                 auto found = templates.find(resource);
@@ -722,8 +722,8 @@ namespace AGRemapCore {
 
                     IniFile self(*iniFile->getFile());
                     const IfTemplates& own = self.getIfTemplates();
-                    for (const std::string& path : iniFile->loadedSiblings()) {
-                        IniFile sibling(path);
+                    for (IniFile* linked : iniFile->linkedInis()) {
+                        IniFile& sibling = *linked;
                         const IfTemplates& theirs = sibling.getIfTemplates();
                         if (!bindsPosition(sibling)) {
                             continue;
@@ -749,15 +749,15 @@ namespace AGRemapCore {
                     }
 
                     const IfTemplates& own = iniFile->getIfTemplates();
-                    const std::vector<std::string> siblings = iniFile->loadedSiblings();
+                    const std::vector<IniFile*> siblings = iniFile->linkedInis();
                     for (const std::string& obj : config_.drawnObjs) {
                         const std::pair<std::string, std::string> id = objIdentity(obj);
                         if (id.first.empty() || id.second.empty() || !sectionWith(own, id).empty()) {
                             continue;
                         }
 
-                        for (const std::string& path : siblings) {
-                            IniFile sibling(path);
+                        for (IniFile* linked : siblings) {
+                            IniFile& sibling = *linked;
                             const std::string root = sectionWith(sibling.getIfTemplates(), id);
                             if (root.empty()) {
                                 continue;

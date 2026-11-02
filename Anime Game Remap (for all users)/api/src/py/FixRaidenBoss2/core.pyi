@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalIniClassifiers', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexcoordFile', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsCreate', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalIniClassifiers', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSharedState', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexcoordFile', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsCreate', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -16118,6 +16118,14 @@ class IniFile:
         Dict[:class:`int`, :class:`ModType`]
             The mod types, in the order they were classified
         """
+    def getNamespace(self) -> str | None:
+        """
+        Returns
+        -------
+        Optional[:class:`str`]
+            The namespace this file declares -- a ``namespace = X`` line before its first section, as 3DMigoto reads it
+            -- or ``None``
+        """
     def getReferencedFolders(self) -> list[str]:
         """
         Retrieves all the folders referenced by the .ini file, in the order first seen
@@ -16172,15 +16180,15 @@ class IniFile:
         List[:class:`str`]
             The names of the `sections`_
         """
-    def loadedSiblings(self) -> list[str]:
+    def linkedInis(self) -> list[IniFile]:
         """
-        The other .ini files of this file's folder that the game loads -- see :meth:`loadedInis`. Empty for a .ini file
-        with no path
+        The files of :attr:`sharedState` linked to this one by what their text names -- see :meth:`IniSharedState.linked`
+        -- each as it reads with no fix in it. Empty with no :attr:`sharedState` or no path
         
         Returns
         -------
-        List[:class:`str`]
-            Their full paths, sorted
+        List[:class:`IniFile`]
+            The files
         """
     def parse(self, flushIfTemplates: bool = True) -> None:
         """
@@ -16286,6 +16294,28 @@ class IniFile:
         ----------
         file: :class:`str`
             The path to the other .ini file
+        
+        forcedFromModTypeIds: Optional[Set[:class:`int`]]
+            The ids of the mod types the new file is forced to be classified as, or ``None`` to classify it among this
+            file's mod types :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IniFile`
+            The new file
+        """
+    def siblingOf(self, other: IniFile, forcedFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None) -> IniFile:
+        """
+        Another .ini file of the same mod, read the way this one is, and classified, from its text in 'other' rather than
+        from the disk -- see :meth:`sibling`. For a file of :attr:`sharedState`: the disk may hold that file with a fix
+        written into it by now
+        
+        Parameters
+        ----------
+        other: :class:`IniFile`
+            The other .ini file, read
         
         forcedFromModTypeIds: Optional[Set[:class:`int`]]
             The ids of the mod types the new file is forced to be classified as, or ``None`` to classify it among this
@@ -16440,6 +16470,17 @@ class IniFile:
         """
     @logger.setter
     def logger(self, arg0: BaseLogger) -> None:
+        ...
+    @property
+    def sharedState(self) -> IniSharedState:
+        """
+        Optional[:class:`IniSharedState`]: The .ini files this one is fixed among, as they read with no fix in them
+        
+        :class:`RemapService` sets it to the state of its run before it fixes this file; the parsers and fixers read another
+        file only through it (:meth:`linkedInis`). ``None`` (the default) means none
+        """
+    @sharedState.setter
+    def sharedState(self, arg0: IniSharedState) -> None:
         ...
     @property
     def toVersion(self) -> FixRaidenBoss2.core.Version | None:
@@ -17805,6 +17846,92 @@ class IniSectionGraphSectionIterator:
         ...
     def __next__(self) -> typing.Any:
         ...
+class IniSharedState:
+    """
+    
+    What the .ini files of one run share: each file as it reads with no fix in it, and the links its own text states
+    to the others
+    
+    Two files are **linked** when either one's text names the other: one references a namespace the other declares
+    (``namespace = X`` in the other; ``$\\X\\var``, ``CommandList\\X\\...`` or ``Resource\\X\\...`` in this one), or both
+    name one resource file (``filename =``, resolved against each file's own folder). Nothing else links them -- not
+    the folders they sit in, and not the game hashes they share. :class:`RemapService` fills one with every .ini file a
+    run reaches, ``DISABLED`` ones included, before it fixes any of them, and hands it to each file it fixes
+    (:attr:`IniFile.sharedState`)
+        
+    """
+    def __init__(self) -> None:
+        ...
+    def add(self, path: str) -> None:
+        """
+        Reads the .ini file at 'path' as it is now, and files it with its links. A path already added is read again
+        
+        Parameters
+        ----------
+        path: :class:`str`
+            The .ini file
+        """
+    def clear(self) -> None:
+        """
+        Forgets every file
+        """
+    def file(self, path: str) -> ...:
+        """
+        The file at 'path' as it read when it was added -- its own :class:`IniFile`, never the one a fix changes
+        
+        Parameters
+        ----------
+        path: :class:`str`
+            The .ini file
+        
+        Returns
+        -------
+        Optional[:class:`IniFile`]
+            The file, or ``None`` for a path not added
+        """
+    def files(self) -> list[str]:
+        """
+        Returns
+        -------
+        List[:class:`str`]
+            The files, in the order they were added
+        """
+    def linked(self, path: str) -> list[str]:
+        """
+        Parameters
+        ----------
+        path: :class:`str`
+            The .ini file
+        
+        Returns
+        -------
+        List[:class:`str`]
+            The other files linked to 'path' -- see this class's own description -- in the order they were added
+        """
+    def namespaceOf(self, path: str) -> str | None:
+        """
+        Parameters
+        ----------
+        path: :class:`str`
+            The .ini file
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The namespace 'path' declares (``namespace = X``, before its first section), or ``None``
+        """
+    def resourceFiles(self, path: str) -> list[str]:
+        """
+        Parameters
+        ----------
+        path: :class:`str`
+            The .ini file
+        
+        Returns
+        -------
+        List[:class:`str`]
+            The resource files 'path' names, each resolved against its folder, in the order named, each once
+        """
 class IniSrcResourceModel(IniResourceModel):
     """
     
@@ -25033,6 +25160,17 @@ class RemapService:
         
         Walks folders depth-first from :attr:`path`, handling every .ini file it finds, and reports what it
         did at the end. Writing the log file out afterwards is :class:`RemapServiceCLI`'s
+        """
+    def getSharedState(self) -> IniSharedState:
+        """
+        What the .ini files of the last :meth:`fix` share: every file it reached, ``DISABLED`` ones included, as it read
+        with no fix in it, and the links between them -- see :class:`IniSharedState`. A fixing run reads all of them,
+        undone, before it fixes any, and each file is fixed with this as its :attr:`IniFile.sharedState`
+        
+        Returns
+        -------
+        :class:`IniSharedState`
+            The state
         """
     def setPath(self, newPath: str | None) -> None:
         """
@@ -32898,16 +33036,6 @@ class WWMITextureFacts:
         """
     @identityMin.setter
     def identityMin(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
-        ...
-    @property
-    def readInisBelow(self) -> bool:
-        """
-        :class:`bool`: Also read a second ``.ini`` on the mod's own draws from the folders BELOW the one being
-        read (``Textures/textures.ini`` binding every texture of a ``mod.ini`` mesh), not only beside it and
-        above it; ``DISABLED`` folders are skipped. **Default**: ``False``
-        """
-    @readInisBelow.setter
-    def readInisBelow(self, arg0: bool) -> None:
         ...
     @property
     def regionRoles(self) -> set[str]:

@@ -1677,6 +1677,17 @@ IniSectionGraph
 
 :raw-html:`<br />`
 
+IniSharedState
+==============
+
+.. attributetable:: FixRaidenBoss2.IniSharedState
+
+.. autoclass:: FixRaidenBoss2.IniSharedState
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IniSrcResourceModel
 ===================
 

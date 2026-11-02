@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniSharedState::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1a9f441781b7a6788ab24b110846f5db0c" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IniFile&gt; AGRemapCore::IniSharedState::Entry::ini</definition>
+        <argsstring></argsstring>
+        <name>ini</name>
+        <qualifiedname>AGRemapCore::IniSharedState::Entry::ini</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/files/IniSharedState.cpp" line="26" column="25" bodyfile="src/model/files/IniSharedState.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1adfa776e6b99e3ec488057ca793b9225e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; AGRemapCore::IniSharedState::Entry::ns</definition>
+        <argsstring></argsstring>
+        <name>ns</name>
+        <qualifiedname>AGRemapCore::IniSharedState::Entry::ns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/files/IniSharedState.cpp" line="27" column="23" bodyfile="src/model/files/IniSharedState.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1a898fba37403e7f35e3f15187a1274dd9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniSharedState::Entry::refText</definition>
+        <argsstring></argsstring>
+        <name>refText</name>
+        <qualifiedname>AGRemapCore::IniSharedState::Entry::refText</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/files/IniSharedState.cpp" line="30" column="21" bodyfile="src/model/files/IniSharedState.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1a5b117fd020fb8d06bd4f96dacd9f470a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::IniSharedState::Entry::files</definition>
+        <argsstring></argsstring>
+        <name>files</name>
+        <qualifiedname>AGRemapCore::IniSharedState::Entry::files</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/files/IniSharedState.cpp" line="33" column="21" bodyfile="src/model/files/IniSharedState.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1ac02662e262b0310b013f0ff11f2a60a6" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; AGRemapCore::IniSharedState::Entry::fileKeys</definition>
+        <argsstring></argsstring>
+        <name>fileKeys</name>
+        <qualifiedname>AGRemapCore::IniSharedState::Entry::fileKeys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/files/IniSharedState.cpp" line="34" column="18" bodyfile="src/model/files/IniSharedState.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/files/IniSharedState.cpp" line="25" column="5" bodyfile="src/model/files/IniSharedState.cpp" bodystart="25" bodyend="35"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1ac02662e262b0310b013f0ff11f2a60a6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSharedState::Entry</scope><name>fileKeys</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1a5b117fd020fb8d06bd4f96dacd9f470a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSharedState::Entry</scope><name>files</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1a9f441781b7a6788ab24b110846f5db0c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSharedState::Entry</scope><name>ini</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1adfa776e6b99e3ec488057ca793b9225e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSharedState::Entry</scope><name>ns</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1a898fba37403e7f35e3f15187a1274dd9" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSharedState::Entry</scope><name>refText</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

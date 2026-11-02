@@ -529,8 +529,8 @@ namespace AGRemapCore {
                     // files, so each file is declared again under a resource of this file's own, named
                     // with RemapRef: an undo removes the section and leaves the mod's texture.
                     if (targetsDrawMesh()) {
-                        for (const std::string& path : siblingInis()) {
-                            IniFile sibling(path);
+                        for (IniFile* linked : linkedInis()) {
+                            IniFile& sibling = *linked;
                             const IfTemplates& templates = sibling.getIfTemplates();
                             collectTextureOverrides(sibling, [&](const std::string& resource) {
                                 auto found = templates.find(resource);
@@ -632,8 +632,8 @@ namespace AGRemapCore {
                         ownSlots.insert(key);
                     }
 
-                    for (const std::string& path : siblingInis()) {
-                        IniFile sibling(path);
+                    for (IniFile* linked : linkedInis()) {
+                        IniFile& sibling = *linked;
                         const IfTemplates& templates = sibling.getIfTemplates();
 
                         for (const auto& [rootName, key] : slotKeysOf(templates)) {

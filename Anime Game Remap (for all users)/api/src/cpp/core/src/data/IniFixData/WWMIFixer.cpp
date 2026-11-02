@@ -62,6 +62,7 @@
 #include "AGRemapCore/model/files/IbFile.h"
 #include "AGRemapCore/model/files/TexcoordFile.h"
 #include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/files/IniSharedState.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/textures/TexThumbprint.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
@@ -1974,15 +1975,27 @@ namespace AGRemapCore {
                         return editTag_;
                     }
 
-                    const std::set<std::string> own = meshHashesIn(self);
+                    IniFile* selfIni = ctx_.getIniFile();
+                    const std::set<std::string> own = meshHashesIn(*selfIni);
                     if (own.empty()) {
                         return editTag_;
                     }
 
                     bool shared = false;
                     const std::filesystem::path selfPath = FileService::strToPath(self);
-                    for (const std::string& other : IniFile::loadedInis(selfPath.parent_path(), selfPath)) {
-                        for (const std::string& hash : meshHashesIn(other)) {
+                    // the other files of the run that write into this one's folder, as they read with no fix in them:
+                    // files of one folder are where two edits' names collide
+                    const std::vector<std::string> runFiles = selfIni->sharedState == nullptr
+                        ? std::vector<std::string>{} : selfIni->sharedState->files();
+                    for (const std::string& other : runFiles) {
+                        IniFile* otherIni = selfIni->sharedState->file(other);
+                        const std::filesystem::path otherPath = FileService::strToPath(other);
+                        std::error_code same;
+                        if (otherIni == nullptr || otherPath.parent_path() != selfPath.parent_path()
+                                || std::filesystem::equivalent(otherPath, selfPath, same)) {
+                            continue;
+                        }
+                        for (const std::string& hash : meshHashesIn(*otherIni)) {
                             if (own.count(hash) > 0) {
                                 shared = true;
                                 break;
@@ -2013,9 +2026,8 @@ namespace AGRemapCore {
                 }
 
                 // The hashes of the sections of an .ini that draw a mesh (they carry `match_first_index`)
-                static std::set<std::string> meshHashesIn(const std::string& path) {
+                static std::set<std::string> meshHashesIn(IniFile& ini) {
                     std::set<std::string> result;
-                    IniFile ini(path);
                     for (const auto& [name, tpl] : ini.getIfTemplates()) {
                         if (tpl == nullptr || !tpl->firstValMatching([](const std::string& key) { return IniNamingTools::sameKey(key, IniKeywords::MatchFirstIndex); }).has_value()) {
                             continue;

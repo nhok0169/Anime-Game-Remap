@@ -27,6 +27,7 @@
 #include "AGRemapCore/constants/DownloadMode.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/files/IniSharedState.h"
 #include "AGRemapCore/model/stats/RemapStats.h"
 #include "AGRemapCore/model/files/TexCache.h"
 #include "AGRemapCore/tools/files/FileDownload.h"
@@ -657,6 +658,17 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             What the ``.ini`` files of the last #fix share: every file it reached, ``DISABLED`` ones included,
+             as it read with no fix in it, and the links between them -- see :cpp:class:`IniSharedState`. A
+             fixing run reads all of them, undone, before it fixes any, and each file is fixed with this as its
+             :cpp:member:`IniFile::sharedState`
+             @endrst
+             */
+            std::shared_ptr<IniSharedState> getSharedState() const { return sharedState_; }
+
+            /**
+             * @brief
+             @rst
              Whether the run finished with nothing skipped :raw-html:`<br />` :raw-html:`<br />`
 
              Checks two buckets: a
@@ -702,6 +714,31 @@ namespace AGRemapCore {
              * @param ini The ``.ini`` file to handle
              */
             virtual void handleIni(IniFile& ini);
+
+            /**
+             * @brief
+             @rst
+             Whether 'ini' is a file this run handles: classified as a mod, and as one of the mod types asked for
+             unless #readAllInis. Classifies 'ini'
+             @endrst
+             *
+             * @param ini The ``.ini`` file
+             */
+            bool handles(IniFile& ini);
+
+            /**
+             * @brief The removal half of #handleIni: takes any previous fix out of 'ini' (unless #fixOnly)
+             *
+             * @param ini The ``.ini`` file, classified
+             */
+            virtual void undoIni(IniFile& ini);
+
+            /**
+             * @brief The fixing half of #handleIni: fixes 'ini' and its resources (unless #undoOnly)
+             *
+             * @param ini The ``.ini`` file, classified
+             */
+            virtual void fixIni(IniFile& ini);
 
             /**
              * @brief
@@ -966,6 +1003,9 @@ namespace AGRemapCore {
             //   through such a folder fixed forever, since the fix run DID reach it. _fix walks
             //   these beside the .ini file's own, and clears them for the next file.
             std::vector<std::string> removedResourceFolders_;
+
+            // Every .ini file the run reaches, as it reads with no fix in it -- see #getSharedState
+            std::shared_ptr<IniSharedState> sharedState_ = std::make_shared<IniSharedState>();
 
             // Every file a .ini fixed in this run names, normalised -- see _rememberReferences.
             std::unordered_set<std::string> referencedThisRun_;

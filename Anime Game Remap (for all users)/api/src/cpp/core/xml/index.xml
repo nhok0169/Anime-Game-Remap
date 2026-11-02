@@ -1355,6 +1355,13 @@
     <member refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1aa65d3863db63688afde505adeacb8275" kind="variable"><name>origPath</name></member>
     <member refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1aec6ee4628aaa735f83efff8dde436f53" kind="variable"><name>origFullPath</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry" kind="struct"><name>AGRemapCore::IniSharedState::Entry</name>
+    <member refid="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1a9f441781b7a6788ab24b110846f5db0c" kind="variable"><name>ini</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1adfa776e6b99e3ec488057ca793b9225e" kind="variable"><name>ns</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1a898fba37403e7f35e3f15187a1274dd9" kind="variable"><name>refText</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1a5b117fd020fb8d06bd4f96dacd9f470a" kind="variable"><name>files</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_shared_state_1_1_entry_1ac02662e262b0310b013f0ff11f2a60a6" kind="variable"><name>fileKeys</name></member>
+  </compound>
   <compound refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry" kind="struct"><name>AGRemapCore::TexCache::Entry</name>
     <member refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry_1a6190c338f9d066afba70a1a0e21e393d" kind="variable"><name>value</name></member>
     <member refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry_1ac8d85cacca826a73406ed7bb735fc5a4" kind="variable"><name>order</name></member>
@@ -2044,7 +2051,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a83a927aecfbf5f52c3b96189d7606309" kind="function"><name>hashKeysOf</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a70b40eb53dead1af71cdc3b9485ee5c4" kind="function"><name>addBound</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1ac9fbb1fd38a1e7c884253ecef7da2087" kind="function"><name>skipsBindCheck</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a57bf1a0eedee6ffb21049a987cafb140" kind="function"><name>siblingInis</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a8aafe13c234d7851e4e30358db55a098" kind="function"><name>linkedInis</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a4897555be933648c7a292024925c2287" kind="function"><name>drawsMesh</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a6e7bdddda5e084e85c129b2c905c08f0" kind="function"><name>siblingDrawsMesh</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a0554b0b2f02819e83939097f47fed3d2" kind="function"><name>bindsPosition</name></member>
@@ -3087,6 +3094,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_file_1aa4ebac1b4d44d52a759cdcb1ea787e5d" kind="variable"><name>filteredToModTypeIds</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a4f9a9512f74c828dfa90ce11af562b24" kind="variable"><name>defaultModTypeIds</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a74a853c0d85792e3ca86588df824c828" kind="variable"><name>logger</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_file_1a66a22057dc0cfd98c50941b05c71f81a" kind="variable"><name>sharedState</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a743dcf3ad8334721bc72197ef4a79701" kind="variable"><name>downloadMode</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a3f4e438088e5d2b3e58bfafa3c9e1098" kind="variable"><name>isMod</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a29aa39bee6f15ef0d44d0ff7b2c2e9d9" kind="variable"><name>isFixed</name></member>
@@ -3136,7 +3144,9 @@
     <member refid="class_a_g_remap_core_1_1_ini_file_1a0e756b77c6b71dcaa5d1e269bd49766c" kind="function"><name>isClassified</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1ad1c23e4f9963274e40a671745eeb76ab" kind="function"><name>getModTypes</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1afad9b591c13050989ec17c7194c4d96d" kind="function"><name>sibling</name></member>
-    <member refid="class_a_g_remap_core_1_1_ini_file_1af9db1066e8334efe4898ced0c4cd9dd9" kind="function"><name>loadedSiblings</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_file_1a2f4f2576ea9d7dcd680bd3ba9c5b7a61" kind="function"><name>sibling</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_file_1a0e47d4bef6d1a9854404bc8d312ce5f2" kind="function"><name>linkedInis</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_file_1a91c788a4082881b9d98fd9ca425870a5" kind="function"><name>getNamespace</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a3c866085ebe536b72cc60833f19ba90e" kind="function"><name>getParseData</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a733d303177cf235033bb38df486d9c4e" kind="function"><name>getParseData</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1aa46053a44a17440a65114343c5a63e10" kind="function"><name>clearRead</name></member>
@@ -4106,6 +4116,23 @@
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a3d362afb7bc12d53369d61eb38cac3b6" kind="function"><name>trueQuery</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a7bb881e884f38486659475e821605562" kind="function"><name>getQuery</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1acf7d359a9313901dc1c5e34c2f212c6d" kind="function"><name>deepCopySections</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_ini_shared_state" kind="class"><name>AGRemapCore::IniSharedState</name>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1a49a4681fdddc4668ef8e3d8f6952361b" kind="variable"><name>files_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1a38b60d7b83976675b6b46ae87bdc5a34" kind="variable"><name>entries_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1a9b9f83f2511fdb68ccbc65448d4d62aa" kind="function"><name>IniSharedState</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1ac13c2f14eea9d44eaa67693014eb9570" kind="function"><name>~IniSharedState</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1a5c34f6aa448629bf7dee76ef59bd7378" kind="function"><name>IniSharedState</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1a4be7b12e8dc02de0bb3de3e9650e1fe0" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1a984eaefe5ca6fc87cd4ed09c85d2b98f" kind="function"><name>add</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1ac060e44ee08c6e2c787bcb303a796146" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1a2e7c0ff0d0feeae7e339ac0f34f349c1" kind="function"><name>files</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1aaafd8d73d966d98e32118ac0c2c49c7b" kind="function"><name>file</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1ac2a016073bbd4f6b6b42941d3884e091" kind="function"><name>namespaceOf</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1a7857af19b62aa34f60a8cc186a240c8b" kind="function"><name>resourceFiles</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1aadcf45e28bed294f259fb4bb1e28fb21" kind="function"><name>linked</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1af17e9a40e96b35632e66542c07dab94d" kind="function"><name>keyOf</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_shared_state_1a216999374113642c9a60c49746805752" kind="function"><name>entryOf</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_src_resource_model" kind="class"><name>AGRemapCore::IniSrcResourceModel</name>
     <member refid="class_a_g_remap_core_1_1_ini_src_resource_model_1a14864861533cf2be4834cfc2e5f55dcc" kind="variable"><name>paths</name></member>
@@ -5909,6 +5936,7 @@
     <member refid="class_a_g_remap_core_1_1_remap_service_1aa7cff96d6960bdfcd4baddf17cfc6a1b" kind="variable"><name>path_</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1af2750406fb87c3ed8c6c9a7d59e902ed" kind="variable"><name>pathIsCwd_</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a0fd471da0bc154b99abd1374dc31f30d" kind="variable"><name>removedResourceFolders_</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_service_1a3881a6746cbf44ca90e87f456dceb5bd" kind="variable"><name>sharedState_</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a2933e4b4bfd88b9327e4cd46658811a2" kind="variable"><name>referencedThisRun_</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a52e3ebac5d8ddd58d4ce65076dcf118e" kind="variable"><name>downloadCache_</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a28e0efafe79759bf869c1b011351a8fd" kind="variable"><name>texCache_</name></member>
@@ -5919,8 +5947,12 @@
     <member refid="class_a_g_remap_core_1_1_remap_service_1a24d12e9c661d4eedb01fa3e940f13b95" kind="function"><name>pathIsCwd</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a5468a31cd7156eb191598ba7db7867e0" kind="function"><name>clear</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a2b4f783ed9ff1e2431596268a145f0b4" kind="function"><name>fix</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_service_1a1c6e1953157e5ec55293b2b6eda55a0e" kind="function"><name>getSharedState</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a784c7e1c5f78532aaf2b6d828f5bd20d" kind="function"><name>noErrors</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1ac33ff682d6aa9f2ae90eddcd09764974" kind="function"><name>handleIni</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_service_1a8caad041a3823801c13a818e8ba15526" kind="function"><name>handles</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_service_1abf0811f235d0d314f79a9380e6cca05e" kind="function"><name>undoIni</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_service_1ab0c9699750b58422a234dcea703a5521" kind="function"><name>fixIni</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a2b3b74c8a3428cd09a8b87c90f9361af" kind="function"><name>fixResources</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1ac00f29c2f3f2d3b2729446d4b8d0aed1" kind="function"><name>reportSummary</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1afb518606dbde8b05dc872830980f7a5c" kind="function"><name>reportSkippedMods</name></member>
@@ -7810,7 +7842,6 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a8d5c3c1e57ad8389f4f1ed62ec3f49ff" kind="variable"><name>downloadPrefix</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1acb1b7ac448346a5849fb90c23c3a1d8d" kind="variable"><name>fallbackTextures</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a32e99b6edc94561728961fb0e4188892" kind="variable"><name>regionRoles</name></member>
-    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a6c9578c3dd97be64cd68dd430b19f4c2" kind="variable"><name>readInisBelow</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_xiangling_cheer_fixer" kind="class"><name>AGRemapCore::XianglingCheerFixer</name>
     <member refid="class_a_g_remap_core_1_1_xiangling_cheer_fixer_1a65024cf946ba6274dcf6f759bddca6ae" kind="function"><name>XianglingCheerFixer</name></member>
@@ -8919,6 +8950,8 @@
   <compound refid="_ib_file_8h" kind="file"><name>IbFile.h</name>
   </compound>
   <compound refid="_ini_file_8h" kind="file"><name>IniFile.h</name>
+  </compound>
+  <compound refid="_ini_shared_state_8h" kind="file"><name>IniSharedState.h</name>
   </compound>
   <compound refid="_position_file_8h" kind="file"><name>PositionFile.h</name>
   </compound>

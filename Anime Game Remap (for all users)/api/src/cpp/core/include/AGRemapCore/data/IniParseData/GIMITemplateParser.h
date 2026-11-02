@@ -127,9 +127,9 @@ namespace AGRemapCore {
             virtual bool skipsBindCheck(const ModObj& modObj) const;
 
             /**
-             * @brief The other ``.ini`` files of the mod's folder the game loads -- see :cpp:func:`IniFile::loadedSiblings`
+             * @brief The other ``.ini`` files of the mod linked to this one -- :cpp:func:`IniFile::linkedInis`
              */
-            std::vector<std::string> siblingInis() const;
+            std::vector<IniFile*> linkedInis() const;
 
             /**
              * @brief
@@ -143,7 +143,7 @@ namespace AGRemapCore {
             bool drawsMesh(const IfTemplates& templates);
 
             /**
-             * @brief Whether a sibling ``.ini`` (#siblingInis) draws the character's mesh -- see #drawsMesh
+             * @brief Whether a sibling ``.ini`` (#linkedInis) draws the character's mesh -- see #drawsMesh
              */
             bool siblingDrawsMesh();
 
@@ -185,7 +185,7 @@ namespace AGRemapCore {
             bool adoptSection(IniFile& sibling, const std::string& root, const IfTemplates& own);
 
             /**
-             * @brief Whether a sibling ``.ini`` (#siblingInis) binds the character's position buffer -- see #bindsPosition
+             * @brief Whether a sibling ``.ini`` (#linkedInis) binds the character's position buffer -- see #bindsPosition
              */
             bool siblingBindsPosition();
 

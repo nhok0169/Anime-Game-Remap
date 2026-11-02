@@ -239,17 +239,6 @@ BinaryFile
 
 :raw-html:`<br />`
 
-BlendDownloadData
-=================
-
-.. attributetable:: FixRaidenBoss2.BlendDownloadData
-
-.. autoclass:: FixRaidenBoss2.BlendDownloadData
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 BlendFile
 =========
 
@@ -1402,6 +1391,28 @@ IfTemplateTree
 
 :raw-html:`<br />`
 
+ListValue
+=========
+
+.. attributetable:: FixRaidenBoss2.ListValue
+
+.. autoclass:: FixRaidenBoss2.ListValue
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+SectionText
+===========
+
+.. attributetable:: FixRaidenBoss2.SectionText
+
+.. autoclass:: FixRaidenBoss2.SectionText
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IndexCounts
 ===========
 
@@ -1573,6 +1584,17 @@ IniParseData
 .. attributetable:: FixRaidenBoss2.IniParseData
 
 .. autoclass:: FixRaidenBoss2.IniParseData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniParseDownloadData
+====================
+
+.. attributetable:: FixRaidenBoss2.IniParseDownloadData
+
+.. autoclass:: FixRaidenBoss2.IniParseDownloadData
     :members:
     :private-members:
 
@@ -2035,28 +2057,6 @@ RegRemove
 .. attributetable:: FixRaidenBoss2.RegRemove
 
 .. autoclass:: FixRaidenBoss2.RegRemove
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-RegDrawRangeRemap
-=================
-
-.. attributetable:: FixRaidenBoss2.RegDrawRangeRemap
-
-.. autoclass:: FixRaidenBoss2.RegDrawRangeRemap
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-RegDrawRangeShift
-=================
-
-.. attributetable:: FixRaidenBoss2.RegDrawRangeShift
-
-.. autoclass:: FixRaidenBoss2.RegDrawRangeShift
     :members:
     :private-members:
 
@@ -2823,17 +2823,6 @@ WWMIParserConfig
 .. attributetable:: FixRaidenBoss2.WWMIParserConfig
 
 .. autoclass:: FixRaidenBoss2.WWMIParserConfig
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-WWMIRuntime
-===========
-
-.. attributetable:: FixRaidenBoss2.WWMIRuntime
-
-.. autoclass:: FixRaidenBoss2.WWMIRuntime
     :members:
     :private-members:
 

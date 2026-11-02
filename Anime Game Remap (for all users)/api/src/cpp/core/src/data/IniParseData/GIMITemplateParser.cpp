@@ -31,7 +31,8 @@ namespace AGRemapCore {
     }
 
     std::vector<std::string> GIMITemplateParser::siblingInis() const {
-        return TextureOverrides::siblingInis(const_cast<GIMITemplateParser*>(this)->getIniFile());
+        IniFile* iniFile = const_cast<GIMITemplateParser*>(this)->getIniFile();
+        return iniFile == nullptr ? std::vector<std::string>{} : iniFile->loadedSiblings();
     }
 
     bool GIMITemplateParser::drawsMesh(const ModBranches::Templates& templates) {

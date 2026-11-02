@@ -12,6 +12,7 @@
 // ##### EndCredits
 
 #include "AGRemapCore/tools/files/FileService.h"
+#include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/files/IniFile.h"
 
 #include <algorithm>
@@ -115,6 +116,35 @@ namespace AGRemapCore {
                                                std::move(choices), nullptr, std::nullopt, downloadMode, fromVersion, toVersion);
         other->classify();
         return other;
+    }
+
+    std::vector<std::string> IniFile::loadedSiblings() const {
+        if (!file_.has_value()) {
+            return {};
+        }
+
+        const std::filesystem::path self = FileService::strToPath(*file_);
+        return loadedInis(self.parent_path(), self);
+    }
+
+    std::vector<std::string> IniFile::loadedInis(const std::filesystem::path& folder, const std::filesystem::path& exclude) {
+        std::vector<std::string> result;
+        std::error_code error;
+        for (const auto& entry : std::filesystem::directory_iterator(folder, error)) {
+            if (!entry.is_regular_file(error) || (!exclude.empty() && std::filesystem::equivalent(entry.path(), exclude, error))) {
+                continue;
+            }
+
+            const std::string name = FileService::pathToStr(entry.path().filename());
+            if (!StringTools::endsWithIgnoreCase(name, FileExt::Ini) || IniNamingTools::isDisabled(name)
+                    || IniNamingTools::isRemapCopyFile(name)) {
+                continue;
+            }
+
+            result.push_back(FileService::pathToStr(entry.path()));
+        }
+        std::sort(result.begin(), result.end());
+        return result;
     }
 
     const std::optional<IniFile::ParseData>& IniFile::getParseData() const {

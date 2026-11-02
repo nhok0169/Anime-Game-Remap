@@ -610,6 +610,12 @@ List[:class:`WWMIFixerConfig.RegRemoval`]: Register lines a remapped section dro
 the template removes anyway -- eg. the three ``Resource...Override = ref ...`` lines of a source past
 256 merged bones, which undo the remap, and RabbitFX's resource lines
         )doc"))
+        .def_readwrite("remappedSkeletonRemovals", &AGRC::WWMIFixerConfig::remappedSkeletonRemovals, py::doc(R"doc(
+List[:class:`WWMIFixerConfig.RegRemoval`]: Register lines a remapped section also drops when the TARGET is past 256
+bones: the mod's own merge list, the two other routes to it (``CheckTextureOverride`` on ``vs-cb3`` / ``vs-cb4``)
+and its own bindings of the merged skeletons, each matched by value prefix. Each would bind the MOD's skeleton, sized
+for the source. **Default**: those six lines, as WWMI Tools writes them
+        )doc"))
         .def_readwrite("anchorChains", &AGRC::WWMIFixerConfig::anchorChains, py::doc(R"doc(
 Dict[:class:`int`, List[:class:`int`]]: Chains of SOURCE vertex groups pinned to one bone each,
 ``{root: members}``: every member is remapped to whatever the ROOT maps to. Check a chain with

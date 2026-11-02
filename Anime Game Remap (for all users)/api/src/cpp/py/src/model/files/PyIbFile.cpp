@@ -136,6 +136,36 @@ List[:class:`int`]
     :meth:`getIndexCount` indices
     )doc"));
 
+    ibFile.def_static("remapDrawRange", &AGRC::IbFile::remapDrawRange, py::arg("indexCount"), py::arg("firstIndex"),
+                      py::arg("keptTriangleIds"), py::doc(R"doc(
+A draw range of an index buffer, moved onto a copy of it that keeps only some of its triangles
+
+'keptTriangleIds' lists, ascending, the triangle of the ORIGINAL buffer at each place of the copy. The range's new
+first index is the number of kept triangles before it and its new count the number inside it, both times 3 -- so a
+range over removed triangles draws only what is left of it, and every range after a removed triangle moves down
+
+.. code-block:: python
+
+    # triangles 3 and 4 were removed
+    IbFile.remapDrawRange(9, 9, [0, 1, 2, 5, 6, 7])   # (3, 9)
+
+Parameters
+----------
+indexCount: :class:`int`
+    How many indices the range holds
+
+firstIndex: :class:`int`
+    The index the range starts at
+
+keptTriangleIds: List[:class:`int`]
+    The original triangle at each place of the copy, ascending
+
+Returns
+-------
+Tuple[:class:`int`, :class:`int`]
+    The range in the copy, as ``(index count, first index)``
+    )doc"));
+
     ibFile.def("windingReversed", [](const AGRC::IbFile& self, std::size_t firstIndex, std::size_t indexCount) {
         const AGRC::ByteVec bytes = self.windingReversed(firstIndex, indexCount);
         return py::bytes(reinterpret_cast<const char*>(bytes.data()), bytes.size());

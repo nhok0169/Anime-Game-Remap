@@ -46,3 +46,19 @@ class IniNamingToolsTest(unittest.TestCase):
     def test_looksRemapped_takesTheKeywordGiven(self):
         self.assertTrue(FRB.IniNamingTools.looksRemapped("TextureOverrideBodyAmberFix", ["Amber"], remapKeyword = "Fix"))
         self.assertFalse(FRB.IniNamingTools.looksRemapped("TextureOverrideBodyAmberFix", ["Amber"]))
+
+    # ====================== isDisabled / isRemapCopyFile ===============
+
+    def test_isDisabled_aPrefixInAnyCase(self):
+        self.assertTrue(FRB.IniNamingTools.isDisabled("DISABLED_mod.ini"))
+        self.assertTrue(FRB.IniNamingTools.isDisabled("disabledMod"))
+        self.assertFalse(FRB.IniNamingTools.isDisabled("mod_disabled.ini"))
+
+    def test_isRemapCopyFile_aGeneratedCopy(self):
+        self.assertTrue(FRB.IniNamingTools.isRemapCopyFile("KeqingRemapFix1.ini"))
+        self.assertTrue(FRB.IniNamingTools.isRemapCopyFile("some/folder/keqingremapfix12.INI"))
+
+    def test_isRemapCopyFile_notTheModsOwnFile(self):
+        self.assertFalse(FRB.IniNamingTools.isRemapCopyFile("Keqing.ini"))
+        self.assertFalse(FRB.IniNamingTools.isRemapCopyFile("MyRemapFixes.ini"))
+        self.assertFalse(FRB.IniNamingTools.isRemapCopyFile("KeqingRemapFix1.txt"))

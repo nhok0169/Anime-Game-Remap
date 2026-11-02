@@ -115,16 +115,6 @@ namespace AGRemapCore {
     }
 
 
-    DownloadTools::KVPs DownloadTools::blendRefKVPs(long long vertexCount) {
-        // A downloaded Blend.buf is drawn by hand: the .ini file it is dropped into has no
-        // drawindexed of its own for it, so the reference is followed by 'handling = skip' and a
-        // non-indexed 'draw = <vertex count>,0'. That is what the pure-Python BlendDownloadData
-        // adds in its own addToPart override, and what downloadRefKVPs is for.
-        return {{IniKeywords::Handling, "skip"},
-                {IniKeywords::Draw, std::to_string(vertexCount) + ",0"}};
-    }
-
-
     void DownloadStore::add(Downloads& downloads, const ModObj& modObj, const std::string& reg,
                              std::unique_ptr<Download> download) {
         downloads[modObj][reg] = download.get();

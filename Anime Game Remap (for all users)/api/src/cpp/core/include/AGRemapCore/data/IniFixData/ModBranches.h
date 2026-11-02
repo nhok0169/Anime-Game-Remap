@@ -30,6 +30,12 @@
 
 
 namespace AGRemapCore {
+    // BEING RETIRED (2026-11-01, with the GI templates' refactor): it repeats the library. valsThroughRun and the
+    // firstVal / loose / resourceOf / fileOf / ibBytesPerIndexOf readers are GraphCollect rows (IniParseData::collected;
+    // a row's `condition` is BranchVal::query) read by the PARSER, not by a fixer at construction;
+    // replacePerBranch / removePerBranch are RegBranchAdd; only the branch pairing (compatible, branchIndexOf, pick,
+    // states) is real logic, and it belongs with Z3Predicate / the rows (AI Agent Help/Overview, "USE THE API FIRST,
+    // EVERYWHERE"). Do not add to it.
 
     /**
      * @brief

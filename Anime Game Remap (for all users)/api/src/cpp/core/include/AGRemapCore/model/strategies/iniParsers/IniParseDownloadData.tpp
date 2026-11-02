@@ -16,6 +16,8 @@
 
 #include "IniParseDownloadData.h"
 
+#include "AGRemapCore/constants/IniKeywords.h"
+
 
 namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
@@ -62,7 +64,26 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    typename DownloadData<K, V, KeyHash, KeyEqual>::Section* DownloadData<K, V, KeyHash, KeyEqual>::createResSection(const std::string& sectionName, Context& ctx) {
+    const std::vector<std::pair<K, V>>& DownloadData<K, V, KeyHash, KeyEqual>::downloadRefKVPs() const {
+        return downloadRefKVPs_;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    const std::vector<std::pair<K, V>>& DownloadData<K, V, KeyHash, KeyEqual>::resourceKVPs() const {
+        return resourceKVPs_;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::vector<std::pair<K, V>> DownloadData<K, V, KeyHash, KeyEqual>::blendRefKVPs(long long vertexCount) {
+        return {{K(IniKeywords::Handling), V("skip")}, {K(IniKeywords::Draw), V(std::to_string(vertexCount) + ",0")}};
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::unique_ptr<typename DownloadData<K, V, KeyHash, KeyEqual>::Section> DownloadData<K, V, KeyHash, KeyEqual>::createResSection(
+            const std::string& sectionName) const {
         std::vector<std::pair<K, V>> src;
         src.emplace_back(config_.filenameKey, config_.valOfPath(download_ == nullptr ? std::string() : download_->filename));
 
@@ -74,25 +95,23 @@ namespace AGRemapCore {
         std::vector<std::unique_ptr<IfTemplatePart>> parts;
         parts.push_back(std::move(contentPart));
 
-        return ctx.addSection(sectionName, std::make_unique<Section>(std::move(parts), config_.runConfig, sectionName));
+        return std::make_unique<Section>(std::move(parts), config_.runConfig, sectionName);
     }
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    void DownloadData<K, V, KeyHash, KeyEqual>::addFileDownload(Context& ctx, const std::string& iniFolder) {
+    std::unique_ptr<IniResource> DownloadData<K, V, KeyHash, KeyEqual>::createFileDownload(const std::string& iniFolder) const {
         if (download_ == nullptr) {
-            return;
+            return nullptr;
         }
 
         // A fresh FileDownload rather than a transfer of this object's own: RemapIniDownload takes
-        // ownership of what it's given, and this DownloadData is routinely reused across several
-        // .ini files (one per mod object/register row of a ModType's download table), so handing
-        // over the only copy would leave every later use holding nothing. The pure-Python original
-        // hands over its own object because Python's shared references make that harmless there.
-        // Rebuilt field-by-field rather than copy-constructed so a FileDownload subclass isn't
-        // silently sliced -- what RemapIniDownload needs from it is exactly these three values.
+        // ownership of what it's given, and one DownloadData is reused across several .ini files (one
+        // per mod object/register row of a ModType's download table). Rebuilt field-by-field rather
+        // than copy-constructed so a FileDownload subclass isn't silently sliced -- what
+        // RemapIniDownload needs from it is exactly these three values.
         auto download = std::make_unique<FileDownload>(download_->url, download_->filename, download_->cache);
-        ctx.addFileDownload(std::make_unique<RemapIniDownload>(iniFolder, download_->filename, std::move(download)));
+        return std::make_unique<RemapIniDownload>(iniFolder, download_->filename, std::move(download));
     }
 }
 

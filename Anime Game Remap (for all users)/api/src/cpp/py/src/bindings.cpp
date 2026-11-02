@@ -84,6 +84,8 @@ void initCppIfPredPart(pybind11::module_ &m);
 void initCppIfTemplateNode(pybind11::module_ &m);
 void initCppIfTemplateTree(pybind11::module_ &m);
 void initCppIfTemplate(pybind11::module_ &m);
+void initCppListValue(pybind11::module_ &m);
+void initCppSectionText(pybind11::module_ &m);
 void initCppCallGraph(pybind11::module_ &m);
 void initCppSectionIterData(pybind11::module_ &m);
 void initCppIniSectionGraph(pybind11::module_ &m);
@@ -95,8 +97,6 @@ void initCppRegNewVals(pybind11::module_ &m);
 void initCppRegRemap(pybind11::module_ &m);
 void initCppRegRemove(pybind11::module_ &m);
 void initCppRegRestrict(pybind11::module_ &m);
-void initCppRegDrawRangeRemap(pybind11::module_ &m);
-void initCppRegDrawRangeShift(pybind11::module_ &m);
 void initCppRegAnchorAdd(pybind11::module_ &m);
 void initCppBaseIniGraphEdit(pybind11::module_ &m);
 void initCppGraphRename(pybind11::module_ &m);
@@ -147,7 +147,6 @@ void initCppWWMIBlend(pybind11::module_ &m);
 void initCppWWMIShapeKeys(pybind11::module_ &m);
 void initCppSkeletonNumberingProbe(pybind11::module_ &m);
 void initCppRabbitFX(pybind11::module_ &m);
-void initCppWWMIRuntime(pybind11::module_ &m);
 void initCppDrawUVCoverage(pybind11::module_ &m);
 void initCppVbFile(pybind11::module_ &m);
 void initCppBaseBufEditor(pybind11::module_ &m);
@@ -205,6 +204,7 @@ void initCppIniParseData(pybind11::module_ &m);
 void initCppTextureRoleChooser(pybind11::module_ &m);
 void initCppBaseIniParser(pybind11::module_ &m);
 void initCppGIMISectionClassifier(pybind11::module_ &m);
+void initCppDownloadData(pybind11::module_ &m);
 void initCppGIMIParser(pybind11::module_ &m);
 void initCppGraphEditVariables(pybind11::module_ &m);
 void initCppShaderFilterTags(pybind11::module_ &m);
@@ -308,6 +308,8 @@ PYBIND11_MODULE(core, m) {
     initCppIfTemplateNode(m); // reuses PyIfContentPart/AGRC::IfPredPart in its own method signatures, so registered after both
     initCppIfTemplateTree(m); // its 'root' property returns IfTemplateNode, so registered after initCppIfTemplateNode
     initCppIfTemplate(m); // its 'tree' property returns IfTemplateTree, so registered after initCppIfTemplateTree
+    initCppListValue(m);
+    initCppSectionText(m); // must come after initCppIfTemplate (what it builds) and initCppZ3Context (what it parses with)
     initCppCallGraph(m);
     initCppSectionIterData(m);
     initCppIniSectionGraph(m);
@@ -322,8 +324,6 @@ PYBIND11_MODULE(core, m) {
     initCppRegRemap(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegRemove(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegRestrict(m); // must come after initCppBaseRegEdit (registers its base)
-    initCppRegDrawRangeRemap(m); // must come after initCppBaseRegEdit (registers its base)
-    initCppRegDrawRangeShift(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegAnchorAdd(m); // must come after initCppBaseRegEdit (registers its base)
 
     // ----- iniFixers/graphEdits (full replacement of the pure-Python graphEdits package -- see
@@ -382,7 +382,6 @@ PYBIND11_MODULE(core, m) {
     initCppWWMIShapeKeys(m);
     initCppSkeletonNumberingProbe(m);
     initCppRabbitFX(m);
-    initCppWWMIRuntime(m); // must come after initCppIfTemplate and initCppZ3Context
     initCppDrawUVCoverage(m);
     initCppVbFile(m); // must come after initCppBufFile/initCppBufElementType (registers its base / constructor arg type)
     initCppBaseBufEditor(m); // must come after initCppBufFile (its 'fix' method signature references it)
@@ -448,6 +447,7 @@ PYBIND11_MODULE(core, m) {
     initCppTextureRoleChooser(m); // must come after initCppIniParseData (fills one)
     initCppBaseIniParser(m); // must come after initCppIniParseData (its parseData)
     initCppGIMISectionClassifier(m); // must come after initCppHashes/initCppIndices (its assets) and initCppIfContentPartColour (what it classifies from)
+    initCppDownloadData(m); // must come after initCppIfTemplate/initCppIfContentPart (the parts it adds to), initCppFileDownload and initCppIniResource (what it builds)
     initCppGIMIParser(m); // must come after initCppBaseIniParser (registers its base), initCppIniGraphGroup/initCppIniSectionGraph (the graphs it builds) and initCppRemapIniDownload (the downloads it records)
 
     // ----- iniFixers (full replacement of the pure-Python BaseIniFixer/GIMIFixer pair) -----

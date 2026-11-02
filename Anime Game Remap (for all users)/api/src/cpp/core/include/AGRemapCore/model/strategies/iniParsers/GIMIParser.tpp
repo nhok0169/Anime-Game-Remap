@@ -648,9 +648,11 @@ namespace AGRemapCore {
             // note on why the `section`_ name is the identity here.
             downloadSection = ctx_->getSection(resourceSectionName);
         } else {
-            downloadSection = downloadData.createResSection(resourceSectionName, *ctx_);
+            downloadSection = ctx_->addSection(resourceSectionName, downloadData.createResSection(resourceSectionName));
             createdDownloadResources_.insert(resourceSectionName);
-            downloadData.addFileDownload(*ctx_, iniFolder);
+            if (std::unique_ptr<IniResource> download = downloadData.createFileDownload(iniFolder)) {
+                ctx_->addFileDownload(std::move(download));
+            }
         }
 
         if (downloadSection == nullptr) {

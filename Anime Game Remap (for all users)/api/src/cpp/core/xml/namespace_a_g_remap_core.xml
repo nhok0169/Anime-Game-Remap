@@ -228,8 +228,6 @@
     <innerclass refid="class_a_g_remap_core_1_1_ini_res_edit_context" prot="public">AGRemapCore::IniResEditContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_resource" prot="public">AGRemapCore::IniResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_resource_model" prot="public">AGRemapCore::IniResourceModel</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_ini_scan" prot="public">AGRemapCore::IniScan</innerclass>
-    <innerclass refid="struct_a_g_remap_core_1_1_ini_scan_section" prot="public">AGRemapCore::IniScanSection</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_section_graph" prot="public">AGRemapCore::IniSectionGraph</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_src_resource_model" prot="public">AGRemapCore::IniSrcResourceModel</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_tex_model" prot="public">AGRemapCore::IniTexModel</innerclass>
@@ -331,8 +329,6 @@
     <innerclass refid="class_a_g_remap_core_1_1_reg_bottom_add" prot="public">AGRemapCore::RegBottomAdd</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_branch_add" prot="public">AGRemapCore::RegBranchAdd</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_delimited_add" prot="public">AGRemapCore::RegDelimitedAdd</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_reg_draw_range_remap" prot="public">AGRemapCore::RegDrawRangeRemap</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_reg_draw_range_shift" prot="public">AGRemapCore::RegDrawRangeShift</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_fill_missing" prot="public">AGRemapCore::RegFillMissing</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_if_template_add" prot="public">AGRemapCore::RegIfTemplateAdd</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_new_vals" prot="public">AGRemapCore::RegNewVals</innerclass>
@@ -448,7 +444,6 @@
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config" prot="public">AGRemapCore::WWMIFixerConfig</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_objs" prot="public">AGRemapCore::WWMIParseObjs</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" prot="public">AGRemapCore::WWMIParserConfig</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_runtime" prot="public">AGRemapCore::WWMIRuntime</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys" prot="public">AGRemapCore::WWMIShapeKeys</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" prot="public">AGRemapCore::WWMITextureFacts</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_xiangling_cheer_fixer" prot="public">AGRemapCore::XianglingCheerFixer</innerclass>

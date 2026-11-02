@@ -2720,8 +2720,6 @@
         </childnode>
         <childnode refid="152" relation="include">
         </childnode>
-        <childnode refid="165" relation="include">
-        </childnode>
         <childnode refid="166" relation="include">
         </childnode>
         <childnode refid="167" relation="include">
@@ -3984,10 +3982,6 @@
       <node id="152">
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
-      </node>
-      <node id="165">
-        <label>src/model/files/IniScan.cpp</label>
-        <link refid="_ini_scan_8cpp"/>
       </node>
       <node id="166">
         <label>src/model/strategies/ModType.cpp</label>

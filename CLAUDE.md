@@ -407,6 +407,16 @@ as well make you write the prototype without any library." **Before writing any 
 truly lacks something, say so in a comment and keep the custom part minimal.** Creating Remaps'
 "A prototype is built FROM the library" has the need -> class table.
 
+**AND THE SAME RULE HOLDS FOR THE LIBRARY ITSELF: USE THE API FIRST, EVERYWHERE (the maintainer, 2026-11-01 --
+"as I already told you many times").** Fixers, parsers and core code are held to it as much as prototypes. Search
+the WHOLE API (`core.pyi`, `core/include`) for the functionality before writing any helper or class; only when
+nothing in it satisfies the problem do you add a general capability to the API -- and then use it. Four classes are
+being retired for breaking this (from 2026-11-01; `ModBranches` waits for the GI templates' refactor): `IniScan` (a second `.ini` reader beside `IniFile`), `ModBranches` (values
+with their branch condition, which `GraphCollect` rows already carry, over a hand-written `run =` walker beside
+`IniSectionGraph`), `TextureOverrides` (texture overrides and their `if` headers, which rows and `IniParseData`
+already file) and the pure-Python `DownloadData` (a second class beside the C++ one). Each cost a binding proposal
+the maintainer had to question, and then its own retirement.
+
 **EVERY C++ CLASS IS FOR PYTHON TOO (the maintainer, 2026-10-31).** "Ideally we want all classes from C++ to be
 exposed to Python. A Python API User should have the same capability of using the API compared to a C++ API User."
 So a change that adds or moves capability into a C++ class -- a base class, a helper, a config field, a row-name

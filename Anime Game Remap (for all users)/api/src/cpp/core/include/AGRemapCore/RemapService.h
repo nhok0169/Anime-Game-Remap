@@ -834,19 +834,6 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Whether a file is a ``RemapFix`` ``.ini`` **copy** this fix generated (as opposed to a
-             source ``.ini`` file or a backup)
-             @endrst
-             *
-             * @param file The file path to check
-             *
-             * @return Whether 'file' is a generated copy
-             */
-            static bool _isRemapCopyIni(const std::string& file);
-
-            /**
-             * @brief
-             @rst
              The path of the ``.ini`` file a ``RemapFix`` copy was generated **from** -- the exact
              reverse of the naming :cpp:func:`IniFileFixContext::fixedFilePath` does
              :raw-html:`<br />` :raw-html:`<br />`

@@ -4,6 +4,21 @@ What this project is, how the repo is laid out, and the operating norms that don
 under Building/Testing/Documentation/Architecture. Read this one first if you're new to the repo;
 it's the map the other [AI Agent Help](../README.md) files assume you have.
 
+## USE THE API FIRST, EVERYWHERE -- AND ADD TO IT ONLY WHAT IT TRULY LACKS (the maintainer, 2026-11-01)
+
+The maintainer's most repeated rule, now written for the library and not only for prototypes: before writing a
+helper or a class -- in a fixer, a parser, a binding, core code or a tool -- search the whole API (`core.pyi`,
+`core/include`) for what you need. Use it when it is there. When nothing in the API satisfies the problem, add a
+GENERAL capability to the API (core, binding, tests, docs) and use that. Never build a second version beside the
+first.
+
+What breaking it cost, measured on 2026-11-01: a proposal to bind four "unbound helpers" turned out to be four
+duplicates -- `IniScan` of `IniFile`, `ModBranches` of `GraphCollect` rows plus `IniSectionGraph`, `TextureOverrides`
+of rows plus `IniParseData`, and the pure-Python `DownloadData` of the C++ one -- each being retired instead
+(`ModBranches` last, with the GI templates' refactor). Before
+proposing anything, audit every item yourself: what bound class already does it, who calls it, whether it is sugar,
+and whether a game rule hides behind a library name. The section below is how to do that audit.
+
 ## AUDITING FOR "DOES THIS REPEAT THE LIBRARY" IS A READ, NOT A GREP (2026-09-30)
 
 `WWMIFixer.cpp` was audited three times in one session and declared clean twice, and the maintainer

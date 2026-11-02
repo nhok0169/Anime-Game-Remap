@@ -93,44 +93,6 @@ namespace AGRemapCore {
     }
 
 
-    std::vector<std::string> TextureOverrides::siblingInis(IniFile* iniFile) {
-        if (iniFile == nullptr || !iniFile->getFile().has_value()) {
-            return {};
-        }
-
-        const std::filesystem::path self = FileService::strToPath(*iniFile->getFile());
-        return loadedInis(self.parent_path(), self);
-    }
-
-
-    std::vector<std::string> TextureOverrides::loadedInis(const std::filesystem::path& dir, const std::filesystem::path& exclude) {
-        std::vector<std::string> result;
-        std::error_code error;
-        for (const auto& entry : std::filesystem::directory_iterator(dir, error)) {
-            if (!entry.is_regular_file(error) || std::filesystem::equivalent(entry.path(), exclude, error)) {
-                continue;
-            }
-
-            const std::string name = FileService::pathToStr(entry.path().filename());
-            const std::string low = StringTools::toLower(name);
-            if (!StringTools::endsWith(low, ".ini") || StringTools::startsWith(low, "disabled")) {
-                continue;
-            }
-
-            const std::size_t fix = low.rfind(StringTools::toLower(IniKeywords::RemapFix));
-            const std::string stem = low.substr(0, low.size() - 4);
-            if (fix != std::string::npos && fix + IniKeywords::RemapFix.size() <= stem.size()
-                    && stem.find_first_not_of("0123456789", fix + IniKeywords::RemapFix.size()) == std::string::npos) {
-                continue;
-            }
-
-            result.push_back(FileService::pathToStr(entry.path()));
-        }
-        std::sort(result.begin(), result.end());
-        return result;
-    }
-
-
     bool TextureOverrides::isShared(const std::string& hash) {
         // texture hash -> every character HashData files it under, a component folded into its skin.
         // Built once: HashData is compiled in, and the registered mod types are only asked for the

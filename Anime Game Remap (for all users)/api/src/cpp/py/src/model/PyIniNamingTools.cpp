@@ -59,6 +59,12 @@ Every method is static.
                     py::arg("name"), py::arg("modName") = "",
                     py::doc("The remapped name for some ``.ib`` `section`_"));
 
+    cls.def_static("isDisabled", &AGRC::IniNamingTools::isDisabled, py::arg("name"),
+                    py::doc("Whether 'name' -- a file, folder or `section`_ name -- is one a modder turned OFF: it starts with :attr:`FilePrefixes.DisabledPrefix`, ignoring case"));
+
+    cls.def_static("isRemapCopyFile", &AGRC::IniNamingTools::isRemapCopyFile, py::arg("file"),
+                    py::doc("Whether 'file' is a .ini file a fix GENERATED beside the mod's own -- ``<name>RemapFix<N>.ini``, ignoring case, with only the LAST ``RemapFix`` in the name counting"));
+
     cls.def_static("hasKeywordPrefix", &AGRC::IniNamingTools::hasKeywordPrefix, py::arg("value"), py::arg("keyword"),
                     py::doc("Whether a register's value is a 3dmigoto statement opening with 'keyword' -- ``ref``, :attr:`IniKeywords.Copy`, :attr:`IniKeywords.CopyDesc` -- rather than a resource name"));
 

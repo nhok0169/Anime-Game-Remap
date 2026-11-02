@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <filesystem>
 #include <memory>
 #include <optional>
 #include <string>
@@ -743,6 +744,33 @@ namespace AGRemapCore {
              */
             std::unique_ptr<IniFile> sibling(const std::string& file,
                                              std::optional<std::unordered_set<int>> forcedFromModTypeIds = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             The other ``.ini`` files of this file's folder that the game loads -- see #loadedInis. Empty for an
+             ``.ini`` file with no path
+             @endrst
+             *
+             * @return Their full paths, sorted
+             */
+            std::vector<std::string> loadedSiblings() const;
+
+            /**
+             * @brief
+             @rst
+             The ``.ini`` files directly in 'folder' that the game loads: not one a modder turned off
+             (:cpp:func:`IniNamingTools::isDisabled`), and not a copy a fix generated
+             (:cpp:func:`IniNamingTools::isRemapCopyFile`)
+             @endrst
+             *
+             * @param folder The folder
+             * @param exclude A file to leave out, eg. the ``.ini`` file being read. **Default**: none
+             *
+             * @return Their full paths, sorted
+             */
+            static std::vector<std::string> loadedInis(const std::filesystem::path& folder,
+                                                       const std::filesystem::path& exclude = {});
 
             /**
              * @brief

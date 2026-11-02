@@ -30,6 +30,7 @@
 #include "../../iftemplate/PyIfTemplate.h"
 #include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
 #include "../iniFixers/graphGroupEdits/resEdits/PyResEdit.h"  // reuses pyCoreModule()
+#include "PyDownloadData.h"
 #include "../PyStrategyFactory.h"  // resolveStrategyModType
 
 
@@ -466,64 +467,6 @@ void PyIniParseContext::setCommandGraphs(py::object graphs) {
 
 
 // ---------------------------------------------------------------------------------------
-// PyIniParseDownloadData
-// ---------------------------------------------------------------------------------------
-
-PyIniParseDownloadData::PyIniParseDownloadData(py::object downloadData): downloadData(std::move(downloadData)) {}
-
-
-std::string PyIniParseDownloadData::name() const {
-    return py::str(downloadData.attr("name")).cast<std::string>();
-}
-
-
-bool PyIniParseDownloadData::refToSection() const {
-    return downloadData.attr("refToSection").cast<bool>();
-}
-
-
-void PyIniParseDownloadData::addToPart(ContentPart &part, const std::string &key, const std::string &val) {
-    downloadData.attr("addToPart")(py::cast(&part, py::return_value_policy::reference), key, val);
-}
-
-
-void PyIniParseDownloadData::addToSection(Section &section, const std::string &key, const std::string &val) {
-    downloadData.attr("addToSection")(py::cast(&section, py::return_value_policy::reference), key, val);
-}
-
-
-PyIniParseDownloadData::Section* PyIniParseDownloadData::createResSection(const std::string &sectionName, Context &ctx) {
-    // 'createResSection' is overridable on the Python side, so the section has to come from there
-    // rather than being rebuilt here -- and it comes back as a Python object that must be stored
-    // as-is, hence addSectionObj rather than the interface's unique_ptr-taking addSection.
-    py::object section = downloadData.attr("createResSection")(py::str(sectionName));
-    return static_cast<PyIniParseContext&>(ctx).addSectionObj(sectionName, std::move(section));
-}
-
-
-void PyIniParseDownloadData::addFileDownload(Context &ctx, const std::string &iniFolder) {
-    auto &pyCtx = static_cast<PyIniParseContext&>(ctx);
-    py::object download = downloadData.attr("download");
-    if (download.is_none()) {
-        return;
-    }
-
-    // Built through the bound core module rather than by constructing AGRC::RemapIniDownload
-    // directly, as the pure-Python original did.
-    //
-    // A FRESH FileDownload per parse, not the DownloadData's own: RemapIniDownload takes its
-    // FileDownload by unique_ptr, so handing it the caller's object DISOWNED it -- the parser's own
-    // DownloadData was left holding a dead Python object, and the second parse (or anything else
-    // reading 'download.filename') raised "Python instance was disowned". A copy is exactly
-    // equivalent: FileDownload is its url, filename and cache flag, and the binding has no
-    // trampoline, so a Python subclass could not have overridden anything to lose.
-    py::module_ core = pyCoreModule();
-    py::object fresh = core.attr("FileDownload")(download.attr("url"), download.attr("filename"), download.attr("cache"));
-    pyCtx.addFileDownloadObj(core.attr("RemapIniDownload")(py::str(iniFolder), download.attr("filename"), fresh));
-}
-
-
-// ---------------------------------------------------------------------------------------
 // PyGIMIParser
 // ---------------------------------------------------------------------------------------
 
@@ -597,7 +540,7 @@ void PyGIMIParser::refresh() {
         }
     }
 
-    downloadAdapters_.clear();
+    // Borrowed: 'downloadsObj' keeps every download alive for as long as the derived map points at it
     this->downloads.clear();
     if (!downloadsObj.is_none()) {
         for (auto item : downloadsObj.cast<py::dict>()) {
@@ -605,9 +548,7 @@ void PyGIMIParser::refresh() {
             auto &inner = this->downloads[modObj];
 
             for (auto regItem : py::reinterpret_borrow<py::object>(item.second).cast<py::dict>()) {
-                auto adapter = std::make_unique<PyIniParseDownloadData>(py::reinterpret_borrow<py::object>(regItem.second));
-                inner[py::str(regItem.first)] = adapter.get();
-                downloadAdapters_.push_back(std::move(adapter));
+                inner[py::str(regItem.first)] = py::reinterpret_borrow<py::object>(regItem.second).cast<PyIniParseDownloadDataCore*>();
             }
         }
     }

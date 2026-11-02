@@ -37,7 +37,6 @@
 #include "AGRemapCore/data/ZZMIModObjs.h"
 #include "AGRemapCore/model/buffers/BufFloat.h"
 #include "AGRemapCore/model/buffers/BufUnorm.h"
-#include "AGRemapCore/model/files/IniScan.h"
 #include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/IniNamingTools.h"
@@ -702,10 +701,13 @@ namespace AGRemapCore {
                                 || IniNamingTools::isDisabled(name)) {
                             continue;
                         }
-                        for (const IniScanSection& s : IniScan::scan(FileService::pathToStr(entry.path()))) {
-                            const std::optional<std::string> hash = IniScan::firstVal(s, IniKeywords::Hash);
-                            if (hash.has_value() && s.name.find(IniKeywords::Remap) == std::string::npos
-                                    && IniScan::firstVal(s, IniKeywords::This).has_value()) {
+                        IniFile other(FileService::pathToStr(entry.path()));
+                        for (const auto& [name, tpl] : other.getIfTemplates()) {
+                            if (tpl == nullptr || name.find(IniKeywords::Remap) != std::string::npos) {
+                                continue;
+                            }
+                            const std::optional<std::string> hash = ModBranches::firstVal(*tpl, IniKeywords::Hash);
+                            if (hash.has_value() && ModBranches::firstVal(*tpl, IniKeywords::This).has_value()) {
                                 found.insert(lowered(*hash));
                             }
                         }

@@ -73,6 +73,18 @@ namespace AGRemapCore {
         return indices;
     }
 
+    std::pair<std::size_t, std::size_t> IbFile::remapDrawRange(std::size_t indexCount, std::size_t firstIndex,
+                                                               const std::vector<std::size_t>& keptTriangleIds) {
+        const std::size_t first = firstIndex / VerticesPerTriangle;
+        const std::size_t last = (firstIndex + indexCount) / VerticesPerTriangle;
+        const auto begin = std::lower_bound(keptTriangleIds.begin(), keptTriangleIds.end(), first);
+        const auto end = std::lower_bound(keptTriangleIds.begin(), keptTriangleIds.end(), last);
+        const std::size_t start = static_cast<std::size_t>(begin - keptTriangleIds.begin());
+        const std::size_t count = static_cast<std::size_t>(end - begin);
+        return {count * VerticesPerTriangle, start * VerticesPerTriangle};
+    }
+
+
     ByteVec IbFile::windingReversed(std::size_t firstIndex, std::size_t indexCount) const {
         const std::size_t indexBytes = getBytesPerLine() / VerticesPerTriangle;
         const ByteVec& data = getData();

@@ -17,6 +17,7 @@
 #include <cstddef>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "AGRemapCore/model/buffers/BufElementType.h"
@@ -125,6 +126,33 @@ namespace AGRemapCore {
              * @throws std::out_of_range if the span runs past the end of the file
              */
             ByteVec windingReversed(std::size_t firstIndex, std::size_t indexCount) const;
+
+            /**
+             * @brief
+             @rst
+             A draw range of an index buffer, moved onto a copy of it that keeps only some of its triangles
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             'keptTriangleIds' lists, ascending, the triangle of the ORIGINAL buffer at each place of the copy. The
+             range's new first index is the number of kept triangles before it and its new count the number inside
+             it, both times 3 -- so a range over removed triangles draws only what is left of it, and every range
+             after a removed triangle moves down
+
+             .. code-block:: ini
+
+                ; keptTriangleIds = [0, 1, 2, 5, 6, 7]: triangles 3 and 4 were removed
+                9, 0   ; -> 9, 0
+                9, 9   ; -> 3, 9   (only triangle 5 of 3..5 is kept)
+             @endrst
+             *
+             * @param indexCount How many indices the range holds
+             * @param firstIndex The index the range starts at
+             * @param keptTriangleIds The original triangle at each place of the copy, ascending
+             *
+             * @return The range in the copy, as ``(index count, first index)``
+             */
+            static std::pair<std::size_t, std::size_t> remapDrawRange(std::size_t indexCount, std::size_t firstIndex,
+                                                                      const std::vector<std::size_t>& keptTriangleIds);
 
             /**
              * @brief Makes the header for a dumped *ib.txt* file

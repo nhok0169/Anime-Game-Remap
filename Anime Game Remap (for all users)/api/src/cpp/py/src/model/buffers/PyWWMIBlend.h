@@ -19,7 +19,6 @@
 void initCppWWMIBlend(pybind11::module_ &m);
 void initCppWWMIShapeKeys(pybind11::module_ &m);
 void initCppRabbitFX(pybind11::module_ &m);
-void initCppWWMIRuntime(pybind11::module_ &m);
 void initCppDrawUVCoverage(pybind11::module_ &m);
 
 #endif

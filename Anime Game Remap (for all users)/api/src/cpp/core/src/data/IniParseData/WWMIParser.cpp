@@ -1,7 +1,6 @@
 #include "AGRemapCore/data/IniParseData/WWMIParser.h"
 
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
-#include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 #include "AGRemapCore/data/RabbitFX.h"
 #include "AGRemapCore/data/IniParseData/TextureRoleChooser.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
@@ -64,7 +63,6 @@
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
-#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegDrawRangeRemap.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
 
@@ -1043,7 +1041,7 @@ namespace AGRemapCore {
 
                     std::size_t found = 0;
                     const std::filesystem::path own = FileService::strToPath(iniPath);
-                    for (const std::string& path : TextureOverrides::loadedInis(own.parent_path(), own)) {
+                    for (const std::string& path : IniFile::loadedInis(own.parent_path(), own)) {
                         const std::unique_ptr<IniFile> sibling = otherIni(path);
                         const std::unique_ptr<WWMIParser> reader = readOther(*sibling);
                         for (const auto& [section, role, hash, file] : reader->recolours()) {
@@ -1083,7 +1081,7 @@ namespace AGRemapCore {
                     std::vector<std::string> inis;
                     std::filesystem::path dir = own.parent_path();
                     for (int depth = 0; depth < 3 && !dir.empty(); ++depth) {
-                        for (const std::string& path : TextureOverrides::loadedInis(dir, own)) {
+                        for (const std::string& path : IniFile::loadedInis(dir, own)) {
                             inis.push_back(path);
                         }
 
@@ -1107,7 +1105,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            for (const std::string& path : TextureOverrides::loadedInis(it->path(), own)) {
+                            for (const std::string& path : IniFile::loadedInis(it->path(), own)) {
                                 inis.push_back(path);
                             }
                         }

@@ -218,18 +218,6 @@ namespace AGRemapCore {
              */
             static KVPs ibResourceKVPs();
 
-            /**
-             * @brief
-             @rst
-             The two `KVPs`_ that must follow a **vb1** blend reference: ``handling = skip`` and
-             ``draw = <vertexCount>,0`` :raw-html:`<br />` :raw-html:`<br />`
-
-             Without them the downloaded blend is bound but never drawn from
-             @endrst
-             *
-             * @param vertexCount How many vertices the drawn model has -- see \ref vertexCountOf
-             */
-            static KVPs blendRefKVPs(long long vertexCount);
     };
 
 

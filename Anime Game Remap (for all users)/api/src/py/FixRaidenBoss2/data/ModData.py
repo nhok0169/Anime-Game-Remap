@@ -18,7 +18,6 @@ from .HashData import HashData
 from .IndexData import IndexData
 from .VertexCountData import VertexCountData
 from .VGRemapData import vgRemapDataBuilder
-from .FileDownloadData import FileDownloadData
 from .TexcoordByteSizeData import TexcoordByteSizeData
 ##### EndLocalImports
 
@@ -114,5 +113,6 @@ class ModData(DeferredEnum):
     IniParseBuilderArgs = (lambda: {}, )
     # UNLINKED -- see data/IniFixBuilderData.py.txt
     IniFixBuilderArgs = (lambda: {}, )
-    FileDownloadData = (lambda: FileDownloadData, )
+    # UNLINKED -- see data/FileDownloadData.py.txt; the parsers' downloads are C++ (core/src/data/IniParseData/)
+    FileDownloadData = (lambda: {}, )
 ##### EndScript

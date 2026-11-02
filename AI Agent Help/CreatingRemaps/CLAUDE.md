@@ -4420,7 +4420,8 @@ the second line is a key of that section. `IniFile` asked for a `]` on the same 
 the Body section above, which then also held the BangsIB section's hash, skip and draw: the remapped Body lost its draw
 into a section with `hash = HashNotFound`, kept bindings outside its guard, and the game drew the body with the
 downloaded normal map where NNFix reads the diffuse -- flat green with red patches, which reads exactly like a doubled
-fix call. `IniFile::isSectionHeaderLine` / `getSectionNameFromLine` and `IniScan` follow 3DMigoto's rule now
+fix call. `IniFile::isSectionHeaderLine` / `getSectionNameFromLine` follow 3DMigoto's rule now (and `IniScan`, the flat
+reader that also did, was retired on 2026-11-01: a file beside the one being fixed is read with `IniFile`)
 (`core/tests/IniFile_SectionHeader_test.cpp`, seen to fail 8 ways against the old rule). Two things that made it quick:
 `check_dangling.py` named the one outfit (two references into files the fix never wrote), and **the region-check
 master shows only the outfit for the region you stand in** -- the screenshot was in Nod-Krai, so it was that outfit,

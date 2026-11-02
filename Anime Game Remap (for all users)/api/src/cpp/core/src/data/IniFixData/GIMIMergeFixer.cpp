@@ -74,7 +74,8 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BufEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
-#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegDrawRangeShift.h"
+#include "AGRemapCore/model/iftemplate/ListValue.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAnchorAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h"
@@ -137,10 +138,41 @@ namespace AGRemapCore {
         const std::string& NormalMapReg = DiffuseReg;
 
 
-        // A carried member's draws are moved to where it sits in the merged ib (see buildSlotRemap) by a
-        // RegDrawRangeShift, and so is TexFx's own draw: its component command lists draw
+        // A carried member's draws are moved to where it sits in the merged ib (see buildSlotRemap) by
+        // drawRangeShift, and so is TexFx's own draw: its component command lists draw
         // `drawindexed = $_1, $_2, 0` from variables the mod sets, so `$\texfx\_2` is a start index too.
         const std::string TexFxDrawStart = "$\\texfx\\_2";
+
+        // A member's `drawindexed` lines moved 'start' indices into the merged index buffer: the second field
+        // grows by 'start' when it is a plain non-negative number, every other field is kept, and `auto` becomes
+        // the member's whole range, `<count>, <start>, 0`. A plain non-negative value of `$\texfx\_2` moves too.
+        std::unique_ptr<RegAnchorAdd<>> drawRangeShift(long long start, long long count) {
+            return std::make_unique<RegAnchorAdd<>>(
+                std::vector<std::string>{IniKeywords::DrawIndexed, TexFxDrawStart},
+                [start, count](const std::string& key, const std::string& value)
+                        -> std::optional<std::vector<std::pair<std::string, std::string>>> {
+                    ListValue list(value);
+                    if (!StringTools::equalsIgnoreCase(StringTools::strip(key), IniKeywords::DrawIndexed)) {
+                        const std::optional<long long> first = list.number(0);
+                        if (list.size() != 1 || !first.has_value() || *first < 0 || list.at(0)->find('-') != std::string::npos) {
+                            return std::nullopt;
+                        }
+                        return std::vector<std::pair<std::string, std::string>>{{key, std::to_string(*first + start)}};
+                    }
+
+                    if (list.size() == 1 && StringTools::equalsIgnoreCase(*list.at(0), "auto")) {
+                        return std::vector<std::pair<std::string, std::string>>{
+                            {key, std::to_string(count) + ", " + std::to_string(start) + ", 0"}};
+                    }
+                    const std::optional<long long> first = list.number(1);
+                    if (!first.has_value() || *first < 0 || list.at(1)->find('-') != std::string::npos) {
+                        return std::nullopt;
+                    }
+                    list.setNumber(1, *first + start);
+                    return std::vector<std::pair<std::string, std::string>>{{key, list.str()}};
+                },
+                RegAnchorAdd<>::Placement::Replace);
+        }
 
 
         const std::string FormatKey = "format";
@@ -2932,7 +2964,7 @@ namespace AGRemapCore {
                             edits.push_back(shiftUpAdapter_.get());
                         }
 
-                        auto offsetEdit = std::make_unique<RegDrawRangeShift<>>(start, count, std::vector<std::string>{TexFxDrawStart});
+                        auto offsetEdit = drawRangeShift(start, count);
                         auto offsetAdapter = std::make_unique<RegPartEdit<>>(offsetEdit.get());
                         edits.push_back(offsetAdapter.get());
 
@@ -3189,7 +3221,7 @@ namespace AGRemapCore {
                 std::map<std::string, std::pair<std::pair<std::string, std::string>, std::pair<long long, long long>>> carriedDraws_;
                 std::unique_ptr<RegRemove<>> stripCarried_;
                 std::unique_ptr<RegPartEdit<>> stripCarriedAdapter_;
-                std::vector<std::unique_ptr<RegDrawRangeShift<>>> carriedOffsets_;
+                std::vector<std::unique_ptr<RegAnchorAdd<>>> carriedOffsets_;
                 std::vector<std::unique_ptr<RegPartEdit<>>> carriedAdapters_;
                 std::vector<std::unique_ptr<GraphPartEdit<>>> carriedGraphAdapters_;
                 std::unordered_map<std::string, std::unique_ptr<GraphPartEdit<>>> objFillAdapters_;

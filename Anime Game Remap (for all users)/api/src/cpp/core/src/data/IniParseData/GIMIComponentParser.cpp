@@ -869,7 +869,7 @@ namespace AGRemapCore {
                         const std::string prefix = component.name;
                         DownloadTools::KVPs blendRef;
                         if (component.vertexCount > 0) {
-                            blendRef = DownloadTools::blendRefKVPs(component.vertexCount);
+                            blendRef = DownloadTools::Download::blendRefKVPs(component.vertexCount);
                         }
 
                         add(config, ModObj(component.name, "blend"), IniKeywords::Vb1, prefix + "Blend", prefix + "Blend", ".buf",

@@ -473,6 +473,58 @@ filename = uniqueBaseFile""", 4]]
         self.compareList(sorted(resourceGraphs["vb0"].sections.keys()),
                          sorted(resourceGraphs["vb1"].sections.keys()))
 
+    def test_parse_aPythonDownloadDataSubclass_isTheOneThatRuns(self):
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createNamedParser()
+
+        calls = []
+
+        class Recording(FRB.DownloadData):
+            def createResSection(self, sectionName):
+                calls.append(sectionName)
+                return super().createResSection(sectionName)
+
+        self._parser.downloads = {("", "texcoord"): {"vb0": Recording("recorded", FRB.FileDownload("someURL", "someFile.buf"))}}
+        self._iniFile.parse()
+
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(len(self._iniFile.getFileDownloads()), 1)
+        sections = self._parser.downloadResourceGraphs[("", "texcoord")]["vb0"].sections
+        self.assertIn(calls[0], sections)
+
+    def test_parse_anIniParseDownloadDataSubclass_buildsWhatItReturns(self):
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createNamedParser()
+
+        class NoFile(FRB.IniParseDownloadData):
+            def name(self):
+                return "noFile"
+
+            def refToSection(self):
+                return False
+
+            def addToPart(self, part, key, val):
+                part.addKVP(key, val)
+
+            def addToSection(self, section, key, val):
+                section.addKVPToFront(key, val)
+
+            def createResSection(self, sectionName):
+                return FRB.IfTemplate([FRB.IfContentPart({"filename": [(0, "made.buf")]}, 0)], name = sectionName)
+
+            def createFileDownload(self, iniFolder):
+                return None
+
+        self._parser.downloads = {("", "texcoord"): {"vb0": NoFile()}}
+        self._iniFile.parse()
+
+        # nothing to download, and the resource section is the one the subclass built
+        self.assertEqual(len(self._iniFile.getFileDownloads()), 0)
+        sections = self._parser.downloadResourceGraphs[("", "texcoord")]["vb0"].sections
+        self.assertTrue(sections)
+        for section in sections.values():
+            self.assertIn("made.buf", str([part.getVals("filename") for part in section.parts if isinstance(part, FRB.IfContentPart)]))
+
     def test_parse_downloadGraphsKeyedByTheDownloadsNameNotItsRegister(self):
         result = self._parseResult()
         graphs = result[0].graphs

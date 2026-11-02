@@ -13,7 +13,7 @@
 
 #include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
 #include "AGRemapCore/constants/IniKeywords.h"
-#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegDrawRangeRemap.h"
+#include "AGRemapCore/model/iftemplate/ListValue.h"
 #include "AGRemapCore/tools/ListTools.h"
 #include "AGRemapCore/tools/StringTools.h"
 
@@ -198,8 +198,8 @@ namespace AGRemapCore {
                     addDrawPart(obj, partAt);
                     const std::string& draw = row->value;
                     if (std::count(draw.begin(), draw.end(), ',') >= 2) {
-                        const std::optional<std::vector<long long>> numbers = RegDrawRangeRemap<>::parseRange(draw);
-                        if (numbers.has_value() && numbers->size() >= 3) {
+                        const std::optional<std::vector<long long>> numbers = ListValue(draw).numbers();
+                        if (numbers.has_value() && numbers->size() >= 3 && (*numbers)[0] >= 0 && (*numbers)[1] >= 0) {
                             addDrawRange(obj, {(*numbers)[0], (*numbers)[1]});
                         } else if (rules.log) {
                             // a dropped draw range is a piece of the mesh that stops being remapped

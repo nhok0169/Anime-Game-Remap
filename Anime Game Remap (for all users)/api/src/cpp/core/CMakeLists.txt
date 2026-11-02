@@ -259,6 +259,7 @@ add_library(AGRemapCore STATIC
     src/tools/idGenerator/UuidIdGenerator.cpp
     src/model/iftemplate/IfTemplatePart.cpp
     src/model/iftemplate/IfTemplateRender.cpp
+    src/model/iftemplate/ListValue.cpp
     src/model/iftemplate/SympyParser.cpp
     src/model/iftemplate/IfPredParser.cpp
     src/model/iftemplate/IfPredZ3Generator.cpp
@@ -293,7 +294,6 @@ add_library(AGRemapCore STATIC
     src/model/buffers/WWMIShapeKeys.cpp
     src/model/buffers/SkeletonNumberingProbe.cpp
     src/data/RabbitFX.cpp
-    src/data/WWMIRuntime.cpp
     src/model/files/BufFileErrors.cpp
     src/model/files/BinaryFile.cpp
     src/model/files/BufFile.cpp
@@ -363,7 +363,6 @@ add_library(AGRemapCore STATIC
     src/model/textures/TexThumbprint.cpp
     src/model/files/TexCache.cpp
     src/model/files/TextureFile.cpp
-    src/model/files/IniScan.cpp
     src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp
     src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp
     src/model/strategies/texEditors/pixelTransforms/ColourReplace.cpp

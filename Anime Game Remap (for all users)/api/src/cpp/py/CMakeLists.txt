@@ -60,6 +60,7 @@ pybind11_add_module(core
     src/tools/orderedMultiMap/PyIOrderedMultiMap.cpp
     src/model/iftemplate/PyIfContentPart.cpp
     src/model/iftemplate/PyIfContentPartColour.cpp
+    src/model/iftemplate/PyListValue.cpp
     src/model/PyVersion.cpp
     src/model/assets/PyModDictAssets.cpp
     src/model/assets/PyModMappedAssets.cpp
@@ -119,8 +120,6 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/regEdits/PyRegRemap.cpp
     src/model/strategies/iniFixers/regEdits/PyRegRemove.cpp
     src/model/strategies/iniFixers/regEdits/PyRegRestrict.cpp
-    src/model/strategies/iniFixers/regEdits/PyRegDrawRangeRemap.cpp
-    src/model/strategies/iniFixers/regEdits/PyRegDrawRangeShift.cpp
     src/model/strategies/iniFixers/regEdits/PyRegAnchorAdd.cpp
     src/model/strategies/iniFixers/graphEdits/PyBaseIniGraphEdit.cpp
     src/model/strategies/iniFixers/graphEdits/PyGraphRename.cpp
@@ -156,6 +155,7 @@ pybind11_add_module(core
     src/model/strategies/iniParsers/PyIniParseData.cpp
     src/model/strategies/iniParsers/PyGIMISectionClassifier.cpp
     src/model/strategies/iniParsers/PyGIMIParser.cpp
+    src/model/strategies/iniParsers/PyDownloadData.cpp
     src/model/strategies/iniParsers/PyIniParseBuilder.cpp
     src/model/strategies/iniFixers/PyBaseIniFixer.cpp
     src/model/strategies/iniFixers/PyGIMIFixer.cpp

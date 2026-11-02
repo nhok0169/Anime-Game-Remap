@@ -31,7 +31,6 @@ from .test_CppIfContentPart import CppIfContentPartTest
 from .test_IbFile import IbFileTest
 from .test_WWMIBlend import WWMIBlendTest, WWMIShapeKeysTest, SkeletonNumberingProbeTest
 from .test_TexcoordFile import TexcoordFileTest
-from .test_WWMIRuntime import WWMIRuntimeTest
 from .test_RabbitFX import DDSHeaderTest, RabbitFXTest, DrawUVCoverageTest, WWMIKeywordsTest
 from .test_IniParseData import TextureRolesTest, IniParseDataTest, TextureRoleChooserTest
 from .test_VbFile import VbFileTest
@@ -68,6 +67,8 @@ from .test_BaseResEdit import BaseResEditTest
 from .test_ResEdits import ResEditsTest
 from .test_HeldResEdits import HeldResEditsTest, HeldTexEditorsTest
 from .test_IniNamingTools import IniNamingToolsTest
+from .test_ListValue import ListValueTest, IbFileRemapDrawRangeTest, SectionTextTest
+from .test_DownloadData import DownloadDataTest, LoadedInisTest
 from .test_ResCollects import ResCollectsTest
 from .test_GraphInherit import GraphInheritTest
 from .test_GraphRemove import GraphRemoveTest
@@ -121,8 +122,6 @@ from .test_RegNewVals import RegNewValsTest
 from .test_RegRemap import RegRemapTest
 from .test_RegRemove import RegRemoveTest
 from .test_RegRestrict import RegRestrictTest
-from .test_RegDrawRangeRemap import RegDrawRangeRemapTest
-from .test_RegDrawRangeShift import RegDrawRangeShiftTest
 from .test_RegAnchorAdd import RegAnchorAddTest
 from .test_RegSurroundedAdd import RegSurroundedAddTest
 from .test_RegDelimitedAdd import RegDelimitedAddTest
@@ -182,18 +181,18 @@ __all__ += ["ModTypesTest", "ModTypeTest", "RemapServiceCLITest", "GIMIFixerTest
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest"]
 __all__ += ["ColourRangeTest", "VersionSetTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredPartTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
 __all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "VertexCountsTest", "VGRemapsTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphGroupRemoveTest", "IterGraphGroupEditTest", "GraphRenameTest", "ResRegCollectTest", "GraphCollectTest", "ResGroupCollectTest", "VGComponentSplitTest", "VGSplitGroupResourceTest", "BufReplaceTest", "SympyTokenizerTest", "SympyParserTest"]
-__all__ += ["BaseIniGraphGroupEditTest", "GraphGroupEditTest", "BaseResEditTest", "ResEditsTest", "HeldResEditsTest", "HeldTexEditorsTest", "IniNamingToolsTest", "ResCollectsTest"]
+__all__ += ["BaseIniGraphGroupEditTest", "GraphGroupEditTest", "BaseResEditTest", "ResEditsTest", "HeldResEditsTest", "HeldTexEditorsTest", "IniNamingToolsTest", "ListValueTest", "IbFileRemapDrawRangeTest", "SectionTextTest", "DownloadDataTest", "LoadedInisTest", "ResCollectsTest"]
 __all__ += ["BaseIniGraphEditTest", "RegFillMissingTest"]
 __all__ += ["SympyIfPredGeneratorTest", "CppAhoCorasickDFATest", "CppTrieTest"]
 __all__ += ["ModTypeIdDataTest", "ModTypeTest", "GIBuilderTest", "ModTypeIdTest", "GameTypeIdTest", "GameTypesTest"]
 __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]
 __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
 __all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]
-__all__ += ["BaseRegEditTest", "RegAddTest", "RegNewValsTest", "RegRemapTest", "RegRemoveTest", "RegRestrictTest", "RegDrawRangeRemapTest", "RegDrawRangeShiftTest", "RegAnchorAddTest", "RegSurroundedAddTest", "RegDelimitedAddTest", "RegBranchAddTest", "RegBottomAddTest", "GIMIApiNormalizerTest"]
+__all__ += ["BaseRegEditTest", "RegAddTest", "RegNewValsTest", "RegRemapTest", "RegRemoveTest", "RegRestrictTest", "RegAnchorAddTest", "RegSurroundedAddTest", "RegDelimitedAddTest", "RegBranchAddTest", "RegBottomAddTest", "GIMIApiNormalizerTest"]
 __all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredTokenizerTest"]
 __all__ += ["CallGraphTest", "SectionIterDataTest", "GraphToolsTest"]
 __all__ += ["BufDataTypeTest", "BufElementTypeTest", "BinaryFileTest", "CppBufFileTest", "VGRemapTest", "BufToolsTest"]
-__all__ += ["BufFileTest", "BlendFileTest", "PositionFileTest", "TexcoordFileTest", "WWMIRuntimeTest", "IbFileTest", "WWMIBlendTest", "WWMIShapeKeysTest", "SkeletonNumberingProbeTest", "DDSHeaderTest", "RabbitFXTest", "DrawUVCoverageTest", "WWMIKeywordsTest", "VbFileTest", "TextureRolesTest", "IniParseDataTest", "TextureRoleChooserTest"]
+__all__ += ["BufFileTest", "BlendFileTest", "PositionFileTest", "TexcoordFileTest", "IbFileTest", "WWMIBlendTest", "WWMIShapeKeysTest", "SkeletonNumberingProbeTest", "DDSHeaderTest", "RabbitFXTest", "DrawUVCoverageTest", "WWMIKeywordsTest", "VbFileTest", "TextureRolesTest", "IniParseDataTest", "TextureRoleChooserTest"]
 __all__ += ["BaseBufEditorTest", "BufEditorTest"]
 __all__ += ["TexEngineTest", "CppColourTest", "CppTexCacheTest", "CppTextureFileTest", "TextureFileTest"]
 __all__ += ["CppBaseTexEditorTest", "BaseTexEditorTest", "CppBaseTexFilterTest", "CppGammaFilterTest"]

@@ -13,6 +13,7 @@
 
 #include "PyIniFile.h"
 
+#include <filesystem>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -25,6 +26,7 @@
 #include <tsl/ordered_set.h>
 
 #include "AGRemapCore/constants/DownloadMode.h"
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/iniresources/IniResource.h"
 #include "../iniresources/PyIniGroupedResource.h"
@@ -516,6 +518,37 @@ Returns
 -------
 :class:`IniFile`
     The new file
+        )doc"))
+        .def("loadedSiblings", &AGRC::IniFile::loadedSiblings, py::doc(R"doc(
+The other .ini files of this file's folder that the game loads -- see :meth:`loadedInis`. Empty for a .ini file
+with no path
+
+Returns
+-------
+List[:class:`str`]
+    Their full paths, sorted
+        )doc"))
+        .def_static("loadedInis", [](const std::string &folder, const std::string &exclude) {
+            return AGRC::IniFile::loadedInis(AGRC::FileService::strToPath(folder),
+                                             exclude.empty() ? std::filesystem::path() : AGRC::FileService::strToPath(exclude));
+        }, py::arg("folder"), py::arg("exclude") = "", py::doc(R"doc(
+The .ini files directly in 'folder' that the game loads: not one a modder turned off
+(:meth:`IniNamingTools.isDisabled`), and not a copy a fix generated (:meth:`IniNamingTools.isRemapCopyFile`)
+
+Parameters
+----------
+folder: :class:`str`
+    The folder
+
+exclude: :class:`str`
+    A file to leave out, eg. the .ini file being read :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``""``, none
+
+Returns
+-------
+List[:class:`str`]
+    Their full paths, sorted
         )doc"))
         .def("getModTypes", [](AGRC::IniFile &self) {
             py::dict result;

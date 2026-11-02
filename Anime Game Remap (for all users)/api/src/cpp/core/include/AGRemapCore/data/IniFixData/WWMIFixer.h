@@ -25,6 +25,7 @@
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/WWMITextureFacts.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
@@ -777,6 +778,25 @@ namespace AGRemapCore {
          @endrst
          */
         std::vector<RegRemoval> removedRegs;
+
+        /**
+         * @brief
+         @rst
+         Register lines a remapped section also drops when the TARGET is past 256 bones: the mod's own merge list and
+         the two other routes to it (``CheckTextureOverride`` on ``vs-cb3`` / ``vs-cb4``), and its own bindings of the
+         merged skeletons. Each would write or bind the MOD's skeleton, sized for the source, and consume the bone-data
+         marker the fix's own merge list is gated on -- which skins target-space blend indices against the source's
+         skeleton, or smears a second body through the motion vectors. A value is matched by prefix, which covers a
+         list's name before and after the group remap renames it. **Default**: those six lines, as WWMI Tools writes them
+         @endrst
+         */
+        std::vector<RegRemoval> remappedSkeletonRemovals{
+            {IniKeywords::Run, "commandlistmergeskeleton"},
+            {"CheckTextureOverride", "vs-cb3"},
+            {"CheckTextureOverride", "vs-cb4"},
+            {"vs-cb3", "resourceextramergedskeleton"},
+            {"vs-cb4", "resourcemergedskeleton"},
+            {"vs-cb3", "resourcemergedskeleton"}};
         /**
          * @brief
          @rst

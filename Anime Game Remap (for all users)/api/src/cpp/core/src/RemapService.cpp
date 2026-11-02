@@ -12,6 +12,7 @@
 // ##### EndCredits
 
 #include "AGRemapCore/RemapService.h"
+#include "AGRemapCore/model/IniNamingTools.h"
 
 #include <filesystem>
 #include <fstream>
@@ -567,14 +568,6 @@ namespace AGRemapCore {
         return true;
     }
 
-    bool RemapService::_isRemapCopyIni(const std::string& file) {
-        const std::string baseName = FileService::pathToStr(FileService::strToPath(file).filename());
-
-        return StringTools::endsWithIgnoreCase(baseName, FileExt::Ini)
-            && baseName.find(FileSuffixes::RemapFixCopy) != std::string::npos;
-    }
-
-
     std::string RemapService::_origIniPath(const std::string& remapCopyPath) {
         const std::filesystem::path path = FileService::strToPath(remapCopyPath);
         const std::string baseName = FileService::pathToStr(path.filename());
@@ -701,7 +694,7 @@ namespace AGRemapCore {
 
         std::vector<std::string> files{iniPath};
         for (const std::string& file : FileService::getFilesAndDirs(folder).first) {
-            if (_isRemapCopyIni(file) && _origIniPath(file) == iniPath) {
+            if (IniNamingTools::isRemapCopyFile(file) && _origIniPath(file) == iniPath) {
                 files.push_back(file);
             }
         }
@@ -786,7 +779,7 @@ namespace AGRemapCore {
         bool removedAny = false;
 
         for (const std::string& file : files) {
-            if (!_isRemapCopyIni(file) || _origIniPath(file) != iniPath) {
+            if (!IniNamingTools::isRemapCopyFile(file) || _origIniPath(file) != iniPath) {
                 continue;
             }
 

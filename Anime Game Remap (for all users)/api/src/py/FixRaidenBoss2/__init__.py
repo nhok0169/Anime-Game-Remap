@@ -38,6 +38,8 @@ from .core import IfContentPartColouring
 from .core import IfTemplateNode
 from .core import IfTemplateTree
 from .core import IfTemplate
+from .core import ListValue
+from .core import SectionText
 from .core import CallGraph
 from .core import SectionIterData
 from .core import SectionIterQueryData
@@ -119,7 +121,6 @@ from .core import WWMIBlend
 from .core import WWMIShapeKeys
 from .core import SkeletonNumberingProbe
 from .core import RabbitFX
-from .core import WWMIRuntime
 from .core import DrawUVCoverage
 from .core import VbFile
 from .core import BaseBufEditor
@@ -338,7 +339,8 @@ from .model.iniresources.IniGroupedResBuilder import IniGroupedResBuilder
 from .model.textures.Colour import Colour
 from .model.textures.ColourRange import ColourRange
 
-from .model.DownloadData import DownloadData, BlendDownloadData
+from .core import IniParseDownloadData
+from .core import DownloadData
 from .model.Model import Model
 
 from .tools.caches.Cache import Cache
@@ -385,12 +387,12 @@ from .main import remapMain
 
 __all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
            "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "FromOldVal", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "DownloadMode", "DownloadModeTools", "RegFillMissingMode", "IniGraphReplaceMode", "IfPredPartType", "IfPredPartTypeTools", "IniKeywords", "IniGraphModObjKeywords", "FileExt", "FilePrefixes", "FileTypes", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppGlobalModTypes", "CppStrategyOverrides", "IniClassifyStats", "BaseIniClassifier", "IniClassifier", "IniFile", "BaseLogger", "Logger", "Version", "VersionSet", "ModDictAssets", "ModMappedAssets", "ModAssets", "Hashes", "Indices", "VertexCounts", "VGRemaps", "IndexCounts", "VGOffsets", "VGCounts", "ShapeKeyChecksums",
-           "CppBufFile", "BlendFile", "PositionFile", "TexcoordFile", "IbFile", "WWMIBlend", "WWMIShapeKeys", "SkeletonNumberingProbe", "RabbitFX", "WWMIRuntime", "DrawUVCoverage", "VbFile", "BaseBufEditor", "BufEditor",
+           "CppBufFile", "BlendFile", "PositionFile", "TexcoordFile", "IbFile", "WWMIBlend", "WWMIShapeKeys", "SkeletonNumberingProbe", "RabbitFX", "DrawUVCoverage", "VbFile", "BaseBufEditor", "BufEditor",
            "CppColour", "CppColourRange", "CppTextureFile",
            "CppBasePixelTransform", "CppCorrectGamma", "CppColourReplace", "CppHighlightShadow", "CppInvertAlpha", "CppTempControl", "CppTintTransform", "CppTransparency",
            "CppBaseTexFilter", "CppGammaFilter", "CppColourReplaceFilter", "CppTransparencyAdjustFilter", "CppInvertAlphaFilter", "CppMaterialBandRemapFilter", "CppHueAdjust", "CppPixelFilter",
            "CppBaseTexEditor", "CppTexEditor", "CppTexCreator",
-           "IfTemplateNode", "IfTemplateTree", "IfTemplate", "CallGraph", "SectionIterData", "SectionIterQueryData", "IniSectionGraph",
+           "IfTemplateNode", "IfTemplateTree", "IfTemplate", "ListValue", "SectionText", "CallGraph", "SectionIterData", "SectionIterQueryData", "IniSectionGraph",
            "BaseIniPartEdit", "BaseIniGraphPartEdit", "BaseRegEdit", "RegAdd", "RegAssetRemap", "RegNewVals", "RegRemap", "RegRemove",
            "GIMIObjPartFilter", "IniNamingTools",
            "GIMICharParserConfig", "GIMICharFixerConfig", "makeGIMICharParser", "makeGIMICharFixer",
@@ -424,7 +426,7 @@ __all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA",
            "IniGroupedResBuilder", "IniResource", "IniFixResource", "IniGroupedResource", "RemapIniResourceMixin", "RemapIniResource", "RemapIniFixResource", "RemapIniGroupedResource", "RemapIniDownload", "RemapBlendResource", "RemapTexAddResource", "RemapFileAddResource", "RemapTexEditResource",
            "Colour", "ColourRange",
            "FileStats", "CachedFileStats", "RemapStats",
-           "DownloadData", "BlendDownloadData", "IniGraphGroup", "Model", "VGRemap",
+           "IniParseDownloadData", "DownloadData", "IniGraphGroup", "Model", "VGRemap",
            "Cache", "LruCache",
            "ConcurrentManager", "ProcessManager", "ThreadManager",
            "DeferredEnum", "StrEnum",
@@ -506,20 +508,6 @@ except ImportError:
 try:
     from .core import RegIfTemplateAdd
     __all__ += ["RegIfTemplateAdd"]
-except ImportError:
-    pass
-
-# ----- Added 2026-10-27: RegDrawRangeRemap (a part's drawindexed ranges through an index buffer that lost triangles).
-try:
-    from .core import RegDrawRangeRemap
-    __all__ += ["RegDrawRangeRemap"]
-except ImportError:
-    pass
-
-# RegDrawRangeShift (a part's drawindexed ranges moved to where their buffer sits in a concatenated one).
-try:
-    from .core import RegDrawRangeShift
-    __all__ += ["RegDrawRangeShift"]
 except ImportError:
     pass
 

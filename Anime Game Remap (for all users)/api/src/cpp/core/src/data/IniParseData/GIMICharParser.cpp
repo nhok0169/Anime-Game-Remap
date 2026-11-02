@@ -543,7 +543,7 @@ namespace AGRemapCore {
                     addOverrides(own, [](const std::string& resource) { return resource; }, true);
 
                     if (drawsMesh(own)) {
-                        for (const std::string& path : TextureOverrides::siblingInis(iniFile)) {
+                        for (const std::string& path : iniFile->loadedSiblings()) {
                             IniFile sibling(path);
                             const ModBranches::Templates& templates = sibling.getIfTemplates();
                             addOverrides(templates, [&](const std::string& resource) {
@@ -710,7 +710,7 @@ namespace AGRemapCore {
 
                     IniFile self(*iniFile->getFile());
                     const ModBranches::Templates& own = self.getIfTemplates();
-                    for (const std::string& path : TextureOverrides::siblingInis(iniFile)) {
+                    for (const std::string& path : iniFile->loadedSiblings()) {
                         IniFile sibling(path);
                         const ModBranches::Templates& theirs = sibling.getIfTemplates();
                         if (!bindsPosition(theirs)) {
@@ -737,7 +737,7 @@ namespace AGRemapCore {
                     }
 
                     const ModBranches::Templates& own = iniFile->getIfTemplates();
-                    const std::vector<std::string> siblings = TextureOverrides::siblingInis(iniFile);
+                    const std::vector<std::string> siblings = iniFile->loadedSiblings();
                     for (const std::string& obj : config_.drawnObjs) {
                         const std::pair<std::string, std::string> id = objIdentity(obj);
                         if (id.first.empty() || id.second.empty() || !sectionWith(own, id).empty()) {
@@ -1206,11 +1206,11 @@ namespace AGRemapCore {
                     }
 
                     // Per buffer kind. The blend is the one that needs downloadRefKVPs -- see
-                    // DownloadTools::blendRefKVPs for why a downloaded Blend.buf has to be drawn
+                    // DownloadData::blendRefKVPs for why a downloaded Blend.buf has to be drawn
                     // by hand.
                     add(config, {"", "blend"}, IniKeywords::Vb1, IniKeywords::Blend, "Blend", ".buf",
                          DownloadTools::bufResourceKVPs(config.blendStride),
-                         DownloadTools::blendRefKVPs(vertexCount));
+                         DownloadTools::Download::blendRefKVPs(vertexCount));
                     add(config, {"", "position"}, IniKeywords::Vb0, IniKeywords::Position, "Position", ".buf",
                          DownloadTools::bufResourceKVPs(config.positionStride));
                     add(config, {"", "texcoord"}, IniKeywords::Vb1, IniKeywords::Texcoord, "Texcoord", ".buf",

@@ -24,6 +24,11 @@
 namespace AGRemapCore {
     class IniFile;
 
+    // BEING RETIRED (2026-11-01): it repeats the library. Its folder listing went to IniFile::loadedInis /
+    // loadedSiblings; what is left is the two GI parsers' reading -- collect() is GraphCollect rows of `this` /
+    // `hash` (a row's `guards` are Override::branches), isShared / keysOf are queries over the Hashes table, and
+    // adopt() is sections of a sibling IniFile -- and moves onto those with the GI templates' refactor
+    // (AI Agent Help/Overview, "USE THE API FIRST, EVERYWHERE"). Do not add to it.
     /**
      * @brief
      @rst
@@ -78,35 +83,6 @@ namespace AGRemapCore {
              * @return The overrides, in the order of the `sections`_
              */
             static std::vector<Override> collect(const ModBranches::Templates& templates);
-
-            /**
-             * @brief
-             @rst
-             The other ``.ini`` files of the folder 'iniFile' is in that the game loads: not
-             'iniFile' itself, not a ``DISABLED`` one, and not a copy a fix wrote
-             (``<name>RemapFix<N>.ini``)
-             @endrst
-             *
-             * @param iniFile The ``.ini`` file
-             *
-             * @return The full paths of the other files, sorted
-             */
-            static std::vector<std::string> siblingInis(IniFile* iniFile);
-
-            /**
-             * @brief
-             @rst
-             The ``.ini`` files directly in 'dir' that the game loads, other than 'exclude': not a
-             ``DISABLED`` one, and not a copy a fix wrote (``<name>RemapFix<N>.ini``) -- the rule
-             #siblingInis applies to one file's own folder
-             @endrst
-             *
-             * @param dir The folder
-             * @param exclude A file to leave out, eg. the ``.ini`` being read
-             *
-             * @return The full paths of the files, sorted
-             */
-            static std::vector<std::string> loadedInis(const std::filesystem::path& dir, const std::filesystem::path& exclude);
 
             /**
              * @brief

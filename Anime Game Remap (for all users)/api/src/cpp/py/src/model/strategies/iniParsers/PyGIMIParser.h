@@ -179,46 +179,6 @@ class PyIniParseContext: public AGRC::IniParseContext<std::string, std::string> 
 
 
 /**
- * @brief
- @rst
- The `Python`_-backed :cpp:class:`AGRemapCore::IniParseDownloadData` -- calls straight back into a
- real `Python`_ ``DownloadData`` object :raw-html:`<br />` :raw-html:`<br />`
-
- Every method here forwards through genuine `Python`_ attribute lookup rather than reimplementing
- what ``DownloadData`` does, because that class is polymorphic on the `Python`_ side
- (``BlendDownloadData`` overrides ``addToPart``, and a user may subclass it further) -- see
- :cpp:class:`AGRemapCore::IniParseDownloadData`'s own note
- @endrst
- */
-class PyIniParseDownloadData: public AGRC::IniParseDownloadData<std::string, std::string> {
-    public:
-        using Base = AGRC::IniParseDownloadData<std::string, std::string>;
-        using Section = Base::Section;
-        using ContentPart = Base::ContentPart;
-        using Context = Base::Context;
-
-        /**
-         * @brief Wraps one Python ``DownloadData``
-         *
-         * @param downloadData The Python ``DownloadData``
-         */
-        explicit PyIniParseDownloadData(py::object downloadData);
-
-        /**
-         * @brief The Python ``DownloadData`` this wraps
-         */
-        py::object downloadData;
-
-        std::string name() const override;
-        bool refToSection() const override;
-        void addToPart(ContentPart &part, const std::string &key, const std::string &val) override;
-        void addToSection(Section &section, const std::string &key, const std::string &val) override;
-        Section* createResSection(const std::string &sectionName, Context &ctx) override;
-        void addFileDownload(Context &ctx, const std::string &iniFolder) override;
-};
-
-
-/**
  * @brief The core :cpp:class:`AGRemapCore::GIMIParser` specialization this binds
  */
 using PyGIMIParserCore = AGRC::GIMIParser<std::string, std::string, std::hash<std::string>, std::equal_to<std::string>, PyBaseIniParser>;
@@ -448,11 +408,6 @@ class PyGIMIParser: public PyGIMIParserCore {
         // Each of 'readers' called on 'data' -- the core's parseReaders, through Python
         void runReadersFromPy(const pybind11::object& readers, AGRemapCore::IniParseData& data);
         void clear() override;
-
-    private:
-        // The IniParseDownloadData adapters the core holds borrowed pointers to, rebuilt by every
-        // refresh(). They live exactly as long as the derived 'downloads' map that points at them.
-        std::vector<std::unique_ptr<PyIniParseDownloadData>> downloadAdapters_;
 };
 
 

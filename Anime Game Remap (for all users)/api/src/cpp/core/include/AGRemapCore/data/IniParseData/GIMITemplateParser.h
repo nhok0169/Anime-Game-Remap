@@ -86,7 +86,7 @@ namespace AGRemapCore {
             virtual bool skipsBindCheck(const ModObj& modObj) const;
 
             /**
-             * @brief The other ``.ini`` files of the mod's folder the game loads -- see :cpp:func:`TextureOverrides::siblingInis`
+             * @brief The other ``.ini`` files of the mod's folder the game loads -- see :cpp:func:`IniFile::loadedSiblings`
              */
             std::vector<std::string> siblingInis() const;
 

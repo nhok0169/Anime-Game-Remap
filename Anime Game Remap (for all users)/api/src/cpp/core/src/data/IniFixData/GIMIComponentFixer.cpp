@@ -72,7 +72,8 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
-#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegDrawRangeRemap.h"
+#include "AGRemapCore/model/iftemplate/ListValue.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAnchorAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h"
@@ -874,7 +875,7 @@ namespace AGRemapCore {
                                 // The kept triangles per object, for the mod's own draw ranges -- only
                                 // for a mod that does not branch: a merged master's ranges belong to
                                 // whichever variant's index buffer each branch binds, and are left as
-                                // they are (see RegDrawRangeRemap).
+                                // they are (see drawRangeRemap).
                                 if (states_.size() == 1) {
                                     for (std::size_t i = 0; i < names.size() && i < buffers.keptTriangleIds.size(); ++i) {
                                         keptTriangleIds_[names[i]] = buffers.keptTriangleIds[i];
@@ -1577,13 +1578,53 @@ namespace AGRemapCore {
 
                 // The see-through reroute for one drawn object's ranges, or empty -- see
                 // GIMIComponentFixerConfig::Component::texFxBlend. A range the mod's TexFx mask marks
+                // Decides whether a remapped range is drawn by a `run =` instead: takes the range as the MOD wrote it
+                // (first index, index count) and the remapped value, and returns the name to run, or nothing
+                using Reroute = std::function<std::optional<std::string>(std::size_t firstIndex, std::size_t indexCount,
+                                                                         const std::string& remapped)>;
+
+                // The mod's own `drawindexed = <count>, <first>[, ...]` lines through an index buffer that lost some
+                // triangles (IbFile::remapDrawRange), every later field kept; a line of fewer than two numbers, or a
+                // negative count or first -- `auto` -- is left alone. 'reroute' may replace a remapped line by a
+                // `run =` at the same place
+                static std::unique_ptr<RegAnchorAdd<>> drawRangeRemap(std::vector<std::size_t> keptTriangleIds, Reroute reroute) {
+                    return std::make_unique<RegAnchorAdd<>>(
+                        std::vector<std::string>{IniKeywords::DrawIndexed},
+                        [keptTriangleIds = std::move(keptTriangleIds), reroute = std::move(reroute)](
+                                const std::string& key, const std::string& value) -> std::optional<std::vector<std::pair<std::string, std::string>>> {
+                            ListValue range(value);
+                            const std::optional<std::vector<long long>> numbers = range.numbers();
+                            if (!numbers.has_value() || numbers->size() < 2 || (*numbers)[0] < 0 || (*numbers)[1] < 0) {
+                                return std::nullopt;
+                            }
+
+                            const auto [count, first] = IbFile::remapDrawRange(static_cast<std::size_t>((*numbers)[0]),
+                                                                               static_cast<std::size_t>((*numbers)[1]), keptTriangleIds);
+                            range.setNumber(0, static_cast<long long>(count));
+                            range.setNumber(1, static_cast<long long>(first));
+                            for (std::size_t i = 2; i < numbers->size(); ++i) {
+                                range.setNumber(static_cast<long long>(i), (*numbers)[i]);
+                            }
+
+                            const std::string remapped = range.str();
+                            if (reroute) {
+                                if (std::optional<std::string> run = reroute(static_cast<std::size_t>((*numbers)[1]),
+                                                                             static_cast<std::size_t>((*numbers)[0]), remapped)) {
+                                    return std::vector<std::pair<std::string, std::string>>{{IniKeywords::Run, *run}};
+                                }
+                            }
+                            return std::vector<std::pair<std::string, std::string>>{{key, remapped}};
+                        },
+                        RegAnchorAdd<>::Placement::Replace);
+                }
+
                 // see-through is not drawn in place: its line becomes `run = CustomShader<...>`, and the section
                 // it names -- written to appendedSections once per name -- blends the remapped draw into the
                 // colour target (o1, the G-buffer's colour), every other target left as it was under the part.
                 //
                 // The mask, index buffer and texcoords are the SOURCE's (the ranges it is asked about are the
                 // mod's own numbers), read once, on the first question; any of them unreadable answers "opaque".
-                RegDrawRangeRemap<>::Reroute translucencyFor(const std::string& obj) {
+                Reroute translucencyFor(const std::string& obj) {
                     const ModObjectFiles* objFiles = objectFiles(obj);
                     if (component_.texFxBlend <= 0.0f || objFiles == nullptr || objFiles->texFxMask.empty()
                             || objFiles->ib.empty() || files_.texcoord.empty() || files_.texcoordStride < 12) {
@@ -2120,13 +2161,13 @@ namespace AGRemapCore {
                             slotEdits.push_back(normalBackAdapter_.get());
                         }
 
-                        // The mod's own draw ranges, through the split -- see RegDrawRangeRemap. Group
+                        // The mod's own draw ranges, through the split -- see drawRangeRemap. Group
                         // `group` holds drawn_[group]'s graph. Only for a mod that does not branch: a merged
                         // master's ranges belong to whichever variant's index buffer each branch binds.
                         if (group < drawn_.size()) {
                             auto kept = keptTriangleIds_.find(drawn_[group]);
                             if (kept != keptTriangleIds_.end()) {
-                                drawRangeRemaps_.push_back(std::make_unique<RegDrawRangeRemap<>>(kept->second, translucencyFor(drawn_[group])));
+                                drawRangeRemaps_.push_back(drawRangeRemap(kept->second, translucencyFor(drawn_[group])));
                                 drawRangeAdapters_.push_back(std::make_unique<RegPartEdit<>>(drawRangeRemaps_.back().get()));
                                 slotEdits.push_back(drawRangeAdapters_.back().get());
                             }
@@ -2276,7 +2317,7 @@ namespace AGRemapCore {
                 std::unique_ptr<RegPartEdit<>> removeTexFxAdapter_;
                 std::unique_ptr<RegFillMissing<>> fillDrawIndexed_;
                 std::unordered_map<std::string, std::vector<std::size_t>> keptTriangleIds_;
-                std::vector<std::unique_ptr<RegDrawRangeRemap<>>> drawRangeRemaps_;
+                std::vector<std::unique_ptr<RegAnchorAdd<>>> drawRangeRemaps_;
                 std::vector<std::unique_ptr<RegPartEdit<>>> drawRangeAdapters_;
                 std::unique_ptr<RegDelimitedAdd<>> addFixCall_;
                 std::unique_ptr<RegRemap<>> normalBack_;

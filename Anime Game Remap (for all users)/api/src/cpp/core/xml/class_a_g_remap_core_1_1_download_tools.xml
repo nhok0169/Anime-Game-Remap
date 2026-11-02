@@ -531,40 +531,6 @@ character&apos;s textures are filed by the hash the game binds them under, so &a
         </inbodydescription>
         <location file="include/AGRemapCore/tools/DownloadTools.h" line="219" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="113" bodyend="115"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1afbdfb811a3bb21b0dd448a4f55e4ee2a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
-        <definition>DownloadTools::KVPs AGRemapCore::DownloadTools::blendRefKVPs</definition>
-        <argsstring>(long long vertexCount)</argsstring>
-        <name>blendRefKVPs</name>
-        <qualifiedname>AGRemapCore::DownloadTools::blendRefKVPs</qualifiedname>
-        <param>
-          <type>long long</type>
-          <declname>vertexCount</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para><verbatim>embed:rst 
-The two `KVPs`_ that must follow a **vb1** blend reference: ``handling = skip`` and
-``draw = &lt;vertexCount&gt;,0`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-Without them the downloaded blend is bound but never drawn from
-</verbatim></para>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>vertexCount</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>How many vertices the drawn model has <ndash/> see <ref refid="class_a_g_remap_core_1_1_download_tools_1a7e18d2f83d61a2718ca1f04e50c2238d" kindref="member">vertexCountOf</ref> </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="232" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="118" bodyend="125"/>
-      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -585,9 +551,8 @@ the character&apos;s own ``&lt;Name&gt;Parser.cpp``, which is where somebody add
 looking
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/DownloadTools.h" line="46" column="5" bodyfile="include/AGRemapCore/tools/DownloadTools.h" bodystart="46" bodyend="233"/>
+    <location file="include/AGRemapCore/tools/DownloadTools.h" line="46" column="5" bodyfile="include/AGRemapCore/tools/DownloadTools.h" bodystart="46" bodyend="221"/>
     <listofallmembers>
-      <member refid="class_a_g_remap_core_1_1_download_tools_1afbdfb811a3bb21b0dd448a4f55e4ee2a" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>blendRefKVPs</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1ad5258bc0b0995eab25a735f863079746" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>bufResourceKVPs</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1a4cbc8f9373ee9b0460d3e777597be382" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>Download</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1a293cacb720816c22680cfe62b49b1e4c" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>downloadFolder</name></member>

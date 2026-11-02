@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexcoordFile', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsCreate', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMIRuntime', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexcoordFile', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsCreate', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -6050,6 +6050,87 @@ class DFA(BaseDFA):
     @startId.setter
     def startId(self, arg1: typing.Any) -> None:
         ...
+class DownloadData(IniParseDownloadData):
+    """
+    
+    This class inherits from :class:`IniParseDownloadData`
+    
+    A file to download from a url, and the resource `section`_ that names it: ``filename = <the file>`` after any
+    :attr:`resourceKVPs`. Every part that references the download also gets :attr:`downloadRefKVPs` after the
+    reference -- eg. :meth:`blendRefKVPs` for a downloaded ``Blend.buf``, which is bound and drawn by hand
+    
+    Parameters
+    ----------
+    name: :class:`str`
+        The name of the download resource in the .ini file
+    
+    download: :class:`FileDownload`
+        The file download to initiate -- the class keeps its own copy
+    
+    refToSection: :class:`bool`
+        Whether to reference the download once from the top of each `section`_ that needs it, rather than from each
+        of its parts :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+    
+    downloadRefKVPs: Optional[Union[List[Tuple[:class:`str`, :class:`str`]], Dict[:class:`str`, :class:`str`]]]
+        Any `KVPs`_ to add after each reference to the download :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    resourceKVPs: Optional[Union[List[Tuple[:class:`str`, :class:`str`]], Dict[:class:`str`, :class:`str`]]]
+        Any `KVPs`_ to add before the file path in the resource `section`_ -- eg. ``type`` and ``stride`` for a buffer
+        :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    @staticmethod
+    def blendRefKVPs(vertexCount: typing.SupportsInt | typing.SupportsIndex) -> list[tuple[str, str]]:
+        """
+        The two `KVPs`_ that must follow a reference to a downloaded ``Blend.buf``: ``handling = skip`` and
+        ``draw = <vertexCount>,0``. The .ini file it is dropped into has no draw of its own for it, so without them the blend
+        is bound and never drawn from -- pass them as :attr:`downloadRefKVPs`
+        
+        Parameters
+        ----------
+        vertexCount: :class:`int`
+            How many vertices the drawn model has
+        
+        Returns
+        -------
+        List[Tuple[:class:`str`, :class:`str`]]
+            The `KVPs`_
+        """
+    def __init__(self, name: str, download: FileDownload, refToSection: bool = False, downloadRefKVPs: typing.Any = None, resourceKVPs: typing.Any = None) -> None:
+        ...
+    @property
+    def download(self) -> FileDownload:
+        """
+        :class:`FileDownload`: The file download to initiate
+        """
+    @property
+    def downloadRefKVPs(self) -> list[tuple[str, str]]:
+        """
+        List[Tuple[:class:`str`, :class:`str`]]: The `KVPs`_ added after each reference to the download
+        """
+    @property
+    def name(self) -> str:
+        """
+        :class:`str`: The name of the download resource in the .ini file
+        """
+    @property
+    def refToSection(self) -> bool:
+        """
+        :class:`bool`: Whether the download is referenced once from the top of each `section`_ that needs it, rather than
+        from each of its parts
+        """
+    @property
+    def resourceKVPs(self) -> list[tuple[str, str]]:
+        """
+        List[Tuple[:class:`str`, :class:`str`]]: The `KVPs`_ added before the file path in the resource `section`_
+        """
+
 class DownloadMode:
     """
     
@@ -12901,6 +12982,98 @@ class IniParseData:
             The mod objects
         """
 
+class IniParseDownloadData:
+    """
+    
+    A file a mod is missing and has to download, as a parser asks for it -- how a `section`_ references it, the resource
+    `section`_ that names the file, and the download itself
+    
+    Subclass it to download something :class:`DownloadData` cannot express: override all six methods (``name`` and
+    ``refToSection`` included, which :class:`DownloadData` holds as data instead). A parser builds
+    the resource `section`_ and the download with :meth:`createResSection` and :meth:`createFileDownload`, and registers
+    what they return with the .ini file itself
+        
+    """
+    def __init__(self) -> None:
+        ...
+    def addToPart(self, part: IfContentPart, key: str, val: str) -> None:
+        """
+        Adds a reference to the download into 'part'
+        
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The part to add the reference to
+        
+        key: :class:`str`
+            The key of the download reference `KVP`_
+        
+        val: :class:`str`
+            The value of the download reference `KVP`_
+        """
+    def addToSection(self, section: IfTemplate, key: str, val: str) -> None:
+        """
+        Adds a reference to the download to the front of 'section'
+        
+        Parameters
+        ----------
+        section: :class:`IfTemplate`
+            The `section`_ to add the reference to
+        
+        key: :class:`str`
+            The key of the download reference `KVP`_
+        
+        val: :class:`str`
+            The value of the download reference `KVP`_
+        """
+    def createFileDownload(self, iniFolder: str) -> IniResource:
+        """
+        Builds the download of the file
+        
+        Parameters
+        ----------
+        iniFolder: :class:`str`
+            The folder the .ini file lives in
+        
+        Returns
+        -------
+        Optional[:class:`IniResource`]
+            The download, or ``None`` if there is nothing to download
+        """
+    def createResSection(self, sectionName: str) -> IfTemplate:
+        """
+        Builds the `section`_ that holds the download's resource
+        
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The name of the `section`_
+        
+        Returns
+        -------
+        :class:`IfTemplate`
+            The built `section`_
+        """
+    def name(self) -> str:
+        """
+        The name of the download resource in the .ini file
+        
+        Returns
+        -------
+        :class:`str`
+            The name
+        """
+    def refToSection(self) -> bool:
+        """
+        Whether the download is referenced once from the top of each `section`_ that needs it, rather than from each of
+        the section's parts
+        
+        Returns
+        -------
+        :class:`bool`
+            ``True`` to reference it from the top of the `section`_
+        """
+
 class IniParseRows:
     """
     
@@ -13120,6 +13293,36 @@ class IbFile(CppBufFile):
     """
     TriangleBufElementKey: typing.ClassVar[str] = 'Triangle'
     VerticesPerTriangle: typing.ClassVar[int] = 3
+    @staticmethod
+    def remapDrawRange(indexCount: typing.SupportsInt | typing.SupportsIndex, firstIndex: typing.SupportsInt | typing.SupportsIndex, keptTriangleIds: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> tuple[int, int]:
+        """
+        A draw range of an index buffer, moved onto a copy of it that keeps only some of its triangles
+        
+        'keptTriangleIds' lists, ascending, the triangle of the ORIGINAL buffer at each place of the copy. The range's new
+        first index is the number of kept triangles before it and its new count the number inside it, both times 3 -- so a
+        range over removed triangles draws only what is left of it, and every range after a removed triangle moves down
+        
+        .. code-block:: python
+        
+            # triangles 3 and 4 were removed
+            IbFile.remapDrawRange(9, 9, [0, 1, 2, 5, 6, 7])   # (3, 9)
+        
+        Parameters
+        ----------
+        indexCount: :class:`int`
+            How many indices the range holds
+        
+        firstIndex: :class:`int`
+            The index the range starts at
+        
+        keptTriangleIds: List[:class:`int`]
+            The original triangle at each place of the copy, ascending
+        
+        Returns
+        -------
+        Tuple[:class:`int`, :class:`int`]
+            The range in the copy, as ``(index count, first index)``
+        """
     def __init__(self, src: typing.Any) -> None:
         ...
     def getDumpStr(self, firstIndex: typing.SupportsInt | typing.SupportsIndex = 0) -> str:
@@ -15489,6 +15692,27 @@ class IniFile:
             Whether the line declares a `section`_
         """
     @staticmethod
+    def loadedInis(folder: str, exclude: str = '') -> list[str]:
+        """
+        The .ini files directly in 'folder' that the game loads: not one a modder turned off
+        (:meth:`IniNamingTools.isDisabled`), and not a copy a fix generated (:meth:`IniNamingTools.isRemapCopyFile`)
+        
+        Parameters
+        ----------
+        folder: :class:`str`
+            The folder
+        
+        exclude: :class:`str`
+            A file to leave out, eg. the .ini file being read :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``, none
+        
+        Returns
+        -------
+        List[:class:`str`]
+            Their full paths, sorted
+        """
+    @staticmethod
     def mergesRepeatedSection(name: str) -> bool:
         """
         Whether a `section`_ named 'name' declared again in the same .ini file is MERGED into its first declaration,
@@ -15711,6 +15935,16 @@ class IniFile:
         -------
         List[:class:`str`]
             The names of the `sections`_
+        """
+    def loadedSiblings(self) -> list[str]:
+        """
+        The other .ini files of this file's folder that the game loads -- see :meth:`loadedInis`. Empty for a .ini file
+        with no path
+        
+        Returns
+        -------
+        List[:class:`str`]
+            Their full paths, sorted
         """
     def parse(self, flushIfTemplates: bool = True) -> None:
         """
@@ -16734,9 +16968,19 @@ class IniNamingTools:
         Whether a register's value is a 3dmigoto statement opening with 'keyword' -- ``ref``, :attr:`IniKeywords.Copy`, :attr:`IniKeywords.CopyDesc` -- rather than a resource name
         """
     @staticmethod
+    def isDisabled(name: str) -> bool:
+        """
+        Whether 'name' -- a file, folder or `section`_ name -- is one a modder turned OFF: it starts with :attr:`FilePrefixes.DisabledPrefix`, ignoring case
+        """
+    @staticmethod
     def isDownloadFile(path: str) -> bool:
         """
         Whether a file is one the library DOWNLOADS rather than one a mod ships: its name carries :attr:`IniKeywords.RemapDL`
+        """
+    @staticmethod
+    def isRemapCopyFile(file: str) -> bool:
+        """
+        Whether 'file' is a .ini file a fix GENERATED beside the mod's own -- ``<name>RemapFix<N>.ini``, ignoring case, with only the LAST ``RemapFix`` in the name counting
         """
     @staticmethod
     def looksRemapped(sectionName: str, modNames: collections.abc.Sequence[str], remapKeyword: str = 'Remap') -> bool:
@@ -17668,6 +17912,147 @@ class KeyRemapData:
         """
         :class:`bool`: Whether a non-firing occurrence retains its original pair
         """
+class ListValue:
+    """
+    
+    The value of a `KVP`_ read as a list of fields: ``a``, ``a, b`` or ``a, b, c, d, e, f, g, h`` -- whatever length the
+    value has
+    
+    A value with no separator is a list of one field, so every `KVP`_ is one: ``vb0 = ResourceX`` and
+    ``drawindexed = 12, 0, 0`` are read the same way. An empty value has no fields, and a trailing separator gives an
+    empty last field (``a, b,`` is three fields). Each field is held without its surrounding whitespace
+    
+    A field is addressed by its position, counting from ``0``; a negative position counts from the end, so ``-1`` is
+    the last field whatever the length. Reading a field past either end gives ``None`` rather than an error
+    
+    :meth:`str` writes the value back: exactly as it was given while no field has been set, and otherwise its fields
+    joined with the separator and a space
+    
+    .. code-block:: python
+    
+        ListValue("12, 30, 0").number(1)    # 30
+        ListValue("auto").number(0)         # None
+        ListValue("0").size()               # 1
+    
+    Parameters
+    ----------
+    value: :class:`str`
+        The value of the `KVP`_ :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``""``
+    
+    separator: :class:`str`
+        The character the fields are separated by :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``","``
+        
+    """
+    def __init__(self, value: str = '', separator: str = ',') -> None:
+        ...
+    def __len__(self) -> int:
+        ...
+    def __str__(self) -> str:
+        ...
+    def append(self, field: str) -> None:
+        """
+        Adds a field at the end, held without its surrounding whitespace
+        """
+    def at(self, pos: typing.SupportsInt | typing.SupportsIndex) -> str | None:
+        """
+        The field at 'pos', counting from the end when 'pos' is negative
+        
+        Parameters
+        ----------
+        pos: :class:`int`
+            The field's position
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The field, or ``None`` past either end
+        """
+    def changed(self) -> bool:
+        """
+        Whether any field has been set or added since the value was read
+        """
+    def number(self, pos: typing.SupportsInt | typing.SupportsIndex) -> int | None:
+        """
+        The field at 'pos' as a whole number -- an optional ``-`` followed by digits only
+        
+        Parameters
+        ----------
+        pos: :class:`int`
+            The field's position, counting from the end when negative
+        
+        Returns
+        -------
+        Optional[:class:`int`]
+            The number, or ``None`` for any other field (``auto``, ``$var``, ``1.5``, an empty field) or a position past either
+            end
+        """
+    def numbers(self) -> list[int] | None:
+        """
+        Every field as a whole number (see :meth:`number`)
+        
+        Returns
+        -------
+        Optional[List[:class:`int`]]
+            The numbers, or ``None`` when the value is empty or any one of its fields is not one
+        """
+    def set(self, pos: typing.SupportsInt | typing.SupportsIndex, field: str) -> bool:
+        """
+        Sets the field at 'pos', counting from the end when 'pos' is negative
+        
+        Parameters
+        ----------
+        pos: :class:`int`
+            The field's position
+        
+        field: :class:`str`
+            The new field, held without its surrounding whitespace
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether 'pos' named a field: a position past either end changes nothing
+        """
+    def setNumber(self, pos: typing.SupportsInt | typing.SupportsIndex, number: typing.SupportsInt | typing.SupportsIndex) -> bool:
+        """
+        Sets the field at 'pos' to a whole number -- see :meth:`set`
+        
+        Parameters
+        ----------
+        pos: :class:`int`
+            The field's position
+        
+        number: :class:`int`
+            The new field
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether 'pos' named a field
+        """
+    def size(self) -> int:
+        """
+        How many fields the value has -- ``0`` for an empty value
+        """
+    def str(self) -> str:
+        """
+        The value: as it was given when nothing has changed, otherwise every field joined with the separator and a space
+        (``a, b, c``)
+        
+        Returns
+        -------
+        :class:`str`
+            The value
+        """
+    @property
+    def fields(self) -> list[str]:
+        """
+        :class:`list` [:class:`str`]: Every field, in order, without its surrounding whitespace
+        """
+
 class Logger(BaseLogger):
     """
     
@@ -22272,260 +22657,6 @@ class RegDelimitedAddMode:
     @property
     def value(self) -> int:
         ...
-class RegDrawRangeRemap(BaseRegEdit):
-    """
-    
-    This class inherits from :class:`BaseRegEdit`
-    
-    Remaps the ranges a part's ``drawindexed`` lines draw through an index buffer that lost some of its
-    triangles
-    
-    A mod that draws for itself writes ``drawindexed = <count>, <start>, <base>``, and a mod with toggles
-    writes several such lines, each a range of its object's index buffer that one toggle shows or hides.
-    When a fix writes that index buffer again without some of its triangles (the ones another component
-    draws, say), the mod's own numbers overrun the written buffer and every range after a removed triangle
-    draws the wrong triangles.
-    
-    :attr:`keptTriangleIds` lists, in ascending order, the SOURCE index of every triangle the written buffer
-    keeps. A range's new start is the number of kept triangles before it and its new count the number
-    inside it, both times 3; any further number on the line (the base vertex) is kept as it is. A line that
-    is not at least two non-negative numbers --- ``drawindexed = auto`` --- is left alone.
-    
-    .. code-block:: ini
-    
-        ; keptTriangleIds = [0, 1, 2, 5, 6, 7]: triangles 3 and 4 were removed
-        drawindexed = 9, 0, 0       ; -> 9, 0, 0
-        drawindexed = 9, 9, 0       ; -> 3, 9, 0   (only triangle 5 of 3..5 is kept)
-        drawindexed = auto          ; untouched
-    
-    A range may also be drawn some other way: :attr:`reroute` is asked about every remapped line, and when
-    it answers with a name the line is replaced, at the same position, by ``run = <name>`` --- eg. a
-    ``CustomShader`` `section`_ that draws the remapped range under a blend state of its own.
-    
-    Parameters
-    ----------
-    keptTriangleIds: List[:class:`int`]
-        The source index of every triangle the written index buffer keeps, ascending :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``[]``
-    
-    reroute: Optional[Callable[[:class:`int`, :class:`int`, :class:`str`], Optional[:class:`str`]]]
-        Decides whether a remapped range is drawn by a ``run =`` instead: takes the range's first index and
-        index count as the MOD wrote them, and the remapped value of the line, and returns the name to ``run``,
-        or ``None`` to keep the ``drawindexed`` line. ``None`` keeps every line :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``
-        
-    """
-    @staticmethod
-    def parseRange(value: str) -> list[int] | None:
-        """
-        The numbers of a ``drawindexed`` value --- ``count, start[, base, ...]`` --- or ``None`` when it is not
-        at least two numbers, or its count or start is negative (``auto``)
-        
-        Parameters
-        ----------
-        value: :class:`str`
-            The value of the ``drawindexed`` line
-        
-        Returns
-        -------
-        Optional[List[:class:`int`]]
-            The numbers, in the order they are written
-        """
-    @staticmethod
-    def remapRange(value: str, keptTriangleIds: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> str | None:
-        """
-        The value of a ``drawindexed`` line remapped through 'keptTriangleIds', or ``None`` for one
-        :meth:`parseRange` cannot read
-        
-        Parameters
-        ----------
-        value: :class:`str`
-            The value of the ``drawindexed`` line
-        
-        keptTriangleIds: List[:class:`int`]
-            The source index of every kept triangle, ascending
-        
-        Returns
-        -------
-        Optional[:class:`str`]
-            The remapped value, written ``count, start[, base, ...]``
-        """
-    def __init__(self, keptTriangleIds: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex] = [], reroute: typing.Any = None) -> None:
-        ...
-    def edit(self, part: typing.Any, sectionName: str, modType: typing.Any, modName: str = '', partRanges: typing.Any = None) -> typing.Any:
-        """
-        Remaps every ``drawindexed`` line of 'part' through :attr:`keptTriangleIds`, then replaces each one
-        :attr:`reroute` names with a ``run =`` line at the same position
-        
-        Parameters
-        ----------
-        part: :class:`IfContentPart`
-            The part of the `IfTemplate` that is being editted
-        
-        sectionName: :class:`str`
-            The name of the `section`_ that is being editted. Unused by this edit
-        
-        modType: Optional[:class:`ModType`]
-            The type of mod to fix. Unused by this edit
-        
-        modName: :class:`str`
-            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``""``
-        
-        partRanges: Optional[:class:`Ranges`]
-            The ranges that indicate the valid order indices to process for the argument 'part' :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``
-        
-        Returns
-        -------
-        :class:`IfContentPart`
-            The same part that was passed in, after editing
-        """
-    @property
-    def keptTriangleIds(self) -> list[int]:
-        """
-        List[:class:`int`]: The source index of every triangle the written index buffer keeps, ascending
-        """
-    @keptTriangleIds.setter
-    def keptTriangleIds(self, arg0: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
-        ...
-    @property
-    def reroute(self) -> typing.Any:
-        """
-        Optional[Callable[[:class:`int`, :class:`int`, :class:`str`], Optional[:class:`str`]]]: Which remapped ranges are drawn by a ``run =`` instead, or ``None`` to keep every line
-        """
-    @reroute.setter
-    def reroute(self, arg1: typing.Any) -> None:
-        ...
-
-class RegDrawRangeShift(BaseRegEdit):
-    """
-    
-    This class inherits from :class:`BaseRegEdit`
-    
-    Moves the ranges a part's ``drawindexed`` lines draw by a fixed number of indices, for an index buffer that
-    now sits behind other indices
-    
-    When a fix concatenates several index buffers into one, every buffer after the first starts :attr:`offset`
-    indices in, and the ``drawindexed = <count>, <start>, <base>`` lines written for it address the start of the
-    merged buffer instead of its own part of it. This edit adds :attr:`offset` to each line's start and keeps
-    every other field as written; ``drawindexed = auto`` becomes the buffer's whole range,
-    ``<count>, <offset>, 0``. A line whose start is not a plain non-negative number is left as it is.
-    
-    .. code-block:: ini
-    
-        ; offset = 30, count = 12
-        drawindexed = 6, 0, 0       ; -> 6, 30, 0
-        drawindexed = 6, 6          ; -> 6, 36
-        drawindexed = auto          ; -> 12, 30, 0
-        drawindexed = $n, $s, 0     ; untouched
-    
-    Some draws take their start from a variable the part sets (eg. a library's command list drawing
-    ``drawindexed = $_1, $_2, 0``): every key of :attr:`startKeys` --- matched case-insensitively, ignoring
-    surrounding whitespace --- holds such a start, and its plain non-negative values are moved by :attr:`offset` too
-    
-    Parameters
-    ----------
-    offset: :class:`int`
-        How many indices the ranges are moved by :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``0``
-    
-    count: :class:`int`
-        How many indices the buffer holds, which is what ``drawindexed = auto`` becomes :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``0``
-    
-    startKeys: List[:class:`str`]
-        Further keys whose values are start indices into the same buffer :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``[]``
-        
-    """
-    @staticmethod
-    def shiftRange(value: str, offset: typing.SupportsInt | typing.SupportsIndex, count: typing.SupportsInt | typing.SupportsIndex) -> str:
-        """
-        The value of a ``drawindexed`` line moved by 'offset': ``auto`` becomes ``<count>, <offset>, 0``, a line
-        whose second field is a plain non-negative number has 'offset' added to it (every field then written
-        stripped, separated by ``", "``), and anything else is returned as it is
-        
-        Parameters
-        ----------
-        value: :class:`str`
-            The value of the ``drawindexed`` line
-        
-        offset: :class:`int`
-            How many indices to move the range by
-        
-        count: :class:`int`
-            How many indices the buffer holds
-        
-        Returns
-        -------
-        :class:`str`
-            The moved value
-        """
-    def __init__(self, offset: typing.SupportsInt | typing.SupportsIndex = 0, count: typing.SupportsInt | typing.SupportsIndex = 0, startKeys: collections.abc.Sequence[str] = []) -> None:
-        ...
-    def edit(self, part: typing.Any, sectionName: str, modType: typing.Any, modName: str = '', partRanges: typing.Any = None) -> typing.Any:
-        """
-        Moves every ``drawindexed`` line of 'part' by :attr:`offset`, then every plain non-negative value of the
-        keys :attr:`startKeys` names
-        
-        Parameters
-        ----------
-        part: :class:`IfContentPart`
-            The part of the `IfTemplate` that is being editted
-        
-        sectionName: :class:`str`
-            The name of the `section`_ that is being editted. Unused by this edit
-        
-        modType: Optional[:class:`ModType`]
-            The type of mod to fix. Unused by this edit
-        
-        modName: :class:`str`
-            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``""``
-        
-        partRanges: Optional[:class:`Ranges`]
-            The ranges that indicate the valid order indices to process for the argument 'part' :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``
-        
-        Returns
-        -------
-        :class:`IfContentPart`
-            The same part that was passed in, after editing
-        """
-    @property
-    def count(self) -> int:
-        """
-        :class:`int`: How many indices the buffer holds, which is what ``drawindexed = auto`` becomes
-        """
-    @count.setter
-    def count(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
-        ...
-    @property
-    def offset(self) -> int:
-        """
-        :class:`int`: How many indices the ranges are moved by
-        """
-    @offset.setter
-    def offset(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
-        ...
-    @property
-    def startKeys(self) -> list[str]:
-        """
-        List[:class:`str`]: Further keys whose values are start indices into the same buffer, matched case-insensitively and ignoring surrounding whitespace
-        """
-    @startKeys.setter
-    def startKeys(self, arg0: collections.abc.Sequence[str]) -> None:
-        ...
 
 class RegFillMissing(BaseIniGraphEdit):
     """
@@ -26732,6 +26863,88 @@ class SectionIterQueryDataIterator:
         ...
     def __next__(self) -> typing.Any:
         ...
+class SectionText:
+    """
+    
+    One `section`_ built from its lines rather than written as text: runs of ``key = value`` lines, ``if`` blocks and a
+    comment above the header, built into an :class:`IfTemplate` by :meth:`build`
+    
+    Every method that adds to the section returns the builder, so the lines read in order:
+    
+    .. code-block:: python
+    
+        section = (SectionText(z3, "TextureOverrideBody")
+                   .keys([("hash", "abcd1234"), ("match_first_index", "0")])
+                   .open("$mod_enabled")
+                   .key("handling", "skip")
+                   .close()
+                   .build())
+    
+    Parameters
+    ----------
+    z3Ctx: :class:`Z3Context`
+        The context the section's ``if`` conditions are parsed in -- kept alive with the builder
+    
+    name: :class:`str`
+        The section's name, without its brackets
+        
+    """
+    def __init__(self, z3Ctx: Z3Context, name: str) -> None:
+        ...
+    def build(self) -> IfTemplate:
+        """
+        The section built so far. Its lines move into the result, so a builder is built once
+        
+        Returns
+        -------
+        :class:`IfTemplate`
+            The section
+        """
+    def close(self) -> SectionText:
+        """
+        Closes the innermost open ``if`` with an ``endif``. Returns this builder
+        """
+    def key(self, key: str, value: str = '') -> SectionText:
+        """
+        Adds one ``key = value`` line -- see :meth:`keys`. Returns this builder
+        """
+    def keys(self, kvps: collections.abc.Sequence[tuple[str, str]]) -> SectionText:
+        """
+        Adds a run of ``key = value`` lines. A value of ``""`` is a line with no ``=`` at all -- 3dmigoto's ``local $var``
+        
+        Parameters
+        ----------
+        kvps: List[Tuple[:class:`str`, :class:`str`]]
+            The lines, in order
+        
+        Returns
+        -------
+        :class:`SectionText`
+            This builder
+        """
+    def open(self, predicate: str) -> SectionText:
+        """
+        Opens an ``if <predicate>`` block: the lines added after it sit inside it until :meth:`close`. Returns this builder
+        """
+    def orElse(self) -> SectionText:
+        """
+        Adds the ``else`` of the innermost open ``if``. Returns this builder
+        """
+    def prefix(self, text: str) -> SectionText:
+        """
+        Sets the comment written above the ``[name]`` line. Returns this builder
+        """
+    def str(self) -> str:
+        """
+        The section built so far, rendered as .ini text with a blank line after it. Its lines move into the result, as with
+        :meth:`build`
+        
+        Returns
+        -------
+        :class:`str`
+            The text
+        """
+
 class ShaderFilterTags:
     """
     
@@ -31572,6 +31785,17 @@ class WWMIFixerConfig:
     def plan(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, WWMIFixerConfig.SourceComponent]) -> None:
         ...
     @property
+    def remappedSkeletonRemovals(self) -> list[WWMIFixerConfig.RegRemoval]:
+        """
+        List[:class:`WWMIFixerConfig.RegRemoval`]: Register lines a remapped section also drops when the TARGET is past 256
+        bones: the mod's own merge list, the two other routes to it (``CheckTextureOverride`` on ``vs-cb3`` / ``vs-cb4``)
+        and its own bindings of the merged skeletons, each matched by value prefix. Each would bind the MOD's skeleton, sized
+        for the source. **Default**: those six lines, as WWMI Tools writes them
+        """
+    @remappedSkeletonRemovals.setter
+    def remappedSkeletonRemovals(self, arg0: collections.abc.Sequence[WWMIFixerConfig.RegRemoval]) -> None:
+        ...
+    @property
     def removedRegs(self) -> list[WWMIFixerConfig.RegRemoval]:
         """
         List[:class:`WWMIFixerConfig.RegRemoval`]: Register lines a remapped section drops, on top of what
@@ -32008,375 +32232,6 @@ class WWMIParserConfig:
     @version.setter
     def version(self, arg0: str) -> None:
         ...
-class WWMIRuntime:
-    """
-    
-    The `sections`_ a fix of a Wuthering Waves mod writes to drive WWMI itself: the merged skeleton a mod from before WWMI's
-    merged skeleton has none of, a remapped copy of it for a target past 256 bones, one merge list per target draw slot, and
-    the blend remap that rewrites the remapped blend's ids into that remap's local space
-    
-    Every name goes through :attr:`Skeleton.name` / :attr:`BlendRemap.name`, so the sections carry the fix's own names and
-    an undo takes them
-        
-    """
-    class BlendRemap:
-        """
-        What :meth:`WWMIRuntime.blendRemapSections` writes
-        """
-        def __init__(self) -> None:
-            ...
-        @property
-        def blendFile(self) -> str:
-            """
-            :class:`str`: The remapped blend file
-            """
-        @blendFile.setter
-        def blendFile(self, arg0: str) -> None:
-            ...
-        @property
-        def blendReg(self) -> str:
-            """
-            :class:`str`: The register the remapped blend is bound at
-            """
-        @blendReg.setter
-        def blendReg(self, arg0: str) -> None:
-            ...
-        @property
-        def blendStride(self) -> int:
-            """
-            :class:`int`: The blend's stride
-            """
-        @blendStride.setter
-        def blendStride(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
-            ...
-        @property
-        def influences(self) -> int:
-            """
-            :class:`int`: How many influences each vertex of the blend carries
-            """
-        @influences.setter
-        def influences(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
-            ...
-        @property
-        def name(self) -> collections.abc.Callable[[str], str]:
-            """
-            Callable[[:class:`str`], :class:`str`]: The fix's name for a `section`_ of the given name
-            """
-        @name.setter
-        def name(self, arg0: collections.abc.Callable[[str], str]) -> None:
-            ...
-        @property
-        def remapFile(self) -> collections.abc.Callable[[str], str]:
-            """
-            Callable[[:class:`str`], :class:`str`]: The files of the remap's three id buffers: ``VertexVG``, ``Forward`` and ``Reverse``
-            """
-        @remapFile.setter
-        def remapFile(self, arg0: collections.abc.Callable[[str], str]) -> None:
-            ...
-    class Hide:
-        """
-        What :meth:`WWMIRuntime.hideSection` writes
-        """
-        def __init__(self) -> None:
-            ...
-        @property
-        def comment(self) -> str:
-            """
-            :class:`str`: The comment written above it
-            """
-        @comment.setter
-        def comment(self, arg0: str) -> None:
-            ...
-        @property
-        def indexCount(self) -> str:
-            """
-            :class:`str`: The slot's ``match_index_count``
-            """
-        @indexCount.setter
-        def indexCount(self, arg0: str) -> None:
-            ...
-        @property
-        def indexOffset(self) -> str:
-            """
-            :class:`str`: The slot's ``match_first_index``
-            """
-        @indexOffset.setter
-        def indexOffset(self, arg0: str) -> None:
-            ...
-        @property
-        def legacyMergeList(self) -> str:
-            """
-            :class:`str`: For a mod from before WWMI's merged skeleton: the list that merges the slot's bones
-            (:meth:`WWMIRuntime.mergeListName`), run before the draw is skipped -- or empty for a mod with a merged skeleton
-            """
-        @legacyMergeList.setter
-        def legacyMergeList(self, arg0: str) -> None:
-            ...
-        @property
-        def mergeSkeletonList(self) -> str:
-            """
-            :class:`str`: The list run once a frame without :attr:`mergeWindowList`
-            """
-        @mergeSkeletonList.setter
-        def mergeSkeletonList(self, arg0: str) -> None:
-            ...
-        @property
-        def mergeWindowList(self) -> str:
-            """
-            :class:`str`: For a target past 256 bones: the list that merges the slot's window into the fix's own skeleton, run on
-            every draw -- or empty, which runs :attr:`mergeSkeletonList` once a frame through the slot's latch
-            """
-        @mergeWindowList.setter
-        def mergeWindowList(self, arg0: str) -> None:
-            ...
-        @property
-        def name(self) -> str:
-            """
-            :class:`str`: The `section`_'s name
-            """
-        @name.setter
-        def name(self, arg0: str) -> None:
-            ...
-        @property
-        def slot(self) -> str:
-            """
-            :class:`str`: A name of the slot for its frame latch (``$state_id_<slot>``)
-            """
-        @slot.setter
-        def slot(self, arg0: str) -> None:
-            ...
-        @property
-        def stashed(self) -> list[tuple[str, str]]:
-            """
-            List[Tuple[:class:`str`, :class:`str`]]: Lines that capture the game's own bindings on the slot, run while a pixel
-            shader is bound
-            """
-        @stashed.setter
-        def stashed(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
-            ...
-        @property
-        def vb0Hash(self) -> str:
-            """
-            :class:`str`: The target's ``vb0`` hash
-            """
-        @vb0Hash.setter
-        def vb0Hash(self, arg0: str) -> None:
-            ...
-        @property
-        def vgCount(self) -> str:
-            """
-            :class:`str`: The slot's ``vg_count``
-            """
-        @vgCount.setter
-        def vgCount(self, arg0: str) -> None:
-            ...
-        @property
-        def vgOffset(self) -> str:
-            """
-            :class:`str`: The slot's ``vg_offset``
-            """
-        @vgOffset.setter
-        def vgOffset(self, arg0: str) -> None:
-            ...
-    class Skeleton:
-        """
-        What :meth:`WWMIRuntime.skeletonSections` writes
-        """
-        def __init__(self) -> None:
-            ...
-        @property
-        def bindPrevPoseAlways(self) -> bool:
-            """
-            :class:`bool`: Whether ``vs-cb3`` gets the previous pose after every merge, whatever the marker says
-            """
-        @bindPrevPoseAlways.setter
-        def bindPrevPoseAlways(self, arg0: bool) -> None:
-            ...
-        @property
-        def blendRemapBones(self) -> int:
-            """
-            :class:`int`: The blend remap's bone count, for the remap
-            """
-        @blendRemapBones.setter
-        def blendRemapBones(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
-            ...
-        @property
-        def blendRemapForward(self) -> str:
-            """
-            :class:`str`: The resource of the blend remap's forward ids, for the remap
-            """
-        @blendRemapForward.setter
-        def blendRemapForward(self, arg0: str) -> None:
-            ...
-        @property
-        def boneDataFilter(self) -> str:
-            """
-            :class:`str`: The ``filter_index`` the fix marks that buffer with
-            """
-        @boneDataFilter.setter
-        def boneDataFilter(self, arg0: str) -> None:
-            ...
-        @property
-        def cb4Hash(self) -> str:
-            """
-            :class:`str`: The hash of the game's bone-data constant buffer, which the merges are gated on
-            """
-        @cb4Hash.setter
-        def cb4Hash(self, arg0: str) -> None:
-            ...
-        @property
-        def currentPoseInCb3Only(self) -> bool:
-            """
-            :class:`bool`: Whether a draw with its current pose in ``vs-cb3`` alone merges into the MAIN skeleton
-            """
-        @currentPoseInCb3Only.setter
-        def currentPoseInCb3Only(self, arg0: bool) -> None:
-            ...
-        @property
-        def latched(self) -> bool:
-            """
-            :class:`bool`: Whether the remap runs once a frame from a latch elsewhere; otherwise each merge list runs it first
-            """
-        @latched.setter
-        def latched(self, arg0: bool) -> None:
-            ...
-        @property
-        def mergedSkeletonSlots(self) -> int:
-            """
-            :class:`int`: How many bones the merged skeleton holds
-            """
-        @mergedSkeletonSlots.setter
-        def mergedSkeletonSlots(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
-            ...
-        @property
-        def name(self) -> collections.abc.Callable[[str], str]:
-            """
-            Callable[[:class:`str`], :class:`str`]: The fix's name for a `section`_ of the given name
-            """
-        @name.setter
-        def name(self, arg0: collections.abc.Callable[[str], str]) -> None:
-            ...
-        @property
-        def remapped(self) -> bool:
-            """
-            :class:`bool`: Whether the target is past 256 bones: the merge then feeds a private REMAPPED skeleton
-            (:attr:`blendRemapForward`, WWMI's ``SkeletonRemapper``), bound in place of the merged one
-            """
-        @remapped.setter
-        def remapped(self, arg0: bool) -> None:
-            ...
-        @property
-        def slotWindows(self) -> list[tuple[str, str]]:
-            """
-            List[Tuple[:class:`str`, :class:`str`]]: Each target draw slot's bone window, as ``(vg_offset, vg_count)``
-            """
-        @slotWindows.setter
-        def slotWindows(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
-            ...
-    @staticmethod
-    def blendRemapInitList(blendRemap: WWMIRuntime.BlendRemap) -> str:
-        """
-        The list :meth:`blendRemapSections` runs WWMI's ``BlendRemapper`` from
-        
-        Parameters
-        ----------
-        blendRemap: :class:`WWMIRuntime.BlendRemap`
-            What the sections are named by
-        
-        Returns
-        -------
-        :class:`str`
-            The list's name
-        """
-    @staticmethod
-    def blendRemapSections(z3: Z3Context, blendRemap: WWMIRuntime.BlendRemap) -> list[IfTemplate]:
-        """
-        The blend remap's resources and the one-time run of WWMI's ``BlendRemapper`` (:meth:`blendRemapInitList`), guarded by
-        a ``local`` so it costs one dispatch on the first drawn frame and binds the remapped blend after
-        
-        Parameters
-        ----------
-        z3: :class:`Z3Context`
-            The Z3 context the `if` lines are parsed in
-        
-        blendRemap: :class:`WWMIRuntime.BlendRemap`
-            What to write
-        
-        Returns
-        -------
-        List[:class:`IfTemplate`]
-            The sections, in order
-        """
-    @staticmethod
-    def hideSection(z3: Z3Context, hide: WWMIRuntime.Hide) -> IfTemplate:
-        """
-        The ``TextureOverride`` of a target draw slot nothing of the mod is drawn through: it skips the skin's own geometry
-        and still merges the slot's bones, which other slots' vertices may be weighted to
-        
-        Parameters
-        ----------
-        z3: :class:`Z3Context`
-            The Z3 context the `if` lines are parsed in
-        
-        hide: :class:`WWMIRuntime.Hide`
-            What to write
-        
-        Returns
-        -------
-        :class:`IfTemplate`
-            The section
-        """
-    @staticmethod
-    def mergeListName(skeleton: WWMIRuntime.Skeleton, slot: typing.SupportsInt | typing.SupportsIndex) -> str:
-        """
-        The merge list of one target draw slot
-        
-        Parameters
-        ----------
-        skeleton: :class:`WWMIRuntime.Skeleton`
-            What the sections are named by
-        
-        slot: :class:`int`
-            The slot
-        
-        Returns
-        -------
-        :class:`str`
-            The list's name
-        """
-    @staticmethod
-    def remappedSkeletonRemovals() -> list[tuple[str, str]]:
-        """
-        The lines a remapped `section`_ drops when the target is past 256 bones, as ``(key, value prefix)`` -- each value
-        matched with :meth:`RegRemove.valueStartsWith`. They are the mod's own merge list and the two other routes to it
-        (``CheckTextureOverride`` on ``vs-cb3`` / ``vs-cb4``), and its own bindings of the merged skeletons: each would write
-        or bind the MOD's skeleton, sized for the source, and consume the bone-data marker the fix's own merge list is gated on
-        
-        Returns
-        -------
-        List[Tuple[:class:`str`, :class:`str`]]
-            The lines
-        """
-    @staticmethod
-    def skeletonSections(z3: Z3Context, skeleton: WWMIRuntime.Skeleton) -> list[IfTemplate]:
-        """
-        The skeleton's `sections`_: the merged skeleton and its read-write copies, the marker on the game's bone-data constant
-        buffer, the remapped skeleton with the list that remaps it and the merge a hidden slot runs (for
-        :attr:`Skeleton.remapped`), and one merge list per slot (:meth:`mergeListName`)
-        
-        Parameters
-        ----------
-        z3: :class:`Z3Context`
-            The Z3 context the `if` lines are parsed in
-        
-        skeleton: :class:`WWMIRuntime.Skeleton`
-            What to write
-        
-        Returns
-        -------
-        List[:class:`IfTemplate`]
-            The sections, in order
-        """
 class WWMIShapeKeys:
     """
     

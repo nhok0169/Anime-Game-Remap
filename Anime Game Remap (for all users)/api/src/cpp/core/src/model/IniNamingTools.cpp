@@ -12,6 +12,7 @@
 // ##### EndCredits
 
 #include "AGRemapCore/tools/files/FileService.h"
+#include "AGRemapCore/constants/FileSuffixes.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 
 #include <filesystem>
@@ -119,6 +120,20 @@ namespace AGRemapCore {
 
     bool IniNamingTools::isDisabled(const std::string& name) {
         return StringTools::startsWith(StringTools::toLower(name), FilePrefixes::DisabledPrefix);
+    }
+
+    bool IniNamingTools::isRemapCopyFile(const std::string& file) {
+        const std::string low = StringTools::toLower(FileService::pathToStr(FileService::strToPath(file).filename()));
+        const std::string ext = StringTools::toLower(FileExt::Ini);
+        if (!StringTools::endsWith(low, ext)) {
+            return false;
+        }
+
+        const std::string stem = low.substr(0, low.size() - ext.size());
+        const std::string suffix = StringTools::toLower(FileSuffixes::RemapFixCopy);
+        const std::size_t at = stem.rfind(suffix);
+        return at != std::string::npos
+            && stem.find_first_not_of("0123456789", at + suffix.size()) == std::string::npos;
     }
 
 

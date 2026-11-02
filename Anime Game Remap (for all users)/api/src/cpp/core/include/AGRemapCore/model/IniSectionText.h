@@ -34,19 +34,17 @@ namespace AGRemapCore {
      lines, :cpp:class:`IfPredPart` an ``if`` / ``endif``, and :cpp:func:`renderIfTemplate` turns the
      three back into text -- including the ``[name]`` header and the indentation. A caller that
      assembles all of that as strings writes the same structure twice: once as the model every other
-     part of a fix is edited through, and once as text of its own :raw-html:`<br />`
-     :raw-html:`<br />`
-
-     ``WWMIFixer.cpp`` held this class, and twenty section headers' worth of string assembly before
-     it (2026-09-29). Two callers still build a `section`_ by hand and are candidates for it --
-     ``GIMIComponentFixer.cpp``'s translucency block and ``SideMeshes.cpp`` -- but converting either
-     moves GI output, since the renderer indents with a TAB where hand-written text usually has
-     nothing, so each needs a GI corpus sweep of its own rather than a tidy-up
+     part of a fix is edited through, and once as text of its own
      @endrst
      */
+    // Two callers still build a section by hand and are candidates for this -- GIMIComponentFixer.cpp's translucency
+    // block and SideMeshes.cpp -- but converting either moves GI output (the renderer indents with a TAB where
+    // hand-written text usually has nothing), so each needs a GI corpus sweep of its own rather than a tidy-up.
     class SectionText {
         public:
             SectionText(Z3Context& z3Ctx, std::string name): z3_(z3Ctx), name_(std::move(name)) {}
+            SectionText(const SectionText&) = delete;
+            SectionText& operator=(const SectionText&) = delete;
 
             // A run of `key = value` lines. A value of "" is a line with no `=` at all --
             // 3dmigoto's `local $var` -- which is how IfContentPart already reads one.

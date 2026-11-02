@@ -838,17 +838,6 @@ RabbitFX
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-WWMIRuntime
------------
-
-.. cppattributetable:: AGRemapCore::WWMIRuntime
-
-.. doxygenclass:: AGRemapCore::WWMIRuntime
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
 Graph Edits
 ===========
 
@@ -1477,6 +1466,28 @@ IfTemplateTree
 .. cppattributetable:: AGRemapCore::IfTemplateTree
 
 .. doxygenclass:: AGRemapCore::IfTemplateTree
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ListValue
+---------
+
+.. cppattributetable:: AGRemapCore::ListValue
+
+.. doxygenclass:: AGRemapCore::ListValue
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+SectionText
+-----------
+
+.. cppattributetable:: AGRemapCore::SectionText
+
+.. doxygenclass:: AGRemapCore::SectionText
     :members:
     :protected-members:
 
@@ -2523,28 +2534,6 @@ RegRemove
 .. cppattributetable:: AGRemapCore::RegRemove
 
 .. doxygenclass:: AGRemapCore::RegRemove
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
-RegDrawRangeRemap
------------------
-
-.. cppattributetable:: AGRemapCore::RegDrawRangeRemap
-
-.. doxygenclass:: AGRemapCore::RegDrawRangeRemap
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
-RegDrawRangeShift
------------------
-
-.. cppattributetable:: AGRemapCore::RegDrawRangeShift
-
-.. doxygenclass:: AGRemapCore::RegDrawRangeShift
     :members:
     :protected-members:
 

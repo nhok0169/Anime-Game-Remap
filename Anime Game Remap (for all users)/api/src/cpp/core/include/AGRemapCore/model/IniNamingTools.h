@@ -392,6 +392,23 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether 'file' is an ``.ini`` file a fix GENERATED beside the mod's own: ``<name>RemapFix<N>.ini``
+             (:cpp:member:`FileSuffixes::RemapFixCopy`, then only digits), see :cpp:func:`IniFileFixContext::fixedFilePath`
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Case-insensitive, and only the LAST ``RemapFix`` in the name counts, so a mod's own file that merely
+             contains the word (``MyRemapFixes.ini``) is not taken for a copy
+             @endrst
+             *
+             * @param file The file's name or path
+             *
+             * @return Whether 'file' is a generated copy
+             */
+            static bool isRemapCopyFile(const std::string& file);
+
+            /**
+             * @brief
+             @rst
              A register as it is spelled inside a `section`_ NAME: ``ps-t0`` -> ``Pst0``
              :raw-html:`<br />` :raw-html:`<br />`
 

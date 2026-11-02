@@ -30,7 +30,6 @@
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/assets/Hashes.h"
 #include "AGRemapCore/model/textures/TexThumbprint.h"
-#include "AGRemapCore/model/files/IniScan.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/tools/StringTools.h"

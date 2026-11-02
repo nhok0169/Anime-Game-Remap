@@ -14,6 +14,7 @@
 #include "PyIniFile.h"
 
 #include <filesystem>
+#include <memory>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -30,6 +31,7 @@
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/iniresources/IniResource.h"
 #include "../iniresources/PyIniGroupedResource.h"
+#include "../PyIniSectionGraph.h"
 #include "../PyVersion.h"
 #include "../../constants/PyConstantEnums.h"
 #include "AGRemapCore/model/Version.h"
@@ -386,6 +388,25 @@ List[:class:`str`]
     The names of the `sections`_
         )doc"))
 
+        .def("sectionGraph", [](AGRC::IniFile& self, const std::string& root) {
+            return std::make_unique<PyIniSectionGraph>(self.sectionGraph(root));
+        }, py::arg("root"), py::keep_alive<0, 1>(), py::doc(R"doc(
+The call graph from the `section`_ 'root': it and every `section`_ it reaches through ``run =``, over this file's
+own `sections`_ (not copied, so the graph keeps this file alive) and in this file's :class:`Z3Context`, so every
+condition the graph reports combines with this file's others. A 'root' the file does not have gives an empty graph
+
+What a value of a `section`_ is under each branch of a merged mod is a walk of this graph: :meth:`GraphCollect.rowsOf`
+
+Parameters
+----------
+root: :class:`str`
+    The `section`_ to start from
+
+Returns
+-------
+:class:`IniSectionGraph`
+    The graph
+        )doc"))
         .def("getSection", &AGRC::IniFile::getSection, py::arg("name"),
              py::return_value_policy::reference_internal, py::doc(R"doc(
 Retrieves a `section`_ of the .ini file by name

@@ -19,11 +19,12 @@
 #include <utility>
 #include <vector>
 
-#include "AGRemapCore/data/IniFixData/ModBranches.h"
+#include "AGRemapCore/model/iftemplate/IfTemplate.h"
 #include "AGRemapCore/data/IniParseData/TemplateParser.h"
 
 
 namespace AGRemapCore {
+    class IniFile;
 
     /**
      * @brief
@@ -99,7 +100,7 @@ namespace AGRemapCore {
              *
              * @param templates The `sections`_
              */
-            bool drawsMesh(const ModBranches::Templates& templates);
+            bool drawsMesh(const IfTemplates& templates);
 
             /**
              * @brief Whether a sibling ``.ini`` (#siblingInis) draws the character's mesh -- see #drawsMesh
@@ -107,11 +108,11 @@ namespace AGRemapCore {
             bool siblingDrawsMesh();
 
             /**
-             * @brief Whether 'templates' binds ``vb0`` on one of the character's position hashes, directly or through ``run =``
+             * @brief Whether 'ini' binds ``vb0`` on one of the character's position hashes, directly or through ``run =``
              *
-             * @param templates The `sections`_
+             * @param ini The ``.ini`` file
              */
-            bool bindsPosition(const ModBranches::Templates& templates);
+            bool bindsPosition(IniFile& ini);
 
             /**
              * @brief Whether a sibling ``.ini`` (#siblingInis) binds the character's position buffer -- see #bindsPosition

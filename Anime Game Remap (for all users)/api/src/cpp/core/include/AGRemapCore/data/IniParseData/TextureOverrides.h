@@ -19,7 +19,8 @@
 #include <utility>
 #include <vector>
 
-#include "AGRemapCore/data/IniFixData/ModBranches.h"
+#include "AGRemapCore/model/iftemplate/IfTemplate.h"
+
 
 namespace AGRemapCore {
     class IniFile;
@@ -82,7 +83,7 @@ namespace AGRemapCore {
              *
              * @return The overrides, in the order of the `sections`_
              */
-            static std::vector<Override> collect(const ModBranches::Templates& templates);
+            static std::vector<Override> collect(const IfTemplates& templates);
 
             /**
              * @brief
@@ -134,7 +135,7 @@ namespace AGRemapCore {
                 /**
                  * @brief The `sections`_ to add, in the order they were reached, resources renamed
                  */
-                std::vector<std::pair<std::string, std::unique_ptr<ModBranches::Template>>> sections;
+                std::vector<std::pair<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>> sections;
 
                 /**
                  * @brief Each renamed resource -> every key of its `section`_ (``filename``, and
@@ -158,7 +159,7 @@ namespace AGRemapCore {
              * @param root The `section`_ of 'sibling' to adopt
              * @param own The `sections`_ of the file adopting it
              */
-            static std::optional<Adoption> adopt(IniFile& sibling, const std::string& root, const ModBranches::Templates& own);
+            static std::optional<Adoption> adopt(IniFile& sibling, const std::string& root, const IfTemplates& own);
     };
 }
 

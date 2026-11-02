@@ -104,6 +104,23 @@ PyRegBranchAdd::Core::Branch parseBranch(const py::object &result) {
 }
 
 
+// A core Branch as what a Python branchOf answers -- the reverse of parseBranch
+static py::object branchToPy(const PyRegBranchAdd::Core::Branch &branch) {
+    if (branch.key.empty()) {
+        return py::none();
+    }
+    return py::make_tuple(branch.key, py::cast(branch.additions), py::cast(branch.replacements), py::cast(branch.removals));
+}
+
+// The core edit's branchOf as a Python callable, so the binding's branchOf (re-wrapped on every edit) is that edit's
+static std::unique_ptr<PyRegBranchAdd> fromCore(std::unique_ptr<PyRegBranchAdd::Core> core) {
+    PyRegBranchAdd::Core::BranchOf branchOf = std::move(core->branchOf);
+    py::cpp_function callable([branchOf](const AGRC::Z3Predicate &query, py::object iterData) {
+        return branchToPy(branchOf(query, iterData.cast<const PyRegBranchAdd::Core::IterData &>()));
+    });
+    return std::make_unique<PyRegBranchAdd>(std::move(callable));
+}
+
 PyRegBranchAdd::PyRegBranchAdd(py::object branchOfObj): Core({}), branchOfObj(std::move(branchOfObj)) {}
 
 
@@ -180,6 +197,73 @@ branchOf: Optional[Callable[[:class:`Z3Predicate`, :class:`SectionIterData`], Op
     cls.def(py::init([](py::object branchOf) {
         return std::make_unique<PyRegBranchAdd>(std::move(branchOf));
     }), py::arg("branchOf") = py::none());
+
+    using Row = AGRC::GraphCollectRow<std::string, std::string>;
+    cls.def_static("perBranchReplacements", [](AGRC::Z3Context *z3Ctx, std::vector<Row> rows, std::string keyPrefix,
+                                               py::function replacementsOf) {
+        return fromCore(PyRegBranchAdd::Core::perBranchReplacements(z3Ctx, std::move(rows), std::move(keyPrefix),
+            [replacementsOf](std::size_t index, const std::optional<AGRC::Z3Predicate> &local) {
+                py::object result = replacementsOf(index, local);
+                return result.is_none() ? PyRegBranchAdd::Core::Additions{} : parseAdditions(result);
+            }));
+    }, py::arg("z3Ctx"), py::arg("rows"), py::arg("keyPrefix"), py::arg("replacementsOf"), py::keep_alive<0, 1>(), py::doc(R"doc(
+An edit that REPLACES keys in each branch that one of 'rows' belongs to: a branch's query is brought into 'z3Ctx' once,
+the one row it is compatible with is found (:meth:`GraphCollect.onlyUnder`), and that row's replacements are written
+there under the key ``<keyPrefix>;<index>``. A branch no single row answers for, or one with no replacements, is left
+alone
+
+A merged master binds a value per ``$swapvar`` branch (:meth:`GraphCollect.rowsOf`), and what goes beside it -- a
+``draw`` count, say -- is per branch too
+
+Parameters
+----------
+z3Ctx: :class:`Z3Context`
+    The context the conditions are combined in
+
+rows: List[:class:`GraphCollect.Row`]
+    The branched values, each with its condition
+
+keyPrefix: :class:`str`
+    What a branch's key starts with
+
+replacementsOf: Callable[[:class:`int`, Optional[:class:`Z3Predicate`]], List[Tuple[:class:`str`, :class:`str`]]]
+    What one branch's replacements are, given its index among the rows and its query
+
+Returns
+-------
+:class:`RegBranchAdd`
+    The edit
+    )doc"));
+
+    cls.def_static("perBranchRemovals", [](AGRC::Z3Context *z3Ctx, std::vector<Row> rows, std::string keyPrefix,
+                                           py::function removalsOf) {
+        return fromCore(PyRegBranchAdd::Core::perBranchRemovals(z3Ctx, std::move(rows), std::move(keyPrefix),
+            [removalsOf](std::size_t index, const std::optional<AGRC::Z3Predicate> &local) {
+                py::object result = removalsOf(index, local);
+                return result.is_none() ? std::vector<std::string>{} : result.cast<std::vector<std::string>>();
+            }));
+    }, py::arg("z3Ctx"), py::arg("rows"), py::arg("keyPrefix"), py::arg("removalsOf"), py::keep_alive<0, 1>(), py::doc(R"doc(
+Like :meth:`perBranchReplacements`, REMOVING keys in each branch rather than replacing them
+
+Parameters
+----------
+z3Ctx: :class:`Z3Context`
+    The context the conditions are combined in
+
+rows: List[:class:`GraphCollect.Row`]
+    The branched values, each with its condition
+
+keyPrefix: :class:`str`
+    What a branch's key starts with
+
+removalsOf: Callable[[:class:`int`, Optional[:class:`Z3Predicate`]], List[:class:`str`]]
+    What one branch's removals are, given its index among the rows and its query
+
+Returns
+-------
+:class:`RegBranchAdd`
+    The edit
+    )doc"));
 
     cls.def_property("branchOf", [](const PyRegBranchAdd &self) {
         return self.branchOfObj;

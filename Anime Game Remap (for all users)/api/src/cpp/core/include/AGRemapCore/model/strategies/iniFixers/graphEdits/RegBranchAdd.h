@@ -15,11 +15,16 @@
 // ##### EndCredits
 
 #include <functional>
+#include <cstddef>
+#include <optional>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h"
+#include "AGRemapCore/tools/z3/Z3Context.h"
 #include "AGRemapCore/tools/z3/Z3Predicate.h"
 
 
@@ -187,6 +192,51 @@ namespace AGRemapCore {
              * @param branchOf Decides what belongs in each branch. **Default**: empty
              */
             explicit RegBranchAdd(BranchOf branchOf = {});
+
+            /**
+             * @brief What one branch's replacements are, given its index among the rows and its query
+             */
+            using ReplacementsOf = std::function<Additions(std::size_t, const std::optional<Z3Predicate>&)>;
+
+            /**
+             * @brief What one branch's removals are, given its index among the rows and its query
+             */
+            using RemovalsOf = std::function<std::vector<K>(std::size_t, const std::optional<Z3Predicate>&)>;
+
+            /**
+             * @brief
+             @rst
+             An edit that REPLACES keys in each branch that one of 'rows' belongs to: a branch's query is brought into
+             'z3Ctx' once, the one row it is compatible with is found (:cpp:func:`GraphCollect::onlyUnder`), and that
+             row's replacements are written there under the key ``<keyPrefix>;<index>``. A branch no single row answers
+             for, or one with no replacements, is left alone :raw-html:`<br />` :raw-html:`<br />`
+
+             A merged master binds a value per ``$swapvar`` branch (:cpp:func:`GraphCollect::rowsOf`), and what goes
+             beside it -- a ``draw`` count, say -- is per branch too
+             @endrst
+             *
+             * @param z3Ctx The context the conditions are combined in
+             * @param rows The branched values, each with its condition
+             * @param keyPrefix What a branch's key starts with
+             * @param replacementsOf What one branch's replacements are
+             *
+             * @return The edit
+             */
+            static std::unique_ptr<RegBranchAdd> perBranchReplacements(Z3Context* z3Ctx, std::vector<GraphCollectRow<K, V, KeyHash, KeyEqual>> rows,
+                                                                       std::string keyPrefix, ReplacementsOf replacementsOf);
+
+            /**
+             * @brief Like #perBranchReplacements, REMOVING keys in each branch rather than replacing them
+             *
+             * @param z3Ctx The context the conditions are combined in
+             * @param rows The branched values, each with its condition
+             * @param keyPrefix What a branch's key starts with
+             * @param removalsOf What one branch's removals are
+             *
+             * @return The edit
+             */
+            static std::unique_ptr<RegBranchAdd> perBranchRemovals(Z3Context* z3Ctx, std::vector<GraphCollectRow<K, V, KeyHash, KeyEqual>> rows,
+                                                                   std::string keyPrefix, RemovalsOf removalsOf);
 
             /**
              * @copydoc BaseIniGraphEdit::edit

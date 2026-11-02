@@ -9,6 +9,7 @@
 //   HazrateGolabi#1364 (for being awesome, and improving the code)
 // ##### EndCredits
 
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
 #include "AGRemapCore/data/IniParseData/GIMIComponentParser.h"
 
 #include <memory>
@@ -28,7 +29,6 @@
 #include "AGRemapCore/constants/IniGraphModObjKeywords.h"
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/ModTypeId.h"
-#include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 #include "AGRemapCore/model/IniNamingTools.h"
@@ -133,7 +133,7 @@ namespace AGRemapCore {
                                 // the component's hash-only object, and the merge carried the skin's raw
                                 // buffers onto the target (Lumine12, 2026-10-20).
                                 if (indexVals.empty() && section != nullptr) {
-                                    std::optional<std::string> index = ModBranches::firstVal(*section, IniKeywords::MatchFirstIndex);
+                                    std::optional<std::string> index = section->firstVal(IniKeywords::MatchFirstIndex);
                                     if (index.has_value()) {
                                         indexVals.push_back(*index);
                                     }
@@ -352,7 +352,7 @@ namespace AGRemapCore {
                 // Every `this =` override in 'templates' whose hash is one of the skin's tex_<slot>_<role>
                 // rows, as (component;slot;role) -> the resource to bind. 'bindingOf' turns the override's
                 // own resource name into that value; an empty answer drops the override.
-                void collectTextureOverrides(const ModBranches::Templates& templates,
+                void collectTextureOverrides(const IfTemplates& templates,
                                              const std::function<std::string(const std::string&)>& bindingOf,
                                              std::unordered_map<std::string, std::string>& overrides) {
                     for (const TextureOverrides::Override& override_ : TextureOverrides::collect(templates)) {
@@ -399,7 +399,7 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    const ModBranches::Templates& templates = iniFile->getIfTemplates();
+                    const IfTemplates& templates = iniFile->getIfTemplates();
                     for (const GIMIComponentParserConfig::Component& component : config_.components) {
                         for (const GIMIComponentParserConfig::Slot& slot : component.slots) {
                             if (slot.noTextures) {
@@ -422,8 +422,8 @@ namespace AGRemapCore {
                                     continue;
                                 }
 
-                                const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
-                                const std::optional<std::string> index = ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex);
+                                const std::optional<std::string> hash = entry.second->firstVal(IniKeywords::Hash);
+                                const std::optional<std::string> index = entry.second->firstVal(IniKeywords::MatchFirstIndex);
                                 if (!hash.has_value() || !index.has_value() || hashKeyOf(*hash, component) != IbHashKey
                                         || StringTools::strip(*index) != slot.index) {
                                     continue;
@@ -434,7 +434,7 @@ namespace AGRemapCore {
                                 std::set<std::string> roles;
                                 bool believed = true;
                                 for (const auto& [role, reg] : roleRegs) {
-                                    const std::string res(ModBranches::resourceOf(ModBranches::firstVal(*entry.second, reg)));
+                                    const std::string res(IniNamingTools::boundResource(entry.second->firstVal(reg)));
                                     if (res.empty()) {
                                         continue;
                                     }
@@ -528,13 +528,13 @@ namespace AGRemapCore {
                     if (targetsDrawMesh()) {
                         for (const std::string& path : siblingInis()) {
                             IniFile sibling(path);
-                            const ModBranches::Templates& templates = sibling.getIfTemplates();
+                            const IfTemplates& templates = sibling.getIfTemplates();
                             collectTextureOverrides(templates, [&](const std::string& resource) {
                                 auto found = templates.find(resource);
                                 if (found == templates.end() || found->second == nullptr) {
                                     return std::string();
                                 }
-                                const std::optional<std::string> file = ModBranches::firstVal(*found->second, IniKeywords::Filename);
+                                const std::optional<std::string> file = found->second->firstVal(IniKeywords::Filename);
                                 if (!file.has_value() || StringTools::strip(*file).empty()) {
                                     return std::string();
                                 }
@@ -593,19 +593,19 @@ namespace AGRemapCore {
                     IniFile* iniFile = this->getIniFile();
                     // The file that binds the buffers -- not a sibling that only draws a slot, which
                     // otherwise adopts the main file's slots in turn
-                    if (iniFile == nullptr || !bindsPosition(iniFile->getIfTemplates())) {
+                    if (iniFile == nullptr || !bindsPosition(*iniFile)) {
                         return;
                     }
 
                     // (component, match_first_index) of every slot section a set of templates holds
-                    auto slotKeysOf = [&](const ModBranches::Templates& templates) {
+                    auto slotKeysOf = [&](const IfTemplates& templates) {
                         std::map<std::string, std::pair<std::string, std::string>> keys;   // section -> (component, index)
                         for (const auto& entry : templates) {
                             if (entry.second == nullptr) {
                                 continue;
                             }
-                            const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
-                            const std::optional<std::string> index = ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex);
+                            const std::optional<std::string> hash = entry.second->firstVal(IniKeywords::Hash);
+                            const std::optional<std::string> index = entry.second->firstVal(IniKeywords::MatchFirstIndex);
                             if (!hash.has_value() || !index.has_value()) {
                                 continue;
                             }
@@ -623,7 +623,7 @@ namespace AGRemapCore {
                         return keys;
                     };
 
-                    const ModBranches::Templates& own = iniFile->getIfTemplates();
+                    const IfTemplates& own = iniFile->getIfTemplates();
                     std::set<std::pair<std::string, std::string>> ownSlots;
                     for (const auto& [name, key] : slotKeysOf(own)) {
                         ownSlots.insert(key);
@@ -631,7 +631,7 @@ namespace AGRemapCore {
 
                     for (const std::string& path : siblingInis()) {
                         IniFile sibling(path);
-                        const ModBranches::Templates& templates = sibling.getIfTemplates();
+                        const IfTemplates& templates = sibling.getIfTemplates();
 
                         for (const auto& [rootName, key] : slotKeysOf(templates)) {
                             if (ownSlots.count(key) != 0) {
@@ -691,10 +691,13 @@ namespace AGRemapCore {
                         // CommandList, and a skip in one branch means that branch draws only what the
                         // mod writes sections for.
                         bool skips = false;
-                        ModBranches branches;
+                        const auto valsOf = [iniFile](const std::string& name, const std::string& key) {
+                            auto graph = iniFile->sectionGraph(name);
+                            return GraphCollect<>::rowsOf(graph, key);
+                        };
                         for (const std::string& name : *ibSections) {
-                            for (const BranchVal& handling : branches.valsThroughRun(templates, name, IniKeywords::Handling)) {
-                                if (StringTools::equalsIgnoreCase(StringTools::strip(handling.val), "skip")) {
+                            for (const auto& handling : valsOf(name, IniKeywords::Handling)) {
+                                if (StringTools::equalsIgnoreCase(handling.value, "skip")) {
                                     skips = true;
                                     break;
                                 }
@@ -712,7 +715,7 @@ namespace AGRemapCore {
                         // mod's own character, and keeps its download.
                         bool ibDraws = false;
                         for (const std::string& name : *ibSections) {
-                            if (!branches.valsThroughRun(templates, name, IniKeywords::DrawIndexed).empty()) {
+                            if (!valsOf(name, IniKeywords::DrawIndexed).empty()) {
                                 ibDraws = true;
                                 break;
                             }
@@ -733,16 +736,16 @@ namespace AGRemapCore {
                                 bool draws = false;
                                 bool slotSkips = false;
                                 for (const std::string& name : *slotSections) {
-                                    for (const BranchVal& ib : branches.valsThroughRun(templates, name, IniKeywords::Ib)) {
-                                        if (!StringTools::equalsIgnoreCase(StringTools::strip(ib.val), IniKeywords::Null)) {
+                                    for (const auto& ib : valsOf(name, IniKeywords::Ib)) {
+                                        if (!StringTools::equalsIgnoreCase(ib.value, IniKeywords::Null)) {
                                             draws = true;
                                         }
                                     }
-                                    if (!branches.valsThroughRun(templates, name, IniKeywords::DrawIndexed).empty()) {
+                                    if (!valsOf(name, IniKeywords::DrawIndexed).empty()) {
                                         draws = true;
                                     }
-                                    for (const BranchVal& handling : branches.valsThroughRun(templates, name, IniKeywords::Handling)) {
-                                        if (StringTools::equalsIgnoreCase(StringTools::strip(handling.val), "skip")) {
+                                    for (const auto& handling : valsOf(name, IniKeywords::Handling)) {
+                                        if (StringTools::equalsIgnoreCase(handling.value, "skip")) {
                                             slotSkips = true;
                                         }
                                     }

@@ -11,6 +11,8 @@
 
 // ##### EndCredits
 
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
+#include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/data/IniParseData/GIMICharParser.h"
 
 #include <algorithm>
@@ -28,7 +30,6 @@
 
 #include "AGRemapCore/constants/IniGraphModObjKeywords.h"
 #include "AGRemapCore/constants/IniKeywords.h"
-#include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
@@ -128,14 +129,14 @@ namespace AGRemapCore {
         }
 
         // Every variable the `[Constants]` sections of 'templates' declare, lowercased
-        std::set<std::string> declaredVars(const ModBranches::Templates& templates) {
+        std::set<std::string> declaredVars(const IfTemplates& templates) {
             std::set<std::string> result;
             for (const auto& entry : templates) {
                 if (entry.second == nullptr || StringTools::toLower(entry.first) != ConstantsSection) {
                     continue;
                 }
                 for (const auto& part : entry.second->parts()) {
-                    if (const auto* content = dynamic_cast<const ModBranches::Template::ContentPart*>(part.get())) {
+                    if (const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get())) {
                         for (const auto& kvp : content->entries()) {
                             const std::string var = declaredVar(kvp.first);
                             if (!var.empty()) {
@@ -481,14 +482,14 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    const ModBranches::Templates& own = iniFile->getIfTemplates();
+                    const IfTemplates& own = iniFile->getIfTemplates();
                     const std::set<std::string> ownVars = declaredVars(own);
 
                     // (object, register) -> the resource to bind and the `if` blocks it is bound in;
                     // this file's first, which win
                     std::map<std::pair<ModObj, std::string>, CondBinding> bindings;
                     std::set<std::string> carriedNames;
-                    auto addOverrides = [&](const ModBranches::Templates& templates,
+                    auto addOverrides = [&](const IfTemplates& templates,
                                             const std::function<std::string(const std::string&)>& resourceOf,
                                             bool own) {
                         std::map<std::string, std::string> carried;
@@ -545,13 +546,13 @@ namespace AGRemapCore {
                     if (drawsMesh(own)) {
                         for (const std::string& path : iniFile->loadedSiblings()) {
                             IniFile sibling(path);
-                            const ModBranches::Templates& templates = sibling.getIfTemplates();
+                            const IfTemplates& templates = sibling.getIfTemplates();
                             addOverrides(templates, [&](const std::string& resource) {
                                 auto found = templates.find(resource);
                                 if (found == templates.end() || found->second == nullptr) {
                                     return std::string();
                                 }
-                                const std::optional<std::string> file = ModBranches::firstVal(*found->second, IniKeywords::Filename);
+                                const std::optional<std::string> file = found->second->firstVal(IniKeywords::Filename);
                                 if (!file.has_value() || StringTools::strip(*file).empty()) {
                                     return std::string();
                                 }
@@ -609,10 +610,10 @@ namespace AGRemapCore {
                     // CommandList<Char>IB, and a skip in one branch means that branch draws only what
                     // the mod writes sections for.
                     bool skips = false;
-                    ModBranches branches;
                     for (const std::string& name : *ibSections) {
-                        for (const BranchVal& handling : branches.valsThroughRun(templates, name, IniKeywords::Handling)) {
-                            if (StringTools::equalsIgnoreCase(StringTools::strip(handling.val), "skip")) {
+                        auto graph = iniFile->sectionGraph(name);
+                        for (const auto& handling : GraphCollect<>::rowsOf(graph, IniKeywords::Handling)) {
+                            if (StringTools::equalsIgnoreCase(handling.value, "skip")) {
                                 skips = true;
                                 break;
                             }
@@ -683,13 +684,13 @@ namespace AGRemapCore {
                 }
 
                 // The section of 'templates' carrying 'id', or empty
-                static std::string sectionWith(const ModBranches::Templates& templates, const std::pair<std::string, std::string>& id) {
+                static std::string sectionWith(const IfTemplates& templates, const std::pair<std::string, std::string>& id) {
                     for (const auto& entry : templates) {
                         if (entry.second == nullptr) {
                             continue;
                         }
-                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
-                        const std::optional<std::string> index = ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex);
+                        const std::optional<std::string> hash = entry.second->firstVal(IniKeywords::Hash);
+                        const std::optional<std::string> index = entry.second->firstVal(IniKeywords::MatchFirstIndex);
                         if (hash.has_value() && index.has_value()
                                 && StringTools::toLower(std::string(StringTools::strip(*hash))) == id.first
                                 && std::string(StringTools::strip(*index)) == id.second) {
@@ -704,16 +705,16 @@ namespace AGRemapCore {
                 void findGivenAwayObjs() {
                     givenAway_.clear();
                     IniFile* iniFile = this->getIniFile();
-                    if (iniFile == nullptr || !iniFile->getFile().has_value() || bindsPosition(iniFile->getIfTemplates())) {
+                    if (iniFile == nullptr || !iniFile->getFile().has_value() || bindsPosition(*iniFile)) {
                         return;
                     }
 
                     IniFile self(*iniFile->getFile());
-                    const ModBranches::Templates& own = self.getIfTemplates();
+                    const IfTemplates& own = self.getIfTemplates();
                     for (const std::string& path : iniFile->loadedSiblings()) {
                         IniFile sibling(path);
-                        const ModBranches::Templates& theirs = sibling.getIfTemplates();
-                        if (!bindsPosition(theirs)) {
+                        const IfTemplates& theirs = sibling.getIfTemplates();
+                        if (!bindsPosition(sibling)) {
                             continue;
                         }
                         for (const std::string& obj : config_.drawnObjs) {
@@ -732,11 +733,11 @@ namespace AGRemapCore {
                 void adoptSiblingObjs() {
                     adoptedRefs_.clear();
                     IniFile* iniFile = this->getIniFile();
-                    if (iniFile == nullptr || !this->objIdentityKVPs || !bindsPosition(iniFile->getIfTemplates())) {
+                    if (iniFile == nullptr || !this->objIdentityKVPs || !bindsPosition(*iniFile)) {
                         return;
                     }
 
-                    const ModBranches::Templates& own = iniFile->getIfTemplates();
+                    const IfTemplates& own = iniFile->getIfTemplates();
                     const std::vector<std::string> siblings = iniFile->loadedSiblings();
                     for (const std::string& obj : config_.drawnObjs) {
                         const std::pair<std::string, std::string> id = objIdentity(obj);
@@ -798,18 +799,17 @@ namespace AGRemapCore {
                         return (found == targets.end()) ? std::vector<std::string>() : found->second;
                     };
 
-                    ModBranches branches;
-                    Z3Context& z3 = branches.context();
+                    Z3Context& z3 = *iniFile->getZ3Ctx();
                     auto anyOf = [&](const std::vector<std::string>& sections, const std::string& key,
                                      const std::function<bool(const std::string&)>& accept) {
                         Z3Predicate result = Z3Predicate::falseValue(z3);
                         for (const std::string& name : sections) {
-                            for (const BranchVal& value : branches.valsThroughRun(templates, name, key)) {
-                                if (!accept(std::string(StringTools::strip(value.val)))) {
+                            auto graph = iniFile->sectionGraph(name);
+                            for (const auto& value : GraphCollect<>::rowsOf(graph, key)) {
+                                if (!accept(value.value)) {
                                     continue;
                                 }
-                                std::optional<Z3Predicate> query =
-                                    value.query.has_value() ? branches.localQuery(&*value.query) : std::nullopt;
+                                const std::optional<Z3Predicate>& query = value.condition;
                                 if (!query.has_value()) {
                                     return Z3Predicate::trueValue(z3);
                                 }
@@ -959,13 +959,13 @@ namespace AGRemapCore {
                 }
 
                 // Whether a `[Key...]` section of 'templates' sets the variable 'var' (lowercased)
-                static bool keySets(const ModBranches::Templates& templates, const std::string& var) {
+                static bool keySets(const IfTemplates& templates, const std::string& var) {
                     for (const auto& entry : templates) {
                         if (entry.second == nullptr || !StringTools::startsWith(StringTools::toLower(entry.first), KeySectionPrefix)) {
                             continue;
                         }
                         for (const auto& part : entry.second->parts()) {
-                            const auto* content = dynamic_cast<const ModBranches::Template::ContentPart*>(part.get());
+                            const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
                             if (content == nullptr) {
                                 continue;
                             }
@@ -984,7 +984,7 @@ namespace AGRemapCore {
                 // declares and one of its key sections sets (a toggle) is carried, as
                 // `$<name>RemapRef`; one this file declares itself is read as it is (`$active`).
                 static std::optional<std::vector<std::vector<std::string>>> carryBranches(
-                        const ModBranches::Templates& sibling, const std::vector<std::vector<std::string>>& branches,
+                        const IfTemplates& sibling, const std::vector<std::vector<std::string>>& branches,
                         const std::set<std::string>& ownVars, std::map<std::string, std::string>& carried) {
                     const std::set<std::string> siblingVars = declaredVars(sibling);
                     std::map<std::string, std::string> renames;
@@ -1018,7 +1018,7 @@ namespace AGRemapCore {
                 // declaring each the way the sibling does, and each sibling key section that sets one,
                 // as `[<its name>RemapRef]`. A key's other variables are dropped, and so is a
                 // `condition` reading one this file cannot see -- the key then works everywhere.
-                void carrySections(const ModBranches::Templates& sibling, const std::map<std::string, std::string>& carried,
+                void carrySections(const IfTemplates& sibling, const std::map<std::string, std::string>& carried,
                                    const std::set<std::string>& ownVars, std::set<std::string>& carriedNames) {
                     if (carried.empty()) {
                         return;
@@ -1035,7 +1035,7 @@ namespace AGRemapCore {
                             continue;
                         }
                         for (const auto& part : entry.second->parts()) {
-                            const auto* content = dynamic_cast<const ModBranches::Template::ContentPart*>(part.get());
+                            const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
                             if (content == nullptr) {
                                 continue;
                             }
@@ -1059,7 +1059,7 @@ namespace AGRemapCore {
                         std::string body;
                         bool setsCarried = false;
                         for (const auto& part : entry.second->parts()) {
-                            const auto* content = dynamic_cast<const ModBranches::Template::ContentPart*>(part.get());
+                            const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
                             if (content == nullptr) {
                                 continue;
                             }

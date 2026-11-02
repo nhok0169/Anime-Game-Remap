@@ -15,7 +15,8 @@ first.
 What breaking it cost, measured on 2026-11-01: a proposal to bind four "unbound helpers" turned out to be four
 duplicates -- `IniScan` of `IniFile`, `ModBranches` of `GraphCollect` rows plus `IniSectionGraph`, `TextureOverrides`
 of rows plus `IniParseData`, and the pure-Python `DownloadData` of the C++ one -- each being retired instead
-(`ModBranches` last, with the GI templates' refactor). Before
+(`ModBranches` last, on 2026-11-02, by giving each of its jobs to the class that owns it -- see the root CLAUDE.md).
+Before
 proposing anything, audit every item yourself: what bound class already does it, who calls it, whether it is sugar,
 and whether a game rule hides behind a library name. The section below is how to do that audit.
 

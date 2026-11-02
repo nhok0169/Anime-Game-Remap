@@ -88,6 +88,36 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether two keys of a `section`_ are the same key as a mod's author may write it: without regard to case,
+             as ``3dmigoto`` reads a key, and with ``\\`` and ``/`` alike in a namespaced key (``Resource\\RabbitFX\\Lightmap``
+             is spelled with either) :raw-html:`<br />` :raw-html:`<br />`
+
+             An exact comparison that misses such a key reads exactly like a mod that binds nothing there
+             @endrst
+             *
+             * @param key1 A key
+             * @param key2 Another key
+             *
+             * @return Whether they are the same key
+             */
+            static bool sameKey(const std::string& key1, const std::string& key2);
+
+            /**
+             * @brief
+             @rst
+             The resource a register's value binds: the value itself, or empty when there is no value or it is ``null``
+             (which unbinds the register)
+             @endrst
+             *
+             * @param value The register's value, if it has one
+             *
+             * @return The resource, or empty
+             */
+            static std::string boundResource(const std::optional<std::string>& value);
+
+            /**
+             * @brief
+             @rst
              Whether a register's value is a 3dmigoto statement opening with 'keyword' -- ``ref``,
              :cpp:member:`IniKeywords::Copy`, :cpp:member:`IniKeywords::CopyDesc` -- rather than a resource
              name, ignoring case and leading whitespace :raw-html:`<br />` :raw-html:`<br />`

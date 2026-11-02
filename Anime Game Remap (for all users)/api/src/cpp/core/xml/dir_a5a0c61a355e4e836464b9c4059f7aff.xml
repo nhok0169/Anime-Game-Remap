@@ -75,7 +75,6 @@
     <innerfile refid="_g_i_m_i_component_fixer_8h">GIMIComponentFixer.h</innerfile>
     <innerfile refid="_g_i_m_i_merge_fixer_8h">GIMIMergeFixer.h</innerfile>
     <innerfile refid="_jean_shading_8h">JeanShading.h</innerfile>
-    <innerfile refid="_mod_branches_8h">ModBranches.h</innerfile>
     <innerfile refid="_reg_val_checks_8h">RegValChecks.h</innerfile>
     <innerfile refid="_side_meshes_8h">SideMeshes.h</innerfile>
     <innerfile refid="_template_fixer_8h">TemplateFixer.h</innerfile>

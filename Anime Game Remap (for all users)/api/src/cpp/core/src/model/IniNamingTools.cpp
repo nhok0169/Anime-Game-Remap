@@ -15,6 +15,7 @@
 #include "AGRemapCore/constants/FileSuffixes.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 
+#include <algorithm>
 #include <filesystem>
 #include <optional>
 #include <utility>
@@ -161,6 +162,22 @@ namespace AGRemapCore {
             return name.substr(IniKeywords::Resource.size());
         }
         return name;
+    }
+
+    bool IniNamingTools::sameKey(const std::string& key1, const std::string& key2) {
+        const auto loose = [](const std::string& key) {
+            std::string out = StringTools::toLower(key);
+            std::replace(out.begin(), out.end(), '\\', '/');
+            return out;
+        };
+        return loose(key1) == loose(key2);
+    }
+
+    std::string IniNamingTools::boundResource(const std::optional<std::string>& value) {
+        if (!value.has_value() || value->empty() || StringTools::equalsIgnoreCase(*value, IniKeywords::Null)) {
+            return "";
+        }
+        return *value;
     }
 
     std::string IniNamingTools::removeRefPrefix(const std::string& value) {

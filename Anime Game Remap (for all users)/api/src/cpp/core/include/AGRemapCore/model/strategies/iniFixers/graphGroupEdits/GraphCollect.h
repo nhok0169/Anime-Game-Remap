@@ -255,6 +255,95 @@ namespace AGRemapCore {
             const std::vector<Row>& rows() const;
 
             /**
+             * @brief
+             @rst
+             Every value of 'key' in 'graph', each as a row with the \ref Row::condition it is taken under -- what a
+             collect with \ref withConditions files, read off one graph without a group :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The graph's root `sections`_ first, then every `section`_ it reaches in the graph's own order: a reader
+             that takes one value takes the FIRST, and the root's own binding should win over a called list's. A
+             ``std::string`` value comes back stripped. A merged master is several mods behind one ``.ini``, so a buffer
+             or register it binds is one of these rows per ``$swapvar`` branch
+             @endrst
+             *
+             * @param graph The graph to read -- :cpp:func:`IniFile::sectionGraph` gives a file's
+             * @param key The key to read
+             *
+             * @return The rows
+             */
+            static std::vector<Row> rowsOf(Graph& graph, const K& key);
+
+            /**
+             * @brief
+             @rst
+             The value of 'rows' that holds under 'query': the first whose condition can hold together with it. The
+             first row when there is only one row or no query, and when none is compatible; 'fallback' when 'rows' is
+             empty
+             @endrst
+             *
+             * @param rows The values, each with its condition
+             * @param fallback What an empty 'rows' gives
+             * @param query The condition asked about, or ``std::nullopt`` for none
+             * @param z3Ctx The context the conditions are combined in -- see :cpp:func:`ResGroupCollect::combineQueries`
+             *
+             * @return The value
+             */
+            static V valueUnder(const std::vector<Row>& rows, const V& fallback, const std::optional<Z3Predicate>& query,
+                                Z3Context* z3Ctx);
+
+            /**
+             * @brief
+             @rst
+             The index of the ONE row of 'rows' whose condition can hold together with 'query' -- which branch a
+             query belongs to. A single row is index 0; ``-1`` when 'rows' is empty, when there are several rows and
+             no query, or when no row or more than one is compatible
+             @endrst
+             *
+             * @param rows The values, each with its condition
+             * @param query The condition asked about, or ``std::nullopt`` for none
+             * @param z3Ctx The context the conditions are combined in
+             *
+             * @return The index, or ``-1``
+             */
+            static long long onlyUnder(const std::vector<Row>& rows, const std::optional<Z3Predicate>& query, Z3Context* z3Ctx);
+
+            /**
+             * @brief
+             @rst
+             Whether any row of 'rows' can hold under 'query' -- a row with no condition always can, and so can every
+             row when there is no query
+             @endrst
+             *
+             * @param rows The values, each with its condition
+             * @param query The condition asked about, or ``std::nullopt`` for none
+             * @param z3Ctx The context the conditions are combined in
+             *
+             * @return Whether one can
+             */
+            static bool anyUnder(const std::vector<Row>& rows, const std::optional<Z3Predicate>& query, Z3Context* z3Ctx);
+
+            /**
+             * @brief
+             @rst
+             The distinct states several branched values can be in together: starting from one state with no
+             condition, each list of more than one row splits every state by the rows whose conditions can hold with
+             it (the two conditions combined and simplified), and a state no row of a list splits is kept as it is.
+             States are told apart by their rendered condition :raw-html:`<br />` :raw-html:`<br />`
+
+             A merged master binds a blend and each object's index buffer per branch, and two lists' branches go
+             together when their conditions can hold at once; an animated master may bind one blend for its whole
+             range and a different index buffer per frame, so every list counts
+             @endrst
+             *
+             * @param lists The branched values
+             * @param z3Ctx The context the conditions are combined in
+             *
+             * @return The states, each a condition -- or a single ``std::nullopt`` when nothing branches
+             */
+            static std::vector<std::optional<Z3Predicate>> states(const std::vector<const std::vector<Row>*>& lists, Z3Context* z3Ctx);
+
+            /**
              * @brief Empties \ref rows
              */
             void clear() override;

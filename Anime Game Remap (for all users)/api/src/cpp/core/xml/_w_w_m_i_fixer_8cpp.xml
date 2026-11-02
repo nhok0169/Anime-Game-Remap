@@ -27,7 +27,6 @@
     <includes refid="_file_ext_8h" local="yes">AGRemapCore/constants/FileExt.h</includes>
     <includes refid="_ini_keywords_8h" local="yes">AGRemapCore/constants/IniKeywords.h</includes>
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
-    <includes refid="_mod_branches_8h" local="yes">AGRemapCore/data/IniFixData/ModBranches.h</includes>
     <includes refid="_rabbit_f_x_8h" local="yes">AGRemapCore/data/RabbitFX.h</includes>
     <includes refid="_w_w_m_i_texture_facts_8h" local="yes">AGRemapCore/data/WWMITextureFacts.h</includes>
     <includes refid="_ini_parse_data_8h" local="yes">AGRemapCore/model/strategies/iniParsers/IniParseData.h</includes>
@@ -234,32 +233,6 @@
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
-        </childnode>
-      </node>
-      <node id="136">
-        <label>AGRemapCore/data/IniFixData/ModBranches.h</label>
-        <link refid="_mod_branches_8h"/>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="39" relation="include">
-        </childnode>
-        <childnode refid="73" relation="include">
-        </childnode>
-        <childnode refid="137" relation="include">
-        </childnode>
-        <childnode refid="77" relation="include">
-        </childnode>
-        <childnode refid="78" relation="include">
         </childnode>
       </node>
       <node id="192">
@@ -3281,8 +3254,6 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="136" relation="include">
-        </childnode>
         <childnode refid="142" relation="include">
         </childnode>
         <childnode refid="119" relation="include">
@@ -3736,7 +3707,7 @@
 <codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_file_ext_8h" kindref="compound">AGRemapCore/constants/FileExt.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_keywords_8h" kindref="compound">AGRemapCore/constants/IniKeywords.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_id_8h" kindref="compound">AGRemapCore/constants/ModTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_branches_8h" kindref="compound">AGRemapCore/data/IniFixData/ModBranches.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;AGRemapCore/data/IniFixData/ModBranches.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_rabbit_f_x_8h" kindref="compound">AGRemapCore/data/RabbitFX.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_w_w_m_i_texture_facts_8h" kindref="compound">AGRemapCore/data/WWMITextureFacts.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_parse_data_8h" kindref="compound">AGRemapCore/model/strategies/iniParsers/IniParseData.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -5639,11 +5610,11 @@
 <codeline lineno="2022"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>result;</highlight></codeline>
 <codeline lineno="2023"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IniFile<sp/>ini(path);</highlight></codeline>
 <codeline lineno="2024"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[name,<sp/>tpl]<sp/>:<sp/>ini.getIfTemplates())<sp/>{</highlight></codeline>
-<codeline lineno="2025"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(tpl<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>||<sp/>!<ref refid="class_a_g_remap_core_1_1_mod_branches_1a30e38afd6dbcb5ab1424db279a6add5d" kindref="member">ModBranches::firstValLoose</ref>(*tpl,<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1af7976ed49b790b6eea9902f4fe2643b9" kindref="member">IniKeywords::MatchFirstIndex</ref>).has_value())<sp/>{</highlight></codeline>
+<codeline lineno="2025"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(tpl<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>||<sp/>!ModBranches::firstValLoose(*tpl,<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1af7976ed49b790b6eea9902f4fe2643b9" kindref="member">IniKeywords::MatchFirstIndex</ref>).has_value())<sp/>{</highlight></codeline>
 <codeline lineno="2026"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="2027"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="2028"><highlight class="normal"></highlight></codeline>
-<codeline lineno="2029"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;<sp/>hash<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_mod_branches_1a30e38afd6dbcb5ab1424db279a6add5d" kindref="member">ModBranches::firstValLoose</ref>(*tpl,<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a1135e121a755d9d4a26c68688f0a4b2c" kindref="member">IniKeywords::Hash</ref>);</highlight></codeline>
+<codeline lineno="2029"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;<sp/>hash<sp/>=<sp/>ModBranches::firstValLoose(*tpl,<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a1135e121a755d9d4a26c68688f0a4b2c" kindref="member">IniKeywords::Hash</ref>);</highlight></codeline>
 <codeline lineno="2030"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(hash.has_value()<sp/>&amp;&amp;<sp/>!hash-&gt;empty())<sp/>{</highlight></codeline>
 <codeline lineno="2031"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.insert(<ref refid="class_a_g_remap_core_1_1_string_tools_1a5b88bfbb46ba6dc0ee952d0bcc37d77f" kindref="member">StringTools::toLower</ref>(*hash));</highlight></codeline>
 <codeline lineno="2032"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -6748,7 +6719,7 @@
 <codeline lineno="3162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>the<sp/>component&apos;s<sp/>own<sp/>sections<sp/>bind<sp/>`reg`<sp/>themselves</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="3163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>bindsRegister(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>component,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reg)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="3164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sections<sp/>=<sp/>present_.find(component);</highlight></codeline>
-<codeline lineno="3165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>want<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_mod_branches_1ad4a6a00694eb16c89ed0f15d116a6711" kindref="member">ModBranches::looseKey</ref>(reg);</highlight></codeline>
+<codeline lineno="3165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>want<sp/>=<sp/>ModBranches::looseKey(reg);</highlight></codeline>
 <codeline lineno="3166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sections<sp/>!=<sp/>present_.end()</highlight></codeline>
 <codeline lineno="3167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;&amp;<sp/>std::any_of(sections-&gt;second.begin(),<sp/>sections-&gt;second.end(),<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>{</highlight></codeline>
 <codeline lineno="3168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>auto&amp;<sp/>rows<sp/>=<sp/>ownRows(name);</highlight></codeline>

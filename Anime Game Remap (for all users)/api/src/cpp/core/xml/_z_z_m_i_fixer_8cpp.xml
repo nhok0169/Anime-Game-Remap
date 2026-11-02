@@ -22,7 +22,6 @@
     <includes local="no">utility</includes>
     <includes local="no">vector</includes>
     <includes refid="_file_ext_8h" local="yes">AGRemapCore/constants/FileExt.h</includes>
-    <includes refid="_mod_branches_8h" local="yes">AGRemapCore/data/IniFixData/ModBranches.h</includes>
     <includes refid="_z_z_m_i_mod_objs_8h" local="yes">AGRemapCore/data/ZZMIModObjs.h</includes>
     <includes refid="_buf_float_8h" local="yes">AGRemapCore/model/buffers/BufFloat.h</includes>
     <includes refid="_buf_unorm_8h" local="yes">AGRemapCore/model/buffers/BufUnorm.h</includes>
@@ -192,32 +191,6 @@
         <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
-        </childnode>
-      </node>
-      <node id="101">
-        <label>AGRemapCore/data/IniFixData/ModBranches.h</label>
-        <link refid="_mod_branches_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="58" relation="include">
-        </childnode>
-        <childnode refid="102" relation="include">
-        </childnode>
-        <childnode refid="62" relation="include">
-        </childnode>
-        <childnode refid="63" relation="include">
         </childnode>
       </node>
       <node id="172">
@@ -2975,8 +2948,6 @@
         </childnode>
         <childnode refid="100" relation="include">
         </childnode>
-        <childnode refid="101" relation="include">
-        </childnode>
         <childnode refid="107" relation="include">
         </childnode>
         <childnode refid="108" relation="include">
@@ -3360,7 +3331,7 @@
 <codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_file_ext_8h" kindref="compound">AGRemapCore/constants/FileExt.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_branches_8h" kindref="compound">AGRemapCore/data/IniFixData/ModBranches.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;AGRemapCore/data/IniFixData/ModBranches.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_z_z_m_i_mod_objs_8h" kindref="compound">AGRemapCore/data/ZZMIModObjs.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_float_8h" kindref="compound">AGRemapCore/model/buffers/BufFloat.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_unorm_8h" kindref="compound">AGRemapCore/model/buffers/BufUnorm.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -3465,7 +3436,7 @@
 <codeline lineno="138"><highlight class="normal"></highlight></codeline>
 <codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>the<sp/>mod&apos;s<sp/>own<sp/>sections<sp/>----</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="140"><highlight class="normal"></highlight></codeline>
-<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">Template<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_mod_branches_1a07b959634d280a514ce91677c3ddc09e" kindref="member">ModBranches::Template</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">Template<sp/>=<sp/>ModBranches::Template;</highlight></codeline>
 <codeline lineno="142"><highlight class="normal"></highlight></codeline>
 <codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>mod&apos;s<sp/>own<sp/>sections,<sp/>as<sp/>the<sp/>.ini<sp/>file<sp/>parsed<sp/>to<sp/>them:<sp/>every<sp/>one<sp/>but<sp/>those<sp/>a<sp/>previous<sp/>fix<sp/>of</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>this<sp/>pair<sp/>wrote<sp/>(their<sp/>names<sp/>carry<sp/>`&lt;target&gt;&lt;component&gt;Remap`)</highlight><highlight class="normal"></highlight></codeline>
@@ -3502,7 +3473,7 @@
 <codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="176"><highlight class="normal"></highlight></codeline>
 <codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/>valOf(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Template&amp;<sp/>tpl,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/>{</highlight></codeline>
-<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_branches_1a30e38afd6dbcb5ab1424db279a6add5d" kindref="member">ModBranches::firstValLoose</ref>(tpl,<sp/>key);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModBranches::firstValLoose(tpl,<sp/>key);</highlight></codeline>
 <codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="180"><highlight class="normal"></highlight></codeline>
 <codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>lowered(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s)<sp/>{</highlight></codeline>
@@ -4030,8 +4001,8 @@
 <codeline lineno="706"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(tpl<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>||<sp/>name.find(<ref refid="class_a_g_remap_core_1_1_ini_keywords_1a2deec4c399bc094b325907613b493568" kindref="member">IniKeywords::Remap</ref>)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
 <codeline lineno="707"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="708"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="709"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;<sp/>hash<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_mod_branches_1a112302d165e411719d4307fddab67e80" kindref="member">ModBranches::firstVal</ref>(*tpl,<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a1135e121a755d9d4a26c68688f0a4b2c" kindref="member">IniKeywords::Hash</ref>);</highlight></codeline>
-<codeline lineno="710"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(hash.has_value()<sp/>&amp;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_mod_branches_1a112302d165e411719d4307fddab67e80" kindref="member">ModBranches::firstVal</ref>(*tpl,<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a301ccbca5f9e43d624a47ec5f8d765af" kindref="member">IniKeywords::This</ref>).has_value())<sp/>{</highlight></codeline>
+<codeline lineno="709"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;<sp/>hash<sp/>=<sp/>ModBranches::firstVal(*tpl,<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a1135e121a755d9d4a26c68688f0a4b2c" kindref="member">IniKeywords::Hash</ref>);</highlight></codeline>
+<codeline lineno="710"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(hash.has_value()<sp/>&amp;&amp;<sp/>ModBranches::firstVal(*tpl,<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a301ccbca5f9e43d624a47ec5f8d765af" kindref="member">IniKeywords::This</ref>).has_value())<sp/>{</highlight></codeline>
 <codeline lineno="711"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found.insert(lowered(*hash));</highlight></codeline>
 <codeline lineno="712"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="713"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>

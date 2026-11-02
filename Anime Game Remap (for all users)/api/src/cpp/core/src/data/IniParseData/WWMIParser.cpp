@@ -1,6 +1,5 @@
 #include "AGRemapCore/data/IniParseData/WWMIParser.h"
 
-#include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/RabbitFX.h"
 #include "AGRemapCore/data/IniParseData/TextureRoleChooser.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
@@ -336,13 +335,14 @@ namespace AGRemapCore {
                         const std::optional<int> slot = slotOf(obj);
                         const auto layout = slot.has_value() ? config_.textures.registerRoles.find(*slot) : config_.textures.registerRoles.end();
                         if (layout != config_.textures.registerRoles.end() && onlyThisFile_) {
-                            std::unordered_set<std::string> loose;
+                            std::vector<std::string> regs;
                             for (const auto& [reg, role] : layout->second) {
                                 (void)role;
-                                loose.insert(ModBranches::looseKey(reg));
+                                regs.push_back(reg);
                             }
-                            roles->keyMatches.insert_or_assign(id, [loose](const std::string& key) {
-                                return loose.count(ModBranches::looseKey(key)) > 0;
+                            roles->keyMatches.insert_or_assign(id, [regs](const std::string& key) {
+                                return std::any_of(regs.begin(), regs.end(),
+                                                   [&key](const std::string& reg) { return IniNamingTools::sameKey(key, reg); });
                             });
                         } else if (layout != config_.textures.registerRoles.end()) {
                             std::vector<std::string> regs;
@@ -978,10 +978,9 @@ namespace AGRemapCore {
 
                                 for (const auto& [reg, role] : layout->second) {
                                     // the first binding of the register in the section, its key matched loosely
-                                    const std::string want = ModBranches::looseKey(reg);
                                     std::optional<std::string> bound;
                                     for (const Row* row : rows->second) {
-                                        if (ModBranches::looseKey(row->key) == want) {
+                                        if (IniNamingTools::sameKey(row->key, reg)) {
                                             bound = std::string(StringTools::strip(row->value));
                                             break;
                                         }
@@ -1238,9 +1237,8 @@ namespace AGRemapCore {
                             }
 
                             for (const auto& [reg, role] : layout->second) {
-                                const std::string want = ModBranches::looseKey(reg);
                                 for (const Row* row : rows) {
-                                    if (slotOf(row->graphId.modObj) != slot || ModBranches::looseKey(row->key) != want) {
+                                    if (slotOf(row->graphId.modObj) != slot || !IniNamingTools::sameKey(row->key, reg)) {
                                         continue;
                                     }
 

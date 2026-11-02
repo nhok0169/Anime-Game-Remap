@@ -2833,8 +2833,6 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="289" relation="include">
-        </childnode>
         <childnode refid="290" relation="include">
         </childnode>
       </node>
@@ -3469,10 +3467,6 @@
       <node id="56">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.cpp</label>
         <link refid="_lynae_peppermint_upper_shader_8cpp"/>
-      </node>
-      <node id="289">
-        <label>src/data/IniFixData/ModBranches.cpp</label>
-        <link refid="_mod_branches_8cpp"/>
       </node>
       <node id="193">
         <label>src/data/IniFixData/Mona/MonaFixer.cpp</label>

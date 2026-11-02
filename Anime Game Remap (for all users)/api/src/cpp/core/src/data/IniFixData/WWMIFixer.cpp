@@ -38,7 +38,6 @@
 #include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/ModTypeId.h"
-#include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/RabbitFX.h"
 #include "AGRemapCore/data/WWMITextureFacts.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
@@ -1023,11 +1022,7 @@ namespace AGRemapCore {
         class WWMIFixerImpl: public TemplateFixer {
             // DECLARED FIRST, and it has to be: everything Z3 hands out belongs to this
             // context and must not outlive it, which member destruction order decides.
-            // ModBranches carries the same note about its own.
             Z3Context z3_;
-
-            // the call-graph reader of the mod's own sections, which carries its own Z3 context
-            ModBranches branches_;
 
             public:
                 WWMIFixerImpl(BaseIniParser<>* parser, const std::string& toModName, std::optional<int> modTypeId,
@@ -2022,11 +2017,11 @@ namespace AGRemapCore {
                     std::set<std::string> result;
                     IniFile ini(path);
                     for (const auto& [name, tpl] : ini.getIfTemplates()) {
-                        if (tpl == nullptr || !ModBranches::firstValLoose(*tpl, IniKeywords::MatchFirstIndex).has_value()) {
+                        if (tpl == nullptr || !tpl->firstValMatching([](const std::string& key) { return IniNamingTools::sameKey(key, IniKeywords::MatchFirstIndex); }).has_value()) {
                             continue;
                         }
 
-                        const std::optional<std::string> hash = ModBranches::firstValLoose(*tpl, IniKeywords::Hash);
+                        const std::optional<std::string> hash = tpl->firstValMatching([](const std::string& key) { return IniNamingTools::sameKey(key, IniKeywords::Hash); });
                         if (hash.has_value() && !hash->empty()) {
                             result.insert(StringTools::toLower(*hash));
                         }
@@ -3162,12 +3157,11 @@ namespace AGRemapCore {
                 // Whether the component's own sections bind `reg` themselves
                 bool bindsRegister(int component, const std::string& reg) const {
                     const auto sections = present_.find(component);
-                    const std::string want = ModBranches::looseKey(reg);
                     return sections != present_.end()
                            && std::any_of(sections->second.begin(), sections->second.end(), [&](const std::string& name) {
                                   const auto& rows = ownRows(name);
-                                  return std::any_of(rows.begin(), rows.end(), [&want](const Row* row) {
-                                      return ModBranches::looseKey(row->key) == want;
+                                  return std::any_of(rows.begin(), rows.end(), [&reg](const Row* row) {
+                                      return IniNamingTools::sameKey(row->key, reg);
                                   });
                               });
                 }

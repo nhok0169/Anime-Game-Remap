@@ -126,6 +126,25 @@ namespace AGRemapCore {
          @endrst
          */
         std::size_t position = 0;
+
+        /**
+         * @brief
+         @rst
+         A row of only a value and the condition it holds under -- for a value derived from a collected one (the
+         file a bound resource names, say) that keeps the collected row's condition
+         @endrst
+         *
+         * @param value Its \ref value
+         * @param condition Its \ref condition
+         *
+         * @return The row
+         */
+        static GraphCollectRow conditioned(V value, std::optional<Z3Predicate> condition) {
+            GraphCollectRow row;
+            row.value = std::move(value);
+            row.condition = std::move(condition);
+            return row;
+        }
     };
 }
 

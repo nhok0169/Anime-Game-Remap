@@ -6,14 +6,14 @@
     <innerclass refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_override" prot="public">AGRemapCore::TextureOverrides::Override</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption" prot="public">AGRemapCore::TextureOverrides::Adoption</innerclass>
     <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1a591e754cc7f19c1d0fcb5c3d4cbcfa7f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1a5b2f2d46f788851798c77241e1073c2b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_override" kindref="compound">Override</ref> &gt;</type>
         <definition>std::vector&lt; TextureOverrides::Override &gt; AGRemapCore::TextureOverrides::collect</definition>
-        <argsstring>(const ModBranches::Templates &amp;templates)</argsstring>
+        <argsstring>(const IfTemplates &amp;templates)</argsstring>
         <name>collect</name>
         <qualifiedname>AGRemapCore::TextureOverrides::collect</qualifiedname>
         <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_mod_branches_1a018631a8f15970525779073bb339eda9" kindref="member">ModBranches::Templates</ref> &amp;</type>
+          <type>const <ref refid="namespace_a_g_remap_core_1a853324456d50a0022a33cdf3e347652a" kindref="member">IfTemplates</ref> &amp;</type>
           <declname>templates</declname>
         </param>
         <briefdescription>
@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="85" column="32" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="43" bodyend="93"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="86" column="32" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="43" bodyend="93"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1a4d945d0c81935f0e958bf288f262f02a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -73,7 +73,7 @@ them without any fix -- eg. Amber and AmberCN draw one face diffuse, ``1d064079`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="102" column="25" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="96" bodyend="126"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="103" column="25" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="96" bodyend="126"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1ad4825fcf4f5e8965360e4dec1fe6b7db" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -122,12 +122,12 @@ and dress share ``df127976`` -- and an override of that texture recolours all of
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="119" column="32" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="129" bodyend="159"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="120" column="32" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="129" bodyend="159"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1af8167172605f002b6cc2b3f68ab41fbc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1a043f267704eb57a5741ffd475e0541d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption" kindref="compound">Adoption</ref> &gt;</type>
         <definition>std::optional&lt; TextureOverrides::Adoption &gt; AGRemapCore::TextureOverrides::adopt</definition>
-        <argsstring>(IniFile &amp;sibling, const std::string &amp;root, const ModBranches::Templates &amp;own)</argsstring>
+        <argsstring>(IniFile &amp;sibling, const std::string &amp;root, const IfTemplates &amp;own)</argsstring>
         <name>adopt</name>
         <qualifiedname>AGRemapCore::TextureOverrides::adopt</qualifiedname>
         <param>
@@ -139,7 +139,7 @@ and dress share ``df127976`` -- and an override of that texture recolours all of
           <declname>root</declname>
         </param>
         <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_mod_branches_1a018631a8f15970525779073bb339eda9" kindref="member">ModBranches::Templates</ref> &amp;</type>
+          <type>const <ref refid="namespace_a_g_remap_core_1a853324456d50a0022a33cdf3e347652a" kindref="member">IfTemplates</ref> &amp;</type>
           <declname>own</declname>
         </param>
         <briefdescription>
@@ -182,7 +182,7 @@ object is remapped with the rest
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="161" column="34" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="222" bodyend="297"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="162" column="34" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="222" bodyend="297"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -199,10 +199,10 @@ resource there in its place. The parsers built by :cpp:func:`makeGIMICharParser`
 :cpp:func:`makeGIMIComponentParser` both read overrides through this class
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="45" column="5" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="45" bodyend="162"/>
+    <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="46" column="5" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="46" bodyend="163"/>
     <listofallmembers>
-      <member refid="class_a_g_remap_core_1_1_texture_overrides_1af8167172605f002b6cc2b3f68ab41fbc" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>adopt</name></member>
-      <member refid="class_a_g_remap_core_1_1_texture_overrides_1a591e754cc7f19c1d0fcb5c3d4cbcfa7f" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>collect</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_overrides_1a043f267704eb57a5741ffd475e0541d8" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>adopt</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_overrides_1a5b2f2d46f788851798c77241e1073c2b" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>collect</name></member>
       <member refid="class_a_g_remap_core_1_1_texture_overrides_1a4d945d0c81935f0e958bf288f262f02a" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>isShared</name></member>
       <member refid="class_a_g_remap_core_1_1_texture_overrides_1ad4825fcf4f5e8965360e4dec1fe6b7db" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>keysOf</name></member>
     </listofallmembers>

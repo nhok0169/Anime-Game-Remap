@@ -241,8 +241,6 @@
         </childnode>
         <childnode refid="62" relation="include">
         </childnode>
-        <childnode refid="63" relation="include">
-        </childnode>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
@@ -447,10 +445,6 @@
       <node id="46">
         <label>src/data/IniFixData/LisaStudent/LisaStudentFixer.cpp</label>
         <link refid="_lisa_student_fixer_8cpp"/>
-      </node>
-      <node id="63">
-        <label>src/data/IniFixData/ModBranches.cpp</label>
-        <link refid="_mod_branches_8cpp"/>
       </node>
       <node id="47">
         <label>src/data/IniFixData/Mona/MonaFixer.cpp</label>

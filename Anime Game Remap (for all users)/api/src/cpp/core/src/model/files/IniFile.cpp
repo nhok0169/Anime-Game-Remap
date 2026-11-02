@@ -724,6 +724,31 @@ namespace AGRemapCore {
     }
 
 
+    IniSectionGraph<std::string, std::string> IniFile::sectionGraph(const std::string& root) {
+        std::unordered_map<std::string, IfTemplate<std::string, std::string>*> sections;
+        const auto& templates = getIfTemplates();
+        sections.reserve(templates.size());
+        for (const auto& entry : templates) {
+            if (entry.second != nullptr) {
+                sections.emplace(entry.first, entry.second.get());
+            }
+        }
+
+        std::vector<std::string> roots;
+        if (sections.count(root) > 0) {
+            roots.push_back(root);
+        }
+
+        IfTemplateRunConfig<std::string, std::string> runConfig{
+            IniKeywords::Run,
+            [](const std::string& value) { return value; },
+            [](const std::string& name) { return name; }
+        };
+        return IniSectionGraph<std::string, std::string>(std::move(sections), std::move(roots), std::move(runConfig), true,
+                                                         false, &z3Ctx_);
+    }
+
+
     std::string IniFile::getFolder() const {
         if (!file_.has_value()) {
             return "";

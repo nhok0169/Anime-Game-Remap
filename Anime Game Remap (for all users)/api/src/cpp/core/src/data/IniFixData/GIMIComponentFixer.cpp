@@ -13,7 +13,8 @@
 
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
 #include "AGRemapCore/data/IniFixData/TexFxLayout.h"
-#include "AGRemapCore/data/IniFixData/ModBranches.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/data/IniFixData/SideMeshes.h"
 #include "AGRemapCore/data/IniFixData/TexRegLayout.h"
@@ -160,6 +161,10 @@ namespace AGRemapCore {
         }
 
 
+        // One value a merged master's branch binds, with the condition it is taken under (GraphCollect::rowsOf)
+        using BranchRow = GraphCollectRow<>;
+
+
         // ---- what one mod's .ini names, read off the raw parsed sections ----
         //
         // The fixer is built BEFORE the parser parses (the builder's factory runs first), so the
@@ -173,7 +178,7 @@ namespace AGRemapCore {
             // master names one variant's per $swapvar branch. A branch that nulls the object is kept,
             // as an entry with no file, so it can answer for itself -- see GIMIMergeFixer's
             // SlotFiles::ibs for what dropping it cost.
-            std::vector<BranchVal> ibs;
+            std::vector<BranchRow> ibs;
 
             std::string diffuse;
             std::string lightMap;
@@ -228,9 +233,9 @@ namespace AGRemapCore {
             bool skipsGameFace = false;
 
             // Every branch's -- see ModObjectFiles::ibs.
-            std::vector<BranchVal> positions;
-            std::vector<BranchVal> blends;
-            std::vector<BranchVal> texcoords;
+            std::vector<BranchRow> positions;
+            std::vector<BranchRow> blends;
+            std::vector<BranchRow> texcoords;
 
             std::vector<std::pair<std::string, ModObjectFiles>> objects;    // in the config's draw order
 
@@ -243,11 +248,6 @@ namespace AGRemapCore {
             // reads as 32-bit without complaint.
             std::unordered_map<std::string, std::size_t> ibBytesPerIndex;
         };
-
-
-        // How a merged master's per-branch values are read and paired is shared with the merge --
-        // see ModBranches.
-        const auto firstVal = &ModBranches::firstVal;
 
 
         /**
@@ -362,18 +362,31 @@ namespace AGRemapCore {
                     const auto& templates = iniFile->getIfTemplates();
 
                     auto fileOf = [&](const std::string& resource) {
-                        return ModBranches::fileOf(templates, resource, folder);
+                        const auto found = resource.empty() ? templates.end() : templates.find(resource);
+                        const std::optional<std::string> file = (found == templates.end() || found->second == nullptr)
+                            ? std::nullopt : found->second->firstVal(IniKeywords::Filename);
+                        return (!file.has_value() || file->empty()) ? std::string() : FileService::absPathOfRelPath(*file, folder);
+                    };
+
+                    // How many bytes an index takes in the buffer this resource names -- see
+                    // IbFile::bytesPerIndexOf.
+                    auto bytesPerIndexOf = [&](const std::string& resource) -> std::size_t {
+                        const auto found = resource.empty() ? templates.end() : templates.find(resource);
+                        if (found == templates.end() || found->second == nullptr) {
+                            return 4;
+                        }
+                        return IbFile::bytesPerIndexOf(found->second->firstVal(IniKeywords::Format).value_or(""));
                     };
 
                     // THROUGH `run =`, every branch: a merged master's TextureOverride is nothing but
                     // hash, match_first_index and run, and read off the matched section alone every
                     // buffer of it came out empty and the whole .ini was skipped.
                     const auto filesThroughRun = [&](const std::string& section, const std::string& reg) {
-                        std::vector<BranchVal> out;
-                        for (const BranchVal& value : branches_.valsThroughRun(templates, section, reg)) {
-                            std::string file = fileOf(ModBranches::resourceOf(value.val));
+                        std::vector<BranchRow> out;
+                        for (const BranchRow& value : valsThroughRun(section, reg)) {
+                            std::string file = fileOf(IniNamingTools::boundResource(value.value));
                             if (!file.empty()) {
-                                out.push_back(BranchVal{std::move(file), value.query});
+                                out.push_back(BranchRow::conditioned(std::move(file), value.condition));
                             }
                         }
 
@@ -381,7 +394,7 @@ namespace AGRemapCore {
                     };
 
                     const auto firstFile = [&](const std::string& section, const std::string& reg) {
-                        return fileOf(ModBranches::resourceOf(branches_.firstValThroughRun(templates, section, reg)));
+                        return fileOf(IniNamingTools::boundResource(firstValThroughRun(section, reg)));
                     };
 
                     std::unordered_map<std::string, ModObjectFiles> objects;
@@ -392,7 +405,7 @@ namespace AGRemapCore {
                         }
 
                         const Template& tpl = *entry.second;
-                        std::optional<std::string> hashVal = firstVal(tpl, IniKeywords::Hash);
+                        std::optional<std::string> hashVal = tpl.firstVal(IniKeywords::Hash);
                         if (!hashVal.has_value()) {
                             continue;
                         }
@@ -406,14 +419,14 @@ namespace AGRemapCore {
 
                         const std::string& sectionName = entry.first;
                         const std::string& hashType = hashKey->back();
-                        const auto readBuffer = [&](std::vector<BranchVal>& branches, std::string& first, const std::string& reg) {
+                        const auto readBuffer = [&](std::vector<BranchRow>& branches, std::string& first, const std::string& reg) {
                             if (!branches.empty()) {
                                 return;
                             }
 
                             branches = filesThroughRun(sectionName, reg);
                             if (!branches.empty()) {
-                                first = branches.front().val;
+                                first = branches.front().value;
                             }
                         };
 
@@ -424,7 +437,7 @@ namespace AGRemapCore {
                         } else if (hashType == TexcoordHashKey) {
                             readBuffer(files_.texcoords, files_.texcoord, IniKeywords::Vb1);
                         } else if (hashType == FaceDiffuseHashKey) {
-                            const std::optional<std::string> handling = firstVal(tpl, IniKeywords::Handling);
+                            const std::optional<std::string> handling = tpl.firstVal(IniKeywords::Handling);
                             if (handling.has_value() && StringTools::equalsIgnoreCase(StringTools::strip(*handling), "skip")) {
                                 files_.skipsGameFace = true;
                             }
@@ -444,7 +457,7 @@ namespace AGRemapCore {
                                 }
                             }
                         } else if (hashType == IbHashKey) {
-                            std::optional<std::string> index = firstVal(tpl, IniKeywords::MatchFirstIndex);
+                            std::optional<std::string> index = tpl.firstVal(IniKeywords::MatchFirstIndex);
                             if (!index.has_value()) {
                                 continue;
                             }
@@ -468,33 +481,33 @@ namespace AGRemapCore {
                             }
 
                             ModObjectFiles objFiles;
-                            for (const BranchVal& rawIb : branches_.valsThroughRun(templates, sectionName, IniKeywords::Ib)) {
+                            for (const BranchRow& rawIb : valsThroughRun(sectionName, IniKeywords::Ib)) {
                                 // `ib = null` hides the object in THIS branch -- see ModObjectFiles::ibs.
-                                if (StringTools::equalsIgnoreCase(rawIb.val, IniKeywords::Null)) {
-                                    objFiles.ibs.push_back(BranchVal{std::string(), rawIb.query});
+                                if (StringTools::equalsIgnoreCase(rawIb.value, IniKeywords::Null)) {
+                                    objFiles.ibs.push_back(BranchRow::conditioned(std::string(), rawIb.condition));
                                     continue;
                                 }
 
-                                const std::string resource = ModBranches::resourceOf(rawIb.val);
+                                const std::string resource = IniNamingTools::boundResource(rawIb.value);
                                 std::string file = fileOf(resource);
                                 if (file.empty()) {
                                     continue;
                                 }
 
-                                files_.ibBytesPerIndex[file] = ModBranches::ibBytesPerIndexOf(templates, resource);
+                                files_.ibBytesPerIndex[file] = bytesPerIndexOf(resource);
                                 if (objFiles.ib.empty()) {
                                     objFiles.ib = file;
                                 }
 
-                                objFiles.ibs.push_back(BranchVal{std::move(file), rawIb.query});
+                                objFiles.ibs.push_back(BranchRow::conditioned(std::move(file), rawIb.condition));
                             }
 
                             // The first branch's textures: a band legend's diffuse gate is one
                             // filter per object, not per branch.
                             using SourceLayout = GIMIComponentFixerConfig::SourceLayout;
                             bool ownNNFix = false;
-                            for (const BranchVal& call : branches_.valsThroughRun(templates, sectionName, IniKeywords::Run)) {
-                                const std::string path(StringTools::strip(call.val));
+                            for (const BranchRow& call : valsThroughRun(sectionName, IniKeywords::Run)) {
+                                const std::string path(StringTools::strip(call.value));
                                 objFiles.ownORFix = objFiles.ownORFix || StringTools::equalsIgnoreCase(path, IniKeywords::ORFixPath);
                                 ownNNFix = ownNNFix || StringTools::equalsIgnoreCase(path, IniKeywords::NNFixPath);
                             }
@@ -532,8 +545,8 @@ namespace AGRemapCore {
                             // ps-t0..2 names exactly one role, no two the same. A mod in the game's own order
                             // (the case this is for) binds without a fix call and names its files plainly.
                             bool ownFixCall = objFiles.ownORFix;
-                            for (const BranchVal& call : branches_.valsThroughRun(templates, sectionName, IniKeywords::Run)) {
-                                ownFixCall = ownFixCall || StringTools::equalsIgnoreCase(StringTools::strip(call.val), IniKeywords::NNFixPath);
+                            for (const BranchRow& call : valsThroughRun(sectionName, IniKeywords::Run)) {
+                                ownFixCall = ownFixCall || StringTools::equalsIgnoreCase(StringTools::strip(call.value), IniKeywords::NNFixPath);
                             }
 
                             if (config_.texRegsByName && !ownFixCall) {
@@ -573,8 +586,8 @@ namespace AGRemapCore {
                                 if (objFiles.diffuseReg.empty()) {
                                     objFiles.diffuseReg = objFiles.normalMapLayout ? ShiftedDiffuseReg : DiffuseReg;
                                 }
-                                for (const BranchVal& raw : branches_.valsThroughRun(templates, sectionName, objFiles.diffuseReg)) {
-                                    const std::string resource = ModBranches::resourceOf(raw.val);
+                                for (const BranchRow& raw : valsThroughRun(sectionName, objFiles.diffuseReg)) {
+                                    const std::string resource = IniNamingTools::boundResource(raw.value);
                                     const std::string file = fileOf(resource);
                                     if (!file.empty()) {
                                         objFiles.diffuseResources.emplace_back(StringTools::toLower(resource), file);
@@ -590,26 +603,26 @@ namespace AGRemapCore {
                     // no `else`; the parser covers the path where neither holds by referencing the game's
                     // buffer as a download UNCONDITIONALLY at the top of the root section, where the
                     // chain's own binding, run after it, overrides it on every real path. But a branch
-                    // list reads root first, and ModBranches::pick takes the first compatible value, so
+                    // list reads root first, and GraphCollect::valueUnder takes the first compatible value, so
                     // the download answered for EVERY state: the split read it (a crash on a first run,
                     // before fixResources fetches it -- a Citlali merged master) or, once fetched,
                     // remapped the game's own buffer in place of the mod's. When a list holds any file
                     // of the mod's own, its downloads are dropped from it; a list of nothing but
                     // downloads (a mod missing that part outright) keeps them.
-                    const auto preferAuthored = [](std::vector<BranchVal>& list, std::string& first) {
-                        const bool anyAuthored = std::any_of(list.begin(), list.end(), [](const BranchVal& v) {
-                            return !v.val.empty() && !IniNamingTools::isDownloadFile(v.val);
+                    const auto preferAuthored = [](std::vector<BranchRow>& list, std::string& first) {
+                        const bool anyAuthored = std::any_of(list.begin(), list.end(), [](const BranchRow& v) {
+                            return !v.value.empty() && !IniNamingTools::isDownloadFile(v.value);
                         });
                         if (!anyAuthored) {
                             return;
                         }
-                        list.erase(std::remove_if(list.begin(), list.end(), [](const BranchVal& v) {
-                            return !v.val.empty() && IniNamingTools::isDownloadFile(v.val);
+                        list.erase(std::remove_if(list.begin(), list.end(), [](const BranchRow& v) {
+                            return !v.value.empty() && IniNamingTools::isDownloadFile(v.value);
                         }), list.end());
                         first.clear();
-                        for (const BranchVal& v : list) {
-                            if (!v.val.empty()) {
-                                first = v.val;
+                        for (const BranchRow& v : list) {
+                            if (!v.value.empty()) {
+                                first = v.value;
                                 break;
                             }
                         }
@@ -651,15 +664,15 @@ namespace AGRemapCore {
                     const auto isDownload = &IniNamingTools::isDownloadFile;
 
                     bool authored = false;
-                    for (const std::vector<BranchVal>* branches : {&files_.blends, &files_.positions, &files_.texcoords}) {
-                        for (const BranchVal& branch : *branches) {
-                            authored = authored || !isDownload(branch.val);
+                    for (const std::vector<BranchRow>* branches : {&files_.blends, &files_.positions, &files_.texcoords}) {
+                        for (const BranchRow& branch : *branches) {
+                            authored = authored || !isDownload(branch.value);
                         }
                     }
 
                     for (const auto& object : files_.objects) {
-                        for (const BranchVal& ib : object.second.ibs) {
-                            authored = authored || (!ib.val.empty() && !isDownload(ib.val));
+                        for (const BranchRow& ib : object.second.ibs) {
+                            authored = authored || (!ib.value.empty() && !isDownload(ib.value));
                         }
                     }
 
@@ -781,11 +794,11 @@ namespace AGRemapCore {
                     // alone: an animated master binds one blend for its whole frame range and a
                     // different ib per frame. Identical states -- the same blend and index buffers
                     // under different conditions -- are split once.
-                    std::vector<const std::vector<BranchVal>*> lists{&files_.blends};
+                    std::vector<const std::vector<BranchRow>*> lists{&files_.blends};
                     for (const auto& object : files_.objects) {
                         lists.push_back(&object.second.ibs);
                     }
-                    states_ = branches_.states(lists);
+                    states_ = GraphCollect<>::states(lists, z3());
 
                     std::unordered_map<std::string, std::pair<std::size_t, std::vector<std::string>>> splitCache;
                     std::vector<std::string> drawnAny;
@@ -796,7 +809,7 @@ namespace AGRemapCore {
                     bool anyAuthoredState = false;
                     for (std::size_t state = 0; state < states_.size(); ++state) {
                         std::vector<std::string> statePaths = ibsFor(states_[state]).second;
-                        statePaths.push_back(branches_.pick(files_.blends, files_.blend, states_[state]));
+                        statePaths.push_back(GraphCollect<>::valueUnder(files_.blends, files_.blend, states_[state], z3()));
                         for (const std::string& path : statePaths) {
                             throughDownload[state] = throughDownload[state] || IniNamingTools::isDownloadFile(path);
                             throughUnfetched[state] = throughUnfetched[state] || isUnfetchedDownload(path);
@@ -806,7 +819,7 @@ namespace AGRemapCore {
                     anyAuthoredState_ = anyAuthoredState;
 
                     for (std::size_t state = 0; state < states_.size(); ++state) {
-                        const std::string blendPath = branches_.pick(files_.blends, files_.blend, states_[state]);
+                        const std::string blendPath = GraphCollect<>::valueUnder(files_.blends, files_.blend, states_[state], z3());
                         const auto [names, paths] = ibsFor(states_[state]);
 
                         // A STATE THROUGH A PARSER DOWNLOAD IS NOT SPLIT (2026-09-22). A merged master
@@ -939,7 +952,7 @@ namespace AGRemapCore {
                 std::pair<std::vector<std::string>, std::vector<std::string>> ibsFor(const std::optional<Z3Predicate>& query) {
                     std::pair<std::vector<std::string>, std::vector<std::string>> out;
                     for (const auto& object : files_.objects) {
-                        const std::string path = branches_.pick(object.second.ibs, object.second.ib, query);
+                        const std::string path = GraphCollect<>::valueUnder(object.second.ibs, object.second.ib, query, z3());
                         if (!path.empty()) {
                             out.first.push_back(object.first);
                             out.second.push_back(path);
@@ -1087,7 +1100,7 @@ namespace AGRemapCore {
                             // The resources a part binds at the diffuse register that name 'file'
                             const auto partDiffuseIs = [resources, diffuseReg](const auto& iterData, const std::string& file) {
                                 for (const auto& val : iterData.part->getValsWithInds(diffuseReg, true, std::nullopt)) {
-                                    const std::string resource = StringTools::toLower(ModBranches::resourceOf(val.second));
+                                    const std::string resource = StringTools::toLower(IniNamingTools::boundResource(val.second));
                                     for (const auto& entry : *resources) {
                                         if (entry.first == resource && StringTools::equalsIgnoreCase(entry.second, file)) {
                                             return true;
@@ -1270,8 +1283,8 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        for (const BranchVal& ib : entry.second.ibs) {
-                            auto it = files_.ibBytesPerIndex.find(ib.val);
+                        for (const BranchRow& ib : entry.second.ibs) {
+                            auto it = files_.ibBytesPerIndex.find(ib.value);
                             if (it != files_.ibBytesPerIndex.end() && it->second == 2) {
                                 return true;
                             }
@@ -1310,7 +1323,7 @@ namespace AGRemapCore {
                         srcName + toModName_ + "Buffers",
                         [this, splitConfig](const Z3Predicate* query) {
                             VGSplitGroupConfig config = splitConfig;
-                            auto [names, paths] = ibsFor(branches_.localQuery(query));
+                            auto [names, paths] = ibsFor(localQuery(query));
                             config.ibPaths = std::move(paths);
                             config.specs = specsFor(names);
                             // The inner-outline objects by their POSITION in this state's list, like the mirrored ones
@@ -2062,7 +2075,7 @@ namespace AGRemapCore {
                     std::vector<std::vector<ObjGroupEdit::PartEdit*>> vbRemovalEdits(groupCount_);
                     for (std::size_t group = 0; files_.blends.size() > 1 && group < groupCount_; ++group) {
                         const std::string groupObj = (group < drawn_.size()) ? drawn_[group] : std::string();
-                        blendBranchDraws_.push_back(branches_.replacePerBranch(
+                        blendBranchDraws_.push_back(RegBranchAdd<>::perBranchReplacements(z3(), 
                             files_.blends, "blend",
                             [this, groupObj](std::size_t, const std::optional<Z3Predicate>& local) -> RegBranchAdd<>::Additions {
                                 // The largest of the states this blend branch is drawn in: several
@@ -2075,7 +2088,7 @@ namespace AGRemapCore {
                                         continue;
                                     }
                                     if (!states_[state].has_value() || !local.has_value()
-                                            || branches_.compatible(*states_[state], *local)) {
+                                            || compatible(*states_[state], *local)) {
                                         kept = std::max(kept, stateKept_[state]);
                                     }
                                 }
@@ -2103,7 +2116,7 @@ namespace AGRemapCore {
                         }
 
                         for (const std::string& reg : {std::string(IniKeywords::Vb0), std::string(IniKeywords::Vb1)}) {
-                            blendBranchDraws_.push_back(branches_.removePerBranch(
+                            blendBranchDraws_.push_back(RegBranchAdd<>::perBranchRemovals(z3(), 
                                 files_.blends, "vbs:" + reg,
                                 [this, groupObj, reg](std::size_t, const std::optional<Z3Predicate>& local) -> std::vector<std::string> {
                                     return groupKeptIn(groupObj, local) == 0 ? std::vector<std::string>{reg} : std::vector<std::string>{};
@@ -2241,9 +2254,43 @@ namespace AGRemapCore {
                     mainEdits_ = ObjGroupEdit(std::move(perGroup), false);
                 }
 
-                // FIRST, so it is destroyed after every other member of this class: every Z3Predicate
-                // read out of the mod's sections belongs to its context -- see ModBranches.
-                ModBranches branches_;
+                // ---- the mod's branched values, read through the API ----
+
+                // The .ini file's own Z3 context: every condition read out of the mod's sections is in it
+                Z3Context* z3() {
+                    IniFile* iniFile = ctx_.getIniFile();
+                    return iniFile == nullptr ? nullptr : iniFile->getZ3Ctx();
+                }
+
+                // Whether two conditions can hold at the same time
+                bool compatible(const Z3Predicate& a, const Z3Predicate& b) {
+                    return ResGroupCollect<>::combineQueries(a, b, z3()).isSatisfiable();
+                }
+
+                // A query brought into the file's context ONCE, for the many compatibility tests that follow
+                std::optional<Z3Predicate> localQuery(const Z3Predicate* query) {
+                    if (query == nullptr) {
+                        return std::nullopt;
+                    }
+                    return ResGroupCollect<>::combineQueries(*query, Z3Predicate::trueValue(*z3()), z3());
+                }
+
+                // Every value of 'key' in 'section' and in what it reaches through `run =`, each with its condition
+                // (GraphCollect::rowsOf over IniFile::sectionGraph)
+                std::vector<BranchRow> valsThroughRun(const std::string& section, const std::string& key) {
+                    IniFile* iniFile = ctx_.getIniFile();
+                    if (iniFile == nullptr) {
+                        return {};
+                    }
+                    auto graph = iniFile->sectionGraph(section);
+                    return GraphCollect<>::rowsOf(graph, key);
+                }
+
+                // The first of #valsThroughRun's values
+                std::optional<std::string> firstValThroughRun(const std::string& section, const std::string& key) {
+                    const std::vector<BranchRow> rows = valsThroughRun(section, key);
+                    return rows.empty() ? std::nullopt : std::optional<std::string>(rows.front().value);
+                }
 
                 GIMIComponentFixerConfig config_;
                 std::string componentName_;
@@ -2255,7 +2302,7 @@ namespace AGRemapCore {
                 // the owner's record of what EVERY component draws of this mod -- see buildHiddenComponents
                 std::unordered_map<std::string, std::vector<std::string>> drawnByComponent_;
                 std::size_t keptVertices_ = 0;                  // the largest state's
-                std::vector<std::optional<Z3Predicate>> states_;  // see ModBranches::states
+                std::vector<std::optional<Z3Predicate>> states_;  // see GraphCollect::states
                 // The most vertices any state compatible with 'local' keeps where 'obj' keeps triangles
                 // -- 0 when the object keeps none in any of them. An empty 'obj' asks about the component.
                 std::size_t groupKeptIn(const std::string& obj, const std::optional<Z3Predicate>& local) {
@@ -2266,7 +2313,7 @@ namespace AGRemapCore {
                             continue;
                         }
                         if (!states_[state].has_value() || !local.has_value()
-                                || branches_.compatible(*states_[state], *local)) {
+                                || compatible(*states_[state], *local)) {
                             kept = std::max(kept, stateKept_[state]);
                         }
                     }

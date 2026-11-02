@@ -172,7 +172,6 @@ add_library(AGRemapCore STATIC
     src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp
     src/data/IniParseData/Sanhua/SanhuaParser.cpp
     src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp
-    src/data/IniFixData/ModBranches.cpp
     src/data/IniFixData/Yelan/YelanFixer.cpp
     src/data/IniFixData/GIMIMergeFixer.cpp
     src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp

@@ -31,7 +31,6 @@
     <includedby refid="_texture_roles_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h</includedby>
     <includedby refid="_remap_ini_remover_8h" local="yes">include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h</includedby>
     <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
-    <includedby refid="_mod_branches_8cpp" local="yes">src/data/IniFixData/ModBranches.cpp</includedby>
     <includedby refid="_ini_section_graph_instantiation_8cpp" local="yes">src/model/IniSectionGraphInstantiation.cpp</includedby>
     <incdepgraph>
       <node id="29">
@@ -1599,30 +1598,6 @@
         <childnode refid="299" relation="include">
         </childnode>
       </node>
-      <node id="443">
-        <label>include/AGRemapCore/data/IniFixData/ModBranches.h</label>
-        <link refid="_mod_branches_8h"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="444" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="407" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-      </node>
       <node id="274">
         <label>include/AGRemapCore/data/IniFixData/Mona/MonaFixer.h</label>
         <link refid="_mona_fixer_8h"/>
@@ -2654,8 +2629,6 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="407" relation="include">
-        </childnode>
         <childnode refid="460" relation="include">
         </childnode>
       </node>
@@ -3046,8 +3019,6 @@
       <node id="442">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h</label>
         <link refid="_reg_branch_add_8h"/>
-        <childnode refid="443" relation="include">
-        </childnode>
         <childnode refid="17" relation="include">
         </childnode>
       </node>
@@ -3321,8 +3292,6 @@
         <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="407" relation="include">
         </childnode>
         <childnode refid="408" relation="include">
         </childnode>
@@ -4118,10 +4087,6 @@
       <node id="212">
         <label>src/data/IniFixData/Miyabi/MiyabiFixer.cpp</label>
         <link refid="_miyabi_fixer_8cpp"/>
-      </node>
-      <node id="407">
-        <label>src/data/IniFixData/ModBranches.cpp</label>
-        <link refid="_mod_branches_8cpp"/>
       </node>
       <node id="213">
         <label>src/data/IniFixData/Mona/MonaFixer.cpp</label>

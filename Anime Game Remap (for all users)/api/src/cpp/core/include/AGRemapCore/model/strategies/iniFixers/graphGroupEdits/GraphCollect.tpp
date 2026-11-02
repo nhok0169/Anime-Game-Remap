@@ -14,11 +14,14 @@
 
 // ##### EndCredits
 
+#include <algorithm>
+#include <tsl/ordered_map.h>
 #include <type_traits>
 #include <utility>
 
 #include "AGRemapCore/constants/IfPredPartType.h"
 #include "AGRemapCore/model/iftemplate/IfPredPart.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
 #include "AGRemapCore/tools/StringTools.h"
 
@@ -98,6 +101,188 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     void GraphCollect<K, V, KeyHash, KeyEqual>::clear() {
         rows_.clear();
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::vector<typename GraphCollect<K, V, KeyHash, KeyEqual>::Row> GraphCollect<K, V, KeyHash, KeyEqual>::rowsOf(Graph& graph,
+                                                                                                       const K& key) {
+        // by section, in the order the walk meets them; read out root first below
+        tsl::ordered_map<std::string, std::vector<Row>> bySection;
+        auto parts = graph.iterByQuery();
+        while (parts.next()) {
+            auto& queryData = parts.value();
+            auto* part = queryData.part;
+            if (part == nullptr) {
+                continue;
+            }
+
+            std::optional<GraphCollectDetail::Branches> branches;
+            for (const auto& [line, value] : part->getValsWithInds(key)) {
+                Row row;
+                row.section = queryData.sectionName;
+                row.rootSection = queryData.rootSectionName;
+                row.partId = part->id();
+                row.line = line;
+                row.key = key;
+                if constexpr (std::is_same_v<V, std::string>) {
+                    row.value = std::string(StringTools::strip(value));
+                } else {
+                    row.value = value;
+                }
+                row.condition = queryData.query;
+                if (!branches.has_value()) {
+                    branches = GraphCollectDetail::branchesOf(queryData.section, part);
+                }
+                row.guards = branches->guards;
+                row.blocks = branches->blocks;
+                row.position = branches->position;
+                bySection[queryData.sectionName].push_back(std::move(row));
+            }
+        }
+
+        std::vector<Row> out;
+        const auto append = [&out, &bySection](const std::string& name) {
+            auto found = bySection.find(name);
+            if (found != bySection.end()) {
+                // copied: tsl::ordered_map hands out const values through its iterators
+                out.insert(out.end(), found->second.begin(), found->second.end());
+            }
+        };
+
+        for (const std::string& root : graph.roots()) {
+            append(root);
+        }
+        for (const auto& entry : graph.sections()) {
+            if (entry.second != nullptr && std::find(graph.roots().begin(), graph.roots().end(), entry.first) == graph.roots().end()) {
+                append(entry.first);
+            }
+        }
+        return out;
+    }
+
+
+    namespace GraphCollectDetail {
+        // Whether two conditions can hold at the same time, combined in 'z3Ctx'
+        template <typename K, typename V, typename KeyHash, typename KeyEqual>
+        bool compatible(const Z3Predicate& a, const Z3Predicate& b, Z3Context* z3Ctx) {
+            return ResGroupCollect<K, V, KeyHash, KeyEqual>::combineQueries(a, b, z3Ctx).isSatisfiable();
+        }
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    V GraphCollect<K, V, KeyHash, KeyEqual>::valueUnder(const std::vector<Row>& rows, const V& fallback,
+                                                       const std::optional<Z3Predicate>& query, Z3Context* z3Ctx) {
+        if (rows.empty()) {
+            return fallback;
+        }
+
+        if (rows.size() == 1 || !query.has_value()) {
+            return rows.front().value;
+        }
+
+        for (const Row& row : rows) {
+            if (row.condition.has_value() && GraphCollectDetail::compatible<K, V, KeyHash, KeyEqual>(*query, *row.condition, z3Ctx)) {
+                return row.value;
+            }
+        }
+
+        return rows.front().value;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    long long GraphCollect<K, V, KeyHash, KeyEqual>::onlyUnder(const std::vector<Row>& rows, const std::optional<Z3Predicate>& query,
+                                                              Z3Context* z3Ctx) {
+        if (rows.size() <= 1) {
+            return rows.empty() ? -1 : 0;
+        }
+
+        if (!query.has_value()) {
+            return -1;
+        }
+
+        long long found = -1;
+        for (std::size_t i = 0; i < rows.size(); ++i) {
+            if (!rows[i].condition.has_value()) {
+                continue;
+            }
+
+            if (GraphCollectDetail::compatible<K, V, KeyHash, KeyEqual>(*query, *rows[i].condition, z3Ctx)) {
+                if (found >= 0) {
+                    return -1;
+                }
+                found = static_cast<long long>(i);
+            }
+        }
+
+        return found;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    bool GraphCollect<K, V, KeyHash, KeyEqual>::anyUnder(const std::vector<Row>& rows, const std::optional<Z3Predicate>& query,
+                                                        Z3Context* z3Ctx) {
+        for (const Row& row : rows) {
+            if (!row.condition.has_value() || !query.has_value()
+                    || GraphCollectDetail::compatible<K, V, KeyHash, KeyEqual>(*query, *row.condition, z3Ctx)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::vector<std::optional<Z3Predicate>> GraphCollect<K, V, KeyHash, KeyEqual>::states(const std::vector<const std::vector<Row>*>& lists,
+                                                                                         Z3Context* z3Ctx) {
+        std::vector<std::optional<Z3Predicate>> result{std::nullopt};
+
+        for (const std::vector<Row>* list : lists) {
+            if (list == nullptr || list->size() <= 1) {
+                continue;
+            }
+
+            std::vector<std::optional<Z3Predicate>> refined;
+            std::vector<std::string> seen;
+            const auto add = [&refined, &seen](std::optional<Z3Predicate> state) {
+                std::string key = state.has_value() ? state->toString() : std::string();
+                if (std::find(seen.begin(), seen.end(), key) == seen.end()) {
+                    seen.push_back(std::move(key));
+                    refined.push_back(std::move(state));
+                }
+            };
+
+            for (const std::optional<Z3Predicate>& state : result) {
+                bool split = false;
+                for (const Row& row : *list) {
+                    if (!row.condition.has_value()) {
+                        continue;
+                    }
+
+                    if (!state.has_value()) {
+                        add(row.condition);
+                        split = true;
+                    } else if (state->toString() == row.condition->toString()) {
+                        add(state);
+                        split = true;
+                    } else if (GraphCollectDetail::compatible<K, V, KeyHash, KeyEqual>(*state, *row.condition, z3Ctx)) {
+                        add(ResGroupCollect<K, V, KeyHash, KeyEqual>::combineQueries(*state, *row.condition, z3Ctx).simplify());
+                        split = true;
+                    }
+                }
+
+                if (!split) {
+                    add(state);
+                }
+            }
+
+            result = std::move(refined);
+        }
+
+        return result;
     }
 
 

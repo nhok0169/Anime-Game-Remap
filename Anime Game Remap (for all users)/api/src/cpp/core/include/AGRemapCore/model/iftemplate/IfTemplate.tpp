@@ -12,6 +12,9 @@
 // ##### EndCredits
 
 #include <algorithm>
+#include <type_traits>
+
+#include "AGRemapCore/tools/StringTools.h"
 #include <tuple>
 
 namespace AGRemapCore {
@@ -76,6 +79,56 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     const std::vector<std::unique_ptr<IfTemplatePart>>& IfTemplate<K, V, KeyHash, KeyEqual>::parts() const {
         return parts_;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::optional<V> IfTemplate<K, V, KeyHash, KeyEqual>::firstVal(const K& key) const {
+        for (const auto& part : parts_) {
+            const auto* content = dynamic_cast<const ContentPart*>(part.get());
+            if (content == nullptr) {
+                continue;
+            }
+
+            std::vector<V> vals = content->getVals(key);
+            if (vals.empty()) {
+                continue;
+            }
+            if constexpr (std::is_same_v<V, std::string>) {
+                return std::string(StringTools::strip(vals.front()));
+            } else {
+                return vals.front();
+            }
+        }
+
+        return std::nullopt;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::optional<V> IfTemplate<K, V, KeyHash, KeyEqual>::firstValMatching(const std::function<bool(const K&)>& match) const {
+        for (const auto& part : parts_) {
+            const auto* content = dynamic_cast<const ContentPart*>(part.get());
+            if (content == nullptr) {
+                continue;
+            }
+
+            for (const K& candidate : content->getKeys()) {
+                if (!match(candidate)) {
+                    continue;
+                }
+
+                std::vector<V> vals = content->getVals(candidate);
+                if (vals.empty()) {
+                    continue;
+                }
+                if constexpr (std::is_same_v<V, std::string>) {
+                    return std::string(StringTools::strip(vals.front()));
+                } else {
+                    return vals.front();
+                }
+            }
+        }
+
+        return std::nullopt;
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>

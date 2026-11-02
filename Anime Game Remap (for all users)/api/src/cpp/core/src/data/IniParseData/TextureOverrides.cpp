@@ -40,14 +40,14 @@ namespace AGRemapCore {
     }
 
 
-    std::vector<TextureOverrides::Override> TextureOverrides::collect(const ModBranches::Templates& templates) {
+    std::vector<TextureOverrides::Override> TextureOverrides::collect(const IfTemplates& templates) {
         std::vector<Override> result;
         for (const auto& entry : templates) {
             if (entry.second == nullptr) {
                 continue;
             }
 
-            const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+            const std::optional<std::string> hash = entry.second->firstVal(IniKeywords::Hash);
             if (!hash.has_value()) {
                 continue;
             }
@@ -72,7 +72,7 @@ namespace AGRemapCore {
                     continue;
                 }
 
-                const auto* content = dynamic_cast<const ModBranches::Template::ContentPart*>(part.get());
+                const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
                 if (content == nullptr) {
                     continue;
                 }
@@ -220,8 +220,8 @@ namespace AGRemapCore {
 
 
     std::optional<TextureOverrides::Adoption> TextureOverrides::adopt(IniFile& sibling, const std::string& root,
-                                                                      const ModBranches::Templates& own) {
-        const ModBranches::Templates& templates = sibling.getIfTemplates();
+                                                                      const IfTemplates& own) {
+        const IfTemplates& templates = sibling.getIfTemplates();
 
         // The closure: the section, every sibling section a value names, recursively.
         std::vector<std::string> sections;
@@ -235,7 +235,7 @@ namespace AGRemapCore {
             if (found == templates.end() || found->second == nullptr) {
                 continue;
             }
-            const std::optional<std::string> file = ModBranches::firstVal(*found->second, IniKeywords::Filename);
+            const std::optional<std::string> file = found->second->firstVal(IniKeywords::Filename);
             if (file.has_value()) {
                 // Every key, not just the file: an index buffer's `type` and `format` say how the
                 // game reads it, and declared without them a 32-bit ib is not read as one.
@@ -286,7 +286,7 @@ namespace AGRemapCore {
             text += "[" + name + "]\n" + renameTokens(sectionText(sibling, name), renames) + "\n";
         }
         IniFile parsed(std::nullopt, text);
-        const ModBranches::Templates& parsedTemplates = parsed.getIfTemplates();
+        const IfTemplates& parsedTemplates = parsed.getIfTemplates();
         for (const std::string& name : sections) {
             auto found = parsedTemplates.find(name);
             if (found != parsedTemplates.end() && found->second != nullptr) {

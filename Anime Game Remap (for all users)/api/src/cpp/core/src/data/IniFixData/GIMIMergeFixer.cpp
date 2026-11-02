@@ -15,7 +15,7 @@
 #include "AGRemapCore/data/IniFixData/SideMeshes.h"
 #include "AGRemapCore/data/IniFixData/TexFxLayout.h"
 #include "AGRemapCore/data/IniFixData/TexRegLayout.h"
-#include "AGRemapCore/data/IniFixData/ModBranches.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
 #include "AGRemapCore/data/IniParseData/GIMIComponentParser.h"
 
 #include <algorithm>
@@ -180,9 +180,8 @@ namespace AGRemapCore {
         const std::string StrideKey = "stride";
 
 
-        // How a merged master's per-branch values are read and paired is shared with the split --
-        // see ModBranches.
-        const auto firstVal = &ModBranches::firstVal;
+        // One value a merged master's branch binds, with the condition it is taken under (GraphCollect::rowsOf)
+        using BranchRow = GraphCollectRow<>;
 
 
         // ---- what one source SLOT's section names ----
@@ -190,7 +189,7 @@ namespace AGRemapCore {
             std::string ib;
 
             // As ComponentFiles' lists: one ib per $swapvar branch of a merged master.
-            std::vector<BranchVal> ibs;
+            std::vector<BranchRow> ibs;
 
             // Some branch's ib is explicitly `null` -- the author hid this object there, which
             // three of one NSFW mod's twelve variants do to take the gloves off. That is NOT the
@@ -232,7 +231,7 @@ namespace AGRemapCore {
             // draws in SOME of its branches and not others -- this mod issues none in four of its
             // twelve -- so "does the mod draw here" is a per-branch question wherever the branches
             // are different models.
-            std::vector<BranchVal> drawVals;
+            std::vector<BranchRow> drawVals;
 
             // The raw values of ps-t0, ps-t1 and ps-t2, through `run =`, each with the condition it is
             // bound under. The roles above are ONE reading, taken off whichever branch binds each
@@ -241,7 +240,7 @@ namespace AGRemapCore {
             // merged master's variants bind different textures, and YaoyaoBamboo's synthetic master
             // (an identity beside a mod on GIMI's newer API) drew branch 0's eyes on its head LIGHT
             // MAP beside branch 1's (2026-09-27). See rolesInBranch.
-            std::vector<BranchVal> texRegVals[3];
+            std::vector<BranchRow> texRegVals[3];
 
             // Whether the slot binds nothing of its own and took its textures from a donor -- see
             // Slot::borrowFrom. Its texRegVals are then the DONOR's: a borrower in a merged master whose
@@ -266,9 +265,9 @@ namespace AGRemapCore {
             // $swapvar branch, and each branch is a different mod that has to be merged on its own
             // -- see configForGroup. One entry for an ordinary mod, which is the same thing said
             // once.
-            std::vector<BranchVal> positions;
-            std::vector<BranchVal> blends;
-            std::vector<BranchVal> texcoords;
+            std::vector<BranchRow> positions;
+            std::vector<BranchRow> blends;
+            std::vector<BranchRow> texcoords;
             std::size_t vertexCount = 0;
             std::size_t positionStride = 0;
             bool hasIbSection = false;     // the component's own ib section (hash, no match_first_index)
@@ -440,7 +439,7 @@ namespace AGRemapCore {
                         if (entry.second == nullptr) {
                             continue;
                         }
-                        const std::optional<std::string> hashVal = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                        const std::optional<std::string> hashVal = entry.second->firstVal(IniKeywords::Hash);
                         if (!hashVal.has_value()) {
                             continue;
                         }
@@ -523,15 +522,22 @@ namespace AGRemapCore {
                     const std::string folder = iniFile->getFolder();
                     const auto& templates = iniFile->getIfTemplates();
 
-                    const auto resourceOf = &ModBranches::resourceOf;
+                    const auto resourceOf = &IniNamingTools::boundResource;
                     auto fileOf = [&](const std::string& resource) {
-                        return ModBranches::fileOf(templates, resource, folder);
+                        const auto found = resource.empty() ? templates.end() : templates.find(resource);
+                        const std::optional<std::string> file = (found == templates.end() || found->second == nullptr)
+                            ? std::nullopt : found->second->firstVal(IniKeywords::Filename);
+                        return (!file.has_value() || file->empty()) ? std::string() : FileService::absPathOfRelPath(*file, folder);
                     };
 
                     // How many bytes an index takes in the buffer this resource names -- see
                     // IbFile::bytesPerIndexOf.
-                    auto bytesPerIndexOf = [&](const std::string& resource) {
-                        return ModBranches::ibBytesPerIndexOf(templates, resource);
+                    auto bytesPerIndexOf = [&](const std::string& resource) -> std::size_t {
+                        const auto found = resource.empty() ? templates.end() : templates.find(resource);
+                        if (found == templates.end() || found->second == nullptr) {
+                            return 4;
+                        }
+                        return IbFile::bytesPerIndexOf(found->second->firstVal(IniKeywords::Format).value_or(""));
                     };
 
                     for (const GIMIMergeFixerConfig::Component& component : config_.components) {
@@ -543,7 +549,7 @@ namespace AGRemapCore {
                             }
 
                             const Template& tpl = *entry.second;
-                            std::optional<std::string> hashVal = firstVal(tpl, IniKeywords::Hash);
+                            std::optional<std::string> hashVal = tpl.firstVal(IniKeywords::Hash);
                             if (!hashVal.has_value()) {
                                 continue;
                             }
@@ -562,11 +568,11 @@ namespace AGRemapCore {
 
                             // Every branch, not just the first -- see ComponentFiles::blends.
                             const auto filesThroughRun = [&](const std::string& reg) {
-                                std::vector<BranchVal> out;
-                                for (const BranchVal& resource : branches_.valsThroughRun(templates, sectionName, reg)) {
-                                    std::string file = fileOf(resource.val);
+                                std::vector<BranchRow> out;
+                                for (const BranchRow& resource : valsThroughRun(sectionName, reg)) {
+                                    std::string file = fileOf(resource.value);
                                     if (!file.empty()) {
-                                        out.push_back(BranchVal{std::move(file), resource.query});
+                                        out.push_back(BranchRow::conditioned(std::move(file), resource.condition));
                                     }
                                 }
 
@@ -577,21 +583,21 @@ namespace AGRemapCore {
                                 if (files.positions.empty()) {
                                     files.positions = filesThroughRun(IniKeywords::Vb0);
                                     if (!files.positions.empty()) {
-                                        files.position = files.positions.front().val;
+                                        files.position = files.positions.front().value;
                                     }
                                 }
                             } else if (hashType == BlendHashKey) {
                                 if (files.blends.empty()) {
                                     files.blends = filesThroughRun(IniKeywords::Vb1);
                                     if (!files.blends.empty()) {
-                                        files.blend = files.blends.front().val;
+                                        files.blend = files.blends.front().value;
                                     }
                                 }
                             } else if (hashType == TexcoordHashKey) {
                                 if (files.texcoords.empty()) {
                                     files.texcoords = filesThroughRun(IniKeywords::Vb1);
                                     if (!files.texcoords.empty()) {
-                                        files.texcoord = files.texcoords.front().val;
+                                        files.texcoord = files.texcoords.front().value;
                                     }
                                 }
                             } else if (hashType == DrawHashKey) {
@@ -599,13 +605,13 @@ namespace AGRemapCore {
                                 files.hasOtherSection = true;
                             } else if (hashType == FaceDiffuseHashKey) {
                                 // Whether the mod hides the GAME's face -- see Component::offsetOnlyWithGameFace.
-                                const std::optional<std::string> handling = firstVal(tpl, IniKeywords::Handling);
+                                const std::optional<std::string> handling = tpl.firstVal(IniKeywords::Handling);
                                 if (handling.has_value() && StringTools::equalsIgnoreCase(StringTools::strip(*handling), "skip")) {
                                     skipsGameFace_ = true;
                                 }
 
                                 if (faceFile_.empty()) {
-                                    faceFile_ = fileOf(resourceOf(branches_.firstValThroughRun(templates, sectionName, DiffuseReg)));
+                                    faceFile_ = fileOf(resourceOf(firstValThroughRun(sectionName, DiffuseReg)));
                                 }
 
                                 // Whether the face DIFFUSE sits on the register faceReg moves it off -- see
@@ -614,15 +620,15 @@ namespace AGRemapCore {
                                 // there counts when its name says diffuse, or when the face binds nothing on
                                 // faceReg itself (a pre-6.x face with one texture on ps-t0).
                                 const std::string& otherReg = (config_.faceReg == DiffuseReg) ? LightMapReg : DiffuseReg;
-                                const std::string onOther(resourceOf(branches_.firstValThroughRun(templates, sectionName, otherReg)));
+                                const std::string onOther(resourceOf(firstValThroughRun(sectionName, otherReg)));
                                 const std::string onFaceReg(config_.faceReg.empty() ? std::string()
-                                    : resourceOf(branches_.firstValThroughRun(templates, sectionName, config_.faceReg)));
+                                    : resourceOf(firstValThroughRun(sectionName, config_.faceReg)));
                                 if (!config_.faceReg.empty() && !onOther.empty()
                                         && (RegValChecks::isDiffuse(onOther) || onFaceReg.empty())) {
                                     faceNeedsMove_ = true;
                                 }
                             } else if (hashType == IbHashKey) {
-                                std::optional<std::string> index = firstVal(tpl, IniKeywords::MatchFirstIndex);
+                                std::optional<std::string> index = tpl.firstVal(IniKeywords::MatchFirstIndex);
                                 if (!index.has_value()) {
                                     // The component's own ib section -- the one that carries
                                     // `handling = skip`, and the one the target's skip is made from.
@@ -654,34 +660,34 @@ namespace AGRemapCore {
                                     // target's shader reads the diffuse, and the whole model
                                     // rendered pale and flat.
                                     const bool normalMap =
-                                        !resourceOf(branches_.firstValThroughRun(templates, sectionName, "ps-t2")).empty();
+                                        !resourceOf(firstValThroughRun(sectionName, "ps-t2")).empty();
                                     SlotFiles slotFiles;
                                     slotFiles.found = true;
                                     slotFiles.section = sectionName;
                                     for (std::size_t reg = 0; reg < TexRegs.size(); ++reg) {
-                                        slotFiles.texRegVals[reg] = branches_.valsThroughRun(templates, sectionName, TexRegs[reg]);
+                                        slotFiles.texRegVals[reg] = valsThroughRun(sectionName, TexRegs[reg]);
                                     }
 
-                                    for (const BranchVal& call : branches_.valsThroughRun(templates, sectionName, IniKeywords::Run)) {
-                                        const std::string value(StringTools::strip(call.val));
+                                    for (const BranchRow& call : valsThroughRun(sectionName, IniKeywords::Run)) {
+                                        const std::string value(StringTools::strip(call.value));
                                         if (StringTools::equalsIgnoreCase(value, IniKeywords::ORFixPath)
                                                 || StringTools::equalsIgnoreCase(value, IniKeywords::NNFixPath)) {
                                             slotFiles.ownFix = true;
                                         }
                                     }
-                                    for (const BranchVal& rawIb : branches_.valsThroughRun(templates, sectionName, IniKeywords::Ib)) {
+                                    for (const BranchRow& rawIb : valsThroughRun(sectionName, IniKeywords::Ib)) {
                                         // `ib = null` hides the object in THIS branch, and the
                                         // branch is kept so it can say so -- see SlotFiles::nullIb.
-                                        if (StringTools::equalsIgnoreCase(rawIb.val, IniKeywords::Null)) {
+                                        if (StringTools::equalsIgnoreCase(rawIb.value, IniKeywords::Null)) {
                                             slotFiles.nullIb = true;
-                                            slotFiles.ibs.push_back(BranchVal{std::string(), rawIb.query});
+                                            slotFiles.ibs.push_back(BranchRow::conditioned(std::string(), rawIb.condition));
                                             continue;
                                         }
 
-                                        std::string file = fileOf(resourceOf(rawIb.val));
+                                        std::string file = fileOf(resourceOf(rawIb.value));
                                         if (!file.empty()) {
-                                            ibBytesPerIndex_[file] = bytesPerIndexOf(resourceOf(rawIb.val));
-                                            slotFiles.ibs.push_back(BranchVal{std::move(file), rawIb.query});
+                                            ibBytesPerIndex_[file] = bytesPerIndexOf(resourceOf(rawIb.value));
+                                            slotFiles.ibs.push_back(BranchRow::conditioned(std::move(file), rawIb.condition));
                                         }
                                     }
 
@@ -696,17 +702,17 @@ namespace AGRemapCore {
                                     // without an ib draws nothing of the slot -- as on the mod's own
                                     // character. A list of nothing but downloads (a slot the mod lacks
                                     // outright) keeps them. GIMIComponentFixer's preferAuthored.
-                                    if (std::any_of(slotFiles.ibs.begin(), slotFiles.ibs.end(), [](const BranchVal& v) {
-                                            return !v.val.empty() && !IniNamingTools::isDownloadFile(v.val);
+                                    if (std::any_of(slotFiles.ibs.begin(), slotFiles.ibs.end(), [](const BranchRow& v) {
+                                            return !v.value.empty() && !IniNamingTools::isDownloadFile(v.value);
                                         })) {
                                         slotFiles.ibs.erase(std::remove_if(slotFiles.ibs.begin(), slotFiles.ibs.end(),
-                                            [](const BranchVal& v) { return !v.val.empty() && IniNamingTools::isDownloadFile(v.val); }),
+                                            [](const BranchRow& v) { return !v.value.empty() && IniNamingTools::isDownloadFile(v.value); }),
                                             slotFiles.ibs.end());
                                     }
 
-                                    for (const BranchVal& candidate : slotFiles.ibs) {
-                                        if (!candidate.val.empty()) {
-                                            slotFiles.ib = candidate.val;
+                                    for (const BranchRow& candidate : slotFiles.ibs) {
+                                        if (!candidate.value.empty()) {
+                                            slotFiles.ib = candidate.value;
                                             break;
                                         }
                                     }
@@ -716,7 +722,7 @@ namespace AGRemapCore {
                                     // which adds `drawindexed = auto` on top of the draws it does
                                     // issue, and tells the appended-draw pass it has nothing to do.
                                     slotFiles.drawVals =
-                                        branches_.valsThroughRun(templates, sectionName, IniKeywords::DrawIndexed);
+                                        valsThroughRun(sectionName, IniKeywords::DrawIndexed);
                                     slotFiles.draws = !slotFiles.drawVals.empty();
 
                                     // Measured first, config second -- see Slot::indexCount. Only
@@ -725,13 +731,10 @@ namespace AGRemapCore {
                                     if (slotFiles.indexCount == 0) {
                                         slotFiles.indexCount = slot.indexCount;
                                     }
-                                    slotFiles.diffuseRes = resourceOf(branches_.firstValThroughRun(
-                                        templates, sectionName, normalMap ? NormalShiftedDiffuseReg : DiffuseReg));
-                                    slotFiles.lightMapRes = resourceOf(branches_.firstValThroughRun(
-                                        templates, sectionName, normalMap ? NormalShiftedLightMapReg : LightMapReg));
+                                    slotFiles.diffuseRes = resourceOf(firstValThroughRun(sectionName, normalMap ? NormalShiftedDiffuseReg : DiffuseReg));
+                                    slotFiles.lightMapRes = resourceOf(firstValThroughRun(sectionName, normalMap ? NormalShiftedLightMapReg : LightMapReg));
                                     if (normalMap) {
-                                        slotFiles.normalMapRes = resourceOf(branches_.firstValThroughRun(
-                                            templates, sectionName, DiffuseReg));
+                                        slotFiles.normalMapRes = resourceOf(firstValThroughRun(sectionName, DiffuseReg));
                                     }
 
                                     // WHICH REGISTER HOLDS WHICH ROLE, BY NAME.
@@ -765,8 +768,7 @@ namespace AGRemapCore {
                                         std::string byNameNormal, byNameLight, byNameDiffuse;
                                         for (const std::string& reg : {NormalMapReg, NormalShiftedDiffuseReg,
                                                                        NormalShiftedLightMapReg}) {
-                                            const std::string res(resourceOf(branches_.firstValThroughRun(
-                                                templates, sectionName, reg)));
+                                            const std::string res(resourceOf(firstValThroughRun(sectionName, reg)));
                                             if (res.empty()) {
                                                 continue;
                                             }
@@ -818,15 +820,15 @@ namespace AGRemapCore {
 
                             if (files.blend.empty()) {
                                 files.blend = downloadPath("Blend", ".buf");
-                                files.blends = {BranchVal{files.blend, std::nullopt}};
+                                files.blends = {BranchRow::conditioned(files.blend, std::nullopt)};
                             }
                             if (files.position.empty()) {
                                 files.position = downloadPath("Position", ".buf");
-                                files.positions = {BranchVal{files.position, std::nullopt}};
+                                files.positions = {BranchRow::conditioned(files.position, std::nullopt)};
                             }
                             if (files.texcoord.empty()) {
                                 files.texcoord = downloadPath("Texcoord", ".buf");
-                                files.texcoords = {BranchVal{files.texcoord, std::nullopt}};
+                                files.texcoords = {BranchRow::conditioned(files.texcoord, std::nullopt)};
                             }
 
                             for (const GIMIMergeFixerConfig::Slot& slot : component.slots) {
@@ -845,7 +847,7 @@ namespace AGRemapCore {
                                     slotFiles.ib = FileService::absPathOfRelPath(
                                         DownloadTools::fixedFileName(config_.downloadPrefix,
                                                                       component.name + slot.name, ".ib"), folder);
-                                    slotFiles.ibs = {BranchVal{slotFiles.ib, std::nullopt}};
+                                    slotFiles.ibs = {BranchRow::conditioned(slotFiles.ib, std::nullopt)};
                                 }
                                 if (slotFiles.indexCount == 0) {
                                     slotFiles.indexCount = slot.indexCount;
@@ -978,7 +980,7 @@ namespace AGRemapCore {
                             taken.ib.clear();
                             taken.nullIb = false;
 
-                            std::vector<BranchVal> rest;
+                            std::vector<BranchRow> rest;
                             SlotFiles& source = src;
                             source.split = true;
                             const std::filesystem::path scratch = std::filesystem::temp_directory_path() / "AGRemapSlotSplit";
@@ -988,21 +990,21 @@ namespace AGRemapCore {
                             std::size_t takenTris = 0;
                             std::size_t restTris = 0;
                             for (std::size_t b = 0; b < source.ibs.size(); ++b) {
-                                const BranchVal& branch = source.ibs[b];
-                                if (branch.val.empty()) {
+                                const BranchRow& branch = source.ibs[b];
+                                if (branch.value.empty()) {
                                     taken.ibs.push_back(branch);
                                     rest.push_back(branch);
                                     continue;
                                 }
 
                                 // The branch's texcoords where the component's branches pair with the slot's, else its first
-                                const std::string& texcoordPath = (comp->texcoords.size() == source.ibs.size() && !comp->texcoords[b].val.empty())
-                                    ? comp->texcoords[b].val : comp->texcoord;
+                                const std::string& texcoordPath = (comp->texcoords.size() == source.ibs.size() && !comp->texcoords[b].value.empty())
+                                    ? comp->texcoords[b].value : comp->texcoord;
                                 const std::size_t stride = comp->vertexCount == 0 ? 0 : FileService::fileSize(texcoordPath).value_or(0) / comp->vertexCount;
                                 const std::vector<std::array<float, 2>> uvs = firstUVs(texcoordPath, stride);
 
-                                auto widthIt = ibBytesPerIndex_.find(branch.val);
-                                IbFile ibFile(branch.val, widthIt == ibBytesPerIndex_.end() ? 4 : widthIt->second);
+                                auto widthIt = ibBytesPerIndex_.find(branch.value);
+                                IbFile ibFile(branch.value, widthIt == ibBytesPerIndex_.end() ? 4 : widthIt->second);
                                 const VGComponentSplit::Triangles triangles = VGComponentSplit::readIb(ibFile);
 
                                 VGComponentSplit::Triangles mine;
@@ -1024,7 +1026,7 @@ namespace AGRemapCore {
                                 takenTris += mine.size();
                                 restTris += others.size();
 
-                                const std::string stem = std::to_string(std::hash<std::string>{}(branch.val + ";" + slot.name));
+                                const std::string stem = std::to_string(std::hash<std::string>{}(branch.value + ";" + slot.name));
                                 const auto write = [&](const VGComponentSplit::Triangles& tris, const std::string& suffix) {
                                     if (tris.empty()) {
                                         return std::string();
@@ -1034,18 +1036,18 @@ namespace AGRemapCore {
                                     ibBytesPerIndex_[path] = 4;
                                     return path;
                                 };
-                                taken.ibs.push_back(BranchVal{write(mine, "Split"), branch.query});
-                                rest.push_back(BranchVal{write(others, "Rest"), branch.query});
+                                taken.ibs.push_back(BranchRow::conditioned(write(mine, "Split"), branch.condition));
+                                rest.push_back(BranchRow::conditioned(write(others, "Rest"), branch.condition));
                             }
 
                             const auto settle = [this](SlotFiles& files) {
                                 files.ib.clear();
                                 files.nullIb = false;
-                                for (const BranchVal& branch : files.ibs) {
-                                    if (branch.val.empty()) {
+                                for (const BranchRow& branch : files.ibs) {
+                                    if (branch.value.empty()) {
                                         files.nullIb = true;
                                     } else if (files.ib.empty()) {
-                                        files.ib = branch.val;
+                                        files.ib = branch.value;
                                     }
                                 }
                                 files.indexCount = indexCountOf(files.ib);
@@ -1757,7 +1759,7 @@ namespace AGRemapCore {
                 // single config the merge has always built.
                 VGMergeGroupConfig configForGroup(const Z3Predicate* query) {
                     // Reparented ONCE per group -- see localQuery.
-                    const std::optional<Z3Predicate> local = branches_.localQuery(query);
+                    const std::optional<Z3Predicate> local = localQuery(query);
 
                     VGMergeGroupConfig config;
                     config.ibBytesPerIndex = ibBytesPerIndex_;
@@ -1774,9 +1776,9 @@ namespace AGRemapCore {
                         VGMergeComponentFiles entry;
                         entry.spec.name = component;
                         entry.spec.remap = remapIt->second;
-                        entry.blendPath = branches_.pick(files->blends, files->blend, local);
-                        entry.positionPath = branches_.pick(files->positions, files->position, local);
-                        entry.texcoordPath = branches_.pick(files->texcoords, files->texcoord, local);
+                        entry.blendPath = GraphCollect<>::valueUnder(files->blends, files->blend, local, z3());
+                        entry.positionPath = GraphCollect<>::valueUnder(files->positions, files->position, local, z3());
+                        entry.texcoordPath = GraphCollect<>::valueUnder(files->texcoords, files->texcoord, local, z3());
 
                         // A component's pushes -- see Component::pushAway.
                         for (const GIMIMergeFixerConfig::Component& c : config_.components) {
@@ -1811,7 +1813,7 @@ namespace AGRemapCore {
 
                         VGMergeObject object;
                         const SlotFiles* repFiles = slotFiles(repIt->second.first, repIt->second.second);
-                        object.srcPath = (repFiles == nullptr) ? "" : branches_.pick(repFiles->ibs, repFiles->ib, local);
+                        object.srcPath = (repFiles == nullptr) ? "" : GraphCollect<>::valueUnder(repFiles->ibs, repFiles->ib, local, z3());
 
                         // Nothing to merge INTO: the object this group draws through is nulled here,
                         // so the collect found no reference to it either and there is no member
@@ -1830,7 +1832,7 @@ namespace AGRemapCore {
                             // group, so it contributes no geometry to the merge here. The vertex
                             // OFFSETS are unaffected -- they come from the components' vertex
                             // counts, which do not change with the variant.
-                            std::string path = branches_.pick(files->ibs, files->ib, local);
+                            std::string path = GraphCollect<>::valueUnder(files->ibs, files->ib, local, z3());
                             if (path.empty()) {
                                 continue;
                             }
@@ -1857,8 +1859,8 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        for (const BranchVal& branch : files->ibs) {
-                            auto it = ibBytesPerIndex_.find(branch.val);
+                        for (const BranchRow& branch : files->ibs) {
+                            auto it = ibBytesPerIndex_.find(branch.value);
                             if (it != ibBytesPerIndex_.end() && it->second == 2) {
                                 return true;
                             }
@@ -2046,15 +2048,15 @@ namespace AGRemapCore {
                     }
 
                     const std::vector<std::pair<std::string, std::string>> members = membersIt->second;
-                    const std::vector<BranchVal> branches = repFiles->ibs;
+                    const std::vector<BranchRow> branches = repFiles->ibs;
 
                     auto branchAdd = std::make_unique<RegBranchAdd<>>(
                         [this, obj, members, branches, repFiles](const Z3Predicate& query,
                                                                   const RegBranchAdd<>::IterData&) {
                             RegBranchAdd<>::Branch result;
 
-                            const std::optional<Z3Predicate> local = branches_.localQuery(&query);
-                            const long long branch = branches_.branchIndexOf(branches, local);
+                            const std::optional<Z3Predicate> local = localQuery(&query);
+                            const long long branch = GraphCollect<>::onlyUnder(branches, local, z3());
                             if (branch < 0) {
                                 return result;
                             }
@@ -2063,7 +2065,7 @@ namespace AGRemapCore {
                             // master's twelve leave it to the whole-ib override, which the remap
                             // takes away -- so the first member needs a draw of its own there, and
                             // needs none where the mod already issues its ranges.
-                            const bool branchDraws = branches_.anyCompatible(repFiles->drawVals, local);
+                            const bool branchDraws = GraphCollect<>::anyUnder(repFiles->drawVals, local, z3());
 
                             RegBranchAdd<>::Additions additions;
                             long long offset = 0;
@@ -2081,7 +2083,7 @@ namespace AGRemapCore {
                                     continue;
                                 }
 
-                                const std::string path = branches_.pick(files->ibs, files->ib, local);
+                                const std::string path = GraphCollect<>::valueUnder(files->ibs, files->ib, local, z3());
                                 if (path.empty()) {
                                     // `ib = null`: this member draws nothing in this branch, and
                                     // contributes nothing to the offsets either.
@@ -2108,11 +2110,11 @@ namespace AGRemapCore {
                                     // the member before it left bound (HSynthMerged's variant without eyes drew
                                     // its borrowed eyes with the body's atlas, reverse epoch 9).
                                     std::optional<Z3Predicate> texQuery = local;
-                                    for (const BranchVal& candidate : files->ibs) {
-                                        if (candidate.val == path) {
-                                            if (local.has_value() && candidate.query.has_value()
-                                                    && !branches_.compatible(*local, *candidate.query)) {
-                                                texQuery = candidate.query;
+                                    for (const BranchRow& candidate : files->ibs) {
+                                        if (candidate.value == path) {
+                                            if (local.has_value() && candidate.condition.has_value()
+                                                    && !compatible(*local, *candidate.condition)) {
+                                                texQuery = candidate.condition;
                                             }
                                             break;
                                         }
@@ -2154,8 +2156,8 @@ namespace AGRemapCore {
 
                 // Whether some branch of a merged master gives this slot an ib and no draw of its own.
                 bool someBranchUndrawn(const SlotFiles& files) {
-                    for (const BranchVal& ib : files.ibs) {
-                        if (!ib.val.empty() && !branches_.anyCompatible(files.drawVals, ib.query)) {
+                    for (const BranchRow& ib : files.ibs) {
+                        if (!ib.value.empty() && !GraphCollect<>::anyUnder(files.drawVals, ib.condition, z3())) {
                             return true;
                         }
                     }
@@ -2164,7 +2166,7 @@ namespace AGRemapCore {
 
                 // A slot's texture roles in ONE branch of a merged master: readFiles' reading, asked of
                 // the bindings that branch can take and of nothing else. A register this branch does
-                // not bind is empty here rather than borrowed from another branch -- ModBranches::pick
+                // not bind is empty here rather than borrowed from another branch -- GraphCollect::valueUnder
                 // takes a lone candidate whatever its condition, which is how branch 1's light map
                 // reached branch 0's eyes. With no query, or bindings that do not branch at all, the
                 // slot's single reading comes back unchanged.
@@ -2175,9 +2177,9 @@ namespace AGRemapCore {
                     }
 
                     bool branched = false;
-                    for (const std::vector<BranchVal>& vals : files.texRegVals) {
-                        for (const BranchVal& val : vals) {
-                            branched = branched || val.query.has_value();
+                    for (const std::vector<BranchRow>& vals : files.texRegVals) {
+                        for (const BranchRow& val : vals) {
+                            branched = branched || val.condition.has_value();
                         }
                     }
                     if (!branched) {
@@ -2186,9 +2188,9 @@ namespace AGRemapCore {
 
                     std::array<std::string, 3> res;
                     for (std::size_t reg = 0; reg < res.size(); ++reg) {
-                        for (const BranchVal& val : files.texRegVals[reg]) {
-                            if (!val.query.has_value() || branches_.compatible(*local, *val.query)) {
-                                res[reg] = ModBranches::resourceOf(std::optional<std::string>(val.val));
+                        for (const BranchRow& val : files.texRegVals[reg]) {
+                            if (!val.condition.has_value() || compatible(*local, *val.condition)) {
+                                res[reg] = IniNamingTools::boundResource(std::optional<std::string>(val.value));
                                 break;
                             }
                         }
@@ -2337,7 +2339,7 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        const std::string path = branches_.pick(files->blends, files->blend, query);
+                        const std::string path = GraphCollect<>::valueUnder(files->blends, files->blend, query, z3());
                         const std::size_t count = FileService::fileSize(path).value_or(0) / BlendStride;
                         total += (count > 0) ? count : files->vertexCount;
                     }
@@ -2359,7 +2361,7 @@ namespace AGRemapCore {
 
                     // REPLACED, not added: the branch already carries a `draw` of its own, and a second
                     // one draws the model twice rather than correcting the first.
-                    auto branchAdd = branches_.replacePerBranch(
+                    auto branchAdd = RegBranchAdd<>::perBranchReplacements(z3(), 
                         skeleton->blends, "blend",
                         [this](std::size_t, const std::optional<Z3Predicate>& local) -> RegBranchAdd<>::Additions {
                             const std::size_t vertices = mergedVertexCount(local);
@@ -2762,8 +2764,8 @@ namespace AGRemapCore {
                     std::size_t maxVertices = totalVertices_;
                     const ComponentFiles* skeletonFiles = componentFiles(mergeOrder_.front());
                     if (skeletonFiles != nullptr) {
-                        for (const BranchVal& branch : skeletonFiles->blends) {
-                            maxVertices = std::max(maxVertices, mergedVertexCount(branch.query));
+                        for (const BranchRow& branch : skeletonFiles->blends) {
+                            maxVertices = std::max(maxVertices, mergedVertexCount(branch.condition));
                         }
                     }
 
@@ -3042,8 +3044,8 @@ namespace AGRemapCore {
                             for (const char* reg : {"ps-t69", "ps-t70"}) {
                                 // Only a register the member binds to a RESOURCE: one it already
                                 // sets to `null` itself has nothing to leak.
-                                for (const BranchVal& bound : branches_.valsThroughRun(templates, files->section, reg)) {
-                                    if (!StringTools::equalsIgnoreCase(StringTools::strip(bound.val), "null")) {
+                                for (const BranchRow& bound : valsThroughRun(files->section, reg)) {
+                                    if (!StringTools::equalsIgnoreCase(StringTools::strip(bound.value), "null")) {
                                         clears.emplace_back(reg, "null");
                                         break;
                                     }
@@ -3141,10 +3143,43 @@ namespace AGRemapCore {
 
                 static const std::string MergeGroupType;
 
-                // FIRST, so it is destroyed after every other member of this class: every Z3Predicate
-                // read out of a mod's sections belongs to its context and is unusable once it goes.
-                // Z3 member ORDER has bitten this repo before -- see Z3Predicate::Impl.
-                ModBranches branches_;
+                // ---- the mod's branched values, read through the API ----
+
+                // The .ini file's own Z3 context: every condition read out of the mod's sections is in it
+                Z3Context* z3() {
+                    IniFile* iniFile = ctx_.getIniFile();
+                    return iniFile == nullptr ? nullptr : iniFile->getZ3Ctx();
+                }
+
+                // Whether two conditions can hold at the same time
+                bool compatible(const Z3Predicate& a, const Z3Predicate& b) {
+                    return ResGroupCollect<>::combineQueries(a, b, z3()).isSatisfiable();
+                }
+
+                // A query brought into the file's context ONCE, for the many compatibility tests that follow
+                std::optional<Z3Predicate> localQuery(const Z3Predicate* query) {
+                    if (query == nullptr) {
+                        return std::nullopt;
+                    }
+                    return ResGroupCollect<>::combineQueries(*query, Z3Predicate::trueValue(*z3()), z3());
+                }
+
+                // Every value of 'key' in 'section' and in what it reaches through `run =`, each with its condition
+                // (GraphCollect::rowsOf over IniFile::sectionGraph)
+                std::vector<BranchRow> valsThroughRun(const std::string& section, const std::string& key) {
+                    IniFile* iniFile = ctx_.getIniFile();
+                    if (iniFile == nullptr) {
+                        return {};
+                    }
+                    auto graph = iniFile->sectionGraph(section);
+                    return GraphCollect<>::rowsOf(graph, key);
+                }
+
+                // The first of #valsThroughRun's values
+                std::optional<std::string> firstValThroughRun(const std::string& section, const std::string& key) {
+                    const std::vector<BranchRow> rows = valsThroughRun(section, key);
+                    return rows.empty() ? std::nullopt : std::optional<std::string>(rows.front().value);
+                }
 
                 GIMIMergeFixerConfig config_;
 

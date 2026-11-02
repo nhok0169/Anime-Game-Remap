@@ -411,11 +411,21 @@ truly lacks something, say so in a comment and keep the custom part minimal.** C
 "as I already told you many times").** Fixers, parsers and core code are held to it as much as prototypes. Search
 the WHOLE API (`core.pyi`, `core/include`) for the functionality before writing any helper or class; only when
 nothing in it satisfies the problem do you add a general capability to the API -- and then use it. Four classes are
-being retired for breaking this (from 2026-11-01; `ModBranches` waits for the GI templates' refactor): `IniScan` (a second `.ini` reader beside `IniFile`), `ModBranches` (values
-with their branch condition, which `GraphCollect` rows already carry, over a hand-written `run =` walker beside
+retired or being retired for breaking this: `IniScan` (a second `.ini` reader beside `IniFile`), `ModBranches` (values
+with their branch condition, which `GraphCollect` rows already carry, over its own graph walk beside
 `IniSectionGraph`), `TextureOverrides` (texture overrides and their `if` headers, which rows and `IniParseData`
 already file) and the pure-Python `DownloadData` (a second class beside the C++ one). Each cost a binding proposal
-the maintainer had to question, and then its own retirement.
+the maintainer had to question, and then its own retirement. **`ModBranches` is gone (2026-11-02)**, every job to the
+class that owns it: a value with its condition is `IniFile::sectionGraph` + `GraphCollect::rowsOf`; choosing among them
+is `GraphCollect::valueUnder` / `onlyUnder` / `anyUnder` / `states`; a per-branch `draw` is
+`RegBranchAdd::perBranchReplacements` / `perBranchRemovals`; `firstVal` is `IfTemplate::firstVal`; a key as an author
+spells it is `IniNamingTools::sameKey`. "If there is no purpose, then it does not need to exist" (the maintainer).
+
+**A GI SWEEP CORPUS NOW EXISTS ON EVERY MACHINE (2026-11-02):** `Tools/Misc/Diagnostics/giSynthCorpus.py <out> --list
+<corpus.txt>` builds 342 folders from `Data/Mod Downloads/GI` -- every GI character's identity mod plus a merged master,
+a master with an `ib = null` branch, toggled draw ranges, 16-bit index buffers and a missing part -- for
+`regressBuilds.py`. It covers the templates' STRUCTURAL axes on all 57 characters, not what real mods do; the
+maintainer's 245 real GI mods (on the other machine) are still the sweep that settles a GI change.
 
 **EVERY C++ CLASS IS FOR PYTHON TOO (the maintainer, 2026-10-31).** "Ideally we want all classes from C++ to be
 exposed to Python. A Python API User should have the same capability of using the API compared to a C++ API User."

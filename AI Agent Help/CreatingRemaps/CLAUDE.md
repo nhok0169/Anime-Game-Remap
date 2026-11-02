@@ -2185,7 +2185,7 @@ audit then found the same bug in six shapes. All are fixed on every GI template 
 | Mod shape | What went wrong | Where it is handled now |
 | --- | --- | --- |
 | an object the mod has no section for, ib skipped | game ib downloaded and drawn (Fischl -> FischlHighness: the dress) | `GIMICharParser::dropUndrawnObjDownloads`, `GIMIComponentParser::findUndrawnSlots` |
-| the skip sits in `CommandList<Char>IB` (every merged master) | the skip test read only the ib section's own lines | both read `handling` with `ModBranches::valsThroughRun`, any branch |
+| the skip sits in `CommandList<Char>IB` (every merged master) | the skip test read only the ib section's own lines | both read `handling` through `run =`, any branch (`GraphCollect::rowsOf` over `IniFile::sectionGraph`) |
 | a variant that only says `handling = skip` | `drawindexed = auto` filled into the skip branch (Ayaka9/10: shards in 4 of 7) | the classic draw fill skips a `handling = skip` part |
 | a variant that switches the mod off (`$vision`, a vanilla variant) | the target's own model drawn with the source's ib (ShenheFrostFlower, CherryHutao5) | `dropUnneededObjDownloads`: Z3 keeps an ib download only if some state draws without the mod's ib |
 | a skin slot drawn in some variants, skipped in others | the merge used the download for EVERY branch | `GIMIMergeFixer` drops downloads from a slot's ib list when the mod has its own |
@@ -2970,14 +2970,15 @@ raw source-named sections after the header, counted as a fixed `.ini`; after, no
 and the folder's file count unchanged. The `.ini` is still counted as fixed -- a skip would be more
 honest about a real failure, and is not what was asked for.
 
-**The branch machinery is shared now: `data/IniFixData/ModBranches.{h,cpp}`.** It owns the
-`Z3Context` and everything that reads a value together with its condition -- `valsThroughRun`,
-`localQuery`, `branchIndexOf`, `pick`, `anyCompatible`, the resource readers -- plus
-`replacePerBranch` (a `RegBranchAdd` that SETS a key per branch, which is how both directions write
-a per-branch `draw`) and `states`. It knows nothing of blends, slots or direction, deliberately:
+**The branch machinery is the library's.** A value together with its condition is
+`GraphCollect::rowsOf` over `IniFile::sectionGraph` (in the file's own `Z3Context`); which of them holds
+under a query is `GraphCollect::valueUnder` / `onlyUnder` / `anyUnder`; the states are
+`GraphCollect::states`; and a key SET or removed per branch -- how both directions write a per-branch
+`draw` -- is `RegBranchAdd::perBranchReplacements` / `perBranchRemovals`. Until 2026-11-02 all of this was one
+class, `ModBranches`, which repeated the graph walk and is gone. None of it knows blends, slots or direction, deliberately:
 single <-> multi exists only because Yelan and Bennett are old, simple models, and the thing this
 is for is a multi-component -> multi-component fixer (every WuWa character, every future GI one).
-Declare it as the fixer's FIRST member, for the Z3 member-order reason. `VGSplitGroupResBuilder`
+`VGSplitGroupResBuilder`
 took a per-group resolver to match `VGMergeGroupResBuilder`'s, since the split needs every drawn
 object's index buffer OF THAT GROUP'S STATE and one config hands every state the first one's -- which
 the group's own `ib` member is then not one of, and the split throws.
@@ -2987,10 +2988,10 @@ blend alone, which is right for a master whose every `CommandList` is one `$swap
 HuoHuo-over-Bennett mod ships an eleven-frame **animation** master that binds ONE blend for the
 whole frame range (`if $swapvar >= $frameStart && $swapvar <= $frameEnd`) and a different index
 buffer per frame: by the blend there is one state, by the index buffers there are eleven.
-`ModBranches::states` refines the states by every per-branch list in turn -- a state splits into one
+`GraphCollect::states` refines the states by every per-branch list in turn -- a state splits into one
 per value satisfiable with it -- so the result is every combination that can actually be selected
 (`2 hats x 3 coats` is six). That mod's frames happen to keep identical vertices, so its output
-cannot tell the two enumerations apart; `core/tests/ModBranches_States_test.cpp` can, and asserts the
+cannot tell the two enumerations apart; `core/tests/GraphCollect_States_test.cpp` can, and asserts the
 blend-only enumeration's one state beside the real eleven. The per-branch `draw` of a blend branch
 is the LARGEST of the states it is drawn in.
 
@@ -3066,7 +3067,7 @@ Check these in order; the first is not a code problem at all, and it is the one 
    standard shape of this bug.
 3. **Are the STATES right?** The mod's states are not any one register's branches: an animated
    master binds one blend over its whole frame range and a different ib per frame
-   (`ModBranches::states`, "And the FORWARD direction" above).
+   (`GraphCollect::states`, "And the FORWARD direction" above).
 4. **Did a variant name files the author never shipped?** A stale `DISABLED` master whose variants
    reference missing `.buf` files is skipped with the file named; that is correct, not a regression.
 
@@ -3185,7 +3186,7 @@ files match by content. What the port needed, in order of how much it matters:
   buffer in an `if $swapvar == 0 / else if == 1` chain with no `else`, so the parser covers the path where
   neither holds with the GAME's buffer as a download, referenced UNCONDITIONALLY at the top of the root
   section -- where the chain, run after it, overrides it on every real path. But a branch list reads root
-  first and `ModBranches::pick` takes the first compatible value, so the download was every state's
+  first and `GraphCollect::valueUnder` takes the first compatible value, so the download was every state's
   answer. In the default `Normal` mode downloads are fetched in `fixResources`, AFTER the fixer reads
   them, so a first run threw `Unable to open file ...RemapDL.ib` and skipped the master (`Citlali4`);
   with the download on disk (a Bennett master on any later run) the split quietly remapped the game's
@@ -3948,7 +3949,7 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    Neuvillette4's second variant nulls the dress: the dress group's file still carried the component's vertex
    count as its `draw` (fixed to `0,0` per group) AND its unconverted `vb0` / `vb1` -- the SOURCE's raw buffers on
    the skin's Main hashes. Whichever file ran last fed the draw his layout, and the variant shattered.
-   `RegBranchAdd::Branch::removals` / `ModBranches::removePerBranch` take those bindings out.
+   `RegBranchAdd::Branch::removals` / `RegBranchAdd::perBranchRemovals` take those bindings out.
    `ResEditConfig::filePerSection` gives two sections naming one source file their own fixed files (a shared
    `.ib` over different blends) -- defensive: here the two splits happened to be identical.
 5. **A copy (`<ini>RemapFix<N>.ini`) must DECLARE the downloads it binds.** 3DMigoto resolves a resource per

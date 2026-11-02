@@ -37,7 +37,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="91" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="91" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="96" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="96" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1a5cd8936bb37addefe7adc43b2b750d41" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" kindref="member">Base::Graph</ref></type>
@@ -52,7 +52,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="96" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="96" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="101" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="101" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1a033b5215a6a0ee414990031f4442222e" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" kindref="member">Base::PartFilter</ref></type>
@@ -74,7 +74,7 @@ empty ``std::function`` means &quot;no filter&quot;. Identical to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="101" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="101" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="106" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="106" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1af9ecba90a8972f57be3c19d21dab23d5" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9fc446b1ec46854f86a9bc61d1eaf353" kindref="member">Base::IterData</ref></type>
@@ -89,7 +89,7 @@ empty ``std::function`` means &quot;no filter&quot;. Identical to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="106" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="106" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="111" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="111" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1a26c02624a37816ec358df9401065a4c8" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ae924467fe4fb252b6f2299eee7d990c3" kindref="member">Base::KeySet</ref></type>
@@ -104,7 +104,7 @@ empty ``std::function`` means &quot;no filter&quot;. Identical to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="111" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="111" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="116" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="116" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1a1fc32de46b57fc02204ceada1f69d2c5" prot="public" static="no">
         <type>typename Graph::ContentPart</type>
@@ -119,7 +119,7 @@ empty ``std::function`` means &quot;no filter&quot;. Identical to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="116" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="116" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="121" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="121" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1a842c8e351bed5d8524644407f76fd8d5" prot="public" static="no">
         <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
@@ -134,7 +134,7 @@ empty ``std::function`` means &quot;no filter&quot;. Identical to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="121" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="121" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="126" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="126" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1aec7ab88b38f9c274737824e250f0a5f0" prot="public" static="no">
         <type>std::function&lt; <ref refid="struct_a_g_remap_core_1_1_reg_branch_add_1_1_branch" kindref="compound">Branch</ref>(const <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &amp;, const <ref refid="class_a_g_remap_core_1_1_reg_branch_add_1af9ecba90a8972f57be3c19d21dab23d5" kindref="member">IterData</ref> &amp;)&gt;</type>
@@ -152,7 +152,37 @@ runs under
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="177" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="177" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="182" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1a173cf086cc0c8b84c4c8d143f853c98b" prot="public" static="no">
+        <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a842c8e351bed5d8524644407f76fd8d5" kindref="member">Additions</ref>(std::size_t, const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt; &amp;)&gt;</type>
+        <definition>using AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::ReplacementsOf = std::function&lt;Additions(std::size_t, const std::optional&lt;Z3Predicate&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReplacementsOf</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::ReplacementsOf</qualifiedname>
+        <briefdescription>
+<para>What one branch&apos;s replacements are, given its index among the rows and its query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="199" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_branch_add_1a2e671c48ab1757103ad6aef083321d31" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; K &gt;(std::size_t, const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt; &amp;)&gt;</type>
+        <definition>using AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::RemovalsOf = std::function&lt;std::vector&lt;K&gt;(std::size_t, const std::optional&lt;Z3Predicate&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RemovalsOf</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::RemovalsOf</qualifiedname>
+        <briefdescription>
+<para>What one branch&apos;s removals are, given its index among the rows and its query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="204" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="204" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
@@ -187,7 +217,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="182" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="182" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="187" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="187" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -219,7 +249,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="189" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="194" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_branch_add_1a55e7fada6bed0cc1a41f0bf15461294b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a5cd8936bb37addefe7adc43b2b750d41" kindref="member">Graph</ref> &amp;</type>
@@ -331,7 +361,7 @@ meaning &quot;every key&quot;, matching
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="194" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="244" column="19"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a8cf7cc52f178d8774155d39261eb55a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a5cd8936bb37addefe7adc43b2b750d41" kindref="member">Graph</ref> &amp;</type>
@@ -455,6 +485,7 @@ Edits the caller/callee graph with state info from &apos;ini&apos; :raw-html:`&l
         <argsstring>()</argsstring>
         <name>clear</name>
         <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_collect_1a3c713562e17061d3032679949225e575">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
@@ -467,6 +498,150 @@ Edits the caller/callee graph with state info from &apos;ini&apos; :raw-html:`&l
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_branch_add_1ab92ce1d8f9edf249b243b822631be53d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_reg_branch_add_1aa393873bfcc44b21b136ba58e4370082" kindref="member">RegBranchAdd</ref> &gt;</type>
+        <definition>static std::unique_ptr&lt; RegBranchAdd &gt; AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::perBranchReplacements</definition>
+        <argsstring>(Z3Context *z3Ctx, std::vector&lt; GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt; &gt; rows, std::string keyPrefix, ReplacementsOf replacementsOf)</argsstring>
+        <name>perBranchReplacements</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::perBranchReplacements</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> *</type>
+          <declname>z3Ctx</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_graph_collect_row" kindref="compound">GraphCollectRow</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>keyPrefix</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a173cf086cc0c8b84c4c8d143f853c98b" kindref="member">ReplacementsOf</ref></type>
+          <declname>replacementsOf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+An edit that REPLACES keys in each branch that one of &apos;rows&apos; belongs to: a branch&apos;s query is brought into
+&apos;z3Ctx&apos; once, the one row it is compatible with is found (:cpp:func:`GraphCollect::onlyUnder`), and that
+row&apos;s replacements are written there under the key ``&lt;keyPrefix&gt;;&lt;index&gt;``. A branch no single row answers
+for, or one with no replacements, is left alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A merged master binds a value per ``$swapvar`` branch (:cpp:func:`GraphCollect::rowsOf`), and what goes
+beside it -- a ``draw`` count, say -- is per branch too
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>z3Ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The context the conditions are combined in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The branched values, each with its condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keyPrefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What a branch&apos;s key starts with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>replacementsOf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What one branch&apos;s replacements are</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The edit </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="225" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_branch_add_1a796d5c129a49cf337fe55c99c75977d9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_reg_branch_add_1aa393873bfcc44b21b136ba58e4370082" kindref="member">RegBranchAdd</ref> &gt;</type>
+        <definition>static std::unique_ptr&lt; RegBranchAdd &gt; AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;::perBranchRemovals</definition>
+        <argsstring>(Z3Context *z3Ctx, std::vector&lt; GraphCollectRow&lt; K, V, KeyHash, KeyEqual &gt; &gt; rows, std::string keyPrefix, RemovalsOf removalsOf)</argsstring>
+        <name>perBranchRemovals</name>
+        <qualifiedname>AGRemapCore::RegBranchAdd::perBranchRemovals</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> *</type>
+          <declname>z3Ctx</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_graph_collect_row" kindref="compound">GraphCollectRow</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>keyPrefix</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a2e671c48ab1757103ad6aef083321d31" kindref="member">RemovalsOf</ref></type>
+          <declname>removalsOf</declname>
+        </param>
+        <briefdescription>
+<para>Like <ref refid="class_a_g_remap_core_1_1_reg_branch_add_1ab92ce1d8f9edf249b243b822631be53d" kindref="member">perBranchReplacements</ref>, REMOVING keys in each branch rather than replacing them. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>z3Ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The context the conditions are combined in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The branched values, each with its condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keyPrefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What a branch&apos;s key starts with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>removalsOf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What one branch&apos;s removals are</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The edit </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="238" column="36"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -605,7 +780,7 @@ branch&apos;s condition is satisfiable with
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="86" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="86" bodyend="197"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="91" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="91" bodyend="247"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a842c8e351bed5d8524644407f76fd8d5" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>Additions</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_branch_add_1adca5c2691c2e0309a0645fb4d5df4e50" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>Base</name></member>
@@ -620,7 +795,11 @@ branch&apos;s condition is satisfiable with
       <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a26c02624a37816ec358df9401065a4c8" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>KeySet</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>OrderRanges</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a033b5215a6a0ee414990031f4442222e" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>PartFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a796d5c129a49cf337fe55c99c75977d9" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>perBranchRemovals</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1ab92ce1d8f9edf249b243b822631be53d" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>perBranchReplacements</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_branch_add_1aa393873bfcc44b21b136ba58e4370082" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>RegBranchAdd</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a2e671c48ab1757103ad6aef083321d31" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>RemovalsOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_branch_add_1a173cf086cc0c8b84c4c8d143f853c98b" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>ReplacementsOf</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::RegBranchAdd</scope><name>~BaseIniPartEdit</name></member>
     </listofallmembers>
   </compounddef>

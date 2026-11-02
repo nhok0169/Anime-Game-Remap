@@ -9,6 +9,8 @@
 //   HazrateGolabi#1364 (for being awesome, and improving the code)
 // ##### EndCredits
 
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
+#include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/data/IniParseData/GIMITemplateParser.h"
 
 #include <unordered_set>
@@ -35,13 +37,13 @@ namespace AGRemapCore {
         return iniFile == nullptr ? std::vector<std::string>{} : iniFile->loadedSiblings();
     }
 
-    bool GIMITemplateParser::drawsMesh(const ModBranches::Templates& templates) {
+    bool GIMITemplateParser::drawsMesh(const IfTemplates& templates) {
         for (const auto& entry : templates) {
             if (entry.second == nullptr) {
                 continue;
             }
 
-            const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+            const std::optional<std::string> hash = entry.second->firstVal(IniKeywords::Hash);
             if (!hash.has_value()) {
                 continue;
             }
@@ -51,8 +53,8 @@ namespace AGRemapCore {
                     continue;
                 }
                 for (const std::string& reg : {IniKeywords::Ib, IniKeywords::Vb0, IniKeywords::Vb1}) {
-                    const std::optional<std::string> value = ModBranches::firstVal(*entry.second, reg);
-                    if (value.has_value() && !ModBranches::resourceOf(value).empty()) {
+                    const std::optional<std::string> value = entry.second->firstVal(reg);
+                    if (value.has_value() && !IniNamingTools::boundResource(value).empty()) {
                         return true;
                     }
                 }
@@ -71,18 +73,21 @@ namespace AGRemapCore {
         return false;
     }
 
-    bool GIMITemplateParser::bindsPosition(const ModBranches::Templates& templates) {
-        ModBranches branches;
-        for (const auto& entry : templates) {
+    bool GIMITemplateParser::bindsPosition(IniFile& ini) {
+        for (const auto& entry : ini.getIfTemplates()) {
             if (entry.second == nullptr) {
                 continue;
             }
-            const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+            const std::optional<std::string> hash = entry.second->firstVal(IniKeywords::Hash);
             if (!hash.has_value()) {
                 continue;
             }
             for (const std::string& key : hashKeysOf(*hash)) {
-                if (key == PositionHashKey && !branches.valsThroughRun(templates, entry.first, IniKeywords::Vb0).empty()) {
+                if (key == PositionHashKey) {
+                    auto graph = ini.sectionGraph(entry.first);
+                    if (GraphCollect<>::rowsOf(graph, IniKeywords::Vb0).empty()) {
+                        continue;
+                    }
                     return true;
                 }
             }
@@ -93,7 +98,7 @@ namespace AGRemapCore {
     bool GIMITemplateParser::siblingBindsPosition() {
         for (const std::string& path : siblingInis()) {
             IniFile sibling(path);
-            if (bindsPosition(sibling.getIfTemplates())) {
+            if (bindsPosition(sibling)) {
                 return true;
             }
         }

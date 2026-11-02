@@ -12,7 +12,7 @@
 // ##### EndCredits
 
 // -----------------------------------------------------------------------------
-// Standalone test for ModBranches::states -- which states of a merged master a fix has to handle.
+// Standalone test for GraphCollect::states -- which states of a merged master a fix has to handle.
 //
 // The first forward (split) fix of a merged master took the mod's states from the BLEND's branches.
 // That is right for a master whose every CommandList is the same `$swapvar` chain, and wrong for an
@@ -22,8 +22,8 @@
 // to keep the same vertices, so its output could not tell the two apart -- which is why this is a
 // test and not a note.
 //
-// The sections are built as a mod writes them and read through ModBranches::valsThroughRun, so the
-// conditions are the ones a fix actually sees (through `run =`).
+// The sections are built as a mod writes them and read through GraphCollect::rowsOf over each override's
+// call graph, so the conditions are the ones a fix actually sees (through `run =`).
 //
 // On Linux the repo's own runner globs core/tests/*_test.cpp. Exits non-zero on any failure.
 // -----------------------------------------------------------------------------
@@ -32,6 +32,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -39,7 +40,9 @@
 #include <tsl/ordered_map.h>
 
 #include "AGRemapCore/constants/IniKeywords.h"
-#include "AGRemapCore/data/IniFixData/ModBranches.h"
+#include "AGRemapCore/model/IniSectionGraph.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h"
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
 #include "AGRemapCore/tools/z3/Z3Predicate.h"
@@ -61,6 +64,8 @@ namespace {
     using KVPs = tsl::ordered_map<std::string, std::vector<std::pair<long long, std::string>>>;
     using RawPart = std::pair<int, std::variant<std::string, KVPs>>;
     using States = std::vector<std::optional<AGRC::Z3Predicate>>;
+    using Collect = AGRC::GraphCollect<>;
+    using Rows = std::vector<Collect::Row>;
 
 
     AGRC::IfTemplateRunConfig<std::string, std::string> runConfig() {
@@ -97,7 +102,18 @@ namespace {
 
 
     struct Mod {
-        AGRC::ModBranches::Templates templates;
+        AGRC::IfTemplates templates;
+        AGRC::Z3Context z3;
+
+        // Every value of 'key' in 'root' and what it runs, each with its condition
+        Rows rows(const std::string& root, const std::string& key) {
+            std::unordered_map<std::string, Section*> sections;
+            for (const auto& entry : templates) {
+                sections.emplace(entry.first, entry.second.get());
+            }
+            AGRC::IniSectionGraph<std::string, std::string> graph(std::move(sections), {root}, runConfig(), true, false, &z3);
+            return Collect::rowsOf(graph, key);
+        }
 
         void add(const std::string& name, std::vector<RawPart> parts) {
             templates[name] = Section::build(parts, runConfig(), name, nullptr, nullptr);
@@ -112,7 +128,7 @@ namespace {
 
 
     // Every state can hold, no two can hold together.
-    void checkDisjoint(AGRC::ModBranches& branches, const States& states, const std::string& label) {
+    void checkDisjoint(Mod& mod, const States& states, const std::string& label) {
         int unsat = 0;
         int overlapping = 0;
         for (std::size_t i = 0; i < states.size(); ++i) {
@@ -121,7 +137,7 @@ namespace {
             }
 
             for (std::size_t j = i + 1; j < states.size(); ++j) {
-                if (states[i].has_value() && states[j].has_value() && branches.compatible(*states[i], *states[j])) {
+                if (states[i].has_value() && states[j].has_value() && AGRC::ResGroupCollect<>::combineQueries(*states[i], *states[j], &mod.z3).isSatisfiable()) {
                     ++overlapping;
                 }
             }
@@ -144,24 +160,23 @@ namespace {
                          {2, std::string("endif")}});
         mod.addOverride("TextureOverrideBody", "CommandListBody", chain("$swapvar", frames, AGRC::IniKeywords::Ib, "ResourceIb"));
 
-        AGRC::ModBranches branches;
-        std::vector<AGRC::BranchVal> blends = branches.valsThroughRun(mod.templates, "TextureOverrideBlend", AGRC::IniKeywords::Vb1);
-        std::vector<AGRC::BranchVal> ibs = branches.valsThroughRun(mod.templates, "TextureOverrideBody", AGRC::IniKeywords::Ib);
+        Rows blends = mod.rows("TextureOverrideBlend", AGRC::IniKeywords::Vb1);
+        Rows ibs = mod.rows("TextureOverrideBody", AGRC::IniKeywords::Ib);
         check(blends.size() == 1 && ibs.size() == static_cast<std::size_t>(frames), "read one blend and one ib per frame");
 
         // What enumerating the BLEND's branches gave: one state, and every frame split with frame 0's ib.
-        const States blendOnly = branches.states({&blends});
+        const States blendOnly = Collect::states({&blends}, &mod.z3);
         check(blendOnly.size() == 1, "the blend alone describes a single state (the old enumeration)");
 
-        const States states = branches.states({&blends, &ibs});
+        const States states = Collect::states({&blends, &ibs}, &mod.z3);
         check(states.size() == static_cast<std::size_t>(frames),
               "blend + ibs describe one state per frame (" + std::to_string(states.size()) + " of " + std::to_string(frames) + ")");
-        checkDisjoint(branches, states, "frames");
+        checkDisjoint(mod, states, "frames");
 
         bool eachOwnIb = states.size() == static_cast<std::size_t>(frames);
         for (std::size_t i = 0; eachOwnIb && i < states.size(); ++i) {
-            eachOwnIb = branches.pick(ibs, "", states[i]) == "ResourceIb" + std::to_string(i)
-                        && branches.pick(blends, "", states[i]) == "ResourceBlend0";
+            eachOwnIb = Collect::valueUnder(ibs, "", states[i], &mod.z3) == "ResourceIb" + std::to_string(i)
+                        && Collect::valueUnder(blends, "", states[i], &mod.z3) == "ResourceBlend0";
         }
         check(eachOwnIb, "each state picks its own frame's ib and the shared blend");
     }
@@ -175,21 +190,20 @@ namespace {
         mod.addOverride("TextureOverrideHead", "CommandListHead", chain("$swapvar", 4, AGRC::IniKeywords::Ib, "ResourceHeadIb"));
         mod.addOverride("TextureOverrideBody", "CommandListBody", chain("$swapvar", 4, AGRC::IniKeywords::Ib, "ResourceBodyIb"));
 
-        AGRC::ModBranches branches;
-        auto blends = branches.valsThroughRun(mod.templates, "TextureOverrideBlend", AGRC::IniKeywords::Vb1);
-        auto heads = branches.valsThroughRun(mod.templates, "TextureOverrideHead", AGRC::IniKeywords::Ib);
-        auto bodies = branches.valsThroughRun(mod.templates, "TextureOverrideBody", AGRC::IniKeywords::Ib);
+        auto blends = mod.rows("TextureOverrideBlend", AGRC::IniKeywords::Vb1);
+        auto heads = mod.rows("TextureOverrideHead", AGRC::IniKeywords::Ib);
+        auto bodies = mod.rows("TextureOverrideBody", AGRC::IniKeywords::Ib);
 
-        const States states = branches.states({&blends, &heads, &bodies});
+        const States states = Collect::states({&blends, &heads, &bodies}, &mod.z3);
         check(states.size() == 4, "three copies of one chain are still four states (" + std::to_string(states.size()) + ")");
-        checkDisjoint(branches, states, "chain");
+        checkDisjoint(mod, states, "chain");
 
         bool paired = states.size() == 4;
         for (std::size_t i = 0; paired && i < states.size(); ++i) {
             const std::string n = std::to_string(i);
-            paired = branches.pick(blends, "", states[i]) == "ResourceBlend" + n
-                     && branches.pick(heads, "", states[i]) == "ResourceHeadIb" + n
-                     && branches.pick(bodies, "", states[i]) == "ResourceBodyIb" + n;
+            paired = Collect::valueUnder(blends, "", states[i], &mod.z3) == "ResourceBlend" + n
+                     && Collect::valueUnder(heads, "", states[i], &mod.z3) == "ResourceHeadIb" + n
+                     && Collect::valueUnder(bodies, "", states[i], &mod.z3) == "ResourceBodyIb" + n;
         }
         check(paired, "each state pairs the same variant's blend, head and body");
     }
@@ -202,13 +216,12 @@ namespace {
         mod.addOverride("TextureOverrideHead", "CommandListHead", chain("$hat", 2, AGRC::IniKeywords::Ib, "ResourceHeadIb"));
         mod.addOverride("TextureOverrideBody", "CommandListBody", chain("$coat", 3, AGRC::IniKeywords::Ib, "ResourceBodyIb"));
 
-        AGRC::ModBranches branches;
-        auto heads = branches.valsThroughRun(mod.templates, "TextureOverrideHead", AGRC::IniKeywords::Ib);
-        auto bodies = branches.valsThroughRun(mod.templates, "TextureOverrideBody", AGRC::IniKeywords::Ib);
+        auto heads = mod.rows("TextureOverrideHead", AGRC::IniKeywords::Ib);
+        auto bodies = mod.rows("TextureOverrideBody", AGRC::IniKeywords::Ib);
 
-        const States states = branches.states({&heads, &bodies});
+        const States states = Collect::states({&heads, &bodies}, &mod.z3);
         check(states.size() == 6, "2 hats x 3 coats is six states (" + std::to_string(states.size()) + ")");
-        checkDisjoint(branches, states, "toggles");
+        checkDisjoint(mod, states, "toggles");
     }
 
 
@@ -218,11 +231,10 @@ namespace {
         Mod mod;
         mod.add("TextureOverrideBody", {{0, kvps({{AGRC::IniKeywords::Hash, "00000000"}, {AGRC::IniKeywords::Ib, "ResourceBodyIb"}})}});
 
-        AGRC::ModBranches branches;
-        auto bodies = branches.valsThroughRun(mod.templates, "TextureOverrideBody", AGRC::IniKeywords::Ib);
-        const States states = branches.states({&bodies});
+        auto bodies = mod.rows("TextureOverrideBody", AGRC::IniKeywords::Ib);
+        const States states = Collect::states({&bodies}, &mod.z3);
         check(states.size() == 1 && !states.front().has_value(), "an unbranched mod is one state with no condition");
-        check(branches.pick(bodies, "", states.front()) == "ResourceBodyIb", "and it picks the mod's only ib");
+        check(Collect::valueUnder(bodies, "", states.front(), &mod.z3) == "ResourceBodyIb", "and it picks the mod's only ib");
     }
 }
 

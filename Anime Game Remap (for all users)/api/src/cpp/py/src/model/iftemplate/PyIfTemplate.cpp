@@ -201,6 +201,36 @@ suffix: :class:`str`
         .def("refreshPartIds", &PyIfTemplate::refreshPartIds,
     py::doc(R"doc(Regenerates the ids for the parts)doc"))
 
+        .def("firstVal", &PyIfTemplate::firstVal, py::arg("key"), py::doc(R"doc(
+The first value of 'key' in this `section`_'s own parts, in the order they are written: whatever branch it sits
+in, and without following ``run =``. The value comes back stripped
+
+Parameters
+----------
+key: :class:`str`
+    The key to look up
+
+Returns
+-------
+Optional[:class:`str`]
+    The value, or ``None`` when no part has the key
+        )doc"))
+        .def("firstValMatching", [](const PyIfTemplate& self, py::function match) {
+            return self.firstValMatching([&match](const std::string& key) { return match(key).cast<bool>(); });
+        }, py::arg("match"), py::doc(R"doc(
+Like :meth:`firstVal`, for the first key 'match' accepts in each part -- for a key whose spelling varies, such as
+one a mod's author wrote (see :meth:`IniNamingTools.sameKey`)
+
+Parameters
+----------
+match: Callable[[:class:`str`], :class:`bool`]
+    Whether a key is the one wanted
+
+Returns
+-------
+Optional[:class:`str`]
+    The value, or ``None`` when no part has such a key
+        )doc"))
         .def("deepcopy", &PyIfTemplate::deepcopy, py::arg("newPartIds") = true,
     py::doc(R"doc(
 Performs a deep copy on the object

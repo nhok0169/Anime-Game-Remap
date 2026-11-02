@@ -598,6 +598,24 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The call graph from the `section`_ 'root': it and every `section`_ it reaches through ``run =``, over this
+             file's own `sections`_ (borrowed, not copied) and in this file's :cpp:class:`Z3Context`, so every
+             condition the graph reports combines with this file's others. A 'root' the file does not have gives an
+             empty graph :raw-html:`<br />` :raw-html:`<br />`
+
+             What a value of a `section`_ is under each branch of a merged mod is a walk of this graph:
+             :cpp:func:`GraphCollect::rowsOf`
+             @endrst
+             *
+             * @param root The `section`_ to start from
+             *
+             * @return The graph
+             */
+            IniSectionGraph<std::string, std::string> sectionGraph(const std::string& root);
+
+            /**
+             * @brief
+             @rst
              Adds a `section`_, replacing any already stored under 'name' :raw-html:`<br />`
              :raw-html:`<br />`
 

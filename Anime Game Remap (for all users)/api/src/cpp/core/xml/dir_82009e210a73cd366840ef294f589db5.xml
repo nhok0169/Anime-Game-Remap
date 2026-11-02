@@ -75,7 +75,6 @@
     <innerfile refid="_g_i_m_i_component_fixer_8cpp">GIMIComponentFixer.cpp</innerfile>
     <innerfile refid="_g_i_m_i_merge_fixer_8cpp">GIMIMergeFixer.cpp</innerfile>
     <innerfile refid="_jean_shading_8cpp">JeanShading.cpp</innerfile>
-    <innerfile refid="_mod_branches_8cpp">ModBranches.cpp</innerfile>
     <innerfile refid="_reg_val_checks_8cpp">RegValChecks.cpp</innerfile>
     <innerfile refid="_side_meshes_8cpp">SideMeshes.cpp</innerfile>
     <innerfile refid="_template_fixer_8cpp">TemplateFixer.cpp</innerfile>

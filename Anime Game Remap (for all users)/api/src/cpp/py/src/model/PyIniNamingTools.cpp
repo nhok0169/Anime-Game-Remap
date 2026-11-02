@@ -68,6 +68,40 @@ Every method is static.
     cls.def_static("hasKeywordPrefix", &AGRC::IniNamingTools::hasKeywordPrefix, py::arg("value"), py::arg("keyword"),
                     py::doc("Whether a register's value is a 3dmigoto statement opening with 'keyword' -- ``ref``, :attr:`IniKeywords.Copy`, :attr:`IniKeywords.CopyDesc` -- rather than a resource name"));
 
+    cls.def_static("sameKey", &AGRC::IniNamingTools::sameKey, py::arg("key1"), py::arg("key2"), py::doc(R"doc(
+Whether two keys of a `section`_ are the same key as a mod's author may write it: without regard to case, as
+3dmigoto reads a key, and with ``\\`` and ``/`` alike in a namespaced key (``Resource\\RabbitFX\\Lightmap`` is
+spelled with either). An exact comparison that misses such a key reads exactly like a mod that binds nothing there
+
+Parameters
+----------
+key1: :class:`str`
+    A key
+
+key2: :class:`str`
+    Another key
+
+Returns
+-------
+:class:`bool`
+    Whether they are the same key
+    )doc"));
+
+    cls.def_static("boundResource", &AGRC::IniNamingTools::boundResource, py::arg("value"), py::doc(R"doc(
+The resource a register's value binds: the value itself, or empty when there is no value or it is ``null`` (which
+unbinds the register)
+
+Parameters
+----------
+value: Optional[:class:`str`]
+    The register's value, if it has one
+
+Returns
+-------
+:class:`str`
+    The resource, or empty
+    )doc"));
+
     cls.def_static("removeRefPrefix", &AGRC::IniNamingTools::removeRefPrefix, py::arg("value"),
                     py::doc(R"doc(
 The resource `section`_ a register binding names, with any ``ref`` prefix taken off: ``ref ResourceX`` and

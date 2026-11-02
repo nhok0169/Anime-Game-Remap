@@ -890,26 +890,6 @@
         <childnode refid="89" relation="include">
         </childnode>
       </node>
-      <node id="418">
-        <label>include/AGRemapCore/data/IniFixData/ModBranches.h</label>
-        <link refid="_mod_branches_8h"/>
-        <childnode refid="419" relation="include">
-        </childnode>
-        <childnode refid="44" relation="include">
-        </childnode>
-        <childnode refid="45" relation="include">
-        </childnode>
-        <childnode refid="315" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="46" relation="include">
-        </childnode>
-        <childnode refid="47" relation="include">
-        </childnode>
-        <childnode refid="36" relation="include">
-        </childnode>
-      </node>
       <node id="276">
         <label>include/AGRemapCore/data/IniFixData/Mona/MonaFixer.h</label>
         <link refid="_mona_fixer_8h"/>
@@ -1845,8 +1825,6 @@
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
-        <childnode refid="315" relation="include">
-        </childnode>
         <childnode refid="432" relation="include">
         </childnode>
       </node>
@@ -2003,8 +1981,6 @@
       <node id="440">
         <label>include/AGRemapCore/model/iftemplate/IfTemplate.h</label>
         <link refid="_if_template_8h"/>
-        <childnode refid="418" relation="include">
-        </childnode>
         <childnode refid="26" relation="include">
         </childnode>
         <childnode refid="434" relation="include">
@@ -2431,8 +2407,6 @@
       <node id="417">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h</label>
         <link refid="_reg_branch_add_8h"/>
-        <childnode refid="418" relation="include">
-        </childnode>
         <childnode refid="45" relation="include">
         </childnode>
       </node>
@@ -2624,8 +2598,6 @@
         <childnode refid="44" relation="include">
         </childnode>
         <childnode refid="45" relation="include">
-        </childnode>
-        <childnode refid="315" relation="include">
         </childnode>
         <childnode refid="316" relation="include">
         </childnode>
@@ -3499,10 +3471,6 @@
       <node id="89">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.cpp</label>
         <link refid="_lynae_peppermint_upper_shader_8cpp"/>
-      </node>
-      <node id="315">
-        <label>src/data/IniFixData/ModBranches.cpp</label>
-        <link refid="_mod_branches_8cpp"/>
       </node>
       <node id="219">
         <label>src/data/IniFixData/Mona/MonaFixer.cpp</label>

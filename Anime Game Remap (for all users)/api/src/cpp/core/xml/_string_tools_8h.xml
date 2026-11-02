@@ -16,7 +16,6 @@
     <includedby refid="_g_i_m_i_char_fixer_8cpp" local="yes">src/data/IniFixData/GIMICharFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_component_fixer_8cpp" local="yes">src/data/IniFixData/GIMIComponentFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
-    <includedby refid="_mod_branches_8cpp" local="yes">src/data/IniFixData/ModBranches.cpp</includedby>
     <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/Raiden/RaidenFixer.cpp</includedby>
     <includedby refid="_reg_val_checks_8cpp" local="yes">src/data/IniFixData/RegValChecks.cpp</includedby>
     <includedby refid="_side_meshes_8cpp" local="yes">src/data/IniFixData/SideMeshes.cpp</includedby>
@@ -322,8 +321,6 @@
         </childnode>
         <childnode refid="62" relation="include">
         </childnode>
-        <childnode refid="63" relation="include">
-        </childnode>
         <childnode refid="64" relation="include">
         </childnode>
         <childnode refid="65" relation="include">
@@ -482,10 +479,6 @@
       <node id="50">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.cpp</label>
         <link refid="_lynae_peppermint_upper_shader_8cpp"/>
-      </node>
-      <node id="63">
-        <label>src/data/IniFixData/ModBranches.cpp</label>
-        <link refid="_mod_branches_8cpp"/>
       </node>
       <node id="64">
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>

@@ -27,6 +27,7 @@
 
 #include "PyBaseIniGraphGroupEdit.h"
 #include "PyIniGraphGroups.h"
+#include "../../../PyIniSectionGraph.h"
 #include "../regEdits/PyBaseRegEdit.h"  // reuses PyPartRanges
 
 
@@ -289,7 +290,146 @@ exactly when one's list starts with the other's. Always filled
         .def_readonly("position", &Row::position, py::doc(R"doc(
 :class:`int`: The part's position among its `section`_'s parts, counted from 0 as :attr:`blocks` counts them (an ``if``
 line is a part too). Always filled
+        )doc"))
+        .def_static("conditioned", &Row::conditioned, py::arg("value"), py::arg("condition"), py::doc(R"doc(
+A row of only a value and the condition it holds under -- for a value derived from a collected one (the file a bound
+resource names, say) that keeps the collected row's condition
+
+Parameters
+----------
+value: :class:`str`
+    Its :attr:`value`
+
+condition: Optional[:class:`Z3Predicate`]
+    Its :attr:`condition`
+
+Returns
+-------
+:class:`GraphCollect.Row`
+    The row
         )doc"));
+
+    using CollectCore = AGRC::GraphCollect<std::string, std::string>;
+    cls.def_static("rowsOf", [](PyIniSectionGraph& graph, const std::string& key) { return CollectCore::rowsOf(graph, key); },
+                   py::arg("graph"), py::arg("key"), py::doc(R"doc(
+Every value of 'key' in 'graph', each as a row with the :attr:`Row.condition` it is taken under -- what a collect with
+``withConditions`` files, read off one graph without a group
+
+The graph's root `sections`_ first, then every `section`_ it reaches in the graph's own order: a reader that takes one
+value takes the FIRST, and the root's own binding should win over a called list's. The value comes back stripped. A
+merged master is several mods behind one .ini, so a buffer or register it binds is one of these rows per ``$swapvar``
+branch
+
+Parameters
+----------
+graph: :class:`IniSectionGraph`
+    The graph to read -- :meth:`IniFile.sectionGraph` gives a file's
+
+key: :class:`str`
+    The key to read
+
+Returns
+-------
+List[:class:`GraphCollect.Row`]
+    The rows
+    )doc"));
+
+    cls.def_static("valueUnder", &CollectCore::valueUnder, py::arg("rows"), py::arg("fallback"), py::arg("query"), py::arg("z3Ctx"),
+                   py::doc(R"doc(
+The value of 'rows' that holds under 'query': the first whose condition can hold together with it. The first row when
+there is only one row or no query, and when none is compatible; 'fallback' when 'rows' is empty
+
+Parameters
+----------
+rows: List[:class:`GraphCollect.Row`]
+    The values, each with its condition
+
+fallback: :class:`str`
+    What an empty 'rows' gives
+
+query: Optional[:class:`Z3Predicate`]
+    The condition asked about
+
+z3Ctx: Optional[:class:`Z3Context`]
+    The context the conditions are combined in
+
+Returns
+-------
+:class:`str`
+    The value
+    )doc"));
+
+    cls.def_static("onlyUnder", &CollectCore::onlyUnder, py::arg("rows"), py::arg("query"), py::arg("z3Ctx"), py::doc(R"doc(
+The index of the ONE row of 'rows' whose condition can hold together with 'query' -- which branch a query belongs to.
+A single row is index 0; ``-1`` when 'rows' is empty, when there are several rows and no query, or when no row or more
+than one is compatible
+
+Parameters
+----------
+rows: List[:class:`GraphCollect.Row`]
+    The values, each with its condition
+
+query: Optional[:class:`Z3Predicate`]
+    The condition asked about
+
+z3Ctx: Optional[:class:`Z3Context`]
+    The context the conditions are combined in
+
+Returns
+-------
+:class:`int`
+    The index, or ``-1``
+    )doc"));
+
+    cls.def_static("anyUnder", &CollectCore::anyUnder, py::arg("rows"), py::arg("query"), py::arg("z3Ctx"), py::doc(R"doc(
+Whether any row of 'rows' can hold under 'query' -- a row with no condition always can, and so can every row when
+there is no query
+
+Parameters
+----------
+rows: List[:class:`GraphCollect.Row`]
+    The values, each with its condition
+
+query: Optional[:class:`Z3Predicate`]
+    The condition asked about
+
+z3Ctx: Optional[:class:`Z3Context`]
+    The context the conditions are combined in
+
+Returns
+-------
+:class:`bool`
+    Whether one can
+    )doc"));
+
+    cls.def_static("states", [](const std::vector<std::vector<Row>>& lists, AGRC::Z3Context* z3Ctx) {
+        std::vector<const std::vector<Row>*> pointers;
+        for (const std::vector<Row>& list : lists) {
+            pointers.push_back(&list);
+        }
+        return CollectCore::states(pointers, z3Ctx);
+    }, py::arg("lists"), py::arg("z3Ctx"), py::doc(R"doc(
+The distinct states several branched values can be in together: starting from one state with no condition, each list
+of more than one row splits every state by the rows whose conditions can hold with it (the two conditions combined and
+simplified), and a state no row of a list splits is kept as it is. States are told apart by their rendered condition
+
+A merged master binds a blend and each object's index buffer per branch, and two lists' branches go together when
+their conditions can hold at once; an animated master may bind one blend for its whole range and a different index
+buffer per frame, so every list counts
+
+Parameters
+----------
+lists: List[List[:class:`GraphCollect.Row`]]
+    The branched values
+
+z3Ctx: Optional[:class:`Z3Context`]
+    The context the conditions are combined in
+
+Returns
+-------
+List[Optional[:class:`Z3Predicate`]]
+    The states -- or a single ``None`` when nothing branches
+    )doc"));
 
     cls.def(py::init([](py::object keys, py::object contextKeys, std::string name, py::object partPredicates,
                         py::object valPredicates, py::object trackKeys, py::object keysToTrack, bool withConditions,

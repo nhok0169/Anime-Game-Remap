@@ -26,6 +26,8 @@
 #include <variant>
 #include <vector>
 
+#include <tsl/ordered_map.h>
+
 #include "AGRemapCore/model/iftemplate/IfContentPart.h"
 #include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateNode.h"
@@ -234,6 +236,32 @@ namespace AGRemapCore {
             const std::unordered_map<size_t, std::vector<std::string>>& calledSubCommands() const;
 
             /**
+             * @brief
+             @rst
+             The first value of 'key' in this `section`_'s own parts, in the order they are written: whatever branch it
+             sits in, and without following ``run =``. A ``std::string`` value comes back stripped
+             @endrst
+             *
+             * @param key The key to look up
+             *
+             * @return The value, or ``std::nullopt`` when no part has the key
+             */
+            std::optional<V> firstVal(const K& key) const;
+
+            /**
+             * @brief
+             @rst
+             Like #firstVal, for the first key 'match' accepts in each part -- for a key whose spelling varies, such
+             as one a mod's author wrote (see :cpp:func:`IniNamingTools::sameKey`)
+             @endrst
+             *
+             * @param match Whether a key is the one wanted
+             *
+             * @return The value, or ``std::nullopt`` when no part has such a key
+             */
+            std::optional<V> firstValMatching(const std::function<bool(const K&)>& match) const;
+
+            /**
              * @brief The domain customization points this instance uses
              */
             const IfTemplateRunConfig<K, V>& runConfig() const;
@@ -411,6 +439,17 @@ namespace AGRemapCore {
                 std::unordered_map<std::string, bool>& sectionAllBranchesMissing) const;
     };
 
+}
+
+namespace AGRemapCore {
+    /**
+     * @brief
+     @rst
+     A ``.ini`` file's `sections`_ by name, in the order the file declares them -- what
+     :cpp:func:`IniFile::getIfTemplates` holds
+     @endrst
+     */
+    using IfTemplates = tsl::ordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>;
 }
 
 #include "IfTemplate.tpp"

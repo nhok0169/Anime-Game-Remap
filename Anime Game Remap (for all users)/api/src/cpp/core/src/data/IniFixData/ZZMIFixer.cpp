@@ -33,7 +33,6 @@
 #include <vector>
 
 #include "AGRemapCore/constants/FileExt.h"
-#include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/ZZMIModObjs.h"
 #include "AGRemapCore/model/buffers/BufFloat.h"
 #include "AGRemapCore/model/buffers/BufUnorm.h"
@@ -138,7 +137,7 @@ namespace AGRemapCore {
 
         // ---- the mod's own sections ----
 
-        using Template = ModBranches::Template;
+        using Template = IfTemplate<std::string, std::string>;
 
         // The mod's own sections, as the .ini file parsed to them: every one but those a previous fix of
         // this pair wrote (their names carry `<target><component>Remap`)
@@ -175,7 +174,7 @@ namespace AGRemapCore {
         }
 
         std::optional<std::string> valOf(const Template& tpl, const std::string& key) {
-            return ModBranches::firstValLoose(tpl, key);
+            return tpl.firstValMatching([&key](const std::string& candidate) { return IniNamingTools::sameKey(candidate, key); });
         }
 
         std::string lowered(const std::string& s) {
@@ -706,8 +705,8 @@ namespace AGRemapCore {
                             if (tpl == nullptr || name.find(IniKeywords::Remap) != std::string::npos) {
                                 continue;
                             }
-                            const std::optional<std::string> hash = ModBranches::firstVal(*tpl, IniKeywords::Hash);
-                            if (hash.has_value() && ModBranches::firstVal(*tpl, IniKeywords::This).has_value()) {
+                            const std::optional<std::string> hash = tpl->firstVal(IniKeywords::Hash);
+                            if (hash.has_value() && tpl->firstVal(IniKeywords::This).has_value()) {
                                 found.insert(lowered(*hash));
                             }
                         }
@@ -1080,7 +1079,7 @@ namespace AGRemapCore {
 
                     // only a copy that recolours: another section on the hash (a watcher, a `run =`) is left alone
                     const ObjGroupEdit::PartFilter recolours = [](const ObjGroupEdit::IterData& data, const ModType*, IniFile*) {
-                        const bool hasThis = data.section != nullptr && ModBranches::firstVal(*data.section, IniKeywords::This).has_value();
+                        const bool hasThis = data.section != nullptr && data.section->firstVal(IniKeywords::This).has_value();
                         return hasThis ? ObjGroupEdit::OrderRanges::createFull() : ObjGroupEdit::OrderRanges::createEmpty();
                     };
 

@@ -10425,6 +10425,25 @@ class GraphCollect(BaseIniGraphGroupEdit, IParseResult):
         One collected occurrence of a key
             
         """
+        @staticmethod
+        def conditioned(value: str, condition: FixRaidenBoss2.core.Z3Predicate | None) -> GraphCollect.Row:
+            """
+            A row of only a value and the condition it holds under -- for a value derived from a collected one (the file a bound
+            resource names, say) that keeps the collected row's condition
+            
+            Parameters
+            ----------
+            value: :class:`str`
+                Its :attr:`value`
+            
+            condition: Optional[:class:`Z3Predicate`]
+                Its :attr:`condition`
+            
+            Returns
+            -------
+            :class:`GraphCollect.Row`
+                The row
+            """
         @property
         def blocks(self) -> list[int]:
             """
@@ -10493,6 +10512,124 @@ class GraphCollect(BaseIniGraphGroupEdit, IParseResult):
             """
             :class:`str`: Its value
             """
+    @staticmethod
+    def anyUnder(rows: collections.abc.Sequence[GraphCollect.Row], query: FixRaidenBoss2.core.Z3Predicate | None, z3Ctx: Z3Context) -> bool:
+        """
+        Whether any row of 'rows' can hold under 'query' -- a row with no condition always can, and so can every row when
+        there is no query
+        
+        Parameters
+        ----------
+        rows: List[:class:`GraphCollect.Row`]
+            The values, each with its condition
+        
+        query: Optional[:class:`Z3Predicate`]
+            The condition asked about
+        
+        z3Ctx: Optional[:class:`Z3Context`]
+            The context the conditions are combined in
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether one can
+        """
+    @staticmethod
+    def onlyUnder(rows: collections.abc.Sequence[GraphCollect.Row], query: FixRaidenBoss2.core.Z3Predicate | None, z3Ctx: Z3Context) -> int:
+        """
+        The index of the ONE row of 'rows' whose condition can hold together with 'query' -- which branch a query belongs to.
+        A single row is index 0; ``-1`` when 'rows' is empty, when there are several rows and no query, or when no row or more
+        than one is compatible
+        
+        Parameters
+        ----------
+        rows: List[:class:`GraphCollect.Row`]
+            The values, each with its condition
+        
+        query: Optional[:class:`Z3Predicate`]
+            The condition asked about
+        
+        z3Ctx: Optional[:class:`Z3Context`]
+            The context the conditions are combined in
+        
+        Returns
+        -------
+        :class:`int`
+            The index, or ``-1``
+        """
+    @staticmethod
+    def rowsOf(graph: IniSectionGraph, key: str) -> list[GraphCollect.Row]:
+        """
+        Every value of 'key' in 'graph', each as a row with the :attr:`Row.condition` it is taken under -- what a collect with
+        ``withConditions`` files, read off one graph without a group
+        
+        The graph's root `sections`_ first, then every `section`_ it reaches in the graph's own order: a reader that takes one
+        value takes the FIRST, and the root's own binding should win over a called list's. The value comes back stripped. A
+        merged master is several mods behind one .ini, so a buffer or register it binds is one of these rows per ``$swapvar``
+        branch
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph to read -- :meth:`IniFile.sectionGraph` gives a file's
+        
+        key: :class:`str`
+            The key to read
+        
+        Returns
+        -------
+        List[:class:`GraphCollect.Row`]
+            The rows
+        """
+    @staticmethod
+    def states(lists: collections.abc.Sequence[collections.abc.Sequence[GraphCollect.Row]], z3Ctx: Z3Context) -> list[FixRaidenBoss2.core.Z3Predicate | None]:
+        """
+        The distinct states several branched values can be in together: starting from one state with no condition, each list
+        of more than one row splits every state by the rows whose conditions can hold with it (the two conditions combined and
+        simplified), and a state no row of a list splits is kept as it is. States are told apart by their rendered condition
+        
+        A merged master binds a blend and each object's index buffer per branch, and two lists' branches go together when
+        their conditions can hold at once; an animated master may bind one blend for its whole range and a different index
+        buffer per frame, so every list counts
+        
+        Parameters
+        ----------
+        lists: List[List[:class:`GraphCollect.Row`]]
+            The branched values
+        
+        z3Ctx: Optional[:class:`Z3Context`]
+            The context the conditions are combined in
+        
+        Returns
+        -------
+        List[Optional[:class:`Z3Predicate`]]
+            The states -- or a single ``None`` when nothing branches
+        """
+    @staticmethod
+    def valueUnder(rows: collections.abc.Sequence[GraphCollect.Row], fallback: str, query: FixRaidenBoss2.core.Z3Predicate | None, z3Ctx: Z3Context) -> str:
+        """
+        The value of 'rows' that holds under 'query': the first whose condition can hold together with it. The first row when
+        there is only one row or no query, and when none is compatible; 'fallback' when 'rows' is empty
+        
+        Parameters
+        ----------
+        rows: List[:class:`GraphCollect.Row`]
+            The values, each with its condition
+        
+        fallback: :class:`str`
+            What an empty 'rows' gives
+        
+        query: Optional[:class:`Z3Predicate`]
+            The condition asked about
+        
+        z3Ctx: Optional[:class:`Z3Context`]
+            The context the conditions are combined in
+        
+        Returns
+        -------
+        :class:`str`
+            The value
+        """
     def __init__(self, keys: typing.Any, contextKeys: typing.Any = None, name: str = '', partPredicates: typing.Any = None, valPredicates: typing.Any = None, trackKeys: typing.Any = False, keysToTrack: typing.Any = None, withConditions: bool = False, everyGroup: bool = False) -> None:
         ...
     def clear(self) -> None:
@@ -14969,6 +15106,36 @@ class IfTemplate:
         Dict[:class:`int`, Any]
             The filtered parts, keyed by their index
         """
+    def firstVal(self, key: str) -> str | None:
+        """
+        The first value of 'key' in this `section`_'s own parts, in the order they are written: whatever branch it sits
+        in, and without following ``run =``. The value comes back stripped
+        
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to look up
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The value, or ``None`` when no part has the key
+        """
+    def firstValMatching(self, match: collections.abc.Callable) -> str | None:
+        """
+        Like :meth:`firstVal`, for the first key 'match' accepts in each part -- for a key whose spelling varies, such as
+        one a mod's author wrote (see :meth:`IniNamingTools.sameKey`)
+        
+        Parameters
+        ----------
+        match: Callable[[:class:`str`], :class:`bool`]
+            Whether a key is the one wanted
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The value, or ``None`` when no part has such a key
+        """
     def normalize(self) -> None:
         """
         Normalizes the branching structure within this :class:`IfTemplate` to follow :class:`IfTemplateNormTree`'s structure
@@ -16044,6 +16211,24 @@ class IniFile:
         name: :class:`str`
             The name of the `section`_ to remove
         """
+    def sectionGraph(self, root: str) -> IniSectionGraph:
+        """
+        The call graph from the `section`_ 'root': it and every `section`_ it reaches through ``run =``, over this file's
+        own `sections`_ (not copied, so the graph keeps this file alive) and in this file's :class:`Z3Context`, so every
+        condition the graph reports combines with this file's others. A 'root' the file does not have gives an empty graph
+        
+        What a value of a `section`_ is under each branch of a merged mod is a walk of this graph: :meth:`GraphCollect.rowsOf`
+        
+        Parameters
+        ----------
+        root: :class:`str`
+            The `section`_ to start from
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The graph
+        """
     def setFileTxt(self, txt: str) -> None:
         """
         Replaces the .ini file's text content, without touching the file on disk
@@ -16882,6 +17067,22 @@ class IniNamingTools:
         
     """
     @staticmethod
+    def boundResource(value: str | None) -> str:
+        """
+        The resource a register's value binds: the value itself, or empty when there is no value or it is ``null`` (which
+        unbinds the register)
+        
+        Parameters
+        ----------
+        value: Optional[:class:`str`]
+            The register's value, if it has one
+        
+        Returns
+        -------
+        :class:`str`
+            The resource, or empty
+        """
+    @staticmethod
     def getFixedBlendFile(blendFile: str, modName: str = '') -> str:
         """
         The name of the fixed ``Blend.buf`` file
@@ -17073,6 +17274,26 @@ class IniNamingTools:
     def removeResourceName(name: str) -> str:
         """
         Removes the resource prefix from some `section`_ name
+        """
+    @staticmethod
+    def sameKey(key1: str, key2: str) -> bool:
+        """
+        Whether two keys of a `section`_ are the same key as a mod's author may write it: without regard to case, as
+        3dmigoto reads a key, and with ``\\\\`` and ``/`` alike in a namespaced key (``Resource\\\\RabbitFX\\\\Lightmap`` is
+        spelled with either). An exact comparison that misses such a key reads exactly like a mod that binds nothing there
+        
+        Parameters
+        ----------
+        key1: :class:`str`
+            A key
+        
+        key2: :class:`str`
+            Another key
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether they are the same key
         """
 class IniParseBuilder:
     """
@@ -22397,6 +22618,60 @@ class RegBranchAdd(BaseIniGraphEdit):
         **Default**: ``None``
         
     """
+    @staticmethod
+    def perBranchRemovals(z3Ctx: Z3Context, rows: collections.abc.Sequence[..., ..., ..., ..., ..., ..., ..., ..., ..., ..., ..., ...], keyPrefix: str, removalsOf: collections.abc.Callable) -> RegBranchAdd:
+        """
+        Like :meth:`perBranchReplacements`, REMOVING keys in each branch rather than replacing them
+        
+        Parameters
+        ----------
+        z3Ctx: :class:`Z3Context`
+            The context the conditions are combined in
+        
+        rows: List[:class:`GraphCollect.Row`]
+            The branched values, each with its condition
+        
+        keyPrefix: :class:`str`
+            What a branch's key starts with
+        
+        removalsOf: Callable[[:class:`int`, Optional[:class:`Z3Predicate`]], List[:class:`str`]]
+            What one branch's removals are, given its index among the rows and its query
+        
+        Returns
+        -------
+        :class:`RegBranchAdd`
+            The edit
+        """
+    @staticmethod
+    def perBranchReplacements(z3Ctx: Z3Context, rows: collections.abc.Sequence[..., ..., ..., ..., ..., ..., ..., ..., ..., ..., ..., ...], keyPrefix: str, replacementsOf: collections.abc.Callable) -> RegBranchAdd:
+        """
+        An edit that REPLACES keys in each branch that one of 'rows' belongs to: a branch's query is brought into 'z3Ctx' once,
+        the one row it is compatible with is found (:meth:`GraphCollect.onlyUnder`), and that row's replacements are written
+        there under the key ``<keyPrefix>;<index>``. A branch no single row answers for, or one with no replacements, is left
+        alone
+        
+        A merged master binds a value per ``$swapvar`` branch (:meth:`GraphCollect.rowsOf`), and what goes beside it -- a
+        ``draw`` count, say -- is per branch too
+        
+        Parameters
+        ----------
+        z3Ctx: :class:`Z3Context`
+            The context the conditions are combined in
+        
+        rows: List[:class:`GraphCollect.Row`]
+            The branched values, each with its condition
+        
+        keyPrefix: :class:`str`
+            What a branch's key starts with
+        
+        replacementsOf: Callable[[:class:`int`, Optional[:class:`Z3Predicate`]], List[Tuple[:class:`str`, :class:`str`]]]
+            What one branch's replacements are, given its index among the rows and its query
+        
+        Returns
+        -------
+        :class:`RegBranchAdd`
+            The edit
+        """
     def __init__(self, branchOf: typing.Any = None) -> None:
         ...
     def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:

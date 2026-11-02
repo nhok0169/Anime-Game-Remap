@@ -39,12 +39,31 @@ namespace AGRemapCore {
         return impl_->predicate.to_string();
     }
 
+    // An operand that cannot change the result is not appended: `x & true` is x, `x & false` is false, and
+    // the same for | with the roles swapped. Without this, an else branch's condition -- the earlier
+    // branches negated AND the else's own `true` -- was written back as `!($c == 1) && 1`
     Z3Predicate Z3Predicate::operator&(const Z3Predicate& other) const {
-        return Z3Predicate(std::make_unique<Impl>(impl_->predicate && other.impl_->predicate, impl_->ctxKeepAlive));
+        const z3::expr& a = impl_->predicate;
+        const z3::expr& b = other.impl_->predicate;
+        if (b.is_true() || a.is_false()) {
+            return Z3Predicate(std::make_unique<Impl>(a, impl_->ctxKeepAlive));
+        }
+        if (a.is_true() || b.is_false()) {
+            return Z3Predicate(std::make_unique<Impl>(b, impl_->ctxKeepAlive));
+        }
+        return Z3Predicate(std::make_unique<Impl>(a && b, impl_->ctxKeepAlive));
     }
 
     Z3Predicate Z3Predicate::operator|(const Z3Predicate& other) const {
-        return Z3Predicate(std::make_unique<Impl>(impl_->predicate || other.impl_->predicate, impl_->ctxKeepAlive));
+        const z3::expr& a = impl_->predicate;
+        const z3::expr& b = other.impl_->predicate;
+        if (b.is_false() || a.is_true()) {
+            return Z3Predicate(std::make_unique<Impl>(a, impl_->ctxKeepAlive));
+        }
+        if (a.is_false() || b.is_true()) {
+            return Z3Predicate(std::make_unique<Impl>(b, impl_->ctxKeepAlive));
+        }
+        return Z3Predicate(std::make_unique<Impl>(a || b, impl_->ctxKeepAlive));
     }
 
     Z3Predicate Z3Predicate::operator!() const {

@@ -120,6 +120,28 @@ class BranchedValuesTest(unittest.TestCase):
         self.assertEqual([row.value for row in FRB.GraphCollect.rowsOf(graph, "ib")], ["ResourceRoot", "ResourceBody0"])
 
 
+class ElseConditionTest(unittest.TestCase):
+    """An ``else`` branch's condition is the earlier branches negated, with nothing appended for the ``else``
+    itself: :class:`Z3Predicate`'s ``&`` / ``|`` leave out an operand that cannot change the result"""
+
+    def test_elseCondition_rendersWithoutTrue(self):
+        ini = FRB.IniFile(txt = "[TextureOverrideX]\nhash = 00000000\nif $c == 1\n    $y = 1\nelse\n    this = ResourceA\nendif\n")
+        ini.getIfTemplates()
+        rows = FRB.GraphCollect.rowsOf(ini.sectionGraph("TextureOverrideX"), "this")
+        self.assertEqual(FRB.IfPredPart.getIfPredStr(rows[0].condition), "!($c == 1)")
+
+    def test_identityOperands_areLeftOut(self):
+        z3 = FRB.Z3Context()
+        cond = FRB.IfPredPart.getLogicQuery(FRB.ParseContext("$c == 1"), z3)
+        true = FRB.Z3Predicate.trueValue(z3)
+        false = FRB.Z3Predicate.falseValue(z3)
+        self.assertEqual((cond & true).toString(), cond.toString())
+        self.assertEqual((true & cond).toString(), cond.toString())
+        self.assertEqual((cond | false).toString(), cond.toString())
+        self.assertEqual((cond & false).toString(), false.toString())
+        self.assertEqual((cond | true).toString(), true.toString())
+
+
 class TemplateValuesTest(unittest.TestCase):
     """A section's first value, and keys as a mod's author spells them"""
 

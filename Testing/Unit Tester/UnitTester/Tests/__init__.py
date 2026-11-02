@@ -67,7 +67,7 @@ from .test_BaseResEdit import BaseResEditTest
 from .test_ResEdits import ResEditsTest
 from .test_HeldResEdits import HeldResEditsTest, HeldTexEditorsTest
 from .test_IniNamingTools import IniNamingToolsTest
-from .test_BranchedValues import BranchedValuesTest, TemplateValuesTest
+from .test_BranchedValues import BranchedValuesTest, ElseConditionTest, TemplateValuesTest
 from .test_ListValue import ListValueTest, IbFileRemapDrawRangeTest, SectionTextTest
 from .test_DownloadData import DownloadDataTest, LoadedInisTest, IniSharedStateTest
 from .test_ResCollects import ResCollectsTest
@@ -182,7 +182,7 @@ __all__ += ["ModTypesTest", "ModTypeTest", "RemapServiceCLITest", "GIMIFixerTest
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest"]
 __all__ += ["ColourRangeTest", "VersionSetTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredPartTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
 __all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "VertexCountsTest", "VGRemapsTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphGroupRemoveTest", "IterGraphGroupEditTest", "GraphRenameTest", "ResRegCollectTest", "GraphCollectTest", "ResGroupCollectTest", "VGComponentSplitTest", "VGSplitGroupResourceTest", "BufReplaceTest", "SympyTokenizerTest", "SympyParserTest"]
-__all__ += ["BaseIniGraphGroupEditTest", "GraphGroupEditTest", "BaseResEditTest", "ResEditsTest", "HeldResEditsTest", "HeldTexEditorsTest", "IniNamingToolsTest", "BranchedValuesTest", "TemplateValuesTest", "ListValueTest", "IbFileRemapDrawRangeTest", "SectionTextTest", "DownloadDataTest", "LoadedInisTest", "IniSharedStateTest", "ResCollectsTest"]
+__all__ += ["BaseIniGraphGroupEditTest", "GraphGroupEditTest", "BaseResEditTest", "ResEditsTest", "HeldResEditsTest", "HeldTexEditorsTest", "IniNamingToolsTest", "BranchedValuesTest", "ElseConditionTest", "TemplateValuesTest", "ListValueTest", "IbFileRemapDrawRangeTest", "SectionTextTest", "DownloadDataTest", "LoadedInisTest", "IniSharedStateTest", "ResCollectsTest"]
 __all__ += ["BaseIniGraphEditTest", "RegFillMissingTest"]
 __all__ += ["SympyIfPredGeneratorTest", "CppAhoCorasickDFATest", "CppTrieTest"]
 __all__ += ["ModTypeIdDataTest", "ModTypeTest", "GIBuilderTest", "ModTypeIdTest", "GameTypeIdTest", "GameTypesTest"]

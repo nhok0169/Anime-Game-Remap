@@ -67,7 +67,9 @@ namespace AGRemapCore {
              *
              * @param other The predicate to combine with
              *
-             * @return The combined predicate, in this predicate's own context
+             * @return The combined predicate, in this predicate's own context. A side that is literally ``true``
+             *      is left out, and a side that is literally ``false`` is the result -- so an ``else`` branch's
+             *      condition, the earlier branches negated AND the ``else``'s own ``true``, is the negation alone
              */
             Z3Predicate operator&(const Z3Predicate& other) const;
 
@@ -79,7 +81,8 @@ namespace AGRemapCore {
              *
              * @param other The predicate to combine with
              *
-             * @return The combined predicate, in this predicate's own context
+             * @return The combined predicate, in this predicate's own context. A side that is literally ``false``
+             *      is left out, and a side that is literally ``true`` is the result
              */
             Z3Predicate operator|(const Z3Predicate& other) const;
 

@@ -7,9 +7,7 @@
     <innerfile refid="_file_add_edit_8h">FileAddEdit.h</innerfile>
     <innerfile refid="_position_edit_8h">PositionEdit.h</innerfile>
     <innerfile refid="_res_edit_8h">ResEdit.h</innerfile>
-    <innerfile refid="_tex_creator_edit_8h">TexCreatorEdit.h</innerfile>
     <innerfile refid="_tex_edit_8h">TexEdit.h</innerfile>
-    <innerfile refid="_tex_editor_edit_8h">TexEditorEdit.h</innerfile>
     <innerfile refid="_v_g_remap_blend_edit_8h">VGRemapBlendEdit.h</innerfile>
     <briefdescription>
     </briefdescription>

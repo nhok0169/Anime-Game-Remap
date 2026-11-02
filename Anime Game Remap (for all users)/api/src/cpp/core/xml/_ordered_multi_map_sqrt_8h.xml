@@ -2808,31 +2808,9 @@
         <childnode refid="313" relation="include">
         </childnode>
       </node>
-      <node id="311">
-        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h</label>
-        <link refid="_tex_creator_edit_8h"/>
-        <childnode refid="159" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-      </node>
       <node id="310">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h</label>
         <link refid="_tex_edit_8h"/>
-        <childnode refid="311" relation="include">
-        </childnode>
-        <childnode refid="312" relation="include">
-        </childnode>
-      </node>
-      <node id="312">
-        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</label>
-        <link refid="_tex_editor_edit_8h"/>
-        <childnode refid="159" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
       </node>
       <node id="158">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h</label>

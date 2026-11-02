@@ -444,7 +444,6 @@ Always ``std::nullopt`` -- an identity edit never renames the resource `section`
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
-        <reimplementedby refid="class_a_g_remap_core_1_1_tex_creator_create_1ae848a76d2d0b95d929cab09f0e8061ea">clear</reimplementedby>
         <briefdescription>
 <para>Clears any saved state information. </para>
         </briefdescription>
@@ -672,8 +671,6 @@ argument of \ref buildResGraph)
         <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
-        <reimplementedby refid="class_a_g_remap_core_1_1_tex_creator_create_1aefb6a3e913c7222d48002c45525fb188">buildResModel</reimplementedby>
-        <reimplementedby refid="class_a_g_remap_core_1_1_tex_editor_replace_1a13523094851d8903d6effed1852b6a31">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af55f08fc5b17f2adf0888a17439745f2">buildResModel</reimplementedby>
         <param>
           <type>const std::string &amp;</type>

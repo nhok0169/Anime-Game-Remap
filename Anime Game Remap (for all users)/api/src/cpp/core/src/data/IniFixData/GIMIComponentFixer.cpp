@@ -69,8 +69,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BufEdit.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
 #include "AGRemapCore/model/iftemplate/ListValue.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAnchorAdd.h"
@@ -1039,7 +1038,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            auto replace = std::make_unique<TexEditorReplace<>>(
+                            auto replace = std::make_unique<TexReplace<>>(
                                 GraphId(group, "", component_.slot + "RemapTexDiffuse"),
                                 std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{entry.second}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                 "resourceRemapTexEdit", std::string("Diffuse"));
@@ -1105,7 +1104,7 @@ namespace AGRemapCore {
                                 }
 
                                 const std::string suffix = (i == 0) ? std::string() : ("Diffuse" + std::to_string(i));
-                                auto replace = std::make_unique<TexEditorReplace<>>(
+                                auto replace = std::make_unique<TexReplace<>>(
                                     GraphId(group, "", component_.slot + "RemapTexLightMap" + suffix),
                                     std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                     "resourceRemapTexEdit", std::string("LightMap") + suffix);
@@ -1175,7 +1174,7 @@ namespace AGRemapCore {
                         shiftEdits_.push_back(std::move(shiftEdit));
 
                         // The flat normal map, created on the scratch register the shift filled.
-                        auto create = std::make_unique<TexCreatorCreate<>>(
+                        auto create = std::make_unique<TexCreate<>>(
                             GraphId(group, "", component_.slot + "RemapNormal"), "NormalMap",
                             std::make_shared<TexCreator>(config_.flatNormalSize, config_.flatNormalSize, config_.flatNormal, true, config_.mipmaps),
                             resEditConfig());
@@ -2284,9 +2283,9 @@ namespace AGRemapCore {
                 std::unique_ptr<SlotRemap> slotRemap_;
 
                 std::vector<Fixer::GroupEdit*> texGroupEdits_;
-                std::vector<std::unique_ptr<TexEditorReplace<>>> texReplaces_;
+                std::vector<std::unique_ptr<TexReplace<>>> texReplaces_;
                 std::vector<std::unique_ptr<Collector>> texCollects_;
-                std::vector<std::unique_ptr<TexCreatorCreate<>>> texCreates_;
+                std::vector<std::unique_ptr<TexCreate<>>> texCreates_;
                 std::vector<std::unique_ptr<Collector>> texAddCollects_;
                 std::vector<std::unique_ptr<RegRemap<>>> regRemaps_;
                 std::vector<std::unique_ptr<RegRemove<>>> regRemoves_;

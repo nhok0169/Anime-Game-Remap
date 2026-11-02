@@ -37,7 +37,7 @@ namespace AGRemapCore {
      ``CustomShader`` reads -- together with the ``[Resource...]`` `section`_ that names it
      :raw-html:`<br />` :raw-html:`<br />`
 
-     Use it through :cpp:class:`ResRegCollect`, as :cpp:class:`TexCreatorCreate` is: the collect finds
+     Use it through :cpp:class:`ResRegCollect`, as :cpp:class:`TexCreate` is: the collect finds
      the register naming the resource (eg. ``ps-cb4 = ResourceShaderCB4``), and this edit builds the
      `section`_ of that name from \ref files and a :cpp:class:`RemapFileAddResource` that writes the
      file

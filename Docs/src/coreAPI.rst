@@ -1278,28 +1278,6 @@ TexCreate
 
 :raw-html:`<br />`
 
-TexCreatorCreate
-----------------
-
-.. cppattributetable:: AGRemapCore::TexCreatorCreate
-
-.. doxygenclass:: AGRemapCore::TexCreatorCreate
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
-TexEditorReplace
-----------------
-
-.. cppattributetable:: AGRemapCore::TexEditorReplace
-
-.. doxygenclass:: AGRemapCore::TexEditorReplace
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
 TexReplace
 ----------
 

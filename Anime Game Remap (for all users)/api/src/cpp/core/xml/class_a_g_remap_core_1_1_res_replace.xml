@@ -261,7 +261,6 @@ graph id)
         <name>buildResModel</name>
         <qualifiedname>AGRemapCore::ResReplace::buildResModel</qualifiedname>
         <reimplements refid="class_a_g_remap_core_1_1_base_res_edit_1a4077095cd3703c8c6bb65d85f57d151f">buildResModel</reimplements>
-        <reimplementedby refid="class_a_g_remap_core_1_1_tex_editor_replace_1a13523094851d8903d6effed1852b6a31">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af55f08fc5b17f2adf0888a17439745f2">buildResModel</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
@@ -357,7 +356,6 @@ graph id)
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
-        <reimplementedby refid="class_a_g_remap_core_1_1_tex_creator_create_1ae848a76d2d0b95d929cab09f0e8061ea">clear</reimplementedby>
         <briefdescription>
 <para>Clears any saved state information. </para>
         </briefdescription>
@@ -527,7 +525,6 @@ argument of \ref buildResGraph)
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1a107d8e2709871b5b4cf289ce949668ba">getFixResourceName</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1a107d8e2709871b5b4cf289ce949668ba">getFixResourceName</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1a107d8e2709871b5b4cf289ce949668ba">getFixResourceName</reimplementedby>
-        <reimplementedby refid="class_a_g_remap_core_1_1_tex_creator_create_1a40c3599c1bea00ab4d54d45a640845ed">getFixResourceName</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_replace_1a65ecf0ced79e844bfe438d16f9583874">getFixResourceName</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_replace_1a65ecf0ced79e844bfe438d16f9583874">getFixResourceName</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_replace_1a65ecf0ced79e844bfe438d16f9583874">getFixResourceName</reimplementedby>
@@ -1287,12 +1284,6 @@ Class that creates the necessary parts for a fixed resource by building upon the
         <label>AGRemapCore::ResReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_res_replace"/>
         <childnode refid="2" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="10">
-        <label>AGRemapCore::TexEditorReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_tex_editor_replace"/>
-        <childnode refid="9" relation="public-inheritance">
         </childnode>
       </node>
       <node id="9">

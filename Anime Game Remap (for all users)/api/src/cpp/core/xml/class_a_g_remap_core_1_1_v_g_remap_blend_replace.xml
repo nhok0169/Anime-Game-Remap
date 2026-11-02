@@ -1026,7 +1026,6 @@ Builds and saves the resources, given the :cpp:class:`IniSectionGraph` for a res
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
-        <reimplementedby refid="class_a_g_remap_core_1_1_tex_creator_create_1ae848a76d2d0b95d929cab09f0e8061ea">clear</reimplementedby>
         <briefdescription>
 <para>Clears any saved state information. </para>
         </briefdescription>

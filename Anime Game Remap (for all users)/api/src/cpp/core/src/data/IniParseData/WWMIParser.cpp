@@ -234,8 +234,8 @@ namespace AGRemapCore {
                     }
                 }
 
-                // Where each section sits in the file, and each part in its section (every part counted, `if`
-                // lines too): the order the .ini is written in, for rows found in another order
+                // Where each section sits in the file: the order the .ini is written in, for rows found in another order
+                // (a row's own `position` places it within its section)
                 std::size_t sectionAt(const std::string& name) const {
                     if (sectionAt_.empty()) {
                         std::size_t at = 0;
@@ -248,29 +248,10 @@ namespace AGRemapCore {
                     return found == sectionAt_.end() ? sectionAt_.size() : found->second;
                 }
 
-                std::size_t partAt(const std::string& section, std::size_t partId) const {
-                    const auto key = std::make_pair(section, partId);
-                    const auto found = partAt_.find(key);
-                    if (found != partAt_.end()) {
-                        return found->second;
-                    }
-
-                    if (const Section* tpl = const_cast<IniFileParseContext&>(ctx_).getSection(section)) {
-                        std::size_t index = 0;
-                        for (const auto& part : tpl->parts()) {
-                            partAt_.emplace(std::make_pair(section, part->id()), ++index);
-                        }
-                    }
-
-                    const auto filed = partAt_.find(key);
-                    return filed == partAt_.end() ? 0 : filed->second;
-                }
-
                 // A section's rows, in the order they are written
                 void sortAsWritten(std::vector<const Row*>& rows) const {
                     std::stable_sort(rows.begin(), rows.end(), [this](const Row* a, const Row* b) {
-                        return std::make_tuple(partAt(a->section, a->partId), a->line)
-                               < std::make_tuple(partAt(b->section, b->partId), b->line);
+                        return std::make_tuple(a->position, a->line) < std::make_tuple(b->position, b->line);
                     });
                 }
 
@@ -1100,7 +1081,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            if (StringTools::startsWith(StringTools::toLower(FileService::pathToStr(it->path().filename())), "disabled")) {
+                            if (IniNamingTools::isDisabled(FileService::pathToStr(it->path().filename()))) {
                                 it.disable_recursion_pending();
                                 continue;
                             }
@@ -1468,7 +1449,6 @@ namespace AGRemapCore {
                 std::optional<int> modTypeId_;
                 bool onlyThisFile_ = false;
                 mutable std::unordered_map<std::string, std::size_t> sectionAt_;
-                mutable std::map<std::pair<std::string, std::size_t>, std::size_t> partAt_;
         };
     }
 

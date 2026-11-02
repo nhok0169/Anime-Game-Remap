@@ -68,7 +68,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BufRestrideEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
@@ -529,7 +529,7 @@ namespace AGRemapCore {
 
                     for (const Ref& ref : refs) {
                         const GraphId srcGraph(0, "", ref.graph);
-                        auto replace = std::make_unique<TexEditorReplace<>>(
+                        auto replace = std::make_unique<TexReplace<>>(
                             GraphId(0, "", comp_.name + "_" + ref.res),
                             std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{bandEdit(config_, comp_.bandMoves)}, false, true), resEditConfig(),
                             "resourceRemapTexEdit", comp_.target + "LightMap");

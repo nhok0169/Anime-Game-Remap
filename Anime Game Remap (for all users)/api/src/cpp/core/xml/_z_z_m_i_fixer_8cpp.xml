@@ -57,7 +57,7 @@
     <includes refid="_buf_restride_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BufRestrideEdit.h</includes>
     <includes refid="_file_add_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h</includes>
     <includes refid="_file_download_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h</includes>
-    <includes refid="_tex_editor_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</includes>
+    <includes refid="_tex_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h</includes>
     <includes refid="_v_g_remap_blend_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h</includes>
     <includes refid="_reg_asset_remap_8h" local="yes">AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h</includes>
     <includes refid="_reg_new_vals_8h" local="yes">AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h</includes>
@@ -86,7 +86,7 @@
       <node id="40">
         <label>Algo.tpp</label>
       </node>
-      <node id="248">
+      <node id="246">
         <label>BaseAhoCorasickDFA.tpp</label>
       </node>
       <node id="89">
@@ -107,10 +107,10 @@
       <node id="184">
         <label>BaseRegEdit.tpp</label>
       </node>
-      <node id="247">
+      <node id="245">
         <label>BaseTrie.tpp</label>
       </node>
-      <node id="245">
+      <node id="243">
         <label>BiMap.tpp</label>
       </node>
       <node id="215">
@@ -182,7 +182,7 @@
         <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="237">
+      <node id="235">
         <label>AGRemapCore/data/HashToModObjData.h</label>
         <link refid="_hash_to_mod_obj_data_8h"/>
         <childnode refid="5" relation="include">
@@ -2054,7 +2054,7 @@
         <childnode refid="191" relation="include">
         </childnode>
       </node>
-      <node id="226">
+      <node id="225">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h</label>
         <link refid="_tex_edit_8h"/>
         <childnode refid="10" relation="include">
@@ -2063,30 +2063,22 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
         <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="188" relation="include">
-        </childnode>
-        <childnode refid="227" relation="include">
-        </childnode>
-      </node>
-      <node id="225">
-        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</label>
-        <link refid="_tex_editor_edit_8h"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="160" relation="include">
         </childnode>
+        <childnode refid="188" relation="include">
+        </childnode>
+        <childnode refid="161" relation="include">
+        </childnode>
         <childnode refid="226" relation="include">
         </childnode>
-        <childnode refid="163" relation="include">
-        </childnode>
-        <childnode refid="228" relation="include">
-        </childnode>
       </node>
-      <node id="229">
+      <node id="227">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h</label>
         <link refid="_v_g_remap_blend_edit_8h"/>
         <childnode refid="10" relation="include">
@@ -2113,7 +2105,7 @@
         </childnode>
         <childnode refid="214" relation="include">
         </childnode>
-        <childnode refid="230" relation="include">
+        <childnode refid="228" relation="include">
         </childnode>
       </node>
       <node id="183">
@@ -2154,7 +2146,7 @@
         <childnode refid="185" relation="include">
         </childnode>
       </node>
-      <node id="231">
+      <node id="229">
         <label>AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h</label>
         <link refid="_reg_new_vals_8h"/>
         <childnode refid="10" relation="include">
@@ -2169,10 +2161,10 @@
         </childnode>
         <childnode refid="183" relation="include">
         </childnode>
-        <childnode refid="232" relation="include">
+        <childnode refid="230" relation="include">
         </childnode>
       </node>
-      <node id="233">
+      <node id="231">
         <label>AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h</label>
         <link refid="_reg_remap_8h"/>
         <childnode refid="10" relation="include">
@@ -2185,7 +2177,7 @@
         </childnode>
         <childnode refid="183" relation="include">
         </childnode>
-        <childnode refid="234" relation="include">
+        <childnode refid="232" relation="include">
         </childnode>
       </node>
       <node id="79">
@@ -2204,7 +2196,7 @@
         <childnode refid="88" relation="include">
         </childnode>
       </node>
-      <node id="235">
+      <node id="233">
         <label>AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
         <link refid="_g_i_m_i_parser_8h"/>
         <childnode refid="4" relation="include">
@@ -2251,20 +2243,20 @@
         </childnode>
         <childnode refid="79" relation="include">
         </childnode>
+        <childnode refid="234" relation="include">
+        </childnode>
         <childnode refid="236" relation="include">
         </childnode>
         <childnode refid="238" relation="include">
         </childnode>
-        <childnode refid="240" relation="include">
-        </childnode>
         <childnode refid="210" relation="include">
         </childnode>
-        <childnode refid="242" relation="include">
+        <childnode refid="240" relation="include">
         </childnode>
-        <childnode refid="249" relation="include">
+        <childnode refid="247" relation="include">
         </childnode>
       </node>
-      <node id="236">
+      <node id="234">
         <label>AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</label>
         <link refid="_g_i_m_i_section_classifier_8h"/>
         <childnode refid="4" relation="include">
@@ -2285,7 +2277,7 @@
         </childnode>
         <childnode refid="114" relation="include">
         </childnode>
-        <childnode refid="237" relation="include">
+        <childnode refid="235" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
@@ -2297,16 +2289,16 @@
         </childnode>
         <childnode refid="58" relation="include">
         </childnode>
-        <childnode refid="238" relation="include">
+        <childnode refid="236" relation="include">
         </childnode>
-        <childnode refid="239" relation="include">
+        <childnode refid="237" relation="include">
         </childnode>
       </node>
       <node id="210">
         <label>AGRemapCore/model/strategies/iniParsers/IParseResult.h</label>
         <link refid="_i_parse_result_8h"/>
       </node>
-      <node id="250">
+      <node id="248">
         <label>AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h</label>
         <link refid="_ini_file_parse_context_8h"/>
         <childnode refid="11" relation="include">
@@ -2323,7 +2315,7 @@
         </childnode>
         <childnode refid="84" relation="include">
         </childnode>
-        <childnode refid="238" relation="include">
+        <childnode refid="236" relation="include">
         </childnode>
       </node>
       <node id="90">
@@ -2344,7 +2336,7 @@
         <childnode refid="79" relation="include">
         </childnode>
       </node>
-      <node id="238">
+      <node id="236">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseContext.h</label>
         <link refid="_ini_parse_context_8h"/>
         <childnode refid="10" relation="include">
@@ -2398,7 +2390,7 @@
         <childnode refid="87" relation="include">
         </childnode>
       </node>
-      <node id="240">
+      <node id="238">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
         <link refid="_ini_parse_download_data_8h"/>
         <childnode refid="10" relation="include">
@@ -2417,11 +2409,11 @@
         </childnode>
         <childnode refid="154" relation="include">
         </childnode>
-        <childnode refid="238" relation="include">
+        <childnode refid="236" relation="include">
         </childnode>
         <childnode refid="158" relation="include">
         </childnode>
-        <childnode refid="241" relation="include">
+        <childnode refid="239" relation="include">
         </childnode>
       </node>
       <node id="87">
@@ -2498,11 +2490,11 @@
         <childnode refid="161" relation="include">
         </childnode>
       </node>
-      <node id="252">
+      <node id="250">
         <label>AGRemapCore/model/strategies/texEditors/texFilters/BaseTexFilter.h</label>
         <link refid="_base_tex_filter_8h"/>
       </node>
-      <node id="251">
+      <node id="249">
         <label>AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h</label>
         <link refid="_material_band_remap_filter_8h"/>
         <childnode refid="4" relation="include">
@@ -2517,7 +2509,7 @@
         </childnode>
         <childnode refid="163" relation="include">
         </childnode>
-        <childnode refid="252" relation="include">
+        <childnode refid="250" relation="include">
         </childnode>
       </node>
       <node id="147">
@@ -2542,7 +2534,7 @@
         <childnode refid="40" relation="include">
         </childnode>
       </node>
-      <node id="244">
+      <node id="242">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
         <childnode refid="21" relation="include">
@@ -2553,10 +2545,10 @@
         </childnode>
         <childnode refid="44" relation="include">
         </childnode>
-        <childnode refid="245" relation="include">
+        <childnode refid="243" relation="include">
         </childnode>
       </node>
-      <node id="253">
+      <node id="251">
         <label>AGRemapCore/tools/DownloadTools.h</label>
         <link refid="_download_tools_8h"/>
         <childnode refid="11" relation="include">
@@ -2567,9 +2559,9 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="240" relation="include">
+        <childnode refid="238" relation="include">
         </childnode>
-        <childnode refid="235" relation="include">
+        <childnode refid="233" relation="include">
         </childnode>
       </node>
       <node id="72">
@@ -2612,7 +2604,7 @@
         <childnode refid="41" relation="include">
         </childnode>
       </node>
-      <node id="246">
+      <node id="244">
         <label>AGRemapCore/tools/StringHash.h</label>
         <link refid="_string_hash_8h"/>
         <childnode refid="6" relation="include">
@@ -2620,7 +2612,7 @@
         <childnode refid="144" relation="include">
         </childnode>
       </node>
-      <node id="254">
+      <node id="252">
         <label>AGRemapCore/tools/StringTools.h</label>
         <link refid="_string_tools_8h"/>
         <childnode refid="15" relation="include">
@@ -2632,7 +2624,7 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="255">
+      <node id="253">
         <label>AGRemapCore/tools/TextTools.h</label>
         <link refid="_text_tools_8h"/>
         <childnode refid="6" relation="include">
@@ -2658,7 +2650,7 @@
         <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="256">
+      <node id="254">
         <label>AGRemapCore/tools/files/FileService.h</label>
         <link refid="_file_service_8h"/>
         <childnode refid="15" relation="include">
@@ -2673,7 +2665,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="256" relation="include">
+        <childnode refid="254" relation="include">
         </childnode>
       </node>
       <node id="143">
@@ -2862,17 +2854,17 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="242">
+      <node id="240">
         <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
         <link refid="_base_aho_corasick_d_f_a_8h"/>
         <childnode refid="44" relation="include">
         </childnode>
-        <childnode refid="243" relation="include">
+        <childnode refid="241" relation="include">
         </childnode>
-        <childnode refid="248" relation="include">
+        <childnode refid="246" relation="include">
         </childnode>
       </node>
-      <node id="243">
+      <node id="241">
         <label>AGRemapCore/tools/tries/BaseTrie.h</label>
         <link refid="_base_trie_8h"/>
         <childnode refid="10" relation="include">
@@ -2897,13 +2889,13 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="244" relation="include">
+        <childnode refid="242" relation="include">
         </childnode>
         <childnode refid="34" relation="include">
         </childnode>
-        <childnode refid="246" relation="include">
+        <childnode refid="244" relation="include">
         </childnode>
-        <childnode refid="247" relation="include">
+        <childnode refid="245" relation="include">
         </childnode>
       </node>
       <node id="62">
@@ -3055,35 +3047,35 @@
         </childnode>
         <childnode refid="225" relation="include">
         </childnode>
-        <childnode refid="229" relation="include">
+        <childnode refid="227" relation="include">
         </childnode>
         <childnode refid="182" relation="include">
         </childnode>
-        <childnode refid="231" relation="include">
+        <childnode refid="229" relation="include">
         </childnode>
-        <childnode refid="233" relation="include">
+        <childnode refid="231" relation="include">
         </childnode>
         <childnode refid="79" relation="include">
         </childnode>
-        <childnode refid="235" relation="include">
+        <childnode refid="233" relation="include">
         </childnode>
-        <childnode refid="250" relation="include">
+        <childnode refid="248" relation="include">
         </childnode>
         <childnode refid="163" relation="include">
         </childnode>
+        <childnode refid="249" relation="include">
+        </childnode>
         <childnode refid="251" relation="include">
         </childnode>
+        <childnode refid="252" relation="include">
+        </childnode>
         <childnode refid="253" relation="include">
-        </childnode>
-        <childnode refid="254" relation="include">
-        </childnode>
-        <childnode refid="255" relation="include">
         </childnode>
         <childnode refid="62" relation="include">
         </childnode>
         <childnode refid="158" relation="include">
         </childnode>
-        <childnode refid="256" relation="include">
+        <childnode refid="254" relation="include">
         </childnode>
       </node>
       <node id="54">
@@ -3098,10 +3090,10 @@
       <node id="170">
         <label>GIMIFixer.tpp</label>
       </node>
-      <node id="249">
+      <node id="247">
         <label>GIMIParser.tpp</label>
       </node>
-      <node id="239">
+      <node id="237">
         <label>GIMISectionClassifier.tpp</label>
       </node>
       <node id="75">
@@ -3161,7 +3153,7 @@
       <node id="77">
         <label>IniGraphGroup.tpp</label>
       </node>
-      <node id="241">
+      <node id="239">
         <label>IniParseDownloadData.tpp</label>
       </node>
       <node id="76">
@@ -3194,10 +3186,10 @@
       <node id="196">
         <label>RegIfTemplateAdd.tpp</label>
       </node>
-      <node id="232">
+      <node id="230">
         <label>RegNewVals.tpp</label>
       </node>
-      <node id="234">
+      <node id="232">
         <label>RegRemap.tpp</label>
       </node>
       <node id="169">
@@ -3212,13 +3204,10 @@
       <node id="71">
         <label>SectionIterData.tpp</label>
       </node>
-      <node id="227">
+      <node id="226">
         <label>TexEdit.tpp</label>
       </node>
       <node id="228">
-        <label>TexEditorEdit.tpp</label>
-      </node>
-      <node id="230">
         <label>VGRemapBlendEdit.tpp</label>
       </node>
       <node id="30">
@@ -3406,7 +3395,7 @@
 <codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_restride_edit_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BufRestrideEdit.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_file_add_edit_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_file_download_edit_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_tex_editor_edit_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_tex_edit_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_v_g_remap_blend_edit_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_reg_asset_remap_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_reg_new_vals_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -3864,7 +3853,7 @@
 <codeline lineno="529"><highlight class="normal"></highlight></codeline>
 <codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Ref&amp;<sp/>ref<sp/>:<sp/>refs)<sp/>{</highlight></codeline>
 <codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect" kindref="compound">GraphId</ref><sp/>srcGraph(0,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>ref.graph);</highlight></codeline>
-<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replace<sp/>=<sp/>std::make_unique&lt;TexEditorReplace&lt;&gt;&gt;(</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replace<sp/>=<sp/>std::make_unique&lt;TexReplace&lt;&gt;&gt;(</highlight></codeline>
 <codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect" kindref="compound">GraphId</ref>(0,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>comp_.name<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>ref.res),</highlight></codeline>
 <codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;TexEditor&gt;(std::vector&lt;TexEditor::Filter&gt;{bandEdit(config_,<sp/>comp_.bandMoves)},<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">),<sp/>resEditConfig(),</highlight></codeline>
 <codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;resourceRemapTexEdit&quot;</highlight><highlight class="normal">,<sp/>comp_.target<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;LightMap&quot;</highlight><highlight class="normal">);</highlight></codeline>

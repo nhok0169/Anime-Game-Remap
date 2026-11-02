@@ -10537,22 +10537,24 @@ nothing was ever written.
 
 #### Hand-built, for what the config cannot express
 
-A `ResRegCollect` over the graph, collecting the register, with a **`TexEditorReplace`**
-(`resEdits/TexEditorEdit.h`):
+A `ResRegCollect` over the graph, collecting the register, with a **`TexReplace`**
+(`resEdits/TexEdit.h`; this was `TexEditorReplace` until 2026-11-01, when it was merged into its base):
 
 ```cpp
-faceReplace_ = std::make_unique<TexEditorReplace<>>(
-    faceResGraph, TexEditor({[](TextureFile& tf) { TexEditor::setTransparency(tf, 1); }}),
+faceReplace_ = std::make_unique<TexReplace<>>(
+    faceResGraph,
+    std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{[](TextureFile& tf) { TexEditor::setTransparency(tf, 1); }}),
     makeResEditConfig(), "resourceRemapTexEdit", std::string("FaceDiffuse"));
 
 faceCollect_.srcRegs  = {{faceGraph, "ps-t0"}};
 faceCollect_.resEdits = {{"face", faceReplace_.get()}};
 ```
 
-- **`TexReplace` alone writes nothing from C++.** Exactly like `RemapBlendReplace`, it names
-  everything correctly and does not override `buildResModel`, because the editor that does the work
-  reaches it from Python. `TexEditorReplace` exists for that; using the base gives you a correct
-  `.ini` file naming a texture that was never created. From Python it does write: `TexReplace(
+- **`TexReplace` used to write nothing from C++.** Exactly like `RemapBlendReplace`, it named
+  everything correctly and did not override `buildResModel`, because the editor that did the work
+  reached it from Python; `TexEditorReplace` was written for that, and using the base gave a correct
+  `.ini` file naming a texture that was never created. Since 2026-11-01 the base holds the editor and
+  builds the resource itself (`TexReplace::makeResModel`), and `TexEditorReplace` is gone. From Python it does write: `TexReplace(
   resModObj, editor, fixFunc = f)` where `f` runs a Pillow-engine `TexEditor` over
   `resource.srcPath` into `resource.fixedPath` is how `yelanTranquilFix.py` edits its textures.
   The file is named per SOURCE texture (`YelanHeadDiffuseRemapTex.dds`, no target in it), so one

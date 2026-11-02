@@ -211,33 +211,11 @@
       <node id="44">
         <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
         <link refid="_remap_tex_resource_8h"/>
-        <childnode refid="45" relation="include">
-        </childnode>
-        <childnode refid="47" relation="include">
-        </childnode>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
-        </childnode>
-      </node>
-      <node id="45">
-        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h</label>
-        <link refid="_tex_creator_edit_8h"/>
-        <childnode refid="46" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-      </node>
-      <node id="47">
-        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</label>
-        <link refid="_tex_editor_edit_8h"/>
-        <childnode refid="46" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
         </childnode>
       </node>
       <node id="5">

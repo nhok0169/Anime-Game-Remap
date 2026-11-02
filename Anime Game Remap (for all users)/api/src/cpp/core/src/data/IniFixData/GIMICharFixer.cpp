@@ -40,8 +40,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/PositionEdit.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
@@ -425,7 +424,7 @@ namespace AGRemapCore {
                 // ---- textures this fix rewrites ----
                 //
                 // The same three-part shape as the blend collector -- read buildBlendCollector
-                // first, and TexEditorReplace's own note on why the plain TexReplace silently
+                // first, and TexReplace's own note on why the plain TexReplace silently
                 // writes no file at all when driven from C++.
                 //
                 // One collector per edit rather than one shared: each names a resource graph of its
@@ -458,7 +457,7 @@ namespace AGRemapCore {
                             // (getFixResourceName), never from this graph's mod object.
                             const GraphId resGraph(group, "", texEdit.obj + "RemapTex" + texEdit.name);
 
-                            auto replace = std::make_unique<TexEditorReplace<>>(
+                            auto replace = std::make_unique<TexReplace<>>(
                                 resGraph, std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{texEdit.filter}, texEdit.compress), resEditConfig(),
                                 "resourceRemapTexEdit", texEdit.name);
 
@@ -505,16 +504,16 @@ namespace AGRemapCore {
                             texCollects_.push_back(std::move(collect));
                         }
 
-                        // The CREATED textures, same shape. TexCreatorCreate rather than the
+                        // The CREATED textures, same shape. TexCreate rather than the
                         // plain TexCreate for the same reason the edit above uses
-                        // TexEditorReplace: the core class names things correctly and builds
+                        // TexReplace: the core class names things correctly and builds
                         // no file, and is in fact abstract, since a created resource also has
                         // to build the section naming it.
                         for (const GIMICharFixerConfig::TexAdd& texAdd : config_.texAdds) {
                             const GraphId srcGraph(group, "", texAdd.obj);
                             const GraphId resGraph(group, "", texAdd.obj + "RemapTexAdd");
 
-                            auto create = std::make_unique<TexCreatorCreate<>>(
+                            auto create = std::make_unique<TexCreate<>>(
                                 resGraph, texAdd.name, std::make_shared<TexCreator>(texAdd.texCreator), resEditConfig());
 
                             auto collect = std::make_unique<Collector>();
@@ -1210,8 +1209,8 @@ namespace AGRemapCore {
                 std::unordered_map<ModObj, std::unique_ptr<RegNewVals<>>, Fixer::ModObjHash> newRegVals_;
                 std::unordered_map<ModObj, std::unique_ptr<RegPartEdit<>>, Fixer::ModObjHash> newRegValAdapters_;
 
-                std::vector<std::unique_ptr<TexEditorReplace<>>> texReplaces_;
-                std::vector<std::unique_ptr<TexCreatorCreate<>>> texCreates_;
+                std::vector<std::unique_ptr<TexReplace<>>> texReplaces_;
+                std::vector<std::unique_ptr<TexCreate<>>> texCreates_;
                 std::vector<std::unique_ptr<Collector>> texAddCollects_;
                 std::vector<std::unique_ptr<Collector>> texCollects_;
 

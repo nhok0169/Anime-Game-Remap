@@ -11,7 +11,9 @@ for how these conventions show up in rendered docs.
 side"). A Python class whose binding overrides a core method to do the real work (`TexReplace`'s `buildResModel`
 building the edited texture, `RemapBlendReplace`'s remap read off a Python `ModType`) left a plain C++ caller with an
 edit that renamed everything and wrote nothing -- which is why `TexEditorReplace`, `TexCreatorCreate` and
-`VGRemapBlendReplace` exist. When binding, compare BOTH directions: what the C++ class has that Python lacks, and
+`VGRemapBlendReplace` were written. The first two were then merged back into `TexReplace` / `TexCreate` (2026-11-01):
+each base had that one subclass, so the base itself now holds the editor and builds the resource
+(`makeResModel`), and Python's `TexReplace` / `TexCreate` are bindings of it -- one class per job. When binding, compare BOTH directions: what the C++ class has that Python lacks, and
 what the Python class (fields such as `fixFunc`, overridable methods) has that C++ lacks. Where the two already do one
 job, extend the existing Python class rather than binding a second one beside it.
 

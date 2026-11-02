@@ -12439,6 +12439,20 @@ class IniParseData:
         List[:class:`GraphCollect.Row`]
             The rows
         """
+    def collectedSections(self, name: str) -> list[str]:
+        """
+        The `sections`_ the :class:`GraphCollect` named 'name' has rows in, in the order they are written in the .ini file
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The collect's :attr:`GraphCollect.name`
+        
+        Returns
+        -------
+        List[:class:`str`]
+            The sections
+        """
     def defer(self, fill: typing.Any) -> None:
         """
         Fills the texture data -- :meth:`textureRoles`, :meth:`roleCandidates`, :meth:`roleFile`,
@@ -12738,6 +12752,25 @@ class IniParseData:
         -------
         List[:class:`IniParseData.ResourceRole`]
             The roles
+        """
+    def sectionRows(self, name: str, section: str) -> list[GraphCollect.Row]:
+        """
+        The rows of the :class:`GraphCollect` named 'name' in 'section', in the order they are written: each line once however
+        many graphs reached it, and a key's rows among the section's others rather than grouped by key as a collect files
+        them. Empty for a section with none
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The collect's :attr:`GraphCollect.name`
+        
+        section: :class:`str`
+            The `section`_, as the file names it
+        
+        Returns
+        -------
+        List[:class:`GraphCollect.Row`]
+            The rows
         """
     def setBlendVersion(self, version: str) -> None:
         """
@@ -28224,7 +28257,7 @@ class TexReplace(BaseResEdit):
         Optional[Callable[[:class:`RemapTexEditResource`], :class:`bool`]]: A custom function for editing the texture file
         """
     @fixFunc.setter
-    def fixFunc(self, arg0: typing.Any) -> None:
+    def fixFunc(self, arg1: typing.Any) -> None:
         ...
     @property
     def texEditor(self) -> typing.Any:
@@ -28232,7 +28265,7 @@ class TexReplace(BaseResEdit):
         :class:`CppTexEditor`: The texture editor used to edit the ``.dds`` file
         """
     @texEditor.setter
-    def texEditor(self, arg0: typing.Any) -> None:
+    def texEditor(self, arg1: typing.Any) -> None:
         ...
 class TextureRoleChooser:
     """

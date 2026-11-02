@@ -17,9 +17,13 @@
 #include <functional>
 #include <optional>
 #include <string>
+#include <memory>
 #include <unordered_map>
+#include <vector>
 
+#include "AGRemapCore/model/iniresources/RemapTexResource.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h"
+#include "AGRemapCore/model/strategies/texEditors/BaseTexEditor.h"
 
 
 namespace AGRemapCore {
@@ -32,13 +36,10 @@ namespace AGRemapCore {
      Class that builds the necessary parts to create some new texture file :raw-html:`<br />`
      :raw-html:`<br />`
 
-     .. note::
-        The texture itself is produced by a :cpp:class:`TexCreator`, and the resource model that
-        carries it is a :cpp:class:`RemapTexAddResource`. Neither is built here: the `pybind11`_
-        layer overrides :cpp:func:`BaseResEdit::buildResModel` (to hold the caller's own `Python`_
-        ``TexCreator``) and :cpp:func:`ResCreate::buildSection` (which has to produce a `Python`_
-        -owned `section`_). Everything else -- the numbering and naming of successive textures --
-        lives here
+     The texture is produced by \ref texCreator, and the resource model that carries it is a
+     :cpp:class:`RemapTexAddResource` (#makeResModel). The creator is held through a ``std::shared_ptr`` to its
+     base and shared by every resource built, so a subclass's own :cpp:func:`BaseTexEditor::fix` -- a
+     `Python`_ :class:`TexCreator`'s included -- is the one that runs
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -52,6 +53,8 @@ namespace AGRemapCore {
             using Base = ResCreate<K, V, KeyHash, KeyEqual>;
             using GraphId = typename Base::GraphId;
             using ResEditConfig = typename Base::ResEditConfig;
+            using Context = typename Base::Context;
+            using Section = typename Base::Section;
 
             /**
              * @brief The name for the type of texture
@@ -86,15 +89,67 @@ namespace AGRemapCore {
             std::optional<std::string> fileOfSection(const std::string& sectionName, const std::string& modName) const;
 
             /**
+             * @brief
+             @rst
+             The creator that produces every texture this resource edit adds -- held through its base, so a
+             subclass's :cpp:func:`BaseTexEditor::fix` (a `Python`_ one included) is the one that runs, and
+             shared by every resource built
+             @endrst
+             */
+            std::shared_ptr<BaseTexEditor> texCreator;
+
+            /**
+             * @brief What fixes each built resource in place of running \ref texCreator, or empty. **Default**: empty
+             */
+            std::function<bool(RemapTexAddResource&)> fixFunc;
+
+            /**
              * @brief Constructs a new texture-creating resource edit
              *
              * @param resModObj The mod object to hold the newly created graph for the resource
-             * @param texName The name for the type of texture
+             * @param texName The name the created texture is filed under, eg. ``"NormalMap"``
+             * @param texCreator The creator that produces each texture
              * @param config The domain customization points this instance uses
              * @param resType The name of the type of resource. **Default**: ``"resourceRemapTexAdd"``
              */
-            TexCreate(GraphId resModObj, std::string texName, ResEditConfig config,
-                       std::string resType = "resourceRemapTexAdd");
+            TexCreate(GraphId resModObj, std::string texName, std::shared_ptr<BaseTexEditor> texCreator, ResEditConfig config,
+                      std::string resType = "resourceRemapTexAdd");
+
+            /**
+             * @brief
+             @rst
+             The :cpp:class:`RemapTexAddResource` that runs \ref texCreator (or \ref fixFunc) and writes 'path'
+             @endrst
+             *
+             * @param iniFolder The folder of the ``.ini`` file the resource belongs to
+             * @param path Where the created texture is written
+             * @param resType The name of the type of resource
+             *
+             * @return The resource
+             */
+            std::unique_ptr<RemapTexAddResource> makeResModel(const std::string& iniFolder, const std::string& path,
+                                                              const std::string& resType) const;
+
+            /**
+             * @brief
+             @rst
+             Builds the ``[Resource...]`` `section`_ for a created texture --- a single ``filename =`` `KVP`_ naming
+             the ``.dds`` this edit writes (#fileOfSection), or nothing for a name \ref files does not list
+             @endrst
+             *
+             * @param sectionName The name of the section to build
+             * @param modName The name of the mod being fixed to
+             *
+             * @return The section, owned by this edit
+             */
+            Section* buildSection(const std::string& sectionName, const std::string& modName) override;
+
+            /**
+             * @brief Builds the resource of #makeResModel and files it with 'ctx'
+             */
+            void buildResModel(const std::string& resType, const std::string& srcPath,
+                                const std::string& fixedPath, const std::string& modName,
+                                const std::string& fileKey, Context& ctx) override;
 
             /**
              * @brief Resets the texture counter \ref getFixResourceName advances
@@ -162,6 +217,9 @@ namespace AGRemapCore {
             // modName -> the name already minted for it. One entry in every real fix; the map is
             // what makes asking twice cost nothing rather than costing a file.
             mutable std::unordered_map<std::string, std::string> names_;
+
+            // The sections #buildSection built, cleared with the counter
+            std::vector<std::unique_ptr<Section>> sections_;
     };
     /**
      * @brief
@@ -177,12 +235,9 @@ namespace AGRemapCore {
      resource model it stands for is a :cpp:class:`RemapTexEditResource` (``srcPath`` **and**
      ``fixedPath``), not a :cpp:class:`RemapTexAddResource` :raw-html:`<br />` :raw-html:`<br />`
 
-     .. note::
-        Like :cpp:class:`RemapBlendReplace`, this **does not override**
-        :cpp:func:`BaseResEdit::buildResModel` -- the texture editor that does the work reaches
-        this class from the `Python`_ side, so the `pybind11`_ layer overrides it to build a real
-        :cpp:class:`RemapTexEditResource`. A plain C++ caller wanting the same must override it
-        too; all the naming here works either way
+     The texture is edited by \ref texEditor, held through a ``std::shared_ptr`` to its base and shared by every
+     resource built, so a subclass's own :cpp:func:`BaseTexEditor::fix` -- a `Python`_ :class:`TexEditor`'s
+     included -- is the one that runs (#makeResModel)
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -196,6 +251,7 @@ namespace AGRemapCore {
             using Base = ResReplace<K, V, KeyHash, KeyEqual>;
             using GraphId = typename Base::GraphId;
             using ResEditConfig = typename Base::ResEditConfig;
+            using Context = typename Base::Context;
 
             /**
              * @brief The name of the subtype of the resource, folded into every fixed name
@@ -203,15 +259,55 @@ namespace AGRemapCore {
             std::optional<std::string> resSubType;
 
             /**
-             * @brief Constructs a new texture-editing resource edit
+             * @brief
+             @rst
+             The editor run over every texture this resource edit collects -- held through its base, so a
+             subclass's :cpp:func:`BaseTexEditor::fix` (a `Python`_ one included) is the one that runs, and
+             shared by every resource built
+             @endrst
+             */
+            std::shared_ptr<BaseTexEditor> texEditor;
+
+            /**
+             * @brief What fixes each built resource in place of running \ref texEditor, or empty. **Default**: empty
+             */
+            std::function<bool(RemapTexEditResource&)> fixFunc;
+
+            /**
+             * @brief Constructs a new editing texture resource edit
              *
              * @param resModObj The mod object to hold the newly created graph for the resource
+             * @param texEditor The editor to run over each collected texture
              * @param config The domain customization points this instance uses
              * @param resType The name of the type of resource. **Default**: ``"resourceRemapTexEdit"``
-             * @param resSubType The name of the subtype of the resource. **Default**: none
+             * @param resSubType The name of the subtype of the resource, folded into every fixed name. **Default**: none
              */
-            TexReplace(GraphId resModObj, ResEditConfig config, std::string resType = "resourceRemapTexEdit",
-                        std::optional<std::string> resSubType = std::nullopt);
+            TexReplace(GraphId resModObj, std::shared_ptr<BaseTexEditor> texEditor, ResEditConfig config,
+                       std::string resType = "resourceRemapTexEdit", std::optional<std::string> resSubType = std::nullopt);
+
+            /**
+             * @brief
+             @rst
+             The :cpp:class:`RemapTexEditResource` that reads 'srcPath', runs \ref texEditor (or \ref fixFunc) over it
+             and writes 'fixedPath'
+             @endrst
+             *
+             * @param iniFolder The folder of the ``.ini`` file the resource belongs to
+             * @param srcPath The texture to read
+             * @param fixedPath Where the edited texture is written
+             * @param resType The name of the type of resource
+             *
+             * @return The resource
+             */
+            std::unique_ptr<RemapTexEditResource> makeResModel(const std::string& iniFolder, const std::string& srcPath,
+                                                               const std::string& fixedPath, const std::string& resType) const;
+
+            /**
+             * @brief Builds the resource of #makeResModel and files it with 'ctx'
+             */
+            void buildResModel(const std::string& resType, const std::string& srcPath,
+                                const std::string& fixedPath, const std::string& modName,
+                                const std::string& fileKey, Context& ctx) override;
 
             /**
              * @brief

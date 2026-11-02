@@ -17,6 +17,7 @@
 #include "AGRemapCore/tools/ListTools.h"
 #include "AGRemapCore/tools/StringTools.h"
 
+#include <set>
 #include <algorithm>
 #include <tuple>
 
@@ -270,6 +271,7 @@ namespace AGRemapCore {
         thisToggles_.clear();
         registerToggles_.clear();
         collected_.clear();
+        sectionIndexes_.clear();
         fill_ = nullptr;
     }
 
@@ -499,6 +501,54 @@ namespace AGRemapCore {
 
     void IniParseData::setCollected(const std::string& name, std::vector<CollectedRow> rows) {
         collected_.insert_or_assign(name, std::move(rows));
+        sectionIndexes_.erase(name);
+    }
+
+    const IniParseData::SectionIndex& IniParseData::sectionIndex(const std::string& name) const {
+        const std::vector<CollectedRow>& rows = collected(name);
+        const auto found = sectionIndexes_.find(name);
+        if (found != sectionIndexes_.end()) {
+            return found->second;
+        }
+
+        // A collect files its rows key by key, so they are put back in the order of their parts, whose ids are
+        // handed out as the file is parsed -- which orders the sections too
+        SectionIndex& index = sectionIndexes_[name];
+        std::set<std::tuple<std::string, std::size_t, long long>> seen;
+        for (const CollectedRow& row : rows) {
+            if (!seen.emplace(row.section, row.partId, row.line).second) {
+                continue;
+            }
+
+            auto& sectionRows = index.rows[row.section];
+            if (sectionRows.empty()) {
+                index.order.push_back(row.section);
+            }
+            sectionRows.push_back(&row);
+        }
+
+        const auto written = [](const CollectedRow* a, const CollectedRow* b) {
+            return std::make_pair(a->partId, a->line) < std::make_pair(b->partId, b->line);
+        };
+        for (auto& entry : index.rows) {
+            std::stable_sort(entry.second.begin(), entry.second.end(), written);
+        }
+        std::stable_sort(index.order.begin(), index.order.end(), [&index, &written](const std::string& a, const std::string& b) {
+            return written(index.rows.at(a).front(), index.rows.at(b).front());
+        });
+        return index;
+    }
+
+    const std::vector<std::string>& IniParseData::collectedSections(const std::string& name) const {
+        return sectionIndex(name).order;
+    }
+
+    const std::vector<const IniParseData::CollectedRow*>& IniParseData::sectionRows(const std::string& name,
+                                                                                  const std::string& section) const {
+        static const std::vector<const CollectedRow*> none;
+        const SectionIndex& index = sectionIndex(name);
+        const auto found = index.rows.find(section);
+        return found == index.rows.end() ? none : found->second;
     }
 
     void IniParseData::defer(Filler fill) {

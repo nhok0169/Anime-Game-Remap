@@ -19,16 +19,49 @@
 
 #include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/constants/IniKeywords.h"
+#include "../../../../../tools/PyRefFunction.h"
+
+
+namespace {
+
+    // The C++ editor a Python TexEditor / TexCreator is -- the same object, held through its base
+    std::shared_ptr<AGRC::BaseTexEditor> editorOf(const py::object& editor) {
+        return editor.is_none() ? nullptr : editor.cast<std::shared_ptr<AGRC::BaseTexEditor>>();
+    }
+
+    // A Python function as the core class's fixFunc, or none
+    template <typename Resource>
+    std::function<bool(Resource&)> fixFuncOf(const py::object& fixFunc) {
+        if (fixFunc.is_none()) {
+            return {};
+        }
+        return toPyRefFunction<bool(Resource&)>(fixFunc);
+    }
+
+}
 
 
 PyTexCreate::PyTexCreate(py::object resModObj, std::string texName, py::object texCreator, std::string resType,
                           py::object fixFunc):
     PyResCreateMixin<AGRC::TexCreate<std::string, std::string>>(
-        PyBaseResEditCore::GraphId(), std::move(texName), makeResEditConfig(), std::move(resType)),
-    texCreator(std::move(texCreator)), fixFunc(std::move(fixFunc)) {
+        PyBaseResEditCore::GraphId(), std::move(texName), editorOf(texCreator), makeResEditConfig(), std::move(resType)),
+    texCreatorObj(std::move(texCreator)) {
+    setFixFunc(std::move(fixFunc));
     resModObjObj = std::move(resModObj);
     graphReplaceModeObj = py::none();
     refresh();
+}
+
+
+void PyTexCreate::setTexCreator(py::object creator) {
+    this->texCreator = editorOf(creator);
+    texCreatorObj = std::move(creator);
+}
+
+
+void PyTexCreate::setFixFunc(py::object fixFunc) {
+    this->fixFunc = fixFuncOf<AGRC::RemapTexAddResource>(fixFunc);
+    fixFuncObj = std::move(fixFunc);
 }
 
 
@@ -91,15 +124,15 @@ fixFunc: Optional[Callable[[:class:`RemapTexAddResource`], :class:`bool`]]
     )doc"));
 
     cls.def_property("texCreator", [](const PyTexCreate &self) {
-        return self.texCreator;
+        return self.texCreatorObj;
     }, [](PyTexCreate &self, py::object texCreator) {
-        self.texCreator = std::move(texCreator);
+        self.setTexCreator(std::move(texCreator));
     }, py::doc(R"doc(:class:`TexCreator`: The editor for the texture file)doc"));
 
     cls.def_property("fixFunc", [](const PyTexCreate &self) {
-        return self.fixFunc;
+        return self.fixFuncObj;
     }, [](PyTexCreate &self, py::object fixFunc) {
-        self.fixFunc = std::move(fixFunc);
+        self.setFixFunc(std::move(fixFunc));
     }, py::doc(R"doc(
 Optional[Callable[[:class:`RemapTexAddResource`], :class:`bool`]]: The custom function for creating
 the texture
@@ -123,11 +156,8 @@ default), every collected resource is renamed from the mod's name and the textur
             return py::none();
         }
 
-        // Unlike RemapBlendReplace's, this one really does use the 'resType' *argument* rather than
-        // the attribute -- faithful to the pure-Python original, which differs between the two.
-        return pyCoreModule().attr("RemapTexAddResource")(ini.attr("folder"), py::str(srcPath), self.texCreator,
-                                                           py::arg("type") = py::str(resType),
-                                                           py::arg("fixFunc") = self.fixFunc);
+        // The 'resType' ARGUMENT, as the core class's own buildResModel uses it
+        return py::cast(self.makeResModel(py::str(ini.attr("folder")).cast<std::string>(), srcPath, resType));
     }, py::arg("resType"), py::arg("ini"), py::arg("srcPath"), py::arg("modType") = py::none(), py::kw_only(),
        py::arg("modName") = "", py::doc(R"doc(
 Builds the model for the resource
@@ -226,11 +256,24 @@ namespace {
 PyTexReplace::PyTexReplace(py::object resModObj, py::object texEditor, std::string resType, py::object fixFunc,
                             const py::object &resSubType):
     PyResEditMixin<AGRC::TexReplace<std::string, std::string>>(
-        PyBaseResEditCore::GraphId(), makeResEditConfig(), std::move(resType), parseOptionalSubType(resSubType)),
-    texEditor(std::move(texEditor)), fixFunc(std::move(fixFunc)) {
+        PyBaseResEditCore::GraphId(), editorOf(texEditor), makeResEditConfig(), std::move(resType), parseOptionalSubType(resSubType)),
+    texEditorObj(std::move(texEditor)) {
+    setFixFunc(std::move(fixFunc));
     resModObjObj = std::move(resModObj);
     graphReplaceModeObj = py::none();
     refresh();
+}
+
+
+void PyTexReplace::setTexEditor(py::object editor) {
+    this->texEditor = editorOf(editor);
+    texEditorObj = std::move(editor);
+}
+
+
+void PyTexReplace::setFixFunc(py::object fixFunc) {
+    this->fixFunc = fixFuncOf<AGRC::RemapTexEditResource>(fixFunc);
+    fixFuncObj = std::move(fixFunc);
 }
 
 
@@ -292,11 +335,13 @@ resSubType: Optional[:class:`str`]
             py::arg("resModObj"), py::arg("texEditor"), py::arg("resType") = "resourceRemapTexEdit",
             py::arg("fixFunc") = py::none(), py::arg("resSubType") = py::none());
 
-    cls.def_readwrite("texEditor", &PyTexReplace::texEditor, py::doc(R"doc(
+    cls.def_property("texEditor", [](const PyTexReplace &self) { return self.texEditorObj; },
+                     [](PyTexReplace &self, py::object editor) { self.setTexEditor(std::move(editor)); }, py::doc(R"doc(
 :class:`CppTexEditor`: The texture editor used to edit the ``.dds`` file
     )doc"));
 
-    cls.def_readwrite("fixFunc", &PyTexReplace::fixFunc, py::doc(R"doc(
+    cls.def_property("fixFunc", [](const PyTexReplace &self) { return self.fixFuncObj; },
+                     [](PyTexReplace &self, py::object fixFunc) { self.setFixFunc(std::move(fixFunc)); }, py::doc(R"doc(
 Optional[Callable[[:class:`RemapTexEditResource`], :class:`bool`]]: A custom function for editing the texture file
     )doc"));
 
@@ -309,9 +354,7 @@ Optional[Callable[[:class:`RemapTexEditResource`], :class:`bool`]]: A custom fun
             return py::none();
         }
 
-        return pyCoreModule().attr("RemapTexEditResource")(ini.attr("folder"), py::str(srcPath), py::str(fixedPath),
-                                                            self.texEditor, py::arg("type") = py::str(resType),
-                                                            py::arg("fixFunc") = self.fixFunc);
+        return py::cast(self.makeResModel(py::str(ini.attr("folder")).cast<std::string>(), srcPath, fixedPath, resType));
     }, py::arg("resType"), py::arg("ini"), py::arg("srcPath"), py::arg("fixedPath"),
        py::arg("modType") = py::none(), py::kw_only(), py::arg("modName") = "", py::doc(R"doc(
 Builds the model for the resource

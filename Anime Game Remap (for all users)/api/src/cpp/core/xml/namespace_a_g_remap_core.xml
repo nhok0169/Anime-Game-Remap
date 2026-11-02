@@ -395,9 +395,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_texcoord_file" prot="public">AGRemapCore::TexcoordFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_create" prot="public">AGRemapCore::TexCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_creator" prot="public">AGRemapCore::TexCreator</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_tex_creator_create" prot="public">AGRemapCore::TexCreatorCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_editor" prot="public">AGRemapCore::TexEditor</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_tex_editor_replace" prot="public">AGRemapCore::TexEditorReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_fx_layout" prot="public">AGRemapCore::TexFxLayout</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_reg_layout" prot="public">AGRemapCore::TexRegLayout</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_replace" prot="public">AGRemapCore::TexReplace</innerclass>

@@ -709,10 +709,6 @@ Retrieves a unique id for a file within a single ``.ini`` file :raw-html:`&lt;br
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_position_replace_1ae55c86a77c6c4789314ba05abbaed4fb">getFixFile</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_position_replace_1ae55c86a77c6c4789314ba05abbaed4fb">getFixFile</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1aafa6e29d38eecf64e74fd44ce4cd3a9e">getFixFile</reimplementedby>
-        <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1aafa6e29d38eecf64e74fd44ce4cd3a9e">getFixFile</reimplementedby>
-        <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1aafa6e29d38eecf64e74fd44ce4cd3a9e">getFixFile</reimplementedby>
-        <reimplementedby refid="class_a_g_remap_core_1_1_tex_replace_1ac7b9c3675eb486a67c97b3bfd0110ebf">getFixFile</reimplementedby>
-        <reimplementedby refid="class_a_g_remap_core_1_1_tex_replace_1ac7b9c3675eb486a67c97b3bfd0110ebf">getFixFile</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_replace_1ac7b9c3675eb486a67c97b3bfd0110ebf">getFixFile</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
@@ -775,8 +771,6 @@ Retrieves a unique id for a file within a single ``.ini`` file :raw-html:`&lt;br
         <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
-        <reimplementedby refid="class_a_g_remap_core_1_1_tex_creator_create_1aefb6a3e913c7222d48002c45525fb188">buildResModel</reimplementedby>
-        <reimplementedby refid="class_a_g_remap_core_1_1_tex_editor_replace_1a13523094851d8903d6effed1852b6a31">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af55f08fc5b17f2adf0888a17439745f2">buildResModel</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
@@ -1235,7 +1229,7 @@ Creates a brand new file of contents the fix already knows -- eg. the constant b
 ``CustomShader`` reads -- together with the ``[Resource...]`` `section`_ that names it
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Use it through :cpp:class:`ResRegCollect`, as :cpp:class:`TexCreatorCreate` is: the collect finds
+Use it through :cpp:class:`ResRegCollect`, as :cpp:class:`TexCreate` is: the collect finds
 the register naming the resource (eg. ``ps-cb4 = ResourceShaderCB4``), and this edit builds the
 `section`_ of that name from \ref files and a :cpp:class:`RemapFileAddResource` that writes the
 file

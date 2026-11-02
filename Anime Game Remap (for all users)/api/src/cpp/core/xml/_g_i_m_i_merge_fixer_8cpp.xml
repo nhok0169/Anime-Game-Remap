@@ -62,7 +62,7 @@
     <includes refid="_res_reg_collect_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h</includes>
     <includes refid="_v_g_merge_group_res_builder_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h</includes>
     <includes refid="_buf_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BufEdit.h</includes>
-    <includes refid="_tex_editor_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</includes>
+    <includes refid="_tex_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h</includes>
     <includes refid="_reg_asset_remap_8h" local="yes">AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h</includes>
     <includes refid="_list_value_8h" local="yes">AGRemapCore/model/iftemplate/ListValue.h</includes>
     <includes refid="_reg_anchor_add_8h" local="yes">AGRemapCore/model/strategies/iniFixers/regEdits/RegAnchorAdd.h</includes>
@@ -197,7 +197,7 @@
         <label>AGRemapCore/constants/RegFillMissingMode.h</label>
         <link refid="_reg_fill_missing_mode_8h"/>
       </node>
-      <node id="253">
+      <node id="251">
         <label>AGRemapCore/data/HashToModObjData.h</label>
         <link refid="_hash_to_mod_obj_data_8h"/>
         <childnode refid="59" relation="include">
@@ -1161,7 +1161,7 @@
         <childnode refid="84" relation="include">
         </childnode>
       </node>
-      <node id="243">
+      <node id="241">
         <label>AGRemapCore/model/iftemplate/ListValue.h</label>
         <link refid="_list_value_8h"/>
         <childnode refid="16" relation="include">
@@ -2169,7 +2169,7 @@
         <childnode refid="210" relation="include">
         </childnode>
       </node>
-      <node id="240">
+      <node id="237">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h</label>
         <link refid="_tex_edit_8h"/>
         <childnode refid="4" relation="include">
@@ -2178,27 +2178,19 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="207" relation="include">
-        </childnode>
-        <childnode refid="241" relation="include">
-        </childnode>
-      </node>
-      <node id="237">
-        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</label>
-        <link refid="_tex_editor_edit_8h"/>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="238" relation="include">
         </childnode>
+        <childnode refid="207" relation="include">
+        </childnode>
+        <childnode refid="105" relation="include">
+        </childnode>
         <childnode refid="240" relation="include">
-        </childnode>
-        <childnode refid="104" relation="include">
-        </childnode>
-        <childnode refid="242" relation="include">
         </childnode>
       </node>
       <node id="115">
@@ -2219,7 +2211,7 @@
         <childnode refid="117" relation="include">
         </childnode>
       </node>
-      <node id="244">
+      <node id="242">
         <label>AGRemapCore/model/strategies/iniFixers/regEdits/RegAnchorAdd.h</label>
         <link refid="_reg_anchor_add_8h"/>
         <childnode refid="4" relation="include">
@@ -2234,7 +2226,7 @@
         </childnode>
         <childnode refid="115" relation="include">
         </childnode>
-        <childnode refid="245" relation="include">
+        <childnode refid="243" relation="include">
         </childnode>
       </node>
       <node id="203">
@@ -2327,7 +2319,7 @@
         <childnode refid="102" relation="include">
         </childnode>
       </node>
-      <node id="251">
+      <node id="249">
         <label>AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
         <link refid="_g_i_m_i_parser_8h"/>
         <childnode refid="16" relation="include">
@@ -2374,20 +2366,20 @@
         </childnode>
         <childnode refid="93" relation="include">
         </childnode>
-        <childnode refid="252" relation="include">
+        <childnode refid="250" relation="include">
         </childnode>
-        <childnode refid="249" relation="include">
+        <childnode refid="247" relation="include">
         </childnode>
-        <childnode refid="248" relation="include">
+        <childnode refid="246" relation="include">
         </childnode>
         <childnode refid="230" relation="include">
         </childnode>
         <childnode refid="144" relation="include">
         </childnode>
-        <childnode refid="255" relation="include">
+        <childnode refid="253" relation="include">
         </childnode>
       </node>
-      <node id="252">
+      <node id="250">
         <label>AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</label>
         <link refid="_g_i_m_i_section_classifier_8h"/>
         <childnode refid="16" relation="include">
@@ -2408,7 +2400,7 @@
         </childnode>
         <childnode refid="153" relation="include">
         </childnode>
-        <childnode refid="253" relation="include">
+        <childnode refid="251" relation="include">
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
@@ -2420,9 +2412,9 @@
         </childnode>
         <childnode refid="73" relation="include">
         </childnode>
-        <childnode refid="249" relation="include">
+        <childnode refid="247" relation="include">
         </childnode>
-        <childnode refid="254" relation="include">
+        <childnode refid="252" relation="include">
         </childnode>
       </node>
       <node id="230">
@@ -2447,7 +2439,7 @@
         <childnode refid="93" relation="include">
         </childnode>
       </node>
-      <node id="249">
+      <node id="247">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseContext.h</label>
         <link refid="_ini_parse_context_8h"/>
         <childnode refid="4" relation="include">
@@ -2501,7 +2493,7 @@
         <childnode refid="101" relation="include">
         </childnode>
       </node>
-      <node id="248">
+      <node id="246">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
         <link refid="_ini_parse_download_data_8h"/>
         <childnode refid="4" relation="include">
@@ -2520,11 +2512,11 @@
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="249" relation="include">
+        <childnode refid="247" relation="include">
         </childnode>
         <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="250" relation="include">
+        <childnode refid="248" relation="include">
         </childnode>
       </node>
       <node id="101">
@@ -2637,7 +2629,7 @@
         <childnode refid="148" relation="include">
         </childnode>
       </node>
-      <node id="247">
+      <node id="245">
         <label>AGRemapCore/tools/DownloadTools.h</label>
         <link refid="_download_tools_8h"/>
         <childnode refid="10" relation="include">
@@ -2648,9 +2640,9 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="248" relation="include">
+        <childnode refid="246" relation="include">
         </childnode>
-        <childnode refid="251" relation="include">
+        <childnode refid="249" relation="include">
         </childnode>
       </node>
       <node id="87">
@@ -2717,7 +2709,7 @@
         <childnode refid="146" relation="include">
         </childnode>
       </node>
-      <node id="246">
+      <node id="244">
         <label>AGRemapCore/tools/StringTools.h</label>
         <link refid="_string_tools_8h"/>
         <childnode refid="5" relation="include">
@@ -3164,9 +3156,9 @@
         </childnode>
         <childnode refid="203" relation="include">
         </childnode>
-        <childnode refid="243" relation="include">
+        <childnode refid="241" relation="include">
         </childnode>
-        <childnode refid="244" relation="include">
+        <childnode refid="242" relation="include">
         </childnode>
         <childnode refid="114" relation="include">
         </childnode>
@@ -3176,9 +3168,9 @@
         </childnode>
         <childnode refid="93" relation="include">
         </childnode>
-        <childnode refid="246" relation="include">
+        <childnode refid="244" relation="include">
         </childnode>
-        <childnode refid="247" relation="include">
+        <childnode refid="245" relation="include">
         </childnode>
       </node>
       <node id="69">
@@ -3190,10 +3182,10 @@
       <node id="191">
         <label>GIMIObjPartFilter.tpp</label>
       </node>
-      <node id="255">
+      <node id="253">
         <label>GIMIParser.tpp</label>
       </node>
-      <node id="254">
+      <node id="252">
         <label>GIMISectionClassifier.tpp</label>
       </node>
       <node id="89">
@@ -3247,7 +3239,7 @@
       <node id="91">
         <label>IniGraphGroup.tpp</label>
       </node>
-      <node id="250">
+      <node id="248">
         <label>IniParseDownloadData.tpp</label>
       </node>
       <node id="90">
@@ -3274,7 +3266,7 @@
       <node id="56">
         <label>Ranges.tpp</label>
       </node>
-      <node id="245">
+      <node id="243">
         <label>RegAnchorAdd.tpp</label>
       </node>
       <node id="204">
@@ -3313,11 +3305,8 @@
       <node id="86">
         <label>SectionIterData.tpp</label>
       </node>
-      <node id="241">
+      <node id="240">
         <label>TexEdit.tpp</label>
-      </node>
-      <node id="242">
-        <label>TexEditorEdit.tpp</label>
       </node>
       <node id="45">
         <label>algorithm</label>
@@ -3490,7 +3479,7 @@
 <codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_res_reg_collect_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_v_g_merge_group_res_builder_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_edit_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BufEdit.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_tex_editor_edit_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_tex_edit_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_reg_asset_remap_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="77"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_list_value_8h" kindref="compound">AGRemapCore/model/iftemplate/ListValue.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="78"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_reg_anchor_add_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/regEdits/RegAnchorAdd.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -4997,7 +4986,7 @@
 <codeline lineno="1587"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>reg<sp/>=<sp/>byNameOf(repFiles)</highlight></codeline>
 <codeline lineno="1588"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/>targetDiffuseReg()<sp/>:<sp/>(normalMap<sp/>?<sp/>NormalShiftedDiffuseReg<sp/>:<sp/>DiffuseReg);</highlight></codeline>
 <codeline lineno="1589"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1590"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replace<sp/>=<sp/>std::make_unique&lt;TexEditorReplace&lt;&gt;&gt;(</highlight></codeline>
+<codeline lineno="1590"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replace<sp/>=<sp/>std::make_unique&lt;TexReplace&lt;&gt;&gt;(</highlight></codeline>
 <codeline lineno="1591"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect" kindref="compound">GraphId</ref>(0,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>obj<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;RemapTexDiffuse&quot;</highlight><highlight class="normal">),</highlight></codeline>
 <codeline lineno="1592"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;TexEditor&gt;(std::vector&lt;TexEditor::Filter&gt;{*filter},<sp/>config_.compressTextures,<sp/>config_.mipmaps),<sp/>resEditConfig(),</highlight></codeline>
 <codeline lineno="1593"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;resourceRemapTexEdit&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Diffuse&quot;</highlight><highlight class="normal">));</highlight></codeline>
@@ -5026,7 +5015,7 @@
 <codeline lineno="1616"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>reg<sp/>=<sp/>byNameOf(files)</highlight></codeline>
 <codeline lineno="1617"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/>targetDiffuseReg()<sp/>:<sp/>(normalMap<sp/>?<sp/>NormalShiftedDiffuseReg<sp/>:<sp/>DiffuseReg);</highlight></codeline>
 <codeline lineno="1618"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1619"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replace<sp/>=<sp/>std::make_unique&lt;TexEditorReplace&lt;&gt;&gt;(</highlight></codeline>
+<codeline lineno="1619"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replace<sp/>=<sp/>std::make_unique&lt;TexReplace&lt;&gt;&gt;(</highlight></codeline>
 <codeline lineno="1620"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect" kindref="compound">GraphId</ref>(0,<sp/>member.first,<sp/>member.second<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;RemapTexDiffuse&quot;</highlight><highlight class="normal">),</highlight></codeline>
 <codeline lineno="1621"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;TexEditor&gt;(std::vector&lt;TexEditor::Filter&gt;{*filter},<sp/>config_.compressTextures,<sp/>config_.mipmaps),<sp/>resEditConfig(),</highlight></codeline>
 <codeline lineno="1622"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;resourceRemapTexEdit&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Diffuse&quot;</highlight><highlight class="normal">));</highlight></codeline>
@@ -5069,7 +5058,7 @@
 <codeline lineno="1659"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>reg<sp/>=<sp/>byNameOf(files)</highlight></codeline>
 <codeline lineno="1660"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/>targetLightMapReg()<sp/>:<sp/>(normalMap<sp/>?<sp/>NormalShiftedLightMapReg<sp/>:<sp/>LightMapReg);</highlight></codeline>
 <codeline lineno="1661"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1662"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replace<sp/>=<sp/>std::make_unique&lt;TexEditorReplace&lt;&gt;&gt;(</highlight></codeline>
+<codeline lineno="1662"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replace<sp/>=<sp/>std::make_unique&lt;TexReplace&lt;&gt;&gt;(</highlight></codeline>
 <codeline lineno="1663"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect" kindref="compound">GraphId</ref>(0,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>obj<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;RemapTexLightMap&quot;</highlight><highlight class="normal">),</highlight></codeline>
 <codeline lineno="1664"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;TexEditor&gt;(std::vector&lt;TexEditor::Filter&gt;{filter},<sp/>config_.compressTextures,<sp/>config_.mipmaps),<sp/>resEditConfig(),</highlight></codeline>
 <codeline lineno="1665"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;resourceRemapTexEdit&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;LightMap&quot;</highlight><highlight class="normal">));</highlight></codeline>
@@ -5128,7 +5117,7 @@
 <codeline lineno="1718"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>reg<sp/>=<sp/>byNameOf(files)</highlight></codeline>
 <codeline lineno="1719"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/>targetLightMapReg()<sp/>:<sp/>(normalMap<sp/>?<sp/>NormalShiftedLightMapReg<sp/>:<sp/>LightMapReg);</highlight></codeline>
 <codeline lineno="1720"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1721"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replace<sp/>=<sp/>std::make_unique&lt;TexEditorReplace&lt;&gt;&gt;(</highlight></codeline>
+<codeline lineno="1721"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>replace<sp/>=<sp/>std::make_unique&lt;TexReplace&lt;&gt;&gt;(</highlight></codeline>
 <codeline lineno="1722"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect" kindref="compound">GraphId</ref>(0,<sp/>member.first,<sp/>member.second<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;RemapTexLightMap&quot;</highlight><highlight class="normal">),</highlight></codeline>
 <codeline lineno="1723"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;TexEditor&gt;(std::vector&lt;TexEditor::Filter&gt;{filter},<sp/>config_.compressTextures,<sp/>config_.mipmaps),<sp/>resEditConfig(),</highlight></codeline>
 <codeline lineno="1724"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;resourceRemapTexEdit&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;LightMap&quot;</highlight><highlight class="normal">));</highlight></codeline>
@@ -6593,7 +6582,7 @@
 <codeline lineno="3183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;GraphPartEdit&lt;&gt;&gt;&gt;<sp/>borrowAdapters_;</highlight></codeline>
 <codeline lineno="3184"><highlight class="normal"></highlight></codeline>
 <codeline lineno="3185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Fixer::GroupEdit*&gt;<sp/>texGroupEdits_;</highlight></codeline>
-<codeline lineno="3186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;TexEditorReplace&lt;&gt;&gt;&gt;<sp/>texReplaces_;</highlight></codeline>
+<codeline lineno="3186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;TexReplace&lt;&gt;&gt;&gt;<sp/>texReplaces_;</highlight></codeline>
 <codeline lineno="3187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;Collector&gt;&gt;<sp/>texCollects_;</highlight></codeline>
 <codeline lineno="3188"><highlight class="normal"></highlight></codeline>
 <codeline lineno="3189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;VGMergeGroupResBuilder&gt;<sp/>builder_;</highlight></codeline>

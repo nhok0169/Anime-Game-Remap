@@ -189,6 +189,20 @@ ps-t0 = ResourceE
         self.assertIsNone(data.firstCollected("body", "TextureOverrideBody", "ps-t2"))
         self.assertIsNone(data.firstCollected("other", "TextureOverrideBody", "ps-t1"))
 
+    def test_collectedSections_inTheOrderTheyAreWritten(self):
+        parser = self.parseWith([FRB.GraphCollect({self.Body: ["ps-t2", "ps-t1"]}, name = "body")])
+        self.assertEqual(parser.parseData.collectedSections("body"), ["TextureOverrideBody", "CommandListBody"])
+        self.assertEqual(parser.parseData.collectedSections("other"), [])
+
+    def test_sectionRows_asWritten_notGroupedByKey(self):
+        parser = self.parseWith([FRB.GraphCollect({self.Body: ["ps-t3", "ps-t0", "ps-t1"]}, name = "body")])
+        rows = parser.parseData.sectionRows("body", "TextureOverrideBody")
+
+        # the collect files ps-t3's row before ps-t0's; as written, ps-t0 comes first
+        self.assertEqual([(row.key, row.value) for row in rows],
+                         [("ps-t0", "ResourceA"), ("ps-t1", "ResourceB"), ("ps-t3", "ResourceE"), ("ps-t1", "ResourceC")])
+        self.assertEqual(parser.parseData.sectionRows("body", "NoSuchSection"), [])
+
     # ====================== context ============================================
 
     def test_context_aValueSetInTheCallerBeforeRun_isCarriedWithNoLine(self):

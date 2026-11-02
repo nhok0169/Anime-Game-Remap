@@ -462,6 +462,43 @@ Returns
 List[:class:`GraphCollect.Row`]
     The rows
        )doc")
+       .def("collectedSections", &AGRC::IniParseData::collectedSections, py::arg("name"), py::return_value_policy::copy, R"doc(
+The `sections`_ the :class:`GraphCollect` named 'name' has rows in, in the order they are written in the .ini file
+
+Parameters
+----------
+name: :class:`str`
+    The collect's :attr:`GraphCollect.name`
+
+Returns
+-------
+List[:class:`str`]
+    The sections
+       )doc")
+       .def("sectionRows", [](const AGRC::IniParseData& self, const std::string& name, const std::string& section) {
+                std::vector<AGRC::IniParseData::CollectedRow> rows;
+                for (const AGRC::IniParseData::CollectedRow* row : self.sectionRows(name, section)) {
+                    rows.push_back(*row);
+                }
+                return rows;
+            }, py::arg("name"), py::arg("section"), R"doc(
+The rows of the :class:`GraphCollect` named 'name' in 'section', in the order they are written: each line once however
+many graphs reached it, and a key's rows among the section's others rather than grouped by key as a collect files
+them. Empty for a section with none
+
+Parameters
+----------
+name: :class:`str`
+    The collect's :attr:`GraphCollect.name`
+
+section: :class:`str`
+    The `section`_, as the file names it
+
+Returns
+-------
+List[:class:`GraphCollect.Row`]
+    The rows
+       )doc")
        .def("firstCollected", [](const AGRC::IniParseData& self, const std::string& name, const std::string& section,
                                  const std::string& key) -> std::optional<AGRC::IniParseData::CollectedRow> {
                 const AGRC::IniParseData::CollectedRow* row = self.firstCollected(name, section, key);

@@ -654,6 +654,30 @@ namespace AGRemapCore {
             const CollectedRow* firstCollected(const std::string& name, const std::string& section, const std::string& key) const;
 
             /**
+             * @brief
+             @rst
+             The `sections`_ the :cpp:class:`GraphCollect` named 'name' has rows in, in the order they are written in the
+             ``.ini`` file
+             @endrst
+             *
+             * @param name The collect's :cpp:member:`GraphCollect::name`
+             */
+            const std::vector<std::string>& collectedSections(const std::string& name) const;
+
+            /**
+             * @brief
+             @rst
+             The rows of the :cpp:class:`GraphCollect` named 'name' in 'section', in the order they are written: each line
+             once however many graphs reached it, and a key's rows among the section's others rather than grouped by key
+             as a collect files them. Empty for a section with none
+             @endrst
+             *
+             * @param name The collect's :cpp:member:`GraphCollect::name`
+             * @param section The `section`_, as the file names it
+             */
+            const std::vector<const CollectedRow*>& sectionRows(const std::string& name, const std::string& section) const;
+
+            /**
              * @brief Files 'rows' under 'name', replacing what was filed there -- see #collected
              *
              * @param name The name
@@ -764,6 +788,14 @@ namespace AGRemapCore {
             std::map<std::string, TextureToggle> thisToggles_;
             std::map<std::string, TextureToggle> registerToggles_;
             std::map<std::string, std::vector<CollectedRow>> collected_;
+
+            // A collect's rows by section, in written order -- built on the first ask, dropped when the rows change
+            struct SectionIndex {
+                std::vector<std::string> order;
+                std::map<std::string, std::vector<const CollectedRow*>> rows;
+            };
+            const SectionIndex& sectionIndex(const std::string& name) const;
+            mutable std::map<std::string, SectionIndex> sectionIndexes_;
             mutable Filler fill_;
     };
 }

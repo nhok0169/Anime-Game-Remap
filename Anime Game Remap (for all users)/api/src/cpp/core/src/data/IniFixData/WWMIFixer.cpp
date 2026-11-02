@@ -93,8 +93,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h"
@@ -1085,7 +1084,7 @@ namespace AGRemapCore {
                     // (The skeleton block re-declares the bone-data marker, which a mod that has its own
                     // already carries as a remapped section of the same name and text: a group renders a
                     // section of one name and text once -- see TemplateFixer::addFixSection.)
-                    for (const std::string& section : sectionRows().order) {
+                    for (const std::string& section : ownSections()) {
                         if (StringTools::startsWith(section, IniKeywords::TextureOverride)) {
                             this->copyHiddenSectionNames.insert(section);
                         }
@@ -1358,7 +1357,7 @@ namespace AGRemapCore {
                 // declared more than once is ONE section, as 3DMigoto merges it (Changli4 has three, the
                 // reset in the second) -- see IniFile::mergesRepeatedSection.
                 bool presentResetsObjectDetected() const {
-                    for (const std::string& section : sectionRows().order) {
+                    for (const std::string& section : ownSections()) {
                         if (!StringTools::equalsIgnoreCase(section, IniKeywords::Present)) {
                             continue;
                         }
@@ -1538,7 +1537,7 @@ namespace AGRemapCore {
                         return std::nullopt;
                     }
 
-                    for (const std::string& section : sectionRows().order) {
+                    for (const std::string& section : ownSections()) {
                         if (!ownVal(section, IniKeywords::MatchFirstIndex).has_value()) {
                             continue;
                         }
@@ -1895,7 +1894,7 @@ namespace AGRemapCore {
                     // name it chose last time: those sections are not the MOD's use, so they are skipped.
                     std::unordered_set<std::string> usedResources;
                     const std::string ourPrefix = StringTools::toLower(toModName_ + "Remap");
-                    for (const std::string& section : sectionRows().order) {
+                    for (const std::string& section : ownSections()) {
                         if (StringTools::toLower(section).find(ourPrefix) != std::string::npos) {
                             continue;
                         }
@@ -2041,52 +2040,18 @@ namespace AGRemapCore {
                     return this->getParser()->parseData();
                 }
 
-                // THE MOD'S OWN LINES ARE THE PARSER'S ROWS (IniParseRows::Sections): every key of every
-                // section, each line once, as written. A collect files its rows key by key, so they are put back
-                // in the order of their parts, whose ids are handed out as the file is parsed
+                // THE MOD'S OWN LINES ARE THE PARSER'S ROWS (IniParseRows::Sections): every key of every section, each
+                // line once, in the order it is written (IniParseData::sectionRows)
                 using Row = IniParseData::CollectedRow;
-                struct SectionRows {
-                    std::vector<std::string> order;
-                    std::unordered_map<std::string, std::vector<const Row*>> rows;
-                };
 
-                const SectionRows& sectionRows() const {
-                    if (sectionRows_.has_value()) {
-                        return *sectionRows_;
-                    }
-
-                    sectionRows_.emplace();
-                    std::set<std::tuple<std::string, std::size_t, long long>> seen;
-                    for (const Row& row : parseData().collected(IniParseRows::Sections)) {
-                        if (!seen.emplace(row.section, row.partId, row.line).second) {
-                            continue;
-                        }
-
-                        auto& rows = sectionRows_->rows[row.section];
-                        if (rows.empty()) {
-                            sectionRows_->order.push_back(row.section);
-                        }
-                        rows.push_back(&row);
-                    }
-
-                    const auto written = [](const Row* a, const Row* b) {
-                        return std::make_pair(a->partId, a->line) < std::make_pair(b->partId, b->line);
-                    };
-                    for (auto& entry : sectionRows_->rows) {
-                        std::stable_sort(entry.second.begin(), entry.second.end(), written);
-                    }
-                    std::stable_sort(sectionRows_->order.begin(), sectionRows_->order.end(),
-                                     [this, &written](const std::string& a, const std::string& b) {
-                                         return written(sectionRows_->rows.at(a).front(), sectionRows_->rows.at(b).front());
-                                     });
-                    return *sectionRows_;
+                // The sections, in the order they are written
+                const std::vector<std::string>& ownSections() const {
+                    return parseData().collectedSections(IniParseRows::Sections);
                 }
 
                 // The section's own lines, in order; empty for a section with none
                 const std::vector<const Row*>& ownRows(const std::string& section) const {
-                    static const std::vector<const Row*> none;
-                    const auto found = sectionRows().rows.find(section);
-                    return found == sectionRows().rows.end() ? none : found->second;
+                    return parseData().sectionRows(IniParseRows::Sections, section);
                 }
 
                 // The first value of 'key' in the section's own lines, stripped
@@ -2509,8 +2474,7 @@ namespace AGRemapCore {
                 // configured: whatever the override binds and the cleanup does not already restore.
                 void buildBypasses() {
                     bypasses_.clear();
-                    const auto& rows = sectionRows().rows;
-                    if (rows.count(config_.sharedResourcesList) == 0 || rows.count(config_.cleanupResourcesList) == 0) {
+                    if (ownRows(config_.sharedResourcesList).empty() || ownRows(config_.cleanupResourcesList).empty()) {
                         return;            // a legacy mod with no such pair: nothing to be symmetric with
                     }
 
@@ -2956,7 +2920,7 @@ namespace AGRemapCore {
 
                             CarriedLines lines;
                             const std::string prefix = StringTools::toLower(config_.texRegPrefix);
-                            for (const std::string& section : sectionRows().order) {
+                            for (const std::string& section : ownSections()) {
                                 for (const Row* row : ownRows(section)) {
                                     const std::string key = StringTools::toLower(std::string(StringTools::strip(row->key)));
                                     const std::string value(StringTools::strip(row->value));
@@ -3114,11 +3078,7 @@ namespace AGRemapCore {
 
 
                     const auto tagOfResource = [this, &folder](const std::string& resource) -> std::optional<int> {
-                        std::string name(StringTools::strip(resource));
-                        const std::string ref = StringTools::toLower(IniKeywords::Ref) + " ";
-                        if (StringTools::startsWith(StringTools::toLower(name), ref)) {
-                            name = std::string(StringTools::lstrip(name.substr(ref.size())));
-                        }
+                        const std::string name = IniNamingTools::removeRefPrefix(resource);
                         const auto file = fileOfResource_.find(StringTools::toLower(name));
                         if (file == fileOfResource_.end()) {
                             return std::nullopt;
@@ -4160,7 +4120,7 @@ namespace AGRemapCore {
                         return {std::string(IniKeywords::Run), cached->second};
                     }
 
-                    if (sectionRows().rows.count(toggle->section) == 0) {
+                    if (ownRows(toggle->section).empty()) {
                         return direct;
                     }
 
@@ -4191,7 +4151,7 @@ namespace AGRemapCore {
                     const RegRemove<>::RemoveKeyCheck isDead =
                         [this](long long, const std::string& val) {
                             const std::string bound = StringTools::toLower(val);
-                            return fileOfResource_.count(bound) == 0 && sectionRows().rows.count(val) == 0;
+                            return fileOfResource_.count(bound) == 0 && ownRows(val).empty();
                         };
 
                     // The spellings of `this` the section writes -- `THIS = ResourceX` is legal 3dmigoto and
@@ -4869,8 +4829,7 @@ namespace AGRemapCore {
                 }
 
                 std::string blendRemapFile(const std::string& which) const {
-                    return modFile(meshFolder_,
-                                   toModName_ + IniKeywords::Remap + "BlendRemap" + which + ".buf");
+                    return modFile(meshFolder_, IniNamingTools::getRemapElementName("", "BlendRemap" + which, toModName_) + ".buf");
                 }
 
                 // The reordered copy of one of the mod's shape-key buffers, beside the original
@@ -4880,20 +4839,20 @@ namespace AGRemapCore {
                         name = name.substr(0, name.size() - std::string("Buffer").size());
                     }
                     const std::string folder = FileService::parentOf(FileService::iniPathToRel(shapeKeyFiles_.at(resource).path));
-                    return modFile(folder, toModName_ + IniKeywords::Remap + name + ".buf");
+                    return modFile(folder, IniNamingTools::getRemapElementName("", name, toModName_) + ".buf");
                 }
 
                 std::string zeroStreamFile() const {
-                    return modFile(meshFolder_, toModName_ + IniKeywords::Remap + ShapeKeyZero + ".buf");
+                    return modFile(meshFolder_, IniNamingTools::getRemapElementName("", ShapeKeyZero, toModName_) + ".buf");
                 }
 
                 std::string mirrorIndexFile(int component) const {
-                    return modFile(meshFolder_, toModName_ + IniKeywords::Remap + "MirrorIndex"
-                                                    + std::to_string(component) + ".buf");
+                    return modFile(meshFolder_, IniNamingTools::getRemapElementName("", "MirrorIndex" + std::to_string(component), toModName_)
+                                                    + ".buf");
                 }
 
                 std::string mirrorVectorFile() const {
-                    return modFile(meshFolder_, toModName_ + IniKeywords::Remap + "MirrorVector.buf");
+                    return modFile(meshFolder_, IniNamingTools::getRemapElementName("", "MirrorVector", toModName_) + ".buf");
                 }
 
                 /**
@@ -4933,8 +4892,7 @@ namespace AGRemapCore {
                 }
 
                 std::string createdTextureFile(const WWMIFixerConfig::CreatedTexture& created) const {
-                    return std::string(
-                                   created.role + toModName_ + IniKeywords::RemapTex + FileExt::DDS);
+                    return IniNamingTools::getModSuffixedName(created.role, IniKeywords::RemapTex, toModName_) + FileExt::DDS;
                 }
 
                 // ---- the fix's own files: each made by a FileAddCreate, collected where the fix binds it ----
@@ -4974,7 +4932,7 @@ namespace AGRemapCore {
                     }
 
                     for (const FixTexture& texture : fixTextures_) {
-                        auto create = std::make_unique<TexCreatorCreate<>>(GraphId(g, "", "fixTexture" + texture.section), "", std::make_shared<TexCreator>(texture.creator),
+                        auto create = std::make_unique<TexCreate<>>(GraphId(g, "", "fixTexture" + texture.section), "", std::make_shared<TexCreator>(texture.creator),
                                                                            resEditConfig());
                         create->files = {{texture.section, texture.file}};
                         const std::string section = texture.section;
@@ -5388,14 +5346,7 @@ namespace AGRemapCore {
                         return false;
                     }
 
-                    const std::string kind = TextTools::capitalize(role) + GameSuffix;
-                    const std::string fileName = DownloadTools::fixedFileName(source.downloadPrefix, kind, FileExt::DDS);
-                    gameFallbacks_[role] = Fallback{
-                        DownloadTools::url(source.downloadGameFolder, source.downloadCharFolder,
-                                                     source.downloadVersionFolder, source.downloadPrefix,
-                                                     "Texture" + hash->second, FileExt::DDS),
-                        fileName, fileName,
-                        IniKeywords::Resource + source.downloadPrefix + kind + IniKeywords::RemapDL};
+                    gameFallbacks_[role] = fallbackOf(TextTools::capitalize(role) + GameSuffix, hash->second);
                     return true;
                 }
 
@@ -5507,7 +5458,7 @@ namespace AGRemapCore {
                 }
 
                 // The texture edits (WWMIFixerConfig::texEdits), as collects over every binding of an
-                // edited role: one TexEditorReplace per edit, collected wherever the role's register
+                // edited role: one TexReplace per edit, collected wherever the role's register
                 // binds one of the resources planTexEdits recorded for it -- in the fix's texture lists
                 // and the mod's own carried lines alike. A reroute drawn by its own shader keeps the
                 // mod's art unedited (see rerouteShaders_)
@@ -5579,7 +5530,7 @@ namespace AGRemapCore {
                             }
                         }
 
-                        auto editor = std::make_unique<TexEditorReplace<>>(
+                        auto editor = std::make_unique<TexReplace<>>(
                             GraphId(0, "", "texEdit" + TextTools::capitalize(edit.role) + edit.name),
                             std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{std::move(filter)}, edit.compress), resEditConfig(), "resourceRemapTexEdit",
                             TextTools::capitalize(edit.role) + edit.name + editFileTag());
@@ -5785,16 +5736,19 @@ namespace AGRemapCore {
                  * @param hash The source's texture hash of that role
                  */
                 void registerFallback(const std::string& role, const std::string& hash) {
+                    fallbacks_[role] = fallbackOf(TextTools::capitalize(role), hash);
+                    resourceOfRole_[role] = fallbacks_[role].resource;
+                }
+
+                // The source's game texture of 'hash', downloaded as `<prefix><kind>RemapDL.dds` under the resource
+                // IniNamingTools names for it
+                Fallback fallbackOf(const std::string& kind, const std::string& hash) const {
                     const WWMITextureFacts& source = config_.sourceTextures;
-                    const std::string kind = TextTools::capitalize(role);
                     const std::string fileName = DownloadTools::fixedFileName(source.downloadPrefix, kind, FileExt::DDS);
-                    const std::string resource = IniKeywords::Resource + source.downloadPrefix + kind + IniKeywords::RemapDL;
-                    fallbacks_[role] = Fallback{
-                        DownloadTools::url(source.downloadGameFolder, source.downloadCharFolder,
-                                                     source.downloadVersionFolder, source.downloadPrefix,
-                                                     "Texture" + hash, FileExt::DDS),
-                        fileName, fileName, resource};
-                    resourceOfRole_[role] = resource;
+                    return Fallback{
+                        DownloadTools::url(source.downloadGameFolder, source.downloadCharFolder, source.downloadVersionFolder,
+                                           source.downloadPrefix, "Texture" + hash, FileExt::DDS),
+                        fileName, fileName, IniNamingTools::getRemapDLResourceName(source.downloadPrefix + kind)};
                 }
 
 
@@ -5857,7 +5811,6 @@ namespace AGRemapCore {
                 std::map<std::pair<std::string, int>, std::string> resourceOfSlotRole_;   // (role, source component) -> the resource that component binds
                 std::vector<std::string> remapNames_;   // the mod names a fix of this .ini could have named its sections after
                 mutable std::optional<std::optional<std::string>> modVb0Version_;   // versionOfModVb0's answer, once asked
-                mutable std::optional<SectionRows> sectionRows_;       // sectionRows' index, once asked
                 std::vector<std::pair<std::string, std::string>> declared_;   // (file, path relative to the .ini) for a file no resource of the .ini names
                 std::map<std::string, std::string> declaredName_;      // that file -> the resource section the fix declares for it
                 std::set<std::string> usedDeclaredNames_;
@@ -5975,7 +5928,7 @@ namespace AGRemapCore {
                 std::set<std::string> rawLists_;                                     // the fix's lists for a reroute drawn by its own shader: the mod's art, unedited
                 std::map<std::pair<std::string, std::string>, std::set<std::string>> listsOfRole_;   // (role, register) -> the fix's lists binding that role there
                 std::vector<std::unique_ptr<Collector>> texEditCollects_;            // addTexEditCollects' collects, among fixSectionEdits
-                std::vector<std::unique_ptr<TexEditorReplace<>>> texEditors_;        // ...and the edits they build with
+                std::vector<std::unique_ptr<TexReplace<>>> texEditors_;        // ...and the edits they build with
                 std::map<std::pair<std::string, std::string>, std::string> roleLists_;   // (role, register) -> the copied list's name
                 std::vector<std::unique_ptr<Collector>> blendCollects_;
         };

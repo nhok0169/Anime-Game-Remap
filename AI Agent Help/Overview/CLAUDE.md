@@ -587,7 +587,7 @@ and `py/` and confirm a real consumer exists.
 **3. When a C++ path is inert, suspect the pybind layer took the override.** Whole halves of the
 fixer layer were only ever reached from Python: the core class does the naming and the `Py*`
 subclass does the work. This has now bitten twice in the same way (`RemapBlendReplace` needed
-`VGRemapBlendReplace`; `TexReplace` needed `TexEditorReplace`). Before using any `resEdits/` or
+`VGRemapBlendReplace`; `TexReplace` needed `TexEditorReplace`, since merged back into `TexReplace`). Before using any `resEdits/` or
 `graphGroupEdits/` class from plain C++, check whether its `Py*` counterpart overrides something
 core does not. See [Creating Remaps](../CreatingRemaps/CLAUDE.md)'s "Seams that work from Python and
 do nothing from C++".

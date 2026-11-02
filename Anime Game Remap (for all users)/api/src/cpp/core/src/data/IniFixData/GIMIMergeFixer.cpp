@@ -72,7 +72,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BufEdit.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
 #include "AGRemapCore/model/iftemplate/ListValue.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAnchorAdd.h"
@@ -1587,7 +1587,7 @@ namespace AGRemapCore {
                             const std::string reg = byNameOf(repFiles)
                                 ? targetDiffuseReg() : (normalMap ? NormalShiftedDiffuseReg : DiffuseReg);
 
-                            auto replace = std::make_unique<TexEditorReplace<>>(
+                            auto replace = std::make_unique<TexReplace<>>(
                                 GraphId(0, "", obj + "RemapTexDiffuse"),
                                 std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{*filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                 "resourceRemapTexEdit", std::string("Diffuse"));
@@ -1616,7 +1616,7 @@ namespace AGRemapCore {
                             const std::string reg = byNameOf(files)
                                 ? targetDiffuseReg() : (normalMap ? NormalShiftedDiffuseReg : DiffuseReg);
 
-                            auto replace = std::make_unique<TexEditorReplace<>>(
+                            auto replace = std::make_unique<TexReplace<>>(
                                 GraphId(0, member.first, member.second + "RemapTexDiffuse"),
                                 std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{*filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                 "resourceRemapTexEdit", std::string("Diffuse"));
@@ -1659,7 +1659,7 @@ namespace AGRemapCore {
                         const std::string reg = byNameOf(files)
                             ? targetLightMapReg() : (normalMap ? NormalShiftedLightMapReg : LightMapReg);
 
-                        auto replace = std::make_unique<TexEditorReplace<>>(
+                        auto replace = std::make_unique<TexReplace<>>(
                             GraphId(0, "", obj + "RemapTexLightMap"),
                             std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                             "resourceRemapTexEdit", std::string("LightMap"));
@@ -1718,7 +1718,7 @@ namespace AGRemapCore {
                             const std::string reg = byNameOf(files)
                                 ? targetLightMapReg() : (normalMap ? NormalShiftedLightMapReg : LightMapReg);
 
-                            auto replace = std::make_unique<TexEditorReplace<>>(
+                            auto replace = std::make_unique<TexReplace<>>(
                                 GraphId(0, member.first, member.second + "RemapTexLightMap"),
                                 std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                 "resourceRemapTexEdit", std::string("LightMap"));
@@ -3183,7 +3183,7 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<GraphPartEdit<>>> borrowAdapters_;
 
                 std::vector<Fixer::GroupEdit*> texGroupEdits_;
-                std::vector<std::unique_ptr<TexEditorReplace<>>> texReplaces_;
+                std::vector<std::unique_ptr<TexReplace<>>> texReplaces_;
                 std::vector<std::unique_ptr<Collector>> texCollects_;
 
                 std::unique_ptr<VGMergeGroupResBuilder> builder_;

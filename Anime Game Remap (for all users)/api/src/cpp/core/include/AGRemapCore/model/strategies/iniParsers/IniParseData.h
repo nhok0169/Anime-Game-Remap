@@ -591,6 +591,26 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The resource `section`_ that names 'file' as the mod USES it, or ``std::nullopt`` -- one file may be
+             declared by several resources, and the one a section of the mod binds is the one that reaches the
+             draws. Recorded by the parser with #setFileResource
+             @endrst
+             *
+             * @param file The file, as #roleFile names it
+             */
+            std::optional<std::string> resourceOfFile(const std::string& file) const;
+
+            /**
+             * @brief Records that the mod uses the resource `section`_ 'resource' for 'file' -- see #resourceOfFile
+             *
+             * @param file The file
+             * @param resource The resource `section`_
+             */
+            void setFileResource(const std::string& file, std::string resource);
+
+            /**
+             * @brief
+             @rst
              What a texture line binding 'resource' binds: every ``(role, mod object)`` the parser chose
              the resource's file for (#roleFile) -- or a file of the same toggle (:cpp:member:`RoleFile::variants`) --
              by role and then by mod object. Empty for a resource
@@ -780,6 +800,7 @@ namespace AGRemapCore {
             bool replacesByHash_ = false;
             std::map<std::string, std::string> resourceFiles_;
             std::map<std::string, std::string> textureResources_;
+            std::map<std::string, std::string> fileResources_;     // file -> the resource the mod uses for it
             std::optional<std::string> blendVersion_;
             std::unique_ptr<TextureRoles> roles_;
             std::map<std::string, std::vector<std::pair<std::string, std::string>>> candidates_;

@@ -1047,17 +1047,6 @@ VarSectionsTake
 
 :raw-html:`<br />`
 
-VarSectionsCreate
------------------
-
-.. cppattributetable:: AGRemapCore::VarSectionsCreate
-
-.. doxygenclass:: AGRemapCore::VarSectionsCreate
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
 ShaderFilterTags
 ----------------
 

@@ -2142,8 +2142,6 @@
         </childnode>
         <childnode refid="472" relation="include">
         </childnode>
-        <childnode refid="415" relation="include">
-        </childnode>
         <childnode refid="320" relation="include">
         </childnode>
         <childnode refid="431" relation="include">
@@ -2319,8 +2317,6 @@
         <label>include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h</label>
         <link refid="_graph_edit_variables_8h"/>
         <childnode refid="173" relation="include">
-        </childnode>
-        <childnode refid="415" relation="include">
         </childnode>
         <childnode refid="416" relation="include">
         </childnode>
@@ -2684,8 +2680,6 @@
         </childnode>
         <childnode refid="311" relation="include">
         </childnode>
-        <childnode refid="415" relation="include">
-        </childnode>
         <childnode refid="416" relation="include">
         </childnode>
         <childnode refid="418" relation="include">
@@ -2753,8 +2747,6 @@
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="399" relation="include">
         </childnode>
       </node>
       <node id="400">
@@ -2945,14 +2937,6 @@
         <childnode refid="17" relation="include">
         </childnode>
         <childnode refid="28" relation="include">
-        </childnode>
-      </node>
-      <node id="415">
-        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h</label>
-        <link refid="_var_sections_create_8h"/>
-        <childnode refid="173" relation="include">
-        </childnode>
-        <childnode refid="399" relation="include">
         </childnode>
       </node>
       <node id="416">
@@ -4332,10 +4316,6 @@
       <node id="28">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
         <link refid="_v_g_split_group_res_builder_8cpp"/>
-      </node>
-      <node id="399">
-        <label>src/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.cpp</label>
-        <link refid="_var_sections_create_8cpp"/>
       </node>
       <node id="417">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.cpp</label>

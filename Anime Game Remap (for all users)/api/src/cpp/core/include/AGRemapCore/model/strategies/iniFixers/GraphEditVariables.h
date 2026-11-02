@@ -31,7 +31,7 @@ namespace AGRemapCore {
 
      A variable holds one graph's worth of `sections`_ (:cpp:class:`GraphEditVariables::Sections`): an edit copies
      sections of a graph into it (:cpp:class:`VarSectionsTake`), code adds sections it builds itself
-     (:cpp:func:`Sections::add`), and an edit writes it out as a graph (:cpp:class:`VarSectionsCreate`). A fixer's own
+     (:cpp:func:`Sections::add`), and an edit writes it out as a graph (:cpp:member:`GraphCreate::sectionsOf`). A fixer's own
      sections are one such variable
 
      .. warning::

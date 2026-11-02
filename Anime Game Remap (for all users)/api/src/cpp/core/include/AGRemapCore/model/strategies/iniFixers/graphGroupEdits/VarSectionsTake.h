@@ -30,7 +30,7 @@ namespace AGRemapCore {
      :cpp:class:`GraphEditVariables`, and removes the graph :raw-html:`<br />` :raw-html:`<br />`
 
      The usual use: copy some of the mod's own sections into a graph of their own (:cpp:class:`GraphCopy`), rename and
-     edit that graph, then take the result into the variable a :cpp:class:`VarSectionsCreate` writes out. The sections
+     edit that graph, then take the result into the variable a :cpp:member:`GraphCreate::sectionsOf` writes out. The sections
      taken go after every section the variable holds when this edit runs -- or, with 'inPlace', where this edit was
      made: the place is held when the edit is constructed, so sections added to the variable after that come after
      them

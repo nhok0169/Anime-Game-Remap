@@ -27,8 +27,10 @@ built on both; the GI parsers are next. Reach for these before writing a reader 
 `GraphEditVariables` (`model/strategies/iniFixers/`) holds named variables, each one graph's worth of data; today a
 variable holds `sections`, in order, with places `reserve` can hold open. Two graph-group edits use it:
 `VarSectionsTake` copies named sections of a graph into a variable (optionally keeping the place held when the edit
-was made) and removes the graph, and `VarSectionsCreate` writes variables out as a graph in each group (a callable
-names, per group, which variables make up its graph). `TemplateFixer`'s own sections are the variables `fixSections`
+was made) and removes the graph, and `GraphCreate::sectionsOf` writes them out as a graph in each group (a callable
+hands, per group, the sections of its graph -- a variable's `list()`). `VarSectionsCreate` did the second until
+2026-11-02 and was folded into `GraphCreate`: it was `GraphCreate` per group over a graph built from sections, which
+edited the graph no way `GraphCreate` could not. `TemplateFixer`'s own sections are the variables `fixSections`
 (no group) and `fixSections.<g>` (one group). All of it is bound to Python, so a fixer built on the Python
 `GIMIFixer` has the same thing.
 

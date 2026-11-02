@@ -213,17 +213,21 @@ namespace AGRemapCore {
         // each group's graph: the sections added with no group (into the first group, or every copy too), then the
         // group's own
         if (createEdit_ == nullptr) {
-            createEdit_ = std::make_unique<VarSectionsCreate>(
-                fixVariables_, fixSectionsGraphId(0).modObj,
-                [this](std::size_t group) {
-                    std::vector<std::string> names;
-                    if (group == 0 || fixSectionsInCopies) {
-                        names.push_back(fixSectionsVariable());
+            createEdit_ = std::make_unique<GraphCreate<std::string, std::string>>(fixSectionsGraphId(0), nullptr);
+            createEdit_->runConfig = sectionRunConfig();
+            createEdit_->sectionsOf = [this](std::size_t group) {
+                std::vector<Section*> sections;
+                for (const std::string& name : group == 0 || fixSectionsInCopies
+                         ? std::vector<std::string>{fixSectionsVariable(), fixSectionsVariable(group)}
+                         : std::vector<std::string>{fixSectionsVariable(group)}) {
+                    if (const GraphEditVariables::Sections* variable = fixVariables_.findSections(name)) {
+                        for (Section* section : variable->list()) {
+                            sections.push_back(section);
+                        }
                     }
-                    names.push_back(fixSectionsVariable(group));
-                    return names;
-                },
-                sectionRunConfig());
+                }
+                return sections;
+            };
         }
 
         createEdit_->z3 = fixSectionsZ3;

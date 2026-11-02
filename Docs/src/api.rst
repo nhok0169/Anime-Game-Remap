@@ -1127,17 +1127,6 @@ VarSectionsTake
 
 :raw-html:`<br />`
 
-VarSectionsCreate
-=================
-
-.. attributetable:: FixRaidenBoss2.VarSectionsCreate
-
-.. autoclass:: FixRaidenBoss2.VarSectionsCreate
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 ShaderFilterTags
 ================
 

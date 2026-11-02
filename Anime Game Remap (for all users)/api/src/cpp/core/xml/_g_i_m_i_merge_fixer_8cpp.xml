@@ -277,8 +277,6 @@
         </childnode>
         <childnode refid="194" relation="include">
         </childnode>
-        <childnode refid="195" relation="include">
-        </childnode>
         <childnode refid="196" relation="include">
         </childnode>
         <childnode refid="197" relation="include">
@@ -2064,28 +2062,6 @@
         <childnode refid="182" relation="include">
         </childnode>
         <childnode refid="226" relation="include">
-        </childnode>
-      </node>
-      <node id="195">
-        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h</label>
-        <link refid="_var_sections_create_8h"/>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="73" relation="include">
-        </childnode>
-        <childnode refid="194" relation="include">
-        </childnode>
-        <childnode refid="96" relation="include">
-        </childnode>
-        <childnode refid="77" relation="include">
         </childnode>
       </node>
       <node id="196">

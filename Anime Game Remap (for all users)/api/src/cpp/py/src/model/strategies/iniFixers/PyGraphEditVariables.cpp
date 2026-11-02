@@ -20,7 +20,6 @@
 #include <pybind11/stl.h>
 
 #include "AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
 
@@ -71,7 +70,7 @@ edits passes from one edit to another
 
 A variable holds one graph's worth of `sections`_ (:class:`GraphEditVariables.Sections`): an edit copies sections of a
 graph into it (:class:`VarSectionsTake`), code adds sections it builds itself (:meth:`GraphEditVariables.Sections.add`),
-and an edit writes it out as a graph (:class:`VarSectionsCreate`). A fixer's own sections are one such variable
+and an edit writes it out as a graph (:attr:`GraphCreate.sectionsOf`). A fixer's own sections are one such variable
 
 .. warning::
     A variable is a snapshot. An edit that changes a graph afterwards does not change what a variable copied from it
@@ -86,7 +85,8 @@ and an edit writes it out as a graph (:class:`VarSectionsCreate`). A fixer's own
     variables = FRB.GraphEditVariables()
     variables.sections("fix").add(FRB.IfTemplate([FRB.IfContentPart({"handling": [(0, "skip")]}, 0)], name = "TextureOverrideMine"))
     take = FRB.VarSectionsTake(variables, "fix", ("", "body"), ["TextureOverrideBody"])
-    create = FRB.VarSectionsCreate(variables, ("", "fixSections"), lambda group: ["fix"] if group == 0 else [])
+    create = FRB.GraphCreate((0, "", "fixSections"))
+    create.sectionsOf = lambda group: variables.sections("fix").list() if group == 0 else []
     fixer.graphGroupEdits = [take, create]
     )doc");
 
@@ -126,6 +126,21 @@ section: :class:`IfTemplate`
 
 place: Tuple[:class:`int`, :class:`int`]
     The place
+             )doc"))
+        .def("list", [](py::object self) {
+                // each section kept alive by the variable it belongs to
+                py::list result;
+                for (Vars::Section* section : self.cast<const Sections&>().list()) {
+                    result.append(py::cast(section, py::return_value_policy::reference_internal, self));
+                }
+                return result;
+            }, py::doc(R"doc(
+The sections, in order -- the variable's own, not copies: what :attr:`GraphCreate.sectionsOf` hands a graph
+
+Returns
+-------
+List[:class:`IfTemplate`]
+    The sections
              )doc"))
         .def("names", [](const Sections& self) {
                 std::vector<std::string> names;
@@ -186,7 +201,7 @@ Copies named `sections`_ of a graph in the first group into a sections variable 
 removes the graph
 
 The usual use: copy some of the mod's own sections into a graph of their own, rename and edit that graph, then take the
-result into the variable a :class:`VarSectionsCreate` writes out. The sections taken go after every section the
+result into the variable a :class:`GraphCreate` writes out (:attr:`GraphCreate.sectionsOf`). The sections taken go after every section the
 variable holds when this edit runs -- or, with 'inPlace', where this edit was made: the place is held when the edit is
 constructed, so sections added to the variable after that come after them
 
@@ -218,42 +233,4 @@ inPlace: :class:`bool`
              py::arg("variables"), py::arg("variable"), py::arg("graph"), py::arg("sections"), py::arg("comment") = std::string(),
              py::arg("inPlace") = false, py::keep_alive<1, 2>());
     defEdit<AGRC::VarSectionsTake>(take, EditReturns);
-
-    auto create = py::class_<AGRC::VarSectionsCreate, PyBaseIniGraphGroupEdit, py::smart_holder>(m, "VarSectionsCreate", R"doc(
-This class inherits from :class:`BaseIniGraphGroupEdit`
-
-Writes sections variables of a :class:`GraphEditVariables` out as a graph in each group
-
-For each group, :attr:`variablesOf` names the variables whose `sections`_ make up that group's graph, in order; a
-section of a name already in the graph is left out, so the first one written wins. The graph is added under
-:attr:`graph` in that group, and a group whose variables hold nothing gets no graph. When there are no groups at all,
-the first group's variables are written into a group of its own. Its graph follows ``run =`` by naming the section each
-value calls
-
-Parameters
-----------
-variables: :class:`GraphEditVariables`
-    The variables
-
-graph: Tuple[:class:`str`, :class:`str`]
-    The mod object the graph is added under in each group
-
-variablesOf: Callable[[:class:`int`], List[:class:`str`]]
-    The names of the variables that make up a group's graph, in order, given the group's index
-    )doc");
-    create.def(py::init([](Vars& variables, AGRC::VarSectionsCreate::ModObj graph, AGRC::VarSectionsCreate::VariablesOf variablesOf) {
-               return std::make_unique<AGRC::VarSectionsCreate>(variables, std::move(graph), std::move(variablesOf));
-           }), py::arg("variables"), py::arg("graph"), py::arg("variablesOf"), py::keep_alive<1, 2>())
-          .def_readwrite("graph", &AGRC::VarSectionsCreate::graph,
-                         py::doc(R"doc(Tuple[:class:`str`, :class:`str`]: The mod object the graph is added under in each group)doc"))
-          .def_readwrite("variablesOf", &AGRC::VarSectionsCreate::variablesOf, py::doc(R"doc(
-Callable[[:class:`int`], List[:class:`str`]]: The names of the variables that make up a group's graph, in order, given
-the group's index
-          )doc"))
-          .def_property("z3", py::cpp_function([](const AGRC::VarSectionsCreate& self) { return self.z3; }, py::return_value_policy::reference),
-                        py::cpp_function([](AGRC::VarSectionsCreate& self, AGRC::Z3Context* z3) { self.z3 = z3; }, py::keep_alive<1, 2>()),
-                        py::doc(R"doc(
-Optional[:class:`Z3Context`]: The context the graph builds its conditions in, or ``None`` for its own
-          )doc"));
-    defEdit<AGRC::VarSectionsCreate>(create, EditReturns);
 }

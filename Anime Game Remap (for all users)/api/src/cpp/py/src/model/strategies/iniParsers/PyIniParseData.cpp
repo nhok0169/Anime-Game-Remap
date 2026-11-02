@@ -725,6 +725,32 @@ resource: :class:`str`
 file: :class:`str`
     The file, as :meth:`roleFile` and :meth:`rejections` name it
        )doc")
+       .def("resourceOfFile", &AGRC::IniParseData::resourceOfFile, py::arg("file"), R"doc(
+The resource `section`_ that names ``file`` as the mod USES it, or ``None`` -- one file may be declared by several
+resources, and the one a section of the mod binds is the one that reaches the draws. Recorded by the parser with
+:meth:`setFileResource`
+
+Parameters
+----------
+file: :class:`str`
+    The file, as :meth:`roleFile` names it
+
+Returns
+-------
+Optional[:class:`str`]
+    The resource `section`_
+       )doc")
+       .def("setFileResource", &AGRC::IniParseData::setFileResource, py::arg("file"), py::arg("resource"), R"doc(
+Records that the mod uses the resource `section`_ ``resource`` for ``file`` -- see :meth:`resourceOfFile`
+
+Parameters
+----------
+file: :class:`str`
+    The file
+
+resource: :class:`str`
+    The resource `section`_
+       )doc")
        .def("rolesOfResource", &AGRC::IniParseData::rolesOfResource, py::arg("resource"), R"doc(
 What a texture line binding ``resource`` binds: every ``(role, mod object)`` the parser chose the resource's
 file for (:meth:`roleFile`), by role and then by mod object. Empty for a resource naming no texture, or one

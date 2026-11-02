@@ -408,7 +408,6 @@
     <innerclass refid="class_a_g_remap_core_1_1_transparency" prot="public">AGRemapCore::Transparency</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_transparency_adjust_filter" prot="public">AGRemapCore::TransparencyAdjustFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_uuid_id_generator" prot="public">AGRemapCore::UuidIdGenerator</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_var_sections_create" prot="public">AGRemapCore::VarSectionsCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_var_sections_take" prot="public">AGRemapCore::VarSectionsTake</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_vb_file" prot="public">AGRemapCore::VbFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_version" prot="public">AGRemapCore::Version</innerclass>

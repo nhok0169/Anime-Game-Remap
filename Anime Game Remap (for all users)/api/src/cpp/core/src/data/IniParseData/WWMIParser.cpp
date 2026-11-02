@@ -920,6 +920,38 @@ namespace AGRemapCore {
                     for (const auto& entry : roles.resourcesOf(iniPath)) {
                         data.setTextureResource(entry.first, entry.second);
                     }
+
+                    // ...and which resource each file is USED by: one file may be declared by several (Changli1
+                    // declares [ResourceTexture19] on its body diffuse and binds that file only as [Resource-1]), and
+                    // the one a section of the mod binds is the one that reaches the draws. A section a previous fix
+                    // wrote is not the mod's use
+                    std::vector<std::string> fixNames{ctx_.modTypeName()};
+                    if (const std::optional<ModType> own = modTypeId_.has_value() ? ModTypeIdTools::getModType(*modTypeId_)
+                                                                                     : std::nullopt) {
+                        for (const std::string& name : own->getModsToFix()) {
+                            fixNames.push_back(name);
+                        }
+                    }
+                    std::unordered_set<std::string> used;
+                    for (const std::string& section : data.collectedSections(IniParseRows::Sections)) {
+                        if (IniNamingTools::looksRemapped(section, fixNames)) {
+                            continue;
+                        }
+                        for (const Row* row : data.sectionRows(IniParseRows::Sections, section)) {
+                            used.insert(StringTools::toLower(StringTools::strip(IniNamingTools::removeRefPrefix(row->value)).data()));
+                        }
+                    }
+                    std::unordered_map<std::string, std::string> usedBy;
+                    for (const auto& [resource, file] : roles.resourcesOf(iniPath)) {
+                        const auto placed = usedBy.emplace(file, resource);
+                        if (!placed.second && used.count(StringTools::toLower(placed.first->second)) == 0
+                                && used.count(StringTools::toLower(resource)) > 0) {
+                            placed.first->second = resource;
+                        }
+                    }
+                    for (const auto& [file, resource] : usedBy) {
+                        data.setFileResource(file, resource);
+                    }
                 }
 
                 // The roles above, and the ones the slots' own sections bind by register. A file the

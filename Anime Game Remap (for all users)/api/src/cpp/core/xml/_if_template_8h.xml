@@ -37,7 +37,6 @@
     <includedby refid="_reg_if_template_add_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h</includedby>
     <includedby refid="_i_ini_graph_groups_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h</includedby>
     <includedby refid="_ini_res_edit_context_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h</includedby>
-    <includedby refid="_var_sections_create_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h</includedby>
     <includedby refid="_g_i_m_i_parser_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</includedby>
     <includedby refid="_g_i_m_i_section_classifier_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</includedby>
     <includedby refid="_ini_parse_context_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h</includedby>
@@ -2586,8 +2585,6 @@
         </childnode>
         <childnode refid="471" relation="include">
         </childnode>
-        <childnode refid="416" relation="include">
-        </childnode>
         <childnode refid="321" relation="include">
         </childnode>
         <childnode refid="432" relation="include">
@@ -2737,8 +2734,6 @@
         <label>include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h</label>
         <link refid="_graph_edit_variables_8h"/>
         <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="416" relation="include">
         </childnode>
         <childnode refid="417" relation="include">
         </childnode>
@@ -3102,8 +3097,6 @@
         </childnode>
         <childnode refid="312" relation="include">
         </childnode>
-        <childnode refid="416" relation="include">
-        </childnode>
         <childnode refid="417" relation="include">
         </childnode>
         <childnode refid="419" relation="include">
@@ -3167,8 +3160,6 @@
         <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="400" relation="include">
         </childnode>
       </node>
       <node id="401">
@@ -3359,14 +3350,6 @@
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="31" relation="include">
-        </childnode>
-      </node>
-      <node id="416">
-        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h</label>
-        <link refid="_var_sections_create_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="400" relation="include">
         </childnode>
       </node>
       <node id="417">
@@ -4694,10 +4677,6 @@
       <node id="31">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
         <link refid="_v_g_split_group_res_builder_8cpp"/>
-      </node>
-      <node id="400">
-        <label>src/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.cpp</label>
-        <link refid="_var_sections_create_8cpp"/>
       </node>
       <node id="418">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.cpp</label>

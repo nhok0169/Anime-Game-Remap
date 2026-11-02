@@ -39,6 +39,25 @@ void PyGraphCreate::refresh() {
         graphOfResult = graphObj();
     }
     graph = graphOfResult.is_none() ? nullptr : graphOfResult.cast<PyIniSectionGraph*>();
+
+    // unset (a null handle until the property is assigned) or None: no graph is built from sections
+    sectionsOfResults = py::list();
+    if (!sectionsOfObj || sectionsOfObj.is_none()) {
+        sectionsOf = nullptr;
+        return;
+    }
+    sectionsOf = [this](std::size_t group) {
+        std::vector<Section*> sections;
+        py::object result = sectionsOfObj(group);
+        if (result.is_none()) {
+            return sections;
+        }
+        sectionsOfResults.append(result);
+        for (auto item : result) {
+            sections.push_back(item.cast<Section*>());
+        }
+        return sections;
+    };
 }
 
 
@@ -111,6 +130,33 @@ component name and the mod object name
         self.graphObj = std::move(graph);
     }, py::doc(R"doc(
 Optional[Union[:class:`IniSectionGraph`, Callable[[], Optional[:class:`IniSectionGraph`]]]]: The graph to add, or a callable asked for it when the edit runs -- deep-copied in when the edit runs
+    )doc"));
+
+    cls.def_property("sectionsOf", [](const PyGraphCreate &self) {
+        return self.sectionsOfObj;
+    }, [](PyGraphCreate &self, py::object sectionsOf) {
+        self.sectionsOfObj = std::move(sectionsOf);
+    }, py::doc(R"doc(
+Optional[Callable[[:class:`int`], Optional[List[:class:`IfTemplate`]]]]: The `sections`_ of each group's graph, given the group's index :raw-html:`<br />` :raw-html:`<br />`
+
+Set, the edit builds a graph from them for EVERY group present when it runs and adds it under :attr:`graphId`'s component
+and object (its .ini index is unused), instead of adding :attr:`graph`. A section of a name already in the graph is left
+out, so the first one wins; a group handed no sections gets no graph. When there are no groups at all, group 0's
+sections go into a group of their own. This is how the sections a :class:`GraphEditVariables` variable holds are written
+out as a graph in each group -- a fixer's own sections into its file and every copy. **Default**: ``None``
+
+:example:
+
+.. code-block:: python
+
+    write = FRB.GraphCreate((0, "", "fixSections"))
+    write.sectionsOf = lambda group: variables.sections("fix").list()
+    )doc"));
+
+    cls.def_property("z3", py::cpp_function([](const PyGraphCreate &self) { return self.z3; }, py::return_value_policy::reference),
+                     py::cpp_function([](PyGraphCreate &self, AGRC::Z3Context* z3) { self.z3 = z3; }, py::keep_alive<1, 2>()),
+                     py::doc(R"doc(
+Optional[:class:`Z3Context`]: The context a graph built from :attr:`sectionsOf` builds its conditions in, or ``None`` for its own. **Default**: ``None``
     )doc"));
 
     cls.def_readwrite("minimal", &PyGraphCreate::minimal, py::doc(R"doc(

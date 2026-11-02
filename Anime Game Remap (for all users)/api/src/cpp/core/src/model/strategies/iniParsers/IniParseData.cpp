@@ -263,6 +263,7 @@ namespace AGRemapCore {
         replacesByHash_ = false;
         resourceFiles_.clear();
         textureResources_.clear();
+        fileResources_.clear();
         blendVersion_.reset();
         roles_.reset();
         candidates_.clear();
@@ -425,6 +426,16 @@ namespace AGRemapCore {
 
     void IniParseData::setTextureResource(const std::string& resource, std::string file) {
         textureResources_[StringTools::toLower(resource)] = std::move(file);
+    }
+
+    std::optional<std::string> IniParseData::resourceOfFile(const std::string& file) const {
+        fill();
+        const auto found = fileResources_.find(file);
+        return found == fileResources_.end() ? std::nullopt : std::optional<std::string>(found->second);
+    }
+
+    void IniParseData::setFileResource(const std::string& file, std::string resource) {
+        fileResources_[file] = std::move(resource);
     }
 
     std::vector<IniParseData::ResourceRole> IniParseData::rolesOfResource(const std::string& resource) const {

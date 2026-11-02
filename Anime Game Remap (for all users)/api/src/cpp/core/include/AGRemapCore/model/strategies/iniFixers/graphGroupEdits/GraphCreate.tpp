@@ -17,16 +17,53 @@
 #include <utility>
 
 
+#include <unordered_map>
+#include <vector>
+
 namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     GraphCreate<K, V, KeyHash, KeyEqual>::GraphCreate(GraphId graphId, Graph* graph, bool minimal, bool newPartIds):
         graphId(std::move(graphId)), graph(graph), minimal(minimal), newPartIds(newPartIds) {}
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    IfTemplateRunConfig<K, V> GraphCreate<K, V, KeyHash, KeyEqual>::runCalls() {
+        return IfTemplateRunConfig<K, V>{IniKeywords::Run, [](const V& val) { return val; },
+                                         [](const std::string& section) { return section; }};
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename GraphCreate<K, V, KeyHash, KeyEqual>::GraphGroups& GraphCreate<K, V, KeyHash, KeyEqual>::edit(
             GraphGroups& graphGroups, const ModType* modType, const std::string& modName) {
         (void)modType;
         (void)modName;
+
+        if (sectionsOf) {
+            // a graph per group, of the sections it is handed; and group 0's into a group of its own when there is
+            // none (every group removed, say)
+            const std::size_t count = graphGroups.size() > 0 ? graphGroups.size() : std::size_t(1);
+            for (std::size_t g = 0; g < count; ++g) {
+                std::unordered_map<std::string, Section*> byName;
+                std::vector<std::string> names;
+                for (Section* section : sectionsOf(g)) {
+                    if (section != nullptr && byName.emplace(section->name, section).second) {
+                        names.push_back(section->name);
+                    }
+                }
+                if (names.empty()) {
+                    continue;
+                }
+                if (g == graphGroups.size()) {
+                    graphGroups.insertGroup(g);
+                }
+
+                Graph built(std::move(byName), names, runConfig, true, false, z3);
+                if (Graph* owned = graphGroups.deepcopyGraph(built, minimal, newPartIds)) {
+                    graphGroups.addGraph(g, graphId.modObj, owned);
+                }
+            }
+            return graphGroups;
+        }
 
         Graph* source = graphOf ? graphOf() : graph;
         if (source == nullptr) {

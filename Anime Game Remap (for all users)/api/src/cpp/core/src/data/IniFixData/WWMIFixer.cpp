@@ -615,7 +615,7 @@ namespace AGRemapCore {
 
         // Marks everything belonging to the SOURCE's own game texture for a role the mod also
         // serves -- the download, its edits and the list that binds them. See
-        // `WWMIFixer::planGameTexEdits`.
+        // `WWMIFixer::planGameDefaults`.
         const std::string GameSuffix = "Game";
         const std::string ChecksumNotFound = "ChecksumNotFound";
 
@@ -1049,9 +1049,7 @@ namespace AGRemapCore {
                     readReroutes();
                     readShaders();
                     planTexEdits();
-                    planGameTexEdits();
-                    planToggledRoles();
-                    planSingleToggles();
+                    planGameDefaults();
                     readRabbitFX();                     // after the toggles are known, and reading the pre-edit names
                     buildEdits();
                     buildAppended();
@@ -1844,9 +1842,6 @@ namespace AGRemapCore {
                     std::string iniFolder;
                     std::string iniPath;
 
-                    // the mod's own file -> the resource section naming it
-                    std::unordered_map<std::string, std::string> resourceOfFile;
-
                     // a tie between two files is reported once, however many components are offered the role
                     std::set<std::string> saidAmbiguous;
                 };
@@ -1882,32 +1877,10 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    // ONE FILE, SEVERAL RESOURCES: the one a section USES names it (2026-10-20). Changli1
-                    // declares `[ResourceTexture19]` on its body diffuse and binds that file only as
-                    // `[Resource-1]`, inside a `$sawpvarA` toggle on the texture's hash; naming the file
-                    // by the first declaration bound the spare and the toggle never reached the target.
-                    // A re-fix parses its own previous output too, whose lists bind the file under the
-                    // name it chose last time: those sections are not the MOD's use, so they are skipped.
-                    std::unordered_set<std::string> usedResources;
-                    const std::string ourPrefix = StringTools::toLower(toModName_ + "Remap");
-                    for (const std::string& section : ownSections()) {
-                        if (StringTools::toLower(section).find(ourPrefix) != std::string::npos) {
-                            continue;
-                        }
-                        for (const Row* row : ownRows(section)) {
-                            usedResources.insert(StringTools::toLower(StringTools::strip(
-                                IniNamingTools::removeRefPrefix(row->value)).data()));
-                        }
-                    }
-
+                    // which resource names each file is the parser's (IniParseData::resourceOfFile); the other
+                    // way, so an edit can reach EVERY variant a toggled role binds rather than only the one
+                    // fileOfRole_ resolved to
                     for (const auto& entry : scan.roles->resourcesOf(scan.iniPath)) {
-                        const auto placed = scan.resourceOfFile.emplace(entry.second, entry.first);
-                        if (!placed.second && usedResources.count(StringTools::toLower(placed.first->second)) == 0
-                                && usedResources.count(StringTools::toLower(entry.first)) > 0) {
-                            placed.first->second = entry.first;
-                        }
-                        // ...and the other way, so an edit can reach EVERY variant a toggled role
-                        // binds rather than only the one fileOfRole_ resolved to
                         fileOfResource_.emplace(StringTools::toLower(entry.first), entry.second);
                     }
 
@@ -2098,7 +2071,7 @@ namespace AGRemapCore {
                             }
 
                             fileOfRole_[role] = best;
-                            auto own = scan.resourceOfFile.find(best);
+                            const std::optional<std::string> own = scan.data->resourceOfFile(best);
 
                             // ...unless a PREVIOUS run of the fix is what declared it. A fix undoes
                             // first and the undo removes every section a fix named, so binding
@@ -2112,9 +2085,8 @@ namespace AGRemapCore {
                             //
                             // IniNamingTools::looksRemapped is the undo's own test, so the two
                             // cannot disagree about what is about to be removed.
-                            if (own != scan.resourceOfFile.end()
-                                && !IniNamingTools::looksRemapped(own->second, remapNames_)) {
-                                resourceOfSlotRole_[{role, component}] = own->second;
+                            if (own.has_value() && !IniNamingTools::looksRemapped(*own, remapNames_)) {
+                                resourceOfSlotRole_[{role, component}] = *own;
                                 return;
                             }
 
@@ -2140,28 +2112,21 @@ namespace AGRemapCore {
                         }
                 }
 
-                // Every role offered to every component that could serve it, then the roles the fix
-                // invents and the downloads for the rest.
+                // Every role offered to every component that could serve it -- the plan's, then the ones
+                // only a slot's OTHER passes or a shared mesh bind (Chisa's accessoryNormal: until these were
+                // asked it could only come from the download, bound over the mod's own normal map) -- then the
+                // roles the fix invents, and a stand-in for every role no file of the mod's serves.
                 void applyTextureRoles(TextureScan& scan) {
                     for (const auto& planned : config_.plan) {
-                        if (present_.count(planned.first) == 0) {
-                            continue;
-                        }
-
-                        for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned.first)) {
-                            assignRole(scan, binding.role, planned.first);
+                        if (present_.count(planned.first) > 0) {
+                            for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned.first)) {
+                                assignRole(scan, binding.role, planned.first);
+                            }
                         }
                     }
-
-                    // ...and the roles the plan does not name, which only a slot's OTHER passes or a
-                    // shared mesh bind. Until these were asked, a role like Chisa's accessoryNormal
-                    // could only ever come from the fallback DOWNLOAD -- so the fix fetched the
-                    // game's normal map and bound it over the one the mod ships, at the mod's UVs.
-                    // assign() no-ops on a role already resolved or one no file serves, so offering
-                    // every present component is safe.
                     for (const std::string& role : passOnlyRoles()) {
                         for (const auto& entry : present_) {
-                            assignRole(scan, role, entry.first);
+                            assignRole(scan, role, entry.first);    // a no-op on a role resolved or one no file serves
                         }
                     }
 
@@ -2169,84 +2134,58 @@ namespace AGRemapCore {
                         resourceOfRole_[created.role] = remapFixName(IniKeywords::Resource + created.role);
                     }
 
-                    // A planned role the mod has NO file for: the SOURCE's own game texture, as a
-                    // download named RemapDL (the file is the fix's, so an undo may delete it). The
-                    // mod's UVs are the source's, and the target's texture -- what the register
-                    // samples on the target's draw when nothing binds it -- is wrong by construction.
-                    if (!config_.sourceTextures.downloadCharFolder.empty()) {
-                        for (const auto& entry : config_.plan) {
-                            if (present_.count(entry.first) == 0) {
-                                continue;
-                            }
+                    if (config_.sourceTextures.downloadCharFolder.empty()) {
+                        return;
+                    }
 
-                            for (const WWMIFixerConfig::Binding& binding : bindingsOf(entry.first)) {
-                                if (resourceOfSlotRole_.count({binding.role, entry.first}) > 0
-                                    || resourceOfRole_.count(binding.role) > 0) {
-                                    continue;
-                                }
-
-                                auto fallback = config_.sourceTextures.fallbackTextures.find(binding.role);
-                                if (fallback == config_.sourceTextures.fallbackTextures.end()
-                                        || leftToGame_.count(binding.role) > 0) {
-                                    continue;
-                                }
-
-                                registerFallback(binding.role, fallback->second);
-                            }
-                        }
-
-                        // ...and a role a shader names in a `role <name>` line: a texture of the
-                        // SOURCE's that no mod ships (her lighting ramp). A reroute's plan entry counts
-                        // when the component it takes draws from is present -- the reroutes themselves
-                        // are read after this
-                        for (const auto& entry : config_.plan) {
-                            bool drawn = present_.count(entry.first) > 0;
-                            for (const auto& reroute : config_.drawReroutes) {
-                                drawn = drawn || (reroute.as == entry.first && present_.count(reroute.from) > 0);
-                            }
-                            if (!drawn) {
-                                continue;
-                            }
-
-                            for (const std::string& role : shaderLineRoles(entry.first)) {
-                                auto fallback = config_.sourceTextures.fallbackTextures.find(role);
-                                if (resourceOfRole_.count(role) == 0
-                                        && fallback != config_.sourceTextures.fallbackTextures.end()) {
-                                    registerFallback(role, fallback->second);
+                    // a planned role a component has no file for; a role a shader names in a `role <name>` line
+                    // (a texture of the source's no mod ships: her lighting ramp -- a reroute's plan entry counts
+                    // when the component it draws from is present); a role only other passes bind, that no
+                    // component owns
+                    for (const auto& planned : config_.plan) {
+                        if (present_.count(planned.first) > 0) {
+                            for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned.first)) {
+                                if (resourceOfSlotRole_.count({binding.role, planned.first}) == 0) {
+                                    standIn(binding.role);
                                 }
                             }
                         }
 
-                        // ...and the roles only a slot's OTHER passes or a shared mesh bind. The
-                        // loop above walks the plan, which is each component's MAIN pass, so a role
-                        // bound nowhere else never downloaded: Chisa's accessoryNormal is bound only
-                        // by slot 5's two side-panel passes, and her ribbon rendered with the GAME's
-                        // normal map at the mod's UVs.
-                        //
-                        // The plan's per-component test is a different question from "does any file
-                        // of the mod serve this role", so it is left alone and this asks the shared
-                        // one.
-                        for (const std::string& role : passOnlyRoles()) {
-                            if (resourceOfRole_.count(role) > 0) {
-                                continue;
-                            }
-
-                            bool owned = false;
-                            for (const auto& entry : resourceOfSlotRole_) {
-                                if (entry.first.first == role) {
-                                    owned = true;
-                                    break;
-                                }
-                            }
-
-                            auto fallback = config_.sourceTextures.fallbackTextures.find(role);
-                            if (owned || fallback == config_.sourceTextures.fallbackTextures.end()
-                                    || leftToGame_.count(role) > 0) {
-                                continue;
-                            }
-
-                            registerFallback(role, fallback->second);
+                        bool drawn = present_.count(planned.first) > 0;
+                        for (const auto& reroute : config_.drawReroutes) {
+                            drawn = drawn || (reroute.as == planned.first && present_.count(reroute.from) > 0);
                         }
+                        for (const std::string& role : drawn ? shaderLineRoles(planned.first) : std::vector<std::string>{}) {
+                            standIn(role);
+                        }
+                    }
+                    for (const std::string& role : passOnlyRoles()) {
+                        const bool owned = std::any_of(resourceOfSlotRole_.begin(), resourceOfSlotRole_.end(),
+                                                       [&role](const auto& entry) { return entry.first.first == role; });
+                        if (!owned) {
+                            standIn(role);
+                        }
+                    }
+                }
+
+                // ---- THE STAND-IN RULE ----
+                //
+                // What binds a role where the mod's own file does not reach, in two cases:
+                //   - the mod has NO file for it: the texture the fix invents (createdTextures, set above), else
+                //     the SOURCE's own game texture, downloaded -- the mod's UVs are the source's, and the
+                //     target's texture at them is wrong by construction (#standIn)
+                //   - its file reaches only SOME draws: a role bound only under a toggle, a one-variant toggle, the
+                //     draws a section makes before its first binding. The source's own game texture is the default
+                //     there, and the mod's own lines rebind its file inside their branches (#planGameDefaults)
+                // A role in WWMIFixerConfig::flatLeftToGame with nothing of the mod's left gets neither: the game's
+                // own is what the mod rendered with.
+
+                // The source's own game texture standing in for 'role', which no file of the mod's serves
+                void standIn(const std::string& role) {
+                    const auto fallback = config_.sourceTextures.fallbackTextures.find(role);
+                    if (resourceOfRole_.count(role) == 0 && leftToGame_.count(role) == 0
+                            && fallback != config_.sourceTextures.fallbackTextures.end()) {
+                        registerFallback(role, fallback->second);
                     }
                 }
 
@@ -2670,7 +2609,7 @@ namespace AGRemapCore {
                         }
 
                         // THE COMPONENT'S TEXTURE LIST: each role of its plan row bound at the target's register
-                        // -- a role the mod toggles against the game's texture by its toggle (planToggledRoles),
+                        // -- a role the mod toggles against the game's texture by its toggle (planGameDefaults),
                         // `null` as nothing, and the rest by bindLine
                         const std::string passGuard = passCondition(config_.slotPasses.at(static_cast<std::size_t>(planned.slot)));
                         TextureLines main;
@@ -2715,7 +2654,7 @@ namespace AGRemapCore {
 
                         // GENERATION 0: THE DRAWS THIS SECTION MAKES BEFORE IT BINDS ANYTHING
                         // (2026-10-03). They rendered with the SOURCE's own game textures, so that
-                        // is what they are given -- see lateBindRegs_ and planGameTexEdits. Run with the
+                        // is what they are given -- see lateBindRegs_ and planGameDefaults. Run with the
                         // additions, after the list above, so it wins for those draws.
                         if (lateBindRegs_.count(component) > 0 && !gameResourceOfRole_.empty()) {
                             TextureLines game;
@@ -5227,104 +5166,107 @@ namespace AGRemapCore {
                     return true;
                 }
 
-                // A ROLE THE MOD BINDS ONLY UNDER A TOGGLE THAT DOES NOT REACH ITS DRAWS (2026-10-11).
-                // Lynae11 binds its own material-code map (`ps-t2 = test1 / test2`) only `if $Pants !=
-                // 0`, and draws its default outfit under other conditions: there the GAME's own map is
-                // what Lynae renders with. The texture list bound `test1` unconditionally -- laid out
-                // for the pants, it coded the default skirt as skin, which LynaePeppermint shades red.
+                // THE SOURCE'S OWN GAME TEXTURE AS THE DEFAULT, where the mod's file reaches only some of a
+                // component's draws -- see the stand-in rule above. Three cases, each the source's own texture
+                // where the original drew with the GAME's:
                 //
-                // A binding reaches a draw when its `if` block is the draw's or encloses it. A role
-                // whose resource is bound in a component's sections only on paths that reach none of
-                // that section's draws -- and whose register no reaching line binds -- gets the
-                // source's own game texture in the list instead (edited like the mod's would be); the
-                // mod's own conditional lines, carried after the list, still bind its file in the
-                // branches where it does. A section that draws only through `run =` is left alone.
-                // The roles whose file the mod binds with ONE `this` under a toggle (IniParseData::TextureToggle::single)
-                // get the source's own game texture planned: it is what the original draws with while the
-                // toggle is off, and bindLine puts it at the front of the role's copied list
-                void planSingleToggles() {
+                //   1. the draws a section makes BEFORE it binds anything (#lateBindRegs_): they rendered with
+                //      the textures the game had bound when it matched the draw (ChisaParfait3's hat and chest
+                //      bandages). A role the mod has no file for is already the source's game texture (its
+                //      stand-in, edits and all), so only a role the mod DOES serve needs a second file.
+                //   2. a role bound only under a toggle that reaches none of the section's draws (Lynae11 binds
+                //      its own material-code map only `if $Pants != 0`, and its default outfit drew with the
+                //      game's) -- unless a `this` on a texture's hash binds it for every draw anyway (Lynae3).
+                //      Which resources a component binds only under a toggle is the parser's
+                //      (IniParseData::toggledBindings); a reroute reads its source component's.
+                //   3. a role bound with ONE `this` under a toggle (IniParseData::TextureToggle::single): off, the
+                //      original draws with the game's texture, which bindLine puts at the front of the role's list.
+                void planGameDefaults() {
                     if (hasGivenUp() || config_.sourceTextures.downloadCharFolder.empty()) {
                         return;
                     }
 
-                    for (const auto& [component, sections] : present_) {
-                        (void)sections;
-                        const auto planned = config_.plan.find(component);
-                        if (planned == config_.plan.end()) {
-                            continue;
-                        }
-
-                        for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned->first)) {
-                            if (binding.role == IniKeywords::Null || leftToGame_.count(binding.role) > 0) {
-                                continue;
-                            }
-
-                            const std::string* resource = resourceFor(binding.role, component);
-                            if (resource == nullptr) {
-                                continue;
-                            }
-
-                                                        const std::string base = StringTools::toLower(*resource);
-                            const IniParseData::TextureToggle* toggle = parseData().thisToggleOf(base);
-                            if (toggle != nullptr && toggle->single) {
-                                planGameResource(binding.role);
+                    // 1. the draws before the first binding
+                    std::set<std::string> lateRoles;
+                    for (const auto& entry : lateBindRegs_) {
+                        const auto planned = config_.plan.find(entry.first);
+                        for (const WWMIFixerConfig::Binding& binding : planned != config_.plan.end() ? bindingsOf(planned->first)
+                                                                                                    : std::vector<WWMIFixerConfig::Binding>{}) {
+                            if (binding.role != IniKeywords::Null && leftToGame_.count(binding.role) == 0) {
+                                lateRoles.insert(binding.role);
                             }
                         }
                     }
-                }
 
-                void planToggledRoles() {
-                    if (hasGivenUp() || config_.sourceTextures.downloadCharFolder.empty()) {
-                        return;
+                    std::vector<std::string> downloaded;
+                    for (const std::string& role : lateRoles) {
+                        if (fileOfRole_.count(role) == 0) {
+                            if (const std::string* resolved = sharedResourceFor(role)) {
+                                gameResourceOfRole_[role] = *resolved;       // already the source's, edits and all
+                            }
+                        } else if (planGameResource(role)) {
+                            downloaded.push_back(role);
+                        } else {
+                            ctx_.log("the draws " + config_.slotPrefix + " sections make before binding anything need "
+                                     + source_.name + "'s own " + role + ", and fallbackTextures has no hash for it -- those"
+                                     " draws keep the target's texture at the mod's UVs");
+                        }
+                    }
+                    if (!downloaded.empty()) {
+                        std::string names;
+                        for (const std::string& role : downloaded) {
+                            names += (names.empty() ? "" : ", ") + role;
+                        }
+                        ctx_.log(std::to_string(lateBindRegs_.size()) + " component section(s) draw before binding a texture"
+                                 " register, so those draws take " + source_.name + "'s own " + names + " rather than the mod's");
                     }
 
-                    // Which resources a component binds only under a toggle is the parser's
-                    // (IniParseData::toggledBindings); a reroute reads its source component's. A resource the
-                    // mod also binds with `this =` on a texture's hash is on for every draw of the source that
-                    // binds that texture, whatever the register lines say: Lynae3 binds its body diffuse that
-                    // way and has one register line for it, under `$Wish`. Those roles keep the mod's file (the
-                    // toggle lists of bindLine handle a `this` chain)
+                    // 2. a role bound only under a toggle, and 3. a one-variant toggle
                     const IniParseData& data = parseData();
-                    for (const auto& [component, sections] : present_) {
-                        (void)sections;
-                        const auto planned = config_.plan.find(component);
-                        if (planned == config_.plan.end()) {
-                            continue;
-                        }
-
-                        const auto alias = rerouteFrom_.find(component);
-                        const std::set<std::string>& toggledOnly = data.toggledBindings(
-                            ModObj("", config_.slotPrefix + std::to_string(alias != rerouteFrom_.end() ? alias->second : component)));
-                        if (toggledOnly.empty()) {
-                            continue;
-                        }
-
-                        for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned->first)) {
-                            if (binding.role == IniKeywords::Null || leftToGame_.count(binding.role) > 0
-                                    || fileOfRole_.count(binding.role) == 0) {
+                    for (int pass = 2; pass <= 3; ++pass) {
+                        for (const auto& [component, sections] : present_) {
+                            (void)sections;
+                            const auto planned = config_.plan.find(component);
+                            if (planned == config_.plan.end()) {
                                 continue;
                             }
 
-                            const std::string* resource = resourceFor(binding.role, component);
-                            if (resource == nullptr) {
+                            const auto alias = rerouteFrom_.find(component);
+                            const std::set<std::string>& toggledOnly = data.toggledBindings(
+                                ModObj("", config_.slotPrefix + std::to_string(alias != rerouteFrom_.end() ? alias->second : component)));
+                            if (pass == 2 && toggledOnly.empty()) {
                                 continue;
                             }
 
-                            const std::string base = StringTools::toLower(*resource);
-                            if (toggledOnly.count(base) == 0 || data.isThisBound(base)) {
-                                continue;                   // bound unconditionally, or some other way (a `this` override)
-                            }
+                            for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned->first)) {
+                                const std::string* resource = resourceFor(binding.role, component);
+                                if (binding.role == IniKeywords::Null || leftToGame_.count(binding.role) > 0 || resource == nullptr
+                                        || (pass == 2 && fileOfRole_.count(binding.role) == 0)) {
+                                    continue;
+                                }
 
-                            if (!planGameResource(binding.role)) {
+                                const std::string base = StringTools::toLower(*resource);
+                                if (pass == 3) {
+                                    const IniParseData::TextureToggle* toggle = data.thisToggleOf(base);
+                                    if (toggle != nullptr && toggle->single) {
+                                        planGameResource(binding.role);
+                                    }
+                                    continue;
+                                }
+
+                                if (toggledOnly.count(base) == 0 || data.isThisBound(base)) {
+                                    continue;               // bound unconditionally, or some other way (a `this` override)
+                                }
+                                if (!planGameResource(binding.role)) {
+                                    ctx_.log(config_.slotPrefix + std::to_string(component) + " binds its " + binding.role
+                                             + " only under a toggle, and fallbackTextures has no hash for " + source_.name
+                                             + "'s own -- the mod's file stays bound in every branch");
+                                    continue;
+                                }
+                                toggledGame_[{binding.role, component}] = gameResourceFor(binding.role, component);
                                 ctx_.log(config_.slotPrefix + std::to_string(component) + " binds its " + binding.role
-                                     + " only under a toggle, and fallbackTextures has no hash for " + source_.name
-                                     + "'s own -- the mod's file stays bound in every branch");
-                                continue;
+                                         + " only under a toggle; elsewhere " + source_.name + "'s own is bound, as the game does");
                             }
-
-                            toggledGame_[{binding.role, component}] = gameResourceFor(binding.role, component);
-                            ctx_.log(config_.slotPrefix + std::to_string(component) + " binds its " + binding.role
-                                     + " only under a toggle; elsewhere " + source_.name + "'s own is bound, as the game does");
                         }
                     }
                 }
@@ -5349,82 +5291,6 @@ namespace AGRemapCore {
 
                     gameFallbacks_[role] = fallbackOf(TextTools::capitalize(role) + GameSuffix, hash->second);
                     return true;
-                }
-
-                /**
-                 * @brief
-                 @rst
-                 The source's OWN game texture for every role a split section's pre-binding draws
-                 need, with that role's edits run on it
-                 @endrst
-                 *
-                 * A component section that draws before it binds anything has two binding
-                 * generations in it (see #lateBindRegs_). The first renders with the textures the
-                 * game had bound when it matched the draw -- the source character's -- so after the
-                 * remap those draws must be given the source's own art, downloaded, and not the
-                 * mod's.
-                 *
-                 * A role the mod has no file for is already exactly that: ``fallbackTextures``
-                 * downloaded it and every edit of the role ran on it, so the two generations agree
-                 * and nothing is added. Only a role the mod DOES serve needs a second file.
-                 */
-                void planGameTexEdits() {
-                    if (lateBindRegs_.empty() || hasGivenUp()
-                            || config_.sourceTextures.downloadCharFolder.empty()) {
-                        return;
-                    }
-
-                    std::set<std::string> roles;
-                    for (const auto& entry : lateBindRegs_) {
-                        auto planned = config_.plan.find(entry.first);
-                        if (planned == config_.plan.end()) {
-                            continue;
-                        }
-
-                        for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned->first)) {
-                            if (binding.role != IniKeywords::Null) {
-                                roles.insert(binding.role);
-                            }
-                        }
-                    }
-
-                    std::vector<std::string> downloaded;
-                    for (const std::string& role : roles) {
-                        if (leftToGame_.count(role) > 0) {
-                            continue;   // deliberately not bound at all: the game's own is right
-                        }
-
-                        if (fileOfRole_.count(role) == 0) {
-                            // already the source's game texture, edits and all
-                            const std::string* resolved = sharedResourceFor(role);
-                            if (resolved != nullptr) {
-                                gameResourceOfRole_[role] = *resolved;
-                            }
-
-                            continue;
-                        }
-
-                        if (!planGameResource(role)) {
-                            ctx_.log("the draws " + config_.slotPrefix + " sections make before binding "
-                                 "anything need " + source_.name + "'s own " + role
-                                 + ", and fallbackTextures has no hash for it -- those draws keep "
-                                 "the target's texture at the mod's UVs");
-                            continue;
-                        }
-
-                        downloaded.push_back(role);
-                    }
-
-                    if (!downloaded.empty()) {
-                        std::string names;
-                        for (const std::string& role : downloaded) {
-                            names += (names.empty() ? "" : ", ") + role;
-                        }
-
-                        ctx_.log(std::to_string(lateBindRegs_.size()) + " component section(s) draw "
-                                 "before binding a texture register, so those draws take "
-                                 + source_.name + "'s own " + names + " rather than the mod's");
-                    }
                 }
 
                 using RoleRegs = std::vector<std::pair<std::string, std::string>>;

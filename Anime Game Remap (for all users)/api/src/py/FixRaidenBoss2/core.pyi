@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalIniClassifiers', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSharedState', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexcoordFile', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsCreate', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalIniClassifiers', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSharedState', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexcoordFile', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -11085,6 +11085,35 @@ class GraphCreate(BaseIniGraphGroupEdit):
     @newPartIds.setter
     def newPartIds(self, arg0: bool) -> None:
         ...
+    @property
+    def sectionsOf(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`int`], Optional[List[:class:`IfTemplate`]]]]: The `sections`_ of each group's graph, given the group's index :raw-html:`<br />` :raw-html:`<br />`
+        
+        Set, the edit builds a graph from them for EVERY group present when it runs and adds it under :attr:`graphId`'s component
+        and object (its .ini index is unused), instead of adding :attr:`graph`. A section of a name already in the graph is left
+        out, so the first one wins; a group handed no sections gets no graph. When there are no groups at all, group 0's
+        sections go into a group of their own. This is how the sections a :class:`GraphEditVariables` variable holds are written
+        out as a graph in each group -- a fixer's own sections into its file and every copy. **Default**: ``None``
+        
+        :example:
+        
+        .. code-block:: python
+        
+            write = FRB.GraphCreate((0, "", "fixSections"))
+            write.sectionsOf = lambda group: variables.sections("fix").list()
+        """
+    @sectionsOf.setter
+    def sectionsOf(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def z3(self) -> Z3Context:
+        """
+        Optional[:class:`Z3Context`]: The context a graph built from :attr:`sectionsOf` builds its conditions in, or ``None`` for its own. **Default**: ``None``
+        """
+    @z3.setter
+    def z3(self, arg1: Z3Context) -> None:
+        ...
 class GraphEditVariables:
     """
     
@@ -11093,7 +11122,7 @@ class GraphEditVariables:
     
     A variable holds one graph's worth of `sections`_ (:class:`GraphEditVariables.Sections`): an edit copies sections of a
     graph into it (:class:`VarSectionsTake`), code adds sections it builds itself (:meth:`GraphEditVariables.Sections.add`),
-    and an edit writes it out as a graph (:class:`VarSectionsCreate`). A fixer's own sections are one such variable
+    and an edit writes it out as a graph (:attr:`GraphCreate.sectionsOf`). A fixer's own sections are one such variable
     
     .. warning::
         A variable is a snapshot. An edit that changes a graph afterwards does not change what a variable copied from it
@@ -11108,7 +11137,8 @@ class GraphEditVariables:
         variables = FRB.GraphEditVariables()
         variables.sections("fix").add(FRB.IfTemplate([FRB.IfContentPart({"handling": [(0, "skip")]}, 0)], name = "TextureOverrideMine"))
         take = FRB.VarSectionsTake(variables, "fix", ("", "body"), ["TextureOverrideBody"])
-        create = FRB.VarSectionsCreate(variables, ("", "fixSections"), lambda group: ["fix"] if group == 0 else [])
+        create = FRB.GraphCreate((0, "", "fixSections"))
+        create.sectionsOf = lambda group: variables.sections("fix").list() if group == 0 else []
         fixer.graphGroupEdits = [take, create]
         
     """
@@ -11155,6 +11185,15 @@ class GraphEditVariables:
             -------
             :class:`bool`
                 Whether the variable holds no section
+            """
+        def list(self) -> list:
+            """
+            The sections, in order -- the variable's own, not copies: what :attr:`GraphCreate.sectionsOf` hands a graph
+            
+            Returns
+            -------
+            List[:class:`IfTemplate`]
+                The sections
             """
         def names(self) -> list[str]:
             """
@@ -12951,6 +12990,22 @@ class IniParseData:
         Dict[:class:`str`, :class:`str`]
             lowercased `section`_ name -> its ``filename =``
         """
+    def resourceOfFile(self, file: str) -> str | None:
+        """
+        The resource `section`_ that names ``file`` as the mod USES it, or ``None`` -- one file may be declared by several
+        resources, and the one a section of the mod binds is the one that reaches the draws. Recorded by the parser with
+        :meth:`setFileResource`
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The file, as :meth:`roleFile` names it
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The resource `section`_
+        """
     def roleCandidates(self, role: str) -> list[tuple[str, str]]:
         """
         The files left for a role once the ones that cannot serve it are refused, in the order they were found
@@ -13048,6 +13103,18 @@ class IniParseData:
         
         rows: List[:class:`GraphCollect.Row`]
             The rows
+        """
+    def setFileResource(self, file: str, resource: str) -> None:
+        """
+        Records that the mod uses the resource `section`_ ``resource`` for ``file`` -- see :meth:`resourceOfFile`
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The file
+        
+        resource: :class:`str`
+            The resource `section`_
         """
     def setLateBindings(self, modObj: tuple[str, str], regs: collections.abc.Sequence[str]) -> None:
         """
@@ -30520,72 +30587,6 @@ class VGSplitGroupResource(IniGroupedResource, RemapIniResourceMixin):
     @texcoordLineEdit.setter
     def texcoordLineEdit(self, arg1: typing.Any) -> None:
         ...
-class VarSectionsCreate(BaseIniGraphGroupEdit):
-    """
-    
-    This class inherits from :class:`BaseIniGraphGroupEdit`
-    
-    Writes sections variables of a :class:`GraphEditVariables` out as a graph in each group
-    
-    For each group, :attr:`variablesOf` names the variables whose `sections`_ make up that group's graph, in order; a
-    section of a name already in the graph is left out, so the first one written wins. The graph is added under
-    :attr:`graph` in that group, and a group whose variables hold nothing gets no graph. When there are no groups at all,
-    the first group's variables are written into a group of its own. Its graph follows ``run =`` by naming the section each
-    value calls
-    
-    Parameters
-    ----------
-    variables: :class:`GraphEditVariables`
-        The variables
-    
-    graph: Tuple[:class:`str`, :class:`str`]
-        The mod object the graph is added under in each group
-    
-    variablesOf: Callable[[:class:`int`], List[:class:`str`]]
-        The names of the variables that make up a group's graph, in order, given the group's index
-        
-    """
-    def __init__(self, variables: GraphEditVariables, graph: tuple[str, str], variablesOf: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex], list[str]]) -> None:
-        ...
-    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
-        """
-        Returns
-        -------
-        List[:class:`IniGraphGroup`]
-            The same list that was passed in
-        """
-    def editFromIni(self, graphGroups: list, ini: typing.Any, modType: typing.Any, modName: str = '') -> list:
-        """
-        Returns
-        -------
-        List[:class:`IniGraphGroup`]
-            The same list that was passed in
-        """
-    @property
-    def graph(self) -> tuple[str, str]:
-        """
-        Tuple[:class:`str`, :class:`str`]: The mod object the graph is added under in each group
-        """
-    @graph.setter
-    def graph(self, arg0: tuple[str, str]) -> None:
-        ...
-    @property
-    def variablesOf(self) -> collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex], list[str]]:
-        """
-        Callable[[:class:`int`], List[:class:`str`]]: The names of the variables that make up a group's graph, in order, given
-        the group's index
-        """
-    @variablesOf.setter
-    def variablesOf(self, arg0: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex], list[str]]) -> None:
-        ...
-    @property
-    def z3(self) -> Z3Context:
-        """
-        Optional[:class:`Z3Context`]: The context the graph builds its conditions in, or ``None`` for its own
-        """
-    @z3.setter
-    def z3(self, arg1: Z3Context) -> None:
-        ...
 class VarSectionsTake(BaseIniGraphGroupEdit):
     """
     
@@ -30595,7 +30596,7 @@ class VarSectionsTake(BaseIniGraphGroupEdit):
     removes the graph
     
     The usual use: copy some of the mod's own sections into a graph of their own, rename and edit that graph, then take the
-    result into the variable a :class:`VarSectionsCreate` writes out. The sections taken go after every section the
+    result into the variable a :class:`GraphCreate` writes out (:attr:`GraphCreate.sectionsOf`). The sections taken go after every section the
     variable holds when this edit runs -- or, with 'inPlace', where this edit was made: the place is held when the edit is
     constructed, so sections added to the variable after that come after them
     

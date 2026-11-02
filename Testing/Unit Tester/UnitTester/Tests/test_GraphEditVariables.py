@@ -25,7 +25,10 @@ class GraphEditVariablesTest(BaseUnitTest):
 
     @classmethod
     def create(cls, variables, variablesOf):
-        return FRB.VarSectionsCreate(variables, cls.Out, variablesOf)
+        # a variable written out as a graph in each group: GraphCreate building each group's graph from its sections
+        create = FRB.GraphCreate((0, *cls.Out))
+        create.sectionsOf = lambda group: [section for name in variablesOf(group) for section in variables.sections(name).list()]
+        return create
 
     # ====================== the variables ======================================
 
@@ -73,7 +76,7 @@ class GraphEditVariablesTest(BaseUnitTest):
 
         self.assertTrue(variables.sections("a").empty() and variables.sections("b").empty())
 
-    # ====================== VarSectionsCreate ==================================
+    # ====================== GraphCreate.sectionsOf =============================
 
     def test_create_eachGroupFromItsVariables_inOrder(self):
         variables = FRB.GraphEditVariables()
@@ -106,6 +109,23 @@ class GraphEditVariablesTest(BaseUnitTest):
         self.assertEqual(self.names(groups[0]), ["One"])
         self.assertIn("first", groups[0].graphs[self.Out].toStr())
         self.assertNotIn("second", groups[0].graphs[self.Out].toStr())
+
+    def test_create_noGroups_writesGroupZeroIntoAGroupOfItsOwn(self):
+        variables = FRB.GraphEditVariables()
+        variables.sections("v").add(self.section("One"))
+        groups = []
+
+        groups = self.create(variables, lambda group: ["v"]).edit(groups, None)
+
+        self.assertEqual(len(groups), 1)
+        self.assertEqual(self.names(groups[0]), ["One"])
+
+    def test_list_isTheVariablesOwnSections(self):
+        sections = FRB.GraphEditVariables().sections("v")
+        sections.add(self.section("One"))
+        sections.add(self.section("Two"))
+
+        self.assertEqual([section.name for section in sections.list()], ["One", "Two"])
 
     # ====================== VarSectionsTake ====================================
 

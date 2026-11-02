@@ -18,7 +18,7 @@
       <node id="88">
         <label>BaseIniFixer.tpp</label>
       </node>
-      <node id="100">
+      <node id="99">
         <label>BaseIniGraphEdit.tpp</label>
       </node>
       <node id="85">
@@ -30,7 +30,7 @@
       <node id="37">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="113">
+      <node id="112">
         <label>BaseRegEdit.tpp</label>
       </node>
       <node id="126">
@@ -75,7 +75,7 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="119">
+      <node id="118">
         <label>AGRemapCore/constants/IniGraphReplaceMode.h</label>
         <link refid="_ini_graph_replace_mode_8h"/>
       </node>
@@ -118,19 +118,17 @@
         </childnode>
         <childnode refid="96" relation="include">
         </childnode>
-        <childnode refid="97" relation="include">
+        <childnode refid="101" relation="include">
         </childnode>
-        <childnode refid="102" relation="include">
+        <childnode refid="103" relation="include">
         </childnode>
-        <childnode refid="104" relation="include">
+        <childnode refid="105" relation="include">
         </childnode>
-        <childnode refid="106" relation="include">
+        <childnode refid="114" relation="include">
         </childnode>
         <childnode refid="115" relation="include">
         </childnode>
-        <childnode refid="116" relation="include">
-        </childnode>
-        <childnode refid="118" relation="include">
+        <childnode refid="117" relation="include">
         </childnode>
         <childnode refid="78" relation="include">
         </childnode>
@@ -148,7 +146,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="64" relation="include">
         </childnode>
@@ -168,14 +166,14 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="61" relation="include">
         </childnode>
         <childnode refid="74" relation="include">
         </childnode>
       </node>
-      <node id="124">
+      <node id="123">
         <label>AGRemapCore/model/IniNamingTools.h</label>
         <link refid="_ini_naming_tools_8h"/>
         <childnode refid="5" relation="include">
@@ -220,7 +218,7 @@
         </childnode>
         <childnode refid="65" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="66" relation="include">
         </childnode>
@@ -244,7 +242,7 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="66" relation="include">
         </childnode>
@@ -290,7 +288,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="107" relation="include">
+        <childnode refid="106" relation="include">
         </childnode>
       </node>
       <node id="130">
@@ -302,7 +300,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="107" relation="include">
+        <childnode refid="106" relation="include">
         </childnode>
       </node>
       <node id="129">
@@ -314,7 +312,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="107" relation="include">
+        <childnode refid="106" relation="include">
         </childnode>
       </node>
       <node id="137">
@@ -326,18 +324,18 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="109" relation="include">
+        <childnode refid="108" relation="include">
         </childnode>
         <childnode refid="138" relation="include">
         </childnode>
       </node>
-      <node id="108">
+      <node id="107">
         <label>AGRemapCore/model/assets/ModDictAssets.h</label>
         <link refid="_mod_dict_assets_8h"/>
         <childnode refid="10" relation="include">
@@ -346,7 +344,7 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
@@ -354,12 +352,12 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="108" relation="include">
+        </childnode>
         <childnode refid="109" relation="include">
         </childnode>
-        <childnode refid="110" relation="include">
-        </childnode>
       </node>
-      <node id="107">
+      <node id="106">
         <label>AGRemapCore/model/assets/ModMappedAssets.h</label>
         <link refid="_mod_mapped_assets_8h"/>
         <childnode refid="10" relation="include">
@@ -368,7 +366,7 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
@@ -380,14 +378,14 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="107" relation="include">
+        </childnode>
         <childnode refid="108" relation="include">
         </childnode>
-        <childnode refid="109" relation="include">
-        </childnode>
-        <childnode refid="111" relation="include">
+        <childnode refid="110" relation="include">
         </childnode>
       </node>
-      <node id="109">
+      <node id="108">
         <label>AGRemapCore/model/assets/Row.h</label>
         <link refid="_row_8h"/>
         <childnode refid="8" relation="include">
@@ -402,7 +400,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="107" relation="include">
+        <childnode refid="106" relation="include">
         </childnode>
       </node>
       <node id="133">
@@ -414,7 +412,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="107" relation="include">
+        <childnode refid="106" relation="include">
         </childnode>
       </node>
       <node id="134">
@@ -426,7 +424,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="107" relation="include">
+        <childnode refid="106" relation="include">
         </childnode>
       </node>
       <node id="135">
@@ -444,12 +442,14 @@
         <link refid="_vertex_counts_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="108" relation="include">
+        <childnode refid="107" relation="include">
         </childnode>
       </node>
-      <node id="125">
+      <node id="124">
         <label>AGRemapCore/model/files/IniFile.h</label>
         <link refid="_ini_file_8h"/>
+        <childnode refid="125" relation="include">
+        </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
@@ -464,7 +464,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
@@ -472,7 +472,7 @@
         </childnode>
         <childnode refid="60" relation="include">
         </childnode>
-        <childnode refid="121" relation="include">
+        <childnode refid="120" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
@@ -484,13 +484,13 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="122" relation="include">
+        <childnode refid="121" relation="include">
         </childnode>
       </node>
-      <node id="19">
+      <node id="20">
         <label>AGRemapCore/model/iftemplate/IfContentPart.h</label>
         <link refid="_if_content_part_8h"/>
-        <childnode refid="20" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
@@ -500,9 +500,9 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
         <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
@@ -512,7 +512,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
@@ -534,7 +534,7 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
@@ -546,9 +546,9 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
         <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="29" relation="include">
         </childnode>
@@ -600,6 +600,8 @@
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
         <childnode refid="46" relation="include">
         </childnode>
         <childnode refid="50" relation="include">
@@ -632,9 +634,9 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
         <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
@@ -658,7 +660,7 @@
         <link refid="_if_template_render_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
@@ -672,7 +674,7 @@
         </childnode>
         <childnode refid="47" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
@@ -685,7 +687,7 @@
         <childnode refid="55" relation="include">
         </childnode>
       </node>
-      <node id="121">
+      <node id="120">
         <label>AGRemapCore/model/iniresources/IniResource.h</label>
         <link refid="_ini_resource_8h"/>
         <childnode refid="12" relation="include">
@@ -700,7 +702,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="122" relation="include">
+        <childnode refid="121" relation="include">
         </childnode>
       </node>
       <node id="127">
@@ -770,7 +772,7 @@
       <node id="146">
         <label>AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h</label>
         <link refid="_ini_classify_stats_8h"/>
-        <childnode refid="23" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="147" relation="include">
         </childnode>
@@ -793,7 +795,7 @@
         <childnode refid="88" relation="include">
         </childnode>
       </node>
-      <node id="99">
+      <node id="98">
         <label>AGRemapCore/model/strategies/iniFixers/BaseIniGraphPartEdit.h</label>
         <link refid="_base_ini_graph_part_edit_8h"/>
         <childnode refid="82" relation="include">
@@ -818,7 +820,7 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
@@ -862,12 +864,12 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="115">
+      <node id="114">
         <label>AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h</label>
         <link refid="_ini_file_fix_context_8h"/>
         <childnode refid="10" relation="include">
@@ -959,7 +961,7 @@
         <childnode refid="92" relation="include">
         </childnode>
       </node>
-      <node id="98">
+      <node id="97">
         <label>AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h</label>
         <link refid="_base_ini_graph_edit_8h"/>
         <childnode refid="12" relation="include">
@@ -974,14 +976,14 @@
         </childnode>
         <childnode refid="65" relation="include">
         </childnode>
-        <childnode refid="99" relation="include">
+        <childnode refid="98" relation="include">
         </childnode>
         <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="100" relation="include">
+        <childnode refid="99" relation="include">
         </childnode>
       </node>
-      <node id="97">
+      <node id="96">
         <label>AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h</label>
         <link refid="_graph_rename_8h"/>
         <childnode refid="12" relation="include">
@@ -990,9 +992,9 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="98" relation="include">
+        <childnode refid="97" relation="include">
         </childnode>
-        <childnode refid="101" relation="include">
+        <childnode refid="100" relation="include">
         </childnode>
       </node>
       <node id="81">
@@ -1033,7 +1035,7 @@
         <childnode refid="49" relation="include">
         </childnode>
       </node>
-      <node id="102">
+      <node id="101">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h</label>
         <link refid="_graph_create_8h"/>
         <childnode refid="10" relation="include">
@@ -1042,12 +1044,18 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
         <childnode refid="81" relation="include">
         </childnode>
-        <childnode refid="103" relation="include">
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="102" relation="include">
         </childnode>
       </node>
-      <node id="116">
+      <node id="115">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemove.h</label>
         <link refid="_graph_group_remove_8h"/>
         <childnode refid="10" relation="include">
@@ -1062,10 +1070,10 @@
         </childnode>
         <childnode refid="81" relation="include">
         </childnode>
-        <childnode refid="117" relation="include">
+        <childnode refid="116" relation="include">
         </childnode>
       </node>
-      <node id="104">
+      <node id="103">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h</label>
         <link refid="_graph_remove_8h"/>
         <childnode refid="12" relation="include">
@@ -1076,7 +1084,7 @@
         </childnode>
         <childnode refid="81" relation="include">
         </childnode>
-        <childnode refid="105" relation="include">
+        <childnode refid="104" relation="include">
         </childnode>
       </node>
       <node id="83">
@@ -1107,7 +1115,7 @@
         <childnode refid="84" relation="include">
         </childnode>
       </node>
-      <node id="120">
+      <node id="119">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h</label>
         <link refid="_ini_res_edit_context_8h"/>
         <childnode refid="12" relation="include">
@@ -1124,36 +1132,14 @@
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="121" relation="include">
+        <childnode refid="120" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="122" relation="include">
+        <childnode refid="121" relation="include">
         </childnode>
       </node>
       <node id="95">
-        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsCreate.h</label>
-        <link refid="_var_sections_create_8h"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="94" relation="include">
-        </childnode>
-        <childnode refid="81" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-      </node>
-      <node id="96">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.h</label>
         <link refid="_var_sections_take_8h"/>
         <childnode refid="5" relation="include">
@@ -1169,7 +1155,7 @@
         <childnode refid="81" relation="include">
         </childnode>
       </node>
-      <node id="118">
+      <node id="117">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h</label>
         <link refid="_res_edit_8h"/>
         <childnode refid="10" relation="include">
@@ -1184,18 +1170,18 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="119" relation="include">
+        <childnode refid="118" relation="include">
         </childnode>
         <childnode refid="81" relation="include">
         </childnode>
-        <childnode refid="120" relation="include">
+        <childnode refid="119" relation="include">
         </childnode>
-        <childnode refid="123" relation="include">
+        <childnode refid="122" relation="include">
         </childnode>
       </node>
-      <node id="112">
+      <node id="111">
         <label>AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h</label>
         <link refid="_base_reg_edit_8h"/>
         <childnode refid="12" relation="include">
@@ -1204,16 +1190,16 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="99" relation="include">
+        <childnode refid="98" relation="include">
         </childnode>
         <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="113" relation="include">
+        <childnode refid="112" relation="include">
         </childnode>
       </node>
-      <node id="106">
+      <node id="105">
         <label>AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h</label>
         <link refid="_reg_asset_remap_8h"/>
         <childnode refid="5" relation="include">
@@ -1226,11 +1212,11 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="107" relation="include">
+        <childnode refid="106" relation="include">
         </childnode>
-        <childnode refid="112" relation="include">
+        <childnode refid="111" relation="include">
         </childnode>
-        <childnode refid="114" relation="include">
+        <childnode refid="113" relation="include">
         </childnode>
       </node>
       <node id="78">
@@ -1262,7 +1248,7 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="108" relation="include">
+        <childnode refid="107" relation="include">
         </childnode>
         <childnode refid="78" relation="include">
         </childnode>
@@ -1332,7 +1318,7 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="108" relation="include">
+        <childnode refid="107" relation="include">
         </childnode>
         <childnode refid="141" relation="include">
         </childnode>
@@ -1378,7 +1364,7 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
@@ -1424,7 +1410,7 @@
       <node id="34">
         <label>AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</label>
         <link refid="_base_ordered_multi_map_8h"/>
-        <childnode refid="20" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
@@ -1436,11 +1422,11 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
@@ -1452,7 +1438,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="29" relation="include">
         </childnode>
@@ -1516,7 +1502,7 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
@@ -1575,7 +1561,7 @@
         <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="122">
+      <node id="121">
         <label>AGRemapCore/view/BaseLogger.h</label>
         <link refid="_base_logger_8h"/>
         <childnode refid="10" relation="include">
@@ -1600,17 +1586,17 @@
         </childnode>
         <childnode refid="57" relation="include">
         </childnode>
+        <childnode refid="123" relation="include">
+        </childnode>
         <childnode refid="124" relation="include">
         </childnode>
-        <childnode refid="125" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="148" relation="include">
         </childnode>
         <childnode refid="149" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
@@ -1624,16 +1610,16 @@
       <node id="72">
         <label>Generator.tpp</label>
       </node>
-      <node id="103">
+      <node id="102">
         <label>GraphCreate.tpp</label>
       </node>
-      <node id="117">
+      <node id="116">
         <label>GraphGroupRemove.tpp</label>
       </node>
-      <node id="105">
+      <node id="104">
         <label>GraphRemove.tpp</label>
       </node>
-      <node id="101">
+      <node id="100">
         <label>GraphRename.tpp</label>
       </node>
       <node id="84">
@@ -1666,10 +1652,10 @@
       <node id="138">
         <label>ModAssets.tpp</label>
       </node>
-      <node id="110">
+      <node id="109">
         <label>ModDictAssets.tpp</label>
       </node>
-      <node id="111">
+      <node id="110">
         <label>ModMappedAssets.tpp</label>
       </node>
       <node id="52">
@@ -1684,19 +1670,19 @@
       <node id="33">
         <label>Ranges.tpp</label>
       </node>
-      <node id="114">
+      <node id="113">
         <label>RegAssetRemap.tpp</label>
       </node>
       <node id="92">
         <label>RemapIniFixContext.tpp</label>
       </node>
-      <node id="123">
+      <node id="122">
         <label>ResEdit.tpp</label>
       </node>
       <node id="68">
         <label>SectionIterData.tpp</label>
       </node>
-      <node id="20">
+      <node id="21">
         <label>algorithm</label>
       </node>
       <node id="43">
@@ -1716,6 +1702,9 @@
       </node>
       <node id="71">
         <label>exception</label>
+      </node>
+      <node id="125">
+        <label>filesystem</label>
       </node>
       <node id="12">
         <label>functional</label>
@@ -1738,7 +1727,7 @@
       <node id="15">
         <label>set</label>
       </node>
-      <node id="21">
+      <node id="22">
         <label>stdexcept</label>
       </node>
       <node id="6">
@@ -1747,7 +1736,7 @@
       <node id="150">
         <label>string_view</label>
       </node>
-      <node id="23">
+      <node id="19">
         <label>tsl/ordered_map.h</label>
       </node>
       <node id="39">
@@ -1756,7 +1745,7 @@
       <node id="36">
         <label>tuple</label>
       </node>
-      <node id="22">
+      <node id="23">
         <label>type_traits</label>
       </node>
       <node id="16">
@@ -1996,33 +1985,37 @@
 <codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>each<sp/>group&apos;s<sp/>graph:<sp/>the<sp/>sections<sp/>added<sp/>with<sp/>no<sp/>group<sp/>(into<sp/>the<sp/>first<sp/>group,<sp/>or<sp/>every<sp/>copy<sp/>too),<sp/>then<sp/>the</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>group&apos;s<sp/>own</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(createEdit_<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createEdit_<sp/>=<sp/>std::make_unique&lt;VarSectionsCreate&gt;(</highlight></codeline>
-<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fixVariables_,<sp/>fixSectionsGraphId(0).modObj,</highlight></codeline>
-<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">](std::size_t<sp/>group)<sp/>{</highlight></codeline>
-<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>names;</highlight></codeline>
-<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(group<sp/>==<sp/>0<sp/>||<sp/>fixSectionsInCopies)<sp/>{</highlight></codeline>
-<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>names.push_back(fixSectionsVariable());</highlight></codeline>
-<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>names.push_back(fixSectionsVariable(group));</highlight></codeline>
-<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>names;</highlight></codeline>
-<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
-<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sectionRunConfig());</highlight></codeline>
-<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="228"><highlight class="normal"></highlight></codeline>
-<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createEdit_-&gt;z3<sp/>=<sp/>fixSectionsZ3;</highlight></codeline>
-<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createEdit_-&gt;edit(*this-&gt;graphGroups(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>modName);</highlight></codeline>
-<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createEdit_<sp/>=<sp/>std::make_unique&lt;GraphCreate&lt;std::string,<sp/>std::string&gt;&gt;(fixSectionsGraphId(0),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createEdit_-&gt;runConfig<sp/>=<sp/>sectionRunConfig();</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createEdit_-&gt;sectionsOf<sp/>=<sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">](std::size_t<sp/>group)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Section*&gt;<sp/>sections;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name<sp/>:<sp/>group<sp/>==<sp/>0<sp/>||<sp/>fixSectionsInCopies</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/>std::vector&lt;std::string&gt;{fixSectionsVariable(),<sp/>fixSectionsVariable(group)}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::vector&lt;std::string&gt;{fixSectionsVariable(group)})<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GraphEditVariables::Sections*<sp/>variable<sp/>=<sp/>fixVariables_.findSections(name))<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(Section*<sp/>section<sp/>:<sp/>variable-&gt;list())<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sections.push_back(section);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sections;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="232"><highlight class="normal"></highlight></codeline>
-<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>TemplateFixer::giveUp(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>logLine)<sp/>{</highlight></codeline>
-<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx_.log(logLine);</highlight></codeline>
-<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>giveUp();</highlight></codeline>
-<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="237"><highlight class="normal"></highlight></codeline>
-<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>TemplateFixer::iniCallsTexFx()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>IniFile*<sp/>ini<sp/>=<sp/>ctx_.getIniFile();</highlight></codeline>
-<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ini<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>StringTools::containsIgnoreCase(ini-&gt;getFileTxt(),<sp/>IniKeywords::TexFxFolder<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createEdit_-&gt;z3<sp/>=<sp/>fixSectionsZ3;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createEdit_-&gt;edit(*this-&gt;graphGroups(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>modName);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>TemplateFixer::giveUp(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>logLine)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx_.log(logLine);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>giveUp();</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>TemplateFixer::iniCallsTexFx()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>IniFile*<sp/>ini<sp/>=<sp/>ctx_.getIniFile();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ini<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>StringTools::containsIgnoreCase(ini-&gt;getFileTxt(),<sp/>IniKeywords::TexFxFolder<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/data/IniFixData/TemplateFixer.cpp"/>
   </compounddef>

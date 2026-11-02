@@ -288,7 +288,7 @@ namespace AGRemapCore {
                  * sorting the textures opens every candidate, and a parser is built for every `.ini` a run
                  * classifies -- most of which no WuWa fixer will ever ask about.
                  *
-                 * (1) the standard rows (TemplateParser::addRowSteps): the files of the resources the mod binds,
+                 * (1) the standard rows (GIMIParser::addRowSteps): the files of the resources the mod binds,
                  * every section's declaration and every key of every section, and every key of every slot graph;
                  * (2) the hash and the `this` of every texture override; (3) the textures' roles and toggles;
                  * (4) the anatomy (IniParseData::fileAnatomy, by WWMI's rules); (5) the skeleton numbering;

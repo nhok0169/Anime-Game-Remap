@@ -14,7 +14,8 @@ fixer step) over the rows, calling a bound capability of the buffer / texture cl
 game's config. Before proposing an edit, write down what it does to the graphs that `GraphCollect`, `ResRegCollect`,
 `GraphCopy`, `RegNewVals` and the rest cannot -- if that sentence is empty, it is not an edit.
 
-**The shared readers a parser starts from (2026-10-31):** `TemplateParser::addRowSteps` adds the standard row sets
+**The shared readers a parser starts from (2026-10-31):** `GIMIParser::addRowSteps` (on `TemplateParser` until
+2026-11-02, when it moved down so the Python `GIMIParser` has it too) adds the standard row sets
 (`IniParseRows`: every bound resource's file, every declaration, every key of every section, every key of chosen
 objects), and `IniParseData::fileAnatomy` reads draws, draw parts (`GraphCollectRow::position`), late bindings,
 libraries and hidden objects off those rows, with the game's choices in `IniParseData::AnatomyRules`. WWMIParser is

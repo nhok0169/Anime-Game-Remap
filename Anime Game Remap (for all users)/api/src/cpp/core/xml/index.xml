@@ -1956,6 +1956,10 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6b0bb4502d852ef6b687d54eb28ce01" kind="variable"><name>sectionTargets_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af4d62b687383ffdaa732dc3660e568b5" kind="variable"><name>globalGraph_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a993cae5045a8ec4a45399057e9afaa28" kind="variable"><name>downloadsAdded_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab03e07a074a467539b151cfea4fb4625" kind="variable"><name>rowSteps_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a5f98cfae23a02a8a7bcec1b48a0373ab" kind="variable"><name>resourceKeys_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af127a08f7ada0b3ae22d92f4ebebb00d" kind="variable"><name>declaredResources_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a73681805f89157ac216d60f5d46c3c7d" kind="variable"><name>resourceIdentity_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a85dcfef1950305fa162d7c9b4848ff6a" kind="variable"><name>createdDownloadResources_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1acd3052cd4fa62d20911bbddc9dcfecc6" kind="variable"><name>config_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a9499885e6c60e97ab8591ed20aba18ff" kind="variable"><name>nameClassifier_</name></member>
@@ -1965,6 +1969,8 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab58845342b6264ddb068766b5205a509" kind="function"><name>classifyByTextureOverrideName</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a46c31c873379fc81e47939cb61d58be4" kind="function"><name>fileResult</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1acbfa91b5398204141ffdd3158b4e7470" kind="function"><name>GIMIParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac93626f54b885c45a7487feae340490d" kind="function"><name>addRowSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0785ce8b232e98af49e87b00552310c6" kind="function"><name>resourceNamed</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a10cc2ae684b6aee36b4d4a9e61215b08" kind="function"><name>ctx</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a3c71864c8c229192681fba356e5249a8" kind="function"><name>setCtx</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a02aa67871bc35ecd5384d95cbbd7e0c4" kind="function"><name>modObjs</name></member>
@@ -1994,6 +2000,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a62f1220d29023cf3b1411ad204282b9b" kind="function"><name>collectParseResult</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af93c15b04646ae2e057a3e907f47757f" kind="function"><name>parse</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aaa12974b1ee1eb41cbdfdb562352a3bf" kind="function"><name>getSectionTargets</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a28822dee69e8b9e86f479d20939eb221" kind="function"><name>globalGraphForResources</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a99409a991ca589bb44c4d3113ed28077" kind="function"><name>refreshComponents</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4f404993643717c8ed74c68eeee5e6a4" kind="function"><name>nameClassifier</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4563445bef801d8c45021bde2626eaa3" kind="function"><name>resolveObjTargetFuncs</name></member>
@@ -2065,10 +2072,10 @@
     <member refid="class_a_g_remap_core_1_1_template_parser_1a93f8d58e7ebf7ab830a7867b567a1d47" kind="function"><name>ownStep</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1a680110c143a5e6263dcc0f38b884a2a6" kind="function"><name>addParseStep</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1aba675213e344efcb70ab4656c3212fb6" kind="function"><name>addDeferredParseStep</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1a0ca747f703e54e09f042a5e23772b5f3" kind="function"><name>addRowSteps</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1a2f0f2f422f00674c3c4deaf2099e52f4" kind="function"><name>resourceNamed</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a58c9f5a2b19d86b25158a40fefda6578" kind="function"><name>TemplateParser</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1aafd0c7ad2d07f52953ef48725eca4027" kind="function"><name>TemplateParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac93626f54b885c45a7487feae340490d" kind="function"><name>addRowSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0785ce8b232e98af49e87b00552310c6" kind="function"><name>resourceNamed</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a10cc2ae684b6aee36b4d4a9e61215b08" kind="function"><name>ctx</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a3c71864c8c229192681fba356e5249a8" kind="function"><name>setCtx</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a02aa67871bc35ecd5384d95cbbd7e0c4" kind="function"><name>modObjs</name></member>
@@ -2117,9 +2124,6 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ad0386d5130fc4fc18ced46effb0b1f34" kind="typedef"><name>Reader</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1a2f48807a2a489d9c2574678e1c476f20" kind="variable"><name>classifiers_</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1ad4c59de790a96195e567479f915d7489" kind="variable"><name>steps_</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1a3b6f4351233e5c5cecf29ffba0c4d9a8" kind="variable"><name>resourceKeys_</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1a048de730e923da8ae68d1ca562ca3d3c" kind="variable"><name>declaredResources_</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1a5751cca883e1bcfaff0ff5b9cd655128" kind="variable"><name>resourceIdentity_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab2c830ccd80791c931b3088c439ab531" kind="variable"><name>modObjs_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a058f547d674c01eba2c7bc321549a6f6" kind="variable"><name>components_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aae3684054250ebc13e0eef41d65b8956" kind="variable"><name>commandEdits_</name></member>
@@ -2127,18 +2131,15 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6b0bb4502d852ef6b687d54eb28ce01" kind="variable"><name>sectionTargets_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af4d62b687383ffdaa732dc3660e568b5" kind="variable"><name>globalGraph_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a993cae5045a8ec4a45399057e9afaa28" kind="variable"><name>downloadsAdded_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab03e07a074a467539b151cfea4fb4625" kind="variable"><name>rowSteps_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a5f98cfae23a02a8a7bcec1b48a0373ab" kind="variable"><name>resourceKeys_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af127a08f7ada0b3ae22d92f4ebebb00d" kind="variable"><name>declaredResources_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a73681805f89157ac216d60f5d46c3c7d" kind="variable"><name>resourceIdentity_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a85dcfef1950305fa162d7c9b4848ff6a" kind="variable"><name>createdDownloadResources_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1acd3052cd4fa62d20911bbddc9dcfecc6" kind="variable"><name>config_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a9499885e6c60e97ab8591ed20aba18ff" kind="variable"><name>nameClassifier_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a9cee771b1a801bcb05b4e847579bcf02" kind="variable"><name>nameClassifierModObjs_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1afaf96ae53d5efa955e635544e95d87d0" kind="variable"><name>defaultClassifier_</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1abbc4a7d46d51c25975a0962eadd616c8" kind="function"><name>globalGraphForResources</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a99409a991ca589bb44c4d3113ed28077" kind="function"><name>refreshComponents</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4f404993643717c8ed74c68eeee5e6a4" kind="function"><name>nameClassifier</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4563445bef801d8c45021bde2626eaa3" kind="function"><name>resolveObjTargetFuncs</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a03ac251dccf489b73a67f92e34c2c891" kind="function"><name>getSectionTargetsBySectionNames</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ad0701195b03652eb217f0f84ce684e75" kind="function"><name>getSectionTargetsByKVPs</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa42b258f9101275ffc3f63372a62312d" kind="function"><name>createDownloadResource</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a7c35bf4324ada87fee9ecbc35fc37113" kind="typedef"><name>GraphMapEntry</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa16ee63543137b037ff10380059ee72a" kind="variable"><name>objTargetFuncs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a25483cc4ddfb668103f3d46f70b233d1" kind="variable"><name>downloads</name></member>
@@ -2155,6 +2156,13 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a19eaf48948e6c2f6e0d2e265d610eff8" kind="function"><name>defaultConfig</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab58845342b6264ddb068766b5205a509" kind="function"><name>classifyByTextureOverrideName</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a46c31c873379fc81e47939cb61d58be4" kind="function"><name>fileResult</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a28822dee69e8b9e86f479d20939eb221" kind="function"><name>globalGraphForResources</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a99409a991ca589bb44c4d3113ed28077" kind="function"><name>refreshComponents</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4f404993643717c8ed74c68eeee5e6a4" kind="function"><name>nameClassifier</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4563445bef801d8c45021bde2626eaa3" kind="function"><name>resolveObjTargetFuncs</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a03ac251dccf489b73a67f92e34c2c891" kind="function"><name>getSectionTargetsBySectionNames</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ad0701195b03652eb217f0f84ce684e75" kind="function"><name>getSectionTargetsByKVPs</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa42b258f9101275ffc3f63372a62312d" kind="function"><name>createDownloadResource</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_global_ini_classifiers" kind="class"><name>AGRemapCore::GlobalIniClassifiers</name>
     <member refid="class_a_g_remap_core_1_1_global_ini_classifiers_1aede4d6e2c894d69404cd871692cdd17b" kind="function"><name>GlobalIniClassifiers</name></member>
@@ -6391,11 +6399,11 @@
     <member refid="struct_a_g_remap_core_1_1_row_1a195e1d2b65eacade48da297d24d49a78" kind="variable"><name>indexVals</name></member>
     <member refid="struct_a_g_remap_core_1_1_row_1afff3a42659fcc7603cd80a0d4e1ad9c8" kind="variable"><name>value</name></member>
   </compound>
-  <compound refid="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps" kind="struct"><name>AGRemapCore::TemplateParser::RowSteps</name>
-    <member refid="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1af8ad2dd26c48b9a258c3ba292eb44ae5" kind="variable"><name>resources</name></member>
-    <member refid="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1af06cb98641023f5067428f0474906dad" kind="variable"><name>declaredKeys</name></member>
-    <member refid="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1ac1929bf05f314bfc60ee0af6503b7b61" kind="variable"><name>sections</name></member>
-    <member refid="struct_a_g_remap_core_1_1_template_parser_1_1_row_steps_1a69eb110d72fd6d9efd5f64ad6280cfa3" kind="variable"><name>objs</name></member>
+  <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_row_steps" kind="struct"><name>AGRemapCore::GIMIParser::RowSteps</name>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_row_steps_1af4c8d4386312452af98ddfdb94e11d0d" kind="variable"><name>resources</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_row_steps_1ab46320efec007ba6f03a244513a3ee3a" kind="variable"><name>declaredKeys</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_row_steps_1ae9e8d73da113574523bae201105645e0" kind="variable"><name>sections</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_row_steps_1aaa3d5e7578082cacf481fa1c33430536" kind="variable"><name>objs</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_sanhua_exorcist_fixer" kind="class"><name>AGRemapCore::SanhuaExorcistFixer</name>
     <member refid="class_a_g_remap_core_1_1_sanhua_exorcist_fixer_1aa657c70f638c61b3809f95dc93949328" kind="function"><name>SanhuaExorcistFixer</name></member>
@@ -6836,9 +6844,6 @@
     <member refid="class_a_g_remap_core_1_1_template_parser_1a09679e6aa755849e297486e07cda0591" kind="variable"><name>ctx_</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1a2f48807a2a489d9c2574678e1c476f20" kind="variable"><name>classifiers_</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1ad4c59de790a96195e567479f915d7489" kind="variable"><name>steps_</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1a3b6f4351233e5c5cecf29ffba0c4d9a8" kind="variable"><name>resourceKeys_</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1a048de730e923da8ae68d1ca562ca3d3c" kind="variable"><name>declaredResources_</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1a5751cca883e1bcfaff0ff5b9cd655128" kind="variable"><name>resourceIdentity_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab2c830ccd80791c931b3088c439ab531" kind="variable"><name>modObjs_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a058f547d674c01eba2c7bc321549a6f6" kind="variable"><name>components_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aae3684054250ebc13e0eef41d65b8956" kind="variable"><name>commandEdits_</name></member>
@@ -6846,6 +6851,10 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6b0bb4502d852ef6b687d54eb28ce01" kind="variable"><name>sectionTargets_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af4d62b687383ffdaa732dc3660e568b5" kind="variable"><name>globalGraph_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a993cae5045a8ec4a45399057e9afaa28" kind="variable"><name>downloadsAdded_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab03e07a074a467539b151cfea4fb4625" kind="variable"><name>rowSteps_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a5f98cfae23a02a8a7bcec1b48a0373ab" kind="variable"><name>resourceKeys_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af127a08f7ada0b3ae22d92f4ebebb00d" kind="variable"><name>declaredResources_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a73681805f89157ac216d60f5d46c3c7d" kind="variable"><name>resourceIdentity_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a85dcfef1950305fa162d7c9b4848ff6a" kind="variable"><name>createdDownloadResources_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1acd3052cd4fa62d20911bbddc9dcfecc6" kind="variable"><name>config_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a9499885e6c60e97ab8591ed20aba18ff" kind="variable"><name>nameClassifier_</name></member>
@@ -6854,6 +6863,8 @@
     <member refid="class_a_g_remap_core_1_1_template_parser_1a58c9f5a2b19d86b25158a40fefda6578" kind="function"><name>TemplateParser</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1aafd0c7ad2d07f52953ef48725eca4027" kind="function"><name>TemplateParser</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1a87d2c57f9568828ab445c1e9e1be6925" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac93626f54b885c45a7487feae340490d" kind="function"><name>addRowSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0785ce8b232e98af49e87b00552310c6" kind="function"><name>resourceNamed</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a10cc2ae684b6aee36b4d4a9e61215b08" kind="function"><name>ctx</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a3c71864c8c229192681fba356e5249a8" kind="function"><name>setCtx</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a02aa67871bc35ecd5384d95cbbd7e0c4" kind="function"><name>modObjs</name></member>
@@ -6887,15 +6898,6 @@
     <member refid="class_a_g_remap_core_1_1_template_parser_1a93f8d58e7ebf7ab830a7867b567a1d47" kind="function"><name>ownStep</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1a680110c143a5e6263dcc0f38b884a2a6" kind="function"><name>addParseStep</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1aba675213e344efcb70ab4656c3212fb6" kind="function"><name>addDeferredParseStep</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1a0ca747f703e54e09f042a5e23772b5f3" kind="function"><name>addRowSteps</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1a2f0f2f422f00674c3c4deaf2099e52f4" kind="function"><name>resourceNamed</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1abbc4a7d46d51c25975a0962eadd616c8" kind="function"><name>globalGraphForResources</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a99409a991ca589bb44c4d3113ed28077" kind="function"><name>refreshComponents</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4f404993643717c8ed74c68eeee5e6a4" kind="function"><name>nameClassifier</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4563445bef801d8c45021bde2626eaa3" kind="function"><name>resolveObjTargetFuncs</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a03ac251dccf489b73a67f92e34c2c891" kind="function"><name>getSectionTargetsBySectionNames</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ad0701195b03652eb217f0f84ce684e75" kind="function"><name>getSectionTargetsByKVPs</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa42b258f9101275ffc3f63372a62312d" kind="function"><name>createDownloadResource</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a7c35bf4324ada87fee9ecbc35fc37113" kind="typedef"><name>GraphMapEntry</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa16ee63543137b037ff10380059ee72a" kind="variable"><name>objTargetFuncs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a25483cc4ddfb668103f3d46f70b233d1" kind="variable"><name>downloads</name></member>
@@ -6912,6 +6914,13 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a19eaf48948e6c2f6e0d2e265d610eff8" kind="function"><name>defaultConfig</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab58845342b6264ddb068766b5205a509" kind="function"><name>classifyByTextureOverrideName</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a46c31c873379fc81e47939cb61d58be4" kind="function"><name>fileResult</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a28822dee69e8b9e86f479d20939eb221" kind="function"><name>globalGraphForResources</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a99409a991ca589bb44c4d3113ed28077" kind="function"><name>refreshComponents</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4f404993643717c8ed74c68eeee5e6a4" kind="function"><name>nameClassifier</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4563445bef801d8c45021bde2626eaa3" kind="function"><name>resolveObjTargetFuncs</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a03ac251dccf489b73a67f92e34c2c891" kind="function"><name>getSectionTargetsBySectionNames</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ad0701195b03652eb217f0f84ce684e75" kind="function"><name>getSectionTargetsByKVPs</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa42b258f9101275ffc3f63372a62312d" kind="function"><name>createDownloadResource</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add" kind="struct"><name>AGRemapCore::GIMICharFixerConfig::TexAdd</name>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1ad1010b3024994dfac080e7f7cbf6b72d" kind="variable"><name>obj</name></member>

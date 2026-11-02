@@ -92,6 +92,82 @@ filename = Textures\BodyLM.dds
         self.assertEqual(len(collect.rows), 2)
 
 
+    # ====================== addRowSteps ======================================
+
+    _rowsIniTxt = r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+ps-t0 = ResourceBodyDiffuse
+drawindexed = 300, 0, 0
+
+[Present]
+vb9 = ref resourcebodylightmap
+
+[ResourceBodyDiffuse]
+filename = Textures\Body.dds
+
+[ResourceBodyLightMap]
+filename = Textures\BodyLM.dds
+format = R8
+
+[ResourceUnbound]
+filename = Textures\Unbound.dds
+"""
+
+    def parseRows(self, **fields):
+        self.setupIniTxt(self._rowsIniTxt)
+        self.createIniFile()
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([self.Body]), trackKeys = False)
+        rows = FRB.GIMIParser.RowSteps()
+        rows.objs = lambda obj: obj == self.Body
+        for name, value in fields.items():
+            setattr(rows, name, value)
+        self._parser.addRowSteps(rows)
+        self.useStrategies(parser = self._parser)
+        self._iniFile.parse()
+        return self._parser.parseData
+
+    def test_addRowSteps_addsTheEditsInOrder(self):
+        self.setupIniTxt(self._rowsIniTxt)
+        self.createIniFile()
+        parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([self.Body]))
+        later = self.registers("later")
+        parser.addRowSteps(FRB.GIMIParser.RowSteps())
+        parser.deferredParseSteps.append(later)
+        # the global graph, the resource collect, files, declarations, sections, the removal and the objects
+        steps = list(parser.deferredParseSteps)
+        self.assertEqual(len(steps), 8)
+        self.assertTrue(all(isinstance(step, FRB.BaseIniGraphGroupEdit) for step in steps[:-1]))
+        self.assertIs(steps[-1], later)
+
+    def test_addRowSteps_resourcesAreTheFilesBoundAnywhere(self):
+        # the light map is bound only from [Present], by a lower-cased reference
+        rows = self.parseRows().collected(FRB.IniParseRows.Resources)
+        self.assertEqual([(row.section, row.value) for row in rows],
+                         [("ResourceBodyDiffuse", r"Textures\Body.dds"), ("ResourceBodyLightMap", r"Textures\BodyLM.dds")])
+
+    def test_addRowSteps_resourceNamed_ignoresCaseAndRef(self):
+        self.parseRows().collected(FRB.IniParseRows.Resources)
+        self.assertEqual(self._parser.resourceNamed("ref resourcebodylightmap"), "ResourceBodyLightMap")
+        self.assertEqual(self._parser.resourceNamed("ResourceNothing"), "")
+
+    def test_addRowSteps_declarationsSectionsAndObjs(self):
+        data = self.parseRows(declaredKeys = ["hash"])
+        declared = {(row.section, row.key): row.value for row in data.collected(FRB.IniParseRows.Declared)}
+        self.assertEqual(declared[("ResourceBodyLightMap", "format")], "R8")
+        self.assertEqual(declared[("ResourceUnbound", "filename")], r"Textures\Unbound.dds")
+        self.assertEqual(declared[("TextureOverrideBody", "hash")], "11111111")
+        self.assertIn("Present", data.collectedSections(FRB.IniParseRows.Sections))
+        self.assertIn("drawindexed", [row.key for row in data.collected(FRB.IniParseRows.Objs)])
+
+    def test_addRowSteps_eachSetCanBeLeftOut(self):
+        data = self.parseRows(resources = False, sections = False, objs = None)
+        self.assertEqual(data.collected(FRB.IniParseRows.Resources), [])
+        self.assertEqual(data.collected(FRB.IniParseRows.Sections), [])
+        self.assertEqual(data.collected(FRB.IniParseRows.Objs), [])
+        self.assertNotEqual(data.collected(FRB.IniParseRows.Declared), [])
+
     # ====================== IniParseData.fileAnatomy ===========================
 
     def anatomy(self, iniTxt = None, **rules):

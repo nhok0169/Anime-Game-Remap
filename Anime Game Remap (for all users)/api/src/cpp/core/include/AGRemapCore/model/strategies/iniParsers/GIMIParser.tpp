@@ -19,6 +19,11 @@
 #include <type_traits>
 
 #include "AGRemapCore/model/IniNamingTools.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseRows.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/TextTools.h"
 
@@ -181,6 +186,124 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
     void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::setGlobalGraph(Graph* newGlobalGraph) {
         globalGraph_ = newGlobalGraph;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
+    std::string GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::resourceNamed(const std::string& value) const {
+        const std::string name = IniNamingTools::removeRefPrefix(std::string(StringTools::strip(value)));
+        const auto declared = declaredResources_.find(StringTools::toLower(name));
+        return declared == declaredResources_.end() ? std::string() : declared->second;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
+    typename GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::Graph* GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::globalGraphForResources() {
+        resourceKeys_.clear();
+        declaredResources_.clear();
+        if (ctx_ != nullptr) {
+            for (const std::string& name : ctx_->sectionNames()) {
+                if (StringTools::startsWith(StringTools::toLower(name), "resource")) {
+                    declaredResources_.emplace(StringTools::toLower(name), name);
+                }
+            }
+        }
+
+        Graph* graph = this->globalGraph();
+        if (graph == nullptr) {
+            return nullptr;
+        }
+
+        for (const auto& [name, section] : graph->sections()) {
+            (void)name;
+            if (section == nullptr) {
+                continue;
+            }
+
+            for (const auto& part : section->parts()) {
+                const auto* content = dynamic_cast<const ContentPart*>(part.get());
+                if (content == nullptr) {
+                    continue;
+                }
+
+                for (const auto& item : content->items()) {
+                    if (!resourceNamed(item.value).empty()) {
+                        resourceKeys_.insert(item.key);
+                    }
+                }
+            }
+        }
+        return graph;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
+    void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::addRowSteps(const RowSteps& rows) {
+        using Collect = GraphCollect<K, V, KeyHash, KeyEqual>;
+        using Collector = ResRegCollect<K, V, KeyHash, KeyEqual>;
+        using GraphId = typename GroupEdit::GraphId;
+        const auto add = [this](std::unique_ptr<GroupEdit> step) {
+            rowSteps_.push_back(std::move(step));
+            deferredParseSteps.push_back(rowSteps_.back().get());
+        };
+
+        // the graph the resource collect builds of the resource sections the mod binds, and the copy of the parser's
+        // global graph it reads them from: a mod binds buffers from sections no mod object reaches ([Present], a
+        // callback's command list)
+        const GraphId ResourceGraph{0, "resource", ""};
+        const GraphId GlobalGraph{0, "global", ""};
+        const auto anyKey = [](const K&) { return true; };
+
+        auto global = std::make_unique<GraphCreate<K, V, KeyHash, KeyEqual>>(GlobalGraph, nullptr);
+        global->graphOf = [this]() { return globalGraphForResources(); };
+        add(std::move(global));
+
+        if (rows.resources) {
+            auto collect = std::make_unique<Collector>();
+            collect->srcRegMatches.insert_or_assign(GlobalGraph, [this](const K& key) {
+                return resourceKeys_.count(key) > 0;
+            });
+            collect->resPredicates.insert_or_assign(GlobalGraph, [this](const K&, const V& value,
+                                                                        const typename Collector::IterData&) {
+                return !resourceNamed(value).empty();
+            });
+            typename BaseResEdit<K, V, KeyHash, KeyEqual>::ResEditConfig resConfig{
+                IniKeywords::Filename,
+                [this](const V& value) { return resourceNamed(value); },
+                [](const std::string& file) { return file; }
+            };
+            resourceIdentity_ = std::make_unique<ResIdentity<K, V, KeyHash, KeyEqual>>(ResourceGraph, std::move(resConfig), false);
+            collect->resEdits.insert_or_assign("", resourceIdentity_.get());
+            add(std::move(collect));
+        }
+
+        auto files = std::make_unique<Collect>(typename Collect::template ByGraph<std::vector<K>>{{ResourceGraph, {IniKeywords::Filename}}});
+        files->name = IniParseRows::Resources;
+
+        // every section's declaration, bound or not
+        std::vector<K> declaredKeys{IniKeywords::Filename, IniKeywords::Type, IniKeywords::Format, IniKeywords::Stride};
+        declaredKeys.insert(declaredKeys.end(), rows.declaredKeys.begin(), rows.declaredKeys.end());
+        auto declared = std::make_unique<Collect>(typename Collect::template ByGraph<std::vector<K>>{{GlobalGraph, std::move(declaredKeys)}});
+        declared->name = IniParseRows::Declared;
+
+        auto objs = std::make_unique<Collect>();
+        objs->name = IniParseRows::Objs;
+        for (const ModObj& obj : rows.objs ? this->modObjs() : std::vector<ModObj>{}) {
+            if (rows.objs(obj)) {
+                objs->keyMatches.insert_or_assign(GraphId(0, obj.first, obj.second), anyKey);
+            }
+        }
+
+        add(std::move(files));
+        add(std::move(declared));
+        if (rows.sections) {
+            auto sections = std::make_unique<Collect>();
+            sections->name = IniParseRows::Sections;
+            sections->keyMatches.insert_or_assign(GlobalGraph, anyKey);
+            add(std::move(sections));
+        }
+        add(std::make_unique<GraphRemove<K, V, KeyHash, KeyEqual>>(std::vector<GraphId>{ResourceGraph, GlobalGraph}));
+        add(std::move(objs));
     }
 
 

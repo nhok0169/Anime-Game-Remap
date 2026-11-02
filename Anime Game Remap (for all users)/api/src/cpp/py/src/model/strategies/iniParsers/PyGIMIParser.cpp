@@ -17,6 +17,7 @@
 #include <unordered_set>
 #include <utility>
 
+#include <pybind11/functional.h>
 #include <pybind11/stl.h>
 
 #include "PyGIMISectionClassifier.h"
@@ -604,6 +605,13 @@ void PyGIMIParser::runStepsFromPy(const py::object& steps, AGRC::IniParseData& d
         editGroupsFromPy(step);
         if (py::isinstance<AGRC::IParseResult>(step)) {
             step.cast<AGRC::IParseResult*>()->fileInto(data);
+        } else if (py::isinstance<AGRC::BaseIniGraphGroupEdit<std::string, std::string>>(step)) {
+            // an edit built in C++ that files a result reaches Python as its base class
+            const auto* result = dynamic_cast<const AGRC::IParseResult*>(
+                step.cast<AGRC::BaseIniGraphGroupEdit<std::string, std::string>*>());
+            if (result != nullptr) {
+                result->fileInto(data);
+            }
         }
     }
 }
@@ -935,6 +943,18 @@ keysToTrack: Optional[Set[:class:`str`]]
     **Default**: ``None``
     )doc");
 
+    using RowSteps = PyGIMIParser::Core::RowSteps;
+    py::class_<RowSteps>(cls, "RowSteps", R"doc(Which of the standard row sets :meth:`GIMIParser.addRowSteps` adds -- see :class:`IniParseRows`)doc")
+        .def(py::init<>())
+        .def_readwrite("resources", &RowSteps::resources,
+            py::doc(R"doc(:class:`bool`: Whether to collect :attr:`IniParseRows.Resources`. **Default**: ``True``)doc"))
+        .def_readwrite("declaredKeys", &RowSteps::declaredKeys,
+            py::doc(R"doc(List[:class:`str`]: The keys :attr:`IniParseRows.Declared` collects besides ``filename``, ``type``, ``format`` and ``stride``)doc"))
+        .def_readwrite("sections", &RowSteps::sections,
+            py::doc(R"doc(:class:`bool`: Whether to collect :attr:`IniParseRows.Sections`. **Default**: ``True``)doc"))
+        .def_readwrite("objs", &RowSteps::objs,
+            py::doc(R"doc(Optional[Callable[[Tuple[:class:`str`, :class:`str`]], :class:`bool`]]: The mod objects :attr:`IniParseRows.Objs` collects every key of; ``None`` takes none)doc"));
+
     cls.def(py::init([](py::object iniFile, py::object modObjs, py::object objTargetFuncs, py::object downloads,
                          py::object commandEdits, bool makeGlobalGraph, bool disjointModObjs, bool trackKeys,
                          py::object keysToTrack, std::optional<int> modTypeId, py::object parseSteps,
@@ -1043,6 +1063,53 @@ drawn from what the steps filed. A later reader sees what an earlier one filed)d
         }, [](PyGIMIParser &self, py::object readers) {
             self.deferredParseReadersObj = readers.is_none() ? py::object(py::list()) : std::move(readers);
         }, py::doc(R"doc(List[Callable[[:class:`IniParseData`], None]]: More such functions, run with :attr:`deferredParseSteps` on the first ask of :attr:`parseData`, after them and in order)doc"))
+
+       .def("addRowSteps", [](PyGIMIParser &self, const PyGIMIParser::Core::RowSteps &rows) {
+            // the core builds and owns the edits and appends them to its own list; they run from the Python
+            // list, so they are appended there too, each kept alive by this parser
+            self.refresh();
+            const std::size_t before = self.deferredParseSteps.size();
+            self.addRowSteps(rows);
+            if (self.deferredParseStepsObj.is_none()) {
+                self.deferredParseStepsObj = py::list();
+            }
+            py::object owner = py::cast(&self, py::return_value_policy::reference);
+            for (std::size_t i = before; i < self.deferredParseSteps.size(); ++i) {
+                self.deferredParseStepsObj.attr("append")(
+                    py::cast(self.deferredParseSteps[i], py::return_value_policy::reference_internal, owner));
+            }
+        }, py::arg("rows"), py::doc(R"doc(Adds the standard row sets to the end of :attr:`deferredParseSteps` -- see :class:`IniParseRows` :raw-html:`<br />` :raw-html:`<br />`
+
+In this order: a copy of the parser's global graph is put in the groups (:class:`GraphCreate`); a
+:class:`ResRegCollect` over the keys that ever name a resource builds a graph of the resource `sections`_ bound
+anywhere (:class:`ResIdentity`: nothing renamed, no models) and a :class:`GraphCollect` reads their ``filename``;
+the declarations and every key of every `section`_ are collected off the global graph; both graphs are taken out
+again (:class:`GraphRemove`); and every key of the chosen objects is collected. A step added afterwards runs after
+these. The edits are owned by this parser :raw-html:`<br />` :raw-html:`<br />`
+
+The global graph is the parser's own, so the parser must make one (:attr:`makeGlobalGraph`). Call this once
+:attr:`modObjs` is set: :attr:`GIMIParser.RowSteps.objs` is asked of each mod object here
+
+Parameters
+----------
+rows: :class:`GIMIParser.RowSteps`
+    Which row sets to add)doc"))
+
+       .def("resourceNamed", &PyGIMIParser::resourceNamed, py::arg("value"),
+            py::doc(R"doc(The resource `section`_ 'value' names, as a binding names one, under the name it is declared by -- or empty :raw-html:`<br />` :raw-html:`<br />`
+
+Without regard to case, as 3DMigoto reads a section name: a mod may declare ``[ResourceTexCoordBuffer]`` and bind
+``vb2 = ResourceTexcoordBuffer``. Known once :meth:`addRowSteps`' global graph has been put in the groups
+
+Parameters
+----------
+value: :class:`str`
+    The value
+
+Returns
+-------
+:class:`str`
+    The resource section's name as declared, or empty)doc"))
 
        .def_readwrite("tempKwargs", &PyGIMIParser::tempKwargs,
             py::doc(R"doc(Dict[:class:`str`, Any]: Temporary user-defined keyword variables for the user to use. Only cleared by :meth:`clear`)doc"))

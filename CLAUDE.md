@@ -465,7 +465,15 @@ folder, now asked of the state's files there.
 exposed to Python. A Python API User should have the same capability of using the API compared to a C++ API User."
 So a change that adds or moves capability into a C++ class -- a base class, a helper, a config field, a row-name
 constant -- binds it in the same change (a trampoline when the class is meant to be derived from), with `core.pyi`
-and the docs refreshed. Before choosing where a helper goes, grep `core.pyi` for its class: on 2026-10-31
+and the docs refreshed. **A capability a C++ SUBCLASS adds belongs on the shared template, not on a second binding
+(2026-11-02):** `TemplateParser` / `TemplateFixer` sit beside the Python `GIMIParser` / `GIMIFixer` (both derive the
+same core templates, with a different context), so binding them would make two Python classes for one job; their
+`RowSteps` / `addRowSteps` / `resourceNamed` moved down into `GIMIParser` instead. `TemplateFixer`'s fix sections,
+give-up and renames needed no move -- `GraphEditVariables`, `VarSectionsTake` / `VarSectionsCreate`,
+`GraphGroupRemove`, `GraphRename` and `RegAssetRemap` are bound, and a Python fixer lists them as edits. **And an edit
+BUILT in C++ whose class has no Python class of its own reaches Python as `BaseIniGraphGroupEdit`, whose `edit` was a
+no-op** -- it now runs the C++ edit (and `GIMIParser` files its `IParseResult`), so a C++-built step works in a Python
+step list. Before choosing where a helper goes, grep `core.pyi` for its class: on 2026-10-31
 `TemplateFixer`, the base of all four fixer templates, had no binding at all (its own doc said "C++ only"), and a
 rough header-vs-stub count found ~180 non-character classes and structs with no Python class of the same name. The
 acceptance test of the fixer refactor is rewriting a template fixer in Python from the API alone, which only works

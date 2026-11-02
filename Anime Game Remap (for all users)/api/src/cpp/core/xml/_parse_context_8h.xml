@@ -65,8 +65,6 @@
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
       </node>
       <node id="48">
         <label>include/AGRemapCore/constants/ModTypeId.h</label>
@@ -246,8 +244,6 @@
         <childnode refid="121" relation="include">
         </childnode>
         <childnode refid="122" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
@@ -1670,20 +1666,6 @@
         <childnode refid="122" relation="include">
         </childnode>
       </node>
-      <node id="7">
-        <label>include/AGRemapCore/data/IniParseData/TextureOverrides.h</label>
-        <link refid="_texture_overrides_8h"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-      </node>
       <node id="18">
         <label>include/AGRemapCore/data/IniParseData/WWMIParser.h</label>
         <link refid="_w_w_m_i_parser_8h"/>
@@ -1859,8 +1841,6 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
         <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
@@ -1900,8 +1880,6 @@
         <childnode refid="427" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="430" relation="include">
         </childnode>
@@ -2018,8 +1996,6 @@
         <childnode refid="163" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="34" relation="include">
         </childnode>
@@ -3575,10 +3551,6 @@
       <node id="122">
         <label>src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp</label>
         <link refid="_shenhe_frost_flower_parser_8cpp"/>
-      </node>
-      <node id="12">
-        <label>src/data/IniParseData/TextureOverrides.cpp</label>
-        <link refid="_texture_overrides_8cpp"/>
       </node>
       <node id="15">
         <label>src/data/IniParseData/WWMIParser.cpp</label>

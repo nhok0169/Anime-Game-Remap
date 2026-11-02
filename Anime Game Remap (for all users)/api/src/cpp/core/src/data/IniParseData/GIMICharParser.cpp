@@ -30,7 +30,8 @@
 
 #include "AGRemapCore/constants/IniGraphModObjKeywords.h"
 #include "AGRemapCore/constants/IniKeywords.h"
-#include "AGRemapCore/data/IniParseData/TextureOverrides.h"
+#include "AGRemapCore/constants/GlobalIniClassifiers.h"
+#include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h"
@@ -150,11 +151,11 @@ namespace AGRemapCore {
         }
 
         // A toggled texture override (see GIMICharGIMIParser::readTextureOverrides): the register it
-        // binds, the resource, and the `if` blocks it is bound in, outermost first
+        // binds, the resource, and the condition it is bound under, as .ini predicate text (empty: always)
         struct CondBinding {
             std::string reg;
             std::string resource;
-            std::vector<std::vector<std::string>> branches;
+            std::string condition;
         };
 
         // `key = val`, or the bare key for a line that had no `=`
@@ -489,15 +490,16 @@ namespace AGRemapCore {
                     // this file's first, which win
                     std::map<std::pair<ModObj, std::string>, CondBinding> bindings;
                     std::set<std::string> carriedNames;
-                    auto addOverrides = [&](const IfTemplates& templates,
+                    auto addOverrides = [&](IniFile& ini,
                                             const std::function<std::string(const std::string&)>& resourceOf,
                                             bool own) {
+                        const IfTemplates& templates = ini.getIfTemplates();
                         std::map<std::string, std::string> carried;
-                        for (const TextureOverrides::Override& override_ : TextureOverrides::collect(templates)) {
+                        for (const auto& [hash, row] : textureOverrides(ini)) {
                             // Every object the texture is drawn on: one texture may serve several
                             // (Yelan's body and dress share one diffuse)
                             std::vector<std::pair<ModObj, std::string>> targets;
-                            for (const std::string& key : TextureOverrides::keysOf(ownName, override_.hash)) {
+                            for (const std::string& key : textureKeysOf(*ctx_.modTypeHashes(), ownName, hash)) {
                                 std::pair<ModObj, std::string> target = bindingOf(key);
                                 if (!target.second.empty()) {
                                     targets.push_back(std::move(target));
@@ -507,7 +509,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            const std::string resource = resourceOf(override_.resource);
+                            const std::string resource = resourceOf(row.value);
                             if (resource.empty()) {
                                 continue;
                             }
@@ -523,16 +525,25 @@ namespace AGRemapCore {
                                 // face" mod) must not bring the source's whole outfit with it.
                                 const bool drawnObj = std::any_of(targets.begin(), targets.end(),
                                     [](const std::pair<ModObj, std::string>& target) { return target.first.second != FaceObjName; });
-                                needsSourceModel_ = needsSourceModel_ || (drawnObj && !TextureOverrides::isShared(override_.hash));
+                                needsSourceModel_ = needsSourceModel_ || (drawnObj && GlobalIniClassifiers::claims(hash) <= 1);
                             }
-                            std::vector<std::vector<std::string>> branches = override_.branches;
-                            if (!own && !branches.empty()) {
-                                std::optional<std::vector<std::vector<std::string>>> renamed =
-                                    carryBranches(templates, branches, ownVars, carried);
-                                branches = renamed.has_value() ? std::move(*renamed) : std::vector<std::vector<std::string>>();
+
+                            // The override's own `if` blocks, as one condition; one with no .ini form is dropped
+                            std::string condition;
+                            if (!row.guards.empty()) {
+                                const std::optional<std::string> text = row.condition.has_value()
+                                    ? IfPredPart::getIfPredStr(*row.condition) : std::nullopt;
+                                if (!text.has_value()) {
+                                    continue;
+                                }
+                                condition = *text;
+                            }
+                            if (!own && !condition.empty()) {
+                                std::optional<std::string> renamed = carryCondition(templates, condition, ownVars, carried);
+                                condition = renamed.has_value() ? std::move(*renamed) : std::string();
                             }
                             for (const auto& target : targets) {
-                                bindings.emplace(target, CondBinding{target.second, resource, branches});
+                                bindings.emplace(target, CondBinding{target.second, resource, condition});
                             }
                         }
 
@@ -541,13 +552,13 @@ namespace AGRemapCore {
                         }
                     };
 
-                    addOverrides(own, [](const std::string& resource) { return resource; }, true);
+                    addOverrides(*iniFile, [](const std::string& resource) { return resource; }, true);
 
                     if (drawsMesh(own)) {
                         for (const std::string& path : iniFile->loadedSiblings()) {
                             IniFile sibling(path);
                             const IfTemplates& templates = sibling.getIfTemplates();
-                            addOverrides(templates, [&](const std::string& resource) {
+                            addOverrides(sibling, [&](const std::string& resource) {
                                 auto found = templates.find(resource);
                                 if (found == templates.end() || found->second == nullptr) {
                                     return std::string();
@@ -565,7 +576,7 @@ namespace AGRemapCore {
                     }
 
                     for (const auto& [target, binding] : bindings) {
-                        if (!binding.branches.empty()) {
+                        if (!binding.condition.empty()) {
                             condBindings_[target.first].push_back(binding);
                             continue;
                         }
@@ -723,7 +734,7 @@ namespace AGRemapCore {
                                 continue;
                             }
                             const std::string root = sectionWith(own, id);
-                            if (!root.empty() && TextureOverrides::adopt(self, root, theirs).has_value()) {
+                            if (!root.empty() && adoptable(self, root, theirs)) {
                                 givenAway_.insert(obj);
                             }
                         }
@@ -751,20 +762,8 @@ namespace AGRemapCore {
                             if (root.empty()) {
                                 continue;
                             }
-                            std::optional<TextureOverrides::Adoption> adoption = TextureOverrides::adopt(sibling, root, own);
-                            if (!adoption.has_value()) {
+                            if (!adoptSection(sibling, root, own)) {
                                 continue;
-                            }
-                            for (auto& [name, section] : adoption->sections) {
-                                ctx_.addSection(name, std::move(section));
-                            }
-                            for (const auto& [name, kvps] : adoption->refs) {
-                                for (const auto& [key, value] : kvps) {
-                                    if (key == IniKeywords::Filename) {
-                                        siblingRefs_.emplace(name, value);
-                                    }
-                                }
-                                adoptedRefs_[name] = kvps;
                             }
                             break;
                         }
@@ -894,7 +893,7 @@ namespace AGRemapCore {
 
                     using Kvps = std::vector<std::pair<std::string, std::string>>;
                     Kvps downloaded;
-                    std::vector<std::pair<std::vector<std::vector<std::string>>, Kvps>> groups;
+                    std::vector<std::pair<std::string, Kvps>> groups;
                     for (const CondBinding& binding : bindings) {
                         std::optional<std::string> download;
                         for (const std::string& val : first->getVals(binding.reg)) {
@@ -915,9 +914,9 @@ namespace AGRemapCore {
                         downloaded.emplace_back(binding.reg, downloadName);
 
                         auto group = std::find_if(groups.begin(), groups.end(),
-                            [&binding](const auto& g) { return g.first == binding.branches; });
+                            [&binding](const auto& g) { return g.first == binding.condition; });
                         if (group == groups.end()) {
-                            groups.emplace_back(binding.branches, Kvps{});
+                            groups.emplace_back(binding.condition, Kvps{});
                             group = std::prev(groups.end());
                         }
                         group->second.emplace_back(binding.reg, binding.resource);
@@ -936,15 +935,14 @@ namespace AGRemapCore {
 
                     std::vector<std::unique_ptr<IfTemplatePart>> front;
                     front.push_back(std::make_unique<ContentPart>(downloaded, 0));
-                    for (const auto& [branches, binds] : groups) {
-                        for (const std::vector<std::string>& level : branches) {
-                            for (const std::string& header : level) {
-                                const std::optional<IfPredPartType> type = IfPredPartTypeTools::getType(header);
-                                front.push_back(std::make_unique<IfPredPart>(header, type.value_or(IfPredPartType::If), *z3Ctx));
-                            }
+                    for (const auto& [condition, binds] : groups) {
+                        const int depth = condition.empty() ? 0 : 1;
+                        if (depth > 0) {
+                            front.push_back(std::make_unique<IfPredPart>(
+                                IfPredPartTypeTools::getName(IfPredPartType::If) + " " + condition, IfPredPartType::If, *z3Ctx));
                         }
-                        front.push_back(std::make_unique<ContentPart>(binds, static_cast<int>(branches.size())));
-                        for (std::size_t i = 0; i < branches.size(); ++i) {
+                        front.push_back(std::make_unique<ContentPart>(binds, depth));
+                        if (depth > 0) {
                             front.push_back(std::make_unique<IfPredPart>(
                                 IfPredPartTypeTools::getName(IfPredPartType::EndIf), IfPredPartType::EndIf, *z3Ctx));
                         }
@@ -979,39 +977,28 @@ namespace AGRemapCore {
                     return false;
                 }
 
-                // A SIBLING override's `if` blocks, reading this file's copies of the sibling's
+                // A SIBLING override's condition, reading this file's copies of the sibling's
                 // variables -- or nothing when one cannot be read here. A variable the sibling
                 // declares and one of its key sections sets (a toggle) is carried, as
                 // `$<name>RemapRef`; one this file declares itself is read as it is (`$active`).
-                static std::optional<std::vector<std::vector<std::string>>> carryBranches(
-                        const IfTemplates& sibling, const std::vector<std::vector<std::string>>& branches,
+                static std::optional<std::string> carryCondition(
+                        const IfTemplates& sibling, const std::string& condition,
                         const std::set<std::string>& ownVars, std::map<std::string, std::string>& carried) {
                     const std::set<std::string> siblingVars = declaredVars(sibling);
                     std::map<std::string, std::string> renames;
-                    for (const std::vector<std::string>& level : branches) {
-                        for (const std::string& header : level) {
-                            for (const std::string& var : varsIn(header)) {
-                                if (renames.count(var) != 0) {
-                                    continue;
-                                }
-                                if (siblingVars.count(var) != 0 && keySets(sibling, var)) {
-                                    renames.emplace(var, var + IniKeywords::RemapRef);
-                                } else if (ownVars.count(var) == 0) {
-                                    return std::nullopt;
-                                }
-                            }
+                    for (const std::string& var : varsIn(condition)) {
+                        if (renames.count(var) != 0) {
+                            continue;
+                        }
+                        if (siblingVars.count(var) != 0 && keySets(sibling, var)) {
+                            renames.emplace(var, var + IniKeywords::RemapRef);
+                        } else if (ownVars.count(var) == 0) {
+                            return std::nullopt;
                         }
                     }
 
-                    std::vector<std::vector<std::string>> result;
-                    for (const std::vector<std::string>& level : branches) {
-                        std::vector<std::string>& out = result.emplace_back();
-                        for (const std::string& header : level) {
-                            out.push_back(renameVars(header, renames));
-                        }
-                    }
                     carried.insert(renames.begin(), renames.end());
-                    return result;
+                    return renameVars(condition, renames);
                 }
 
                 // The copies 'carried' names (lowercased sibling variable -> copy): a `[Constants]`

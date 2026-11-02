@@ -660,6 +660,17 @@ GIBuilder
 
 :raw-html:`<br />`
 
+GlobalIniClassifiers
+--------------------
+
+.. cppattributetable:: AGRemapCore::GlobalIniClassifiers
+
+.. doxygenclass:: AGRemapCore::GlobalIniClassifiers
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 GlobalIniRemoveBuilders
 -----------------------
 

@@ -1072,6 +1072,17 @@ GIMISectionClassifier
 
 :raw-html:`<br />`
 
+GlobalIniClassifiers
+====================
+
+.. attributetable:: FixRaidenBoss2.GlobalIniClassifiers
+
+.. autoclass:: FixRaidenBoss2.GlobalIniClassifiers
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 GlobalRemapIniRemover
 =====================
 

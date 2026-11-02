@@ -18,7 +18,6 @@
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/data/IniFixData/SideMeshes.h"
 #include "AGRemapCore/data/IniFixData/TexRegLayout.h"
-#include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 
 #include <algorithm>
 #include <array>

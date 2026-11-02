@@ -191,6 +191,28 @@ namespace AGRemapCore {
             std::optional<std::vector<K>> getKey(const T& asset, const std::optional<Version>& fromVersion, const std::vector<std::optional<K>>& fromNonVersionVals, bool errorOnNotFound = true) const;
 
             /**
+             * @brief
+             @rst
+             Every key the version :cpp:func:`getKey` resolves to files 'asset' under, where :cpp:func:`getKey`
+             answers with the first :raw-html:`<br />` :raw-html:`<br />`
+
+             More than one when one value is filed under several keys at that version -- one texture a
+             character draws on several objects, eg. Yelan's body and dress diffuse ``df127976``
+             @endrst
+             *
+             * @param asset The asset to look up
+             * @param fromVersion The version to look up from -- see #getKey
+             * @param fromNonVersionVals The non-version value filter -- see #getKey
+             *
+             * @throws std::invalid_argument If 'fromNonVersionVals' is non-empty and doesn't have
+             *      exactly #getRepo's ``getTotalIndices() - 1`` elements
+             *
+             * @return The non-version index values of each matching key, in the order they were filed;
+             *      empty when none matches
+             */
+            std::vector<std::vector<K>> getKeys(const T& asset, const std::optional<Version>& fromVersion, const std::vector<std::optional<K>>& fromNonVersionVals) const;
+
+            /**
              * @brief Retrieves the single corresponding asset to replace 'asset' with, for one
              *      specific target asset name
              *
@@ -271,6 +293,14 @@ namespace AGRemapCore {
                 std::vector<K> nonVersionVals;
             };
 
+            /**
+             * @brief The result of #matchingKeys: the version chosen and every key matching there
+             */
+            struct InternalKeysResult {
+                Version version;
+                std::vector<std::vector<K>> keys;
+            };
+
             ModDictAssets<K, T, KeyHash, KeyEqual> repo_;
             std::unordered_map<K, std::vector<K>, KeyHash, KeyEqual> map_;
 
@@ -292,6 +322,13 @@ namespace AGRemapCore {
              *      re-resolving it a second time) even though #getKey itself doesn't expose it
              */
             std::optional<InternalKeyResult> getKeyInternal(const T& asset, const std::optional<Version>& fromVersion, const std::vector<std::optional<K>>& fromNonVersionVals, bool errorOnNotFound) const;
+
+            /**
+             * @brief The walk behind #getKeyInternal and #getKeys: the first version, newest first from
+             *      'fromVersion', with a candidate passing the filter, and its passing candidates -- only the
+             *      first of them when 'firstOnly'
+             */
+            std::optional<InternalKeysResult> matchingKeys(const T& asset, const std::optional<Version>& fromVersion, const std::vector<std::optional<K>>& fromNonVersionVals, bool firstOnly, bool errorOnNotFound) const;
     };
 }
 

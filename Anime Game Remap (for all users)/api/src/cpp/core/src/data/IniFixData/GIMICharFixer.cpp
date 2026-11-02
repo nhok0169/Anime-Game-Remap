@@ -24,7 +24,6 @@
 
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/RegDelimitedAddMode.h"
-#include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"

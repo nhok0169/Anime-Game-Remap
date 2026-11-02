@@ -81,6 +81,22 @@ namespace AGRemapCore {
     template <typename K, typename T, typename KeyHash, typename KeyEqual, typename ValueHash, typename ValueEqual>
     std::optional<typename ModMappedAssets<K, T, KeyHash, KeyEqual, ValueHash, ValueEqual>::InternalKeyResult>
     ModMappedAssets<K, T, KeyHash, KeyEqual, ValueHash, ValueEqual>::getKeyInternal(const T& asset, const std::optional<Version>& fromVersion, const std::vector<std::optional<K>>& fromNonVersionVals, bool errorOnNotFound) const {
+        std::optional<InternalKeysResult> found = matchingKeys(asset, fromVersion, fromNonVersionVals, true, errorOnNotFound);
+        if (!found.has_value()) {
+            return std::nullopt;
+        }
+        return InternalKeyResult{found->version, std::move(found->keys.front())};
+    }
+
+    template <typename K, typename T, typename KeyHash, typename KeyEqual, typename ValueHash, typename ValueEqual>
+    std::vector<std::vector<K>> ModMappedAssets<K, T, KeyHash, KeyEqual, ValueHash, ValueEqual>::getKeys(const T& asset, const std::optional<Version>& fromVersion, const std::vector<std::optional<K>>& fromNonVersionVals) const {
+        std::optional<InternalKeysResult> found = matchingKeys(asset, fromVersion, fromNonVersionVals, false, false);
+        return found.has_value() ? std::move(found->keys) : std::vector<std::vector<K>>();
+    }
+
+    template <typename K, typename T, typename KeyHash, typename KeyEqual, typename ValueHash, typename ValueEqual>
+    std::optional<typename ModMappedAssets<K, T, KeyHash, KeyEqual, ValueHash, ValueEqual>::InternalKeysResult>
+    ModMappedAssets<K, T, KeyHash, KeyEqual, ValueHash, ValueEqual>::matchingKeys(const T& asset, const std::optional<Version>& fromVersion, const std::vector<std::optional<K>>& fromNonVersionVals, bool firstOnly, bool errorOnNotFound) const {
         if (!fromNonVersionVals.empty() && fromNonVersionVals.size() != repo_.getTotalIndices() - 1) {
             throw std::invalid_argument("ModMappedAssets::getKey: expected " + std::to_string(repo_.getTotalIndices() - 1) + " non-version value filters, got " + std::to_string(fromNonVersionVals.size()));
         }
@@ -120,6 +136,7 @@ namespace AGRemapCore {
         for (std::size_t at = idx + 1; at-- > 0;) {
             const VersionBucket& bucket = buckets[at];
 
+            InternalKeysResult result{bucket.version, {}};
             for (const std::vector<K>& candidate : bucket.candidates) {
                 bool matches = true;
                 if (!fromNonVersionVals.empty()) {
@@ -131,8 +148,14 @@ namespace AGRemapCore {
                     }
                 }
                 if (matches) {
-                    return InternalKeyResult{bucket.version, candidate};
+                    result.keys.push_back(candidate);
+                    if (firstOnly) {
+                        return result;
+                    }
                 }
+            }
+            if (!result.keys.empty()) {
+                return result;
             }
 
             // With no filter every candidate matches, so the chosen bucket always answers

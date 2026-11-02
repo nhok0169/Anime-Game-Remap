@@ -141,6 +141,20 @@ class TemplateValuesTest(unittest.TestCase):
         self.assertTrue(FRB.IniNamingTools.sameKey("PS-T0", "ps-t0"))
         self.assertFalse(FRB.IniNamingTools.sameKey("ps-t0", "ps-t1"))
 
+    def test_getKeys_everyKeyAtTheResolvedVersion(self):
+        hashes = FRB.ModTypes.Yelan.value.hashes
+        keys = hashes.getKeys("df127976", None, ["Yelan", None])
+        self.assertEqual(sorted(keys), [("Yelan", "tex_body_diffuse"), ("Yelan", "tex_dress_diffuse")])
+        self.assertIn(hashes.getKey("df127976", None, ["Yelan", None]), keys)
+        self.assertEqual(hashes.getKeys("df127976", None, ["Amber", None]), [])
+        self.assertEqual(hashes.getKeys("notahash"), [])
+
+    def test_claims_sharedTexturesCountEveryCharacter(self):
+        self.assertEqual(FRB.GlobalIniClassifiers.claims("1d064079"), 2)
+        self.assertEqual(FRB.GlobalIniClassifiers.claims("df127976"), 1)
+        self.assertEqual(FRB.GlobalIniClassifiers.claims("notahash"), 0)
+        self.assertIsInstance(FRB.GlobalIniClassifiers.classifier(), FRB.IniClassifier)
+
     def test_boundResource_noneAndNullBindNothing(self):
         self.assertEqual(FRB.IniNamingTools.boundResource(None), "")
         self.assertEqual(FRB.IniNamingTools.boundResource("null"), "")

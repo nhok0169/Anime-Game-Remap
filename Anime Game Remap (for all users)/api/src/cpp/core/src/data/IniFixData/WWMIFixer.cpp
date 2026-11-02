@@ -3695,12 +3695,12 @@ namespace AGRemapCore {
                             }
                         }
                         for (const auto& [reg, words] : shader->constantBuffers) {
+                            const BufUnSignedInt word32;
                             ByteVec bytes;
                             bytes.reserve(words.size() * 4);
                             for (std::uint32_t word : words) {
-                                for (int k = 0; k < 4; ++k) {
-                                    bytes.push_back(static_cast<std::uint8_t>((word >> (8 * k)) & 0xFF));
-                                }
+                                const ByteVec encoded = word32.encode(BufValue(static_cast<unsigned long long>(word)));
+                                bytes.insert(bytes.end(), encoded.begin(), encoded.end());
                             }
 
                             shaderBufferRegs_.insert(reg);

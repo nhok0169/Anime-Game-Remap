@@ -21,6 +21,12 @@ Per character, one folder each:
   <Name>Ranges     the first drawn object drawn as two halves under two independent toggles
   <Name>Ib16       every index buffer 16-bit (R16_UINT), when the vertex counts allow it
   <Name>Missing    the identity without its last object (a classic character) or its last component (a skin)
+  <Name>Recolour   the identity with one object's textures left to the game, and a sibling `Recolour.ini`
+                   replacing that object's diffuse by its texture hash alone (`hash = <diffuse>` / `this =`),
+                   behind a `$color` toggle with an `else` branch
+  <Name>RecolourOwn the same recolour inside the mesh's own `.ini`
+  <Name>Split      the identity with its last object's section and resources in a sibling `Side.ini`, which the
+                   file binding the buffers adopts (only when that mesh has more than one object)
 
 None of these is a real mod, and none replaces one: they cover the STRUCTURAL axes (branches, ranges, widths,
 absences) on every character at once, which is what a change to the templates' shared code moves. `--list`
@@ -159,11 +165,66 @@ def plainOverrides(p, objs, drawOf = None):
         lines += ["[TextureOverride%sVertexLimitRaise]" % p.prefix, "hash = " + h["draw_vb"], ""]
     lines += ["[TextureOverride%sIB]" % p.prefix, "hash = " + h["ib"], "handling = skip", ""]
     for o in objs:
-        lines += ["[TextureOverride%s%s]" % (p.prefix, o), "hash = " + h["ib"], "match_first_index = %d" % p.first[o],
-                  "ib = Resource%s%sIB" % (p.prefix, o)]
-        lines += ["%s = Resource%s%s%s" % (reg, p.prefix, o, role) for role, reg in p.textures(o)]
-        lines += (drawOf(o) if drawOf else ["drawindexed = auto"]) + [""]
+        lines += objSection(p, o, drawOf)
     return lines
+
+
+def objSection(p, o, drawOf = None):
+    lines = ["[TextureOverride%s%s]" % (p.prefix, o), "hash = " + p.hashes["ib"], "match_first_index = %d" % p.first[o],
+             "ib = Resource%s%sIB" % (p.prefix, o)]
+    lines += ["%s = Resource%s%s%s" % (reg, p.prefix, o, role) for role, reg in p.textures(o)]
+    return lines + (drawOf(o) if drawOf else ["drawindexed = auto"]) + [""]
+
+
+def recolourTarget(ps):
+    """The first drawn object whose diffuse HashData names: (part, object, its diffuse hash)"""
+    for p in ps:
+        for o in p.objs:
+            h = p.hashes.get("tex_%s_diffuse" % o.lower())
+            if h and any(role == "Diffuse" for role, _ in p.textures(o)):
+                return p, o, h
+    return None
+
+
+def recolour(ps):
+    """A recolour toggled by `$color`: the object's diffuse replaced by one of two files, by texture hash alone"""
+    p, o, h = recolourTarget(ps)
+    other = "LightMap" if any(role == "LightMap" for role, _ in p.textures(o)) else "Diffuse"
+    return ["[Constants]", "global persist $color = 0", "",
+            "[KeyColor]", "key = VK_UP", "type = cycle", "$color = 0,1", "",
+            "[TextureOverride%s%sRecolour]" % (p.prefix, o), "hash = " + h,
+            "if $color == 0", "    this = Resource%s%sRecolourA" % (p.prefix, o),
+            "else", "    this = Resource%s%sRecolourB" % (p.prefix, o), "endif", "",
+            "[Resource%s%sRecolourA]" % (p.prefix, o), "filename = %s%sDiffuse.dds" % (p.prefix, o), "",
+            "[Resource%s%sRecolourB]" % (p.prefix, o), "filename = %s%s%s.dds" % (p.prefix, o, other), ""]
+
+
+def unbound(lines, p, o):
+    """'lines' without the `ps-tN =` bindings of object 'o' of part 'p' in its own section"""
+    out, inside = [], False
+    for line in lines:
+        if line.startswith("["):
+            inside = line == "[TextureOverride%s%s]" % (p.prefix, o)
+        if inside and re.match(r"ps-t\d+ = ", line):
+            continue
+        out.append(line)
+    return out
+
+
+def split(ps):
+    """The identity with its last object's section, and that object's resources, in a sibling .ini"""
+    p = ps[-1]
+    o = p.objs[-1]
+    rest = [x for x in p.objs if x != o]
+    main = []
+    for q in ps:
+        objs = rest if q is p else q.objs
+        main += plainOverrides(q, objs) + resources(q, objs)
+    side = objSection(p, o) + ["[Resource%s%sIB]" % (p.prefix, o), "type = Buffer", "format = DXGI_FORMAT_R32_UINT",
+                               "filename = %s%s.ib" % (p.prefix, o), ""]
+    for role, _ in p.textures(o):
+        side += ["[Resource%s%s%s]" % (p.prefix, o, role), "filename = %s%s%s.dds" % (p.prefix, o, role), ""]
+    return main, side
 
 
 def identity(ps, dropLast = False):
@@ -236,7 +297,7 @@ def master(ps, nullLast = False):
     return lines
 
 
-def write(out, name, folder, lines, ps, ibOp = None, variant1 = False):
+def write(out, name, folder, lines, ps, ibOp = None, variant1 = False, siblings = None):
     if os.path.isdir(out):
         shutil.rmtree(out)
     os.makedirs(out)
@@ -253,6 +314,9 @@ def write(out, name, folder, lines, ps, ibOp = None, variant1 = False):
                 reverseIb(os.path.join(folder, f), os.path.join(out, "Variant1", f))
     with open(os.path.join(out, name + ".ini"), "w", encoding = "utf-8", newline = "\r\n") as f:
         f.write("\n".join(lines))
+    for fileName, more in (siblings or {}).items():
+        with open(os.path.join(out, fileName), "w", encoding = "utf-8", newline = "\r\n") as f:
+            f.write("\n".join(more))
 
 
 def build(name, root):
@@ -272,6 +336,22 @@ def build(name, root):
         for p in ps:
             lines += plainOverrides(p, p.objs) + resources(p, p.objs, ibFormat = "DXGI_FORMAT_R16_UINT")
         write(out, name, folder, lines, ps, ibOp = narrowIb)
+        made.append(out)
+    target = recolourTarget(ps)
+    if target is not None:
+        # the recoloured object binds no textures of its own, so the fix fills them from downloads and binds
+        # the recolour over the download under the toggle
+        mesh = unbound(identity(ps), target[0], target[1])
+        out = os.path.join(root, name + "Recolour")
+        write(out, name, folder, mesh, ps, siblings = {"Recolour.ini": recolour(ps)})
+        made.append(out)
+        out = os.path.join(root, name + "RecolourOwn")
+        write(out, name, folder, mesh + recolour(ps), ps)
+        made.append(out)
+    if len(ps[-1].objs) > 1:
+        main, side = split(ps)
+        out = os.path.join(root, name + "Split")
+        write(out, name, folder, main, ps, siblings = {"Side.ini": side})
         made.append(out)
     return made, "%d folders, %s" % (len(made), " + ".join("%s(%s)" % (p.prefix, ",".join(p.objs)) for p in ps))
 

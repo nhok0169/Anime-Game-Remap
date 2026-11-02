@@ -102,7 +102,6 @@
     <includedby refid="_sanhua_exorcist_parser_8cpp" local="yes">src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp</includedby>
     <includedby refid="_shenhe_parser_8cpp" local="yes">src/data/IniParseData/Shenhe/ShenheParser.cpp</includedby>
     <includedby refid="_shenhe_frost_flower_parser_8cpp" local="yes">src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp</includedby>
-    <includedby refid="_texture_overrides_8cpp" local="yes">src/data/IniParseData/TextureOverrides.cpp</includedby>
     <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
     <includedby refid="_xiangling_parser_8cpp" local="yes">src/data/IniParseData/Xiangling/XianglingParser.cpp</includedby>
     <includedby refid="_xiangling_cheer_parser_8cpp" local="yes">src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp</includedby>
@@ -1433,8 +1432,6 @@
         </childnode>
         <childnode refid="79" relation="include">
         </childnode>
-        <childnode refid="128" relation="include">
-        </childnode>
         <childnode refid="105" relation="include">
         </childnode>
         <childnode refid="80" relation="include">
@@ -2163,10 +2160,6 @@
       <node id="79">
         <label>src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp</label>
         <link refid="_shenhe_frost_flower_parser_8cpp"/>
-      </node>
-      <node id="128">
-        <label>src/data/IniParseData/TextureOverrides.cpp</label>
-        <link refid="_texture_overrides_8cpp"/>
       </node>
       <node id="105">
         <label>src/data/IniParseData/WWMIParser.cpp</label>

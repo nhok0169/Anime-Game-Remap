@@ -2190,7 +2190,7 @@ audit then found the same bug in six shapes. All are fixed on every GI template 
 | a variant that switches the mod off (`$vision`, a vanilla variant) | the target's own model drawn with the source's ib (ShenheFrostFlower, CherryHutao5) | `dropUnneededObjDownloads`: Z3 keeps an ib download only if some state draws without the mod's ib |
 | a skin slot drawn in some variants, skipped in others | the merge used the download for EVERY branch | `GIMIMergeFixer` drops downloads from a slot's ib list when the mod has its own |
 | a state the component fixer never split | an EMPTY split ib bound before `drawindexed = auto` | bound as `ib = null` (`nullDownloadSplits_`) |
-| one object's section in a SIBLING `.ini` | vanilla copies and the game's buffers on the target's hashes | the file that binds the buffers ADOPTS the section (`TextureOverrides::adopt`) |
+| one object's section in a SIBLING `.ini` | vanilla copies and the game's buffers on the target's hashes | the file that binds the buffers ADOPTS the section (`GIMITemplateParser::adoptSection`) |
 
 **The check that names it without the game:** `Tools/Misc/Diagnostics/checkUndrawnDL.py <fixed folder>` -- every
 remapped draw that can use a `Resource...RemapDL` ib in a file whose mod skips its own. It reports the pre-fix
@@ -3703,7 +3703,7 @@ character's position buffer, the classic parser keeps only that file's own objec
 as nothing to remap, because a merge needs every component's buffers in ONE file -- so on the merge and
 component templates the part that file carries is still not drawn on the target (no synthetic or real mod
 has needed more yet). **Since 2026-10-12 the file that binds the position buffer ADOPTS the sibling's
-section** (`TextureOverrides::adopt`, called by `GIMIComponentParser::adoptSiblingSlots` and
+section** (`GIMITemplateParser::adoptSection`, called by `GIMIComponentParser::adoptSiblingSlots` and
 `GIMICharParser::adoptSiblingObjs`): the section, every command list of the sibling it runs, and each
 resource it binds -- declared again under a `RemapRef` name with ALL its keys (an ib declared with only
 `filename` loses its `format` and is misread; the first build did that). Only for an object this file
@@ -3741,7 +3741,7 @@ What each piece does now:
   characters list) and a face two skins share still identify nobody. Pinned by
   `IniClassifierPopulation_test`'s `testARecolourClassifiesByItsTextureHash`.
 - **Both parsers bind the override in place of the download** for every object the texture is filed
-  under (`TextureOverrides::keysOf`: Yelan's body and dress share one diffuse, YelanTranquil's Body B
+  under (`GIMITemplateParser::textureKeysOf`: Yelan's body and dress share one diffuse, YelanTranquil's Body B
   and C one atlas), at the register that object's download would have used, so every later register
   edit of the fixer treats it exactly like a texture the mod bound itself. A role this parser has no
   download for (a shadow ramp, a metal map) is not carried.
@@ -3851,7 +3851,8 @@ above, Hu Tao stayed black. Two in-game experiments decided the design before an
   author's `[KeySwap3]` in HuTaoCherry.ini, which cycles an undeclared `$color` (`Undeclared variable
   $color` in the log, so dead on its own skin), came alive the moment one was declared.
 
-So `GIMICharParser` keeps the override's `if` (`TextureOverrides::Override::branches`): a toggled override
+So `GIMICharParser` keeps the override's condition (its row's `condition`, written back with
+`IfPredPart::getIfPredStr` as ONE `if`): a toggled override
 keeps the object's download and is bound after it at the top of the section, `ps-tN = <download>` then
 `if $colorRemapRef == 0 / ps-tN = <recolour> / endif`, so every later register shift and texture edit sees
 both. A SIBLING's variable is carried as `$<name>RemapRef`: declared in a `[Constants]` and cycled by a copy

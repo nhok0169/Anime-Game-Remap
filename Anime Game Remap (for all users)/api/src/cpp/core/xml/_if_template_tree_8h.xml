@@ -469,8 +469,6 @@
         </childnode>
         <childnode refid="43" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
       </node>
       <node id="46">
         <label>include/AGRemapCore/constants/ModTypeId.h</label>
@@ -650,8 +648,6 @@
         <childnode refid="119" relation="include">
         </childnode>
         <childnode refid="120" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
@@ -2074,20 +2070,6 @@
         <childnode refid="120" relation="include">
         </childnode>
       </node>
-      <node id="4">
-        <label>include/AGRemapCore/data/IniParseData/TextureOverrides.h</label>
-        <link refid="_texture_overrides_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
       <node id="16">
         <label>include/AGRemapCore/data/IniParseData/WWMIParser.h</label>
         <link refid="_w_w_m_i_parser_8h"/>
@@ -2263,8 +2245,6 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
         <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="30" relation="include">
@@ -2378,8 +2358,6 @@
         <childnode refid="161" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
@@ -3865,10 +3843,6 @@
       <node id="120">
         <label>src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp</label>
         <link refid="_shenhe_frost_flower_parser_8cpp"/>
-      </node>
-      <node id="9">
-        <label>src/data/IniParseData/TextureOverrides.cpp</label>
-        <link refid="_texture_overrides_8cpp"/>
       </node>
       <node id="13">
         <label>src/data/IniParseData/WWMIParser.cpp</label>

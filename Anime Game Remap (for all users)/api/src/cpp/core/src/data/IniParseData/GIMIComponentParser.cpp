@@ -30,7 +30,6 @@
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
-#include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
@@ -352,18 +351,22 @@ namespace AGRemapCore {
                 // Every `this =` override in 'templates' whose hash is one of the skin's tex_<slot>_<role>
                 // rows, as (component;slot;role) -> the resource to bind. 'bindingOf' turns the override's
                 // own resource name into that value; an empty answer drops the override.
-                void collectTextureOverrides(const IfTemplates& templates,
+                void collectTextureOverrides(IniFile& ini,
                                              const std::function<std::string(const std::string&)>& bindingOf,
                                              std::unordered_map<std::string, std::string>& overrides) {
-                    for (const TextureOverrides::Override& override_ : TextureOverrides::collect(templates)) {
+                    const auto* hashes = ctx_.modTypeHashes();
+                    if (hashes == nullptr) {
+                        return;
+                    }
+                    for (const auto& [hash, row] : textureOverrides(ini)) {
                         for (const GIMIComponentParserConfig::Component& component : config_.components) {
                             // Every slot the texture is filed under: two slots may draw one texture
                             // (YelanTranquil's Body B and C), and the override recolours both.
-                            for (const std::string& key : TextureOverrides::keysOf(component.modTypeName, override_.hash)) {
+                            for (const std::string& key : textureKeysOf(*hashes, component.modTypeName, hash)) {
                                 // tex_<slot>_<role>
                                 const std::string rest = key.substr(TexKeyPrefix.size());
                                 const std::size_t sep = rest.rfind('_');
-                                const std::string binding = bindingOf(override_.resource);
+                                const std::string binding = bindingOf(row.value);
                                 if (sep == std::string::npos || binding.empty()) {
                                     continue;
                                 }
@@ -513,7 +516,7 @@ namespace AGRemapCore {
                     }
 
                     std::unordered_map<std::string, std::string> overrides;
-                    collectTextureOverrides(iniFile->getIfTemplates(), [](const std::string& resource) { return resource; },
+                    collectTextureOverrides(*iniFile, [](const std::string& resource) { return resource; },
                                             overrides);
                     ownTextureOverrides_ = !overrides.empty();
 
@@ -529,7 +532,7 @@ namespace AGRemapCore {
                         for (const std::string& path : siblingInis()) {
                             IniFile sibling(path);
                             const IfTemplates& templates = sibling.getIfTemplates();
-                            collectTextureOverrides(templates, [&](const std::string& resource) {
+                            collectTextureOverrides(sibling, [&](const std::string& resource) {
                                 auto found = templates.find(resource);
                                 if (found == templates.end() || found->second == nullptr) {
                                     return std::string();
@@ -638,20 +641,8 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            std::optional<TextureOverrides::Adoption> adoption = TextureOverrides::adopt(sibling, rootName, own);
-                            if (!adoption.has_value()) {
+                            if (!adoptSection(sibling, rootName, own)) {
                                 continue;
-                            }
-                            for (auto& [name, section] : adoption->sections) {
-                                ctx_.addSection(name, std::move(section));
-                            }
-                            for (const auto& [name, kvps] : adoption->refs) {
-                                for (const auto& [key, value] : kvps) {
-                                    if (key == IniKeywords::Filename) {
-                                        siblingRefs_.emplace(name, value);
-                                    }
-                                }
-                                adoptedRefs_[name] = kvps;
                             }
                             ownSlots.insert(key);
                         }

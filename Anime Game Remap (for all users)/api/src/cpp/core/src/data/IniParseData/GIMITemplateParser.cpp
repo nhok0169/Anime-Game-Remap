@@ -13,12 +13,17 @@
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/data/IniParseData/GIMITemplateParser.h"
 
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <set>
 #include <unordered_set>
 
 #include "AGRemapCore/constants/IniGraphModObjKeywords.h"
 #include "AGRemapCore/constants/IniKeywords.h"
-#include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 #include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/iftemplate/ListValue.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
 #include "AGRemapCore/tools/StringTools.h"
 
 
@@ -71,6 +76,136 @@ namespace AGRemapCore {
             }
         }
         return false;
+    }
+
+    std::vector<std::pair<std::string, GraphCollectRow<>>> GIMITemplateParser::textureOverrides(IniFile& ini) {
+        std::vector<std::pair<std::string, GraphCollectRow<>>> result;
+        for (const auto& entry : ini.getIfTemplates()) {
+            if (entry.second == nullptr) {
+                continue;
+            }
+            const std::optional<std::string> hash = entry.second->firstVal(IniKeywords::Hash);
+            if (!hash.has_value()) {
+                continue;
+            }
+
+            auto graph = ini.sectionGraph(entry.first);
+            for (GraphCollectRow<>& row : GraphCollect<>::rowsOf(graph, IniKeywords::This)) {
+                if (row.section == entry.first) {
+                    result.emplace_back(StringTools::toLower(*hash), std::move(row));
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    std::vector<std::string> GIMITemplateParser::textureKeysOf(const ModMappedAssets<std::string, std::string>& hashes,
+                                                               const std::string& name, const std::string& hash) {
+        std::vector<std::string> keys;
+        for (const std::vector<std::string>& key : hashes.getKeys(hash, std::nullopt, {name, std::nullopt})) {
+            if (key.size() >= 2 && StringTools::startsWith(key[1], TexKeyPrefix)
+                    && std::find(keys.begin(), keys.end(), key[1]) == keys.end()) {
+                keys.push_back(key[1]);
+            }
+        }
+        return keys;
+    }
+
+    bool GIMITemplateParser::adoptable(IniFile& sibling, const std::string& root, const IfTemplates& own) {
+        auto graph = sibling.sectionGraph(root);
+        for (const auto& entry : graph.sections()) {
+            if (own.find(entry.first) != own.end()) {
+                return false;
+            }
+        }
+        return !graph.sections().empty();
+    }
+
+    bool GIMITemplateParser::adoptSection(IniFile& sibling, const std::string& root, const IfTemplates& own) {
+        if (!adoptable(sibling, root, own)) {
+            return false;
+        }
+
+        const IfTemplates& templates = sibling.getIfTemplates();
+        auto graph = sibling.sectionGraph(root);
+        const auto& reached = graph.sections();
+
+        // A value naming a resource of the sibling: `ref X`, `X`, or a field of `X, Y`
+        auto resourceOf = [&templates](const std::string& field) -> std::string {
+            const std::string name = IniNamingTools::removeRefPrefix(field);
+            auto found = templates.find(name);
+            return (found != templates.end() && found->second != nullptr
+                    && found->second->firstVal(IniKeywords::Filename).has_value()) ? name : std::string();
+        };
+
+        std::map<std::string, std::string> renames;
+        std::vector<std::pair<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>> copies;
+        for (const auto& entry : templates) {
+            if (entry.second == nullptr || reached.find(entry.first) == reached.end()) {
+                continue;
+            }
+
+            std::unique_ptr<IfTemplate<std::string, std::string>> copy = entry.second->deepcopy();
+            for (auto& part : copy->parts()) {
+                auto* content = dynamic_cast<IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                if (content == nullptr) {
+                    continue;
+                }
+
+                std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>> vals;
+                std::set<std::string> renamedKeys;
+                for (const auto& [key, value] : content->entries()) {
+                    for (const std::string& field : ListValue(value).fields()) {
+                        const std::string resource = resourceOf(field);
+                        if (resource.empty()) {
+                            continue;
+                        }
+                        if (renames.emplace(resource, resource + IniKeywords::RemapRef).second) {
+                            std::vector<std::pair<std::string, std::string>> kvps;
+                            for (const auto& resPart : templates.at(resource)->parts()) {
+                                if (const auto* resContent = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(resPart.get())) {
+                                    for (const auto& kvp : resContent->entries()) {
+                                        kvps.emplace_back(kvp.first, std::string(StringTools::strip(kvp.second)));
+                                    }
+                                }
+                            }
+                            const std::string name = resource + IniKeywords::RemapRef;
+                            for (const auto& [resKey, resValue] : kvps) {
+                                if (resKey == IniKeywords::Filename) {
+                                    siblingRefs_.emplace(name, resValue);
+                                }
+                            }
+                            adoptedRefs_[name] = std::move(kvps);
+                        }
+                        if (renamedKeys.insert(key).second) {
+                            vals.emplace_back(key, RegNewVals<>::NewVal(RegNewVals<>::OldValProducer(
+                                [&renames, &resourceOf](const std::string& old, const ModType*) {
+                                    ListValue renamed(old);
+                                    for (std::size_t i = 0; i < renamed.size(); ++i) {
+                                        const std::string field = *renamed.at(static_cast<long long>(i));
+                                        const std::string resource = resourceOf(field);
+                                        if (!resource.empty()) {
+                                            renamed.set(static_cast<long long>(i),
+                                                        field.substr(0, field.size() - resource.size()) + renames.at(resource));
+                                        }
+                                    }
+                                    return renamed.str();
+                                })));
+                        }
+                    }
+                }
+                if (!vals.empty()) {
+                    RegNewVals<>(std::move(vals)).edit(*content, entry.first);
+                }
+            }
+            copies.emplace_back(entry.first, std::move(copy));
+        }
+
+        for (auto& [name, section] : copies) {
+            ctx_.addSection(name, std::move(section));
+        }
+        return true;
     }
 
     bool GIMITemplateParser::bindsPosition(IniFile& ini) {

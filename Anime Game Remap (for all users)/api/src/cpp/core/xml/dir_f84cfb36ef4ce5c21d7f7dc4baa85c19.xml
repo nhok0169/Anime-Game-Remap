@@ -74,7 +74,6 @@
     <innerfile refid="_g_i_m_i_component_parser_8h">GIMIComponentParser.h</innerfile>
     <innerfile refid="_g_i_m_i_template_parser_8h">GIMITemplateParser.h</innerfile>
     <innerfile refid="_template_parser_8h">TemplateParser.h</innerfile>
-    <innerfile refid="_texture_overrides_8h">TextureOverrides.h</innerfile>
     <innerfile refid="_texture_role_chooser_8h">TextureRoleChooser.h</innerfile>
     <innerfile refid="_w_w_m_i_parser_8h">WWMIParser.h</innerfile>
     <innerfile refid="_z_z_m_i_parser_8h">ZZMIParser.h</innerfile>

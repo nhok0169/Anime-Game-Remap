@@ -133,7 +133,7 @@ checker's "checked N" before its zero, hand-edit then code, sub-agent audits, jo
 TEMPLATE NOW (2026-10-07); BEFORE, ONLY THE MERGE CARRIED IT.** A synthetic recolour lost its texture on all
 48 classic and component directions, and one with its section named after nothing classified as nothing
 (0 of 48 found). Texture hashes one character alone claims now vote in the classifier, both parsers bind the
-override in place of the download (`TextureOverrides`), and the component fixer fetches a recolour's downloads
+override in place of the download (`GIMITemplateParser::textureOverrides`), and the component fixer fetches a recolour's downloads
 before it splits. Which files draw the source's model is a table: an icon file, a position watcher, a
 face-only or shared-texture recolour, and a tweak whose sibling `.ini` draws the mesh each keep only their own
 sections (each used to draw a second vanilla model over the real mod). A recolour's binding follows the
@@ -410,8 +410,8 @@ truly lacks something, say so in a comment and keep the custom part minimal.** C
 **AND THE SAME RULE HOLDS FOR THE LIBRARY ITSELF: USE THE API FIRST, EVERYWHERE (the maintainer, 2026-11-01 --
 "as I already told you many times").** Fixers, parsers and core code are held to it as much as prototypes. Search
 the WHOLE API (`core.pyi`, `core/include`) for the functionality before writing any helper or class; only when
-nothing in it satisfies the problem do you add a general capability to the API -- and then use it. Four classes are
-retired or being retired for breaking this: `IniScan` (a second `.ini` reader beside `IniFile`), `ModBranches` (values
+nothing in it satisfies the problem do you add a general capability to the API -- and then use it. Four classes were
+retired for breaking this: `IniScan` (a second `.ini` reader beside `IniFile`), `ModBranches` (values
 with their branch condition, which `GraphCollect` rows already carry, over its own graph walk beside
 `IniSectionGraph`), `TextureOverrides` (texture overrides and their `if` headers, which rows and `IniParseData`
 already file) and the pure-Python `DownloadData` (a second class beside the C++ one). Each cost a binding proposal
@@ -420,11 +420,22 @@ class that owns it: a value with its condition is `IniFile::sectionGraph` + `Gra
 is `GraphCollect::valueUnder` / `onlyUnder` / `anyUnder` / `states`; a per-branch `draw` is
 `RegBranchAdd::perBranchReplacements` / `perBranchRemovals`; `firstVal` is `IfTemplate::firstVal`; a key as an author
 spells it is `IniNamingTools::sameKey`. "If there is no purpose, then it does not need to exist" (the maintainer).
+**`TextureOverrides` went the same way (2026-11-02):** an override is `GIMITemplateParser::textureOverrides` (the
+first `this =` row of each hashed section), whether one character alone draws a texture is the classifier's own count
+`GlobalIniClassifiers::claims` (it had been computed twice), the objects a texture is filed under are
+`ModMappedAssets::getKeys` (`getKey` returning every match), and adopting a sibling's section is
+`GIMITemplateParser::adoptSection` -- `sectionGraph`, `IfTemplate::deepcopy` and a `RegNewVals` rename, where it had
+re-read the sibling's raw lines and string-replaced the text. A toggled recolour is carried under ONE
+`if <IfPredPart::getIfPredStr(row.condition)>` rather than a rebuilt copy of the author's `if` / `else` chain (the
+maintainer's choice): a `this =` in an `else if` now reads `if !($c == 0) && $c == 1`. Still open, and old: only a
+section's FIRST `this =` is read, so the `else` branch of a toggled recolour is not carried.
 
 **A GI SWEEP CORPUS NOW EXISTS ON EVERY MACHINE (2026-11-02):** `Tools/Misc/Diagnostics/giSynthCorpus.py <out> --list
-<corpus.txt>` builds 342 folders from `Data/Mod Downloads/GI` -- every GI character's identity mod plus a merged master,
-a master with an `ib = null` branch, toggled draw ranges, 16-bit index buffers and a missing part -- for
-`regressBuilds.py`. It covers the templates' STRUCTURAL axes on all 57 characters, not what real mods do; the
+<corpus.txt>` builds 503 folders from `Data/Mod Downloads/GI` -- every GI character's identity mod plus a merged master,
+a master with an `ib = null` branch, toggled draw ranges, 16-bit index buffers, a missing part, a toggled recolour by
+texture hash (in a sibling `.ini` and in the mesh's own) and an object's section in a sibling `.ini` -- for
+`regressBuilds.py`. **The recolour shapes reach the conditional binding only with downloads ON**
+(`--download normal`): the recolour is bound over the object's download, and `disabled` registers none. It covers the templates' STRUCTURAL axes on all 57 characters, not what real mods do; the
 maintainer's 245 real GI mods (on the other machine) are still the sweep that settles a GI change.
 
 **EVERY C++ CLASS IS FOR PYTHON TOO (the maintainer, 2026-10-31).** "Ideally we want all classes from C++ to be

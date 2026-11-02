@@ -94,7 +94,7 @@ exactly **one** GI mod (``GIMI/Mods/Arlecchino1``, a classic-shape character tha
 reaches the split), so there is no GI corpus to sweep it against the way every WuWa change this
 session was accepted.
 
-There is a synthetic one now (2026-11-02): `Tools/Misc/Diagnostics/giSynthCorpus.py` builds 342 GI folders from
+There is a synthetic one now (2026-11-02): `Tools/Misc/Diagnostics/giSynthCorpus.py` builds 503 GI folders from
 `Data/Mod Downloads/GI`, every component skin included -- see the root CLAUDE.md. Do it with that and the
 maintainer's real GI mods: widen the types, take the width from ``decodeAll``'s columns, and
 require the unit suite, the Integration Tester goldens AND a GI corpus sweep to come back unchanged.

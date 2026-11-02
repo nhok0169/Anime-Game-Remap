@@ -19,7 +19,9 @@
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/model/assets/ModMappedAssets.h"
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h"
 #include "AGRemapCore/data/IniParseData/TemplateParser.h"
 
 
@@ -55,6 +57,44 @@ namespace AGRemapCore {
              * @brief The prefix of a texture's hash type in ``HashData`` (eg. ``tex_body_diffuse``)
              */
             static inline const std::string TexKeyPrefix = "tex_";
+
+            /**
+             * @brief
+             @rst
+             The texture overrides of 'ini' (``hash = <a game texture>`` / ``this = Resource...``): per `section`_
+             with a ``hash``, its first ``this =`` in the `section`_ itself :raw-html:`<br />` :raw-html:`<br />`
+
+             Each comes as its hash, lowercased, and the row of its ``this =``: the resource is
+             :cpp:member:`GraphCollectRow::value`, and the `section`_'s own ``if`` blocks around it are
+             :cpp:member:`GraphCollectRow::guards` and :cpp:member:`GraphCollectRow::condition` -- the
+             `section`_ is its graph's root, so no caller adds a condition
+             @endrst
+             *
+             * @param ini The ``.ini`` file
+             *
+             * @return The overrides, in the order of the `sections`_
+             */
+            static std::vector<std::pair<std::string, GraphCollectRow<>>> textureOverrides(IniFile& ini);
+
+            /**
+             * @brief
+             @rst
+             Every texture key (``tex_<object>_<role>``) 'hashes' files 'hash' under for the mod type 'name', at the
+             newest version that files it there (:cpp:func:`ModMappedAssets::getKeys`) :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             More than one when the character draws several objects with one texture -- Yelan's body and dress
+             share ``df127976`` -- and an override of that texture recolours all of them
+             @endrst
+             *
+             * @param hashes The hashes to search -- every mod type's hold the whole table
+             * @param name The mod type's name, eg. ``Yelan``
+             * @param hash The texture hash, lowercased
+             *
+             * @return The keys, each once, in the table's order
+             */
+            static std::vector<std::string> textureKeysOf(const ModMappedAssets<std::string, std::string>& hashes,
+                                                          const std::string& name, const std::string& hash);
 
             /**
              * @brief
@@ -113,6 +153,36 @@ namespace AGRemapCore {
              * @param ini The ``.ini`` file
              */
             bool bindsPosition(IniFile& ini);
+
+            /**
+             * @brief
+             @rst
+             Whether 'root' of 'sibling' can move into the file whose `sections`_ are 'own': no `section`_ its graph
+             reaches through ``run =`` is named there already -- see #adoptSection
+             @endrst
+             */
+            static bool adoptable(IniFile& sibling, const std::string& root, const IfTemplates& own);
+
+            /**
+             * @brief
+             @rst
+             Moves 'root' of 'sibling' into this file, when #adoptable :raw-html:`<br />` :raw-html:`<br />`
+
+             A mod may keep its buffers and most objects in one ``.ini`` and one object's `section`_ in another file
+             of the folder; the file that binds the buffers adopts that `section`_ so the object is remapped with the
+             rest. Every `section`_ the graph of 'root' reaches through ``run =`` is copied in, in the sibling's
+             order, with each resource of the sibling a value names renamed with ``RemapRef`` -- the resource is
+             declared again in this file under that name (#siblingRefs, #adoptedRefs: every key of its `section`_,
+             so a buffer keeps its ``type`` and ``format``), and an undo removes only the declaration
+             @endrst
+             *
+             * @param sibling The other ``.ini`` file
+             * @param root The `section`_ of 'sibling' to adopt
+             * @param own The `sections`_ of this file
+             *
+             * @return Whether the `section`_ was adopted
+             */
+            bool adoptSection(IniFile& sibling, const std::string& root, const IfTemplates& own);
 
             /**
              * @brief Whether a sibling ``.ini`` (#siblingInis) binds the character's position buffer -- see #bindsPosition

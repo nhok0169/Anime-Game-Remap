@@ -810,8 +810,6 @@
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
       </node>
       <node id="21">
         <label>include/AGRemapCore/constants/ModTypeId.h</label>
@@ -1009,8 +1007,6 @@
         <childnode refid="99" relation="include">
         </childnode>
         <childnode refid="100" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
@@ -2712,8 +2708,6 @@
         </childnode>
         <childnode refid="162" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="164" relation="include">
@@ -2763,8 +2757,6 @@
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="165" relation="include">
         </childnode>
@@ -3906,10 +3898,6 @@
       <node id="163">
         <label>src/data/IniParseData/TemplateParser.cpp</label>
         <link refid="_template_parser_8cpp"/>
-      </node>
-      <node id="20">
-        <label>src/data/IniParseData/TextureOverrides.cpp</label>
-        <link refid="_texture_overrides_8cpp"/>
       </node>
       <node id="3">
         <label>src/data/IniParseData/TextureRoleChooser.cpp</label>

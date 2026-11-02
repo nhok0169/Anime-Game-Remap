@@ -7,7 +7,6 @@
     <includes refid="_reg_val_checks_8h" local="yes">AGRemapCore/data/IniFixData/RegValChecks.h</includes>
     <includes refid="_side_meshes_8h" local="yes">AGRemapCore/data/IniFixData/SideMeshes.h</includes>
     <includes refid="_tex_reg_layout_8h" local="yes">AGRemapCore/data/IniFixData/TexRegLayout.h</includes>
-    <includes refid="_texture_overrides_8h" local="yes">AGRemapCore/data/IniParseData/TextureOverrides.h</includes>
     <includes local="no">algorithm</includes>
     <includes local="no">array</includes>
     <includes local="no">cmath</includes>
@@ -282,22 +281,6 @@
         <childnode refid="126" relation="include">
         </childnode>
         <childnode refid="128" relation="include">
-        </childnode>
-      </node>
-      <node id="130">
-        <label>AGRemapCore/data/IniParseData/TextureOverrides.h</label>
-        <link refid="_texture_overrides_8h"/>
-        <childnode refid="131" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="43">
@@ -2675,8 +2658,6 @@
         </childnode>
         <childnode refid="125" relation="include">
         </childnode>
-        <childnode refid="130" relation="include">
-        </childnode>
         <childnode refid="45" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
@@ -3039,7 +3020,7 @@
 <codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_reg_val_checks_8h" kindref="compound">AGRemapCore/data/IniFixData/RegValChecks.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_side_meshes_8h" kindref="compound">AGRemapCore/data/IniFixData/SideMeshes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_tex_reg_layout_8h" kindref="compound">AGRemapCore/data/IniFixData/TexRegLayout.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_texture_overrides_8h" kindref="compound">AGRemapCore/data/IniParseData/TextureOverrides.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;AGRemapCore/data/IniParseData/TextureOverrides.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>

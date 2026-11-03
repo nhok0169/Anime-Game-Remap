@@ -12,7 +12,8 @@ import src.py.FixRaidenBoss2 as FRB
 
 class PythonParityTest(unittest.TestCase):
     """Capabilities the C++ fixers use that Python reaches too: where downloads are fetched from, a register's tag, the
-    copy preamble, RabbitFX's name, texture thumbprints, running a parser the builder made, and removing one key twice"""
+    copy preamble, RabbitFX's name, texture thumbprints, running a parser the builder made, removing one key twice, a
+    file's texture overrides, WWMI's own sections, skipping a `ref` when collecting, and a register edit on some sections"""
 
     def test_downloadTools_urlIsTheFolderThenThePath(self):
         path = FRB.DownloadTools.urlPath("WuWa", "Sanhua", "2_5", "Sanhua", "Texture89ba19a1", ".dds")
@@ -68,3 +69,31 @@ class PythonParityTest(unittest.TestCase):
         self.assertEqual([(hash, row.section, row.value) for hash, row in overrides],
                          [("abcd1234", "TextureOverrideA", "ResourceA"), ("0000ffff", "TextureOverrideB", "ref ResourceD")])
         self.assertEqual(overrides[1][1].guards, ["$x == 1"])
+
+    def test_wwmiSections_hideSkipsTheSlotAndMergesItsBones(self):
+        hide = FRB.WWMISections.Hide()
+        hide.name, hide.comment, hide.vb0Hash = "TextureOverrideXComponent4RemapHide", "; hidden", "b101dcf3"
+        hide.indexOffset, hide.indexCount, hide.vgOffset, hide.vgCount = "10", "20", "127", "63"
+        hide.slot, hide.mergeSkeletonList = "4", "CommandListMergeSkeletonXRemapFix"
+        section = FRB.WWMISections.hideSection(FRB.Z3Context(), hide)
+        self.assertEqual(section.name, "TextureOverrideXComponent4RemapHide")
+        text = section.toStr()
+        for line in ("hash = b101dcf3", "match_first_index = 10", "run = CommandListMergeSkeletonXRemapFix", "handling = skip"):
+            self.assertIn(line, text)
+
+    def test_wwmiSections_mergeListNameGoesThroughTheSkeletonsName(self):
+        skeleton = FRB.WWMISections.Skeleton()
+        skeleton.name = lambda name: name + "RemapFix"
+        self.assertEqual(FRB.WWMISections.mergeListName(skeleton, 3), "CommandListMergeSlot3RemapFix")
+
+    def test_resRegCollect_skipsKeywords_skipsARef(self):
+        skips = FRB.ResRegCollect.skipsKeywords()
+        self.assertFalse(skips("vb4", "ref ResourceBlendBufferOverride", None))
+        self.assertTrue(skips("vb4", "ResourceBlendBuffer", None))
+
+    def test_regPartEdit_keepsItsEditAndFilter(self):
+        add = FRB.RegAdd([("run", "CommandListX")], True, True)
+        part = FRB.RegPartEdit(add, lambda name: name == "CommandListCleanup")
+        self.assertIs(part.edit, add)
+        self.assertTrue(part.sectionFilter("CommandListCleanup"))
+        self.assertFalse(part.sectionFilter("CommandListOverride"))

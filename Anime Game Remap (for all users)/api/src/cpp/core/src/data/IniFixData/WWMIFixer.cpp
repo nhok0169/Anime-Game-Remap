@@ -1,4 +1,5 @@
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
+#include "AGRemapCore/data/IniFixData/WWMISections.h"
 
 // ##### Credits
 
@@ -117,461 +118,6 @@
 
 namespace AGRemapCore {
     namespace {
-
-        // ---- the sections that drive WWMI itself: the merged skeleton, its remapped copy past 256 bones, one
-        // merge list per target slot, the blend remap, and a hidden slot's section ----
-
-        // The sections a fix of a Wuthering Waves mod writes to drive WWMI itself: the merged skeleton a mod from
-        // before WWMI's merged skeleton has none of, a remapped copy of it for a target past 256 bones, one merge list per
-        // target draw slot, and the blend remap that rewrites the remapped blend's ids into that remap's local space
-        // Every name goes through Skeleton::name / BlendRemap::name, so the sections carry the
-        // fix's own names and an undo takes them
-        class Runtime {
-            public:
-                // One section
-                using Section = IfTemplate<std::string, std::string>;
-
-                // What skeletonSections writes
-                struct Skeleton {
-                    // The fix's name for a section of the given name
-                    std::function<std::string(const std::string&)> name;
-
-                    // The hash of the game's bone-data constant buffer, which the merges are gated on
-                    std::string cb4Hash;
-
-                    // The `filter_index` the fix marks that buffer with
-                    std::string boneDataFilter;
-
-                    // How many bones the merged skeleton holds
-                    int mergedSkeletonSlots = 0;
-
-                    // Whether the target is past 256 bones: the merge then feeds a private REMAPPED skeleton
-                    // (blendRemapForward, WWMI's `SkeletonRemapper`), bound in place of the merged one
-                    bool remapped = false;
-
-                    // Whether the remap runs once a frame from a latch elsewhere; otherwise each merge list runs it first
-                    bool latched = false;
-
-                    // Whether a draw with its current pose in `vs-cb3` alone merges into the MAIN skeleton
-                    bool currentPoseInCb3Only = false;
-
-                    // Whether `vs-cb3` gets the previous pose after every merge, whatever the marker says
-                    bool bindPrevPoseAlways = false;
-
-                    // The blend remap's bone count, for the remap
-                    std::size_t blendRemapBones = 0;
-
-                    // The resource of the blend remap's forward ids, for the remap
-                    std::string blendRemapForward;
-
-                    // Each target draw slot's bone window, as `(vg_offset, vg_count)`
-                    std::vector<std::pair<std::string, std::string>> slotWindows;
-                };
-
-                // The merge list of one target draw slot
-                // skeleton: What the sections are named by
-                // slot: The slot
-                static std::string mergeListName(const Skeleton& skeleton, int slot);
-
-                // The skeleton's sections: the merged skeleton and its read-write copies, the marker on the game's
-                // bone-data constant buffer, the remapped skeleton with the list that remaps it and the merge a hidden slot
-                // runs (for Skeleton::remapped), and one merge list per slot (mergeListName)
-                // z3: The Z3 context the `if` lines are parsed in
-                // skeleton: What to write
-                // returns The sections, in order
-                static std::vector<std::unique_ptr<Section>> skeletonSections(Z3Context& z3, const Skeleton& skeleton);
-
-                // What blendRemapSections writes
-                struct BlendRemap {
-                    // The fix's name for a section of the given name
-                    std::function<std::string(const std::string&)> name;
-
-                    // The remapped blend file
-                    std::string blendFile;
-
-                    // The files of the remap's three id buffers: `VertexVG`, `Forward` and `Reverse`
-                    std::function<std::string(const std::string& which)> remapFile;
-
-                    // The blend's stride
-                    std::size_t blendStride = 0;
-
-                    // How many influences each vertex of the blend carries
-                    std::size_t influences = 0;
-
-                    // The register the remapped blend is bound at
-                    std::string blendReg;
-                };
-
-                // The list blendRemapSections runs WWMI's `BlendRemapper` from
-                // blendRemap: What the sections are named by
-                static std::string blendRemapInitList(const BlendRemap& blendRemap);
-
-                // The blend remap's resources and the one-time run of WWMI's `BlendRemapper` (#blendRemapInitList), guarded
-                // by a `local` so it costs one dispatch on the first drawn frame and binds the remapped blend after
-                // z3: The Z3 context the `if` lines are parsed in
-                // blendRemap: What to write
-                // returns The sections, in order
-                static std::vector<std::unique_ptr<Section>> blendRemapSections(Z3Context& z3, const BlendRemap& blendRemap);
-
-                // What hideSection writes
-                struct Hide {
-                    // The section's name
-                    std::string name;
-
-                    // The comment written above it
-                    std::string comment;
-
-                    // The target's `vb0` hash
-                    std::string vb0Hash;
-
-                    // The slot's `match_first_index` and `match_index_count`
-                    std::string indexOffset, indexCount;
-
-                    // The slot's bone window, `vg_offset` and `vg_count`
-                    std::string vgOffset, vgCount;
-
-                    // A name of the slot for its frame latch (`$state_id_<slot>`)
-                    std::string slot;
-
-                    // For a mod from before WWMI's merged skeleton: the list that merges the slot's bones
-                    // (mergeListName), run before the draw is skipped -- or empty for a mod with a merged skeleton
-                    std::string legacyMergeList;
-
-                    // For a target past 256 bones: the list that merges the slot's window into the fix's own skeleton, run on
-                    // every draw -- or empty, which runs `CommandListMergeSkeleton` once a frame through the slot's latch
-                    std::string mergeWindowList;
-
-                    // The list run once a frame without #mergeWindowList
-                    std::string mergeSkeletonList;
-
-                    // Lines that capture the game's own bindings on the slot, run while a pixel shader is bound
-                    std::vector<std::pair<std::string, std::string>> stashed;
-                };
-
-                // The `TextureOverride` of a target draw slot nothing of the mod is drawn through: it skips the skin's own
-                // geometry and still merges the slot's bones, which other slots' vertices may be weighted to
-                // z3: The Z3 context the `if` lines are parsed in
-                // hide: What to write
-                // returns The section
-                static std::unique_ptr<Section> hideSection(Z3Context& z3, const Hide& hide);
-        };
-
-        std::string Runtime::mergeListName(const Skeleton& skeleton, int slot) {
-            return skeleton.name("CommandListMergeSlot" + std::to_string(slot));
-        }
-
-        std::unique_ptr<Runtime::Section> Runtime::hideSection(Z3Context& z3, const Hide& hide) {
-            SectionText text(z3, hide.name);
-            text.prefix(hide.comment)
-                .keys({{IniKeywords::Hash, hide.vb0Hash},
-                       {IniKeywords::MatchFirstIndex, hide.indexOffset},
-                       {IniKeywords::MatchIndexCount, hide.indexCount}});
-            text.key(IniKeywords::WWMIObjectDetected, "1")
-                .open(IniKeywords::WWMIModEnabled);
-
-            if (!hide.legacyMergeList.empty()) {
-                text.keys({{IniKeywords::Run, hide.legacyMergeList}, {IniKeywords::Handling, IniKeywords::Skip}});
-            } else {
-                if (!hide.mergeWindowList.empty()) {
-                    // Unconditional: these mods keep no `$state_id`, so a latch never fires and a hidden slot's window
-                    // never reaches the fix's skeleton. The merge is idempotent, so running it per draw is waste rather
-                    // than a fault.
-                    text.keys({{IniKeywords::WWMIVgOffset, hide.vgOffset},
-                               {IniKeywords::WWMIVgCount, hide.vgCount},
-                               {IniKeywords::Run, hide.mergeWindowList}});
-                } else {
-                    const std::string state = IniKeywords::WWMIStateId + "_" + hide.slot;
-                    text.key(IniKeywords::Local + " " + state)
-                        .open(state + " != $state_id")
-                        .keys({{state, IniKeywords::WWMIStateId},
-                               {IniKeywords::WWMIVgOffset, hide.vgOffset},
-                               {IniKeywords::WWMIVgCount, hide.vgCount},
-                               {IniKeywords::Run, hide.mergeSkeletonList}})
-                        .close();
-                }
-
-                text.open("ResourceMergedSkeleton !== null")
-                    .key(IniKeywords::Handling, IniKeywords::Skip)
-                    .close();
-            }
-
-            if (!hide.stashed.empty()) {
-                text.open("o3 !== null").keys(hide.stashed).close();
-            }
-
-            return text.close().build();
-        }
-
-        std::string Runtime::blendRemapInitList(const BlendRemap& blendRemap) {
-            return blendRemap.name("CommandListBlendRemap");
-        }
-
-        // What a mod from before WWMI's merged skeleton has none of: the two skeleton buffers and their read-only copies,
-        // the marker on the game's bone-data constant buffer, and one merge list per target slot -- each gated on the
-        // marker, so a pass with something else in that slot cannot merge junk into the skeleton.
-        std::vector<std::unique_ptr<Runtime::Section>> Runtime::skeletonSections(Z3Context& z3, const Skeleton& skeleton) {
-            std::vector<std::unique_ptr<Section>> sections;
-            const std::string merged = skeleton.name(IniKeywords::Resource + std::string("MergedSkeleton"));
-            const std::string mergedRW = skeleton.name(IniKeywords::Resource + std::string("MergedSkeletonRW"));
-            const std::string extra = skeleton.name(IniKeywords::Resource + std::string("ExtraMergedSkeleton"));
-            const std::string extraRW = skeleton.name(IniKeywords::Resource + std::string("ExtraMergedSkeletonRW"));
-            sections.push_back(SectionText(z3, merged).build());
-            sections.push_back(SectionText(z3, extra).build());
-            for (const std::string& name : {mergedRW, extraRW}) {
-                sections.push_back(SectionText(z3, name)
-                           .keys({{IniKeywords::Type, "RWBuffer"},
-                                  {IniKeywords::Format, "R32G32B32A32_FLOAT"},
-                                  {IniKeywords::Array, std::to_string(skeleton.mergedSkeletonSlots)}})
-                           .build());
-            }
-
-            sections.push_back(SectionText(z3, skeleton.name("TextureOverrideMarkBoneDataCB"))
-                       .keys({{IniKeywords::Hash, skeleton.cb4Hash},
-                              {IniKeywords::MatchPriority, "0"},
-                              {IniKeywords::FilterIndex, skeleton.boneDataFilter}})
-                       .build());
-
-            // The private skeleton a blend remap needs, gathered right after the merge:
-            // SkeletonRemapper writes remapped[i] = merged[forward[i]], so a vertex whose
-            // blend names LOCAL i reaches the bone forward[i] -- which is how an 8-bit index
-            // addresses a 420-slot skeleton at all. Bound in place of the merged one.
-            const std::string remappedRW = skeleton.name(IniKeywords::Resource + std::string("RemappedSkeletonRW"));
-            const std::string remapped = skeleton.name(IniKeywords::Resource + std::string("RemappedSkeleton"));
-            const std::string extraRemappedRW = skeleton.name(IniKeywords::Resource + std::string("ExtraRemappedSkeletonRW"));
-            const std::string extraRemapped = skeleton.name(IniKeywords::Resource + std::string("ExtraRemappedSkeleton"));
-            if (skeleton.remapped) {
-                for (const std::string& name : {remapped, extraRemapped, remappedRW, extraRemappedRW}) {
-                    sections.push_back(SectionText(z3, name).build());
-                }
-            }
-
-            // The remap, run ONCE PER FRAME from the COMPLETE merged skeleton rather than per draw
-            // from a partly filled one (2026-10-02).
-            //
-            // WWMI's own design: each component's draw merges its window into a persistent RW
-            // buffer, and `[Present]` snapshots the result and remaps it, so the NEXT frame's draws
-            // all bind one complete skeleton. Remapping inside each draw instead reads a buffer
-            // holding only the windows merged so far this frame -- which differs per slot and per
-            // frame, so the render comes out UNSTABLE rather than wrong: five reloads of one mod,
-            // same files and same build, gave four different pictures.
-            //
-            // Anchored on the frame's first remapped draw rather than on `[Present]`, which is
-            // equivalent -- nothing but these merge lists writes the RW buffer, so between
-            // `[Present]` and the first draw it still holds exactly the previous frame's complete
-            // merge. It also keeps the hook inside the fix's OWN sections: the mod's `[Present]` is
-            // the host's, and no .ini in the corpus carries two of them, so appending one would bet
-            // on 3dmigoto merging duplicate sections within a file, which nothing here establishes.
-            //
-            // `$state_id` is the host's frame counter, flipped once a frame at `[Present]`.
-            if (skeleton.remapped) {
-                // NO FRAME LATCH (2026-10-02). It was latched on `$state_id`, which the identity mod
-                // maintains and a real WWMI Tools mod of the current generation does NOT -- it declares
-                // `global $state_id = 0`, never assigns it, and keeps its own `$merge_status_id`. The
-                // latch then read 0 != 0 forever: `if $remapped_state != $state_id: false` 118841 times
-                // and true ZERO in 3dmigoto's log, so the remap never ran, the remapped skeleton was
-                // never created, and binding that null UNBOUND vs-cb4 -- an invisible model.
-                //
-                // Unconditional costs a few dispatches a frame and needs no frame counter, because the
-                // property that matters never came from the latch: the merged RW buffer is PERSISTENT
-                // and accumulates, so at any draw it holds every window from this frame or the last, and
-                // a remap taken at any point reads a COMPLETE skeleton. That is what moving it out of
-                // the per-draw path was for, and it survives a mod that keeps no frame counter.
-                SectionText remap(z3, skeleton.name("CommandListRemapMergedSkeleton"));
-                for (const auto& cb : {std::make_tuple(mergedRW, merged, remappedRW, remapped),
-                                       std::make_tuple(extraRW, extra, extraRemappedRW, extraRemapped)}) {
-                    remap.keys({{std::get<1>(cb), "copy " + std::get<0>(cb)},
-                                    {"cs-t37", skeleton.blendRemapForward},
-                                    {IniKeywords::WWMIBlendRemapId, "0"},
-                                    {IniKeywords::WWMIVgCount, std::to_string(skeleton.blendRemapBones)},
-                                    {"cs-t38", std::get<1>(cb)},
-                                    // Seeded from the merged RW, which is declared with a size. An empty
-                                    // resource bound to `cs-u5` has no backing buffer: the dispatch writes
-                                    // nowhere, the `copy` below then finds no source, and binding that null
-                                    // UNBINDS the slot -- invisible rather than wrong.
-                                    {std::get<2>(cb), "copy " + std::get<0>(cb)},
-                                    {"cs-u5", std::get<2>(cb)},
-                                    {IniKeywords::Run, IniKeywords::WWMISkeletonRemapper},
-                                    {std::get<3>(cb), "copy " + std::get<2>(cb)}});
-                }
-
-                sections.push_back(remap.build());
-            }
-
-            // The merge a HIDDEN slot runs. A target slot nothing is remapped onto still
-            // contributes bones -- Chisa's [391, 419) carries bone 409, which 1185 of the identity
-            // mod's weighted influence slots name -- and its `...RemapHide` section used to run the
-            // host's copied `CommandListMergeSkeleton`, which writes the MOD's merged skeleton,
-            // sized for the source. The bone was then never written into the buffer the remap
-            // reads, so every vertex on it skinned against a zero matrix and collapsed to the
-            // origin -- and a triangle with one corner there is a plane across the scene.
-            //
-            // Merge only, no bind: the caller sets vg_offset / vg_count and the draw is skipped.
-            if (skeleton.remapped) {
-                SectionText window(z3, skeleton.name("CommandListMergeWindow"));
-                window.key(IniKeywords::WWMICustomMeshScale, "1.00");
-                for (const auto& cb : {std::make_pair(std::string("vs-cb4"), mergedRW),
-                                       std::make_pair(std::string("vs-cb3"), extraRW)}) {
-                    window.open(cb.first + " == " + skeleton.boneDataFilter)
-                          .keys({{"cs-cb8", IniKeywords::Ref + " " + cb.first},
-                                 {"cs-u6", cb.second},
-                                 {IniKeywords::Run, IniKeywords::WWMISkeletonMerger}})
-                          .close();
-                }
-
-                sections.push_back(window.build());
-            }
-
-            for (std::size_t slot = 0; slot < skeleton.slotWindows.size(); ++slot) {
-                const auto& s = skeleton.slotWindows[slot];
-                SectionText mergeList(z3, mergeListName(skeleton, static_cast<int>(slot)));
-                if (skeleton.remapped && !skeleton.latched) {
-                    // Only without a frame latch (see latchEdits): a remap here runs before
-                    // EVERY slot's merge and so reads a buffer whose windows differ in age.
-                    mergeList.key(IniKeywords::Run, skeleton.name("CommandListRemapMergedSkeleton"));
-                }
-
-                // see WWMIFixerConfig::currentPoseInCb3Only. Decided BEFORE anything is rebound: a
-                // `vs-cbN == filter` test reads the buffer bound at that moment, and once vs-cb4
-                // holds the fix's own skeleton it no longer carries the marker.
-                const std::string Cb3Only = "$cb3_only";
-                if (skeleton.currentPoseInCb3Only) {
-                    mergeList.key(IniKeywords::Local + " " + Cb3Only)
-                             .key(Cb3Only, "0")
-                             .open("vs-cb3 == " + skeleton.boneDataFilter + " && vs-cb4 != " + skeleton.boneDataFilter)
-                             .key(Cb3Only, "1")
-                             .close();
-                }
-
-                for (const auto& cb : {std::make_tuple(std::string("vs-cb4"), mergedRW, merged, remappedRW, remapped),
-                                       std::make_tuple(std::string("vs-cb3"), extraRW, extra, extraRemappedRW, extraRemapped)}) {
-                    const bool cb3 = std::get<0>(cb) == "vs-cb3";
-                    mergeList.open(std::get<0>(cb) + " == " + skeleton.boneDataFilter
-                                   + (cb3 && skeleton.currentPoseInCb3Only ? " && " + Cb3Only + " == 0" : ""))
-                             .keys({{IniKeywords::WWMIVgOffset, s.first},
-                                    {IniKeywords::WWMIVgCount, s.second},
-                                    {IniKeywords::WWMICustomMeshScale, "1.00"},
-                                    {"cs-cb8", IniKeywords::Ref + " " + std::get<0>(cb)},
-                                    {"cs-u6", std::get<1>(cb)},
-                                    {IniKeywords::Run, IniKeywords::WWMISkeletonMerger}});
-
-                    if (skeleton.remapped) {
-                        // Bind what the frame's remap produced. The snapshot and the SkeletonRemapper
-                        // dispatch that used to sit here moved into CommandListRemapMergedSkeleton,
-                        // which runs once a frame from the complete merge.
-                        mergeList.key(std::get<0>(cb), std::get<4>(cb));
-                    } else {
-                        // The snapshot the two branches used to share, kept here so a legacy mod writes
-                        // exactly the lines it wrote before.
-                        mergeList.keys({{std::get<2>(cb), "copy " + std::get<1>(cb)},
-                                        {std::get<0>(cb), std::get<2>(cb)}});
-                    }
-
-                    mergeList.close();
-                }
-
-                // ...and a draw whose current pose is in vs-cb3 alone: into the MAIN skeleton
-                if (skeleton.currentPoseInCb3Only) {
-                    mergeList.open(Cb3Only + " == 1")
-                             .keys({{IniKeywords::WWMIVgOffset, s.first},
-                                    {IniKeywords::WWMIVgCount, s.second},
-                                    {IniKeywords::WWMICustomMeshScale, "1.00"},
-                                    {"cs-cb8", IniKeywords::Ref + " vs-cb3"},
-                                    {"cs-u6", mergedRW},
-                                    {IniKeywords::Run, IniKeywords::WWMISkeletonMerger}});
-                    if (skeleton.remapped) {
-                        mergeList.key("vs-cb3", remapped);
-                    } else {
-                        mergeList.keys({{merged, "copy " + mergedRW}, {"vs-cb3", merged}});
-                    }
-
-                    mergeList.close();
-                }
-
-                // AND THE PREVIOUS POSE AGAIN, OUTSIDE THE GUARD (2026-10-03).
-                //
-                // The game does not set `boneDataFilter` on cb3 for every pass. Measured in a
-                // frame dump of a remapped mod: five draws -- one for EVERY main body slot --
-                // had cb4 replaced and cb3 still holding the TARGET's own skeleton, so the
-                // shader reprojected our pose from hers. The motion is nonsense and TAA smears
-                // a second body across the character: the "double ghost body" reported on every
-                // mod of the pair AND on the identity mod, which is the target skin's own model
-                // and so proves the fault is the remap rather than any mod's content.
-                //
-                // Binding the remapped PREVIOUS pose rather than the current one keeps genuine
-                // motion vectors; both clear the smear in game, and this one does not flatten
-                // the character's motion blur to zero. On a pass that does carry the marker the
-                // guarded block above has already bound the same resource, so this is a no-op.
-                if (skeleton.bindPrevPoseAlways) {
-                    if (skeleton.currentPoseInCb3Only) {
-                        mergeList.open(Cb3Only + " == 0")
-                                 .key("vs-cb3", skeleton.remapped ? extraRemapped : extra)
-                                 .close();
-                    } else {
-                        mergeList.key("vs-cb3", skeleton.remapped ? extraRemapped : extra);
-                    }
-                }
-
-                sections.push_back(mergeList.build());
-            }
-            return sections;
-        }
-
-        // The blend remap's resources, and the one-time run of WWMI's BlendRemapper that rewrites the remapped blend's ids
-        // into the remap's LOCAL space. The strided view is the fix's own declaration of the same file: `copy_desc` needs a
-        // buffer with the blend's stride.
-        std::vector<std::unique_ptr<Runtime::Section>> Runtime::blendRemapSections(Z3Context& z3, const BlendRemap& blendRemap) {
-            std::vector<std::unique_ptr<Section>> sections;
-            const std::string vertexVG = blendRemap.name(IniKeywords::Resource + std::string("BlendRemapVertexVGBuffer"));
-            const std::string forward = blendRemap.name(IniKeywords::Resource + std::string("BlendRemapForwardBuffer"));
-            const std::string reverse = blendRemap.name(IniKeywords::Resource + std::string("BlendRemapReverseBuffer"));
-            const std::string noStride = blendRemap.name(IniKeywords::Resource + std::string("BlendNoStride"));
-            const std::string strided = blendRemap.name(IniKeywords::Resource + std::string("BlendStrided"));
-            const std::string blendRW = blendRemap.name(IniKeywords::Resource + std::string("RemappedBlendBufferRW"));
-            const std::string blendOut = blendRemap.name(IniKeywords::Resource + std::string("RemappedBlendBuffer"));
-            const std::string blendPath = blendRemap.blendFile;
-
-            // no stride on the three the compute shader reads: a Buffer declared with one
-            // cannot be addressed by a compute shader (wwmiIdentityMod.py's own note)
-            for (const auto& entry : {std::make_pair(vertexVG, blendRemap.remapFile("VertexVG")),
-                                      std::make_pair(forward, blendRemap.remapFile("Forward")),
-                                      std::make_pair(reverse, blendRemap.remapFile("Reverse")),
-                                      std::make_pair(noStride, blendPath)}) {
-                sections.push_back(SectionText(z3, entry.first)
-                           .keys({{IniKeywords::Type, IniKeywords::Buffer},
-                                  {IniKeywords::Format, entry.first == noStride ? "DXGI_FORMAT_R8_UINT"
-                                                                     : "DXGI_FORMAT_R16_UINT"},
-                                  {IniKeywords::Filename, entry.second}})
-                           .build());
-            }
-
-            sections.push_back(SectionText(z3, strided)
-                       .keys({{IniKeywords::Type, IniKeywords::Buffer},
-                              {IniKeywords::Format, "DXGI_FORMAT_R8_UINT"},
-                              {IniKeywords::Stride, std::to_string(blendRemap.blendStride)},
-                              {IniKeywords::Filename, blendPath}})
-                       .build());
-            sections.push_back(SectionText(z3, blendRW).build());
-            sections.push_back(SectionText(z3, blendOut).build());
-
-            sections.push_back(SectionText(z3, blendRemapInitList(blendRemap))
-                       .key(IniKeywords::Local + " $blendRemapReady")
-                       .open("!$blendRemapReady")
-                       .keys({{IniKeywords::WWMICustomVertexCount, IniKeywords::WWMIMeshVertexCount},
-                              {IniKeywords::WWMIWeightsPerVertexCount, std::to_string(blendRemap.influences)},
-                              {IniKeywords::WWMIBlendRemapId, "0"},
-                              {"cs-t34", IniKeywords::Ref + " " + reverse},
-                              {"cs-t35", IniKeywords::Ref + " " + vertexVG},
-                              {blendRW, "copy " + noStride},
-                              {"cs-u4", IniKeywords::Ref + " " + blendRW},
-                              {IniKeywords::Run, IniKeywords::WWMIBlendRemapper},
-                              {blendOut, "copy " + blendRW},
-                              {blendOut, "copy_desc " + strided},
-                              {"$blendRemapReady", "1"}})
-                       .close()
-                       .key(blendRemap.blendReg, blendOut)
-                       .build());
-            return sections;
-        }
 
         using Fixer = GIMIFixer<>;
         using ObjGroupEdit = GraphGroupEdit<>;
@@ -4422,12 +3968,12 @@ namespace AGRemapCore {
 
                 // The merge list the fix supplies per target slot for a legacy mod
                 std::string mergeListName(int slot) const {
-                    return Runtime::mergeListName(runtimeSkeleton(), slot);
+                    return WWMISections::mergeListName(runtimeSkeleton(), slot);
                 }
 
-                // What Runtime writes the fix's skeleton and blend remap from
-                Runtime::Skeleton runtimeSkeleton() const {
-                    Runtime::Skeleton skeleton;
+                // What WWMISections writes the fix's skeleton and blend remap from
+                WWMISections::Skeleton runtimeSkeleton() const {
+                    WWMISections::Skeleton skeleton;
                     skeleton.name = [this](const std::string& name) { return remapFixName(name); };
                     skeleton.cb4Hash = target_.cb4Hash;
                     skeleton.boneDataFilter = config_.boneDataFilter;
@@ -4444,8 +3990,8 @@ namespace AGRemapCore {
                     return skeleton;
                 }
 
-                Runtime::BlendRemap runtimeBlendRemap() const {
-                    Runtime::BlendRemap blendRemap;
+                WWMISections::BlendRemap runtimeBlendRemap() const {
+                    WWMISections::BlendRemap blendRemap;
                     blendRemap.name = [this](const std::string& name) { return remapFixName(name); };
                     blendRemap.blendFile = blendFixedFile();
                     blendRemap.remapFile = [this](const std::string& which) { return blendRemapFile(which); };
@@ -4455,9 +4001,9 @@ namespace AGRemapCore {
                     return blendRemap;
                 }
 
-                // The skeleton's sections (Runtime::skeletonSections), and the blend remap's after them
+                // The skeleton's sections (WWMISections::skeletonSections), and the blend remap's after them
                 void legacySkeletonSections() {
-                    for (auto& section : Runtime::skeletonSections(z3_, runtimeSkeleton())) {
+                    for (auto& section : WWMISections::skeletonSections(z3_, runtimeSkeleton())) {
                         addFixSection(std::move(section));
                     }
 
@@ -4475,7 +4021,7 @@ namespace AGRemapCore {
                 // declaring it here keeps this text independent of what the collect happened to
                 // name its resource.
                 void blendRemapSections() {
-                    for (auto& section : Runtime::blendRemapSections(z3_, runtimeBlendRemap())) {
+                    for (auto& section : WWMISections::blendRemapSections(z3_, runtimeBlendRemap())) {
                         addFixSection(std::move(section));
                     }
                 }
@@ -4587,7 +4133,7 @@ namespace AGRemapCore {
                         const Slot& s = target_.slots[slot];
                         auto label = config_.targetLabels.find(static_cast<int>(slot));
                         const std::string labelText = label == config_.targetLabels.end() ? std::to_string(slot) : label->second;
-                        Runtime::Hide hide;
+                        WWMISections::Hide hide;
                         hide.name = IniKeywords::TextureOverride + toModName_ + TextTools::capitalize(config_.slotPrefix)
                                     + std::to_string(slot) + IniKeywords::Remap + "Hide";
                         hide.comment = "; nothing of the mod is drawn through " + toModName_ + "'s " + labelText
@@ -4614,7 +4160,7 @@ namespace AGRemapCore {
                             }
                         }
 
-                        addFixSection(Runtime::hideSection(z3_, hide));
+                        addFixSection(WWMISections::hideSection(z3_, hide));
 
                         if (stash != config_.stashRegs.end()) {
                             for (const std::string& reg : stash->second) {
@@ -4746,7 +4292,7 @@ namespace AGRemapCore {
                 // wrote carries the target's name and `Remap`, and the resource section that names
                 // it lives inside the fix's block.
                 std::string blendRemapInitList() const {
-                    return Runtime::blendRemapInitList(runtimeBlendRemap());
+                    return WWMISections::blendRemapInitList(runtimeBlendRemap());
                 }
 
                 // The remapped blend as the collect writes it, which is what the BlendRemapper reads

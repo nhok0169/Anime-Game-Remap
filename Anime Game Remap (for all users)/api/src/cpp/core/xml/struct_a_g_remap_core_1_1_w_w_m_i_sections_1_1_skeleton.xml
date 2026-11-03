@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMISections::Skeleton</compoundname>
+    <includes refid="_w_w_m_i_sections_8h" local="no">WWMISections.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a20981e28b3612eb8488f68133b9af778" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp;)&gt; AGRemapCore::WWMISections::Skeleton::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::WWMISections::Skeleton::name</qualifiedname>
+        <briefdescription>
+<para>The fix&apos;s name for a section of the given name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="55" column="31" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a7d5e86c649a455769a98a44329a0dde5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::Skeleton::cb4Hash</definition>
+        <argsstring></argsstring>
+        <name>cb4Hash</name>
+        <qualifiedname>AGRemapCore::WWMISections::Skeleton::cb4Hash</qualifiedname>
+        <briefdescription>
+<para>The hash of the game&apos;s bone-data constant buffer, which the merges are gated on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="60" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1ac5eeb381ca3550fff3be7be251220deb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::Skeleton::boneDataFilter</definition>
+        <argsstring></argsstring>
+        <name>boneDataFilter</name>
+        <qualifiedname>AGRemapCore::WWMISections::Skeleton::boneDataFilter</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>filter_index</computeroutput> the fix marks that buffer with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="65" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a3fcec4fc36d5a9348d9254c539e33a87" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::WWMISections::Skeleton::mergedSkeletonSlots</definition>
+        <argsstring></argsstring>
+        <name>mergedSkeletonSlots</name>
+        <qualifiedname>AGRemapCore::WWMISections::Skeleton::mergedSkeletonSlots</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many bones the merged skeleton holds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="70" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a26142fb139455d64552f01ab774a65ac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::WWMISections::Skeleton::remapped</definition>
+        <argsstring></argsstring>
+        <name>remapped</name>
+        <qualifiedname>AGRemapCore::WWMISections::Skeleton::remapped</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the target is past 256 bones: the merge then feeds a private REMAPPED skeleton (blendRemapForward, WWMI&apos;s <computeroutput>SkeletonRemapper</computeroutput>), bound in place of the merged one. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="76" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1ac79552f6fb69fc78cbac1089d29f2155" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::WWMISections::Skeleton::latched</definition>
+        <argsstring></argsstring>
+        <name>latched</name>
+        <qualifiedname>AGRemapCore::WWMISections::Skeleton::latched</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the remap runs once a frame from a latch elsewhere; otherwise each merge list runs it first. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="81" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1aaeac74c65b9a1cabd20aa2aabbb1c126" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::WWMISections::Skeleton::currentPoseInCb3Only</definition>
+        <argsstring></argsstring>
+        <name>currentPoseInCb3Only</name>
+        <qualifiedname>AGRemapCore::WWMISections::Skeleton::currentPoseInCb3Only</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether a draw with its current pose in <computeroutput>vs-cb3</computeroutput> alone merges into the MAIN skeleton. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="86" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a5b3c14d4a056698b41091b6f9d2d807a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::WWMISections::Skeleton::bindPrevPoseAlways</definition>
+        <argsstring></argsstring>
+        <name>bindPrevPoseAlways</name>
+        <qualifiedname>AGRemapCore::WWMISections::Skeleton::bindPrevPoseAlways</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether <computeroutput>vs-cb3</computeroutput> gets the previous pose after every merge, whatever the marker says. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="91" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a5a534a61af41069ce59a378fd9bc730d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::WWMISections::Skeleton::blendRemapBones</definition>
+        <argsstring></argsstring>
+        <name>blendRemapBones</name>
+        <qualifiedname>AGRemapCore::WWMISections::Skeleton::blendRemapBones</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The blend remap&apos;s bone count, for the remap. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="96" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1abfcfc28afb9be3ec4c2eccaa82991bb4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::Skeleton::blendRemapForward</definition>
+        <argsstring></argsstring>
+        <name>blendRemapForward</name>
+        <qualifiedname>AGRemapCore::WWMISections::Skeleton::blendRemapForward</qualifiedname>
+        <briefdescription>
+<para>The resource of the blend remap&apos;s forward ids, for the remap. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="101" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a8f1aab6ab873a9a85cf2417d1a6acd45" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; AGRemapCore::WWMISections::Skeleton::slotWindows</definition>
+        <argsstring></argsstring>
+        <name>slotWindows</name>
+        <qualifiedname>AGRemapCore::WWMISections::Skeleton::slotWindows</qualifiedname>
+        <briefdescription>
+<para>Each target draw slot&apos;s bone window, as <computeroutput>(vg_offset, vg_count)</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="106" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What skeletonSections writes. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="51" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="51" bodyend="107"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a5b3c14d4a056698b41091b6f9d2d807a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Skeleton</scope><name>bindPrevPoseAlways</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a5a534a61af41069ce59a378fd9bc730d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Skeleton</scope><name>blendRemapBones</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1abfcfc28afb9be3ec4c2eccaa82991bb4" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Skeleton</scope><name>blendRemapForward</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1ac5eeb381ca3550fff3be7be251220deb" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Skeleton</scope><name>boneDataFilter</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a7d5e86c649a455769a98a44329a0dde5" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Skeleton</scope><name>cb4Hash</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1aaeac74c65b9a1cabd20aa2aabbb1c126" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Skeleton</scope><name>currentPoseInCb3Only</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1ac79552f6fb69fc78cbac1089d29f2155" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Skeleton</scope><name>latched</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a3fcec4fc36d5a9348d9254c539e33a87" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Skeleton</scope><name>mergedSkeletonSlots</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a20981e28b3612eb8488f68133b9af778" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Skeleton</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a26142fb139455d64552f01ab774a65ac" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Skeleton</scope><name>remapped</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a8f1aab6ab873a9a85cf2417d1a6acd45" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Skeleton</scope><name>slotWindows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

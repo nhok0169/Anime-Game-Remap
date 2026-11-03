@@ -113,6 +113,7 @@ pybind11_add_module(core
     src/data/PyGIMICharBuilders.cpp
     src/data/PyGIMIComponentBuilders.cpp
     src/data/PyWWMIBuilders.cpp
+    src/data/PyWWMISections.cpp
     src/model/PyIniNamingTools.cpp
     src/model/strategies/iniFixers/PyGIMIObjPartFilter.cpp
     src/model/strategies/iniFixers/regEdits/PyRegAssetRemap.cpp

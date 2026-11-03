@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMISections::BlendRemap</compoundname>
+    <includes refid="_w_w_m_i_sections_8h" local="no">WWMISections.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1ae7784430cf990e0055e079fd588c13d4" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp;)&gt; AGRemapCore::WWMISections::BlendRemap::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::WWMISections::BlendRemap::name</qualifiedname>
+        <briefdescription>
+<para>The fix&apos;s name for a section of the given name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="133" column="31" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1acda76f91fd47b2cc67f16319cbd8bfec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::BlendRemap::blendFile</definition>
+        <argsstring></argsstring>
+        <name>blendFile</name>
+        <qualifiedname>AGRemapCore::WWMISections::BlendRemap::blendFile</qualifiedname>
+        <briefdescription>
+<para>The remapped blend file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="138" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1a1be84f9c7ed08fb019a896f312d48f02" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;which)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp; which)&gt; AGRemapCore::WWMISections::BlendRemap::remapFile</definition>
+        <argsstring></argsstring>
+        <name>remapFile</name>
+        <qualifiedname>AGRemapCore::WWMISections::BlendRemap::remapFile</qualifiedname>
+        <briefdescription>
+<para>The files of the remap&apos;s three id buffers: <computeroutput>VertexVG</computeroutput>, <computeroutput>Forward</computeroutput> and <computeroutput>Reverse</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="143" column="31" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1a7e5c0d682bc72cc757b5e5cfa38033a0" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::WWMISections::BlendRemap::blendStride</definition>
+        <argsstring></argsstring>
+        <name>blendStride</name>
+        <qualifiedname>AGRemapCore::WWMISections::BlendRemap::blendStride</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The blend&apos;s stride. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="148" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1a17de9f62a09fbc490d66e282aa573a2a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::WWMISections::BlendRemap::influences</definition>
+        <argsstring></argsstring>
+        <name>influences</name>
+        <qualifiedname>AGRemapCore::WWMISections::BlendRemap::influences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many influences each vertex of the blend carries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="153" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1a1e968e83a868db1abb442b8c478acf82" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::BlendRemap::blendReg</definition>
+        <argsstring></argsstring>
+        <name>blendReg</name>
+        <qualifiedname>AGRemapCore::WWMISections::BlendRemap::blendReg</qualifiedname>
+        <briefdescription>
+<para>The register the remapped blend is bound at. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="158" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What blendRemapSections writes. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="129" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="129" bodyend="159"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1acda76f91fd47b2cc67f16319cbd8bfec" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::BlendRemap</scope><name>blendFile</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1a1e968e83a868db1abb442b8c478acf82" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::BlendRemap</scope><name>blendReg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1a7e5c0d682bc72cc757b5e5cfa38033a0" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::BlendRemap</scope><name>blendStride</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1a17de9f62a09fbc490d66e282aa573a2a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::BlendRemap</scope><name>influences</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1ae7784430cf990e0055e079fd588c13d4" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::BlendRemap</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1a1be84f9c7ed08fb019a896f312d48f02" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::BlendRemap</scope><name>remapFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

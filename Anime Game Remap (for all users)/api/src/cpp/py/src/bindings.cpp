@@ -86,6 +86,7 @@ void initCppIfTemplateTree(pybind11::module_ &m);
 void initCppIfTemplate(pybind11::module_ &m);
 void initCppListValue(pybind11::module_ &m);
 void initCppSectionText(pybind11::module_ &m);
+void initCppWWMISections(pybind11::module_ &m);
 void initCppCallGraph(pybind11::module_ &m);
 void initCppSectionIterData(pybind11::module_ &m);
 void initCppIniSectionGraph(pybind11::module_ &m);
@@ -311,6 +312,7 @@ PYBIND11_MODULE(core, m) {
     initCppIfTemplate(m); // its 'tree' property returns IfTemplateTree, so registered after initCppIfTemplateTree
     initCppListValue(m);
     initCppSectionText(m); // must come after initCppIfTemplate (what it builds) and initCppZ3Context (what it parses with)
+    initCppWWMISections(m); // the same two, for the same reason
     initCppCallGraph(m);
     initCppSectionIterData(m);
     initCppIniSectionGraph(m);

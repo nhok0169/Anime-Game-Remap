@@ -499,7 +499,13 @@ the mod's file reaches only some draws), and existing edits that write it. **A l
 with only the anatomy reader** (`WWMIParser`'s only-this-file mode, mirrored as `makeParser(..., onlyThisFile = True)`):
 its recolours are `GIMITemplateParser::textureOverrides` (bound as `GIMIParser.textureOverrides`) and its files
 `IniParseData::resourceFile`. Sanhua3's RabbitFX cloak needed no RabbitFX code at all -- check which config fields a
-character's row actually SETS before planning a step around one.
+character's row actually SETS before planning a step around one. **The sections a WWMI fix writes to drive WWMI
+itself** (a hidden slot, the merged skeleton, the blend remap) are fixed templates in `WWMISections` (bound; it was
+a file-local class misnamed `Runtime`), and a register edit meant for only some sections of a graph is a
+`RegPartEdit` (an edit plus a section filter) in both languages -- `GraphGroupEdit.keyFilters` picks LINES, which a
+line-adding edit ignores. **A Python fixer must keep its `Z3Context` alive as long as its sections** (hand it to
+`GraphCreate.z3`): a local one freed after the fixer was built dropped every fix section of one mod on most
+`PYTHONHASHSEED`s, which reads exactly like a set-order bug and is a dangling pointer.
 
 **A FIXER IS A LIST OF EDITS, NOT A PROGRAM (the maintainer, 2026-10-27 -- the SECOND time they have had to say
 it, after the Chisa remap).** The intended shape of every fixer, template or not, is a composition of the

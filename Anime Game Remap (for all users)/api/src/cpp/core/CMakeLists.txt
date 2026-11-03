@@ -119,6 +119,7 @@ add_library(AGRemapCore STATIC
     src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp
     src/data/IniFixData/GIMIComponentFixer.cpp
     src/data/IniFixData/WWMIFixer.cpp
+    src/data/IniFixData/WWMISections.cpp
     src/data/IniFixData/Chisa/ChisaFixer.cpp
     src/data/IniFixData/Chisa/ChisaTextures.cpp
     src/data/IniFixData/Chisa/ChisaThumbprints.cpp

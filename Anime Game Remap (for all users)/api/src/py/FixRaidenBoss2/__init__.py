@@ -120,6 +120,7 @@ from .core import PositionFile
 from .core import TexcoordFile
 from .core import IbFile
 from .core import WWMIBlend
+from .core import WWMISections
 from .core import WWMIShapeKeys
 from .core import SkeletonNumberingProbe
 from .core import RabbitFX
@@ -210,6 +211,7 @@ from .core import IterGraphGroupEdit
 from .core import GraphInherit
 from .core import GraphGroupRemap
 from .core import GraphGroupEdit
+from .core import RegPartEdit
 from .core import BaseResEdit
 from .core import ResIdentity
 from .core import ResReplace
@@ -391,7 +393,7 @@ from .main import remapMain
 
 __all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
            "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "FromOldVal", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "DownloadMode", "DownloadModeTools", "RegFillMissingMode", "IniGraphReplaceMode", "IfPredPartType", "IfPredPartTypeTools", "IniKeywords", "IniGraphModObjKeywords", "FileExt", "FilePrefixes", "FileTypes", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppGlobalModTypes", "GlobalIniClassifiers", "CppStrategyOverrides", "IniClassifyStats", "BaseIniClassifier", "IniClassifier", "IniFile", "IniSharedState", "BaseLogger", "Logger", "Version", "VersionSet", "ModDictAssets", "ModMappedAssets", "ModAssets", "Hashes", "Indices", "VertexCounts", "VGRemaps", "IndexCounts", "VGOffsets", "VGCounts", "ShapeKeyChecksums",
-           "CppBufFile", "BlendFile", "PositionFile", "TexcoordFile", "IbFile", "WWMIBlend", "WWMIShapeKeys", "SkeletonNumberingProbe", "RabbitFX", "TexThumbprint", "DownloadTools", "IniComments", "DrawUVCoverage", "VbFile", "BaseBufEditor", "BufEditor",
+           "CppBufFile", "BlendFile", "PositionFile", "TexcoordFile", "IbFile", "WWMIBlend", "WWMISections", "WWMIShapeKeys", "SkeletonNumberingProbe", "RabbitFX", "TexThumbprint", "DownloadTools", "IniComments", "DrawUVCoverage", "VbFile", "BaseBufEditor", "BufEditor",
            "CppColour", "CppColourRange", "CppTextureFile",
            "CppBasePixelTransform", "CppCorrectGamma", "CppColourReplace", "CppHighlightShadow", "CppInvertAlpha", "CppTempControl", "CppTintTransform", "CppTransparency",
            "CppBaseTexFilter", "CppGammaFilter", "CppColourReplaceFilter", "CppTransparencyAdjustFilter", "CppInvertAlphaFilter", "CppMaterialBandRemapFilter", "CppHueAdjust", "CppPixelFilter",
@@ -403,7 +405,7 @@ __all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA",
            "GIMIComponentParserConfig", "GIMIMergeFixerConfig", "makeGIMIComponentParser", "makeGIMIMergeFixer", "SideMeshes",
            "WWMITextureFacts", "WWMIParserConfig", "WWMIFixerConfig", "makeWWMIParser", "makeWWMIFixer",
            "BaseIniGraphEdit", "GraphRename", "RegFillMissing",
-           "GraphRemove", "GraphInherit", "GraphGroupRemap", "GraphGroupEdit", "IterGraphGroupEdit",
+           "GraphRemove", "GraphInherit", "GraphGroupRemap", "GraphGroupEdit", "RegPartEdit", "IterGraphGroupEdit",
            "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "TexCreate", "TexReplace", "FileAddCreate", "FileRefAdd", "FileDownloadCreate", "VGRemapBlendReplace", "ResRegCollect", "GraphCollect", "ResGroupCollect", "BaseIniGraphGroupEdit",
            "TextureRoles", "IniParseData", "IniParseRows", "IParseResult", "GraphEditVariables", "VarSectionsTake", "ShaderFilterTags", "CustomShaderBackups", "TextureRoleChooser", "CppBaseIniParser", "BaseIniParser", "CppIniParseBuilderArgs", "GIMISectionClassifier", "GIMIParser", "CppBaseIniFixer", "BaseIniFixer", "CppIniFixBuilderArgs", "GIMIFixer", "MultiModFixer", "IniFixingContext",
             

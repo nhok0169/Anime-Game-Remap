@@ -1182,6 +1182,17 @@ GraphGroupEdit
 
 :raw-html:`<br />`
 
+RegPartEdit
+===========
+
+.. attributetable:: FixRaidenBoss2.RegPartEdit
+
+.. autoclass:: FixRaidenBoss2.RegPartEdit
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 GraphGroupRemap
 ===============
 
@@ -2823,6 +2834,17 @@ WWMIBlend
 .. attributetable:: FixRaidenBoss2.WWMIBlend
 
 .. autoclass:: FixRaidenBoss2.WWMIBlend
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+WWMISections
+============
+
+.. attributetable:: FixRaidenBoss2.WWMISections
+
+.. autoclass:: FixRaidenBoss2.WWMISections
     :members:
     :private-members:
 

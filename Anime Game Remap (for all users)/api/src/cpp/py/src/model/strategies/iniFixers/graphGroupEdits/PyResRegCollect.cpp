@@ -13,6 +13,9 @@
 
 #include "PyResRegCollect.h"
 
+#include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/model/IniNamingTools.h"
+
 #include <memory>
 #include <string>
 #include <utility>
@@ -381,6 +384,33 @@ The calls to the resource
     This is scratch state, rebuilt by every :meth:`edit` and cleared again by :meth:`editFromIni`.
     Reading it back gives a freshly built ``dict``, not a live view
     )doc"));
+
+    cls.def_static("skipsKeywords", [](std::vector<std::string> keywords) {
+        // the rule of the core's skipsKeywords, over a Python resource predicate's arguments
+        return py::cpp_function([keywords = std::move(keywords)](const std::string&, const std::string& value, const py::object&) {
+            for (const std::string& keyword : keywords) {
+                if (AGRC::IniNamingTools::hasKeywordPrefix(value, keyword)) {
+                    return false;
+                }
+            }
+            return true;
+        }, py::arg("key"), py::arg("value"), py::arg("data"));
+    }, py::arg("keywords") = std::vector<std::string>{AGRC::IniKeywords::Ref}, py::doc(R"doc(
+A resource predicate (:attr:`resPredicates`) that skips a value starting with one of 'keywords', as a statement
+(:meth:`IniNamingTools.hasKeywordPrefix`) -- ``ref ResourceX`` binds a resource already declared, so collecting it as
+a file would look for a section called ``ref ResourceX``
+
+Parameters
+----------
+keywords: List[:class:`str`]
+    The statements to skip :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``["ref"]``
+
+Returns
+-------
+Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]
+    The predicate)doc"));
 
     cls.def("clear", [](PyResRegCollect &self) {
         self.refresh();

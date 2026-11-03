@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMISections::Hide</compoundname>
+    <includes refid="_w_w_m_i_sections_8h" local="no">WWMISections.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ace091a06702da6b6d9f0a98aa498e046" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::Hide::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::WWMISections::Hide::name</qualifiedname>
+        <briefdescription>
+<para>The section&apos;s name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="183" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a7c6e533786c8a09a83ee568dde49e54e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::Hide::comment</definition>
+        <argsstring></argsstring>
+        <name>comment</name>
+        <qualifiedname>AGRemapCore::WWMISections::Hide::comment</qualifiedname>
+        <briefdescription>
+<para>The comment written above it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="188" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1adc53f70db354e1838ba002fa0d1618b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::Hide::vb0Hash</definition>
+        <argsstring></argsstring>
+        <name>vb0Hash</name>
+        <qualifiedname>AGRemapCore::WWMISections::Hide::vb0Hash</qualifiedname>
+        <briefdescription>
+<para>The target&apos;s <computeroutput>vb0</computeroutput> hash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="193" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ab61a2c3177dd8ee7c18526421062e0c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::Hide::indexOffset</definition>
+        <argsstring></argsstring>
+        <name>indexOffset</name>
+        <qualifiedname>AGRemapCore::WWMISections::Hide::indexOffset</qualifiedname>
+        <briefdescription>
+<para>The slot&apos;s <computeroutput>match_first_index</computeroutput> and <computeroutput>match_index_count</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="198" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ab602fe0db638c8d7a98f46dafc27b426" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::Hide::indexCount</definition>
+        <argsstring></argsstring>
+        <name>indexCount</name>
+        <qualifiedname>AGRemapCore::WWMISections::Hide::indexCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="198" column="41" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a57ab239346c3c5987354a3c165a0b927" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::Hide::vgOffset</definition>
+        <argsstring></argsstring>
+        <name>vgOffset</name>
+        <qualifiedname>AGRemapCore::WWMISections::Hide::vgOffset</qualifiedname>
+        <briefdescription>
+<para>The slot&apos;s bone window, <computeroutput>vg_offset</computeroutput> and <computeroutput>vg_count</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="203" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ae1837ebfdd8e2b72c16554bb3607b6b8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::Hide::vgCount</definition>
+        <argsstring></argsstring>
+        <name>vgCount</name>
+        <qualifiedname>AGRemapCore::WWMISections::Hide::vgCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="203" column="38" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a01373cd283828a706b8d833c2a25e166" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::Hide::slot</definition>
+        <argsstring></argsstring>
+        <name>slot</name>
+        <qualifiedname>AGRemapCore::WWMISections::Hide::slot</qualifiedname>
+        <briefdescription>
+<para>A name of the slot for its frame latch (<computeroutput>$state_id_&lt;<ref refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a01373cd283828a706b8d833c2a25e166" kindref="member">slot</ref>&gt;</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="208" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a679634e22841ce3ffce009b86f21756f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::Hide::legacyMergeList</definition>
+        <argsstring></argsstring>
+        <name>legacyMergeList</name>
+        <qualifiedname>AGRemapCore::WWMISections::Hide::legacyMergeList</qualifiedname>
+        <briefdescription>
+<para>For a mod from before WWMI&apos;s merged skeleton: the list that merges the slot&apos;s bones (mergeListName), run before the draw is skipped <ndash/> or empty for a mod with a merged skeleton. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="214" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a8d3a3d6d8716404179ad1e044925bf91" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::Hide::mergeWindowList</definition>
+        <argsstring></argsstring>
+        <name>mergeWindowList</name>
+        <qualifiedname>AGRemapCore::WWMISections::Hide::mergeWindowList</qualifiedname>
+        <briefdescription>
+<para>For a target past 256 bones: the list that merges the slot&apos;s window into the fix&apos;s own skeleton, run on every draw <ndash/> or empty, which runs <computeroutput>CommandListMergeSkeleton</computeroutput> once a frame through the slot&apos;s latch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="220" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a8e6140f513e903ac6a027f8b69d13761" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::Hide::mergeSkeletonList</definition>
+        <argsstring></argsstring>
+        <name>mergeSkeletonList</name>
+        <qualifiedname>AGRemapCore::WWMISections::Hide::mergeSkeletonList</qualifiedname>
+        <briefdescription>
+<para>The list run once a frame without <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a8d3a3d6d8716404179ad1e044925bf91" kindref="member">mergeWindowList</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="225" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1aa5499cb3b4b6d8bb055131f166230736" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; AGRemapCore::WWMISections::Hide::stashed</definition>
+        <argsstring></argsstring>
+        <name>stashed</name>
+        <qualifiedname>AGRemapCore::WWMISections::Hide::stashed</qualifiedname>
+        <briefdescription>
+<para>Lines that capture the game&apos;s own bindings on the slot, run while a pixel shader is bound. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="230" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What hideSection writes. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="179" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="179" bodyend="231"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a7c6e533786c8a09a83ee568dde49e54e" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>comment</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ab602fe0db638c8d7a98f46dafc27b426" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>indexCount</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ab61a2c3177dd8ee7c18526421062e0c3" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>indexOffset</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a679634e22841ce3ffce009b86f21756f" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>legacyMergeList</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a8e6140f513e903ac6a027f8b69d13761" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>mergeSkeletonList</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a8d3a3d6d8716404179ad1e044925bf91" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>mergeWindowList</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ace091a06702da6b6d9f0a98aa498e046" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a01373cd283828a706b8d833c2a25e166" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>slot</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1aa5499cb3b4b6d8bb055131f166230736" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>stashed</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1adc53f70db354e1838ba002fa0d1618b9" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>vb0Hash</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ae1837ebfdd8e2b72c16554bb3607b6b8" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>vgCount</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a57ab239346c3c5987354a3c165a0b927" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>vgOffset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

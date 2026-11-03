@@ -661,6 +661,14 @@
     <member refid="class_a_g_remap_core_1_1_binary_file_1a443bf8bb2ae564fc382a079ce73caac5" kind="variable"><name>src_</name></member>
     <member refid="class_a_g_remap_core_1_1_binary_file_1a70d6840d6ff225a4fd844cc23ca595f5" kind="variable"><name>data_</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap" kind="struct"><name>AGRemapCore::WWMISections::BlendRemap</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1ae7784430cf990e0055e079fd588c13d4" kind="variable"><name>name</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1acda76f91fd47b2cc67f16319cbd8bfec" kind="variable"><name>blendFile</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1a1be84f9c7ed08fb019a896f312d48f02" kind="variable"><name>remapFile</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1a7e5c0d682bc72cc757b5e5cfa38033a0" kind="variable"><name>blendStride</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1a17de9f62a09fbc490d66e282aa573a2a" kind="variable"><name>influences</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_blend_remap_1a1e968e83a868db1abb442b8c478acf82" kind="variable"><name>blendReg</name></member>
+  </compound>
   <compound refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading" kind="struct"><name>AGRemapCore::RemapIniRemover::BoilerPlateHeading</name>
     <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1a9ccea04f6ae37337b62ae66db52a2e16" kind="variable"><name>titleSuffix</name></member>
     <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1adde8e0134635f9f97d84826d475877cf" kind="variable"><name>sideLen</name></member>
@@ -2575,6 +2583,20 @@
     <member refid="class_a_g_remap_core_1_1_heading_1ab0ac9c5f9c87a35f642bab58881d3a58" kind="function"><name>Heading</name></member>
     <member refid="class_a_g_remap_core_1_1_heading_1a85baf15045ea56a626b73495a2193eb7" kind="function"><name>open</name></member>
     <member refid="class_a_g_remap_core_1_1_heading_1a4d844f7573879ffb898c6b9d25d71ef6" kind="function"><name>close</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide" kind="struct"><name>AGRemapCore::WWMISections::Hide</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ace091a06702da6b6d9f0a98aa498e046" kind="variable"><name>name</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a7c6e533786c8a09a83ee568dde49e54e" kind="variable"><name>comment</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1adc53f70db354e1838ba002fa0d1618b9" kind="variable"><name>vb0Hash</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ab61a2c3177dd8ee7c18526421062e0c3" kind="variable"><name>indexOffset</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ab602fe0db638c8d7a98f46dafc27b426" kind="variable"><name>indexCount</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a57ab239346c3c5987354a3c165a0b927" kind="variable"><name>vgOffset</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ae1837ebfdd8e2b72c16554bb3607b6b8" kind="variable"><name>vgCount</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a01373cd283828a706b8d833c2a25e166" kind="variable"><name>slot</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a679634e22841ce3ffce009b86f21756f" kind="variable"><name>legacyMergeList</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a8d3a3d6d8716404179ad1e044925bf91" kind="variable"><name>mergeWindowList</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a8e6140f513e903ac6a027f8b69d13761" kind="variable"><name>mergeSkeletonList</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1aa5499cb3b4b6d8bb055131f166230736" kind="variable"><name>stashed</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_highlight_shadow" kind="class"><name>AGRemapCore::HighlightShadow</name>
     <member refid="class_a_g_remap_core_1_1_highlight_shadow_1a6d22ff4eb640fdf09a3081bb185cf2ff" kind="variable"><name>highlight</name></member>
@@ -6553,6 +6575,19 @@
     <member refid="class_a_g_remap_core_1_1_side_meshes_1a079aba891bf59e3ce8c2dca13bbc08c2" kind="function"><name>SideMeshes</name></member>
     <member refid="class_a_g_remap_core_1_1_side_meshes_1a64b4cbea761d349ecbaf659d7d2f75f1" kind="function"><name>build</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton" kind="struct"><name>AGRemapCore::WWMISections::Skeleton</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a20981e28b3612eb8488f68133b9af778" kind="variable"><name>name</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a7d5e86c649a455769a98a44329a0dde5" kind="variable"><name>cb4Hash</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1ac5eeb381ca3550fff3be7be251220deb" kind="variable"><name>boneDataFilter</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a3fcec4fc36d5a9348d9254c539e33a87" kind="variable"><name>mergedSkeletonSlots</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a26142fb139455d64552f01ab774a65ac" kind="variable"><name>remapped</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1ac79552f6fb69fc78cbac1089d29f2155" kind="variable"><name>latched</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1aaeac74c65b9a1cabd20aa2aabbb1c126" kind="variable"><name>currentPoseInCb3Only</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a5b3c14d4a056698b41091b6f9d2d807a" kind="variable"><name>bindPrevPoseAlways</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a5a534a61af41069ce59a378fd9bc730d" kind="variable"><name>blendRemapBones</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1abfcfc28afb9be3ec4c2eccaa82991bb4" kind="variable"><name>blendRemapForward</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_skeleton_1a8f1aab6ab873a9a85cf2417d1a6acd45" kind="variable"><name>slotWindows</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_skeleton_numbering_probe" kind="class"><name>AGRemapCore::SkeletonNumberingProbe</name>
     <member refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1acb53d6c180b964ad2f80eb670541c132" kind="variable"><name>MinVertices</name></member>
     <member refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1a88efd66aa3b6c437ebe51e3f58a7b1bb" kind="function"><name>probe</name></member>
@@ -7820,6 +7855,14 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9aad93fe0e21d99a44dd18f578c94d79" kind="variable"><name>referenceBoneCentroids</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a573dcd823bef4c527e788b90743c12d1" kind="variable"><name>drawSplits</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_w_w_m_i_sections" kind="class"><name>AGRemapCore::WWMISections</name>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a84000ffad2c51c0d067987cf78c94e1c" kind="typedef"><name>Section</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a9d05dce73578feed425b58ecfb73a82f" kind="function"><name>mergeListName</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a902ca300858490200701b029fc708436" kind="function"><name>skeletonSections</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1aef39983921cb45eeeb5081f15584be3c" kind="function"><name>blendRemapInitList</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a222ab79b197ea72f8bfca829330a61b3" kind="function"><name>blendRemapSections</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a93d88ac338e299123684f8652e1e3fe1" kind="function"><name>hideSection</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys" kind="class"><name>AGRemapCore::WWMIShapeKeys</name>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1abd0c4c6edba5cb9bc49bbe2e71a3f77c" kind="function"><name>layoutOf</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1a641dd99713a182b8eb2c90d84495e437" kind="function"><name>checkReorder</name></member>
@@ -8705,6 +8748,8 @@
   <compound refid="_tex_reg_layout_8h" kind="file"><name>TexRegLayout.h</name>
   </compound>
   <compound refid="_w_w_m_i_fixer_8h" kind="file"><name>WWMIFixer.h</name>
+  </compound>
+  <compound refid="_w_w_m_i_sections_8h" kind="file"><name>WWMISections.h</name>
   </compound>
   <compound refid="_xiangling_fixer_8h" kind="file"><name>XianglingFixer.h</name>
   </compound>

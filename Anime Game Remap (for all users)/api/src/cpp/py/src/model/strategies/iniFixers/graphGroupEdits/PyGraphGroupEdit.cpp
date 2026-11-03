@@ -17,6 +17,7 @@
 
 #include "../graphEdits/PyBaseIniGraphEdit.h"  // reuses PyBaseIniGraphEdit (the isinstance
                                                 // target for the graph-edit half)
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h"
 #include "../regEdits/PyBaseRegEdit.h"  // reuses PyBaseRegEdit (the isinstance target for the
                                         // register-edit half) and PyPartRanges (the "a bound
                                         // Ranges, or a raw list of bounds" resolver)
@@ -68,6 +69,13 @@ class PyPartEdit: public PyGraphGroupEdit::PartEdit {
     public:
         PyPartEdit(py::object filter, PyGraphGroupEdit &owner, PyIniGraphGroups &groups, py::object ini, py::object modType):
             filter_(std::move(filter)), owner_(owner), groups_(groups), ini_(std::move(ini)), modType_(std::move(modType)) {
+            // a RegPartEdit: its register edit, on the sections its filter names
+            if (py::isinstance<AGRC::RegPartEdit<>>(filter_)) {
+                const auto& adapter = filter_.cast<const AGRC::RegPartEdit<>&>();
+                sectionFilter_ = adapter.sectionFilter;
+                filter_ = adapter.edit() == nullptr ? py::none() : py::cast(adapter.edit(), py::return_value_policy::reference);
+            }
+
             if (py::isinstance<PyBaseIniGraphEdit>(filter_)) {
                 kind_ = PyGraphGroupEdit::PartEditKind::GraphEdit;
             } else if (py::isinstance<PyBaseRegEdit>(filter_)) {
@@ -121,6 +129,10 @@ class PyPartEdit: public PyGraphGroupEdit::PartEdit {
 
         void editPart(PyGraphGroupEdit::ContentPart &part, const std::string &sectionName, AGRC::IniFile *, const AGRC::ModType *,
                        const std::string &modName, const PyGraphGroupEdit::OrderRanges &partRanges) override {
+            if (sectionFilter_ && !sectionFilter_(sectionName)) {
+                return;
+            }
+
             py::object partObj = py::cast(&part, py::return_value_policy::reference);
             // Rebuilt with normalize = false from the already-normalized range list -- the same
             // shape PyIfContentPartColour.cpp uses to hand a core Ranges back to Python.
@@ -142,6 +154,7 @@ class PyPartEdit: public PyGraphGroupEdit::PartEdit {
         py::object ini_;
         py::object modType_;
         PyGraphGroupEdit::PartEditKind kind_ = PyGraphGroupEdit::PartEditKind::None;
+        AGRC::RegPartEdit<>::SectionFilter sectionFilter_;
 };
 
 
@@ -334,6 +347,28 @@ void PyGraphGroupEdit::refresh(PyIniGraphGroups &groups, py::object ini, py::obj
 
 
 void initCppGraphGroupEdit(pybind11::module_ &m) {
+    py::class_<AGRC::RegPartEdit<>, py::smart_holder>(m, "RegPartEdit", R"doc(
+A :class:`BaseRegEdit` with the `sections`_ it applies to, by name -- an entry of a :class:`GraphGroupEdit`'s edit list
+for an edit meant for only some of the `sections`_ a graph reaches (eg. only a mod's override command list)
+
+Parameters
+----------
+edit: :class:`BaseRegEdit`
+    The edit
+
+sectionFilter: Optional[Callable[[:class:`str`], :class:`bool`]]
+    Whether the edit applies to the `section`_ of a name. ``None`` applies it to every `section`_ :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+    )doc")
+        .def(py::init([](PyBaseRegEdit *edit, AGRC::RegPartEdit<>::SectionFilter sectionFilter) {
+                 return AGRC::RegPartEdit<>(edit, std::move(sectionFilter));
+             }), py::arg("edit"), py::arg("sectionFilter") = py::none(), py::keep_alive<1, 2>())
+        .def_property_readonly("edit", [](const AGRC::RegPartEdit<> &self) { return self.edit(); },
+                               py::return_value_policy::reference_internal, ":class:`BaseRegEdit`: The edit")
+        .def_readwrite("sectionFilter", &AGRC::RegPartEdit<>::sectionFilter,
+                       "Optional[Callable[[:class:`str`], :class:`bool`]]: Whether the edit applies to the `section`_ of a name");
+
     py::class_<PyGraphGroupEdit, PyBaseIniGraphGroupEdit, py::smart_holder> cls(m, "GraphGroupEdit", R"doc(
 This class inherits from :class:`BaseIniGraphGroupEdit`
 
@@ -341,8 +376,9 @@ Edits the individual :class:`IniSectionGraph` from a group of graphs
 
 Parameters
 ----------
-edits: List[Dict[Tuple[:class:`str`, :class:`str`], List[Union[:class:`BaseIniGraphEdit`, :class:`BaseRegEdit`]]]]
-    The specific edits to make on the individual graphs :raw-html:`<br />` :raw-html:`<br />`
+edits: List[Dict[Tuple[:class:`str`, :class:`str`], List[Union[:class:`BaseIniGraphEdit`, :class:`BaseRegEdit`, :class:`RegPartEdit`]]]]
+    The specific edits to make on the individual graphs (a :class:`RegPartEdit` for a register edit on only some of
+    the `sections`_) :raw-html:`<br />` :raw-html:`<br />`
 
     * Each element of the outer list contains the edits for each .ini file
     * The keys in the dictionary contain the name of the component and the name of the mod object

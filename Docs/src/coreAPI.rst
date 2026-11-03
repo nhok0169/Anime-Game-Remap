@@ -1830,6 +1830,17 @@ WWMIFixerConfig
     :protected-members:
 
 :raw-html:`<br />`
+
+WWMISections
+------------
+
+.. cppattributetable:: AGRemapCore::WWMISections
+
+.. doxygenclass:: AGRemapCore::WWMISections
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
 :raw-html:`<br />`
 
 Ini Parsers

@@ -550,6 +550,8 @@ FALLBACKS = {"bangsDiffuse": "ae6e9014", "bangsMask": "1c0c8b91", "t5Ramp": "103
              "bodiceNormal": "efb25eb3", "bodiceMask": "89ba19a1", "bodiceDiffuse": "abda232b", "skirtNormal": "f3b217ab",
              "skirtMask": "f0713dc7", "skirtDiffuse": "c689a8ee", "irisDiffuse": "1dcc0f1d"}
 DOWNLOADS = ("WuWa", "Sanhua", "2_5", "Sanhua")      # the game, character and version folders, and the file prefix
+BLEND_REG = "vb4"                                     # the register a WWMI draw reads the blend at
+TARGET_LABELS = {0: "bangs", 1: "hair", 2: "face", 3: "torso, arms, ribbons", 4: "hair bun, trousers", 5: "eyes"}
 
 
 def slotNumbers(modType, version):
@@ -677,8 +679,6 @@ def makeFixer(parser, toModName, modTypeId):
             while name in declaredName.values():
                 name, n = FRB.IniKeywords.Resource + role[0].upper() + role[1:] + str(n) + toModName + FRB.IniKeywords.RemapRef, n + 1
             declaredName[chosen.file] = name
-            fixSections.sections("fixSections").add(
-                FRB.SectionText(z3, name).key(FRB.IniKeywords.Filename, os.path.relpath(chosen.file, parser._iniFile.folder)).build())
         resourceOfSlotRole[(role, component)] = declaredName[chosen.file]
 
     # layer 3, the stand-in rule (WWMIFixer::standIn): the texture the fix invents, else Sanhua's own game texture,
@@ -748,6 +748,11 @@ def makeFixer(parser, toModName, modTypeId):
             fixSections.sections("fixSections").add(
                 FRB.SectionText(z3, listOf[component]).open(passCondition(PLAN[component])).keys(lines).close().build())
 
+    # the resources the fix declares, after the lists (WWMIFixer::buildAppended), in the order they were named
+    for file, name in declaredName.items():
+        fixSections.sections("fixSections").add(
+            FRB.SectionText(z3, name).key(FRB.IniKeywords.Filename, os.path.relpath(file, parser._iniFile.folder)).build())
+
     # the invented textures: made where the fix's lists bind them, in every group the slot remap made
     # (WWMIFixer::fixFileEdits: one TexCreate per group, collected off every graph of that group)
     kept = []
@@ -791,6 +796,62 @@ def makeFixer(parser, toModName, modTypeId):
         toggleEdits.append(FRB.GraphGroupEdit([listEdits]))
     toggleEdits += takes + [FRB.GraphRemove([(0, *obj) for obj in parser.modObjs if obj[0] == TEXTURE])]
 
+    # ---- step 6: the shared-resource pair made symmetric (WWMIFixer::buildBypasses): every buffer the mod's override
+    # list binds and its cleanup list does not put back is parked in a resource of the fix's before it is replaced, and
+    # the cleanup list runs the fix's list that puts them back ----
+    sharedList, cleanupList = "CommandListOverrideSharedResources", "CommandListCleanupSharedResources"
+    restoreList = rename(FRB.IniKeywords.CommandList + "RestoreSharedResources")
+
+    def buffersBoundBy(listName):
+        regs = []
+        for row in data.sectionRows(FRB.IniParseRows.Sections, listName):
+            key = row.key.strip().lower()
+            if (key == FRB.IniKeywords.Ib or (len(key) > 2 and key.startswith("vb") and key[2:].isdigit())) and key not in regs:
+                regs.append(key)
+        return regs
+
+    bypasses = []
+    if data.sectionRows(FRB.IniParseRows.Sections, sharedList) and data.sectionRows(FRB.IniParseRows.Sections, cleanupList):
+        already = buffersBoundBy(cleanupList)
+        bypasses = [(reg, rename(FRB.IniKeywords.Resource + "Bypass" + FRB.IniNamingTools.getRegTag(reg)))
+                    for reg in buffersBoundBy(sharedList) if reg not in already]
+
+    def onlyIn(names):
+        names = {name.lower() for name in names}
+        return lambda sectionName: sectionName.lower() in names
+
+    bypassEdits = []
+    if bypasses:
+        for reg, bypass in bypasses:
+            bypassEdits.append(FRB.RegPartEdit(
+                FRB.RegAnchorAdd([reg], lambda key, value, b = bypass, r = reg: [(b, FRB.IniKeywords.Ref + " " + r)],
+                                 FRB.RegAnchorAdd.Placement.Before, None, True, True),
+                onlyIn([sharedList, rename(sharedList)])))
+        bypassEdits.append(FRB.RegPartEdit(FRB.RegAdd([(FRB.IniKeywords.Run, restoreList)], True, True),
+                                           onlyIn([cleanupList, rename(cleanupList)])))
+        for reg, bypass in bypasses:
+            fixSections.sections("fixSections").add(FRB.SectionText(z3, bypass).build())
+        fixSections.sections("fixSections").add(
+            FRB.SectionText(z3, restoreList).keys([(reg, FRB.IniKeywords.Ref + " " + bypass) for reg, bypass in bypasses]).build())
+
+    # ---- step 7: WWMI's own sections (WWMISections): each target slot nothing of the mod is drawn through skips the
+    # skin's geometry and still merges the slot's bones; then the shader tags the texture lists are gated on ----
+    drawnSlots = {PLAN[component] for group in groups for component in group}
+    for slot, (first, count, vgOffset, vgCount) in enumerate(targetSlots):
+        if slot in drawnSlots:
+            continue
+        hide = FRB.WWMISections.Hide()
+        hide.name = FRB.IniKeywords.TextureOverride + toModName + "Component" + str(slot) + FRB.IniKeywords.Remap + "Hide"
+        hide.comment = ("; nothing of the mod is drawn through " + toModName + "'s " + TARGET_LABELS.get(slot, str(slot))
+                        + " slot: the skin's own geometry is skipped and its bones still merged")
+        hide.vb0Hash = target.hashes.get([target.name, SLOT_HASH], toVersion, False)
+        hide.indexOffset, hide.indexCount, hide.vgOffset, hide.vgCount = first, count, vgOffset, vgCount
+        hide.slot = str(slot)
+        hide.mergeSkeletonList = rename("CommandListMergeSkeleton")
+        fixSections.sections("fixSections").add(FRB.WWMISections.hideSection(z3, hide))
+    for i in range(len(tags.tags())):
+        fixSections.sections("fixSections").add(tags.section(i, rename("ShaderOverridePass" + str(i))))
+
     # the edits, per group, keyed by the target objects the remap made
     perGroup = []
     for group in groups:
@@ -800,15 +861,42 @@ def makeFixer(parser, toModName, modTypeId):
             if component in listOf:
                 edits[targetObj(component)].append(FRB.RegSurroundedAdd(
                     [(FRB.IniKeywords.Run, listOf[component])], {FRB.IniKeywords.MatchFirstIndex: lambda value: True}))
+            # the shared lists are reached through every component's graph; the edits are idempotent
+            edits[targetObj(component)] += bypassEdits
         for obj in hashOnlyObjs:
             edits[obj] = [assetRemap, dispatch]
         perGroup.append(edits)
     mainEdits = FRB.GraphGroupEdit(perGroup)
 
+    # ---- step 8: the blend, onto the target's bones: the library's vertex-group row over WWMI's layout (N ids then N
+    # weights, N off the mod's own Blend.buf), collected off each group's slot sections at the blend register -- only a
+    # line that names a file: `ref` names a buffer of WWMI's own. (WWMIFixer::blendRebindEdits, which points a mod's
+    # `vb4 = ref ResourceBlendBufferOverride` at the remapped blend, has nothing to do here: only a mod of a character
+    # past 256 bones binds it so, and Sanhua has fewer.) ----
+    positionFile = data.resourceFile(FRB.IniKeywords.WWMIPositionBuffer)
+    countRow = data.firstCollected(FRB.IniParseRows.Declared, FRB.IniKeywords.Constants,
+                                   FRB.IniKeywords.Global + " " + FRB.IniKeywords.WWMIMeshVertexCount)
+    vertexCount = int(countRow.value.strip()) if countRow is not None else 0
+
+    def blendElements(srcPath):
+        if positionFile is None:
+            raise RuntimeError("cannot fix this mod: its .ini declares no [" + FRB.IniKeywords.WWMIPositionBuffer + "]")
+        positionPath = iniPathOf(positionFile, parser._iniFile.folder)
+        return FRB.WWMIBlend.blendElements(FRB.WWMIBlend.influencesOf(srcPath, vertexCount, positionPath))
+
+    blendCollects = []
+    for g, group in enumerate(groups):
+        replace = FRB.VGRemapBlendReplace((g, "", "blend"), source, fromVersion, toVersion)
+        replace.elements = blendElements
+        graphs = [(g, *targetObj(component)) for component in group]
+        blendCollects.append(FRB.ResRegCollect({graph: BLEND_REG for graph in graphs}, {"blend": replace},
+                                               resPredicates = {graph: FRB.ResRegCollect.skipsKeywords() for graph in graphs}))
+
     # the fix's own sections, into every file it writes
     writeSections = FRB.GraphCreate((0, "", "fixSections"))
     writeSections.sectionsOf = lambda group: fixSections.sections("fixSections").list()
-    fixer = FRB.GIMIFixer(parser, graphGroupEdits = [*toggleEdits, slotRemap, mainEdits, writeSections, *madeTextures],
+    writeSections.z3 = z3       # the context the sections' `if` lines were parsed in, kept as long as the edit is
+    fixer = FRB.GIMIFixer(parser, graphGroupEdits = [*toggleEdits, slotRemap, mainEdits, *blendCollects, writeSections, *madeTextures],
                           modsToFix = [toModName])
     # a copy carries the fix's own sections and none of the mod's texture overrides live: the mod's own file keeps
     # serving the mod on its own character

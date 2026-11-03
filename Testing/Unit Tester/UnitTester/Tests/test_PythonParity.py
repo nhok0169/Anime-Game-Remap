@@ -54,3 +54,17 @@ class PythonParityTest(unittest.TestCase):
         parser = modType.iniParseBuilder.build(ini, modType.name, None, modType.modTypeId)
         parser.parse()
         self.assertIsInstance(parser.parseData, FRB.IniParseData)
+
+    def test_gimiParser_textureOverrides_firstOwnThisPerHashedSection(self):
+        folder = tempfile.mkdtemp(prefix = "AGRemapParity")
+        path = os.path.join(folder, "mod.ini")
+        with open(path, "w", encoding = "utf-8") as file:
+            file.write("[TextureOverrideA]\nhash = ABCD1234\nthis = ResourceA\nthis = ResourceB\n\n"
+                       "[TextureOverrideNoHash]\nthis = ResourceC\n\n"
+                       "[TextureOverrideB]\nhash = 0000ffff\nif $x == 1\n    this = ref ResourceD\nendif\n\n"
+                       "[ResourceA]\nfilename = a.dds\n")
+        ini = FRB.IniFile(file = path)
+        overrides = FRB.GIMIParser.textureOverrides(ini)
+        self.assertEqual([(hash, row.section, row.value) for hash, row in overrides],
+                         [("abcd1234", "TextureOverrideA", "ResourceA"), ("0000ffff", "TextureOverrideB", "ref ResourceD")])
+        self.assertEqual(overrides[1][1].guards, ["$x == 1"])

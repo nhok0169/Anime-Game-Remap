@@ -30,6 +30,8 @@
 #include "../../iftemplate/PyIfContentPartColour.h"
 #include "../../iftemplate/PyIfTemplate.h"
 #include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
+#include "AGRemapCore/data/IniParseData/GIMITemplateParser.h"
+#include "AGRemapCore/model/files/IniFile.h"
 #include "../iniFixers/graphGroupEdits/resEdits/PyResEdit.h"  // reuses pyCoreModule()
 #include "PyDownloadData.h"
 #include "../PyStrategyFactory.h"  // resolveStrategyModType
@@ -1094,6 +1096,24 @@ Parameters
 ----------
 rows: :class:`GIMIParser.RowSteps`
     Which row sets to add)doc"))
+
+       .def_static("textureOverrides", [](AGRC::IniFile &ini) { return AGRC::GIMITemplateParser::textureOverrides(ini); },
+            py::arg("ini"), py::doc(R"doc(The texture overrides of 'ini' (``hash = <a game texture>`` / ``this = Resource...``): per `section`_
+with a ``hash``, its first ``this =`` in the `section`_ itself :raw-html:`<br />` :raw-html:`<br />`
+
+Each comes as its hash, lowercased, and the row of its ``this =``: the resource is :attr:`GraphCollect.Row.value`,
+and the `section`_'s own ``if`` blocks around it are :attr:`GraphCollect.Row.guards` and
+:attr:`GraphCollect.Row.condition`
+
+Parameters
+----------
+ini: :class:`IniFile`
+    The ``.ini`` file
+
+Returns
+-------
+list[tuple[:class:`str`, :class:`GraphCollect.Row`]]
+    The overrides, in the order of the `sections`_)doc"))
 
        .def("resourceNamed", &PyGIMIParser::resourceNamed, py::arg("value"),
             py::doc(R"doc(The resource `section`_ 'value' names, as a binding names one, under the name it is declared by -- or empty :raw-html:`<br />` :raw-html:`<br />`

@@ -18,6 +18,7 @@
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
 #include "AGRemapCore/data/IniParseData/TemplateParser.h"
+#include "AGRemapCore/data/IniParseData/GIMITemplateParser.h"
 #include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/model/textures/TexThumbprint.h"
 #include "AGRemapCore/tools/files/FileService.h"
@@ -89,8 +90,8 @@ namespace AGRemapCore {
             public:
                 /**
                  * 'onlyThisFile': the parser of ANOTHER .ini of the mod, which one of this character's parsers
-                 * reads the rows of (see readOther) -- it classifies and collects as usual, and reads nothing
-                 * further: no resources, no anatomy, no skeleton, no textures, and none of its own siblings
+                 * reads the rows of (see readOther) -- the same parse, with only the anatomy read off its rows:
+                 * no skeleton, no draw splits, no textures, and so none of its own linked files
                  */
                 WWMIParser(IniFile* iniFile, std::optional<int> modTypeId, const WWMIParserConfig& config,
                                std::optional<Version> version, bool onlyThisFile = false):
@@ -322,9 +323,6 @@ namespace AGRemapCore {
                             if (!obj.second.empty()) {
                                 roles->keys.insert_or_assign(id, std::vector<std::string>{IniKeywords::This});
                             }
-                            if (onlyThisFile_) {
-                                continue;
-                            }
                             toggles->keys.insert_or_assign(id, std::vector<std::string>{IniKeywords::This});
                             toggles->keyMatches.insert_or_assign(id, [regPrefix](const std::string& key) {
                                 return StringTools::startsWith(StringTools::toLower(StringTools::strip(key)), regPrefix);
@@ -334,7 +332,7 @@ namespace AGRemapCore {
 
                         const std::optional<int> slot = slotOf(obj);
                         const auto layout = slot.has_value() ? config_.textures.registerRoles.find(*slot) : config_.textures.registerRoles.end();
-                        if (layout != config_.textures.registerRoles.end() && onlyThisFile_) {
+                        if (layout != config_.textures.registerRoles.end()) {
                             std::vector<std::string> regs;
                             for (const auto& [reg, role] : layout->second) {
                                 (void)role;
@@ -344,32 +342,22 @@ namespace AGRemapCore {
                                 return std::any_of(regs.begin(), regs.end(),
                                                    [&key](const std::string& reg) { return IniNamingTools::sameKey(key, reg); });
                             });
-                        } else if (layout != config_.textures.registerRoles.end()) {
-                            std::vector<std::string> regs;
-                            for (const auto& [reg, role] : layout->second) {
-                                (void)role;
-                                regs.push_back(reg);
-                            }
-                            roles->keys.insert_or_assign(id, std::move(regs));
                         }
                     }
 
                     steps.push_back(std::move(overrides));
                     steps.push_back(std::move(roles));
                     steps.push_back(std::move(toggles));
+                    this->deferredParseReaders = {[this](IniParseData& data) { applyAnatomy(data); }};
                     if (!onlyThisFile_) {
-                        this->deferredParseReaders = {
-                            [this](IniParseData& data) { applyAnatomy(data); },
-                            [this](IniParseData& data) { readSkeletonNumbering(data); },
-                            [this](IniParseData& data) { readTextures(data); },
-                            [this](IniParseData& data) { readDrawSplits(data); }};
+                        this->deferredParseReaders.push_back([this](IniParseData& data) { readSkeletonNumbering(data); });
+                        this->deferredParseReaders.push_back([this](IniParseData& data) { readTextures(data); });
+                        this->deferredParseReaders.push_back([this](IniParseData& data) { readDrawSplits(data); });
                     }
 
                     // the standard rows first -- with [Constants]' mesh vertex count among the declarations -- then
                     // the steps in the order built
                     RowSteps rows;
-                    rows.resources = !onlyThisFile_;
-                    rows.sections = !onlyThisFile_;
                     rows.declaredKeys = {IniKeywords::Global + " " + IniKeywords::WWMIMeshVertexCount};
                     rows.objs = [this](const ModObj& obj) { return isSlotObj(obj); };
                     this->addRowSteps(rows);
@@ -1140,62 +1128,44 @@ namespace AGRemapCore {
                     return reader;
                 }
 
-                // resource (lowercased) -> the file it names: each section's first `filename`, from the
+                // The file a resource names (`ref` or not): its first `filename` (IniParseData::resourceFile), from the
                 // folder of this parser's .ini
-                std::unordered_map<std::string, std::string> declaredFiles(const IniParseData& data) const {
-                    const std::string folder = const_cast<IniFileParseContext&>(ctx_).getIniFile()->getFolder();
-                    std::unordered_map<std::string, std::string> fileOf;
-                    std::unordered_set<std::string> seen;
-                    for (const Row& row : data.collected(DeclaredCollect)) {
-                        if (row.key == IniKeywords::Filename && seen.insert(row.section).second) {
-                            fileOf[StringTools::toLower(row.section)] = FileService::absPathOfRelPath(
-                                FileService::iniPathToRel(std::string(StringTools::strip(row.value))), folder);
-                        }
+                std::optional<std::string> declaredFile(const std::string& resource) {
+                    const std::optional<std::string> file = this->parseData().resourceFile(
+                        IniNamingTools::removeRefPrefix(std::string(StringTools::strip(resource))));
+                    if (!file.has_value()) {
+                        return std::nullopt;
                     }
-                    return fileOf;
+                    return FileService::absPathOfRelPath(FileService::iniPathToRel(*file),
+                                                         const_cast<IniFileParseContext&>(ctx_).getIniFile()->getFolder());
                 }
 
-                // THIS FILE'S RECOLOURS: each texture override placed in a role's graph, its first own
-                // `this`, as (section, role, hash, file), in the order the sections are written
+                // THIS FILE'S RECOLOURS: each texture override (GIMITemplateParser::textureOverrides) the parser placed
+                // in a role's graph, as (section, role, hash, file), in the order the sections are written
                 std::vector<std::tuple<std::string, std::string, std::string, std::string>> recolours() {
-                    const IniParseData& data = this->parseData();
-                    const auto fileOf = declaredFiles(data);
-                    std::unordered_map<std::string, std::string> hashOf;
-                    for (const Row& row : data.collected(TextureOverridesCollect)) {
-                        if (row.key == IniKeywords::Hash) {
-                            hashOf.emplace(row.section, StringTools::toLower(StringTools::strip(row.value).data()));
+                    std::unordered_map<std::string, std::string> roleOf;
+                    for (const auto& [obj, sections] : this->sectionTargets()) {
+                        if (obj.first == IniGraphModObjKeywords::Texture && !obj.second.empty()) {
+                            for (const std::string& section : sections) {
+                                roleOf.emplace(section, obj.second);
+                            }
                         }
                     }
-
-                    std::unordered_map<std::string, std::vector<const Row*>> own;
-                    for (const Row& row : data.collected(TextureRolesCollect)) {
-                        if (row.graphId.modObj.first == IniGraphModObjKeywords::Texture && row.key == IniKeywords::This
-                                && row.section == row.rootSection) {
-                            own[row.section].push_back(&row);
-                        }
-                    }
-
-                    std::vector<std::string> sections;
-                    for (const auto& entry : own) {
-                        sections.push_back(entry.first);
-                    }
-                    std::sort(sections.begin(), sections.end(),
-                              [this](const std::string& a, const std::string& b) { return sectionAt(a) < sectionAt(b); });
 
                     std::vector<std::tuple<std::string, std::string, std::string, std::string>> result;
-                    for (const std::string& name : sections) {
-                        if (!StringTools::startsWith(name, IniKeywords::TextureOverride)) {
+                    IniFile* ini = const_cast<IniFileParseContext&>(ctx_).getIniFile();
+                    for (const auto& [hash, row] : GIMITemplateParser::textureOverrides(*ini)) {
+                        const auto role = roleOf.find(row.section);
+                        if (!StringTools::startsWith(row.section, IniKeywords::TextureOverride) || role == roleOf.end()) {
                             continue;
                         }
-
-                        std::vector<const Row*>& rows = own[name];
-                        sortAsWritten(rows);
-                        const auto file = fileOf.find(StringTools::toLower(std::string(StringTools::strip(rows.front()->value))));
-                        const auto hash = hashOf.find(name);
-                        if (file != fileOf.end() && hash != hashOf.end()) {
-                            result.emplace_back(name, rows.front()->graphId.modObj.second, hash->second, file->second);
+                        if (const std::optional<std::string> file = declaredFile(row.value)) {
+                            result.emplace_back(row.section, role->second, hash, *file);
                         }
                     }
+                    std::stable_sort(result.begin(), result.end(), [this](const auto& x, const auto& y) {
+                        return sectionAt(std::get<0>(x)) < sectionAt(std::get<0>(y));
+                    });
                     return result;
                 }
 
@@ -1205,8 +1175,6 @@ namespace AGRemapCore {
                 // each part counted once
                 std::vector<std::tuple<int, std::string, std::string, std::string>> drawBindings() {
                     const IniParseData& data = this->parseData();
-                    const auto fileOf = declaredFiles(data);
-
                     std::unordered_map<std::string, std::vector<const Row*>> byRoot;
                     std::set<std::tuple<std::string, std::string, std::size_t, long long, std::string>> seen;
                     for (const Row& row : data.collected(TextureRolesCollect)) {
@@ -1245,10 +1213,8 @@ namespace AGRemapCore {
                                         continue;
                                     }
 
-                                    const std::string val = IniNamingTools::removeRefPrefix(std::string(StringTools::strip(row->value)));
-                                    const auto file = fileOf.find(StringTools::toLower(val));
-                                    if (file != fileOf.end()) {
-                                        result.emplace_back(slot, reg, role, file->second);
+                                    if (const std::optional<std::string> file = declaredFile(row->value)) {
+                                        result.emplace_back(slot, reg, role, *file);
                                     }
                                 }
                             }

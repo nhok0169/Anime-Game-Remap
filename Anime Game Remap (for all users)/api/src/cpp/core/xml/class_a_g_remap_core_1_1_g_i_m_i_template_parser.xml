@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="54" column="45" bodyfile="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" bodystart="54" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="72" column="45" bodyfile="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" bodystart="72" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1ae91f6060e5a56405822218ee3f02319c" prot="protected" static="yes" mutable="no">
         <type>const std::string</type>
@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="59" column="45" bodyfile="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" bodystart="59" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="77" column="45" bodyfile="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" bodystart="77" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-attrib">
@@ -132,8 +132,8 @@
         <location file="include/AGRemapCore/data/IniParseData/TemplateParser.h" line="112" column="33" bodyfile="include/AGRemapCore/data/IniParseData/TemplateParser.h" bodystart="112" bodyend="-1"/>
       </memberdef>
     </sectiondef>
-    <sectiondef kind="protected-static-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1aebb5b32ffe49af7468301a1340ec1011" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1aebb5b32ffe49af7468301a1340ec1011" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::pair&lt; std::string, <ref refid="struct_a_g_remap_core_1_1_graph_collect_row" kindref="compound">GraphCollectRow</ref>&lt;&gt; &gt; &gt;</type>
         <definition>std::vector&lt; std::pair&lt; std::string, GraphCollectRow&lt;&gt; &gt; &gt; AGRemapCore::GIMITemplateParser::textureOverrides</definition>
         <argsstring>(IniFile &amp;ini)</argsstring>
@@ -170,8 +170,164 @@ Each comes as its hash, lowercased, and the row of its ``this =``: the resource 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="77" column="32" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="80" bodyend="100"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMITemplateParser.h" line="66" column="32" bodyfile="src/data/IniParseData/GIMITemplateParser.cpp" bodystart="80" bodyend="100"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a19eaf48948e6c2f6e0d2e265d610eff8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config" kindref="compound">ParserConfig</ref></type>
+        <definition>static ParserConfig AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::defaultConfig</definition>
+        <argsstring>()</argsstring>
+        <name>defaultConfig</name>
+        <qualifiedname>AGRemapCore::GIMIParser::defaultConfig</qualifiedname>
+        <briefdescription>
+<para>The default <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config" kindref="compound">ParserConfig</ref> for a plain, <computeroutput>std::string</computeroutput>-keyed C++ caller. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="321" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab58845342b6264ddb068766b5205a509" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref> &gt;</type>
+        <definition>static std::vector&lt; ModObj &gt; AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::classifyByTextureOverrideName</definition>
+        <argsstring>(GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt; &amp;parser, const std::string &amp;sectionName, bool disjoint=true, const std::vector&lt; ModObj &gt; *modObjs=nullptr, bool fromRoots=true)</argsstring>
+        <name>classifyByTextureOverrideName</name>
+        <qualifiedname>AGRemapCore::GIMIParser::classifyByTextureOverrideName</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser" kindref="compound">GIMIParser</ref>&lt; K, V, KeyHash, KeyEqual, ParserBase &gt; &amp;</type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sectionName</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>disjoint</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref> &gt; *</type>
+          <declname>modObjs</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>fromRoots</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Classifies a ``TextureOverride`` `section`_ into mod objects by its **name**
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A `section`_ qualifies when its (lowercased, stripped) name starts with
+``textureoverride``, does **not** contain ``remap`` anywhere after that prefix, and
+*ends with* one of the ``&quot;{component}{object}&quot;`` search texts
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The parser to classify for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sectionName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ to classify </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>disjoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to stop at the first match. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modObjs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The mod objects to classify against, or ``nullptr`` to use &apos;parser&apos;&apos;s own #modObjs.
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromRoots</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to make sure &apos;parser&apos;&apos;s #globalGraph exists first. Has no other effect.
+**Default**: ``true``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The mod objects the <computeroutput>section</computeroutput>_ was classified into, empty for none </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="668" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a46c31c873379fc81e47939cb61d58be4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::fileResult</definition>
+        <argsstring>(const BaseIniPartEdit &amp;edit, IniParseData &amp;data)</argsstring>
+        <name>fileResult</name>
+        <qualifiedname>AGRemapCore::GIMIParser::fileResult</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_part_edit" kindref="compound">BaseIniPartEdit</ref> &amp;</type>
+          <declname>edit</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_parse_data" kindref="compound">IniParseData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Files the result of &apos;edit&apos; in &apos;data&apos; when it implements :cpp:class:`IParseResult` -- what
+#runParseSteps does after each edit
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>edit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An edit that has just run </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The parse data to file into </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="761" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a4085ef398c3e983abe87f812ba94ea80" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
         <definition>std::vector&lt; std::string &gt; AGRemapCore::GIMITemplateParser::textureKeysOf</definition>
@@ -2283,162 +2439,6 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="880" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="880" bodyend="-1"/>
       </memberdef>
     </sectiondef>
-    <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a19eaf48948e6c2f6e0d2e265d610eff8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config" kindref="compound">ParserConfig</ref></type>
-        <definition>static ParserConfig AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::defaultConfig</definition>
-        <argsstring>()</argsstring>
-        <name>defaultConfig</name>
-        <qualifiedname>AGRemapCore::GIMIParser::defaultConfig</qualifiedname>
-        <briefdescription>
-<para>The default <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config" kindref="compound">ParserConfig</ref> for a plain, <computeroutput>std::string</computeroutput>-keyed C++ caller. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="321" column="33"/>
-      </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab58845342b6264ddb068766b5205a509" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref> &gt;</type>
-        <definition>static std::vector&lt; ModObj &gt; AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::classifyByTextureOverrideName</definition>
-        <argsstring>(GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt; &amp;parser, const std::string &amp;sectionName, bool disjoint=true, const std::vector&lt; ModObj &gt; *modObjs=nullptr, bool fromRoots=true)</argsstring>
-        <name>classifyByTextureOverrideName</name>
-        <qualifiedname>AGRemapCore::GIMIParser::classifyByTextureOverrideName</qualifiedname>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser" kindref="compound">GIMIParser</ref>&lt; K, V, KeyHash, KeyEqual, ParserBase &gt; &amp;</type>
-          <declname>parser</declname>
-        </param>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>sectionName</declname>
-        </param>
-        <param>
-          <type>bool</type>
-          <declname>disjoint</declname>
-          <defval>true</defval>
-        </param>
-        <param>
-          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref> &gt; *</type>
-          <declname>modObjs</declname>
-          <defval>nullptr</defval>
-        </param>
-        <param>
-          <type>bool</type>
-          <declname>fromRoots</declname>
-          <defval>true</defval>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para><verbatim>embed:rst 
-Classifies a ``TextureOverride`` `section`_ into mod objects by its **name**
-:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-A `section`_ qualifies when its (lowercased, stripped) name starts with
-``textureoverride``, does **not** contain ``remap`` anywhere after that prefix, and
-*ends with* one of the ``&quot;{component}{object}&quot;`` search texts
-</verbatim></para>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>parser</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The parser to classify for </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>sectionName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The name of the <computeroutput>section</computeroutput>_ to classify </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>disjoint</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Whether to stop at the first match. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>modObjs</parametername>
-</parameternamelist>
-<parameterdescription>
-<para><verbatim>embed:rst 
-The mod objects to classify against, or ``nullptr`` to use &apos;parser&apos;&apos;s own #modObjs.
-**Default**: ``nullptr``
-</verbatim> </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>fromRoots</parametername>
-</parameternamelist>
-<parameterdescription>
-<para><verbatim>embed:rst 
-Whether to make sure &apos;parser&apos;&apos;s #globalGraph exists first. Has no other effect.
-**Default**: ``true``
-</verbatim></para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>The mod objects the <computeroutput>section</computeroutput>_ was classified into, empty for none </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="668" column="32"/>
-      </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a46c31c873379fc81e47939cb61d58be4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>static void AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::fileResult</definition>
-        <argsstring>(const BaseIniPartEdit &amp;edit, IniParseData &amp;data)</argsstring>
-        <name>fileResult</name>
-        <qualifiedname>AGRemapCore::GIMIParser::fileResult</qualifiedname>
-        <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_part_edit" kindref="compound">BaseIniPartEdit</ref> &amp;</type>
-          <declname>edit</declname>
-        </param>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_ini_parse_data" kindref="compound">IniParseData</ref> &amp;</type>
-          <declname>data</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para><verbatim>embed:rst 
-Files the result of &apos;edit&apos; in &apos;data&apos; when it implements :cpp:class:`IParseResult` -- what
-#runParseSteps does after each edit
-</verbatim></para>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>edit</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>An edit that has just run </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>data</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The parse data to file into </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="761" column="25"/>
-      </memberdef>
-    </sectiondef>
     <sectiondef kind="private-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a28822dee69e8b9e86f479d20939eb221" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6074f2ee408e1168b2ec854b9368cf2" kindref="member">Graph</ref> *</type>
@@ -2892,7 +2892,7 @@ A subclass names the hash types a hash is filed under for it (#hashKeysOf) and f
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1ae91f6060e5a56405822218ee3f02319c" prot="protected" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>TexKeyPrefix</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a6508a0d6fd6fe9d62660ccd5ea819507" prot="protected" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>textureBindings_</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a4085ef398c3e983abe87f812ba94ea80" prot="protected" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>textureKeysOf</name></member>
-      <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1aebb5b32ffe49af7468301a1340ec1011" prot="protected" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>textureOverrides</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1aebb5b32ffe49af7468301a1340ec1011" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>textureOverrides</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a8db822664e08465ba2cfeeef2f3db859" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMITemplateParser</scope><name>trackKeys</name></member>
     </listofallmembers>
   </compounddef>

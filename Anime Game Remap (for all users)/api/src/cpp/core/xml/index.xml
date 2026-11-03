@@ -2053,6 +2053,9 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a45f60ff69bfdf6397eefca7bfd3a14f0" kind="variable"><name>ownTextureOverrides_</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1a09679e6aa755849e297486e07cda0591" kind="variable"><name>ctx_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1aebb5b32ffe49af7468301a1340ec1011" kind="function"><name>textureOverrides</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a19eaf48948e6c2f6e0d2e265d610eff8" kind="function"><name>defaultConfig</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab58845342b6264ddb068766b5205a509" kind="function"><name>classifyByTextureOverrideName</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a46c31c873379fc81e47939cb61d58be4" kind="function"><name>fileResult</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a4085ef398c3e983abe87f812ba94ea80" kind="function"><name>textureKeysOf</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a9d4e3358156d39934b98789a370c5066" kind="function"><name>adoptable</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a83a927aecfbf5f52c3b96189d7606309" kind="function"><name>hashKeysOf</name></member>
@@ -2153,9 +2156,6 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2ecb6aa4174c9c42985685c3facf61ad" kind="variable"><name>keysToTrack</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac66dc3a01891b7a401699f2b8790b91d" kind="variable"><name>addedIfTemplateNames</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1abf64a35474cac7a31afb0b03d457f27a" kind="variable"><name>objIdentityKVPs</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a19eaf48948e6c2f6e0d2e265d610eff8" kind="function"><name>defaultConfig</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab58845342b6264ddb068766b5205a509" kind="function"><name>classifyByTextureOverrideName</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a46c31c873379fc81e47939cb61d58be4" kind="function"><name>fileResult</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a28822dee69e8b9e86f479d20939eb221" kind="function"><name>globalGraphForResources</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a99409a991ca589bb44c4d3113ed28077" kind="function"><name>refreshComponents</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4f404993643717c8ed74c68eeee5e6a4" kind="function"><name>nameClassifier</name></member>

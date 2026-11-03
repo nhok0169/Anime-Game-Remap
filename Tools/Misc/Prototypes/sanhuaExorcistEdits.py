@@ -115,7 +115,9 @@ def rowsByRoot(rows, roots):
 
 # ====================================================================================================== parser
 
-def makeParser(iniFile, modTypeId):
+def makeParser(iniFile, modTypeId, onlyThisFile = False):
+    """'onlyThisFile': the parser of ANOTHER .ini of the mod, whose rows this character's parser reads -- the same parse,
+    with only the anatomy read off its rows (and so none of its own linked files)"""
     modType = FRB.ModTypes.Sanhua.value
     version = iniFile.fromVersion if iniFile.fromVersion is not None else FRB.Version.parse(VERSION)
     hashTypes = hashTypesOf(modType)
@@ -180,7 +182,9 @@ def makeParser(iniFile, modTypeId):
                 roleKeys[graphId(obj)] = [FRB.IniKeywords.This]
             toggleKeys[graphId(obj)] = lambda key: key.strip().lower() == FRB.IniKeywords.This or key.strip().lower().startswith(TEX_REG)
         elif slotOf(obj) in REGISTER_ROLES:
-            roleKeys[graphId(obj)] = list(REGISTER_ROLES[slotOf(obj)])
+            # a slot's registers, as an author spells them
+            roleKeys[graphId(obj)] = lambda key, regs = list(REGISTER_ROLES[slotOf(obj)]): any(
+                FRB.IniNamingTools.sameKey(key, reg) for reg in regs)
     parser.deferredParseSteps += [overrides, FRB.GraphCollect(roleKeys, name = ROLE_ROWS, withConditions = True),
                                   FRB.GraphCollect(toggleKeys, name = TOGGLE_ROWS)]
 
@@ -418,15 +422,92 @@ def makeParser(iniFile, modTypeId):
             print(os.path.basename(file) + " is declared but not in the mod's folder; its role is treated as one the"
                   " mod has no file for")
 
+    # the files LINKED to this one (a namespace one references, a resource file both name), each read by this
+    # character's parser in its only-this-file mode: their recolours, then their bindings on this file's draws
     def addLinkedInis(drawn, candidates, bindings):
-        # GAP: a linked .ini is read by a parser of this character in an only-this-file mode (no resources, no
-        # anatomy, no textures, slot registers matched loosely), then asked its recolours and its bindings on this
-        # file's draws. Nothing to do on a mod with no linked .ini; Sanhua3's cloak is the one that has one.
+        readers = []
         for linked in iniFile.linkedInis():
-            print("GAP: linked .ini not read:", linked.file)
+            sibling = iniFile.siblingOf(linked, {modTypeId})
+            reader = makeParser(sibling, modTypeId, onlyThisFile = True)
+            reader.parse()
+            readers.append((linked, sibling, reader))
 
-    parser.deferredParseReaders += [readAnatomy, readTextures]
+        found = 0
+        for _, sibling, reader in readers:
+            for section, role, hash, file in recolours(sibling, reader):
+                if os.path.isfile(file):
+                    candidates.setdefault(role, []).append((file, "a sibling .ini overrides " + hash + ", the game texture it replaces"))
+                    found += 1
+        if found:
+            print("a sibling .ini recolours %d of the game's textures; carried over to the target, which binds its own"
+                  " and would never see those hashes" % found)
+
+        found = 0
+        for linked, sibling, reader in readers:
+            for slot, reg, role, file in drawBindings(sibling, reader):
+                if slot in drawn and os.path.isfile(file):
+                    candidates.setdefault(role, []).append((file, "the " + reg + " " + os.path.basename(linked.file)
+                                                            + " binds on the same draw"))
+                    bindings.setdefault(file, {}).setdefault(("", SLOT_PREFIX + str(slot)), set()).add(role)
+                    found += 1
+        if found:
+            print("another .ini of the mod binds %d textures on this file's draws; carried over to the target, where"
+                  " that .ini's overrides never fire" % found)
+
+    parser.deferredParseReaders += [readAnatomy] if onlyThisFile else [readAnatomy, readTextures]
     return parser
+
+
+# the file a resource of 'ini' names (`ref` or not): its first `filename`, from the .ini's folder
+def declaredFile(ini, reader, resource):
+    file = reader.parseData.resourceFile(FRB.IniNamingTools.removeRefPrefix(resource.strip()))
+    return iniPathOf(file, ini.folder) if file is not None else None
+
+
+# a linked file's recolours: each texture override the parser placed in a role's graph, as (section, role, hash, file),
+# in the order the sections are written
+def recolours(ini, reader):
+    roleOf = {}
+    for obj, sections in reader._sectionTargets.items():
+        if obj[0] == TEXTURE and obj[1]:
+            for section in sections:
+                roleOf.setdefault(section, obj[1])
+
+    result = []
+    for hash, row in FRB.GIMIParser.textureOverrides(ini):
+        role = roleOf.get(row.section)
+        if not row.section.startswith(FRB.IniKeywords.TextureOverride) or role is None:
+            continue
+        file = declaredFile(ini, reader, row.value)
+        if file is not None:
+            result.append((row.section, role, hash, file))
+    order = byWritten(ini.getSectionNames())
+    return sorted(result, key = lambda entry: order(entry[0]))
+
+
+# a linked file's bindings on the slots' draws: every value a slot section binds, through `run =`, at a register her
+# layout names for the slot, as (slot, register, role, file) -- the sections as written, the registers in the table's
+# order, each part counted once
+def drawBindings(ini, reader):
+    byRoot, seen = {}, set()
+    for row in reader.parseData.collected(ROLE_ROWS):
+        once = (row.rootSection, row.section, row.partId, row.line, row.key)
+        if slotOf(row.graphId[1:]) is not None and once not in seen:
+            seen.add(once)
+            byRoot.setdefault(row.rootSection, []).append(row)
+
+    result = []
+    order = byWritten(ini.getSectionNames())
+    for name in sorted(byRoot, key = order):
+        rows = byRoot[name]
+        for slot in sorted({slotOf(row.graphId[1:]) for row in rows}):
+            for reg, role in sorted(REGISTER_ROLES.get(slot, {}).items()):
+                for row in rows:
+                    if slotOf(row.graphId[1:]) == slot and FRB.IniNamingTools.sameKey(row.key, reg):
+                        file = declaredFile(ini, reader, row.value)
+                        if file is not None:
+                            result.append((slot, reg, role, file))
+    return result
 
 
 # ======================================================================================================= fixer
@@ -492,7 +573,7 @@ def makeFixer(parser, toModName, modTypeId):
     rename = lambda name: FRB.IniNamingTools.getRemapFixName(name, toModName)
 
     # ---- what the mod draws: each source component with sections that draw, and the ones it hides ----
-    present, silent = {}, []
+    present, silent, slotSections = {}, [], []
     for obj, sections in parser._sectionTargets.items():
         component = slotOf(obj)
         if component is None or not sections:
@@ -501,6 +582,18 @@ def makeFixer(parser, toModName, modTypeId):
             silent.append(component)
         else:
             present[component] = sections
+        slotSections += sections
+
+    # ---- a mod from before WWMI's merged skeleton (no slot section carries a vg_offset) holds each component's OWN
+    # bone indices in its blend, and Sanhua has no per-component vg maps to lift them with: it is left alone ----
+    giveUp = lambda: FRB.GIMIFixer(parser, graphGroupEdits = [FRB.GraphGroupRemove()], modsToFix = [toModName])
+    if not present and not silent:
+        print("no slot section on any vb0 hash the library files under " + SOURCE + " -- so this .ini is left alone")
+        return giveUp()
+    if not any(data.firstCollected(FRB.IniParseRows.Objs, section, FRB.IniKeywords.WWMIVgOffset) for section in slotSections):
+        print("this mod is from before WWMI's merged skeleton, and " + SOURCE + " carries no vg maps to lift its blend"
+              " with -- so this .ini is left alone")
+        return giveUp()
 
     # ---- the groups: the first claimant of a target slot stays in the mod's own .ini, the next goes to a copy ----
     groups, claimants = [], {}

@@ -9770,6 +9770,26 @@ class GIMIParser(BaseIniParser):
         List[Tuple[:class:`str`, :class:`str`]]
             The mod objects the `section`_ has been classified to
         """
+    @staticmethod
+    def textureOverrides(ini: IniFile) -> list[tuple[str, GraphCollect.Row]]:
+        """
+        The texture overrides of 'ini' (``hash = <a game texture>`` / ``this = Resource...``): per `section`_
+        with a ``hash``, its first ``this =`` in the `section`_ itself :raw-html:`<br />` :raw-html:`<br />`
+        
+        Each comes as its hash, lowercased, and the row of its ``this =``: the resource is :attr:`GraphCollect.Row.value`,
+        and the `section`_'s own ``if`` blocks around it are :attr:`GraphCollect.Row.guards` and
+        :attr:`GraphCollect.Row.condition`
+        
+        Parameters
+        ----------
+        ini: :class:`IniFile`
+            The ``.ini`` file
+        
+        Returns
+        -------
+        list[tuple[:class:`str`, :class:`GraphCollect.Row`]]
+            The overrides, in the order of the `sections`_
+        """
     def __init__(self, iniFile: typing.Any, modObjs: typing.Any = None, objTargetFuncs: typing.Any = None, downloads: typing.Any = None, commandEdits: typing.Any = None, makeGlobalGraph: bool = True, disjointModObjs: bool = True, trackKeys: bool = True, keysToTrack: typing.Any = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None, parseSteps: typing.Any = None, deferredParseSteps: typing.Any = None, parseReaders: typing.Any = None, deferredParseReaders: typing.Any = None) -> None:
         ...
     def _getSectionTargets(self) -> None:

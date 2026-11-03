@@ -47,17 +47,6 @@ namespace AGRemapCore {
         public:
             using TemplateParser::TemplateParser;
 
-        protected:
-            /**
-             * @brief The hash type of a character's position buffer in ``HashData``
-             */
-            static inline const std::string PositionHashKey = "position_vb";
-
-            /**
-             * @brief The prefix of a texture's hash type in ``HashData`` (eg. ``tex_body_diffuse``)
-             */
-            static inline const std::string TexKeyPrefix = "tex_";
-
             /**
              * @brief
              @rst
@@ -75,6 +64,17 @@ namespace AGRemapCore {
              * @return The overrides, in the order of the `sections`_
              */
             static std::vector<std::pair<std::string, GraphCollectRow<>>> textureOverrides(IniFile& ini);
+
+        protected:
+            /**
+             * @brief The hash type of a character's position buffer in ``HashData``
+             */
+            static inline const std::string PositionHashKey = "position_vb";
+
+            /**
+             * @brief The prefix of a texture's hash type in ``HashData`` (eg. ``tex_body_diffuse``)
+             */
+            static inline const std::string TexKeyPrefix = "tex_";
 
             /**
              * @brief

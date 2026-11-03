@@ -15,11 +15,12 @@
     <includedby refid="_g_i_m_i_char_parser_8cpp" local="yes">src/data/IniParseData/GIMICharParser.cpp</includedby>
     <includedby refid="_g_i_m_i_component_parser_8cpp" local="yes">src/data/IniParseData/GIMIComponentParser.cpp</includedby>
     <includedby refid="_g_i_m_i_template_parser_8cpp" local="yes">src/data/IniParseData/GIMITemplateParser.cpp</includedby>
+    <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
     <incdepgraph>
       <node id="35">
         <label>Algo.tpp</label>
       </node>
-      <node id="140">
+      <node id="144">
         <label>BaseAhoCorasickDFA.tpp</label>
       </node>
       <node id="107">
@@ -34,10 +35,10 @@
       <node id="40">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="139">
+      <node id="143">
         <label>BaseTrie.tpp</label>
       </node>
-      <node id="137">
+      <node id="141">
         <label>BiMap.tpp</label>
       </node>
       <node id="85">
@@ -74,7 +75,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="145">
+      <node id="121">
         <label>AGRemapCore/constants/IniGraphReplaceMode.h</label>
         <link refid="_ini_graph_replace_mode_8h"/>
       </node>
@@ -86,7 +87,7 @@
         <childnode refid="21" relation="include">
         </childnode>
       </node>
-      <node id="121">
+      <node id="125">
         <label>AGRemapCore/data/HashToModObjData.h</label>
         <link refid="_hash_to_mod_obj_data_8h"/>
         <childnode refid="2" relation="include">
@@ -145,11 +146,11 @@
         </childnode>
         <childnode refid="117" relation="include">
         </childnode>
-        <childnode refid="142" relation="include">
+        <childnode refid="146" relation="include">
         </childnode>
-        <childnode refid="143" relation="include">
+        <childnode refid="147" relation="include">
         </childnode>
-        <childnode refid="144" relation="include">
+        <childnode refid="120" relation="include">
         </childnode>
       </node>
       <node id="68">
@@ -700,7 +701,7 @@
         <childnode refid="87" relation="include">
         </childnode>
       </node>
-      <node id="125">
+      <node id="129">
         <label>AGRemapCore/model/iniresources/RemapIniResource.h</label>
         <link refid="_remap_ini_resource_8h"/>
         <childnode refid="10" relation="include">
@@ -713,12 +714,12 @@
         </childnode>
         <childnode refid="86" relation="include">
         </childnode>
-        <childnode refid="126" relation="include">
+        <childnode refid="130" relation="include">
         </childnode>
-        <childnode refid="129" relation="include">
+        <childnode refid="133" relation="include">
         </childnode>
       </node>
-      <node id="127">
+      <node id="131">
         <label>AGRemapCore/model/stats/CachedFileStats.h</label>
         <link refid="_cached_file_stats_8h"/>
         <childnode refid="76" relation="include">
@@ -731,10 +732,10 @@
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="128" relation="include">
+        <childnode refid="132" relation="include">
         </childnode>
       </node>
-      <node id="128">
+      <node id="132">
         <label>AGRemapCore/model/stats/FileStats.h</label>
         <link refid="_file_stats_8h"/>
         <childnode refid="76" relation="include">
@@ -748,14 +749,14 @@
         <childnode refid="21" relation="include">
         </childnode>
       </node>
-      <node id="126">
+      <node id="130">
         <label>AGRemapCore/model/stats/RemapStats.h</label>
         <link refid="_remap_stats_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="127" relation="include">
+        <childnode refid="131" relation="include">
         </childnode>
-        <childnode refid="128" relation="include">
+        <childnode refid="132" relation="include">
         </childnode>
       </node>
       <node id="89">
@@ -950,7 +951,7 @@
         <childnode refid="80" relation="include">
         </childnode>
       </node>
-      <node id="146">
+      <node id="122">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h</label>
         <link refid="_ini_res_edit_context_8h"/>
         <childnode refid="10" relation="include">
@@ -974,7 +975,7 @@
         <childnode refid="87" relation="include">
         </childnode>
       </node>
-      <node id="144">
+      <node id="120">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h</label>
         <link refid="_res_edit_8h"/>
         <childnode refid="9" relation="include">
@@ -991,13 +992,13 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="145" relation="include">
+        <childnode refid="121" relation="include">
         </childnode>
         <childnode refid="62" relation="include">
         </childnode>
-        <childnode refid="146" relation="include">
+        <childnode refid="122" relation="include">
         </childnode>
-        <childnode refid="147" relation="include">
+        <childnode refid="123" relation="include">
         </childnode>
       </node>
       <node id="103">
@@ -1061,22 +1062,24 @@
         </childnode>
         <childnode refid="62" relation="include">
         </childnode>
-        <childnode refid="103" relation="include">
-        </childnode>
         <childnode refid="120" relation="include">
         </childnode>
-        <childnode refid="122" relation="include">
+        <childnode refid="103" relation="include">
         </childnode>
         <childnode refid="124" relation="include">
         </childnode>
-        <childnode refid="132" relation="include">
+        <childnode refid="126" relation="include">
         </childnode>
-        <childnode refid="133" relation="include">
+        <childnode refid="128" relation="include">
         </childnode>
-        <childnode refid="141" relation="include">
+        <childnode refid="136" relation="include">
+        </childnode>
+        <childnode refid="137" relation="include">
+        </childnode>
+        <childnode refid="145" relation="include">
         </childnode>
       </node>
-      <node id="120">
+      <node id="124">
         <label>AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</label>
         <link refid="_g_i_m_i_section_classifier_8h"/>
         <childnode refid="9" relation="include">
@@ -1097,7 +1100,7 @@
         </childnode>
         <childnode refid="119" relation="include">
         </childnode>
-        <childnode refid="121" relation="include">
+        <childnode refid="125" relation="include">
         </childnode>
         <childnode refid="65" relation="include">
         </childnode>
@@ -1109,16 +1112,16 @@
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="122" relation="include">
+        <childnode refid="126" relation="include">
         </childnode>
-        <childnode refid="123" relation="include">
+        <childnode refid="127" relation="include">
         </childnode>
       </node>
-      <node id="132">
+      <node id="136">
         <label>AGRemapCore/model/strategies/iniParsers/IParseResult.h</label>
         <link refid="_i_parse_result_8h"/>
       </node>
-      <node id="142">
+      <node id="146">
         <label>AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h</label>
         <link refid="_ini_file_parse_context_8h"/>
         <childnode refid="20" relation="include">
@@ -1135,7 +1138,7 @@
         </childnode>
         <childnode refid="64" relation="include">
         </childnode>
-        <childnode refid="122" relation="include">
+        <childnode refid="126" relation="include">
         </childnode>
       </node>
       <node id="109">
@@ -1156,7 +1159,7 @@
         <childnode refid="103" relation="include">
         </childnode>
       </node>
-      <node id="122">
+      <node id="126">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseContext.h</label>
         <link refid="_ini_parse_context_8h"/>
         <childnode refid="10" relation="include">
@@ -1210,7 +1213,7 @@
         <childnode refid="105" relation="include">
         </childnode>
       </node>
-      <node id="124">
+      <node id="128">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
         <link refid="_ini_parse_download_data_8h"/>
         <childnode refid="10" relation="include">
@@ -1227,16 +1230,16 @@
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="125" relation="include">
-        </childnode>
-        <childnode refid="122" relation="include">
-        </childnode>
         <childnode refid="129" relation="include">
         </childnode>
-        <childnode refid="131" relation="include">
+        <childnode refid="126" relation="include">
+        </childnode>
+        <childnode refid="133" relation="include">
+        </childnode>
+        <childnode refid="135" relation="include">
         </childnode>
       </node>
-      <node id="143">
+      <node id="147">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseRows.h</label>
         <link refid="_ini_parse_rows_8h"/>
         <childnode refid="5" relation="include">
@@ -1300,7 +1303,7 @@
         <childnode refid="35" relation="include">
         </childnode>
       </node>
-      <node id="136">
+      <node id="140">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
         <childnode refid="12" relation="include">
@@ -1311,7 +1314,7 @@
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
-        <childnode refid="137" relation="include">
+        <childnode refid="141" relation="include">
         </childnode>
       </node>
       <node id="74">
@@ -1354,18 +1357,18 @@
         <childnode refid="36" relation="include">
         </childnode>
       </node>
-      <node id="138">
+      <node id="142">
         <label>AGRemapCore/tools/StringHash.h</label>
         <link refid="_string_hash_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="135" relation="include">
+        <childnode refid="139" relation="include">
         </childnode>
       </node>
-      <node id="129">
+      <node id="133">
         <label>AGRemapCore/tools/files/FileDownload.h</label>
         <link refid="_file_download_8h"/>
-        <childnode refid="130" relation="include">
+        <childnode refid="134" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
@@ -1538,24 +1541,24 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="133">
+      <node id="137">
         <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
         <link refid="_base_aho_corasick_d_f_a_8h"/>
         <childnode refid="39" relation="include">
         </childnode>
-        <childnode refid="134" relation="include">
+        <childnode refid="138" relation="include">
         </childnode>
-        <childnode refid="140" relation="include">
+        <childnode refid="144" relation="include">
         </childnode>
       </node>
-      <node id="134">
+      <node id="138">
         <label>AGRemapCore/tools/tries/BaseTrie.h</label>
         <link refid="_base_trie_8h"/>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="135" relation="include">
+        <childnode refid="139" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
@@ -1573,13 +1576,13 @@
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="136" relation="include">
+        <childnode refid="140" relation="include">
         </childnode>
         <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="138" relation="include">
+        <childnode refid="142" relation="include">
         </childnode>
-        <childnode refid="139" relation="include">
+        <childnode refid="143" relation="include">
         </childnode>
       </node>
       <node id="52">
@@ -1619,10 +1622,10 @@
       <node id="69">
         <label>CallGraph.tpp</label>
       </node>
-      <node id="141">
+      <node id="145">
         <label>GIMIParser.tpp</label>
       </node>
-      <node id="123">
+      <node id="127">
         <label>GIMISectionClassifier.tpp</label>
       </node>
       <node id="77">
@@ -1652,7 +1655,7 @@
       <node id="79">
         <label>IniGraphGroup.tpp</label>
       </node>
-      <node id="131">
+      <node id="135">
         <label>IniParseDownloadData.tpp</label>
       </node>
       <node id="78">
@@ -1679,7 +1682,7 @@
       <node id="36">
         <label>Ranges.tpp</label>
       </node>
-      <node id="147">
+      <node id="123">
         <label>ResEdit.tpp</label>
       </node>
       <node id="73">
@@ -1688,7 +1691,7 @@
       <node id="25">
         <label>algorithm</label>
       </node>
-      <node id="130">
+      <node id="134">
         <label>chrono</label>
       </node>
       <node id="46">
@@ -1739,7 +1742,7 @@
       <node id="5">
         <label>string</label>
       </node>
-      <node id="135">
+      <node id="139">
         <label>string_view</label>
       </node>
       <node id="23">
@@ -1780,6 +1783,8 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniParseData/GIMICharParser.cpp</label>
@@ -1792,6 +1797,10 @@
       <node id="4">
         <label>src/data/IniParseData/GIMITemplateParser.cpp</label>
         <link refid="_g_i_m_i_template_parser_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser" prot="public">AGRemapCore::GIMITemplateParser</innerclass>
@@ -1835,12 +1844,12 @@
 <codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_template_parser_1a58c9f5a2b19d86b25158a40fefda6578" kindref="member">TemplateParser::TemplateParser</ref>;</highlight></codeline>
 <codeline lineno="49"><highlight class="normal"></highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="54" refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a3565cfb9279721599d8a44e18e9b5976" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a3565cfb9279721599d8a44e18e9b5976" kindref="member">PositionHashKey</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;position_vb&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59" refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1ae91f6060e5a56405822218ee3f02319c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1ae91f6060e5a56405822218ee3f02319c" kindref="member">TexKeyPrefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tex_&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>GraphCollectRow&lt;&gt;&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1aebb5b32ffe49af7468301a1340ec1011" kindref="member">textureOverrides</ref>(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>&amp;<sp/>ini);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>GraphCollectRow&lt;&gt;&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1aebb5b32ffe49af7468301a1340ec1011" kindref="member">textureOverrides</ref>(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>&amp;<sp/>ini);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72" refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a3565cfb9279721599d8a44e18e9b5976" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a3565cfb9279721599d8a44e18e9b5976" kindref="member">PositionHashKey</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;position_vb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1ae91f6060e5a56405822218ee3f02319c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1ae91f6060e5a56405822218ee3f02319c" kindref="member">TexKeyPrefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tex_&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="78"><highlight class="normal"></highlight></codeline>
 <codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a4085ef398c3e983abe87f812ba94ea80" kindref="member">textureKeysOf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_mapped_assets" kindref="compound">ModMappedAssets&lt;std::string, std::string&gt;</ref>&amp;<sp/>hashes,</highlight></codeline>
 <codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hash);</highlight></codeline>

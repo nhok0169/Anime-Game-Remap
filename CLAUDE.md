@@ -495,7 +495,11 @@ it step for step -- so a step is simplified IN C++ first, onto API both sides sh
 Step 5 (the texture lists) is split into four layers: the parser's reading (`IniParseData::resourceOfFile`, the
 resource the mod USES for a file), the character's data, one stand-in rule in `WWMIFixer` (`standIn`: the invented
 texture, else the source's game texture downloaded; `planGameDefaults`: the source's game texture as the default where
-the mod's file reaches only some draws), and existing edits that write it.
+the mod's file reaches only some draws), and existing edits that write it. **A linked `.ini` is read by the same parse
+with only the anatomy reader** (`WWMIParser`'s only-this-file mode, mirrored as `makeParser(..., onlyThisFile = True)`):
+its recolours are `GIMITemplateParser::textureOverrides` (bound as `GIMIParser.textureOverrides`) and its files
+`IniParseData::resourceFile`. Sanhua3's RabbitFX cloak needed no RabbitFX code at all -- check which config fields a
+character's row actually SETS before planning a step around one.
 
 **A FIXER IS A LIST OF EDITS, NOT A PROGRAM (the maintainer, 2026-10-27 -- the SECOND time they have had to say
 it, after the Chisa remap).** The intended shape of every fixer, template or not, is a composition of the

@@ -833,6 +833,17 @@ CppTransparencyAdjustFilter
 
 :raw-html:`<br />`
 
+DownloadTools
+=============
+
+.. attributetable:: FixRaidenBoss2.DownloadTools
+
+.. autoclass:: FixRaidenBoss2.DownloadTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 DownloadData
 ============
 
@@ -2421,6 +2432,17 @@ TexCache
 
 :raw-html:`<br />`
 
+TexThumbprint
+=============
+
+.. attributetable:: FixRaidenBoss2.TexThumbprint
+
+.. autoclass:: FixRaidenBoss2.TexThumbprint
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 TexcoordFile
 ============
 
@@ -3116,6 +3138,14 @@ IniKeywords
 ===========
 
 .. autoclass:: FixRaidenBoss2.IniKeywords
+    :members:
+
+:raw-html:`<br />`
+
+IniComments
+===========
+
+.. autoclass:: FixRaidenBoss2.IniComments
     :members:
 
 :raw-html:`<br />`

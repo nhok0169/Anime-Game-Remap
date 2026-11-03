@@ -33,7 +33,7 @@ void PyRegRemove::refresh(const py::object &modType) {
 
     // parseRemoveKeys (PyIfContentPart.h) is the exact same helper IfContentPart.removeKeys' own
     // binding uses.
-    removeKeys = parseRemoveKeys(py::cast<py::dict>(removeKeysObj));
+    removeKeys = parseRemoveKeys(removeKeysObj);
 }
 
 
@@ -45,7 +45,7 @@ Bulk-removes register keys for some :class:`IfContentPart`
 
 Parameters
 ----------
-removeKeys: Dict[Any, Optional[Callable[[:class:`int`, Any], :class:`bool`]]]
+removeKeys: Union[Dict[Any, Optional[Callable[[:class:`int`, Any], :class:`bool`]]], List[Tuple[Any, Optional[Callable[[:class:`int`, Any], :class:`bool`]]]]]
     Each key to remove, mapped to its own optional check predicate :raw-html:`<br />` :raw-html:`<br />`
 
     See :meth:`IfContentPart.removeKeys` for the full semantics of how the predicates decide

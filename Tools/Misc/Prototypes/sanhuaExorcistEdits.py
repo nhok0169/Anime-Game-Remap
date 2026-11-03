@@ -209,7 +209,7 @@ def makeParser(iniFile, modTypeId):
         rules.sections = FRB.IniParseRows.Sections
         rules.texRegPrefix = TEX_REG
         rules.noneUndrawnWhenAll = True
-        rules.libraries = [("RabbitFX", FRB.RabbitFX.names)]      # GAP: RabbitFX::Name is not bound
+        rules.libraries = [(FRB.RabbitFX.Name, FRB.RabbitFX.names)]
         rules.runDraws = lambda called: iniFile.getSection(called) is None and "\\wwmiv1\\" not in called.lower()
         rules.roots = [(obj, sections) for obj, sections in parser._sectionTargets.items() if slotOf(obj) is not None]
 
@@ -264,7 +264,7 @@ def makeParser(iniFile, modTypeId):
                     out.add(file, role, "bound at " + row.key + " of " + row.graphId[2])
 
         # (3) a .dds no hash and no register named, identified by its pixels against her own textures
-        # GAP: TexThumbprint is not bound, and her thumbprint table (sanhuaTextureThumbprints) is not reachable
+        # GAP: TexThumbprint is bound, but her thumbprint table (sanhuaTextureThumbprints) is C++ data Python cannot reach
         return out
 
     def readThisToggles(data, order):
@@ -468,6 +468,7 @@ FALLBACKS = {"bangsDiffuse": "ae6e9014", "bangsMask": "1c0c8b91", "t5Ramp": "103
              "hairNormal": "cef6494f", "faceDiffuse": "881c236d", "skinNormal": "e39835c7", "skinDiffuse": "fde0f298",
              "bodiceNormal": "efb25eb3", "bodiceMask": "89ba19a1", "bodiceDiffuse": "abda232b", "skirtNormal": "f3b217ab",
              "skirtMask": "f0713dc7", "skirtDiffuse": "c689a8ee", "irisDiffuse": "1dcc0f1d"}
+DOWNLOADS = ("WuWa", "Sanhua", "2_5", "Sanhua")      # the game, character and version folders, and the file prefix
 
 
 def slotNumbers(modType, version):
@@ -548,9 +549,7 @@ def makeFixer(parser, toModName, modTypeId):
         remap[graphId(obj)] = [(0, *obj, rename)] * copies
     # the texture overrides and the watching sections are the texture step's (step 5); remapped nowhere until then,
     # or each would be rendered into the fix block again under the mod's own section names
-    for obj in parser.modObjs:
-        if obj[0] == TEXTURE or obj == WATCH:
-            remap.setdefault(graphId(obj), [])
+    remap.setdefault(graphId(WATCH), [])
     slotRemap = FRB.GraphGroupRemap(remap)
 
     # ---- step 5: each component's texture list -- the role of each register its target pass reads ----
@@ -589,12 +588,20 @@ def makeFixer(parser, toModName, modTypeId):
                 FRB.SectionText(z3, name).key(FRB.IniKeywords.Filename, os.path.relpath(chosen.file, parser._iniFile.folder)).build())
         resourceOfSlotRole[(role, component)] = declaredName[chosen.file]
 
-    # layer 3, the stand-in rule (WWMIFixer::standIn): the texture the fix invents, else Sanhua's own, downloaded
+    # layer 3, the stand-in rule (WWMIFixer::standIn): the texture the fix invents, else Sanhua's own game texture,
+    # downloaded as `<prefix><Role>RemapDL.dds` (WWMIFixer::fallbackOf)
+    fixDownloads = {}
+
     def standIn(role):
-        if role in resourceOfRole:
+        if role in resourceOfRole or role not in FALLBACKS:
             return
-        # GAP: the download's url and file name are DownloadTools::url / fixedFileName, which have no binding
-        print("GAP: no fallback download for", role)
+        game, character, version, prefix = DOWNLOADS
+        kind = prefix + role[0].upper() + role[1:]
+        download = FRB.FileDownloadCreate.File()
+        download.file = FRB.IniNamingTools.getRemapDLName(kind) + ".dds"
+        download.url = FRB.DownloadTools.url(game, character, version, prefix, "Texture" + FALLBACKS[role], ".dds")
+        resourceOfRole[role] = FRB.IniNamingTools.getRemapDLResourceName(kind)
+        fixDownloads[resourceOfRole[role]] = download
 
     planned = [component for component in sorted(present) if component in PLAN]
     for component in planned:
@@ -610,26 +617,86 @@ def makeFixer(parser, toModName, modTypeId):
     def resourceFor(role, component):
         return resourceOfSlotRole.get((role, component), resourceOfRole.get(role))
 
+    # a role whose file the mod binds behind a toggle (WWMIFixer::bindLine): bound by a COPY of the mod's own texture
+    # override, its `this` lines moved onto the target's register, run from the list -- built by buildToggleLists below
+    fileOfResource = {}
+    for resource, file in data.textureRoles().resourcesOf(parser._iniFile.file):
+        fileOfResource.setdefault(resource.lower(), file)
+    ownRows = lambda section: data.sectionRows(FRB.IniParseRows.Sections, section)
+    toggleLists, roleLists = [], {}
+
+    def bindLine(role, reg, resource):
+        toggle = data.thisToggleOf(resource.lower())
+        if toggle is None:
+            return (reg, resource)
+        if (role, reg) in roleLists:
+            return (FRB.IniKeywords.Run, roleLists[(role, reg)])
+        if not ownRows(toggle.section) or not toggle.graph[0]:
+            return (reg, resource)
+
+        # a branch naming a resource the mod never declares is the author's typo: dropped, the mod's own binding stands
+        isDead = lambda i, value: value.lower() not in fileOfResource and not ownRows(value)
+        thisKeys = list(dict.fromkeys(row.key for row in ownRows(toggle.section) if row.key.lower() == FRB.IniKeywords.This))
+        if not any(not isDead(0, row.value) for row in ownRows(toggle.section) if row.key.lower() == FRB.IniKeywords.This):
+            return (reg, resource)
+
+        name = rename(FRB.IniKeywords.CommandList + source.name + role[0].upper() + role[1:] + FRB.IniNamingTools.getRegTag(reg))
+        toggleLists.append((name, toggle.graph, toggle.section, reg, thisKeys, isDead))   # GAP: a one-variant toggle's
+        roleLists[(role, reg)] = name                                                    # off binding (planGameDefaults)
+        return (FRB.IniKeywords.Run, name)
+
     listOf = {}
     for component in sorted(present):
         if component not in PLAN:
             continue
-        lines = [(reg, resourceFor(role, component)) for reg, role in REGISTERS[component] if resourceFor(role, component)]
+        lines = [bindLine(role, reg, resourceFor(role, component)) for reg, role in REGISTERS[component] if resourceFor(role, component)]
         if lines:
             listOf[component] = rename(FRB.IniKeywords.CommandList + source.name + "Component" + str(component) + "Textures")
             fixSections.sections("fixSections").add(
                 FRB.SectionText(z3, listOf[component]).open(passCondition(PLAN[component])).keys(lines).close().build())
 
-    # the invented textures: made where the lists bind them
-    madeTextures = []
-    for role, (colour, size) in CREATED.items():
-        resource = resourceOfRole[role]
-        make = FRB.TexCreate((0, "", "fixTexture" + role), "", FRB.CppTexCreator(size, size, FRB.CppColour(*colour)))
-        make.files = {resource: FRB.IniNamingTools.getModSuffixedName(role, FRB.IniKeywords.RemapTex, toModName) + ".dds"}
-        collect = FRB.ResRegCollect({(0, "", "fixSections"): lambda key: True}, {"fixFile": make},
-                                    resPredicates = {(0, "", "fixSections"): lambda key, value, data, r = resource: value.strip() == r})
-        collect.everyGroup = True
-        madeTextures.append(collect)
+    # the invented textures: made where the fix's lists bind them, in every group the slot remap made
+    # (WWMIFixer::fixFileEdits: one TexCreate per group, collected off every graph of that group)
+    kept = []
+
+    def makeTextures(group, graphGroups):
+        edits = []
+        # the downloads first, then the invented textures (WWMIFixer::fixFileEdits' order)
+        if fixDownloads:
+            download = FRB.FileDownloadCreate((group, "", "fixDownloads"), fixDownloads)
+            graphs = [(group, *obj) for obj in graphGroups[group].graphs]
+            edits.append(FRB.ResRegCollect({graph: (lambda key: True) for graph in graphs}, {"fixFile": download},
+                                           resPredicates = {graph: (lambda key, value, data: value.strip() in fixDownloads)
+                                                            for graph in graphs}))
+            kept.append(download)
+        for role, (colour, size) in CREATED.items():
+            resource = resourceOfRole[role]
+            make = FRB.TexCreate((group, "", "fixTexture" + resource), "", FRB.CppTexCreator(size, size, FRB.CppColour(*colour)))
+            make.files = {resource: FRB.IniNamingTools.getModSuffixedName(role, FRB.IniKeywords.RemapTex, toModName) + ".dds"}
+            graphs = [(group, *obj) for obj in graphGroups[group].graphs]
+            edits.append(FRB.ResRegCollect({graph: (lambda key: True) for graph in graphs}, {"fixFile": make},
+                                           resPredicates = {graph: (lambda key, value, data, r = resource: value.strip() == r)
+                                                            for graph in graphs}))
+            kept.append(make)
+
+        return edits
+    madeTextures = [FRB.IterGraphGroupEdit(makeTextures)]
+
+    # the toggle lists (WWMIFixer::buildToggleLists): copy the section out of the parser's graph without 3DMigoto's
+    # matching keys, rename it to the list's name, drop its dead branches, move `this` onto the register, and take it into
+    # the fix's sections; then remove every texture graph, which the fix never writes out
+    toggleEdits, listEdits, takes = [], {}, []
+    for name, graph, section, reg, thisKeys, isDead in toggleLists:
+        listObj = (TEXTURE, name)
+        toggleEdits.append(FRB.GraphCopy((0, *graph), (0, *listObj),
+                                         lambda owner, part, i, s = section: owner.name == s and
+                                         part.getByInd(i)[0].lower() not in FRB.IniKeywords.MatchKeys))
+        listEdits[listObj] = [FRB.GraphRename(lambda old, s = section, n = name: n if old == s else old),
+                              FRB.RegRemove({key: isDead for key in thisKeys}), FRB.RegRemap({key: [reg] for key in thisKeys})]
+        takes.append(FRB.VarSectionsTake(fixSections, "fixSections", listObj, [name]))
+    if listEdits:
+        toggleEdits.append(FRB.GraphGroupEdit([listEdits]))
+    toggleEdits += takes + [FRB.GraphRemove([(0, *obj) for obj in parser.modObjs if obj[0] == TEXTURE])]
 
     # the edits, per group, keyed by the target objects the remap made
     perGroup = []
@@ -648,5 +715,11 @@ def makeFixer(parser, toModName, modTypeId):
     # the fix's own sections, into every file it writes
     writeSections = FRB.GraphCreate((0, "", "fixSections"))
     writeSections.sectionsOf = lambda group: fixSections.sections("fixSections").list()
-    return FRB.GIMIFixer(parser, graphGroupEdits = [slotRemap, mainEdits, writeSections, *madeTextures],
-                         modsToFix = [toModName])
+    fixer = FRB.GIMIFixer(parser, graphGroupEdits = [*toggleEdits, slotRemap, mainEdits, writeSections, *madeTextures],
+                          modsToFix = [toModName])
+    # a copy carries the fix's own sections and none of the mod's texture overrides live: the mod's own file keeps
+    # serving the mod on its own character
+    fixer.copyHiddenSectionNames = {section for section in data.collectedSections(FRB.IniParseRows.Sections)
+                                    if section.startswith(FRB.IniKeywords.TextureOverride)}
+    fixer.copyPreamble = FRB.IniComments.GIMIObjMergerPreamble
+    return fixer

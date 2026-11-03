@@ -123,6 +123,9 @@ from .core import WWMIBlend
 from .core import WWMIShapeKeys
 from .core import SkeletonNumberingProbe
 from .core import RabbitFX
+from .core import TexThumbprint
+from .core import DownloadTools
+from .core import IniComments
 from .core import DrawUVCoverage
 from .core import VbFile
 from .core import BaseBufEditor
@@ -388,7 +391,7 @@ from .main import remapMain
 
 __all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
            "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "FromOldVal", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "DownloadMode", "DownloadModeTools", "RegFillMissingMode", "IniGraphReplaceMode", "IfPredPartType", "IfPredPartTypeTools", "IniKeywords", "IniGraphModObjKeywords", "FileExt", "FilePrefixes", "FileTypes", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppGlobalModTypes", "GlobalIniClassifiers", "CppStrategyOverrides", "IniClassifyStats", "BaseIniClassifier", "IniClassifier", "IniFile", "IniSharedState", "BaseLogger", "Logger", "Version", "VersionSet", "ModDictAssets", "ModMappedAssets", "ModAssets", "Hashes", "Indices", "VertexCounts", "VGRemaps", "IndexCounts", "VGOffsets", "VGCounts", "ShapeKeyChecksums",
-           "CppBufFile", "BlendFile", "PositionFile", "TexcoordFile", "IbFile", "WWMIBlend", "WWMIShapeKeys", "SkeletonNumberingProbe", "RabbitFX", "DrawUVCoverage", "VbFile", "BaseBufEditor", "BufEditor",
+           "CppBufFile", "BlendFile", "PositionFile", "TexcoordFile", "IbFile", "WWMIBlend", "WWMIShapeKeys", "SkeletonNumberingProbe", "RabbitFX", "TexThumbprint", "DownloadTools", "IniComments", "DrawUVCoverage", "VbFile", "BaseBufEditor", "BufEditor",
            "CppColour", "CppColourRange", "CppTextureFile",
            "CppBasePixelTransform", "CppCorrectGamma", "CppColourReplace", "CppHighlightShadow", "CppInvertAlpha", "CppTempControl", "CppTintTransform", "CppTransparency",
            "CppBaseTexFilter", "CppGammaFilter", "CppColourReplaceFilter", "CppTransparencyAdjustFilter", "CppInvertAlphaFilter", "CppMaterialBandRemapFilter", "CppHueAdjust", "CppPixelFilter",

@@ -178,6 +178,20 @@ Appends ``modName + suffix`` to 'name', replacing a trailing 'suffix' it already
                     py::arg("name"), py::arg("modName") = "",
                     py::doc("The remapped name for some texture `section`_"));
 
+    cls.def_static("getRegTag", &AGRC::IniNamingTools::getRegTag, py::arg("reg"), py::doc(R"doc(
+A register as it is written into a name: its dashes dropped and its first letter capitalised -- ``ps-t0`` is ``Pst0``
+
+Parameters
+----------
+reg: :class:`str`
+    The register
+
+Returns
+-------
+:class:`str`
+    The tag
+    )doc"));
+
     cls.def_static("getRemapDLName", &AGRC::IniNamingTools::getRemapDLName,
                     py::arg("name"), py::arg("modName") = "",
                     py::doc("The remapped name for some downloaded resource `section`_"));

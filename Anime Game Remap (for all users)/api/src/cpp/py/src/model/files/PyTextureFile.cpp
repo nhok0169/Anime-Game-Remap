@@ -21,12 +21,121 @@
 #include <pybind11/stl.h>
 
 #include "AGRemapCore/model/files/TextureFile.h"
+#include "AGRemapCore/model/textures/TexThumbprint.h"
 
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
 
 void initCppTextureFile(pybind11::module_ &m) {
+    using Thumb = AGRC::TexThumbprint;
+    py::class_<Thumb>(m, "TexThumbprint", R"doc(
+A texture's thumbprint: its image boxed down to a small grayscale grid, so a file can be told for one of a character's
+own textures by what it looks like rather than by its name or hash -- a file dumped straight out of the game carries
+neither
+
+.. note::
+    Every method is static; the class holds nothing
+    )doc")
+        .def_static("of", &Thumb::of, py::arg("path"), py::arg("size"), py::doc(R"doc(
+The thumbprint of the image at ``path``: a ``size`` x ``size`` grid of grayscale box averages
+
+Parameters
+----------
+path: :class:`str`
+    The image to read
+
+size: :class:`int`
+    The grid's side
+
+Returns
+-------
+Optional[List[:class:`float`]]
+    The thumbprint, or ``None`` if the file will not open or holds no image
+        )doc"))
+        .def_static("correlation", &Thumb::correlation, py::arg("thumb"), py::arg("stored"), py::doc(R"doc(
+How alike two thumbprints are: their correlation, in [-1, 1]
+
+Parameters
+----------
+thumb: List[:class:`float`]
+    A thumbprint, as :meth:`of` returns it
+
+stored: List[:class:`int`]
+    A stored thumbprint, one byte a cell
+
+Returns
+-------
+:class:`float`
+    The correlation, or ``0`` if the two are different lengths, empty, or flat
+        )doc"))
+        .def_static("identify", &Thumb::identify, py::arg("thumb"), py::arg("table"), py::arg("minScore"), py::arg("maxRunnerUp"),
+                    py::doc(R"doc(
+Which entry of ``table`` a thumbprint is: the one it correlates with best, when that correlation is at least
+``minScore`` and every other entry's is at most ``maxRunnerUp``
+
+Parameters
+----------
+thumb: List[:class:`float`]
+    The thumbprint to identify
+
+table: Dict[:class:`str`, List[:class:`int`]]
+    The stored thumbprints to identify it among, by name
+
+minScore: :class:`float`
+    How well the best match must correlate
+
+maxRunnerUp: :class:`float`
+    How poorly every other entry must correlate
+
+Returns
+-------
+Optional[:class:`str`]
+    The winning entry's name, or ``None`` if nothing won cleanly
+                    )doc"))
+        .def_static("identifyFile", &Thumb::identifyFile, py::arg("path"), py::arg("table"), py::arg("size"), py::arg("minScore"),
+                    py::arg("maxRunnerUp"), py::doc(R"doc(
+:meth:`of` followed by :meth:`identify` -- which entry of ``table`` the image at ``path`` is
+
+Parameters
+----------
+path: :class:`str`
+    The image to identify
+
+table: Dict[:class:`str`, List[:class:`int`]]
+    The stored thumbprints to identify it among
+
+size: :class:`int`
+    The grid's side, which must be the one ``table`` was built at
+
+minScore: :class:`float`
+    How well the best match must correlate
+
+maxRunnerUp: :class:`float`
+    How poorly every other entry must correlate
+
+Returns
+-------
+Optional[:class:`str`]
+    The winning entry's name, or ``None`` if the file will not read or nothing won cleanly
+                    )doc"))
+        .def_static("channelIsConstant", &Thumb::channelIsConstant, py::arg("path"), py::arg("channel"), py::doc(R"doc(
+Whether one channel of the image at ``path`` is the same value everywhere
+
+Parameters
+----------
+path: :class:`str`
+    The image to read
+
+channel: :class:`int`
+    Which channel -- 0 is red, 3 is alpha
+
+Returns
+-------
+:class:`bool`
+    Whether the channel is constant
+        )doc"));
+
     py::class_<AGRC::TextureFile>(m, "CppTextureFile", R"doc(
 The `Compressonator`_-backed engine behind :class:`TextureFile` -- decodes/encodes a ``.dds``
 texture file to/from a flat, uncompressed RGBA8 pixel buffer (see :meth:`getPixels`/

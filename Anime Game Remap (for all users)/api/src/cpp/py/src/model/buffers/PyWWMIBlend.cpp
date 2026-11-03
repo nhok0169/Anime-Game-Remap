@@ -582,6 +582,7 @@ so the flags the source's draw would have had are worked out from the source's t
     )doc");
 
     rabbitFX.attr("FlagKeys") = py::cast(AGRC::RabbitFX::FlagKeys);
+    rabbitFX.attr("Name") = py::str(AGRC::RabbitFX::Name);
 
     rabbitFX.def_static("textureTag", &AGRC::RabbitFX::textureTag, py::arg("path"), R"doc(
 The tag RabbitFX's texture overrides give the texture at ``path``, from its ``.dds`` header: ``3`` for

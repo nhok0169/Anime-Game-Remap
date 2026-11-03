@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalIniClassifiers', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSharedState', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexcoordFile', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'DownloadTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalIniClassifiers', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniComments', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSharedState', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexThumbprint', 'TexcoordFile', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -2983,6 +2983,11 @@ class CppBaseIniParser:
     has to hand back ``None`` for a core-side object it has no richer type for
         
     """
+    def parse(self) -> None:
+        """
+        Parses the .ini file -- so a parser built on the C++ side (by a :class:`IniParseBuilder`) can be run from `Python`_.
+        What it read is in :attr:`parseData`; a parser built in `Python`_ overrides this with its own ``parse``
+        """
     @property
     def parseData(self) -> IniParseData:
         """
@@ -6217,6 +6222,91 @@ class DownloadModeTools:
         -------
         :class:`str`
             The name for 'value' (``"disabled"``, ``"normal"`` or ``"always"``)
+        """
+class DownloadTools:
+    """
+    
+    Where the files this software downloads are fetched from
+    
+    .. note::
+        Every method is static; the class holds nothing
+        
+    """
+    @staticmethod
+    def downloadFolder() -> str:
+        """
+        The location every download's path is under: the published download folder, or ``AGREMAP_DOWNLOAD_FOLDER`` when that
+        environment variable is set (a ``file://`` url to a checkout's ``Data/Mod Downloads`` tests a download file before it
+        is published)
+        
+        Returns
+        -------
+        :class:`str`
+            The location
+        """
+    @staticmethod
+    def url(game: str, charFolder: str, versionFolder: str, prefix: str, kind: str, ext: str) -> str:
+        """
+        The whole url of a download: :meth:`downloadFolder`, then :meth:`urlPath`
+        
+        Parameters
+        ----------
+        game: :class:`str`
+            The game's folder
+        
+        charFolder: :class:`str`
+            The character's folder
+        
+        versionFolder: :class:`str`
+            The game version's folder
+        
+        prefix: :class:`str`
+            The character's file prefix
+        
+        kind: :class:`str`
+            What the file holds
+        
+        ext: :class:`str`
+            The file extension, including the dot
+        
+        Returns
+        -------
+        :class:`str`
+            The url
+        """
+    @staticmethod
+    def urlPath(game: str, charFolder: str, versionFolder: str, prefix: str, kind: str, ext: str) -> str:
+        """
+        ``<game>/<charFolder>/<versionFolder>/<prefix><kind><ext>`` -- the path under :meth:`downloadFolder` a download is
+        fetched from
+        
+        .. note::
+            ``charFolder`` and ``prefix`` are separate on purpose: ``Raiden/`` holds ``RaidenShogun``-prefixed files
+        
+        Parameters
+        ----------
+        game: :class:`str`
+            The game's folder, eg. ``"GI"`` or ``"WuWa"``
+        
+        charFolder: :class:`str`
+            The character's folder
+        
+        versionFolder: :class:`str`
+            The game version's folder, eg. ``"2_5"``
+        
+        prefix: :class:`str`
+            The character's file prefix
+        
+        kind: :class:`str`
+            What the file holds, eg. ``"Blend"``, or ``"Texture" + hash`` for a WWMI character's texture
+        
+        ext: :class:`str`
+            The file extension, including the dot
+        
+        Returns
+        -------
+        :class:`str`
+            The path
         """
 class DrawUVCoverage:
     """
@@ -15928,6 +16018,16 @@ class IniClassifyStats:
     @modType.setter
     def modType(self, arg1: dict) -> None:
         ...
+class IniComments:
+    """
+    
+    Comment blocks this software writes into the .ini files it generates
+    
+    Nothing in the library assigns these on its own -- each is the text a setting such as :attr:`GIMIFixer.copyPreamble` is
+    meant to be set to, kept as a named constant so a caller opting in does not have to carry the paragraph itself
+        
+    """
+    GIMIObjMergerPreamble: typing.ClassVar[str] = "; This is really bad!! Don't do this!\n; ************************************\n;\n; jk, but joking aside...\n;\n; The goal is to display n mod objects from the mod to be remapped to the mod onto a single mod object of the remapped mod.\n;   Therefore we will have n sets of resources all mapping onto a single index (and same hash).\n;\n; Ideally, we would want all the sections to be within a single .ini file. The naive approach would be to create n sets of sections\n;   (not a single section, cuz you need to include the case of sections depending on other sections, which form a section caller/callee graph) \n;    where the sections names are all unique. However, this approach will trigger a warning on GIMI (or any GIMI like importer) of multiple sections\n;   mapping to the same hash and only 1 of the mod objects will be displayed\n;\n; The next attempt would be to take advantage of GIMI's overlapping mod bug/feature from loading multiple mods of the same character\n;   Apart from the original .ini file, there would be n-1 newly generated .ini files (total of n .ini files). Each .ini file would uniquely\n;   display a single set of sections from the n sets of sections. The overlapping property from the bug/feature would allow for all the objects to be displayed.\n;\n; For now, we were lazy and just simply copied the original .ini file onto the generated .ini files, which results in the original mod to have overlapping copies.\n;  But since the mod used in all the .ini files are exactly the same, the user would not see the overlap (they may have some performance issues depending on the size of n. But\n;   usually remaps only merge 2 mod objects into a single mod object, which should not cause much of an issue)\n;   We could optimize the amount of space taken up by the newly generated .ini files, by only putting the necessary sections, but that is for another day..."
 class IniDownloadModel(IniSrcResourceModel):
     """
     
@@ -17338,6 +17438,21 @@ class IniNamingTools:
     def getObjRemapFixName(name: str, modName: str, objName: typing.Any, newObjName: typing.Any) -> str:
         """
         The remapped name for a `section`_ whose mod object is being swapped for another
+        """
+    @staticmethod
+    def getRegTag(reg: str) -> str:
+        """
+        A register as it is written into a name: its dashes dropped and its first letter capitalised -- ``ps-t0`` is ``Pst0``
+        
+        Parameters
+        ----------
+        reg: :class:`str`
+            The register
+        
+        Returns
+        -------
+        :class:`str`
+            The tag
         """
     @staticmethod
     def getRemapBlendName(name: str, modName: str = '') -> str:
@@ -21503,6 +21618,7 @@ class RabbitFX:
         
     """
     FlagKeys: typing.ClassVar[list] = ['x187', 'y187', 'z187', 'w187']
+    Name: typing.ClassVar[str] = 'RabbitFX'
     @staticmethod
     def isOwnKVP(key: str, value: str) -> bool:
         """
@@ -24018,7 +24134,7 @@ class RegRemove(BaseRegEdit):
     
     Parameters
     ----------
-    removeKeys: Dict[Any, Optional[Callable[[:class:`int`, Any], :class:`bool`]]]
+    removeKeys: Union[Dict[Any, Optional[Callable[[:class:`int`, Any], :class:`bool`]]], List[Tuple[Any, Optional[Callable[[:class:`int`, Any], :class:`bool`]]]]]
         Each key to remove, mapped to its own optional check predicate :raw-html:`<br />` :raw-html:`<br />`
     
         See :meth:`IfContentPart.removeKeys` for the full semantics of how the predicates decide
@@ -28136,6 +28252,123 @@ class SympyTokenizer(FilteredTokenizer):
     """
     def __init__(self, setup: bool = True) -> None:
         ...
+class TexThumbprint:
+    """
+    
+    A texture's thumbprint: its image boxed down to a small grayscale grid, so a file can be told for one of a character's
+    own textures by what it looks like rather than by its name or hash -- a file dumped straight out of the game carries
+    neither
+    
+    .. note::
+        Every method is static; the class holds nothing
+        
+    """
+    @staticmethod
+    def channelIsConstant(path: str, channel: typing.SupportsInt | typing.SupportsIndex) -> bool:
+        """
+        Whether one channel of the image at ``path`` is the same value everywhere
+        
+        Parameters
+        ----------
+        path: :class:`str`
+            The image to read
+        
+        channel: :class:`int`
+            Which channel -- 0 is red, 3 is alpha
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the channel is constant
+        """
+    @staticmethod
+    def correlation(thumb: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], stored: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> float:
+        """
+        How alike two thumbprints are: their correlation, in [-1, 1]
+        
+        Parameters
+        ----------
+        thumb: List[:class:`float`]
+            A thumbprint, as :meth:`of` returns it
+        
+        stored: List[:class:`int`]
+            A stored thumbprint, one byte a cell
+        
+        Returns
+        -------
+        :class:`float`
+            The correlation, or ``0`` if the two are different lengths, empty, or flat
+        """
+    @staticmethod
+    def identify(thumb: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], table: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]], minScore: typing.SupportsFloat | typing.SupportsIndex, maxRunnerUp: typing.SupportsFloat | typing.SupportsIndex) -> str | None:
+        """
+        Which entry of ``table`` a thumbprint is: the one it correlates with best, when that correlation is at least
+        ``minScore`` and every other entry's is at most ``maxRunnerUp``
+        
+        Parameters
+        ----------
+        thumb: List[:class:`float`]
+            The thumbprint to identify
+        
+        table: Dict[:class:`str`, List[:class:`int`]]
+            The stored thumbprints to identify it among, by name
+        
+        minScore: :class:`float`
+            How well the best match must correlate
+        
+        maxRunnerUp: :class:`float`
+            How poorly every other entry must correlate
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The winning entry's name, or ``None`` if nothing won cleanly
+        """
+    @staticmethod
+    def identifyFile(path: str, table: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]], size: typing.SupportsInt | typing.SupportsIndex, minScore: typing.SupportsFloat | typing.SupportsIndex, maxRunnerUp: typing.SupportsFloat | typing.SupportsIndex) -> str | None:
+        """
+        :meth:`of` followed by :meth:`identify` -- which entry of ``table`` the image at ``path`` is
+        
+        Parameters
+        ----------
+        path: :class:`str`
+            The image to identify
+        
+        table: Dict[:class:`str`, List[:class:`int`]]
+            The stored thumbprints to identify it among
+        
+        size: :class:`int`
+            The grid's side, which must be the one ``table`` was built at
+        
+        minScore: :class:`float`
+            How well the best match must correlate
+        
+        maxRunnerUp: :class:`float`
+            How poorly every other entry must correlate
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The winning entry's name, or ``None`` if the file will not read or nothing won cleanly
+        """
+    @staticmethod
+    def of(path: str, size: typing.SupportsInt | typing.SupportsIndex) -> list[float] | None:
+        """
+        The thumbprint of the image at ``path``: a ``size`` x ``size`` grid of grayscale box averages
+        
+        Parameters
+        ----------
+        path: :class:`str`
+            The image to read
+        
+        size: :class:`int`
+            The grid's side
+        
+        Returns
+        -------
+        Optional[List[:class:`float`]]
+            The thumbprint, or ``None`` if the file will not open or holds no image
+        """
 class TexcoordFile(CppBufFile):
     """
     

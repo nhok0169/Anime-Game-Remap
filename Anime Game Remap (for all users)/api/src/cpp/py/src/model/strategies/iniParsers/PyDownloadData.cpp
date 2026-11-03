@@ -51,6 +51,88 @@ KVPs kvpsFromPy(const py::object &kvps) {
 
 
 void initCppDownloadData(pybind11::module_ &m) {
+    using Tools = AGRC::DownloadTools;
+    py::class_<Tools>(m, "DownloadTools", R"doc(
+Where the files this software downloads are fetched from
+
+.. note::
+    Every method is static; the class holds nothing
+    )doc")
+        .def_static("downloadFolder", &Tools::downloadFolder, py::doc(R"doc(
+The location every download's path is under: the published download folder, or ``AGREMAP_DOWNLOAD_FOLDER`` when that
+environment variable is set (a ``file://`` url to a checkout's ``Data/Mod Downloads`` tests a download file before it
+is published)
+
+Returns
+-------
+:class:`str`
+    The location
+        )doc"))
+        .def_static("urlPath", py::overload_cast<const std::string&, const std::string&, const std::string&, const std::string&,
+                                                 const std::string&, const std::string&>(&Tools::urlPath),
+                    py::arg("game"), py::arg("charFolder"), py::arg("versionFolder"), py::arg("prefix"), py::arg("kind"), py::arg("ext"),
+                    py::doc(R"doc(
+``<game>/<charFolder>/<versionFolder>/<prefix><kind><ext>`` -- the path under :meth:`downloadFolder` a download is
+fetched from
+
+.. note::
+    ``charFolder`` and ``prefix`` are separate on purpose: ``Raiden/`` holds ``RaidenShogun``-prefixed files
+
+Parameters
+----------
+game: :class:`str`
+    The game's folder, eg. ``"GI"`` or ``"WuWa"``
+
+charFolder: :class:`str`
+    The character's folder
+
+versionFolder: :class:`str`
+    The game version's folder, eg. ``"2_5"``
+
+prefix: :class:`str`
+    The character's file prefix
+
+kind: :class:`str`
+    What the file holds, eg. ``"Blend"``, or ``"Texture" + hash`` for a WWMI character's texture
+
+ext: :class:`str`
+    The file extension, including the dot
+
+Returns
+-------
+:class:`str`
+    The path
+                    )doc"))
+        .def_static("url", &Tools::url, py::arg("game"), py::arg("charFolder"), py::arg("versionFolder"), py::arg("prefix"),
+                    py::arg("kind"), py::arg("ext"), py::doc(R"doc(
+The whole url of a download: :meth:`downloadFolder`, then :meth:`urlPath`
+
+Parameters
+----------
+game: :class:`str`
+    The game's folder
+
+charFolder: :class:`str`
+    The character's folder
+
+versionFolder: :class:`str`
+    The game version's folder
+
+prefix: :class:`str`
+    The character's file prefix
+
+kind: :class:`str`
+    What the file holds
+
+ext: :class:`str`
+    The file extension, including the dot
+
+Returns
+-------
+:class:`str`
+    The url
+                    )doc"));
+
     py::class_<PyIniParseDownloadDataCore, PyDownloadDataTrampoline<PyIniParseDownloadDataCore>, py::smart_holder>(m, "IniParseDownloadData", R"doc(
 A file a mod is missing and has to download, as a parser asks for it -- how a `section`_ references it, the resource
 `section`_ that names the file, and the download itself

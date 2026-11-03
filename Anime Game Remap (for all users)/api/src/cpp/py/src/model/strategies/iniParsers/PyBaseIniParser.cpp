@@ -65,6 +65,10 @@ Not usually what you want: a parser created **from** `Python`_ is a :class:`Base
 inherits from this and carries the extra `Python`_ state. This class exists so the boundary never
 has to hand back ``None`` for a core-side object it has no richer type for
     )doc")
+        .def("parse", [](PyBaseIniParserCore& self) { self.parse(); }, py::doc(R"doc(
+Parses the .ini file -- so a parser built on the C++ side (by a :class:`IniParseBuilder`) can be run from `Python`_.
+What it read is in :attr:`parseData`; a parser built in `Python`_ overrides this with its own ``parse``
+        )doc"))
         .def_property_readonly("parseData", [](PyBaseIniParserCore& self) -> AGRC::IniParseData& {
             return self.parseData();
         }, py::return_value_policy::reference_internal, py::doc(R"doc(

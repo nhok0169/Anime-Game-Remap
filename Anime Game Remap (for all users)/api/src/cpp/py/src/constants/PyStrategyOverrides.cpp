@@ -157,4 +157,9 @@ Whether nothing is registered
 
 :rtype: :class:`bool`
 )doc"));
+
+    // The registry is a C++ static, and an override it holds is a Python callable: left registered when the
+    // interpreter exits, it would be destroyed after Python is finalised, which crashes the process on its way out.
+    // Cleared while Python still runs instead
+    py::module_::import("atexit").attr("register")(py::cpp_function([]() { AGRC::StrategyOverrides::clear(); }));
 }

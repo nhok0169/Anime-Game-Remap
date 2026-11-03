@@ -19,6 +19,7 @@
 #include <pybind11/stl.h>
 
 #include "AGRemapCore/constants/FileExt.h"
+#include "AGRemapCore/constants/IniComments.h"
 #include "AGRemapCore/constants/FilePrefixes.h"
 #include "AGRemapCore/constants/FileTypes.h"
 #include "AGRemapCore/constants/IniGraphModObjKeywords.h"
@@ -29,6 +30,14 @@ namespace AGRC = AGRemapCore;
 
 
 void initCppConstantStrings(pybind11::module_ &m) {
+    py::class_<AGRC::IniComments> comments(m, "IniComments", R"doc(
+Comment blocks this software writes into the .ini files it generates
+
+Nothing in the library assigns these on its own -- each is the text a setting such as :attr:`GIMIFixer.copyPreamble` is
+meant to be set to, kept as a named constant so a caller opting in does not have to carry the paragraph itself
+    )doc");
+    comments.attr("GIMIObjMergerPreamble") = py::str(AGRC::IniComments::GIMIObjMergerPreamble);
+
     // Each class is a namespace of plain strings on both sides: `IniKeywords.Hash` is "hash" itself,
     // with no '.value' to read through, and is read-only from Python.
     py::class_<AGRC::FileExt>(m, "FileExt", R"doc(

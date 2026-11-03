@@ -68,7 +68,7 @@ using PyIfContentPart = AGRC::IfContentPart<std::string, std::string>;
  *
  * @return The equivalent vector of (key, optional check) pairs, in dict iteration order
  */
-std::vector<std::pair<std::string, std::optional<PyIfContentPart::RemoveKeyCheck>>> parseRemoveKeys(const py::dict &keys);
+std::vector<std::pair<std::string, std::optional<PyIfContentPart::RemoveKeyCheck>>> parseRemoveKeys(const py::object &keys);
 
 
 void initCppIfContentPart(pybind11::module_ &m);

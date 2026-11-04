@@ -32,7 +32,7 @@ from .test_IbFile import IbFileTest
 from .test_WWMIBlend import WWMIBlendTest, WWMIShapeKeysTest, SkeletonNumberingProbeTest
 from .test_TexcoordFile import TexcoordFileTest
 from .test_RabbitFX import DDSHeaderTest, RabbitFXTest, DrawUVCoverageTest, WWMIKeywordsTest
-from .test_IniParseData import TextureRolesTest, IniParseDataTest, TextureRoleChooserTest
+from .test_IniParseData import TextureRolesTest, IniParseDataTest
 from .test_VbFile import VbFileTest
 from .test_IniFile import IniFileTest
 from .test_ModTypeRemaps import ModTypeRemapsTest
@@ -195,7 +195,7 @@ __all__ += ["BaseRegEditTest", "RegAddTest", "RegNewValsTest", "RegRemapTest", "
 __all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredTokenizerTest"]
 __all__ += ["CallGraphTest", "SectionIterDataTest", "GraphToolsTest"]
 __all__ += ["BufDataTypeTest", "BufElementTypeTest", "BinaryFileTest", "CppBufFileTest", "VGRemapTest", "BufToolsTest"]
-__all__ += ["BufFileTest", "BlendFileTest", "PositionFileTest", "TexcoordFileTest", "IbFileTest", "WWMIBlendTest", "WWMIShapeKeysTest", "SkeletonNumberingProbeTest", "DDSHeaderTest", "RabbitFXTest", "DrawUVCoverageTest", "WWMIKeywordsTest", "VbFileTest", "TextureRolesTest", "IniParseDataTest", "TextureRoleChooserTest"]
+__all__ += ["BufFileTest", "BlendFileTest", "PositionFileTest", "TexcoordFileTest", "IbFileTest", "WWMIBlendTest", "WWMIShapeKeysTest", "SkeletonNumberingProbeTest", "DDSHeaderTest", "RabbitFXTest", "DrawUVCoverageTest", "WWMIKeywordsTest", "VbFileTest", "TextureRolesTest", "IniParseDataTest"]
 __all__ += ["BaseBufEditorTest", "BufEditorTest"]
 __all__ += ["TexEngineTest", "CppColourTest", "CppTexCacheTest", "CppTextureFileTest", "TextureFileTest"]
 __all__ += ["CppBaseTexEditorTest", "BaseTexEditorTest", "CppBaseTexFilterTest", "CppGammaFilterTest"]

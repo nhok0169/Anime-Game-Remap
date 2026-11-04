@@ -22,7 +22,6 @@
 
 #include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseRows.h"
-#include "AGRemapCore/data/IniParseData/TextureRoleChooser.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
 
 namespace py = pybind11;
@@ -557,6 +556,57 @@ Parameters
 rules: :class:`IniParseData.ResourceDataRules`
     What to read, and how
        )doc")
+       .def("roleFiles", &AGRC::IniParseData::roleFiles, py::arg("rules"), R"doc(
+Reads which file each mod object takes for each texture role, and records it: :meth:`textureRoles`, :meth:`roleCandidates`,
+:meth:`rejections`, :meth:`roleFile`, and each texture resource's file (:meth:`rolesOfResource`, :meth:`resourceOfFile`)
+
+A file is a candidate for a role when the .ini states it: a texture override's own ``hash =`` names a game texture of the
+role, an object's `section`_ binds it at a register of the role, a linked .ini recolours that texture or binds it on the
+same draw, or -- for a ``.dds`` nothing states -- its pixels are the game texture's (:attr:`RoleFileRules.identify`). A
+file the folder does not hold, or one a previous fix wrote (``RemapDL`` / ``RemapTex``), is none. A flat file, or one an
+object binds for a second role too, is refused for a region role (:attr:`RoleFileRules.regionRoles`)
+
+Each object then takes, in this order:
+
+#. a file not declared by its hash as ANOTHER role
+#. the file bound only on this object, then on it and others, then on none, then only on others
+#. a file declared by its hash, then one bound at a register, then one known by its pixels
+#. of two hashes of one role, the newest (:attr:`RoleFileRules.hashAge`)
+#. of two `sections`_ of one hash, the one 3DMigoto applies last: the higher ``match_priority``, then the `section`_
+   name later in order
+#. the file whose resource is declared first -- reported as a tie (:attr:`RoleFile.tiedFile`)
+
+The variants of one toggle are not ranked against each other: the toggle's first-named variant among the candidates is
+chosen, and all of them recorded (:attr:`RoleFile.variants`). A toggle is a ``this =`` or register toggle
+(:meth:`thisToggleOf`, :meth:`registerToggleOf`), or one register an object's graph -- through ``run =``, or in a linked
+.ini -- binds to several resources under conditions
+
+Parameters
+----------
+rules: :class:`IniParseData.RoleFileRules`
+    What to read, and how
+       )doc")
+       .def("startingValues", &AGRC::IniParseData::startingValues, py::arg("sections"), py::arg("z3Ctx"), R"doc(
+The values the .ini's variables start at, as one condition: ``$x == <value>`` for every variable its ``[Constants]``
+declares (``global``, ``local``, ``persist`` alike; one declared with no value starts at ``0``) -- or ``None`` when it
+declares none
+
+Which of several values a toggle shows before anyone presses a key is the one whose condition can hold together with
+this (:meth:`GraphCollect.valueUnder`). A variable another file declares is left free
+
+Parameters
+----------
+sections: :class:`str`
+    The collect of every key of every `section`_ (:attr:`IniParseRows.Sections`)
+
+z3Ctx: :class:`Z3Context`
+    The context the condition is built in
+
+Returns
+-------
+Optional[:class:`Z3Predicate`]
+    The condition
+       )doc")
        .def("textureRoles", &AGRC::IniParseData::textureRoles, py::return_value_policy::reference_internal, R"doc(
 What role each texture of the .ini plays, or ``None`` when the parser records none -- every role the
 .ini binds a file for, since one atlas can serve two objects
@@ -803,6 +853,74 @@ why: :class:`str`
     Why, as a sentence about the file, eg. ``is a flat hairMask, which marks no regions``
        )doc");
 
+    py::class_<AGRC::IniParseData::RoleFileRules> roleFileRules(cls, "RoleFileRules", R"doc(
+How :meth:`IniParseData.roleFiles` reads which file each mod object takes for each role
+    )doc");
+    py::class_<AGRC::IniParseData::RoleFileRules::Linked>(roleFileRules, "Linked", R"doc(
+Another .ini of the mod, linked to this one, whose parse is read too -- see :attr:`IniParseData.RoleFileRules.linked`
+    )doc")
+        .def(py::init([](const AGRC::IniParseData& data, std::string folder, std::string name) {
+            return AGRC::IniParseData::RoleFileRules::Linked{&data, std::move(folder), std::move(name)};
+        }), py::arg("data"), py::arg("folder"), py::arg("name") = "", py::keep_alive<1, 2>())
+        .def_readwrite("folder", &AGRC::IniParseData::RoleFileRules::Linked::folder,
+                       py::doc(":class:`str`: Its folder, which its resources' files are relative to"))
+        .def_readwrite("name", &AGRC::IniParseData::RoleFileRules::Linked::name, py::doc(":class:`str`: Its file name, for the log"));
+    roleFileRules
+        .def(py::init<>())
+        .def_readwrite("iniPath", &AGRC::IniParseData::RoleFileRules::iniPath,
+                       py::doc(":class:`str`: The .ini's path, which :meth:`IniParseData.textureRoles` files its resources under"))
+        .def_readwrite("folder", &AGRC::IniParseData::RoleFileRules::folder,
+                       py::doc(":class:`str`: The .ini's folder, which its resources' files are relative to"))
+        .def_readwrite("sections", &AGRC::IniParseData::RoleFileRules::sections, py::doc(R"doc(
+:class:`str`: The collect of every key of every `section`_ (:attr:`IniParseRows.Sections`), which orders the `sections`_ as written
+        )doc"))
+        .def_readwrite("declared", &AGRC::IniParseData::RoleFileRules::declared, py::doc(R"doc(
+:class:`str`: The collect of every `section`_'s declaration (:attr:`IniParseRows.Declared`), whose ``filename`` names a resource's file
+        )doc"))
+        .def_readwrite("overrides", &AGRC::IniParseData::RoleFileRules::overrides,
+                       py::doc(":class:`str`: The collect of each texture override's ``hash``, ``this`` and ``match_priority``"))
+        .def_readwrite("roleRows", &AGRC::IniParseData::RoleFileRules::roleRows, py::doc(R"doc(
+:class:`str`: The collect, with conditions, of the rows that STATE a role: a ``this`` in a role's texture graph (mod object
+``(IniGraphModObjKeywords.Texture, <role>)``), and a register of :attr:`registerRoles` in an object's graph, through ``run =``
+        )doc"))
+        .def_readwrite("objRows", &AGRC::IniParseData::RoleFileRules::objRows,
+                       py::doc(":class:`str`: The collect of every key of each object's graph, whose OWN `sections`_ say what the object binds"))
+        .def_readwrite("objs", &AGRC::IniParseData::RoleFileRules::objs, py::doc(R"doc(
+List[Tuple[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]]: The objects a file is chosen for, each with its root `sections`_
+        )doc"))
+        .def_readwrite("registerRoles", &AGRC::IniParseData::RoleFileRules::registerRoles, py::doc(R"doc(
+Dict[Tuple[:class:`str`, :class:`str`], Dict[:class:`str`, :class:`str`]]: Which role each register an object binds plays,
+as ``object -> {register -> role}``
+        )doc"))
+        .def_readwrite("roleOfHash", &AGRC::IniParseData::RoleFileRules::roleOfHash, py::doc(R"doc(
+Optional[Callable[[:class:`str`], Optional[:class:`str`]]]: The role a game texture hash of the character plays, or ``None``
+        )doc"))
+        .def_readwrite("identify", &AGRC::IniParseData::RoleFileRules::identify, py::doc(R"doc(
+Optional[Callable[[:class:`str`], Optional[:class:`str`]]]: Which game texture a file IS, by its pixels, or ``None`` -- asked only
+of a ``.dds`` no hash and no register places. ``None``: no file is identified that way
+        )doc"))
+        .def_readwrite("hashAge", &AGRC::IniParseData::RoleFileRules::hashAge, py::doc(R"doc(
+Optional[Callable[[:class:`str`], :class:`int`]]: How old a hash of the character is, lower being newer -- when the mod declares
+a role by two different hashes, the newest is the one the game binds now. ``None``: every hash is as new as any other
+        )doc"))
+        .def_readwrite("regionRoles", &AGRC::IniParseData::RoleFileRules::regionRoles, py::doc(R"doc(
+Set[:class:`str`]: The roles whose texture marks regions, refused when flat or bound as a second role of one object
+        )doc"))
+        .def_readwrite("isFlat", &AGRC::IniParseData::RoleFileRules::isFlat, py::doc(R"doc(
+Optional[Callable[[:class:`str`], :class:`bool`]]: Whether a file is flat -- see :attr:`regionRoles`. ``None``: its channel 0 is constant
+        )doc"))
+        .def_readwrite("notToggles", &AGRC::IniParseData::RoleFileRules::notToggles, py::doc(R"doc(
+List[:class:`str`]: A condition that is not a toggle, lowercased with no spaces -- see :attr:`ResourceDataRules.notToggles`
+        )doc"))
+        .def_readwrite("fixSection", &AGRC::IniParseData::RoleFileRules::fixSection, py::doc(R"doc(
+Optional[Callable[[:class:`str`], :class:`bool`]]: Whether a `section`_ was written by a previous fix, so what it binds is not the mod's use
+        )doc"))
+        .def_readwrite("linked", &AGRC::IniParseData::RoleFileRules::linked, py::doc(R"doc(
+List[:class:`IniParseData.RoleFileRules.Linked`]: The other .ini files of the mod linked to this one -- see :meth:`IniFile.linkedInis`
+        )doc"))
+        .def_readwrite("log", &AGRC::IniParseData::RoleFileRules::log,
+                       py::doc("Optional[Callable[[:class:`str`], None]]: Where what was found is reported, or ``None``"));
+
     py::class_<AGRC::IniParseData::ResourceDataRules>(cls, "ResourceDataRules", R"doc(
 What :meth:`IniParseData.resourceData` reads, and the rules a game reads it by
     )doc")
@@ -946,66 +1064,4 @@ A file refused for a role -- see :meth:`IniParseData.rejections`
         .def_readonly("file", &AGRC::IniParseData::Rejection::file, py::doc(":class:`str`: The file"))
         .def_readonly("role", &AGRC::IniParseData::Rejection::role, py::doc(":class:`str`: The role it was refused FOR"))
         .def_readonly("why", &AGRC::IniParseData::Rejection::why, py::doc(":class:`str`: Why, as a sentence about the file"));
-}
-
-
-void initCppTextureRoleChooser(pybind11::module_ &m) {
-    py::class_<AGRC::TextureRoleChooser>(m, "TextureRoleChooser", R"doc(
-Chooses, from what a parser found out about a mod's textures, the one file each mod object takes for
-each role -- and records the answer in an :class:`IniParseData`
-
-A parser collects the evidence (:attr:`candidates`, :attr:`bindings`, :attr:`declared`,
-:attr:`declaredFiles`) and :meth:`choose` does the rest, in three steps:
-
-#. **One entry per file**: a file found for a role more than one way keeps the first way it was found
-#. **Refusals**, for a :attr:`regionRoles` role only -- a role whose texture marks REGIONS, such as a
-   material mask: a file one mod object binds for that role AND another role is not that role's file,
-   and a flat file (:attr:`isFlat`) marks no regions. A refused role takes the ordinary "the mod has no
-   file for this role" path
-#. **Ranking, per mod object**, lower first: a file the mod DECLARES as another role by the ``hash =``
-   over it comes after one it does not; then how specifically the mod binds it on THIS object (only
-   here, here and elsewhere, nowhere, only elsewhere); then whether the .ini declares a resource for it;
-   then how far it is from the .ini. Two files equal on the first four are a tie, recorded in
-   :attr:`IniParseData.RoleFile.tiedFile`
-    )doc")
-        .def(py::init<>())
-        .def_readwrite("candidates", &AGRC::TextureRoleChooser::candidates, py::doc(R"doc(
-Dict[:class:`str`, List[Tuple[:class:`str`, :class:`str`]]]: Every file found for each role, as
-``role -> (file, how it was found)``, in the order found
-        )doc"))
-        .def_readwrite("bindings", &AGRC::TextureRoleChooser::bindings, py::doc(R"doc(
-Dict[:class:`str`, Dict[Tuple[:class:`str`, :class:`str`], Set[:class:`str`]]]: What the mod's own
-`sections`_ bind each file for, as ``file -> mod object -> roles``
-        )doc"))
-        .def_readwrite("declared", &AGRC::TextureRoleChooser::declared, py::doc(R"doc(
-Dict[:class:`str`, Set[:class:`str`]]: The roles the mod DECLARES each file as, by writing the game
-texture's ``hash =`` over it
-        )doc"))
-        .def_readwrite("variantsOf", &AGRC::TextureRoleChooser::variantsOf, py::doc(R"doc(
-Optional[Callable[[:class:`str`], List[:class:`str`]]]: The files of the toggle a file is a variant of, in the order
-the toggle names them, or empty for a file that is no toggle's. Variants of one toggle are not ranked against each
-other: the one the toggle names first is chosen and every one is recorded (:attr:`IniParseData.RoleFile.variants`).
-**Default**: no file is a toggle's
-        )doc"))
-        .def_readwrite("declaredFiles", &AGRC::TextureRoleChooser::declaredFiles,
-                        py::doc("Set[:class:`str`]: The files the .ini declares a resource `section`_ for"))
-        .def_readwrite("regionRoles", &AGRC::TextureRoleChooser::regionRoles,
-                        py::doc("Set[:class:`str`]: The roles whose textures mark regions -- the only ones a file is refused for"))
-        .def_readwrite("folder", &AGRC::TextureRoleChooser::folder,
-                        py::doc(":class:`str`: The folder of the .ini, which distance is measured from"))
-        .def_readwrite("isFlat", &AGRC::TextureRoleChooser::isFlat, py::doc(R"doc(
-Optional[Callable[[:class:`str`], :class:`bool`]]: Whether a file is flat, for a :attr:`regionRoles`
-role. **Default**: its channel 0 -- the code that says where the regions are -- is constant
-        )doc"))
-        .def("choose", &AGRC::TextureRoleChooser::choose, py::arg("data"), py::arg("modObjs"), R"doc(
-Narrows the candidates and chooses a file for every role and mod object, into ``data``
-
-Parameters
-----------
-data: :class:`IniParseData`
-    Where the answers go
-
-modObjs: List[Tuple[:class:`str`, :class:`str`]]
-    The mod objects to choose for
-       )doc");
 }

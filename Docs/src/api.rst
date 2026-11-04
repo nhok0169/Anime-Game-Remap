@@ -2531,17 +2531,6 @@ TextureFile
 
 :raw-html:`<br />`
 
-TextureRoleChooser
-==================
-
-.. attributetable:: FixRaidenBoss2.TextureRoleChooser
-
-.. autoclass:: FixRaidenBoss2.TextureRoleChooser
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 TextureRoles
 ============
 

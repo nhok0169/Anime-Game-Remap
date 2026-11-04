@@ -495,7 +495,11 @@ it step for step -- so a step is simplified IN C++ first, onto API both sides sh
 Step 5 (the texture lists) is split into four layers: the parser's reading (`IniParseData::resourceOfFile`, the
 resource the mod USES for a file), the character's data, one stand-in rule in `WWMIFixer` (`standIn`: the invented
 texture, else the source's game texture downloaded; `planGameDefaults`: the source's game texture as the default where
-the mod's file reaches only some draws), and existing edits that write it. **A linked `.ini` is read by the same parse
+the mod's file reaches only some draws), and existing edits that write it. **Which file a texture role takes is `IniParseData::roleFiles` (2026-11-04)**, read
+off what the `.ini` states -- `TextureRoleChooser` ranked its last ties by file-name length and spelling, which
+decided 19 choices in 8 WuWa mods (one a hair diffuse repacked as the normal map); one hash in two sections now takes
+the one 3DMigoto applies last (`match_priority`, then section name). See Creating Remaps' "WHICH FILE A ROLE TAKES".
+**A linked `.ini` is read by the same parse
 with only the resource-data reader** (`WWMIParser`'s only-this-file mode, mirrored as `makeParser(..., onlyThisFile = True)`):
 its recolours are `GIMITemplateParser::textureOverrides` (bound as `GIMIParser.textureOverrides`) and its files
 `IniParseData::resourceFile`. Sanhua3's RabbitFX cloak needed no RabbitFX code at all -- check which config fields a

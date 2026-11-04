@@ -203,7 +203,6 @@ void initCppRemapFileAddResource(pybind11::module_ &m);
 void initCppRemapTexEditResource(pybind11::module_ &m);
 void initCppTextureRoles(pybind11::module_ &m);
 void initCppIniParseData(pybind11::module_ &m);
-void initCppTextureRoleChooser(pybind11::module_ &m);
 void initCppBaseIniParser(pybind11::module_ &m);
 void initCppGIMISectionClassifier(pybind11::module_ &m);
 void initCppDownloadData(pybind11::module_ &m);
@@ -449,7 +448,6 @@ PYBIND11_MODULE(core, m) {
     // see Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
     initCppTextureRoles(m);
     initCppIniParseData(m); // must come after initCppTextureRoles (hands it across)
-    initCppTextureRoleChooser(m); // must come after initCppIniParseData (fills one)
     initCppBaseIniParser(m); // must come after initCppIniParseData (its parseData)
     initCppGIMISectionClassifier(m); // must come after initCppHashes/initCppIndices (its assets) and initCppIfContentPartColour (what it classifies from)
     initCppDownloadData(m); // must come after initCppIfTemplate/initCppIfContentPart (the parts it adds to), initCppFileDownload and initCppIniResource (what it builds)

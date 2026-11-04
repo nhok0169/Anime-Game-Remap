@@ -1,3 +1,4 @@
+import os
 import sys
 from ordered_set import OrderedSet
 
@@ -338,3 +339,298 @@ drawindexed = 300, 0, 0
         self.assertIsNone(data.thisOverrideOf("ffffffff"))
         self.assertTrue(data.isThisBound("resourcefirst"))
         self.assertFalse(data.isThisBound("ResourceSecond"))
+
+    # ====================== IniParseData.roleFiles ===========================
+
+    Diffuse = ("texture", "bodyDiffuse")
+    Normal = ("texture", "bodyNormal")
+    TexHashes = {"aaaaaaaa": ("texture", "bodyDiffuse"), "bbbbbbbb": ("texture", "bodyDiffuse"),
+                 "cccccccc": ("texture", "bodyNormal")}
+
+    def readRoleFiles(self, iniTxt, files, **rules):
+        """Parses 'iniTxt' with the body and two texture-role graphs (a section is placed in one by its hash), puts
+        the .dds 'files' in the .ini's folder, and reads the role files with 'rules' over the defaults"""
+        self.setupIniTxt(iniTxt)
+        self.createIniFile()
+        folder = self._iniFile.folder
+        for rel in files:
+            path = os.path.join(folder, rel)
+            os.makedirs(os.path.dirname(path), exist_ok = True)
+            if not os.path.exists(path):
+                self.addCleanup(lambda path = path: os.path.exists(path) and os.remove(path))
+            open(path, "wb").close()
+
+        def target(parser, name, section, disjoint, part, kvps):
+            if kvps is None:
+                return []
+            hashes = part.getVals(FRB.IniKeywords.Hash)
+            if hashes and hashes[0].strip() in self.TexHashes:
+                return [self.TexHashes[hashes[0].strip()]]
+            return [self.Body] if name == "TextureOverrideBody" else []
+
+        texGraphs = [(0,) + self.Diffuse, (0,) + self.Normal]
+        overrides = FRB.GraphCollect({graph: [FRB.IniKeywords.Hash, FRB.IniKeywords.This, FRB.IniKeywords.MatchPriority]
+                                      for graph in texGraphs}, name = "test.overrides")
+        roleKeys = {graph: [FRB.IniKeywords.This] for graph in texGraphs}
+        roleKeys[self.BodyGraph] = lambda key: FRB.IniNamingTools.sameKey(key, "ps-t0") or FRB.IniNamingTools.sameKey(key, "ps-t1")
+        roleRows = FRB.GraphCollect(roleKeys, name = "test.roles", withConditions = True)
+
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = [self.Body, self.Diffuse, self.Normal], objTargetFuncs = [target],
+                                      disjointModObjs = False,
+                                      keysToTrack = {FRB.IniKeywords.Hash, FRB.IniKeywords.MatchFirstIndex})
+        steps = FRB.GIMIParser.RowSteps()
+        steps.objs = lambda obj: obj == self.Body
+        self._parser.addRowSteps(steps)
+        self._parser.deferredParseSteps += [overrides, roleRows]
+        self.useStrategies(parser = self._parser)
+        self._iniFile.parse()
+
+        data = self._parser.parseData
+        roleRules = FRB.IniParseData.RoleFileRules()
+        roleRules.iniPath, roleRules.folder = self._iniFile.file, folder
+        roleRules.sections, roleRules.declared, roleRules.objRows = FRB.IniParseRows.Sections, FRB.IniParseRows.Declared, FRB.IniParseRows.Objs
+        roleRules.overrides, roleRules.roleRows = "test.overrides", "test.roles"
+        roleRules.objs = [(self.Body, ["TextureOverrideBody"])]
+        roleRules.registerRoles = {self.Body: {"ps-t0": "bodyDiffuse", "ps-t1": "bodyNormal"}}
+        roleRules.roleOfHash = lambda hash: self.TexHashes[hash][1] if hash in self.TexHashes else None
+        roleRules.isFlat = lambda file: False
+        for name, value in rules.items():
+            setattr(roleRules, name, value)
+        data.roleFiles(roleRules)
+        return data, folder
+
+    @classmethod
+    def sameFile(cls, file, folder, rel):
+        return os.path.normcase(os.path.normpath(file)) == os.path.normcase(os.path.normpath(os.path.join(folder, rel)))
+
+    def chosenFile(self, data, folder, role = "bodyDiffuse"):
+        chosen = data.roleFile(role, self.Body)
+        self.assertIsNotNone(chosen)
+        return os.path.relpath(chosen.file, folder)
+
+    _recolours = r"""
+[TextureOverrideTexA]
+hash = aaaaaaaa
+this = ResourceA
+
+[ResourceA]
+filename = Textures\A.dds
+
+[ResourceB]
+filename = Textures\B.dds
+"""
+
+    def test_roleFiles_aFileTheObjectBinds_winsOverOneItsHashDeclares(self):
+        data, folder = self.readRoleFiles(r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+ps-t0 = ResourceB
+drawindexed = 300, 0, 0
+""" + self._recolours, [r"Textures\A.dds", r"Textures\B.dds"])
+        self.assertEqual(self.chosenFile(data, folder), os.path.join("Textures", "B.dds"))
+        self.assertEqual(len(data.roleCandidates("bodyDiffuse")), 2)
+
+    def test_roleFiles_aDeclaredHash_beatsAFileKnownByItsPixels(self):
+        # B sorts first by name and is shorter: it would win on either -- the hash statement must win
+        data, folder = self.readRoleFiles(r"""
+[TextureOverrideTexA]
+hash = aaaaaaaa
+this = ResourceZLonger
+
+[ResourceZLonger]
+filename = Textures\ZLonger.dds
+
+[ResourceB]
+filename = Textures\B.dds
+""", [r"Textures\ZLonger.dds", r"Textures\B.dds"],
+            identify = lambda file: "bbbbbbbb" if file.endswith("B.dds") else None)
+        self.assertEqual(self.chosenFile(data, folder), os.path.join("Textures", "ZLonger.dds"))
+        self.assertEqual(data.roleFile("bodyDiffuse", self.Body).tiedFile, "")
+
+    def test_roleFiles_twoHashesOfOneRole_theNewestWins(self):
+        iniTxt = r"""
+[TextureOverrideTexA]
+hash = aaaaaaaa
+this = ResourceA
+
+[TextureOverrideTexB]
+hash = bbbbbbbb
+this = ResourceBLonger
+
+[ResourceA]
+filename = Textures\A.dds
+
+[ResourceBLonger]
+filename = Textures\BLonger.dds
+"""
+        files = [r"Textures\A.dds", r"Textures\BLonger.dds"]
+        data, folder = self.readRoleFiles(iniTxt, files, hashAge = lambda hash: 0 if hash == "bbbbbbbb" else 1)
+        self.assertEqual(self.chosenFile(data, folder), os.path.join("Textures", "BLonger.dds"))
+
+        # with no age, the resource declared first
+        data, folder = self.readRoleFiles(iniTxt, files)
+        self.assertEqual(self.chosenFile(data, folder), os.path.join("Textures", "A.dds"))
+        self.assertTrue(self.sameFile(data.roleFile("bodyDiffuse", self.Body).tiedFile, folder, r"Textures\BLonger.dds"))
+
+    def test_roleFiles_oneHashInTwoSections_theOne3DMigotoAppliesLastWins(self):
+        # 3DMigoto runs every section of a hash, sorted by match_priority and then name: the last `this =` stands
+        twoSections = r"""
+[TextureOverrideTex1]
+hash = aaaaaaaa
+{0}
+this = ResourceA
+
+[TextureOverrideTex2]
+hash = aaaaaaaa
+this = ResourceBLonger
+
+[ResourceA]
+filename = Textures\A.dds
+
+[ResourceBLonger]
+filename = Textures\BLonger.dds
+"""
+        files = [r"Textures\A.dds", r"Textures\BLonger.dds"]
+        data, folder = self.readRoleFiles(twoSections.format(""), files)
+        self.assertEqual(self.chosenFile(data, folder), os.path.join("Textures", "BLonger.dds"))
+
+        data, folder = self.readRoleFiles(twoSections.format("match_priority = 1"), files)
+        self.assertEqual(self.chosenFile(data, folder), os.path.join("Textures", "A.dds"))
+
+    _runToggle = r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+run = CommandListBody
+drawindexed = 300, 0, 0
+
+[CommandListBody]
+if $x == 1
+    ps-t0 = ResourceZLonger
+endif
+if $x != 1
+    ps-t0 = ResourceB
+endif
+
+[ResourceZLonger]
+filename = Textures\ZLonger.dds
+
+[ResourceB]
+filename = Textures\B.dds
+"""
+
+    def test_roleFiles_aToggleTheReaderFinds_takesTheVariantAtTheStartingValues(self):
+        # $x starts at 0: the `!= 1` branch is what the mod shows before a key is pressed
+        data, folder = self.readRoleFiles("[Constants]\nglobal persist $x = 0\n" + self._runToggle,
+                                          [r"Textures\ZLonger.dds", r"Textures\B.dds"])
+        chosen = data.roleFile("bodyDiffuse", self.Body)
+        self.assertEqual(os.path.relpath(chosen.file, folder), os.path.join("Textures", "B.dds"))
+        self.assertEqual(len(chosen.variants), 2)
+
+    def test_startingValues_everyConstantWithAValue_orZero(self):
+        data, folder = self.readRoleFiles("[Constants]\nglobal persist $x = 1\nlocal $y\nglobal $name = text\n" + self._runToggle,
+                                          [r"Textures\ZLonger.dds", r"Textures\B.dds"])
+        z3 = FRB.Z3Context()
+        start = data.startingValues(FRB.IniParseRows.Sections, z3)
+        self.assertIsNotNone(start)
+        text = FRB.IfPredPart.getIfPredStr(start)
+        self.assertIn("$x == 1", text)
+        self.assertIn("$y == 0", text)
+        self.assertNotIn("$name", text)
+        self.assertIsNone(FRB.IniParseData().startingValues(FRB.IniParseRows.Sections, FRB.Z3Context()))
+
+    def test_roleFiles_aRegisterToggledThroughRun_isAToggle(self):
+        data, folder = self.readRoleFiles(r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+run = CommandListBody
+drawindexed = 300, 0, 0
+
+[CommandListBody]
+if $x == 1
+    ps-t0 = ResourceZLonger
+endif
+if $x != 1
+    ps-t0 = ResourceB
+endif
+
+[ResourceZLonger]
+filename = Textures\ZLonger.dds
+
+[ResourceB]
+filename = Textures\B.dds
+""", [r"Textures\ZLonger.dds", r"Textures\B.dds"])
+        chosen = data.roleFile("bodyDiffuse", self.Body)
+        self.assertEqual(os.path.relpath(chosen.file, folder), os.path.join("Textures", "ZLonger.dds"))
+        self.assertEqual([os.path.relpath(file, folder) for file in chosen.variants],
+                         [os.path.join("Textures", "ZLonger.dds"), os.path.join("Textures", "B.dds")])
+        self.assertEqual(chosen.tiedFile, "")
+        # filed as a register toggle too, so a fixer editing one variant edits both
+        toggle = data.registerToggleOf("resourceb")
+        self.assertEqual((toggle.section, toggle.variants), ("TextureOverrideBody ps-t0", ["ResourceZLonger", "ResourceB"]))
+
+    def test_roleFiles_aFileNotOnDisk_orOneAFixWrote_isNoCandidate(self):
+        data, folder = self.readRoleFiles(r"""
+[TextureOverrideTexA]
+hash = aaaaaaaa
+this = ResourceA
+
+[ResourceA]
+filename = Textures\A.dds
+
+[ResourceDL]
+filename = Textures\BodyDiffuseRemapDL.dds
+""", [r"Textures\BodyDiffuseRemapDL.dds"], identify = lambda file: "aaaaaaaa")
+        self.assertIsNone(data.roleFile("bodyDiffuse", self.Body))
+        self.assertEqual(data.roleCandidates("bodyDiffuse"), [])
+
+    def test_roleFiles_aFileDeclaredAsAnotherRole_isNotThisOne(self):
+        # N's own hash says it is the normal map, though the body binds it where the diffuse goes
+        data, folder = self.readRoleFiles(r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+ps-t0 = ResourceN
+drawindexed = 300, 0, 0
+
+[TextureOverrideTexC]
+hash = cccccccc
+this = ResourceN
+
+[TextureOverrideTexA]
+hash = aaaaaaaa
+this = ResourceA
+
+[ResourceN]
+filename = Textures\N.dds
+
+[ResourceA]
+filename = Textures\A.dds
+""", [r"Textures\N.dds", r"Textures\A.dds"])
+        self.assertEqual(self.chosenFile(data, folder), os.path.join("Textures", "A.dds"))
+        self.assertEqual(self.chosenFile(data, folder, "bodyNormal"), os.path.join("Textures", "N.dds"))
+
+    def test_roleFiles_aFlatRegionRole_isRefused(self):
+        data, folder = self.readRoleFiles(self._recolours, [r"Textures\A.dds"], regionRoles = {"bodyDiffuse"},
+                                          isFlat = lambda file: True)
+        self.assertIsNone(data.roleFile("bodyDiffuse", self.Body))
+        self.assertEqual([r.role for r in data.rejections()], ["bodyDiffuse"])
+
+    def test_roleFiles_eachResourceFile_andTheResourceTheModUses(self):
+        data, folder = self.readRoleFiles(r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+ps-t0 = ResourceUsed
+drawindexed = 300, 0, 0
+
+[ResourceDeclaredFirst]
+filename = Textures\A.dds
+
+[ResourceUsed]
+filename = Textures\A.dds
+""", [r"Textures\A.dds"])
+        self.assertEqual(data.resourceOfFile(data.roleFile("bodyDiffuse", self.Body).file), "ResourceUsed")
+        self.assertEqual([(r.role, r.modObj) for r in data.rolesOfResource("ResourceDeclaredFirst")], [("bodyDiffuse", self.Body)])

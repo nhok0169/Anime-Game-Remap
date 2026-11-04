@@ -26,6 +26,7 @@
 
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
+#include "AGRemapCore/tools/z3/Z3Context.h"
 
 
 namespace AGRemapCore {
@@ -827,6 +828,187 @@ namespace AGRemapCore {
              * @param rules What to read, and how
              */
             void resourceData(const ResourceDataRules& rules);
+
+            /**
+             * @brief How #roleFiles reads which file each mod object takes for each role -- see #roleFiles
+             */
+            struct RoleFileRules {
+                /**
+                 * @brief Another ``.ini`` of the mod, linked to this one, whose parse is read too -- see #linked
+                 */
+                struct Linked {
+                    /**
+                     * @brief Its parse data, read by the same collects in its parser's only-this-file mode
+                     */
+                    const IniParseData* data = nullptr;
+
+                    /**
+                     * @brief Its folder, which its resources' files are relative to
+                     */
+                    std::string folder;
+
+                    /**
+                     * @brief Its file name, for the log
+                     */
+                    std::string name;
+                };
+
+                /**
+                 * @brief The ``.ini``'s path, which #textureRoles files its resources under
+                 */
+                std::string iniPath;
+
+                /**
+                 * @brief The ``.ini``'s folder, which its resources' files are relative to
+                 */
+                std::string folder;
+
+                /**
+                 * @brief The collect of every key of every `section`_ (:cpp:member:`IniParseRows::Sections`), which orders the `sections`_ as written
+                 */
+                std::string sections;
+
+                /**
+                 * @brief The collect of every `section`_'s declaration (:cpp:member:`IniParseRows::Declared`), whose ``filename`` names a resource's file
+                 */
+                std::string declared;
+
+                /**
+                 * @brief The collect of each texture override's ``hash``, ``this`` and ``match_priority``
+                 */
+                std::string overrides;
+
+                /**
+                 * @brief
+                 @rst
+                 The collect, with conditions, of the rows that STATE a role: a ``this`` in a role's texture graph (mod object
+                 ``(IniGraphModObjKeywords::Texture, <role>)``), and a register of :cpp:member:`registerRoles` in an object's
+                 graph, through ``run =``
+                 @endrst
+                 */
+                std::string roleRows;
+
+                /**
+                 * @brief The collect of every key of each object's graph, whose OWN `sections`_ say what the object binds
+                 */
+                std::string objRows;
+
+                /**
+                 * @brief The objects a file is chosen for, each with its root `sections`_
+                 */
+                std::vector<std::pair<ModObj, std::vector<std::string>>> objs;
+
+                /**
+                 * @brief Which role each register an object binds plays, as ``object -> {register -> role}``
+                 */
+                std::map<ModObj, std::map<std::string, std::string>> registerRoles;
+
+                /**
+                 * @brief The role a game texture hash of the character plays, or ``std::nullopt``
+                 */
+                std::function<std::optional<std::string>(const std::string& hash)> roleOfHash;
+
+                /**
+                 * @brief
+                 @rst
+                 Which game texture a file IS, by its pixels, or ``std::nullopt`` -- asked only of a ``.dds`` no hash and no
+                 register places. Empty: no file is identified that way
+                 @endrst
+                 */
+                std::function<std::optional<std::string>(const std::string& file)> identify;
+
+                /**
+                 * @brief
+                 @rst
+                 How old a hash of the character is, lower being newer -- when the mod declares a role by two
+                 different hashes, the newest is the one the game binds now. Empty: every hash is as new as any other
+                 @endrst
+                 */
+                std::function<int(const std::string& hash)> hashAge;
+
+                /**
+                 * @brief The roles whose texture marks regions, refused when flat or bound as a second role of one object
+                 */
+                std::set<std::string> regionRoles;
+
+                /**
+                 * @brief Whether a file is flat -- see :cpp:member:`regionRoles`. Empty: its channel 0 is constant
+                 */
+                std::function<bool(const std::string& file)> isFlat;
+
+                /**
+                 * @brief A condition that is not a toggle, lowercased with no spaces -- see :cpp:member:`ResourceDataRules::notToggles`
+                 */
+                std::vector<std::string> notToggles;
+
+                /**
+                 * @brief Whether a `section`_ was written by a previous fix, so what it binds is not the mod's use
+                 */
+                std::function<bool(const std::string& section)> fixSection;
+
+                /**
+                 * @brief The other ``.ini`` files of the mod linked to this one -- see :cpp:func:`IniFile::linkedInis`
+                 */
+                std::vector<Linked> linked;
+
+                /**
+                 * @brief Where what was found is reported, or empty
+                 */
+                std::function<void(const std::string& message)> log;
+            };
+
+            /**
+             * @brief
+             @rst
+             Reads which file each mod object takes for each texture role, and records it: #textureRoles, #roleCandidates,
+             #rejections, #roleFile, and each texture resource's file (#rolesOfResource, #resourceOfFile)
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A file is a candidate for a role when the ``.ini`` states it: a texture override's own ``hash =`` names a
+             game texture of the role, an object's `section`_ binds it at a register of the role, a linked ``.ini``
+             recolours that texture or binds it on the same draw, or -- for a ``.dds`` nothing states -- its pixels are
+             the game texture's (:cpp:member:`RoleFileRules::identify`). A file the folder does not hold, or one a
+             previous fix wrote (``RemapDL`` / ``RemapTex``), is none. A flat file, or one an object binds for a second
+             role too, is refused for a region role (:cpp:member:`RoleFileRules::regionRoles`)
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Each object then takes, in this order:
+
+             #. a file not declared by its hash as ANOTHER role
+             #. the file bound only on this object, then on it and others, then on none, then only on others
+             #. a file declared by its hash, then one bound at a register, then one known by its pixels
+             #. of two hashes of one role, the newest (:cpp:member:`RoleFileRules::hashAge`)
+             #. of two `sections`_ of one hash, the one 3DMigoto applies last: the higher ``match_priority``, then
+                the `section`_ name later in order
+             #. the file whose resource is declared first -- reported as a tie (:cpp:member:`RoleFile::tiedFile`)
+
+             The variants of one toggle are not ranked against each other: the toggle's first-named variant among the
+             candidates is chosen, and all of them recorded (:cpp:member:`RoleFile::variants`). A toggle is a ``this =``
+             or register toggle (#thisToggleOf, #registerToggleOf), or one register an object's graph -- through
+             ``run =``, or in a linked ``.ini`` -- binds to several resources under conditions
+             @endrst
+             *
+             * @param rules What to read, and how
+             */
+            void roleFiles(const RoleFileRules& rules);
+
+            /**
+             * @brief
+             @rst
+             The values the ``.ini``'s variables start at, as one condition: ``$x == <value>`` for every variable its
+             ``[Constants]`` declares (``global``, ``local``, ``persist`` alike; one declared with no value starts at
+             ``0``) -- or ``std::nullopt`` when it declares none :raw-html:`<br />` :raw-html:`<br />`
+
+             Which of several values a toggle shows before anyone presses a key is the one whose condition can hold
+             together with this (:cpp:func:`GraphCollect::valueUnder`). A variable another file declares is left free
+             @endrst
+             *
+             * @param sections The collect of every key of every `section`_ (:cpp:member:`IniParseRows::Sections`)
+             * @param z3Ctx The context the condition is built in
+             *
+             * @return The condition
+             */
+            std::optional<Z3Predicate> startingValues(const std::string& sections, Z3Context& z3Ctx) const;
 
         private:
             void fill() const;

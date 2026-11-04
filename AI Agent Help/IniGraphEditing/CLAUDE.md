@@ -20,7 +20,9 @@ game's config. Before proposing an edit, write down what it does to the graphs t
 objects), and `IniParseData::resourceData` reads draws, draw parts (`GraphCollectRow::position`), late bindings,
 libraries and hidden objects off those rows, with the game's choices in `IniParseData::ResourceDataRules`. WWMIParser is
 built on both; the GI parsers are next. Reach for these before writing a reader of your own.
-**It was `fileAnatomy` / `AnatomyRules` until 2026-11-03** (the maintainer found the name misleading -- it reads
+**Which file each object takes per texture role is `IniParseData::roleFiles` (2026-11-04)**, the same kind of reader
+over collected rows: `TextureRoleChooser` and `WWMIParser`'s gathering went into it, and the Python mirror hands it the
+same `RoleFileRules` (see Creating Remaps' "WHICH FILE A ROLE TAKES"). **It was `fileAnatomy` / `AnatomyRules` until 2026-11-03** (the maintainer found the name misleading -- it reads
 nothing of another file). The same day it took over the texture TOGGLES WWMIParser had read by hand
 (`ResourceDataRules::toggles`, `textureRoots`, `togglesIn`, `notToggles` -> `thisToggleOf` / `registerToggleOf`):
 -160 lines in `WWMIParser.cpp`, -66 in the Python mirror.

@@ -28,6 +28,7 @@
 
 #include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/model/assets/Hashes.h"
 #include "AGRemapCore/model/textures/TexThumbprint.h"
 #include "AGRemapCore/model/IniNamingTools.h"
@@ -172,7 +173,7 @@ namespace AGRemapCore {
          The roles whose texture marks REGIONS -- a material mask says which material each texel is
          :raw-html:`<br />` :raw-html:`<br />`
 
-         A file the mod ships for one of these is refused (:cpp:class:`TextureRoleChooser`) when it is
+         A file the mod ships for one of these is refused (:cpp:func:`IniParseData::roleFiles`) when it is
          flat -- ``R = 255`` everywhere says "all of this is bare skin", which carried across shades a
          jacket as skin -- or when one slot binds it for this role and another too, which is a mask
          pointed at the slot's normal map. A refused role is one the mod has no file for, so it takes
@@ -188,6 +189,17 @@ namespace AGRemapCore {
          @endrst
          */
         std::set<std::string> regionRoles;
+
+        /**
+         * @brief
+         @rst
+         The facts of a Wuthering Waves character, or ``std::nullopt`` for one that has none -- the same facts its
+         compiled parser reads, so a parser written elsewhere identifies the character's textures the same way
+         @endrst
+         *
+         * @param id The character
+         */
+        static std::optional<WWMITextureFacts> of(ModTypeId id);
     };
 
 }

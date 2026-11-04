@@ -2548,14 +2548,6 @@
         <childnode refid="171" relation="include">
         </childnode>
       </node>
-      <node id="19">
-        <label>include/AGRemapCore/data/IniParseData/TextureRoleChooser.h</label>
-        <link refid="_texture_role_chooser_8h"/>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-      </node>
       <node id="126">
         <label>include/AGRemapCore/data/IniParseData/WWMIParser.h</label>
         <link refid="_w_w_m_i_parser_8h"/>
@@ -3241,8 +3233,6 @@
       <node id="18">
         <label>include/AGRemapCore/model/strategies/iniParsers/IniParseData.h</label>
         <link refid="_ini_parse_data_8h"/>
-        <childnode refid="19" relation="include">
-        </childnode>
         <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
@@ -3921,10 +3911,6 @@
       <node id="11">
         <label>src/data/IniParseData/TemplateParser.cpp</label>
         <link refid="_template_parser_8cpp"/>
-      </node>
-      <node id="20">
-        <label>src/data/IniParseData/TextureRoleChooser.cpp</label>
-        <link refid="_texture_role_chooser_8cpp"/>
       </node>
       <node id="12">
         <label>src/data/IniParseData/WWMIParser.cpp</label>

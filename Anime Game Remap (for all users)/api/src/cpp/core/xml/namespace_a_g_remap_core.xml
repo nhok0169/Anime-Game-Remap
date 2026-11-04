@@ -401,7 +401,6 @@
     <innerclass refid="class_a_g_remap_core_1_1_tex_thumbprint" prot="public">AGRemapCore::TexThumbprint</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_text_tools" prot="public">AGRemapCore::TextTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_texture_file" prot="public">AGRemapCore::TextureFile</innerclass>
-    <innerclass refid="class_a_g_remap_core_1_1_texture_role_chooser" prot="public">AGRemapCore::TextureRoleChooser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_texture_roles" prot="public">AGRemapCore::TextureRoles</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tint_transform" prot="public">AGRemapCore::TintTransform</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_token" prot="public">AGRemapCore::Token</innerclass>

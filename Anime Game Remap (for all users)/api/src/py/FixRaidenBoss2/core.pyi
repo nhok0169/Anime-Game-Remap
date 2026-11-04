@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'DownloadTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalIniClassifiers', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniComments', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSharedState', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegPartEdit', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexThumbprint', 'TexcoordFile', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMISections', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'DownloadTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalIniClassifiers', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniComments', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSharedState', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegPartEdit', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexThumbprint', 'TexcoordFile', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VarSectionsTake', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMISections', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -12710,6 +12710,186 @@ class IniParseData:
         @variants.setter
         def variants(self, arg0: collections.abc.Sequence[str]) -> None:
             ...
+    class RoleFileRules:
+        """
+        
+        How :meth:`IniParseData.roleFiles` reads which file each mod object takes for each role
+            
+        """
+        class Linked:
+            """
+            
+            Another .ini of the mod, linked to this one, whose parse is read too -- see :attr:`IniParseData.RoleFileRules.linked`
+                
+            """
+            def __init__(self, data: IniParseData, folder: str, name: str = '') -> None:
+                ...
+            @property
+            def folder(self) -> str:
+                """
+                :class:`str`: Its folder, which its resources' files are relative to
+                """
+            @folder.setter
+            def folder(self, arg0: str) -> None:
+                ...
+            @property
+            def name(self) -> str:
+                """
+                :class:`str`: Its file name, for the log
+                """
+            @name.setter
+            def name(self, arg0: str) -> None:
+                ...
+        def __init__(self) -> None:
+            ...
+        @property
+        def declared(self) -> str:
+            """
+            :class:`str`: The collect of every `section`_'s declaration (:attr:`IniParseRows.Declared`), whose ``filename`` names a resource's file
+            """
+        @declared.setter
+        def declared(self, arg0: str) -> None:
+            ...
+        @property
+        def fixSection(self) -> collections.abc.Callable[[str], bool]:
+            """
+            Optional[Callable[[:class:`str`], :class:`bool`]]: Whether a `section`_ was written by a previous fix, so what it binds is not the mod's use
+            """
+        @fixSection.setter
+        def fixSection(self, arg0: collections.abc.Callable[[str], bool]) -> None:
+            ...
+        @property
+        def folder(self) -> str:
+            """
+            :class:`str`: The .ini's folder, which its resources' files are relative to
+            """
+        @folder.setter
+        def folder(self, arg0: str) -> None:
+            ...
+        @property
+        def hashAge(self) -> collections.abc.Callable[[str], int]:
+            """
+            Optional[Callable[[:class:`str`], :class:`int`]]: How old a hash of the character is, lower being newer -- when the mod declares
+            a role by two different hashes, the newest is the one the game binds now. ``None``: every hash is as new as any other
+            """
+        @hashAge.setter
+        def hashAge(self, arg0: collections.abc.Callable[[str], int]) -> None:
+            ...
+        @property
+        def identify(self) -> collections.abc.Callable[[str], str | None]:
+            """
+            Optional[Callable[[:class:`str`], Optional[:class:`str`]]]: Which game texture a file IS, by its pixels, or ``None`` -- asked only
+            of a ``.dds`` no hash and no register places. ``None``: no file is identified that way
+            """
+        @identify.setter
+        def identify(self, arg0: collections.abc.Callable[[str], str | None]) -> None:
+            ...
+        @property
+        def iniPath(self) -> str:
+            """
+            :class:`str`: The .ini's path, which :meth:`IniParseData.textureRoles` files its resources under
+            """
+        @iniPath.setter
+        def iniPath(self, arg0: str) -> None:
+            ...
+        @property
+        def isFlat(self) -> collections.abc.Callable[[str], bool]:
+            """
+            Optional[Callable[[:class:`str`], :class:`bool`]]: Whether a file is flat -- see :attr:`regionRoles`. ``None``: its channel 0 is constant
+            """
+        @isFlat.setter
+        def isFlat(self, arg0: collections.abc.Callable[[str], bool]) -> None:
+            ...
+        @property
+        def linked(self) -> list[IniParseData.RoleFileRules.Linked]:
+            """
+            List[:class:`IniParseData.RoleFileRules.Linked`]: The other .ini files of the mod linked to this one -- see :meth:`IniFile.linkedInis`
+            """
+        @linked.setter
+        def linked(self, arg0: collections.abc.Sequence[IniParseData.RoleFileRules.Linked]) -> None:
+            ...
+        @property
+        def log(self) -> collections.abc.Callable[[str], None]:
+            """
+            Optional[Callable[[:class:`str`], None]]: Where what was found is reported, or ``None``
+            """
+        @log.setter
+        def log(self, arg0: collections.abc.Callable[[str], None]) -> None:
+            ...
+        @property
+        def notToggles(self) -> list[str]:
+            """
+            List[:class:`str`]: A condition that is not a toggle, lowercased with no spaces -- see :attr:`ResourceDataRules.notToggles`
+            """
+        @notToggles.setter
+        def notToggles(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
+        def objRows(self) -> str:
+            """
+            :class:`str`: The collect of every key of each object's graph, whose OWN `sections`_ say what the object binds
+            """
+        @objRows.setter
+        def objRows(self, arg0: str) -> None:
+            ...
+        @property
+        def objs(self) -> list[tuple[tuple[str, str], list[str]]]:
+            """
+            List[Tuple[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]]: The objects a file is chosen for, each with its root `sections`_
+            """
+        @objs.setter
+        def objs(self, arg0: collections.abc.Sequence[tuple[tuple[str, str], collections.abc.Sequence[str]]]) -> None:
+            ...
+        @property
+        def overrides(self) -> str:
+            """
+            :class:`str`: The collect of each texture override's ``hash``, ``this`` and ``match_priority``
+            """
+        @overrides.setter
+        def overrides(self, arg0: str) -> None:
+            ...
+        @property
+        def regionRoles(self) -> set[str]:
+            """
+            Set[:class:`str`]: The roles whose texture marks regions, refused when flat or bound as a second role of one object
+            """
+        @regionRoles.setter
+        def regionRoles(self, arg0: collections.abc.Set[str]) -> None:
+            ...
+        @property
+        def registerRoles(self) -> dict[tuple[str, str], dict[str, str]]:
+            """
+            Dict[Tuple[:class:`str`, :class:`str`], Dict[:class:`str`, :class:`str`]]: Which role each register an object binds plays,
+            as ``object -> {register -> role}``
+            """
+        @registerRoles.setter
+        def registerRoles(self, arg0: collections.abc.Mapping[tuple[str, str], collections.abc.Mapping[str, str]]) -> None:
+            ...
+        @property
+        def roleOfHash(self) -> collections.abc.Callable[[str], str | None]:
+            """
+            Optional[Callable[[:class:`str`], Optional[:class:`str`]]]: The role a game texture hash of the character plays, or ``None``
+            """
+        @roleOfHash.setter
+        def roleOfHash(self, arg0: collections.abc.Callable[[str], str | None]) -> None:
+            ...
+        @property
+        def roleRows(self) -> str:
+            """
+            :class:`str`: The collect, with conditions, of the rows that STATE a role: a ``this`` in a role's texture graph (mod object
+            ``(IniGraphModObjKeywords.Texture, <role>)``), and a register of :attr:`registerRoles` in an object's graph, through ``run =``
+            """
+        @roleRows.setter
+        def roleRows(self, arg0: str) -> None:
+            ...
+        @property
+        def sections(self) -> str:
+            """
+            :class:`str`: The collect of every key of every `section`_ (:attr:`IniParseRows.Sections`), which orders the `sections`_ as written
+            """
+        @sections.setter
+        def sections(self, arg0: str) -> None:
+            ...
     class TextureToggle:
         """
         
@@ -13197,6 +13377,37 @@ class IniParseData:
         Optional[:class:`IniParseData.RoleFile`]
             The file it takes
         """
+    def roleFiles(self, rules: ...) -> None:
+        """
+        Reads which file each mod object takes for each texture role, and records it: :meth:`textureRoles`, :meth:`roleCandidates`,
+        :meth:`rejections`, :meth:`roleFile`, and each texture resource's file (:meth:`rolesOfResource`, :meth:`resourceOfFile`)
+        
+        A file is a candidate for a role when the .ini states it: a texture override's own ``hash =`` names a game texture of the
+        role, an object's `section`_ binds it at a register of the role, a linked .ini recolours that texture or binds it on the
+        same draw, or -- for a ``.dds`` nothing states -- its pixels are the game texture's (:attr:`RoleFileRules.identify`). A
+        file the folder does not hold, or one a previous fix wrote (``RemapDL`` / ``RemapTex``), is none. A flat file, or one an
+        object binds for a second role too, is refused for a region role (:attr:`RoleFileRules.regionRoles`)
+        
+        Each object then takes, in this order:
+        
+        #. a file not declared by its hash as ANOTHER role
+        #. the file bound only on this object, then on it and others, then on none, then only on others
+        #. a file declared by its hash, then one bound at a register, then one known by its pixels
+        #. of two hashes of one role, the newest (:attr:`RoleFileRules.hashAge`)
+        #. of two `sections`_ of one hash, the one 3DMigoto applies last: the higher ``match_priority``, then the `section`_
+           name later in order
+        #. the file whose resource is declared first -- reported as a tie (:attr:`RoleFile.tiedFile`)
+        
+        The variants of one toggle are not ranked against each other: the toggle's first-named variant among the candidates is
+        chosen, and all of them recorded (:attr:`RoleFile.variants`). A toggle is a ``this =`` or register toggle
+        (:meth:`thisToggleOf`, :meth:`registerToggleOf`), or one register an object's graph -- through ``run =``, or in a linked
+        .ini -- binds to several resources under conditions
+        
+        Parameters
+        ----------
+        rules: :class:`IniParseData.RoleFileRules`
+            What to read, and how
+        """
     def rolesOfResource(self, resource: str) -> list[...]:
         """
         What a texture line binding ``resource`` binds: every ``(role, mod object)`` the parser chose the resource's
@@ -13420,6 +13631,28 @@ class IniParseData:
         
         resources: Set[:class:`str`]
             The resources, lowercased
+        """
+    def startingValues(self, sections: str, z3Ctx: Z3Context) -> FixRaidenBoss2.core.Z3Predicate | None:
+        """
+        The values the .ini's variables start at, as one condition: ``$x == <value>`` for every variable its ``[Constants]``
+        declares (``global``, ``local``, ``persist`` alike; one declared with no value starts at ``0``) -- or ``None`` when it
+        declares none
+        
+        Which of several values a toggle shows before anyone presses a key is the one whose condition can hold together with
+        this (:meth:`GraphCollect.valueUnder`). A variable another file declares is left free
+        
+        Parameters
+        ----------
+        sections: :class:`str`
+            The collect of every key of every `section`_ (:attr:`IniParseRows.Sections`)
+        
+        z3Ctx: :class:`Z3Context`
+            The context the condition is built in
+        
+        Returns
+        -------
+        Optional[:class:`Z3Predicate`]
+            The condition
         """
     def textureRoles(self) -> TextureRoles:
         """
@@ -29237,112 +29470,6 @@ class TexReplace(BaseResEdit):
     @texEditor.setter
     def texEditor(self, arg1: typing.Any) -> None:
         ...
-class TextureRoleChooser:
-    """
-    
-    Chooses, from what a parser found out about a mod's textures, the one file each mod object takes for
-    each role -- and records the answer in an :class:`IniParseData`
-    
-    A parser collects the evidence (:attr:`candidates`, :attr:`bindings`, :attr:`declared`,
-    :attr:`declaredFiles`) and :meth:`choose` does the rest, in three steps:
-    
-    #. **One entry per file**: a file found for a role more than one way keeps the first way it was found
-    #. **Refusals**, for a :attr:`regionRoles` role only -- a role whose texture marks REGIONS, such as a
-       material mask: a file one mod object binds for that role AND another role is not that role's file,
-       and a flat file (:attr:`isFlat`) marks no regions. A refused role takes the ordinary "the mod has no
-       file for this role" path
-    #. **Ranking, per mod object**, lower first: a file the mod DECLARES as another role by the ``hash =``
-       over it comes after one it does not; then how specifically the mod binds it on THIS object (only
-       here, here and elsewhere, nowhere, only elsewhere); then whether the .ini declares a resource for it;
-       then how far it is from the .ini. Two files equal on the first four are a tie, recorded in
-       :attr:`IniParseData.RoleFile.tiedFile`
-        
-    """
-    def __init__(self) -> None:
-        ...
-    def choose(self, data: IniParseData, modObjs: collections.abc.Sequence[tuple[str, str]]) -> None:
-        """
-        Narrows the candidates and chooses a file for every role and mod object, into ``data``
-        
-        Parameters
-        ----------
-        data: :class:`IniParseData`
-            Where the answers go
-        
-        modObjs: List[Tuple[:class:`str`, :class:`str`]]
-            The mod objects to choose for
-        """
-    @property
-    def bindings(self) -> dict[str, dict[tuple[str, str], set[str]]]:
-        """
-        Dict[:class:`str`, Dict[Tuple[:class:`str`, :class:`str`], Set[:class:`str`]]]: What the mod's own
-        `sections`_ bind each file for, as ``file -> mod object -> roles``
-        """
-    @bindings.setter
-    def bindings(self, arg0: collections.abc.Mapping[str, collections.abc.Mapping[tuple[str, str], collections.abc.Set[str]]]) -> None:
-        ...
-    @property
-    def candidates(self) -> dict[str, list[tuple[str, str]]]:
-        """
-        Dict[:class:`str`, List[Tuple[:class:`str`, :class:`str`]]]: Every file found for each role, as
-        ``role -> (file, how it was found)``, in the order found
-        """
-    @candidates.setter
-    def candidates(self, arg0: collections.abc.Mapping[str, collections.abc.Sequence[tuple[str, str]]]) -> None:
-        ...
-    @property
-    def declared(self) -> dict[str, set[str]]:
-        """
-        Dict[:class:`str`, Set[:class:`str`]]: The roles the mod DECLARES each file as, by writing the game
-        texture's ``hash =`` over it
-        """
-    @declared.setter
-    def declared(self, arg0: collections.abc.Mapping[str, collections.abc.Set[str]]) -> None:
-        ...
-    @property
-    def declaredFiles(self) -> set[str]:
-        """
-        Set[:class:`str`]: The files the .ini declares a resource `section`_ for
-        """
-    @declaredFiles.setter
-    def declaredFiles(self, arg0: collections.abc.Set[str]) -> None:
-        ...
-    @property
-    def folder(self) -> str:
-        """
-        :class:`str`: The folder of the .ini, which distance is measured from
-        """
-    @folder.setter
-    def folder(self, arg0: str) -> None:
-        ...
-    @property
-    def isFlat(self) -> collections.abc.Callable[[str], bool]:
-        """
-        Optional[Callable[[:class:`str`], :class:`bool`]]: Whether a file is flat, for a :attr:`regionRoles`
-        role. **Default**: its channel 0 -- the code that says where the regions are -- is constant
-        """
-    @isFlat.setter
-    def isFlat(self, arg0: collections.abc.Callable[[str], bool]) -> None:
-        ...
-    @property
-    def regionRoles(self) -> set[str]:
-        """
-        Set[:class:`str`]: The roles whose textures mark regions -- the only ones a file is refused for
-        """
-    @regionRoles.setter
-    def regionRoles(self, arg0: collections.abc.Set[str]) -> None:
-        ...
-    @property
-    def variantsOf(self) -> collections.abc.Callable[[str], list[str]]:
-        """
-        Optional[Callable[[:class:`str`], List[:class:`str`]]]: The files of the toggle a file is a variant of, in the order
-        the toggle names them, or empty for a file that is no toggle's. Variants of one toggle are not ranked against each
-        other: the one the toggle names first is chosen and every one is recorded (:attr:`IniParseData.RoleFile.variants`).
-        **Default**: no file is a toggle's
-        """
-    @variantsOf.setter
-    def variantsOf(self, arg0: collections.abc.Callable[[str], list[str]]) -> None:
-        ...
 
 class TextureRoles:
     """
@@ -33740,6 +33867,22 @@ class WWMITextureFacts:
     :attr:`textureThumbprints`. Files the mod does not declare are not candidates at all
         
     """
+    @staticmethod
+    def of(id: ModTypeId) -> FixRaidenBoss2.core.WWMITextureFacts | None:
+        """
+        The facts of a Wuthering Waves character, or ``None`` for one that has none -- the same facts its compiled parser reads,
+        so a parser written elsewhere identifies the character's textures the same way
+        
+        Parameters
+        ----------
+        id: :class:`ModTypeId`
+            The character
+        
+        Returns
+        -------
+        Optional[:class:`WWMITextureFacts`]
+            Its facts
+        """
     def __init__(self) -> None:
         ...
     @property

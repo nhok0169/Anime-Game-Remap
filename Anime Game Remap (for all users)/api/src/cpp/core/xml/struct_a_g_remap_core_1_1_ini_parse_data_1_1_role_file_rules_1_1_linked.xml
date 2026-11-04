@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniParseData::RoleFileRules::Linked</compoundname>
+    <includes refid="_ini_parse_data_8h" local="no">IniParseData.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked_1ad32af7a20eba29881857ddac9a6daa22" prot="public" static="no" mutable="no">
+        <type>const <ref refid="class_a_g_remap_core_1_1_ini_parse_data" kindref="compound">IniParseData</ref> *</type>
+        <definition>const IniParseData* AGRemapCore::IniParseData::RoleFileRules::Linked::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFileRules::Linked::data</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Its parse data, read by the same collects in its parser&apos;s only-this-file mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="842" column="40" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="842" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked_1a64627794201c1d7e3c451e21fe3d5166" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::RoleFileRules::Linked::folder</definition>
+        <argsstring></argsstring>
+        <name>folder</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFileRules::Linked::folder</qualifiedname>
+        <briefdescription>
+<para>Its folder, which its resources&apos; files are relative to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="847" column="33" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="847" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked_1ada7d485a19f489b8beccc210f91d2488" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::RoleFileRules::Linked::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFileRules::Linked::name</qualifiedname>
+        <briefdescription>
+<para>Its file name, for the log. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="852" column="33" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="852" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Another <computeroutput>.ini</computeroutput> of the mod, linked to this one, whose parse is read too <ndash/> see <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1a84343e1bb2761c166bc1eb4afdc151cd" kindref="member">linked</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::IniParseData</label>
+        <link refid="class_a_g_remap_core_1_1_ini_parse_data"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IniParseData::RoleFileRules::Linked</label>
+        <link refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>data</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="838" column="17" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="838" bodyend="853"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked_1ad32af7a20eba29881857ddac9a6daa22" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileRules::Linked</scope><name>data</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked_1a64627794201c1d7e3c451e21fe3d5166" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileRules::Linked</scope><name>folder</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked_1ada7d485a19f489b8beccc210f91d2488" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileRules::Linked</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

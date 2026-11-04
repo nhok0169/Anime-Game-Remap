@@ -144,13 +144,36 @@ that works on the mods you happened to test.
 **A texture is identified by a HASH and a REGISTER** -- the hash being the texture's own (the section
 IS that texture, and `this =` names the file) or the MESH's (the section is a draw
 `GIMISectionClassifier` placed, and the register says what it binds). That is section classification,
-so **the parser does it** (`WWMIParser::buildRoles` -> `TextureRoles`) and the fixer asks through
+so **the parser does it** (`IniParseData::roleFiles` -> `TextureRoles`, `roleFile`) and the fixer asks through
 the parser's `IniParseData` (`BaseIniParser::parseData`, 2026-10-28; every parser owns one, and it
 replaced the three per-template `*Facts` interfaces a fixer used to `dynamic_cast` for). The parser
-also CHOOSES the file each slot takes per role (`TextureRoleChooser`: refusals for
-`WWMITextureFacts::regionRoles`, then the per-slot ranking), so a fixer only names and binds it. It holds for both games;
+also CHOOSES the file each slot takes per role (refusals for `WWMITextureFacts::regionRoles`, then the per-slot
+ranking), so a fixer only names and binds it. It holds for both games;
 GI uses the mesh-hash form and WuWa almost always the texture's own -- 609 files against 31 over this
 corpus -- and the mesh route is kept because a future mod could be written that way.
+
+**WHICH FILE A ROLE TAKES IS READ OFF WHAT THE .ini STATES, NEVER OFF A FILE NAME (2026-11-04).** The choice is
+`IniParseData::roleFiles` (a library reader; `WWMIParser` only hands it WWMI's rules: the register table, HashData's
+role and AGE of a hash, the thumbprints, the linked files). It replaced `TextureRoleChooser`, whose ranking ended in
+"declared resource, folders up, path length, path text". Measured first (a logging build over the 137 WuWa folders,
+2589 (folder, role) choices): the first two NEVER decided anything, and path length / path text decided 19 choices in
+8 mods -- each one a question the `.ini` answers. The tiers now, after "declared by its hash as another role" and
+"bound here / here and elsewhere / nowhere / only elsewhere": its own hash > a register > its pixels; of two hashes of
+one role the NEWEST (Chisa8: 3.1's `662f126a` over 3.0's `2970cef1`); of two sections of ONE hash the one 3DMigoto
+applies LAST -- it runs every section of a hash sorted by `match_priority`, then section name (case-sensitive), so
+the last `this =` stands (`DirectX11/IniHandler.cpp` `ParseTextureOverrideSections`, `ResourceHash.cpp`
+`TextureOverrideLess`); then the resource declared first, reported as a tie. A register bound to several resources
+under conditions THROUGH `run =` (ChisaParfait2's `CommandListComponent4`, two `if`s) or in a LINKED `.ini`
+(Changli13's `textures.ini`) is a toggle too, and the first is filed as a register toggle so the fixer edits every
+variant. What it changed: Chisa13 had its hair DIFFUSE file chosen -- and repacked -- as the hair normal, because two
+sections state `d8ed7611` and the old tie-break was alphabetical; Sanhua6, Changli9's restored copy, Chisa8,
+ChisaParfait2/4 as above. **A toggle the reader finds itself defaults to the variant that shows at the STARTING VALUES**
+(the maintainer's choice, 2026-11-04): `IniParseData::startingValues` is the file's `[Constants]` as one condition
+(`$x == <value>`, `0` when declared with none) and `GraphCollect::valueUnder` picks the branch that can hold with it.
+It matters most for a LINKED file's toggle, whose lines the fixer never carries, so the list binds that one variant
+always: "the first-named" bound Changli13's `C3DBreak` where `$break` starts at 0 and the mod shows `C3D`. A toggle the
+file's own texture overrides state (`thisToggleOf` / `registerToggleOf` before the reader) keeps its first-named
+variant -- the fixer carries its lines, so the default is overridden in game anyway.
 
 **What it replaced walked the mod's FOLDER**, climbing up to three parents, and guessed each `.dds`
 from a hash inside its filename, its pixels, or a `Component 1 Diffuse` naming convention. Three
@@ -7186,7 +7209,7 @@ what settles it, and a statistic that cannot fail is habit 34 in its other form.
 ### ...AND EXTENDING THAT RULE TO THE DOWNLOAD WAS WRONG (2026-09-26, RETRACTED SAME DAY)
 
 (2026-10-28: `flatFallsBackToSource` is now the source's `WWMITextureFacts::regionRoles`, together with the
-`flatLeftToGame` roles, and the refusals run in the PARSER's `TextureRoleChooser`; the fixer keeps only
+`flatLeftToGame` roles, and the refusals run in the PARSER's role reader (`IniParseData::roleFiles` since 2026-11-04); the fixer keeps only
 `flatLeftToGame`, to decide that a refused role is left to the game. The mechanism below is unchanged.)
 
 The mechanism written up here is real: `flatLeftToGame` and `flatFallsBackToSource` run over

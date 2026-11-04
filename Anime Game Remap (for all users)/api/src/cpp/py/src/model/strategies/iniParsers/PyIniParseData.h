@@ -18,6 +18,5 @@
 
 void initCppTextureRoles(pybind11::module_ &m);
 void initCppIniParseData(pybind11::module_ &m);
-void initCppTextureRoleChooser(pybind11::module_ &m);
 
 #endif

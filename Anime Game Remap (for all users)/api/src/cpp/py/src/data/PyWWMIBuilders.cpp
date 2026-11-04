@@ -108,7 +108,21 @@ Set[:class:`str`]: The roles whose texture marks REGIONS, such as a material mas
 for one is refused when it is flat, or when one slot binds it for this role and another too (a mask
 pointed at the slot's normal map); the role then takes :attr:`fallbackTextures`, unless the fix leaves
 it to the game (:attr:`WWMIFixerConfig.flatLeftToGame`). **Default**: empty
-        )doc"));
+        )doc"))
+        .def_static("of", &AGRC::WWMITextureFacts::of, py::arg("id"), R"doc(
+The facts of a Wuthering Waves character, or ``None`` for one that has none -- the same facts its compiled parser reads,
+so a parser written elsewhere identifies the character's textures the same way
+
+Parameters
+----------
+id: :class:`ModTypeId`
+    The character
+
+Returns
+-------
+Optional[:class:`WWMITextureFacts`]
+    Its facts
+        )doc");
 
     py::class_<AGRC::WWMIParserConfig> parserConfig(m, "WWMIParserConfig", R"doc(
 What one Wuthering Waves character looks like to its parser, for :func:`makeWWMIParser`

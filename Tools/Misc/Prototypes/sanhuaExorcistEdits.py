@@ -28,6 +28,9 @@ WATCH = ("", "watch")
 TEXTURE = FRB.IniGraphModObjKeywords.Texture
 HASH_ONLY = [("cb4", "boneData"), ("shapekey_offsets", "shapekeyOffsets"), ("shapekey_scale", "shapekeyScale")]
 
+# her texture facts (thumbprints, role tables), the ones her compiled parser reads
+FACTS = FRB.WWMITextureFacts.of(FRB.ModTypeId.Sanhua)
+
 # her texture roles; which hash plays which is HashData's (every generation is filed there)
 ROLES = {"eyeMask", "bangsDiffuse", "irisDiffuse", "t5Ramp", "bangsMask", "hairDiffuse", "hairNormal", "faceMask",
          "faceDiffuse", "skinNormal", "skinDiffuse", "bodiceNormal", "bodiceMask", "bodiceDiffuse", "skirtNormal",
@@ -172,8 +175,9 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
     rows.objs = lambda obj: slotOf(obj) is not None
     parser.addRowSteps(rows)
 
-    # ---- step 3: each texture override's hash and `this`; the roles the .ini states; and the toggles ----
-    overrides = FRB.GraphCollect({graphId(obj): [FRB.IniKeywords.Hash, FRB.IniKeywords.This] for obj in modObjs},
+    # ---- step 3: each texture override's hash, `this` and `match_priority`; the roles the .ini states; and the toggles ----
+    overrides = FRB.GraphCollect({graphId(obj): [FRB.IniKeywords.Hash, FRB.IniKeywords.This, FRB.IniKeywords.MatchPriority]
+                                  for obj in modObjs},
                                  name = OVERRIDE_ROWS)
     roleKeys, toggleKeys = {}, {}
     for obj in modObjs:
@@ -237,218 +241,64 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
 
     # step 5: the skeleton numbering -- Sanhua has one numbering, so nothing to probe
 
-    # step 6: the texture roles, and each slot's file per role (the toggles are step 4's)
+    # step 6: the texture roles, and each slot's file per role (IniParseData.roleFiles), by WWMI's rules -- the
+    # same rules the compiled parser hands it: her facts (WWMITextureFacts.of) say what each hash is and what each
+    # file is by its pixels, HashData how old each hash is, and each linked .ini is read by this parser
     def readTextures(data):
-        order = byWritten(iniFile.getSectionNames())
-        textureRoles = buildRoles(data, order)
-        data.setTextureRoles(textureRoles)
-        chooseRoleFiles(data, textureRoles, order)
+        rules = FRB.IniParseData.RoleFileRules()
+        rules.iniPath, rules.folder = iniFile.file, iniFile.folder
+        rules.sections, rules.declared = FRB.IniParseRows.Sections, FRB.IniParseRows.Declared
+        rules.overrides, rules.roleRows, rules.objRows = OVERRIDE_ROWS, ROLE_ROWS, FRB.IniParseRows.Objs
+        rules.objs = [(("", SLOT_PREFIX + str(slot)), sections) for slot, sections in drawnSlots(byWritten(iniFile.getSectionNames())).items()]
+        rules.registerRoles = {("", SLOT_PREFIX + str(slot)): table for slot, table in REGISTER_ROLES.items()}
+        rules.regionRoles = FACTS.regionRoles
+        rules.notToggles = [FRB.IniKeywords.WWMIObjectDetected.lower(), FRB.IniKeywords.WWMIObjectDetected.lower() + "==1"]
 
-    def buildRoles(data, order):
-        out = FRB.TextureRoles()
-        folder, iniPath = iniFile.folder, iniFile.file
-        fileOf = {}
-        for row in data.collected(FRB.IniParseRows.Declared):
-            if row.key == FRB.IniKeywords.Filename and row.section.lower() not in fileOf:
-                fileOf[row.section.lower()] = iniPathOf(row.value, folder)
-                out.addResource(iniPath, row.section, fileOf[row.section.lower()])
-        hashOf = {}
-        for row in data.collected(OVERRIDE_ROWS):
-            if row.key == FRB.IniKeywords.Hash:
-                hashOf.setdefault(row.section, row.value.strip().lower())
-
-        byRoot = {}
-        for row in data.collected(ROLE_ROWS):
-            byRoot.setdefault(row.rootSection, []).append(row)
-        for name in sorted(byRoot, key = order):
-            for row in byRoot[name]:
-                # (1) the section IS a texture: the classifier placed it in its role's graph by its hash
-                if row.graphId[1] == TEXTURE and row.key == FRB.IniKeywords.This:
-                    file = fileOf.get(row.value.strip().lower())
-                    if file is not None:
-                        out.add(file, row.graphId[2], FRB.TextureRoles.DeclaredHash + hashOf.get(name, ""))
-            for row in byRoot[name]:
-                # (2) a slot's draw binds a role by RabbitFX's resource names, through `run =`
-                role = REGISTER_ROLES.get(slotOf(row.graphId[1:]), {}).get(row.key)
-                file = fileOf.get(FRB.IniNamingTools.removeRefPrefix(row.value.strip()).lower()) if role else None
-                if file is not None:
-                    out.add(file, role, "bound at " + row.key + " of " + row.graphId[2])
-
-        # (3) a .dds no hash and no register named, identified by its pixels against her own textures
-        # GAP: TexThumbprint is bound, but her thumbprint table (sanhuaTextureThumbprints) is C++ data Python cannot reach
-        return out
-
-    def chooseRoleFiles(data, textureRoles, order):
-        iniPath = iniFile.file
-        drawn = drawnSlots(order)
-        chooser = FRB.TextureRoleChooser()
-        chooser.folder = iniFile.folder
-
-        resources = textureRoles.resourcesOf(iniPath)
-        fileOfResource = {resource.lower(): file for resource, file in reversed(resources)}
-        resourcesOfFile = {}
-        for resource, file in resources:
-            resourcesOfFile.setdefault(file, []).append(resource.lower())
-        chooser.declaredFiles = {file for _, file in resources}
-
-        def variantsOf(file):
-            files = []
-            for resource in resourcesOfFile.get(file, []):
-                for toggle in (data.thisToggleOf(resource), data.registerToggleOf(resource)):
-                    if toggle is None or len(toggle.variants) < 2:
-                        continue
-                    for variant in toggle.variants:
-                        variantFile = fileOfResource.get(variant.lower())
-                        if variantFile is not None and variantFile not in files:
-                            files.append(variantFile)
-            return files if len(files) >= 2 else []
-        chooser.variantsOf = variantsOf
-
-        candidates, declared, bindings = {}, {}, {}
-        addOwnCandidates(data, textureRoles, drawn, fileOfResource, candidates, declared, bindings)
-        if drawn and iniPath:
-            addLinkedInis(drawn, candidates, bindings)
-        chooser.candidates, chooser.declared, chooser.bindings = candidates, declared, bindings
-        chooser.choose(data, [("", SLOT_PREFIX + str(slot)) for slot in drawn])
-
-        for resource, file in resources:
-            data.setTextureResource(resource, file)
-
-        # ...and which resource each file is USED by: one file may be declared by several, and the one a section of
-        # the mod binds is the one that reaches the draws. A section a previous fix wrote is not the mod's use
+        knownRoles = set(FACTS.roles.values()) | {role for table in REGISTER_ROLES.values() for role in table.values()}
+        rules.roleOfHash = lambda hash: next((hashType for hashType, hashes in hashTypes.items()
+                                             if hash in hashes and hashType in knownRoles), FACTS.roles.get(hash))
+        rules.identify = lambda file: FRB.TexThumbprint.identifyFile(file, FACTS.textureThumbprints, FACTS.thumbprintSize,
+                                                                     FACTS.identityMin, FACTS.identityGap)
+        rules.hashAge = hashAge
         fixNames = [modType.name, *modType.getModsToFix()]
-        used = set()
-        for section in data.collectedSections(FRB.IniParseRows.Sections):
-            if not FRB.IniNamingTools.looksRemapped(section, fixNames):
-                used.update(FRB.IniNamingTools.removeRefPrefix(row.value).strip().lower()
-                            for row in data.sectionRows(FRB.IniParseRows.Sections, section))
-        usedBy = {}
-        for resource, file in resources:
-            had = usedBy.setdefault(file, resource)
-            if had.lower() not in used and resource.lower() in used:
-                usedBy[file] = resource
-        for file, resource in usedBy.items():
-            data.setFileResource(file, resource)
+        rules.fixSection = lambda section: FRB.IniNamingTools.looksRemapped(section, fixNames)
+        rules.log = print
 
-    def addOwnCandidates(data, textureRoles, drawn, fileOfResource, candidates, declared, bindings):
-        missing = set()
-
-        def isMissing(file):
-            if os.path.isfile(file):
-                return False
-            missing.add(file)
-            return True
-
-        for file, rs in textureRoles.rolesOf().items():
-            if isMissing(file):
-                continue
-            for role in rs:
-                candidates.setdefault(role.role, []).append((file, role.how))
-                if role.how.startswith(FRB.TextureRoles.DeclaredHash):
-                    declared.setdefault(file, set()).add(role.role)
-
-        own = rowsByRoot(data.collected(FRB.IniParseRows.Objs), roots(lambda obj: slotOf(obj) is not None))
-        for slot, sections in drawn.items():
-            for section in sections:
-                rowList = asWritten(own.get(section, []))
-                for reg, role in REGISTER_ROLES.get(slot, {}).items():
-                    bound = next((row.value.strip() for row in rowList if FRB.IniNamingTools.sameKey(row.key, reg)), None)
-                    file = fileOfResource.get(FRB.IniNamingTools.removeRefPrefix(bound).lower()) if bound is not None else None
-                    if file is None or isMissing(file):
-                        continue
-                    candidates.setdefault(role, []).append((file, "the " + reg + " its own section binds it at"))
-                    bindings.setdefault(file, {}).setdefault(("", SLOT_PREFIX + str(slot)), set()).add(role)
-
-        for file in sorted(missing):
-            print(os.path.basename(file) + " is declared but not in the mod's folder; its role is treated as one the"
-                  " mod has no file for")
-
-    # the files LINKED to this one (a namespace one references, a resource file both name), each read by this
-    # character's parser in its only-this-file mode: their recolours, then their bindings on this file's draws
-    def addLinkedInis(drawn, candidates, bindings):
+        # the files LINKED to this one, each parsed by this character's parser in its only-this-file mode -- kept alive
+        # while roleFiles reads them
         readers = []
-        for linked in iniFile.linkedInis():
-            sibling = iniFile.siblingOf(linked, {modTypeId})
-            reader = makeParser(sibling, modTypeId, onlyThisFile = True)
-            reader.parse()
-            readers.append((linked, sibling, reader))
+        if rules.objs and rules.iniPath:
+            for linked in iniFile.linkedInis():
+                sibling = iniFile.siblingOf(linked, {modTypeId})
+                reader = makeParser(sibling, modTypeId, onlyThisFile = True)
+                reader.parse()
+                readers.append((sibling, reader))
+                rules.linked = [*rules.linked, FRB.IniParseData.RoleFileRules.Linked(reader.parseData, sibling.folder,
+                                                                                      os.path.basename(linked.file))]
+        data.roleFiles(rules)
 
-        found = 0
-        for _, sibling, reader in readers:
-            for section, role, hash, file in recolours(sibling, reader):
-                if os.path.isfile(file):
-                    candidates.setdefault(role, []).append((file, "a sibling .ini overrides " + hash + ", the game texture it replaces"))
-                    found += 1
-        if found:
-            print("a sibling .ini recolours %d of the game's textures; carried over to the target, which binds its own"
-                  " and would never see those hashes" % found)
-
-        found = 0
-        for linked, sibling, reader in readers:
-            for slot, reg, role, file in drawBindings(sibling, reader):
-                if slot in drawn and os.path.isfile(file):
-                    candidates.setdefault(role, []).append((file, "the " + reg + " " + os.path.basename(linked.file)
-                                                            + " binds on the same draw"))
-                    bindings.setdefault(file, {}).setdefault(("", SLOT_PREFIX + str(slot)), set()).add(role)
-                    found += 1
-        if found:
-            print("another .ini of the mod binds %d textures on this file's draws; carried over to the target, where"
-                  " that .ini's overrides never fire" % found)
+    # how old a hash of hers is, lower newer: the versions HashData files it at, newest first, then the current hash
+    # before its `Live` and `Old`, `Old2`, ... generations
+    def hashAge(hash):
+        rows = [(version, hashType, value.lower()) for version, names in modType.hashes.repo.toNestedDict().items()
+                for hashType, value in names.get(modType.name, {}).items()]
+        versions = {tuple(int(part) for part in version.split(".")) for version, _, _ in rows}
+        age = 1 << 20
+        for version, hashType, value in rows:
+            if value != hash.lower():
+                continue
+            newer = sum(other > tuple(int(part) for part in version.split(".")) for other in versions)
+            generation = 0
+            for suffix, base in (("Live", 1), ("Old", 2)):
+                at = hashType.rfind(suffix)
+                rest = hashType[at + len(suffix):] if at > 0 else None
+                if rest is not None and (rest == "" or rest.isdigit()):
+                    generation = base + (int(rest) - 1 if rest else 0)
+            age = min(age, newer * 100 + generation)
+        return age
 
     parser.deferredParseReaders += [readResourceData] if onlyThisFile else [readResourceData, readTextures]
     return parser
-
-
-# the file a resource of 'ini' names (`ref` or not): its first `filename`, from the .ini's folder
-def declaredFile(ini, reader, resource):
-    file = reader.parseData.resourceFile(FRB.IniNamingTools.removeRefPrefix(resource.strip()))
-    return iniPathOf(file, ini.folder) if file is not None else None
-
-
-# a linked file's recolours: each texture override the parser placed in a role's graph, as (section, role, hash, file),
-# in the order the sections are written
-def recolours(ini, reader):
-    roleOf = {}
-    for obj, sections in reader._sectionTargets.items():
-        if obj[0] == TEXTURE and obj[1]:
-            for section in sections:
-                roleOf.setdefault(section, obj[1])
-
-    result = []
-    for hash, row in FRB.GIMIParser.textureOverrides(ini):
-        role = roleOf.get(row.section)
-        if not row.section.startswith(FRB.IniKeywords.TextureOverride) or role is None:
-            continue
-        file = declaredFile(ini, reader, row.value)
-        if file is not None:
-            result.append((row.section, role, hash, file))
-    order = byWritten(ini.getSectionNames())
-    return sorted(result, key = lambda entry: order(entry[0]))
-
-
-# a linked file's bindings on the slots' draws: every value a slot section binds, through `run =`, at a register her
-# layout names for the slot, as (slot, register, role, file) -- the sections as written, the registers in the table's
-# order, each part counted once
-def drawBindings(ini, reader):
-    byRoot, seen = {}, set()
-    for row in reader.parseData.collected(ROLE_ROWS):
-        once = (row.rootSection, row.section, row.partId, row.line, row.key)
-        if slotOf(row.graphId[1:]) is not None and once not in seen:
-            seen.add(once)
-            byRoot.setdefault(row.rootSection, []).append(row)
-
-    result = []
-    order = byWritten(ini.getSectionNames())
-    for name in sorted(byRoot, key = order):
-        rows = byRoot[name]
-        for slot in sorted({slotOf(row.graphId[1:]) for row in rows}):
-            for reg, role in sorted(REGISTER_ROLES.get(slot, {}).items()):
-                for row in rows:
-                    if slotOf(row.graphId[1:]) == slot and FRB.IniNamingTools.sameKey(row.key, reg):
-                        file = declaredFile(ini, reader, row.value)
-                        if file is not None:
-                            result.append((slot, reg, role, file))
-    return result
 
 
 # ======================================================================================================= fixer

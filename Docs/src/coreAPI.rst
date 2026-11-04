@@ -2002,17 +2002,6 @@ TemplateParser
 
 :raw-html:`<br />`
 
-TextureRoleChooser
-------------------
-
-.. cppattributetable:: AGRemapCore::TextureRoleChooser
-
-.. doxygenclass:: AGRemapCore::TextureRoleChooser
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
 TextureRoles
 ------------
 

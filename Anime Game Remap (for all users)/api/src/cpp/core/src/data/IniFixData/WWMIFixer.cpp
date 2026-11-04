@@ -613,6 +613,9 @@ namespace AGRemapCore {
                     for (auto& collect : blendCollects_) {
                         this->graphGroupEdits.push_back(collect.get());
                     }
+                    if (rebindEdits_ != nullptr) {
+                        this->graphGroupEdits.push_back(rebindEdits_.get());
+                    }
                     buildFixSectionEdits();
 
                     // The copies are the prototype's shape: each carries the fix's own sections (the
@@ -637,12 +640,11 @@ namespace AGRemapCore {
                 //
                 //   1. the CustomShader files, collected off the shader graph   (shaderFileEdits)
                 //   2. the fix's buffers, downloads and created textures         (fixFileEdits)
-                //   3. the blend override, rebound to the remapped blend         (blendRebindEdits)
-                //   4. the frame's skeleton remap, latched on $object_detected   (latchEdits)
-                //   5. the texture edits, one collect per edit                   (addTexEditCollects)
+                //   3. the frame's skeleton remap, latched on $object_detected   (latchEdits)
+                //   4. the texture edits, one collect per edit                   (addTexEditCollects)
                 //
-                // Steps 1-4 are IterGraphGroupEdits: a graph is named by its group's index, and the
-                // number of groups is decided at fix time. Step 5 builds each edited texture once for
+                // Steps 1-3 are IterGraphGroupEdits: a graph is named by its group's index, and the
+                // number of groups is decided at fix time. Step 4 builds each edited texture once for
                 // every group, so its collects run in every group at once (ResRegCollect::everyGroup).
                 // Each step is a no-op on a group that has nothing for it.
                 void buildFixSectionEdits() {
@@ -653,7 +655,6 @@ namespace AGRemapCore {
                     for (IterEdit::EditFactory factory : std::initializer_list<IterEdit::EditFactory>{
                             [this](std::size_t g, Fixer::GraphGroups& groups) { return shaderFileEdits(g, groups); },
                             [this](std::size_t g, Fixer::GraphGroups& groups) { return fixFileEdits(g, groups); },
-                            [this](std::size_t g, Fixer::GraphGroups& groups) { return blendRebindEdits(g, groups); },
                             [this](std::size_t g, Fixer::GraphGroups& groups) { return latchEdits(g, groups); }}) {
                         fixSectionIters_.push_back(std::make_unique<IterEdit>(std::move(factory)));
                         this->fixSectionEdits.push_back(fixSectionIters_.back().get());
@@ -710,92 +711,7 @@ namespace AGRemapCore {
                     hasShaders_ = true;
                 }
 
-                // A MOD OF A CHARACTER PAST 256 BONES BINDS THE BLEND REGISTER TWICE: `vb4 =
-                // ResourceBlendBuffer` (a file) and `vb4 = ref ResourceBlendBufferOverride` (a buffer
-                // WWMI's BlendRemapper fills at load). The collect takes only the first -- the second
-                // names no file, and collecting it kills the run looking for a section called
-                // `Resourceref Resource...` -- so without this the second keeps pointing at the
-                // SOURCE's own override, which is an inverse of the whole remap.
-                //
-                // Here rather than at render time: this runs after every group edit, including the
-                // GraphGroupRemap that makes the copies, so the copies are in the graphs and the
-                // rewrite is one RegNewVals over them. It used to be a pass over the fix's own
-                // rendered TEXT -- `getline`, find the `=`, splice lines back -- which is the section
-                // model written out and read straight back in. Fires on 19 of the 58 WuWa mod folders
-                // on disk, all of them this character's (2026-09-29).
-
-                IterEdit::GroupEdits blendRebindEdits(std::size_t g, Fixer::GraphGroups& groups) {
-                    IterEdit::GroupEdits result;
-                    if (config_.blendReg.empty()) {
-                        return result;
-                    }
-
-                    // The remapped blend as the GRAPH spells it, which is what the collect wrote -- read
-                    // rather than rebuilt, so the two cannot drift apart.
-                    rebindTo_.clear();
-                    forEachPart(groups, g, [&](ContentPart& part) {
-                        if (!rebindTo_.empty()) {
-                            return;
-                        }
-
-                        for (const std::string& value : part.getVals(config_.blendReg)) {
-                            if (!IniNamingTools::hasKeywordPrefix(value, IniKeywords::Ref) && value.find(IniKeywords::Remap) != std::string::npos) {
-                                rebindTo_ = std::string(StringTools::strip(value));
-                                break;
-                            }
-                        }
-                    });
-
-                    if (rebindTo_.empty()) {
-                        return result;                  // nothing remapped this group's blend
-                    }
-
-                    if (rebind_ == nullptr) {
-                        rebind_ = std::make_unique<RegNewVals<>>(std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{{config_.blendReg, RegNewVals<>::NewVal(
-                            RegNewVals<>::OldValProducer([this](const std::string& oldValue, const ModType*) {
-                                return IniNamingTools::hasKeywordPrefix(oldValue, IniKeywords::Ref) ? rebindTo_ : oldValue;
-                            }))}});
-                        rebindAdapter_ = std::make_unique<RegPartEdit<>>(rebind_.get());
-                    }
-
-                    // the mod's sections only, not the fix's own
-                    std::vector<ObjGroupEdit::IniEdits> edits(g + 1);
-                    for (const ModObj& obj : groups.modObjs(g)) {
-                        if (obj != fixSectionsGraphId(g).modObj) {
-                            edits[g].edits[obj] = {rebindAdapter_.get()};
-                        }
-                    }
-
-                    result.edits.push_back(std::make_unique<ObjGroupEdit>(std::move(edits)));
-                    return result;
-                }
-
                 using ContentPart = IfContentPart<std::string, std::string>;
-
-                // Every content part of every section of every graph in one group.
-                template <typename Fn>
-                void forEachPart(Fixer::GraphGroups& groups, std::size_t groupInd, Fn&& fn) const {
-                    const GraphId fixSections = fixSectionsGraphId(groupInd);
-                    for (const ModObj& obj : groups.modObjs(groupInd)) {
-                        auto* graph = groups.getGraph(groupInd, obj);
-                        if (graph == nullptr || obj == fixSections.modObj) {
-                            continue;                   // the mod's sections only, not the fix's own
-                        }
-
-                        for (const auto& entry : graph->sections()) {
-                            if (entry.second == nullptr) {
-                                continue;
-                            }
-
-                            for (const std::unique_ptr<IfTemplatePart>& part : entry.second->parts()) {
-                                auto* content = dynamic_cast<ContentPart*>(part.get());
-                                if (content != nullptr) {
-                                    fn(*content);
-                                }
-                            }
-                        }
-                    }
-                }
 
             private:
                 // A FILE THAT ONLY WATCHES THE SOURCE (2026-10-13). A help overlay, a key menu or a skill
@@ -3491,6 +3407,59 @@ namespace AGRemapCore {
                         blendReplaces_.push_back(std::move(replace));
                         blendCollects_.push_back(std::move(collect));
                     }
+
+                    buildBlendRebind();
+                }
+
+                // A MOD OF A CHARACTER PAST 256 BONES BINDS THE BLEND REGISTER TWICE: `vb4 =
+                // ResourceBlendBuffer` (a file) and `vb4 = ref ResourceBlendBufferOverride` (a buffer
+                // WWMI's BlendRemapper fills at load). The collect takes only the first -- the second
+                // names no file, and collecting it kills the run looking for a section called
+                // `Resourceref Resource...` -- so without this the second keeps pointing at the
+                // SOURCE's own override, which is an inverse of the whole remap.
+                //
+                // So every `ref` value of the blend register is rebound to the remapped blend: the name
+                // the blend edit gives the one file the mod binds there (every such mod of the WuWa
+                // corpus binds one, 66 files, 2026-11-04). A mod binding several leaves its `ref` lines
+                // alone. The edit is idempotent and changes no file binding, so it rides the per-group
+                // edits on each drawn component's graph, which reaches the shared lists through `run =`.
+                void buildBlendRebind() {
+                    if (config_.blendReg.empty() || blendReplaces_.empty()) {
+                        return;
+                    }
+
+                    std::set<std::string> files;
+                    for (const std::string& section : ownSections()) {
+                        for (const Row* row : ownRows(section)) {
+                            if (IniNamingTools::sameKey(row->key, config_.blendReg)
+                                    && !IniNamingTools::hasKeywordPrefix(row->value, IniKeywords::Ref)) {
+                                files.insert(std::string(StringTools::strip(row->value)));
+                            }
+                        }
+                    }
+
+                    const std::optional<std::string> remapped = files.size() == 1
+                        ? blendReplaces_.front()->getFixResourceName(*files.begin(), toModName_) : std::nullopt;
+                    if (!remapped.has_value()) {
+                        return;
+                    }
+
+                    rebind_ = std::make_unique<RegNewVals<>>(std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
+                        {config_.blendReg, std::make_pair(RegNewVals<>::NewVal(*remapped), RegNewVals<>::ModTypePredicate(
+                            [](const std::string& oldValue, const ModType*) {
+                                return IniNamingTools::hasKeywordPrefix(oldValue, IniKeywords::Ref);
+                            }))}});
+                    rebindAdapter_ = std::make_unique<RegPartEdit<>>(rebind_.get());
+
+                    std::vector<ObjGroupEdit::IniEdits> perGroup(groups_.size());
+                    for (std::size_t g = 0; g < groups_.size(); ++g) {
+                        for (int component : groups_[g]) {
+                            const ModObj obj = targetObjOf(component);
+                            perGroup[g].edits[obj] = {rebindAdapter_.get()};
+                            perGroup[g].trackKeys[obj] = false;
+                        }
+                    }
+                    rebindEdits_ = std::make_unique<ObjGroupEdit>(std::move(perGroup), false);
                 }
 
                 // ---- what the WRITTEN text must say ----
@@ -5150,9 +5119,9 @@ namespace AGRemapCore {
 
                 // fixSectionEdits, and what their edits borrow (see buildFixSectionEdits)
                 std::vector<std::unique_ptr<IterEdit>> fixSectionIters_;
-                std::string rebindTo_;                  // the group being rebound's remapped blend
-                std::unique_ptr<RegNewVals<>> rebind_;
+                std::unique_ptr<RegNewVals<>> rebind_;               // see buildBlendRebind
                 std::unique_ptr<RegPartEdit<>> rebindAdapter_;
+                std::unique_ptr<ObjGroupEdit> rebindEdits_;
                 std::unique_ptr<IfTemplate<std::string, std::string>> latch_;
                 std::unique_ptr<IfTemplate<std::string, std::string>> latchAndSet_;
                 std::unique_ptr<RegIfTemplateAdd<>> beforeDetected_;

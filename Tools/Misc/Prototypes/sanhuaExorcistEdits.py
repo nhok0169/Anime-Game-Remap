@@ -640,9 +640,7 @@ def makeFixer(parser, toModName, modTypeId):
 
     # ---- step 8: the blend, onto the target's bones: the library's vertex-group row over WWMI's layout (N ids then N
     # weights, N off the mod's own Blend.buf), collected off each group's slot sections at the blend register -- only a
-    # line that names a file: `ref` names a buffer of WWMI's own. (WWMIFixer::blendRebindEdits, which points a mod's
-    # `vb4 = ref ResourceBlendBufferOverride` at the remapped blend, has nothing to do here: only a mod of a character
-    # past 256 bones binds it so, and Sanhua has fewer.) ----
+    # line that names a file: `ref` names a buffer of WWMI's own ----
     positionFile = data.resourceFile(FRB.IniKeywords.WWMIPositionBuffer)
     countRow = data.firstCollected(FRB.IniParseRows.Declared, FRB.IniKeywords.Constants,
                                    FRB.IniKeywords.Global + " " + FRB.IniKeywords.WWMIMeshVertexCount)
@@ -654,19 +652,34 @@ def makeFixer(parser, toModName, modTypeId):
         positionPath = iniPathOf(positionFile, parser._iniFile.folder)
         return FRB.WWMIBlend.blendElements(FRB.WWMIBlend.influencesOf(srcPath, vertexCount, positionPath))
 
-    blendCollects = []
+    blendCollects, blendReplaces = [], []
     for g, group in enumerate(groups):
         replace = FRB.VGRemapBlendReplace((g, "", "blend"), source, fromVersion, toVersion)
         replace.elements = blendElements
         graphs = [(g, *targetObj(component)) for component in group]
         blendCollects.append(FRB.ResRegCollect({graph: BLEND_REG for graph in graphs}, {"blend": replace},
                                                resPredicates = {graph: FRB.ResRegCollect.skipsKeywords() for graph in graphs}))
+        blendReplaces.append(replace)
+
+    # the `ref` lines of the blend register (a mod of a character past 256 bones binds the register twice, the second
+    # to WWMI's own override of the SOURCE's blend), rebound to the remapped blend: the name the blend edit gives the one
+    # file the mod binds there (WWMIFixer::buildBlendRebind), on each drawn component's graph
+    isRef = lambda value: FRB.IniNamingTools.hasKeywordPrefix(value, FRB.IniKeywords.Ref)
+    blendFiles = {row.value.strip() for section in data.collectedSections(FRB.IniParseRows.Sections) for row in ownRows(section)
+                  if FRB.IniNamingTools.sameKey(row.key, BLEND_REG) and not isRef(row.value)}
+    remappedBlend = (blendReplaces[0].getFixResourceName(next(iter(blendFiles)), None, toModName)
+                     if len(blendFiles) == 1 and blendReplaces else None)
+    rebindEdits = []
+    if remappedBlend is not None:
+        rebind = FRB.RegNewVals({BLEND_REG: FRB.ReplaceIf(remappedBlend, lambda old, modType: isRef(old))})
+        rebindEdits.append(FRB.GraphGroupEdit([{targetObj(component): [rebind] for component in group} for group in groups]))
 
     # the fix's own sections, into every file it writes
     writeSections = FRB.GraphCreate((0, "", "fixSections"))
     writeSections.sectionsOf = lambda group: fixSections.sections("fixSections").list()
     writeSections.z3 = z3       # the context the sections' `if` lines were parsed in, kept as long as the edit is
-    fixer = FRB.GIMIFixer(parser, graphGroupEdits = [*toggleEdits, slotRemap, mainEdits, *blendCollects, writeSections, *madeTextures],
+    fixer = FRB.GIMIFixer(parser, graphGroupEdits = [*toggleEdits, slotRemap, mainEdits, *blendCollects, *rebindEdits, writeSections,
+                                                           *madeTextures],
                           modsToFix = [toModName])
     # a copy carries the fix's own sections and none of the mod's texture overrides live: the mod's own file keeps
     # serving the mod on its own character

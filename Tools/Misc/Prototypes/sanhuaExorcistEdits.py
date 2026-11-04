@@ -1,11 +1,13 @@
-"""Sanhua -> SanhuaExorcist written explicitly from the bound API: the parser as its steps, then the fixer as its
-edits -- the maintainer's acceptance test for the WWMI refactor ("as simple as the ayaka6_1 row"). Every step is
+"""A WWMI pair's parser and fixer written explicitly from the bound API: the parser as its steps, then the fixer as
+its edits -- the acceptance test of the WWMI refactor, mirroring WWMIParser / WWMIFixer step for step. Every step is
 written out here rather than hidden behind a template, so what each step really costs is visible, and every place
 the API cannot say something is marked `GAP:`.
 
-    from sanhuaExorcistEdits import makeParser     # makeParser(iniFile, modTypeId) -> GIMIParser
+    import sanhuaExorcistEdits as E
+    E.use(FRB.ModTypeId.Chisa, FRB.ModTypeId.ChisaParfait)     # the pair; Sanhua -> SanhuaExorcist by default
+    E.makeParser(iniFile, modTypeId)                           # -> GIMIParser
 
-The compiled makeWWMIParser / makeWWMIFixer for this pair is the oracle.
+The compiled makeWWMIParser / makeWWMIFixer for the pair is the oracle.
 """
 import os
 import sys
@@ -20,23 +22,51 @@ import src.py.FixRaidenBoss2 as FRB
 # The configs the compiled parser and fixer are built from (WWMIParserConfig.of / WWMIFixerConfig.of), read the way
 # WWMIParser and WWMIFixer read them.
 
-SOURCE_ID, TARGET_ID = FRB.ModTypeId.Sanhua, FRB.ModTypeId.SanhuaExorcist
-PARSE = FRB.WWMIParserConfig.of(SOURCE_ID)
-FIX = FRB.WWMIFixerConfig.of(SOURCE_ID, TARGET_ID)
+def use(sourceId, targetId):
+    """The pair the parser and fixer below are for: its two configs and what is read off them"""
+    global SOURCE_ID, TARGET_ID, PARSE, FIX, SOURCE, VERSION, SLOT_PREFIX, SLOT_HASH, TEX_REG, HASH_ONLY, FACTS, ROLES
+    global REGISTER_ROLES, TARGET, TARGET_VERSION, PLAN, REGISTERS, SHAPEKEY_DISPATCH, SLOT_PASSES, PASS_VERTEX_SHADERS
+    global CREATED, FALLBACKS, DOWNLOADS, BLEND_REG, TARGET_LABELS
+    SOURCE_ID, TARGET_ID = sourceId, targetId
+    PARSE = FRB.WWMIParserConfig.of(SOURCE_ID)
+    FIX = FRB.WWMIFixerConfig.of(SOURCE_ID, TARGET_ID)
 
-SOURCE = FRB.ModTypeIdTools.getName(SOURCE_ID)
-VERSION = PARSE.version
-SLOT_PREFIX = PARSE.slotPrefix
-SLOT_HASH = PARSE.slotHashType
-TEX_REG = PARSE.texRegPrefix
+    SOURCE = FRB.ModTypeIdTools.getName(SOURCE_ID)
+    VERSION = PARSE.version
+    SLOT_PREFIX = PARSE.slotPrefix
+    SLOT_HASH = PARSE.slotHashType
+    TEX_REG = PARSE.texRegPrefix
+    HASH_ONLY = [tuple(entry) for entry in PARSE.hashOnlyObjs]
+
+    # the source's texture facts: the roles by hash and by register, the thumbprints, the downloads
+    FACTS = PARSE.textures
+    ROLES = set(FACTS.roles.values())
+    REGISTER_ROLES = {slot: dict(table) for slot, table in FACTS.registerRoles.items()}
+
+    TARGET = FRB.ModTypeIdTools.getName(TARGET_ID)
+    TARGET_VERSION = FIX.version
+
+    # source component -> the target slot it draws through, and the role bound at each register of its target pass
+    PLAN = {component: entry.slot for component, entry in FIX.plan.items()}
+    REGISTERS = {component: [(binding.reg, binding.role) for binding in entry.bindings] for component, entry in FIX.plan.items()}
+    SHAPEKEY_DISPATCH = FIX.shapeKeyDispatchSize
+
+    # the target's pixel shaders per draw slot and the vertex shaders each is drawn with (the lists are gated on those)
+    SLOT_PASSES = [list(passes) for passes in FIX.slotPasses]
+    PASS_VERTEX_SHADERS = {shader: list(vss) for shader, vss in FIX.passVertexShaders.items()}
+
+    # what stands in when the mod has no file for a role: the texture the fix invents, else the source's own game texture
+    CREATED = [(created.role, created.colour, created.size) for created in FIX.createdTextures]
+    FALLBACKS = dict(FIX.sourceTextures.fallbackTextures)
+    DOWNLOADS = (FIX.sourceTextures.downloadGameFolder, FIX.sourceTextures.downloadCharFolder,
+                 FIX.sourceTextures.downloadVersionFolder, FIX.sourceTextures.downloadPrefix)
+    BLEND_REG = FIX.blendReg
+    TARGET_LABELS = dict(FIX.targetLabels)
+
+
+use(FRB.ModTypeId.Sanhua, FRB.ModTypeId.SanhuaExorcist)
 WATCH = ("", "watch")
 TEXTURE = FRB.IniGraphModObjKeywords.Texture
-HASH_ONLY = [tuple(entry) for entry in PARSE.hashOnlyObjs]
-
-# her texture facts: the roles by hash and by register, the thumbprints, the downloads
-FACTS = PARSE.textures
-ROLES = set(FACTS.roles.values())
-REGISTER_ROLES = {slot: dict(table) for slot, table in FACTS.registerRoles.items()}
 
 # the rows the parser files, under the names the compiled parser files them by
 OVERRIDE_ROWS = "WWMIParser.textureOverrides"
@@ -112,7 +142,7 @@ def rowsByRoot(rows, roots):
 def makeParser(iniFile, modTypeId, onlyThisFile = False):
     """'onlyThisFile': the parser of ANOTHER .ini of the mod, whose rows this character's parser reads -- the same parse,
     with only the resource data read off its rows (and so none of its own linked files)"""
-    modType = FRB.ModTypes.Sanhua.value
+    modType = FRB.ModTypes[SOURCE].value
     version = iniFile.fromVersion if iniFile.fromVersion is not None else FRB.Version.parse(VERSION)
     hashTypes = hashTypesOf(modType)
 
@@ -294,25 +324,6 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
 
 # ======================================================================================================= fixer
 
-TARGET = FRB.ModTypeIdTools.getName(TARGET_ID)
-TARGET_VERSION = FIX.version
-
-# source component -> the target slot it draws through, and the role bound at each register of its target pass
-PLAN = {component: entry.slot for component, entry in FIX.plan.items()}
-REGISTERS = {component: [(binding.reg, binding.role) for binding in entry.bindings] for component, entry in FIX.plan.items()}
-SHAPEKEY_DISPATCH = FIX.shapeKeyDispatchSize
-
-# the target's pixel shaders per draw slot and the vertex shaders each is drawn with (the lists are gated on those)
-SLOT_PASSES = [list(passes) for passes in FIX.slotPasses]
-PASS_VERTEX_SHADERS = {shader: list(vss) for shader, vss in FIX.passVertexShaders.items()}
-
-# what stands in when the mod has no file for a role: the texture the fix invents, else the source's own game texture
-CREATED = [(created.role, created.colour, created.size) for created in FIX.createdTextures]
-FALLBACKS = dict(FIX.sourceTextures.fallbackTextures)
-DOWNLOADS = (FIX.sourceTextures.downloadGameFolder, FIX.sourceTextures.downloadCharFolder,
-             FIX.sourceTextures.downloadVersionFolder, FIX.sourceTextures.downloadPrefix)
-BLEND_REG = FIX.blendReg
-TARGET_LABELS = dict(FIX.targetLabels)
 
 
 def slotNumbers(modType, version):
@@ -328,7 +339,7 @@ def slotNumbers(modType, version):
 
 
 def makeFixer(parser, toModName, modTypeId):
-    source, target = FRB.ModTypes.Sanhua.value, FRB.ModTypes.SanhuaExorcist.value
+    source, target = FRB.ModTypes[SOURCE].value, FRB.ModTypes[TARGET].value
     data = parser.parseData
     toVersion = FRB.Version.parse(TARGET_VERSION)
     fromVersion = parser._iniFile.fromVersion     # the .ini's own version; None = the newest bucket holding a value
@@ -370,7 +381,18 @@ def makeFixer(parser, toModName, modTypeId):
         groups[group].append(component)
     groups = groups or [[]]
 
-    # ---- step 1: the lines that undo the remap -- none for this pair (no removedRegs, target under 256 bones) ----
+    # ---- step 1: the lines a remapped section drops (WWMIFixer::buildRegRemovals): the pair's own, and WWMI's merged
+    # skeleton lines when the TARGET's skeleton passes what an 8-bit blend index names -- the vertex group row's largest
+    # target bone says so, unless the row names more bones than one blend remap holds (WWMIFixer::readBlendWidth) ----
+    vgRow = source.getVGRemap(toModName, fromVersion, toVersion)
+    rowTargets = set(vgRow.remap.values()) if vgRow is not None else set()
+    targetPast256 = (any(bone > FRB.WWMIBlend.MaxByteBone for bone in rowTargets)
+                     and len(rowTargets) <= FRB.WWMIBlend.RemapSize)
+    removals = list(FIX.removedRegs) + (list(FIX.remappedSkeletonRemovals) if targetPast256 else [])
+    # each value matched with or without `ref`; GAP: a component that keeps RabbitFX keeps RabbitFX's own lines
+    # (SourceComponent::rabbitFX) -- no component of a mirrored pair does
+    regRemove = FRB.RegRemove([(removal.reg, FRB.RegRemove.valueStartsWith(removal.valuePrefix) if removal.valuePrefix else None)
+                               for removal in removals]) if removals else None
 
     # ---- step 2: the hashes and the shape-key checksums, onto the target's ----
     checksum = FRB.IniKeywords.WWMIShapeKeyChecksum
@@ -605,7 +627,7 @@ def makeFixer(parser, toModName, modTypeId):
     for group in groups:
         edits = {}
         for component in group:
-            edits[targetObj(component)] = [slotValues[PLAN[component]], assetRemap, dispatch]
+            edits[targetObj(component)] = [*([regRemove] if regRemove else []), slotValues[PLAN[component]], assetRemap, dispatch]
             if component in listOf:
                 edits[targetObj(component)].append(FRB.RegSurroundedAdd(
                     [(FRB.IniKeywords.Run, listOf[component])], {FRB.IniKeywords.MatchFirstIndex: lambda value: True}))

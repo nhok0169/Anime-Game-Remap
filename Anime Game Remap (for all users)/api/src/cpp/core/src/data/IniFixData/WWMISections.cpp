@@ -2,6 +2,7 @@
 
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/IniSectionText.h"
+#include "AGRemapCore/model/IniNamingTools.h"
 
 namespace AGRemapCore {
 
@@ -319,6 +320,45 @@ namespace AGRemapCore {
                    .close()
                    .key(blendRemap.blendReg, blendOut)
                    .build());
+        return sections;
+    }
+
+    WWMISections::Bypasses WWMISections::bypasses(const IniParseData& data, const std::string& sections,
+                                                  const std::string& overrideList, const std::string& cleanupList,
+                                                  const std::string& modName) {
+        Bypasses result;
+        if (data.sectionRows(sections, overrideList).empty() || data.sectionRows(sections, cleanupList).empty()) {
+            return result;
+        }
+
+        const std::vector<std::string> already = data.buffersBoundBy(sections, cleanupList);
+        for (const std::string& reg : data.buffersBoundBy(sections, overrideList)) {
+            if (std::find(already.begin(), already.end(), reg) == already.end()) {
+                result.emplace_back(reg, IniNamingTools::getRemapFixName(IniKeywords::Resource + "Bypass" + IniNamingTools::getRegTag(reg),
+                                                                         modName));
+            }
+        }
+        return result;
+    }
+
+    std::string WWMISections::restoreListName(const std::string& modName) {
+        return IniNamingTools::getRemapFixName(IniKeywords::CommandList + "RestoreSharedResources", modName);
+    }
+
+    std::vector<std::unique_ptr<WWMISections::Section>> WWMISections::bypassSections(Z3Context& z3, const Bypasses& bypasses,
+                                                                                      const std::string& restoreList) {
+        std::vector<std::unique_ptr<Section>> sections;
+        if (bypasses.empty()) {
+            return sections;
+        }
+        for (const auto& bypass : bypasses) {
+            sections.push_back(SectionText(z3, bypass.second).build());
+        }
+        SectionText restore(z3, restoreList);
+        for (const auto& [reg, bypass] : bypasses) {
+            restore.key(reg, IniKeywords::Ref + " " + bypass);
+        }
+        sections.push_back(restore.build());
         return sections;
     }
 }

@@ -168,5 +168,56 @@ hide: :class:`WWMISections.Hide`
 Returns
 -------
 :class:`IfTemplate`
-    The section)doc"));
+    The section)doc"))
+       .def_static("bypasses", &Sections::bypasses, py::arg("data"), py::arg("sections"), py::arg("overrideList"),
+                   py::arg("cleanupList"), py::arg("modName"), py::doc(R"doc(
+The mesh buffers the fix has to put back after a remapped draw, each with the resource it is parked in: every one the
+mod's shared-resource OVERRIDE list binds that its CLEANUP list does not already restore (``vb0``, which WWMI's own pair
+handles). Empty for a mod without both lists
+
+Parameters
+----------
+data: :class:`IniParseData`
+    The mod's parse data
+
+sections: :class:`str`
+    The collect of every key of every `section`_ (:attr:`IniParseRows.Sections`)
+
+overrideList: :class:`str`
+    The mod's override list (``CommandListOverrideSharedResources``)
+
+cleanupList: :class:`str`
+    The mod's cleanup list (``CommandListCleanupSharedResources``)
+
+modName: :class:`str`
+    The mod the fix is for, which names the resources
+
+Returns
+-------
+List[Tuple[:class:`str`, :class:`str`]]
+    ``(register, resource)`` for each)doc"))
+       .def_static("restoreListName", &Sections::restoreListName, py::arg("modName"),
+                   ":class:`str`: The list that binds every bypassed buffer back (``CommandListRestoreSharedResources<Mod>RemapFix``)")
+       .def_static("bypassSections", &Sections::bypassSections, py::arg("z3"), py::arg("bypasses"), py::arg("restoreList"),
+                   py::doc(R"doc(
+The bypass pair's sections: an empty resource for each bypass -- a handle ``= ref <reg>`` parks a binding in -- and the
+list that binds each register back from it. The capture before the override list rebinds a register, and the ``run =``
+of the restore list at the end of the cleanup list, are edits on the mod's own lists (a :class:`RegAnchorAdd` and a
+:class:`RegAdd`)
+
+Parameters
+----------
+z3: :class:`Z3Context`
+    The Z3 context the sections are built in
+
+bypasses: List[Tuple[:class:`str`, :class:`str`]]
+    The bypasses (:meth:`bypasses`)
+
+restoreList: :class:`str`
+    The restore list's name (:meth:`restoreListName`)
+
+Returns
+-------
+List[:class:`IfTemplate`]
+    The sections, empty when there are no bypasses)doc"));
 }

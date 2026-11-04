@@ -20,7 +20,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="46" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="46" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="47" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_w_w_m_i_sections_1a1d40b86d3773c718f2da482c1b5eb0ab" prot="public" static="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>using AGRemapCore::WWMISections::Bypasses = std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Bypasses</name>
+        <qualifiedname>AGRemapCore::WWMISections::Bypasses</qualifiedname>
+        <briefdescription>
+<para>register -&gt; the resource its previous binding is parked in <ndash/> see <ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a19be270374ab1430312e4d261f13bc10" kindref="member">bypasses</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="246" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="246" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -63,7 +78,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="114" column="32" bodyfile="src/data/IniFixData/WWMISections.cpp" bodystart="8" bodyend="10"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="115" column="32" bodyfile="src/data/IniFixData/WWMISections.cpp" bodystart="9" bodyend="11"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_sections_1a902ca300858490200701b029fc708436" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a84000ffad2c51c0d067987cf78c94e1c" kindref="member">Section</ref> &gt; &gt;</type>
@@ -106,7 +121,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="124" column="32" bodyfile="src/data/IniFixData/WWMISections.cpp" bodystart="61" bodyend="266"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="125" column="32" bodyfile="src/data/IniFixData/WWMISections.cpp" bodystart="62" bodyend="267"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_sections_1aef39983921cb45eeeb5081f15584be3c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -135,7 +150,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="165" column="32" bodyfile="src/data/IniFixData/WWMISections.cpp" bodystart="54" bodyend="56"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="166" column="32" bodyfile="src/data/IniFixData/WWMISections.cpp" bodystart="55" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_sections_1a222ab79b197ea72f8bfca829330a61b3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a84000ffad2c51c0d067987cf78c94e1c" kindref="member">Section</ref> &gt; &gt;</type>
@@ -178,7 +193,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="174" column="32" bodyfile="src/data/IniFixData/WWMISections.cpp" bodystart="271" bodyend="323"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="175" column="32" bodyfile="src/data/IniFixData/WWMISections.cpp" bodystart="272" bodyend="324"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_sections_1a93d88ac338e299123684f8652e1e3fe1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a84000ffad2c51c0d067987cf78c94e1c" kindref="member">Section</ref> &gt;</type>
@@ -221,7 +236,183 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="240" column="36" bodyfile="src/data/IniFixData/WWMISections.cpp" bodystart="12" bodyend="52"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="241" column="36" bodyfile="src/data/IniFixData/WWMISections.cpp" bodystart="13" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_sections_1a19be270374ab1430312e4d261f13bc10" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a1d40b86d3773c718f2da482c1b5eb0ab" kindref="member">Bypasses</ref></type>
+        <definition>WWMISections::Bypasses AGRemapCore::WWMISections::bypasses</definition>
+        <argsstring>(const IniParseData &amp;data, const std::string &amp;sections, const std::string &amp;overrideList, const std::string &amp;cleanupList, const std::string &amp;modName)</argsstring>
+        <name>bypasses</name>
+        <qualifiedname>AGRemapCore::WWMISections::bypasses</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ini_parse_data" kindref="compound">IniParseData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sections</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>overrideList</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cleanupList</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The mesh buffers the fix has to put back after a remapped draw, each with the resource it is parked in:
+every one the mod&apos;s shared-resource OVERRIDE list binds that its CLEANUP list does not already restore
+(``vb0``, which WWMI&apos;s own pair handles). On the mod&apos;s own character each draw is matched by one of its
+sections, so a buffer left bound is rebound before anything reads it; remapped, the first draw of a target
+slot the mod does not cover inherits the mod&apos;s buffers. Empty for a mod without both lists
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s parse data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The collect of every key of every <computeroutput>section</computeroutput>_ (:cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_rows_1aacf65feec57fb8186edad9d215597abf" kindref="member">IniParseRows::Sections</ref></computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>overrideList</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s override list (<computeroutput>CommandListOverrideSharedResources</computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cleanupList</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s cleanup list (<computeroutput>CommandListCleanupSharedResources</computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod the fix is for, which names the resources (<computeroutput>ResourceBypass&lt;Reg&gt;&lt;Mod&gt;RemapFix</computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The bypasses </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="265" column="29" bodyfile="src/data/IniFixData/WWMISections.cpp" bodystart="326" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_sections_1a896d348b30ddb329f43fe1f8d2cd8fe8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::restoreListName</definition>
+        <argsstring>(const std::string &amp;modName)</argsstring>
+        <name>restoreListName</name>
+        <qualifiedname>AGRemapCore::WWMISections::restoreListName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+<para>The list that binds every bypassed buffer back (<computeroutput>CommandListRestoreSharedResources&lt;Mod&gt;RemapFix</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod the fix is for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The name </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="273" column="32" bodyfile="src/data/IniFixData/WWMISections.cpp" bodystart="344" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_sections_1acfd080a2c98c49fdf141eef92b2bb5dd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a84000ffad2c51c0d067987cf78c94e1c" kindref="member">Section</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; WWMISections::Section &gt; &gt; AGRemapCore::WWMISections::bypassSections</definition>
+        <argsstring>(Z3Context &amp;z3, const Bypasses &amp;bypasses, const std::string &amp;restoreList)</argsstring>
+        <name>bypassSections</name>
+        <qualifiedname>AGRemapCore::WWMISections::bypassSections</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> &amp;</type>
+          <declname>z3</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a1d40b86d3773c718f2da482c1b5eb0ab" kindref="member">Bypasses</ref> &amp;</type>
+          <declname>bypasses</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>restoreList</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The bypass pair&apos;s sections: an empty resource for each bypass -- a handle ``= ref &lt;reg&gt;`` parks a binding in,
+like the mod&apos;s own ``[ResourceBypassVB0]`` -- and the list that binds each register back from it. The
+capture before the override list rebinds a register, and the ``run =`` of the restore list at the end of
+the cleanup list, are edits on the mod&apos;s own lists (a :cpp:class:`RegAnchorAdd` and a :cpp:class:`RegAdd`)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>z3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The Z3 context the sections are built in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bypasses</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The bypasses (<ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a19be270374ab1430312e4d261f13bc10" kindref="member">bypasses</ref>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>restoreList</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The restore list&apos;s name (<ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a896d348b30ddb329f43fe1f8d2cd8fe8" kindref="member">restoreListName</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The sections, empty when there are no bypasses </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="289" column="32" bodyfile="src/data/IniFixData/WWMISections.cpp" bodystart="348" bodyend="363"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -238,12 +429,16 @@ Each builder fills a fixed template with the values it is given. Every name goes
 undo removes them
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="41" column="5" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="41" bodyend="241"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="42" column="5" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="42" bodyend="291"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1aef39983921cb45eeeb5081f15584be3c" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections</scope><name>blendRemapInitList</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a222ab79b197ea72f8bfca829330a61b3" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections</scope><name>blendRemapSections</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a1d40b86d3773c718f2da482c1b5eb0ab" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections</scope><name>Bypasses</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a19be270374ab1430312e4d261f13bc10" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections</scope><name>bypasses</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1acfd080a2c98c49fdf141eef92b2bb5dd" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections</scope><name>bypassSections</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a93d88ac338e299123684f8652e1e3fe1" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections</scope><name>hideSection</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a9d05dce73578feed425b58ecfb73a82f" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections</scope><name>mergeListName</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a896d348b30ddb329f43fe1f8d2cd8fe8" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections</scope><name>restoreListName</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a84000ffad2c51c0d067987cf78c94e1c" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections</scope><name>Section</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a902ca300858490200701b029fc708436" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections</scope><name>skeletonSections</name></member>
     </listofallmembers>

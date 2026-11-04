@@ -351,8 +351,8 @@ namespace AGRemapCore {
         }
 
 
-        /** @brief register -> the resource its previous binding is parked in -- see bypassRestore */
-        using Bypasses = std::vector<std::pair<std::string, std::string>>;
+        /** @brief register -> the resource its previous binding is parked in -- see WWMISections::bypasses */
+        using Bypasses = WWMISections::Bypasses;
 
         /**
          * @brief Whether 'name' is one of 'names', ignoring case -- a section filter of bypassRestore's
@@ -1642,9 +1642,11 @@ namespace AGRemapCore {
                             // section names. Two files of one role each get their own.
                             auto declaredName = declaredName_.find(best);
                             if (declaredName == declaredName_.end()) {
-                                std::string name = IniKeywords::Resource + TextTools::capitalize(role) + toModName_ + IniKeywords::RemapRef;
+                                std::string name = IniKeywords::Resource
+                                    + IniNamingTools::getModSuffixedName(TextTools::capitalize(role), IniKeywords::RemapRef, toModName_);
                                 for (std::size_t n = 2; usedDeclaredNames_.count(name) > 0; ++n) {
-                                    name = IniKeywords::Resource + TextTools::capitalize(role) + std::to_string(n) + toModName_ + IniKeywords::RemapRef;
+                                    name = IniKeywords::Resource + IniNamingTools::getModSuffixedName(
+                                        TextTools::capitalize(role) + std::to_string(n), IniKeywords::RemapRef, toModName_);
                                 }
 
                                 usedDeclaredNames_.insert(name);
@@ -1953,53 +1955,15 @@ namespace AGRemapCore {
 
                 /** @brief The fix's own list that puts the captured bindings back -- see bypassRestore */
                 std::string restoreListName() {
-                    return remapFixName(IniKeywords::CommandList + "RestoreSharedResources");
+                    return WWMISections::restoreListName(toModName_);
                 }
 
                 // Which of the mod's own shared-resource bindings the fix has to put back, and the
                 // resource each is parked in. Read off the mod's OWN two lists rather than
                 // configured: whatever the override binds and the cleanup does not already restore.
                 void buildBypasses() {
-                    bypasses_.clear();
-                    if (ownRows(config_.sharedResourcesList).empty() || ownRows(config_.cleanupResourcesList).empty()) {
-                        return;            // a legacy mod with no such pair: nothing to be symmetric with
-                    }
-
-                    std::vector<std::string> bound = buffersBoundBy(config_.sharedResourcesList);
-                    const std::vector<std::string> already = buffersBoundBy(config_.cleanupResourcesList);
-                    for (const std::string& reg : bound) {
-                        if (std::find(already.begin(), already.end(), reg) != already.end()) {
-                            continue;      // `vb0`, which WWMI's own pair already handles
-                        }
-
-                        bypasses_.emplace_back(reg, remapFixName(IniKeywords::Resource + "Bypass"
-                                                            + IniNamingTools::getRegTag(reg)));
-                    }
-                }
-
-                /**
-                 * @brief The MESH buffer registers a command list assigns to
-                 *
-                 * `ib` and `vb<n>` only. A `Resource... = ref vb0` capture line is an assignment to a
-                 * RESOURCE and is not one of these, which is what keeps the pair's own bookkeeping out
-                 * of the answer.
-                 */
-                std::vector<std::string> buffersBoundBy(const std::string& list) const {
-                    std::vector<std::string> regs;
-                    for (const Row* row : ownRows(list)) {
-                        const std::string key = StringTools::toLower(StringTools::strip(row->key));
-                        bool buffer = (key == IniKeywords::Ib);
-                        if (!buffer && key.size() > 2 && key.compare(0, 2, "vb") == 0) {
-                            buffer = std::all_of(key.begin() + 2, key.end(),
-                                                 [](unsigned char c) { return std::isdigit(c) != 0; });
-                        }
-
-                        if (buffer) {
-                            ListTools::pushDistinct(regs, key);
-                        }
-                    }
-
-                    return regs;
+                    bypasses_ = WWMISections::bypasses(parseData(), IniParseRows::Sections, config_.sharedResourcesList,
+                                                       config_.cleanupResourcesList, toModName_);
                 }
 
                 // Lines a remapped section drops -- see WWMIFixerConfig::removedRegs for why each
@@ -4084,20 +4048,9 @@ namespace AGRemapCore {
                         }
                     }
 
-                    // An empty section, like the mod's own [ResourceBypassVB0]: it is a handle for
-                    // `= ref <reg>` to park a binding in, never a file.
-                    for (const auto& [reg, bypass] : bypasses_) {
-                        (void)reg;
-                        addFixSection(SectionText(z3_, bypass).build());
-                    }
-
-                    if (!bypasses_.empty()) {
-                        SectionText restore(z3_, restoreListName());
-                        for (const auto& [reg, bypass] : bypasses_) {
-                            restore.key(reg, IniKeywords::Ref + " " + bypass);
-                        }
-
-                        addFixSection(restore.build());
+                    // the bypass pair's resources and its restore list (WWMISections::bypassSections)
+                    for (auto& section : WWMISections::bypassSections(z3_, bypasses_, restoreListName())) {
+                        addFixSection(std::move(section));
                     }
 
                     // the mirrored twin's buffers -- see WWMIFixerConfig::mirroredComponents

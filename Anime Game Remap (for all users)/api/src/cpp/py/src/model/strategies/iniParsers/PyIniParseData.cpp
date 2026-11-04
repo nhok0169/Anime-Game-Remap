@@ -607,6 +607,23 @@ Returns
 Optional[:class:`Z3Predicate`]
     The condition
        )doc")
+       .def("buffersBoundBy", &AGRC::IniParseData::buffersBoundBy, py::arg("sections"), py::arg("section"), R"doc(
+The mesh buffer registers a `section`_ binds -- ``ib`` and ``vb<n>``, lowercased, each once, as written. A line that
+binds a RESOURCE to one of them (``ResourceBypassVB0 = ref vb0``) binds no register and is not one
+
+Parameters
+----------
+sections: :class:`str`
+    The collect of every key of every `section`_ (:attr:`IniParseRows.Sections`)
+
+section: :class:`str`
+    The `section`_
+
+Returns
+-------
+List[:class:`str`]
+    The registers
+       )doc")
        .def("textureRoles", &AGRC::IniParseData::textureRoles, py::return_value_policy::reference_internal, R"doc(
 What role each texture of the .ini plays, or ``None`` when the parser records none -- every role the
 .ini binds a file for, since one atlas can serve two objects

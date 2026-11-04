@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="74" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="74" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="75" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="75" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a8345fad8c254b8422bdf43d9a17d67ce" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="79" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="79" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="80" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="80" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a7380cc078ec4c0b19cae11ac74593bd3" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -50,7 +50,7 @@ which is right, so a fixer should say so
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="88" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="88" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="89" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="89" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a3eaf45fb154dbbd964ecd0f3f59623fa" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -65,7 +65,7 @@ which is right, so a fixer should say so
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="93" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="93" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="94" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="94" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a7fc933443e8ac93eefc52dff0a850ae4" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -83,7 +83,7 @@ them), or empty when it is no toggle&apos;s. Each plays the same role on the sam
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="102" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="102" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="103" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="103" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -91,7 +91,7 @@ them), or empty when it is no toggle&apos;s. Each plays the same role on the sam
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="70" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="70" bodyend="103"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="71" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="71" bodyend="104"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1ae1e53c45b7d71b35ad6a365e7b393b19" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFile</scope><name>file</name></member>
       <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a8345fad8c254b8422bdf43d9a17d67ce" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFile</scope><name>how</name></member>

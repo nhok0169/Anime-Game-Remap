@@ -1010,6 +1010,20 @@ namespace AGRemapCore {
              */
             std::optional<Z3Predicate> startingValues(const std::string& sections, Z3Context& z3Ctx) const;
 
+            /**
+             * @brief
+             @rst
+             The mesh buffer registers a `section`_ binds -- ``ib`` and ``vb<n>``, lowercased, each once, as written. A
+             line that binds a RESOURCE to one of them (``ResourceBypassVB0 = ref vb0``) binds no register and is not one
+             @endrst
+             *
+             * @param sections The collect of every key of every `section`_ (:cpp:member:`IniParseRows::Sections`)
+             * @param section The `section`_
+             *
+             * @return The registers
+             */
+            std::vector<std::string> buffersBoundBy(const std::string& sections, const std::string& section) const;
+
         private:
             void fill() const;
             void fileToggles(const ResourceDataRules& rules);

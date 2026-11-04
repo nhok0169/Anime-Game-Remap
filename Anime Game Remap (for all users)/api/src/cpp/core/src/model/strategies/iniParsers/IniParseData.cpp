@@ -18,6 +18,7 @@
 #include "AGRemapCore/tools/ListTools.h"
 #include "AGRemapCore/tools/StringTools.h"
 
+#include <cctype>
 #include <set>
 #include <algorithm>
 #include <tuple>
@@ -782,5 +783,20 @@ namespace AGRemapCore {
 
     void IniParseData::setRegisterToggle(const std::string& resource, TextureToggle toggle) {
         registerToggles_[resource] = std::move(toggle);
+    }
+
+    std::vector<std::string> IniParseData::buffersBoundBy(const std::string& sections, const std::string& section) const {
+        std::vector<std::string> regs;
+        for (const CollectedRow* row : sectionRows(sections, section)) {
+            const std::string key = StringTools::toLower(StringTools::strip(row->key));
+            bool buffer = (key == IniKeywords::Ib);
+            if (!buffer && key.size() > 2 && key.compare(0, 2, "vb") == 0) {
+                buffer = std::all_of(key.begin() + 2, key.end(), [](unsigned char c) { return std::isdigit(c) != 0; });
+            }
+            if (buffer) {
+                ListTools::pushDistinct(regs, key);
+            }
+        }
+        return regs;
     }
 }

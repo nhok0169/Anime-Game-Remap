@@ -634,3 +634,42 @@ filename = Textures\A.dds
 """, [r"Textures\A.dds"])
         self.assertEqual(data.resourceOfFile(data.roleFile("bodyDiffuse", self.Body).file), "ResourceUsed")
         self.assertEqual([(r.role, r.modObj) for r in data.rolesOfResource("ResourceDeclaredFirst")], [("bodyDiffuse", self.Body)])
+
+    # ====================== IniParseData.buffersBoundBy, WWMISections' bypass pair ===========================
+
+    _sharedLists = r"""
+[CommandListOverrideSharedResources]
+ResourceBypassVB0 = ref vb0
+vb0 = ResourcePosition
+ib = ResourceIndex
+vb2 = ResourceBlend
+VB2 = ResourceBlend2
+
+[CommandListCleanupSharedResources]
+vb0 = ref ResourceBypassVB0
+"""
+
+    def test_buffersBoundBy_ibAndVbN_eachOnce_notALineThatBindsAResource(self):
+        self._rowsIniTxt = self._sharedLists
+        data = self.parseRows()
+        self.assertEqual(data.buffersBoundBy(FRB.IniParseRows.Sections, "CommandListOverrideSharedResources"), ["vb0", "ib", "vb2"])
+        self.assertEqual(data.buffersBoundBy(FRB.IniParseRows.Sections, "Nothing"), [])
+
+    def test_WWMISections_bypasses_whatTheCleanupDoesNotPutBack_andTheirSections(self):
+        self._rowsIniTxt = self._sharedLists
+        data = self.parseRows()
+        bypasses = FRB.WWMISections.bypasses(data, FRB.IniParseRows.Sections, "CommandListOverrideSharedResources",
+                                             "CommandListCleanupSharedResources", "Exorcist")
+        name = lambda reg: FRB.IniNamingTools.getRemapFixName("ResourceBypass" + FRB.IniNamingTools.getRegTag(reg), "Exorcist")
+        self.assertEqual(bypasses, [("ib", name("ib")), ("vb2", name("vb2"))])
+
+        restore = FRB.WWMISections.restoreListName("Exorcist")
+        self.assertEqual(restore, FRB.IniNamingTools.getRemapFixName("CommandListRestoreSharedResources", "Exorcist"))
+        z3 = FRB.Z3Context()
+        sections = FRB.WWMISections.bypassSections(z3, bypasses, restore)
+        self.assertEqual([section.name for section in sections], [name("ib"), name("vb2"), restore])
+        self.assertEqual(FRB.WWMISections.bypassSections(z3, [], restore), [])
+
+        # a mod without both lists has nothing to be symmetric with
+        self.assertEqual(FRB.WWMISections.bypasses(data, FRB.IniParseRows.Sections, "CommandListOverrideSharedResources",
+                                                   "CommandListNothing", "Exorcist"), [])

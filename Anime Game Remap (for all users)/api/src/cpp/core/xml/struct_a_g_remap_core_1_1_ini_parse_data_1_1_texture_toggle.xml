@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="116" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="116" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="117" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="117" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle_1adebd4217936faa95dc66b301700d5f43" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="121" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="121" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="122" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="122" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle_1aed0c47f7f0cce62b73ef922bd131e822" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -51,7 +51,7 @@ game&apos;s own texture
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="130" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="130" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="131" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="131" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle_1ab55c52241f8d52ad4b5fd7426b6098a4" prot="public" static="no" mutable="no">
         <type>std::pair&lt; std::string, std::string &gt;</type>
@@ -69,7 +69,7 @@ The parser&apos;s graph holding the `section`_, as ``(component, mod object)`` -
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="139" column="27" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="139" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="140" column="27" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="140" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -80,7 +80,7 @@ A toggle that chooses among several of the mod&apos;s texture resources -- see #
 #registerToggleOf
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="112" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="112" bodyend="140"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="113" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="113" bodyend="141"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle_1ab55c52241f8d52ad4b5fd7426b6098a4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::TextureToggle</scope><name>graph</name></member>
       <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle_1a1d4f619de77b9a1baa68d1375902b1d8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::TextureToggle</scope><name>section</name></member>

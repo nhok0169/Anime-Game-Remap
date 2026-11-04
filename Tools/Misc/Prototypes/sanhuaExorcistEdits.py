@@ -466,10 +466,12 @@ def makeFixer(parser, toModName, modTypeId):
             resourceOfSlotRole[(role, component)] = own
             return
         if chosen.file not in declaredName:
-            name, n = FRB.IniKeywords.Resource + role[0].upper() + role[1:] + toModName + FRB.IniKeywords.RemapRef, 2
-            while name in declaredName.values():
-                name, n = FRB.IniKeywords.Resource + role[0].upper() + role[1:] + str(n) + toModName + FRB.IniKeywords.RemapRef, n + 1
-            declaredName[chosen.file] = name
+            refName = lambda n: FRB.IniKeywords.Resource + FRB.IniNamingTools.getModSuffixedName(
+                role[0].upper() + role[1:] + (str(n) if n > 1 else ""), FRB.IniKeywords.RemapRef, toModName)
+            n = 1
+            while refName(n) in declaredName.values():
+                n += 1
+            declaredName[chosen.file] = refName(n)
         resourceOfSlotRole[(role, component)] = declaredName[chosen.file]
 
     # layer 3, the stand-in rule (WWMIFixer::standIn): the texture the fix invents, else Sanhua's own game texture,
@@ -591,21 +593,8 @@ def makeFixer(parser, toModName, modTypeId):
     # list binds and its cleanup list does not put back is parked in a resource of the fix's before it is replaced, and
     # the cleanup list runs the fix's list that puts them back ----
     sharedList, cleanupList = "CommandListOverrideSharedResources", "CommandListCleanupSharedResources"
-    restoreList = rename(FRB.IniKeywords.CommandList + "RestoreSharedResources")
-
-    def buffersBoundBy(listName):
-        regs = []
-        for row in data.sectionRows(FRB.IniParseRows.Sections, listName):
-            key = row.key.strip().lower()
-            if (key == FRB.IniKeywords.Ib or (len(key) > 2 and key.startswith("vb") and key[2:].isdigit())) and key not in regs:
-                regs.append(key)
-        return regs
-
-    bypasses = []
-    if data.sectionRows(FRB.IniParseRows.Sections, sharedList) and data.sectionRows(FRB.IniParseRows.Sections, cleanupList):
-        already = buffersBoundBy(cleanupList)
-        bypasses = [(reg, rename(FRB.IniKeywords.Resource + "Bypass" + FRB.IniNamingTools.getRegTag(reg)))
-                    for reg in buffersBoundBy(sharedList) if reg not in already]
+    restoreList = FRB.WWMISections.restoreListName(toModName)
+    bypasses = FRB.WWMISections.bypasses(data, FRB.IniParseRows.Sections, sharedList, cleanupList, toModName)
 
     def onlyIn(names):
         names = {name.lower() for name in names}
@@ -620,10 +609,8 @@ def makeFixer(parser, toModName, modTypeId):
                 onlyIn([sharedList, rename(sharedList)])))
         bypassEdits.append(FRB.RegPartEdit(FRB.RegAdd([(FRB.IniKeywords.Run, restoreList)], True, True),
                                            onlyIn([cleanupList, rename(cleanupList)])))
-        for reg, bypass in bypasses:
-            fixSections.sections("fixSections").add(FRB.SectionText(z3, bypass).build())
-        fixSections.sections("fixSections").add(
-            FRB.SectionText(z3, restoreList).keys([(reg, FRB.IniKeywords.Ref + " " + bypass) for reg, bypass in bypasses]).build())
+        for section in FRB.WWMISections.bypassSections(z3, bypasses, restoreList):
+            fixSections.sections("fixSections").add(section)
 
     # ---- step 7: WWMI's own sections (WWMISections): each target slot nothing of the mod is drawn through skips the
     # skin's geometry and still merges the slot's bones; then the shader tags the texture lists are gated on ----

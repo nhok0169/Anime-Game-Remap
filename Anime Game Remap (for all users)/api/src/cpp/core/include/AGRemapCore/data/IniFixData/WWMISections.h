@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
 
 namespace AGRemapCore {
@@ -238,6 +239,55 @@ namespace AGRemapCore {
              * @return The section
              */
             static std::unique_ptr<Section> hideSection(Z3Context& z3, const Hide& hide);
+
+            /**
+             * @brief register -> the resource its previous binding is parked in -- see #bypasses
+             */
+            using Bypasses = std::vector<std::pair<std::string, std::string>>;
+
+            /**
+             * @brief
+             @rst
+             The mesh buffers the fix has to put back after a remapped draw, each with the resource it is parked in:
+             every one the mod's shared-resource OVERRIDE list binds that its CLEANUP list does not already restore
+             (``vb0``, which WWMI's own pair handles). On the mod's own character each draw is matched by one of its
+             sections, so a buffer left bound is rebound before anything reads it; remapped, the first draw of a target
+             slot the mod does not cover inherits the mod's buffers. Empty for a mod without both lists
+             @endrst
+             *
+             * @param data The mod's parse data
+             * @param sections The collect of every key of every `section`_ (:cpp:member:`IniParseRows::Sections`)
+             * @param overrideList The mod's override list (``CommandListOverrideSharedResources``)
+             * @param cleanupList The mod's cleanup list (``CommandListCleanupSharedResources``)
+             * @param modName The mod the fix is for, which names the resources (``ResourceBypass<Reg><Mod>RemapFix``)
+             * @return The bypasses
+             */
+            static Bypasses bypasses(const IniParseData& data, const std::string& sections, const std::string& overrideList,
+                                     const std::string& cleanupList, const std::string& modName);
+
+            /**
+             * @brief The list that binds every bypassed buffer back (``CommandListRestoreSharedResources<Mod>RemapFix``)
+             * @param modName The mod the fix is for
+             * @return The name
+             */
+            static std::string restoreListName(const std::string& modName);
+
+            /**
+             * @brief
+             @rst
+             The bypass pair's sections: an empty resource for each bypass -- a handle ``= ref <reg>`` parks a binding in,
+             like the mod's own ``[ResourceBypassVB0]`` -- and the list that binds each register back from it. The
+             capture before the override list rebinds a register, and the ``run =`` of the restore list at the end of
+             the cleanup list, are edits on the mod's own lists (a :cpp:class:`RegAnchorAdd` and a :cpp:class:`RegAdd`)
+             @endrst
+             *
+             * @param z3 The Z3 context the sections are built in
+             * @param bypasses The bypasses (#bypasses)
+             * @param restoreList The restore list's name (#restoreListName)
+             * @return The sections, empty when there are no bypasses
+             */
+            static std::vector<std::unique_ptr<Section>> bypassSections(Z3Context& z3, const Bypasses& bypasses,
+                                                                         const std::string& restoreList);
     };
 }
 

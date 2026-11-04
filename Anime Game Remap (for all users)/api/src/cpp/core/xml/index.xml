@@ -3940,6 +3940,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af506530a4e91ac100ee8cebb0a39cfc0" kind="function"><name>resourceData</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aa3a2b24ac39205efc60762443f71ea34" kind="function"><name>roleFiles</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a16e8ad3b7a4108dd3a8a32b253f32a3b" kind="function"><name>startingValues</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a577a85f24a9ed707bff774737a79d355" kind="function"><name>buffersBoundBy</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a87bc4e1b90972b260c6a9baf964a0da2" kind="function"><name>fill</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aebec684e278971656465636cf9640dc1" kind="function"><name>fileToggles</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a3013176a919ed8666c84bc0d8a2bfa9f" kind="function"><name>sectionIndex</name></member>
@@ -7884,11 +7885,15 @@
   </compound>
   <compound refid="class_a_g_remap_core_1_1_w_w_m_i_sections" kind="class"><name>AGRemapCore::WWMISections</name>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a84000ffad2c51c0d067987cf78c94e1c" kind="typedef"><name>Section</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a1d40b86d3773c718f2da482c1b5eb0ab" kind="typedef"><name>Bypasses</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a9d05dce73578feed425b58ecfb73a82f" kind="function"><name>mergeListName</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a902ca300858490200701b029fc708436" kind="function"><name>skeletonSections</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1aef39983921cb45eeeb5081f15584be3c" kind="function"><name>blendRemapInitList</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a222ab79b197ea72f8bfca829330a61b3" kind="function"><name>blendRemapSections</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a93d88ac338e299123684f8652e1e3fe1" kind="function"><name>hideSection</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a19be270374ab1430312e4d261f13bc10" kind="function"><name>bypasses</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a896d348b30ddb329f43fe1f8d2cd8fe8" kind="function"><name>restoreListName</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1acfd080a2c98c49fdf141eef92b2bb5dd" kind="function"><name>bypassSections</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys" kind="class"><name>AGRemapCore::WWMIShapeKeys</name>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1abd0c4c6edba5cb9bc49bbe2e71a3f77c" kind="function"><name>layoutOf</name></member>

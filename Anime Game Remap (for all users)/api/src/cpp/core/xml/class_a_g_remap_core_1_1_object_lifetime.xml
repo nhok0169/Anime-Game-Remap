@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_object_lifetime" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ObjectLifetime</compoundname>
+    <includes refid="_object_lifetime_8h" local="no">ObjectLifetime.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_object_lifetime_1a886889a64c1837ad51e7fdfd7d609a1e" prot="public" static="no">
+        <type>void(*)(const void *object)</type>
+        <definition>using AGRemapCore::ObjectLifetime::ReleaseHook = void (*)(const void* object)</definition>
+        <argsstring></argsstring>
+        <name>ReleaseHook</name>
+        <qualifiedname>AGRemapCore::ObjectLifetime::ReleaseHook</qualifiedname>
+        <briefdescription>
+<para>A listener told the address of each object freed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>It must not throw </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/ObjectLifetime.h" line="43" column="13" bodyfile="include/AGRemapCore/tools/ObjectLifetime.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_object_lifetime_1adc3b2dab983871c182d89ef0fa6db766" prot="private" static="yes" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_object_lifetime_1a886889a64c1837ad51e7fdfd7d609a1e" kindref="member">ReleaseHook</ref></type>
+        <definition>ReleaseHook AGRemapCore::ObjectLifetime::hook_</definition>
+        <argsstring></argsstring>
+        <name>hook_</name>
+        <qualifiedname>AGRemapCore::ObjectLifetime::hook_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/ObjectLifetime.h" line="73" column="39" bodyfile="include/AGRemapCore/tools/ObjectLifetime.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_object_lifetime_1a1e5a28e8e91e7d4c14ec314fbc466864" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::ObjectLifetime::setReleaseHook</definition>
+        <argsstring>(ReleaseHook hook) noexcept</argsstring>
+        <name>setReleaseHook</name>
+        <qualifiedname>AGRemapCore::ObjectLifetime::setReleaseHook</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_object_lifetime_1a886889a64c1837ad51e7fdfd7d609a1e" kindref="member">ReleaseHook</ref></type>
+          <declname>hook</declname>
+        </param>
+        <briefdescription>
+<para>Sets the listener, or clears it with <computeroutput>nullptr</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hook</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The listener </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/ObjectLifetime.h" line="50" column="25" bodyfile="include/AGRemapCore/tools/ObjectLifetime.h" bodystart="50" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_object_lifetime_1aad91955b31fa2b595f3f4d0432838bd5" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_object_lifetime_1a886889a64c1837ad51e7fdfd7d609a1e" kindref="member">ReleaseHook</ref></type>
+        <definition>static ReleaseHook AGRemapCore::ObjectLifetime::releaseHook</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>releaseHook</name>
+        <qualifiedname>AGRemapCore::ObjectLifetime::releaseHook</qualifiedname>
+        <briefdescription>
+<para>The listener, or <computeroutput>nullptr</computeroutput> when none is set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/ObjectLifetime.h" line="57" column="32" bodyfile="include/AGRemapCore/tools/ObjectLifetime.h" bodystart="57" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_object_lifetime_1acb5b0a02aa60841dfa262bd069a2fb52" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::ObjectLifetime::released</definition>
+        <argsstring>(const void *object) noexcept</argsstring>
+        <name>released</name>
+        <qualifiedname>AGRemapCore::ObjectLifetime::released</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>object</declname>
+        </param>
+        <briefdescription>
+<para>Tells the listener, if one is set, that the object at &apos;object&apos; is being freed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>object</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address of the object being freed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/ObjectLifetime.h" line="66" column="25" bodyfile="include/AGRemapCore/tools/ObjectLifetime.h" bodystart="66" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Tells a listener when an object that others may point at without owning it is freed
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The `sections`_ of an .ini file (:cpp:class:`IfTemplate`), their parts (:cpp:class:`IfTemplatePart`) and the
+graphs over them (:cpp:class:`IniSectionGraph`) are owned by one object -- an :cpp:class:`IniFile`, a graph that
+copied its `sections`_, a fixer -- and read through plain pointers by many others, as an :cpp:class:`IniFile`
+itself is by the parsers and fixers of a run. Each of these classes calls :cpp:func:`released` from its
+destructor, so whatever holds such a pointer outside the library can learn that it no longer points at
+anything. Nothing is called when no hook is set
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The `Python`_ binding sets the hook: a `Python`_ object that wraps one of these objects without owning it is
+invalidated when the object is freed, so it can neither read freed memory nor be handed back as the wrapper of
+a new object that happens to be allocated at the same address
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/ObjectLifetime.h" line="38" column="5" bodyfile="include/AGRemapCore/tools/ObjectLifetime.h" bodystart="38" bodyend="74"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_object_lifetime_1adc3b2dab983871c182d89ef0fa6db766" prot="private" virt="non-virtual"><scope>AGRemapCore::ObjectLifetime</scope><name>hook_</name></member>
+      <member refid="class_a_g_remap_core_1_1_object_lifetime_1acb5b0a02aa60841dfa262bd069a2fb52" prot="public" virt="non-virtual"><scope>AGRemapCore::ObjectLifetime</scope><name>released</name></member>
+      <member refid="class_a_g_remap_core_1_1_object_lifetime_1a886889a64c1837ad51e7fdfd7d609a1e" prot="public" virt="non-virtual"><scope>AGRemapCore::ObjectLifetime</scope><name>ReleaseHook</name></member>
+      <member refid="class_a_g_remap_core_1_1_object_lifetime_1aad91955b31fa2b595f3f4d0432838bd5" prot="public" virt="non-virtual"><scope>AGRemapCore::ObjectLifetime</scope><name>releaseHook</name></member>
+      <member refid="class_a_g_remap_core_1_1_object_lifetime_1a1e5a28e8e91e7d4c14ec314fbc466864" prot="public" virt="non-virtual"><scope>AGRemapCore::ObjectLifetime</scope><name>setReleaseHook</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

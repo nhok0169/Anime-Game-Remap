@@ -18,6 +18,7 @@
 #include <optional>
 
 #include "AGRemapCore/tools/idGenerator/IncIdGenerator.h"
+#include "AGRemapCore/tools/ObjectLifetime.h"
 
 
 namespace AGRemapCore {
@@ -48,7 +49,10 @@ namespace AGRemapCore {
              @endrst
              */
             explicit IfTemplatePart(const std::optional<size_t>& id = std::nullopt);
-            virtual ~IfTemplatePart() = default;
+            // Read through plain pointers by graphs and by the Python binding -- see ObjectLifetime
+            virtual ~IfTemplatePart() {
+                ObjectLifetime::released(this);
+            }
 
             /**
              * @brief Retrieves the id for the part

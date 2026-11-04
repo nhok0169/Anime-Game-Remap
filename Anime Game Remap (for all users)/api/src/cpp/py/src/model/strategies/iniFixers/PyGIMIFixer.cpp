@@ -271,6 +271,14 @@ void PyIniFixContext::log(const std::string &message) {
 
 
 void PyIniFixContext::writeFixedFile(const std::string &path, const std::string &content) {
+    // A core IniFile writes as the core does: binary, in the source .ini's own line ending. Python's
+    // text-mode open turns every "\n" into the platform's ending, so on Windows a Python fixer wrote an
+    // LF mod back as CRLF where the same fix in C++ kept it LF.
+    if (coreCtx != nullptr) {
+        coreCtx->writeFixedFile(path, content);
+        return;
+    }
+
     // Through builtins.open (resolved at call time) and its context-manager protocol, matching the
     // original's own 'with open(...) as f' -- the test harness patches exactly this.
     py::object file = py::module_::import("builtins").attr("open")(py::str(path), py::str("w"),
@@ -402,15 +410,27 @@ void PyGIMIFixer::applyGraphGroupEdits(const std::string &modName) {
 }
 
 
+void PyGIMIFixer::clear() {
+    Core::clear();
+    graphKeeper = py::list();
+}
+
+
 PyGIMIFixer::FixTargets PyGIMIFixer::getFix(ParseData &parseData, bool onlyEditObjGraphs) {
     (void)parseData;  // sourced from the parser instead -- see this class's own note
     refresh();
+    PyIniGraphGroups::KeepScope keep(graphKeeper);
 
     if (!prevFixerObj.is_none()) {
         auto *prev = prevFixerObj.cast<PyGIMIFixer*>();
         ParseData empty;
         prev->getFix(empty, true);
         this->graphGroups_ = std::move(prev->graphGroups_);
+
+        // with its groups, the graphs they may still point into
+        for (auto graph : prev->graphKeeper) {
+            graphKeeper.append(graph);
+        }
         prev->clear();
     } else {
         this->graphGroups_ = ctxImpl.makeGraphGroups();

@@ -559,6 +559,7 @@ void PyGIMIParser::refresh() {
 
 
 void PyGIMIParser::editCommands() {
+    PyIniGraphGroups::KeepScope keep(graphKeeper);
     if (!commandEditsObj.is_none()) {
         editGroupsFromPy(commandEditsObj);
     }
@@ -573,6 +574,7 @@ void PyGIMIParser::editCommands() {
     if (py::len(deferredStepsObj) > 0 || py::len(deferredReadersObj) > 0) {
         this->parseData().defer([this](AGRC::IniParseData& data) {
             py::gil_scoped_acquire gil;
+            PyIniGraphGroups::KeepScope keep(graphKeeper);
             runStepsFromPy(deferredStepsObj, data);
             runReadersFromPy(deferredReadersObj, data);
         });
@@ -818,6 +820,7 @@ void PyGIMIParser::clear() {
     // the view still holds every graph this parser ever built. Those borrow the .ini file's sections,
     // so they must not outlive a clear() -- see PyIniGraphGroups::releaseDetached's own warning.
     ctxImpl.groups.releaseDetached();
+    graphKeeper = py::list();
 
     tempKwargs.clear();
 }

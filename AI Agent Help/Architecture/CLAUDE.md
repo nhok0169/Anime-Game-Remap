@@ -717,6 +717,50 @@ drops what a view no longer groups (`PyGIMIParser::clear` calls it), and `IniFil
 built strategies before its sections, not after. Any new long-lived holder of such graphs needs the
 same treatment.
 
+**AND THEN IT HAPPENED WHERE NO ORDER COULD BE FIXED, SO THE FIX IS GENERAL NOW (2026-11-03).** The Python
+Sanhua mirror (`Tools/Misc/Prototypes/sanhuaExorcistEdits.py`) lost every texture list of one mod in 2-4 of 8
+whole-folder runs -- one `[]` section in their place -- while the compiled fix was always right. Every
+`IfTemplate` built in that mod's `makeFixer` came back as an OLD wrapper (refcount 3-10 where a fresh one has 2),
+registered at the address of a freed section. Measured with a temporary hook in `~IfTemplate`: EVERY stale wrapper
+was held by exactly the live graphs whose `keepAlive_` listed it (refcount = number of borrowing graphs), and the
+owner that freed first varied -- a per-call `PyIniGraphGroups` view (graphs an edit removes or copies die with the
+call), the previous file's fixer freed during the next file's work, the `IniFile` after its fix. Destruction order is
+not controlled, so two changes, both general:
+- **`AGRemapCore::ObjectLifetime`** (`tools/ObjectLifetime.h`): `IfTemplate`, `IfTemplatePart` and `IniSectionGraph`
+  call `ObjectLifetime::released(this)` from their destructors. `py/src/tools/PyObjectLifetime.cpp` sets the hook:
+  every NON-owning wrapper of those types still registered at the address is deregistered and its holder emptied,
+  so it is never handed out again and any use raises pybind11's `ValueError: ... Python instance was disowned`
+  instead of reading freed memory. **That needs `py::smart_holder`**: under the default holder pybind11 lazily
+  ALLOCATES raw storage for a null value pointer and reads it (a dead `IfTemplate` read `name == ''`), which is why
+  `IfTemplate` and `IniSectionGraph` are bound with `py::smart_holder` now, as the parts already were. A class you
+  add to the watched list must be `smart_holder` too. `ObjectLifetime` has no Python class on purpose: it is the
+  binding's own memory management, and a Python user setting the hook would break it.
+- **`PyIniGraphGroups::KeepScope`**: while a Python parser runs its steps (`editCommands`, the deferred steps) or a
+  Python fixer runs `getFix`, every per-call view that ends hands the graphs left in its keeping to that parser's or
+  fixer's `graphKeeper`, emptied by their `clear()` -- so they live as long as on the C++ path, where the view IS the
+  parser's. A fixer continuing a `prevFixer` takes its keeper with its groups.
+
+ASan could not see any of this (0 of 29 runs reproduced, no report): the reused address holds a LIVE object, and its
+quarantine never reuses addresses at all. What found it was a destructor hook checking pybind11's instance map, and
+the cheap tell is a build result's refcount (2 = fresh). Pinned by `Testing/Unit Tester/.../test_ObjectLifetime.py`,
+which fails on the build before (all five tests) and the Part-1-only build (the keeper test).
+
+**A WRAPPER HANDED BACK ON AN OWNING RETURN IS WORSE: THE NEW OBJECT IS DELETED (2026-11-03, the same day).** The
+Python mirror also segfaulted in about 1 Sanhua3 run in 10, inside `reader.parse()` of a LINKED `.ini`, reading
+address `0xffffffffffffffff` out of `IniFileParseContext::modType` (the file's mod-type map). `IniFile::siblingOf`
+returns a NEW file as a `std::unique_ptr`, and under pybind11's DEFAULT holder an owning return checks the instance
+map first: when a wrapper is already registered at that address it returns THAT wrapper and lets the `unique_ptr`
+delete the object -- so the caller gets a live-looking Python object over freed memory, every time. The stale wrapper
+was the `IniFile` RemapService had handed the parser factory by reference for an earlier file of the run, freed when
+that file was done while the prototype still held it. Measured before fixing: 20 files through a parser factory that
+keeps its `ini`, then 2000 `siblingOf` calls -- **500 returned a freed file's wrapper**. `IniFile` is now on the
+watched list (`~IniFile` calls `ObjectLifetime::released`) and `py::smart_holder`: 0 of 2000, and a freed file's
+wrapper raises (`IniFileLifetimeTest`). Two rules from it: **any class C++ both hands out by reference and creates
+for Python by an owning return is exposed** (sibling-style factories, `clone` / `deepcopy` returning `unique_ptr`) --
+watch it; and **ASan masked this one too** (0 of 6), while a release build with `/Z7` and an `AddVectoredExceptionHandler`
++ dbghelp stack printer named the frame in the first crash. The two named builds took 13 and 14 runs to crash
+once, so a clean streak of 14 at a 1-in-10 rate proves nothing; the build is not the difference, the allocation is.
+
 **Whenever you add a new class in this style** (stores raw non-owning pointers into other
 Python-constructible objects, and exposes an accessor or an `id()`-keyed correlation for them):
 think through what happens if every argument is constructed **100% inline**, with no separate

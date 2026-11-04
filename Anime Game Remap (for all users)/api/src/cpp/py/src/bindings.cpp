@@ -19,6 +19,7 @@
 //   whenever ANY binding header changed. A new binding adds its one-line declaration here, next to
 //   its call below; a mismatched signature is a link error, not a silent problem.
 void initCppListTools(pybind11::module_ &m);
+void initCppObjectLifetime(pybind11::module_ &m);
 void initCppIntTools(pybind11::module_ &m);
 void initCppBiMap(pybind11::module_ &m);
 void initCppAlgo(pybind11::module_ &m);
@@ -483,4 +484,8 @@ PYBIND11_MODULE(core, m) {
 
     // ModType::fixIni takes a IniFile, so it can only be bound now that one exists.
     initCppModTypeLateBindings(m);
+
+    // Last: it reads the Python types of the classes it watches (IfTemplate, IfTemplatePart, IniSectionGraph) off
+    // the module
+    initCppObjectLifetime(m);
 }

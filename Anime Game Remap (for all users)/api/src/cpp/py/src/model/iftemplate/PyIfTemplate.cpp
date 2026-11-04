@@ -76,7 +76,9 @@ PyIfTemplate::TreeKind parseTreeKind(const std::string &s) {
 
 
 void initCppIfTemplate(pybind11::module_ &m) {
-    py::class_<PyIfTemplate>(m, "IfTemplate", R"doc(
+    // py::smart_holder, as the parts are: a wrapper of a section the library has freed is then invalidated so it
+    // raises when used (see PyObjectLifetime.h) -- under the default holder pybind11 would read raw memory instead
+    py::class_<PyIfTemplate, py::smart_holder>(m, "IfTemplate", R"doc(
 Data for storing information about a `section`_ in a .ini file
 
 .. note::

@@ -2876,6 +2876,7 @@
     <member refid="class_a_g_remap_core_1_1_if_template_1ab88bba2ef4e36208b8af8ec3b1735800" kind="function"><name>operator=</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_1a49aef3af14b4d9fb62bd16d275d12b0c" kind="function"><name>IfTemplate</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_1ae22caf0218311558ab5cd32d56ce563d" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_template_1a6aedcf7db4ff0b6ea368a5ac72bb7cbb" kind="function"><name>~IfTemplate</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_1add9bb5ef15aa58b166e2b47026d581f1" kind="function"><name>parts</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_1a10126f9b3436e22863e50023e016c546" kind="function"><name>parts</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_1aced24a8c235a416aaa4d40d493e569b2" kind="function"><name>partsById</name></member>
@@ -2951,7 +2952,7 @@
   <compound refid="class_a_g_remap_core_1_1_if_template_part" kind="class"><name>AGRemapCore::IfTemplatePart</name>
     <member refid="class_a_g_remap_core_1_1_if_template_part_1aa4feff887c821207c18aa80124c31222" kind="variable"><name>id_</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_part_1af3811d645ad88dc9ec1aa8c987e2fbe5" kind="function"><name>IfTemplatePart</name></member>
-    <member refid="class_a_g_remap_core_1_1_if_template_part_1abbc676258ffb94968ef1690bde3823c8" kind="function"><name>~IfTemplatePart</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_template_part_1af6637df0ffb9a90f352096d691894c77" kind="function"><name>~IfTemplatePart</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_part_1a399a02089223bc5734a4f8a2c1df09c9" kind="function"><name>id</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_part_1a4dffeac05f68b6d3105d50fc56631376" kind="function"><name>refreshId</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_part_1a6e784136e2c8f43ea7fd0b410c8de043" kind="function"><name>generateId</name></member>
@@ -3155,7 +3156,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_file_1a6093fa9413b9e2fa95b3c4b90b82ea03" kind="variable"><name>sectionIfTemplates_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1aa8a4d1dc331994b2a832036a208e17cf" kind="variable"><name>z3Ctx_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a3583dd3572187d43974dc2b5381ea14f" kind="function"><name>IniFile</name></member>
-    <member refid="class_a_g_remap_core_1_1_ini_file_1aad2fcef608fd554aebb4728a27690f45" kind="function"><name>~IniFile</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_file_1a81852a247fb4ee1e9fe93031ce617ff4" kind="function"><name>~IniFile</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1ad849fec82a627fea625992796bca84fc" kind="function"><name>getFile</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a07aaa737807c855b9326092049cd534e" kind="function"><name>lineEnding</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a55fae46efaf6931fb1a1052b097ffc0e" kind="function"><name>getFileTxt</name></member>
@@ -4119,6 +4120,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1afa61e5cfc927608d00eecc66240763d8" kind="function"><name>operator=</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a9a1dae87b591e6ee6c2d233828758239" kind="function"><name>IniSectionGraph</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a5512c3028028ef4384cc6ca6519fb25e" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_section_graph_1aaa92935dc44c6dec3ff6839513753851" kind="function"><name>~IniSectionGraph</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1afa45e04f17b135820ab47cb52de6088c" kind="function"><name>sections</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1ace43f33c1c06b9839818911f3ab74e30" kind="function"><name>neighbours</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a74b535fd9229211abb0a25eae256b462" kind="function"><name>roots</name></member>
@@ -4859,6 +4861,13 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a62e9c0dd7f26da38a416e095378deb03" kind="variable"><name>lightMapReg</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a39607e33f163d473dedef1b6fe2753dc" kind="variable"><name>normalMapReg</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1_1_obj_download_regs_1a7260f100fdf22055862e0471606565d2" kind="variable"><name>coverRegs</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_object_lifetime" kind="class"><name>AGRemapCore::ObjectLifetime</name>
+    <member refid="class_a_g_remap_core_1_1_object_lifetime_1a886889a64c1837ad51e7fdfd7d609a1e" kind="typedef"><name>ReleaseHook</name></member>
+    <member refid="class_a_g_remap_core_1_1_object_lifetime_1adc3b2dab983871c182d89ef0fa6db766" kind="variable"><name>hook_</name></member>
+    <member refid="class_a_g_remap_core_1_1_object_lifetime_1a1e5a28e8e91e7d4c14ec314fbc466864" kind="function"><name>setReleaseHook</name></member>
+    <member refid="class_a_g_remap_core_1_1_object_lifetime_1aad91955b31fa2b595f3f4d0432838bd5" kind="function"><name>releaseHook</name></member>
+    <member refid="class_a_g_remap_core_1_1_object_lifetime_1acb5b0a02aa60841dfa262bd069a2fb52" kind="function"><name>released</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_open_match" kind="struct"><name>AGRemapCore::RemapIniRemover::OpenMatch</name>
     <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_open_match_1aa60a949f198e69fd877cba994b7c98f3" kind="variable"><name>sideChar</name></member>
@@ -9353,6 +9362,8 @@
   <compound refid="_parse_node_8h" kind="file"><name>ParseNode.h</name>
   </compound>
   <compound refid="_num_tools_8h" kind="file"><name>NumTools.h</name>
+  </compound>
+  <compound refid="_object_lifetime_8h" kind="file"><name>ObjectLifetime.h</name>
   </compound>
   <compound refid="_base_ordered_multi_map_8h" kind="file"><name>BaseOrderedMultiMap.h</name>
     <member refid="_base_ordered_multi_map_8h_1a88434f4f6c5991b094fe5b92d8bec4a3" kind="define"><name>CheckPredicate</name></member>

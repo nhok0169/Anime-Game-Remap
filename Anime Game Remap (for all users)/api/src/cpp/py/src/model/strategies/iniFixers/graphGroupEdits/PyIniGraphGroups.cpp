@@ -40,6 +40,27 @@ PyIniGraphGroups::PyIniGraphGroups(py::list graphGroups): graphGroups_(std::move
 }
 
 
+PyIniGraphGroups::~PyIniGraphGroups() {
+    if (keeper_ == nullptr || !Py_IsInitialized()) {
+        return;
+    }
+
+    for (auto graph : ownedGraphs_) {
+        keeper_->append(graph);
+    }
+}
+
+
+PyIniGraphGroups::KeepScope::KeepScope(py::list& keeper): previous_(keeper_) {
+    keeper_ = &keeper;
+}
+
+
+PyIniGraphGroups::KeepScope::~KeepScope() {
+    keeper_ = previous_;
+}
+
+
 py::list PyIniGraphGroups::list() const {
     return graphGroups_;
 }

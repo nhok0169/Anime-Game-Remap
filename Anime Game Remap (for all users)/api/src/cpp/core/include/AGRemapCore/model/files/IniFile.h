@@ -33,6 +33,7 @@
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
 #include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h"
+#include "AGRemapCore/tools/ObjectLifetime.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
 #include "AGRemapCore/view/BaseLogger.h"
 
@@ -183,7 +184,10 @@ namespace AGRemapCore {
                                   std::optional<Version> toVersion = std::nullopt,
                                   std::optional<std::unordered_set<int>> filteredToModTypeIds = std::nullopt);
 
-            virtual ~IniFile() = default;
+            // Read through plain pointers by parsers, fixers and the Python binding -- see ObjectLifetime
+            virtual ~IniFile() {
+                ObjectLifetime::released(this);
+            }
 
             /**
              * @brief

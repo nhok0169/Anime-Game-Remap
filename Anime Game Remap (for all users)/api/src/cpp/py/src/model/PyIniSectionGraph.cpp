@@ -139,7 +139,8 @@ void initCppIniSectionGraph(pybind11::module_ &m) {
     bindGeneratorIterator<PySectionIterQueryData>(m, "SectionIterQueryDataIterator");
     bindGeneratorIterator<std::pair<std::string, PyIfTemplate*>>(m, "IniSectionGraphSectionIterator");
 
-    py::class_<PyIniSectionGraph>(m, "IniSectionGraph", R"doc(
+    // py::smart_holder, as IfTemplate: an invalidated wrapper of a freed graph raises -- see PyObjectLifetime.h
+    py::class_<PyIniSectionGraph, py::smart_holder>(m, "IniSectionGraph", R"doc(
 Class for constructing a directed subgraph for how the `sections`_ in the .ini file are ran
 
 .. container:: operations

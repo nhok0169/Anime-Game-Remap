@@ -3275,6 +3275,17 @@ NumTools
 
 :raw-html:`<br />`
 
+ObjectLifetime
+==============
+
+.. cppattributetable:: AGRemapCore::ObjectLifetime
+
+.. doxygenclass:: AGRemapCore::ObjectLifetime
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 Ordered MultiMaps
 ==================
 

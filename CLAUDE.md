@@ -504,8 +504,22 @@ itself** (a hidden slot, the merged skeleton, the blend remap) are fixed templat
 a file-local class misnamed `Runtime`), and a register edit meant for only some sections of a graph is a
 `RegPartEdit` (an edit plus a section filter) in both languages -- `GraphGroupEdit.keyFilters` picks LINES, which a
 line-adding edit ignores. **A Python fixer must keep its `Z3Context` alive as long as its sections** (hand it to
-`GraphCreate.z3`): a local one freed after the fixer was built dropped every fix section of one mod on most
-`PYTHONHASHSEED`s, which reads exactly like a set-order bug and is a dangling pointer.
+`GraphCreate.z3`) -- but that only made the next bug rarer.
+**A PYTHON WRAPPER COULD OUTLIVE ITS C++ OBJECT AND BE HANDED BACK FOR THE NEXT ONE AT THAT ADDRESS; IT CANNOT NOW
+(2026-11-03).** The Python mirror lost one mod's texture lists (one `[]` section) in 2-4 of 8 whole-folder runs: a
+graph BORROWS sections it does not own, the owner (a per-call graph view, the previous file's fixer, an `IniFile`)
+freed first, and pybind11 -- which finds a wrapper by address -- gave the dead wrappers to new sections. Now
+`IfTemplate` / `IfTemplatePart` / `IniSectionGraph` report their destruction (`AGRemapCore::ObjectLifetime`), the
+binding invalidates every non-owning wrapper at that address (any use raises `... Python instance was disowned`),
+those classes are `py::smart_holder` (the default holder would read raw memory instead), and graphs an edit takes
+over live as long as the parser or fixer running it (`PyIniGraphGroups::KeepScope`). ASan saw nothing in 29 runs
+(the address holds a live object, and its quarantine never reuses one); a destructor hook over pybind11's instance
+map found it in one. **The same mechanism made the mirror SEGFAULT in about 1 run in 10, and on an owning return it
+is worse:** `IniFile::siblingOf` returns a new file by `unique_ptr`, and pybind11's default holder, finding the
+freed wrapper of an earlier file RemapService had lent the parser factory at that address, returned THAT wrapper and
+deleted the new file (500 of 2000 calls, measured). `IniFile` is watched and `py::smart_holder` now. Any class C++
+both lends by reference and creates by owning return is exposed the same way. See
+[Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s "A pybind11 wrapper for a raw, non-owning pointer".
 
 **A FIXER IS A LIST OF EDITS, NOT A PROGRAM (the maintainer, 2026-10-27 -- the SECOND time they have had to say
 it, after the Chisa remap).** The intended shape of every fixer, template or not, is a composition of the

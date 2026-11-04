@@ -51,6 +51,7 @@ pybind11_add_module(core
     src/view/PyLogger.cpp
     src/tools/PyIntTools.cpp
     src/tools/PyListTools.cpp
+    src/tools/PyObjectLifetime.cpp
     src/tools/PyRanges.cpp
     src/tools/dfa/PyDFA.cpp
     src/tools/tries/PyTrie.cpp

@@ -304,6 +304,12 @@ class PyGIMIParser: public PyGIMIParserCore {
         py::list deferredReadersObj;
 
         /**
+         * @brief The graphs this parser's edits took over and left in no group, kept until :meth:`clear` -- see
+         * PyIniGraphGroups::KeepScope
+         */
+        py::list graphKeeper;
+
+        /**
          * @brief
          @rst
          Temporary user-defined keyword variables for the user to use -- only cleared by

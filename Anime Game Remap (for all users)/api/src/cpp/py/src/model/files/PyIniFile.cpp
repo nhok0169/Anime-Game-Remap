@@ -143,7 +143,10 @@ List[:class:`str`]
 
 
 void initCppIniFile(pybind11::module_ &m) {
-    py::class_<AGRC::IniFile>(m, "IniFile", R"doc(
+    // py::smart_holder, as IfTemplate is: a wrapper of a file the library has freed is then invalidated so it raises
+    // when used (see PyObjectLifetime.h). Under the default holder pybind11 also hands a freed file's wrapper back for
+    // a new file at the same address (sibling, siblingOf) and deletes the new file
+    py::class_<AGRC::IniFile, py::smart_holder>(m, "IniFile", R"doc(
 Class for handling .ini files
 :raw-html:`<br />` :raw-html:`<br />`
 

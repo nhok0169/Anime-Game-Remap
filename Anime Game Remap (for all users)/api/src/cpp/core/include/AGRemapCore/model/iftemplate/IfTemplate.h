@@ -35,6 +35,7 @@
 #include "AGRemapCore/model/iftemplate/IfTemplateTree.h"
 #include "AGRemapCore/tools/parsing/ParseContext.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
+#include "AGRemapCore/tools/ObjectLifetime.h"
 
 
 namespace AGRemapCore {
@@ -169,6 +170,11 @@ namespace AGRemapCore {
             IfTemplate& operator=(const IfTemplate&) = delete;
             IfTemplate(IfTemplate&&) = default;
             IfTemplate& operator=(IfTemplate&&) = default;
+
+            // Read through plain pointers by graphs and by the Python binding -- see ObjectLifetime
+            ~IfTemplate() {
+                ObjectLifetime::released(this);
+            }
 
             /**
              * @brief

@@ -28,6 +28,7 @@
 #include <vector>
 
 #include "AGRemapCore/model/CallGraph.h"
+#include "AGRemapCore/tools/ObjectLifetime.h"
 #include "AGRemapCore/model/SectionIterData.h"
 #include "AGRemapCore/model/iftemplate/IfContentPart.h"
 #include "AGRemapCore/model/iftemplate/IfContentPartColour.h"
@@ -95,6 +96,11 @@ namespace AGRemapCore {
             IniSectionGraph& operator=(const IniSectionGraph&) = delete;
             IniSectionGraph(IniSectionGraph&&) = default;
             IniSectionGraph& operator=(IniSectionGraph&&) = default;
+
+            // Read through plain pointers by graph groups and by the Python binding -- see ObjectLifetime
+            ~IniSectionGraph() {
+                ObjectLifetime::released(this);
+            }
 
             /**
              * @brief All the `sections`_ of the constructed subgraph

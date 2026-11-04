@@ -33,7 +33,7 @@ namespace AGRemapCore {
     // onto the skin's jacket (6), her props (6) onto the skin's hip pouch (5) -- same register order,
     // and her props' glass / foil passes do not carry; the pouch's own foil MATERIAL is moved off them
     // (lynaePropsPlainCode).
-    IniFixBuilder::Factory IniFixBuilderFuncs::lynaePeppermint3_7() {
+    WWMIFixerConfig LynaeFixer::peppermint3_7Config() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::LynaePeppermint;
         config.version = "3.7";
@@ -352,7 +352,12 @@ namespace AGRemapCore {
             {5, "hip pouch"}, {6, "jacket"}, {7, "eyes"},
         };
 
-        return makeWWMIFixer(std::move(config));
+        return config;
+    }
+
+
+    IniFixBuilder::Factory IniFixBuilderFuncs::lynaePeppermint3_7() {
+        return makeWWMIFixer(LynaeFixer::peppermint3_7Config());
     }
 
 

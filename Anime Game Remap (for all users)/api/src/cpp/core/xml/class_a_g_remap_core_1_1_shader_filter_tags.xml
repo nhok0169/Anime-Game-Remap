@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="115" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" bodystart="115" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="132" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" bodystart="132" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -64,7 +64,76 @@ Tags a shader, unless it is tagged already (its first value stays)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="68" column="18" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="23" bodyend="30"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="69" column="18" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="24" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_shader_filter_tags_1a72f32c230d3785efdf529ab10d44a4b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ShaderFilterTags::addNumbered</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;shaderHashes, const std::map&lt; std::string, std::string &gt; &amp;given, double base, double step)</argsstring>
+        <name>addNumbered</name>
+        <qualifiedname>AGRemapCore::ShaderFilterTags::addNumbered</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shaderHashes</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>given</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Tags each of &apos;shaderHashes&apos; not tagged yet, in order: with its value in &apos;given&apos; when it has one, else with
+the next of a numbered run -- &apos;base&apos;, &apos;base&apos; + &apos;step&apos;, &apos;base&apos; + 2 &apos;step&apos;, ... -- which only the shaders
+without a given value advance
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shaderHashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The shaders, in the order they are tagged </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>given</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The values some of them must have <ndash/> one another fix also tags, which has to agree </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The run&apos;s first value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The run&apos;s step </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="84" column="18" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="33" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_shader_filter_tags_1a05b040cbb40d4a7086d809a9f4fa042d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -95,7 +164,7 @@ Tags a shader, unless it is tagged already (its first value stays)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="77" column="27" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="32" bodyend="35"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="94" column="27" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="50" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_shader_filter_tags_1ad2ef302f946195131fe7a0f58b1d5a47" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_shader_filter_tags_1_1_tag" kindref="compound">Tag</ref> &gt; &amp;</type>
@@ -110,7 +179,7 @@ Tags a shader, unless it is tagged already (its first value stays)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="82" column="31" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="37" bodyend="39"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="99" column="31" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="55" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_shader_filter_tags_1a4cbcfba8d3fcb4bd00dbab8ca1477c13" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -170,7 +239,7 @@ shader that is not tagged is left out
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="98" column="25" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="41" bodyend="54"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="115" column="25" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="59" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_shader_filter_tags_1a9a4f353c6c2c8de45f77f494f02deaad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt; &gt;</type>
@@ -216,7 +285,7 @@ The ``[ShaderOverride...]`` `section`_ that tags shader number &apos;index&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="112" column="29" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="56" bodyend="73"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="129" column="29" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="74" bodyend="91"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -236,9 +305,10 @@ Which value each shader gets is the fixer&apos;s choice. 3DMigoto keys a ``[Shad
 across EVERY loaded ``.ini``, so two fixes that tag the same shader must give it the same value
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="40" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" bodystart="40" bodyend="116"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="41" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" bodystart="41" bodyend="133"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a762bf41f3756501f2c38563acdd65f11" prot="public" virt="non-virtual"><scope>AGRemapCore::ShaderFilterTags</scope><name>add</name></member>
+      <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a72f32c230d3785efdf529ab10d44a4b6" prot="public" virt="non-virtual"><scope>AGRemapCore::ShaderFilterTags</scope><name>addNumbered</name></member>
       <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a4cbcfba8d3fcb4bd00dbab8ca1477c13" prot="public" virt="non-virtual"><scope>AGRemapCore::ShaderFilterTags</scope><name>condition</name></member>
       <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a05b040cbb40d4a7086d809a9f4fa042d" prot="public" virt="non-virtual"><scope>AGRemapCore::ShaderFilterTags</scope><name>filterIndexOf</name></member>
       <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a9a4f353c6c2c8de45f77f494f02deaad" prot="public" virt="non-virtual"><scope>AGRemapCore::ShaderFilterTags</scope><name>section</name></member>

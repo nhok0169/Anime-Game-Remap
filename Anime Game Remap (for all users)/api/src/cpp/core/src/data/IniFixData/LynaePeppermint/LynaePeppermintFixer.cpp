@@ -71,7 +71,7 @@ namespace AGRemapCore {
     //
     // (The skin's component 5 roles are named "pouch" after the asset folder's first reading of that
     // component; it is her coat.)
-    IniFixBuilder::Factory IniFixBuilderFuncs::lynae3_7() {
+    WWMIFixerConfig LynaePeppermintFixer::lynae3_7Config() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::Lynae;
         config.version = "3.7";             // her live vb0 is 3.7's, and her bones are numbered as at 3.7
@@ -407,7 +407,12 @@ namespace AGRemapCore {
             {5, "jacket"}, {6, "props (headphones, pin, ID card)"}, {7, "eyes"},
         };
 
-        return makeWWMIFixer(std::move(config));
+        return config;
+    }
+
+
+    IniFixBuilder::Factory IniFixBuilderFuncs::lynae3_7() {
+        return makeWWMIFixer(LynaePeppermintFixer::lynae3_7Config());
     }
 
 

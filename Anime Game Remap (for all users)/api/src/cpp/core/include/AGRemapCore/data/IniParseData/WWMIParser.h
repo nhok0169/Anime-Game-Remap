@@ -15,6 +15,7 @@
 // ##### EndCredits
 
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -49,6 +50,19 @@ namespace AGRemapCore {
      @endrst
      */
     struct WWMIParserConfig {
+        /**
+         * @brief
+         @rst
+         The config the library's own parser of 'id' is built from, or ``std::nullopt`` for a character it has no WWMI
+         parser for -- to start a variant from (change a field, hand it to :cpp:func:`makeWWMIParser`), or to read it
+         @endrst
+         *
+         * @param id The character
+         *
+         * @return The config
+         */
+        static std::optional<WWMIParserConfig> of(ModTypeId id);
+
         /**
          * @brief
          @rst

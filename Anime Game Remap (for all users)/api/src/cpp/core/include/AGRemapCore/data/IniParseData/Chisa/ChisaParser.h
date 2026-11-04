@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include "AGRemapCore/data/IniParseData/WWMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h"
 
 
@@ -39,6 +40,11 @@ namespace AGRemapCore {
              * @brief The 2.8 parser -- see :cpp:func:`IniParseBuilderFuncs::chisa2_8`
              */
             static IniParseBuilder::Factory v2_8();
+
+            /**
+             * @brief The config #v2_8 builds its parser from (:cpp:func:`makeWWMIParser`)
+             */
+            static WWMIParserConfig v2_8Config();
     };
 }
 

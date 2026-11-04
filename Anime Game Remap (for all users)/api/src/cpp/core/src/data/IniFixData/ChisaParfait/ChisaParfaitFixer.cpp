@@ -177,7 +177,7 @@ namespace AGRemapCore {
     }
 
 
-    IniFixBuilder::Factory IniFixBuilderFuncs::chisa2_8() {
+    WWMIFixerConfig ChisaParfaitFixer::chisa2_8Config() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::Chisa;
         config.version = "2.8";                // the TARGET's, Chisa's
@@ -655,7 +655,12 @@ namespace AGRemapCore {
         };
 
         config.copyPreamble = IniComments::GIMIObjMergerPreamble;
-        return makeWWMIFixer(std::move(config));
+        return config;
+    }
+
+
+    IniFixBuilder::Factory IniFixBuilderFuncs::chisa2_8() {
+        return makeWWMIFixer(ChisaParfaitFixer::chisa2_8Config());
     }
 
 

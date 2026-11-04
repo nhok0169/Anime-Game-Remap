@@ -22,7 +22,7 @@ carries no ``fromVersion`` of its own. **Default**: ``&quot;2.5&quot;``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="59" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="59" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="73" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="73" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ae136acddb4c36c678ef101f46a8df030" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -39,7 +39,7 @@ carries no ``fromVersion`` of its own. **Default**: ``&quot;2.5&quot;``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="64" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="64" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="78" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="78" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a0b5add8a9b297a25a19d9f97c8c324ae" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -56,7 +56,7 @@ carries no ``fromVersion`` of its own. **Default**: ``&quot;2.5&quot;``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="69" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="69" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="83" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="83" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a4766a752f3a48e44352ddd4b7817ebac" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -73,7 +73,7 @@ carries no ``fromVersion`` of its own. **Default**: ``&quot;2.5&quot;``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="74" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="74" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="88" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="88" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9702bf11e4f1c8224e36539597b68979" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
@@ -98,7 +98,7 @@ the fix copies them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="88" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="88" bodyend="89"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="102" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="102" bodyend="103"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a82ed24bbf24f94b65ce6b44c25f886d3" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
@@ -127,7 +127,7 @@ Left empty, the parser records no roles and :cpp:func:`IniParseData::textureRole
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="109" column="26" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="109" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="123" column="26" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="123" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a04156e1f7970553bb1c5ed5c958895aa" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering" kindref="compound">SkeletonNumberingProbe::Numbering</ref> &gt;</type>
@@ -153,7 +153,7 @@ the probe off
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="126" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="126" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="140" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="140" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9aad93fe0e21d99a44dd18f578c94d79" prot="public" static="no" mutable="no">
         <type>std::unordered_map&lt; long long, std::array&lt; double, 3 &gt; &gt;</type>
@@ -172,7 +172,7 @@ heaviest weight (over half) is that bone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="136" column="28" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="136" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="150" column="28" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="150" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a573dcd823bef4c527e788b90743c12d1" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split" kindref="compound">DrawSplit</ref> &gt;</type>
@@ -193,7 +193,43 @@ flag ``0x10``. A slot whose map is not the mod&apos;s own is read through
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="228" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="228" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="242" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a33cb02bf539810bb8ec14a938c6184e0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" kindref="compound">WWMIParserConfig</ref> &gt;</type>
+        <definition>std::optional&lt; WWMIParserConfig &gt; AGRemapCore::WWMIParserConfig::of</definition>
+        <argsstring>(ModTypeId id)</argsstring>
+        <name>of</name>
+        <qualifiedname>AGRemapCore::WWMIParserConfig::of</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The config the library&apos;s own parser of &apos;id&apos; is built from, or ``std::nullopt`` for a character it has no WWMI
+parser for -- to start a variant from (change a field, hand it to :cpp:func:`makeWWMIParser`), or to read it
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The character</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The config </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="64" column="30" bodyfile="src/data/IniParseData/WWMIParserConfigs.cpp" bodystart="27" bodyend="39"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -232,10 +268,11 @@ every GI head&apos;s index too, filed at 6.1. That bucket holds no WuWa row, so 
         <link refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="51" column="5" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="51" bodyend="229"/>
+    <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="52" column="5" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="52" bodyend="243"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a573dcd823bef4c527e788b90743c12d1" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>drawSplits</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9702bf11e4f1c8224e36539597b68979" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>hashOnlyObjs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a33cb02bf539810bb8ec14a938c6184e0" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>of</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9aad93fe0e21d99a44dd18f578c94d79" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>referenceBoneCentroids</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a04156e1f7970553bb1c5ed5c958895aa" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>skeletonNumberings</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ae136acddb4c36c678ef101f46a8df030" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>slotHashType</name></member>

@@ -19,7 +19,7 @@
 
 
 namespace AGRemapCore {
-    IniParseBuilder::Factory IniParseBuilderFuncs::changliNymph2_4() {
+    WWMIParserConfig ChangliNymphParser::v2_4Config() {
         // The WWMI shape -- see makeWWMIParser. Her eight draw slots come off the library's Indices
         // rows, her hashes off HashData; 2.4 is the skin's version, unchanged since.
         WWMIParserConfig config{};
@@ -28,7 +28,12 @@ namespace AGRemapCore {
         config.textures = changliNymphTextureFacts();
         // her blindfold, which several mods hide: its sections go to a graph of their own for the fix to copy
         config.hashOnlyObjs.emplace_back("blindfold", "blindfold");
-        return makeWWMIParser(std::move(config));
+        return config;
+    }
+
+
+    IniParseBuilder::Factory IniParseBuilderFuncs::changliNymph2_4() {
+        return makeWWMIParser(ChangliNymphParser::v2_4Config());
     }
 
 

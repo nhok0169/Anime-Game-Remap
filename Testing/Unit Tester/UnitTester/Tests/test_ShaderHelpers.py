@@ -46,6 +46,15 @@ class ShaderFilterTagsTest(BaseUnitTest):
             self.tags().section(5, "ShaderOverrideMissing")
 
 
+    def test_addNumbered_givenValuesElseTheNextOfTheRun(self):
+        tags = FRB.ShaderFilterTags()
+        tags.add("aa", "1.5")
+        # "aa" is tagged already and keeps its value; only the shaders WITHOUT a given value advance the run
+        tags.addNumbered(["aa", "bb", "cc", "bb", "dd"], {"cc": "9"}, 100.0, 0.25)
+        self.assertEqual([(tag.shaderHash, tag.filterIndex) for tag in tags.tags()],
+                         [("aa", "1.5"), ("bb", "100"), ("cc", "9"), ("dd", "100.25")])
+
+
 class CustomShaderBackupsTest(BaseUnitTest):
     @classmethod
     def backups(cls) -> FRB.CustomShaderBackups:

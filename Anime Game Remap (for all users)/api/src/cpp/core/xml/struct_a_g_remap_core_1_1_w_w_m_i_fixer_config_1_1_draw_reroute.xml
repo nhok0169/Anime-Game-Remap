@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="552" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="552" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="568" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="568" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -38,7 +38,7 @@ it is drawn from the mod&apos;s own ``.ini`` (give it ``sameFileSection``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="561" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="561" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="577" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="577" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a5ccbbe5b6db0579d5b9527ce20fa8057" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -56,7 +56,7 @@ The :cpp:member:`WWMIParserConfig::drawSplits` entry whose draws go: its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="570" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="570" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="586" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="586" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -64,7 +64,7 @@ The :cpp:member:`WWMIParserConfig::drawSplits` entry whose draws go: its
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="548" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="548" bodyend="571"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="564" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="564" bodyend="587"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>as</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>from</name></member>

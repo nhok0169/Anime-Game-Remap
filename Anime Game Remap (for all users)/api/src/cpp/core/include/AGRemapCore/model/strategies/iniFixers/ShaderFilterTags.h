@@ -12,6 +12,7 @@
 // ##### EndCredits
 
 #include <cstddef>
+#include <map>
 #include <memory>
 #include <optional>
 #include <string>
@@ -66,6 +67,22 @@ namespace AGRemapCore {
              * @return Whether the shader was tagged by this call
              */
             bool add(const std::string& shaderHash, const std::string& filterIndex);
+
+            /**
+             * @brief
+             @rst
+             Tags each of 'shaderHashes' not tagged yet, in order: with its value in 'given' when it has one, else with
+             the next of a numbered run -- 'base', 'base' + 'step', 'base' + 2 'step', ... -- which only the shaders
+             without a given value advance
+             @endrst
+             *
+             * @param shaderHashes The shaders, in the order they are tagged
+             * @param given The values some of them must have -- one another fix also tags, which has to agree
+             * @param base The run's first value
+             * @param step The run's step
+             */
+            void addNumbered(const std::vector<std::string>& shaderHashes, const std::map<std::string, std::string>& given,
+                             double base, double step);
 
             /**
              * @brief The ``filter_index`` of a shader, or ``std::nullopt`` when it is not tagged

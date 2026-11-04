@@ -97,3 +97,13 @@ class PythonParityTest(unittest.TestCase):
         self.assertIs(part.edit, add)
         self.assertTrue(part.sectionFilter("CommandListCleanup"))
         self.assertFalse(part.sectionFilter("CommandListOverride"))
+
+    def test_wwmiConfigs_of_theShippedPairsAndCharacters(self):
+        ids = FRB.ModTypeId
+        fix = FRB.WWMIFixerConfig.of(ids.Chisa, ids.ChisaParfait)
+        self.assertIsNotNone(fix)
+        self.assertEqual(fix.targetId, ids.ChisaParfait)
+        self.assertIsNone(FRB.WWMIFixerConfig.of(ids.Chisa, ids.Sanhua))
+        parse = FRB.WWMIParserConfig.of(ids.Sanhua)
+        self.assertEqual(parse.version, "2.5")
+        self.assertIsNone(FRB.WWMIParserConfig.of(ids.Amber))

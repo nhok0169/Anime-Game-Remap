@@ -28,7 +28,7 @@ namespace AGRemapCore {
     // side sashes -> slot 4 as well: the skin's skirt slot 5 draws them with the same shader (7f639abb) in
     // the character menu, but cuts them away in the overworld (see the plan). The skin's sheer dress (3),
     // skirt (5) and shawl (7) take nothing and are skipped.
-    IniFixBuilder::Factory IniFixBuilderFuncs::changliNymph2_4() {
+    WWMIFixerConfig ChangliFixer::nymph2_4Config() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::ChangliNymph;
         config.version = "2.4";
@@ -186,7 +186,12 @@ namespace AGRemapCore {
             {0, "bangs"}, {1, "hair"}, {2, "face"}, {3, "sheer dress"}, {4, "body"},
             {5, "skirt and veils"}, {6, "eyes"}, {7, "shawl"},
         };
-        return makeWWMIFixer(std::move(config));
+        return config;
+    }
+
+
+    IniFixBuilder::Factory IniFixBuilderFuncs::changliNymph2_4() {
+        return makeWWMIFixer(ChangliFixer::nymph2_4Config());
     }
 
 

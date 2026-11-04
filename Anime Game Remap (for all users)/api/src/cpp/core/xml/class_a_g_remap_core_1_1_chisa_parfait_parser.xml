@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/ChisaParfait/ChisaParfaitParser.h" line="38" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/ChisaParfait/ChisaParfaitParser.h" line="39" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -33,7 +33,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/ChisaParfait/ChisaParfaitParser.h" line="43" column="45" bodyfile="src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp" bodystart="37" bodyend="39"/>
+        <location file="include/AGRemapCore/data/IniParseData/ChisaParfait/ChisaParfaitParser.h" line="44" column="45" bodyfile="src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_chisa_parfait_parser_1a31c319abba297bad5fcc5eaddee112bd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" kindref="compound">WWMIParserConfig</ref></type>
+        <definition>WWMIParserConfig AGRemapCore::ChisaParfaitParser::v3_5Config</definition>
+        <argsstring>()</argsstring>
+        <name>v3_5Config</name>
+        <qualifiedname>AGRemapCore::ChisaParfaitParser::v3_5Config</qualifiedname>
+        <briefdescription>
+<para>The config <ref refid="class_a_g_remap_core_1_1_chisa_parfait_parser_1ae1a0641900f207e651dcc65d9cce9d77" kindref="member">v3_5</ref> builds its parser from (:cpp:func:<computeroutput><ref refid="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" kindref="member">makeWWMIParser</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/ChisaParfait/ChisaParfaitParser.h" line="49" column="37" bodyfile="src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp" bodystart="23" bodyend="34"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -52,10 +67,11 @@ bone-data override and the two shape-key overrides by their own hashes. Pair thi
     ``wwmiBlendInfluences`` in the fixer is for
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/ChisaParfait/ChisaParfaitParser.h" line="36" column="5" bodyfile="include/AGRemapCore/data/IniParseData/ChisaParfait/ChisaParfaitParser.h" bodystart="36" bodyend="44"/>
+    <location file="include/AGRemapCore/data/IniParseData/ChisaParfait/ChisaParfaitParser.h" line="37" column="5" bodyfile="include/AGRemapCore/data/IniParseData/ChisaParfait/ChisaParfaitParser.h" bodystart="37" bodyend="50"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_chisa_parfait_parser_1acd97bfc4c04b2b35c00afe50088eafba" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaParfaitParser</scope><name>ChisaParfaitParser</name></member>
       <member refid="class_a_g_remap_core_1_1_chisa_parfait_parser_1ae1a0641900f207e651dcc65d9cce9d77" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaParfaitParser</scope><name>v3_5</name></member>
+      <member refid="class_a_g_remap_core_1_1_chisa_parfait_parser_1a31c319abba297bad5fcc5eaddee112bd" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaParfaitParser</scope><name>v3_5Config</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

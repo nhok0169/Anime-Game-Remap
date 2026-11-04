@@ -22,7 +22,7 @@
 
 
 namespace AGRemapCore {
-    IniParseBuilder::Factory IniParseBuilderFuncs::lynae3_6() {
+    WWMIParserConfig LynaeParser::v3_6Config() {
         // The WWMI shape -- see makeWWMIParser. Her eight draw slots come off the library's Indices
         // rows, her hashes off HashData; 3.6 is the vb0 most of her mods carry.
         WWMIParserConfig config{};
@@ -40,7 +40,12 @@ namespace AGRemapCore {
         WWMIParserConfig::DrawSplit lowerTights{"lowerTights", 4, "lowerDetail", 0x80};
         lowerTights.share = 0.01;
         config.drawSplits = {{"jacketFilm", 5, "jacketDetail", 0x10}, std::move(propsFilm), std::move(lowerTights)};
-        return makeWWMIParser(std::move(config));
+        return config;
+    }
+
+
+    IniParseBuilder::Factory IniParseBuilderFuncs::lynae3_6() {
+        return makeWWMIParser(LynaeParser::v3_6Config());
     }
 
 

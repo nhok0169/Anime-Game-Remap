@@ -17,6 +17,7 @@
 
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/iftemplate/IfContentPart.h"
+#include "AGRemapCore/tools/NumTools.h"
 
 
 namespace AGRemapCore {
@@ -27,6 +28,23 @@ namespace AGRemapCore {
 
         tags_.push_back(Tag{shaderHash, filterIndex});
         return true;
+    }
+
+    void ShaderFilterTags::addNumbered(const std::vector<std::string>& shaderHashes, const std::map<std::string, std::string>& given,
+                                       double base, double step) {
+        std::size_t next = 0;
+        for (const std::string& shader : shaderHashes) {
+            if (filterIndexOf(shader).has_value()) {
+                continue;
+            }
+            const auto value = given.find(shader);
+            if (value != given.end()) {
+                add(shader, value->second);
+            } else {
+                add(shader, NumTools::formatDouble(base + step * static_cast<double>(next)));
+                ++next;
+            }
+        }
     }
 
     std::optional<std::string> ShaderFilterTags::filterIndexOf(const std::string& shaderHash) const {

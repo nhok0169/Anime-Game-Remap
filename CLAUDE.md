@@ -489,7 +489,8 @@ writes them out as a graph in each group -- `VarSectionsCreate` until it was fol
 new holder class. A variable holds `IfTemplate` sections. It holds data about ONE graph; a
 `GraphGroupEditVariables` for data spanning several graphs is made only when a use case needs it (the maintainer's
 rule). See [Ini Graph Editing](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md)'s first section.
-**THE PYTHON ACCEPTANCE TEST MIRRORS THE C++ (the maintainer, 2026-11-02):** the explicit Python parser and fixer
+**THE PYTHON ACCEPTANCE TEST MIRRORS THE C++ (the maintainer, 2026-11-02; and 2026-11-04: it is a test OF THE REFACTOR,
+not kept after it -- so never make the Python shorter or cleverer than the C++, simplify the C++ and mirror it):** the explicit Python parser and fixer
 (`Tools/Misc/Prototypes/sanhuaExorcistEdits.py`, Sanhua -> SanhuaExorcist) only show the C++ is simple if they follow
 it step for step -- so a step is simplified IN C++ first, onto API both sides share, and the Python then mirrors it.
 Step 5 (the texture lists) is split into four layers: the parser's reading (`IniParseData::resourceOfFile`, the

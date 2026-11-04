@@ -83,6 +83,21 @@ namespace AGRemapCore {
      */
     struct WWMIFixerConfig {
         /**
+         * @brief
+         @rst
+         The config the library's own fix from 'source' to 'target' is built from, or ``std::nullopt`` for a pair it has
+         no WWMI fix for -- to start a variant of a shipped fix from (change a field, hand it to
+         :cpp:func:`makeWWMIFixer`), or to read what it does
+         @endrst
+         *
+         * @param source The character a mod is made for
+         * @param target The character it is remapped onto
+         *
+         * @return The config
+         */
+        static std::optional<WWMIFixerConfig> of(ModTypeId source, ModTypeId target);
+
+        /**
          * @brief One register of a target slot's draw and the ROLE of the mod texture bound there
          */
         struct Binding {

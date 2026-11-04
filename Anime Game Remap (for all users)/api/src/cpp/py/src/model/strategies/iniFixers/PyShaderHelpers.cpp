@@ -56,6 +56,25 @@ EVERY loaded .ini, so two fixes that tag the same shader must give it the same v
         .def_readonly("filterIndex", &Tags::Tag::filterIndex, py::doc(R"doc(:class:`str`: The ``filter_index`` it is given)doc"));
 
     cls.def(py::init<>())
+       .def("addNumbered", &Tags::addNumbered, py::arg("shaderHashes"), py::arg("given"), py::arg("base"), py::arg("step"),
+            py::doc(R"doc(
+Tags each of ``shaderHashes`` not tagged yet, in order: with its value in ``given`` when it has one, else with the next of
+a numbered run -- ``base``, ``base + step``, ``base + 2 step``, ... -- which only the shaders without a given value advance
+
+Parameters
+----------
+shaderHashes: List[:class:`str`]
+    The shaders, in the order they are tagged
+
+given: Dict[:class:`str`, :class:`str`]
+    The values some of them must have -- one another fix also tags, which has to agree
+
+base: :class:`float`
+    The run's first value
+
+step: :class:`float`
+    The run's step
+)doc"))
        .def("add", &Tags::add, py::arg("shaderHash"), py::arg("filterIndex"), py::doc(R"doc(
 Tags a shader, unless it is tagged already (its first value stays)
 

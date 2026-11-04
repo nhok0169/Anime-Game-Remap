@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 
 
@@ -34,6 +35,12 @@ namespace AGRemapCore {
              * @brief The 2.5 fix remapping **SanhuaExorcist onto Sanhua** -- see :cpp:func:`IniFixBuilderFuncs::sanhua2_5`
              */
             static IniFixBuilder::Factory sanhua2_5();
+
+            /**
+             * @brief The config #sanhua2_5 builds its fixer from (:cpp:func:`makeWWMIFixer`) -- to start a variant of the
+             * shipped fix from, or to read what it does
+             */
+            static WWMIFixerConfig sanhua2_5Config();
     };
 }
 

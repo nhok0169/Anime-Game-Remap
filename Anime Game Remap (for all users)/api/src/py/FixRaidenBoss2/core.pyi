@@ -28141,6 +28141,25 @@ class ShaderFilterTags:
         :class:`bool`
             Whether the shader was tagged by this call
         """
+    def addNumbered(self, shaderHashes: collections.abc.Sequence[str], given: collections.abc.Mapping[str, str], base: typing.SupportsFloat | typing.SupportsIndex, step: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Tags each of ``shaderHashes`` not tagged yet, in order: with its value in ``given`` when it has one, else with the next of
+        a numbered run -- ``base``, ``base + step``, ``base + 2 step``, ... -- which only the shaders without a given value advance
+        
+        Parameters
+        ----------
+        shaderHashes: List[:class:`str`]
+            The shaders, in the order they are tagged
+        
+        given: Dict[:class:`str`, :class:`str`]
+            The values some of them must have -- one another fix also tags, which has to agree
+        
+        base: :class:`float`
+            The run's first value
+        
+        step: :class:`float`
+            The run's step
+        """
     def condition(self, reg: str, shaderHashes: collections.abc.Sequence[str], none: bool = False) -> str:
         """
         The .ini condition true on a draw by any of 'shaderHashes' -- ``<reg> == <index> || ...`` -- or, with 'none', by none of
@@ -32634,6 +32653,16 @@ class WWMIFixerConfig:
         @texcoordFile.setter
         def texcoordFile(self, arg0: str) -> None:
             ...
+    @staticmethod
+    def of(source: ModTypeId, target: ModTypeId) -> FixRaidenBoss2.core.WWMIFixerConfig | None:
+        """
+        The config the library's own fix from ``source`` to ``target`` is built from, or ``None`` for a pair it has no WWMI fix
+        for -- to start a variant of a shipped fix from (change a field, hand it to :func:`makeWWMIFixer`), or to read what it does
+        
+        :param source: The character a mod is made for
+        :param target: The character it is remapped onto
+        :returns: The config
+        """
     def __init__(self) -> None:
         ...
     @property
@@ -33224,6 +33253,15 @@ class WWMIParserConfig:
         @sourceFlags.setter
         def sourceFlags(self, arg0: WWMIParserConfig.DrawSplit.FlagMask) -> None:
             ...
+    @staticmethod
+    def of(id: ModTypeId) -> FixRaidenBoss2.core.WWMIParserConfig | None:
+        """
+        The config the library's own parser of ``id`` is built from, or ``None`` for a character it has no WWMI parser for -- to
+        start a variant from (change a field, hand it to :func:`makeWWMIParser`), or to read it
+        
+        :param id: The character
+        :returns: The config
+        """
     def __init__(self) -> None:
         ...
     @property

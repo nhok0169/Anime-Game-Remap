@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 
 
@@ -56,6 +57,12 @@ namespace AGRemapCore {
              *        :cpp:func:`IniFixBuilderFuncs::chisa2_8`
              */
             static IniFixBuilder::Factory chisa2_8();
+
+            /**
+             * @brief The config #chisa2_8 builds its fixer from (:cpp:func:`makeWWMIFixer`) -- to start a variant of the
+             * shipped fix from, or to read what it does
+             */
+            static WWMIFixerConfig chisa2_8Config();
     };
 }
 

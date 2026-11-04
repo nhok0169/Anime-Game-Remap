@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 
 
@@ -37,6 +38,12 @@ namespace AGRemapCore {
              *        :cpp:func:`IniFixBuilderFuncs::changli1_4`
              */
             static IniFixBuilder::Factory changli1_4();
+
+            /**
+             * @brief The config #changli1_4 builds its fixer from (:cpp:func:`makeWWMIFixer`) -- to start a variant of the
+             * shipped fix from, or to read what it does
+             */
+            static WWMIFixerConfig changli1_4Config();
     };
 }
 

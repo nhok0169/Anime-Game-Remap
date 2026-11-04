@@ -165,8 +165,13 @@ namespace AGRemapCore {
     }
 
 
+    WWMIFixerConfig SanhuaFixer::exorcist2_5Config() {
+        return sanhuaExorcistConfig();
+    }
+
+
     IniFixBuilder::Factory IniFixBuilderFuncs::sanhuaExorcist2_5() {
-        return makeWWMIFixer(sanhuaExorcistConfig());
+        return makeWWMIFixer(SanhuaFixer::exorcist2_5Config());
     }
 
 

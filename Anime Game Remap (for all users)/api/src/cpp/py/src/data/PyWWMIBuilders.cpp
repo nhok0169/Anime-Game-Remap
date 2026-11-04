@@ -731,4 +731,20 @@ slots rather than mod types of their own
 :param config: The pair's config
 :returns: A fixer factory, for :meth:`CppStrategyOverrides.setFixer` or the builder table
     )doc"));
+
+    fixerConfig.def_static("of", &AGRC::WWMIFixerConfig::of, py::arg("source"), py::arg("target"), R"doc(
+The config the library's own fix from ``source`` to ``target`` is built from, or ``None`` for a pair it has no WWMI fix
+for -- to start a variant of a shipped fix from (change a field, hand it to :func:`makeWWMIFixer`), or to read what it does
+
+:param source: The character a mod is made for
+:param target: The character it is remapped onto
+:returns: The config
+    )doc");
+    parserConfig.def_static("of", &AGRC::WWMIParserConfig::of, py::arg("id"), R"doc(
+The config the library's own parser of ``id`` is built from, or ``None`` for a character it has no WWMI parser for -- to
+start a variant from (change a field, hand it to :func:`makeWWMIParser`), or to read it
+
+:param id: The character
+:returns: The config
+    )doc");
 }

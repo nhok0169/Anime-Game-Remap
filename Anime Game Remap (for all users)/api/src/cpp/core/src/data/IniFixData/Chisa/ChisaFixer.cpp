@@ -392,7 +392,7 @@ namespace AGRemapCore {
     }
 
 
-    IniFixBuilder::Factory IniFixBuilderFuncs::chisaParfait3_7() {
+    WWMIFixerConfig ChisaFixer::parfait3_7Config() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::ChisaParfait;
         // 3.7, not her release 3.5: that update moved her vb0 (e611d493 -> 95ecef77) and nothing
@@ -679,7 +679,12 @@ namespace AGRemapCore {
              }},
         };
 
-        return makeWWMIFixer(std::move(config));
+        return config;
+    }
+
+
+    IniFixBuilder::Factory IniFixBuilderFuncs::chisaParfait3_7() {
+        return makeWWMIFixer(ChisaFixer::parfait3_7Config());
     }
 
 

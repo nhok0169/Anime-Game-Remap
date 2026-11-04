@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 
 
@@ -47,6 +48,12 @@ namespace AGRemapCore {
              *        :cpp:func:`IniFixBuilderFuncs::lynaePeppermint3_7`
              */
             static IniFixBuilder::Factory peppermint3_7();
+
+            /**
+             * @brief The config #peppermint3_7 builds its fixer from (:cpp:func:`makeWWMIFixer`) -- to start a variant of the
+             * shipped fix from, or to read what it does
+             */
+            static WWMIFixerConfig peppermint3_7Config();
     };
 }
 

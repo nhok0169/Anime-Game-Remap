@@ -310,6 +310,8 @@ add_library(AGRemapCore STATIC
     src/model/strategies/iniParsers/TextureRoles.cpp
     src/model/strategies/iniParsers/IniParseDataRoleFiles.cpp
     src/data/WWMITextureFacts.cpp
+    src/data/IniFixData/WWMIFixerConfigs.cpp
+    src/data/IniParseData/WWMIParserConfigs.cpp
     src/model/strategies/iniFixers/IniFixBuilder.cpp
     src/model/strategies/iniFixers/IniFileFixContext.cpp
     src/data/IniFixData/TemplateFixer.cpp

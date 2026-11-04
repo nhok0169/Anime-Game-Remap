@@ -1012,18 +1012,22 @@
   <compound refid="class_a_g_remap_core_1_1_changli_fixer" kind="class"><name>AGRemapCore::ChangliFixer</name>
     <member refid="class_a_g_remap_core_1_1_changli_fixer_1a165367c0c3ed62cc78e6814a0e01f89b" kind="function"><name>ChangliFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_changli_fixer_1a7b4d11128df7cf8673c98b131ddf124e" kind="function"><name>nymph2_4</name></member>
+    <member refid="class_a_g_remap_core_1_1_changli_fixer_1af516f3655a05cc9b9e2658a00374fb9b" kind="function"><name>nymph2_4Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_changli_nymph_fixer" kind="class"><name>AGRemapCore::ChangliNymphFixer</name>
     <member refid="class_a_g_remap_core_1_1_changli_nymph_fixer_1af813676449c62b3048129099e4497104" kind="function"><name>ChangliNymphFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_changli_nymph_fixer_1a9359ccaadf1056990e0cf7ace04d0f61" kind="function"><name>changli1_4</name></member>
+    <member refid="class_a_g_remap_core_1_1_changli_nymph_fixer_1aac7fd70634b43d44ccbb8558731dac00" kind="function"><name>changli1_4Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_changli_nymph_parser" kind="class"><name>AGRemapCore::ChangliNymphParser</name>
     <member refid="class_a_g_remap_core_1_1_changli_nymph_parser_1aef0deab3ecfcc332f08c8371681494cd" kind="function"><name>ChangliNymphParser</name></member>
     <member refid="class_a_g_remap_core_1_1_changli_nymph_parser_1a94b36ae9332b85155bb6486c08aeb0b0" kind="function"><name>v2_4</name></member>
+    <member refid="class_a_g_remap_core_1_1_changli_nymph_parser_1af7957ee883267df488e10180c078f808" kind="function"><name>v2_4Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_changli_parser" kind="class"><name>AGRemapCore::ChangliParser</name>
     <member refid="class_a_g_remap_core_1_1_changli_parser_1abd1a003746c228a0ec4d6ea18160d4a9" kind="function"><name>ChangliParser</name></member>
     <member refid="class_a_g_remap_core_1_1_changli_parser_1a7a41d7e2e45ff2d4e58d3f4e2f48691a" kind="function"><name>v1_1</name></member>
+    <member refid="class_a_g_remap_core_1_1_changli_parser_1a5669d2ab5fd545bfb53b9364933bf4f4" kind="function"><name>v1_1Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_charlotte_fixer" kind="class"><name>AGRemapCore::CharlotteFixer</name>
     <member refid="class_a_g_remap_core_1_1_charlotte_fixer_1a280ad1997868f928fd32353ca2900924" kind="function"><name>CharlotteFixer</name></member>
@@ -1053,18 +1057,22 @@
   <compound refid="class_a_g_remap_core_1_1_chisa_fixer" kind="class"><name>AGRemapCore::ChisaFixer</name>
     <member refid="class_a_g_remap_core_1_1_chisa_fixer_1ac32afffbb67e667c8570f7420a72c2a0" kind="function"><name>ChisaFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_chisa_fixer_1a868dc9778d75e011e08b78378bb4614a" kind="function"><name>parfait3_7</name></member>
+    <member refid="class_a_g_remap_core_1_1_chisa_fixer_1a30919c91c10dd10059b9ff6257dea40c" kind="function"><name>parfait3_7Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_chisa_parfait_fixer" kind="class"><name>AGRemapCore::ChisaParfaitFixer</name>
     <member refid="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a328dc59a34656b9e52efce89ff936002" kind="function"><name>ChisaParfaitFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a80453746ab78d0b6105edb97efb1e2f5" kind="function"><name>chisa2_8</name></member>
+    <member refid="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a1392ca54c01ee27b235cd0ca6bd7ff80" kind="function"><name>chisa2_8Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_chisa_parfait_parser" kind="class"><name>AGRemapCore::ChisaParfaitParser</name>
     <member refid="class_a_g_remap_core_1_1_chisa_parfait_parser_1acd97bfc4c04b2b35c00afe50088eafba" kind="function"><name>ChisaParfaitParser</name></member>
     <member refid="class_a_g_remap_core_1_1_chisa_parfait_parser_1ae1a0641900f207e651dcc65d9cce9d77" kind="function"><name>v3_5</name></member>
+    <member refid="class_a_g_remap_core_1_1_chisa_parfait_parser_1a31c319abba297bad5fcc5eaddee112bd" kind="function"><name>v3_5Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_chisa_parser" kind="class"><name>AGRemapCore::ChisaParser</name>
     <member refid="class_a_g_remap_core_1_1_chisa_parser_1a8168516de0eea512fcf7bae7ff1982ae" kind="function"><name>ChisaParser</name></member>
     <member refid="class_a_g_remap_core_1_1_chisa_parser_1aca27315be900c9e5af17805af5d32a02" kind="function"><name>v2_8</name></member>
+    <member refid="class_a_g_remap_core_1_1_chisa_parser_1aa9234af500c0289d3320acc06df81513" kind="function"><name>v2_8Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_citlali_fixer" kind="class"><name>AGRemapCore::CitlaliFixer</name>
     <member refid="class_a_g_remap_core_1_1_citlali_fixer_1a1374e2e760ac3201ef3085e986a404e9" kind="function"><name>CitlaliFixer</name></member>
@@ -4601,18 +4609,22 @@
   <compound refid="class_a_g_remap_core_1_1_lynae_fixer" kind="class"><name>AGRemapCore::LynaeFixer</name>
     <member refid="class_a_g_remap_core_1_1_lynae_fixer_1a3c5ce0798c061673e53b5087a85a9039" kind="function"><name>LynaeFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_lynae_fixer_1a28902964e628b4c3ac31ce68f2969404" kind="function"><name>peppermint3_7</name></member>
+    <member refid="class_a_g_remap_core_1_1_lynae_fixer_1a5c00ab6874fa7448ee1773c8105540e8" kind="function"><name>peppermint3_7Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_lynae_parser" kind="class"><name>AGRemapCore::LynaeParser</name>
     <member refid="class_a_g_remap_core_1_1_lynae_parser_1a4376d708da98914ae0c1200e9b4ddd09" kind="function"><name>LynaeParser</name></member>
     <member refid="class_a_g_remap_core_1_1_lynae_parser_1a2a377935ebe857458db87261d6ba734b" kind="function"><name>v3_6</name></member>
+    <member refid="class_a_g_remap_core_1_1_lynae_parser_1ad89eec3317885b551ddbdd10d9ba1bb0" kind="function"><name>v3_6Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_lynae_peppermint_fixer" kind="class"><name>AGRemapCore::LynaePeppermintFixer</name>
     <member refid="class_a_g_remap_core_1_1_lynae_peppermint_fixer_1ab790cd72d38d220e80f68ae27228916f" kind="function"><name>LynaePeppermintFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_lynae_peppermint_fixer_1a046492c123c6d960a1f1f4963528338f" kind="function"><name>lynae3_7</name></member>
+    <member refid="class_a_g_remap_core_1_1_lynae_peppermint_fixer_1ad5f21f5aaaabee16eb5503615f972cb1" kind="function"><name>lynae3_7Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_lynae_peppermint_parser" kind="class"><name>AGRemapCore::LynaePeppermintParser</name>
     <member refid="class_a_g_remap_core_1_1_lynae_peppermint_parser_1a6874697bf36454b3576bd6753fca5f8a" kind="function"><name>LynaePeppermintParser</name></member>
     <member refid="class_a_g_remap_core_1_1_lynae_peppermint_parser_1a0f870ea84828d31abe2bb463446eeac1" kind="function"><name>v3_7</name></member>
+    <member refid="class_a_g_remap_core_1_1_lynae_peppermint_parser_1a2e95f7b939cb2faf24e11e1d58ff30be" kind="function"><name>v3_7Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_material_band_remap_filter" kind="class"><name>AGRemapCore::MaterialBandRemapFilter</name>
     <member refid="class_a_g_remap_core_1_1_material_band_remap_filter_1ab298bcc5ff66159283b3f5b362b715a5" kind="typedef"><name>ColourPredicate</name></member>
@@ -6480,18 +6492,22 @@
   <compound refid="class_a_g_remap_core_1_1_sanhua_exorcist_fixer" kind="class"><name>AGRemapCore::SanhuaExorcistFixer</name>
     <member refid="class_a_g_remap_core_1_1_sanhua_exorcist_fixer_1aa657c70f638c61b3809f95dc93949328" kind="function"><name>SanhuaExorcistFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_sanhua_exorcist_fixer_1a12d8f622fc60fffbe3acfe6de4853ea1" kind="function"><name>sanhua2_5</name></member>
+    <member refid="class_a_g_remap_core_1_1_sanhua_exorcist_fixer_1a1d61f9e22735790d87640941f1dcf4ba" kind="function"><name>sanhua2_5Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_sanhua_exorcist_parser" kind="class"><name>AGRemapCore::SanhuaExorcistParser</name>
     <member refid="class_a_g_remap_core_1_1_sanhua_exorcist_parser_1a348b08641106ae8e03dcd3d7eaed973b" kind="function"><name>SanhuaExorcistParser</name></member>
     <member refid="class_a_g_remap_core_1_1_sanhua_exorcist_parser_1a2577535f3136ca11132e2752953e8515" kind="function"><name>v2_5</name></member>
+    <member refid="class_a_g_remap_core_1_1_sanhua_exorcist_parser_1a6d08b26e80c9c79571c4e1cb06a86cab" kind="function"><name>v2_5Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_sanhua_fixer" kind="class"><name>AGRemapCore::SanhuaFixer</name>
     <member refid="class_a_g_remap_core_1_1_sanhua_fixer_1a9bb9952af337791c2d5540c6673710d2" kind="function"><name>SanhuaFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_sanhua_fixer_1ac23a765c5d1d3889abc4f52aea03aeff" kind="function"><name>exorcist2_5</name></member>
+    <member refid="class_a_g_remap_core_1_1_sanhua_fixer_1a1d102fd606a0848cbb951ade45b6ed35" kind="function"><name>exorcist2_5Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_sanhua_parser" kind="class"><name>AGRemapCore::SanhuaParser</name>
     <member refid="class_a_g_remap_core_1_1_sanhua_parser_1a56d1520cabcf25e29f014c70d3b00a8c" kind="function"><name>SanhuaParser</name></member>
     <member refid="class_a_g_remap_core_1_1_sanhua_parser_1a3ec118e48afe5ec3472cf764f47c6724" kind="function"><name>v2_5</name></member>
+    <member refid="class_a_g_remap_core_1_1_sanhua_parser_1af039f035fa3bfa24332bca789ab8bed5" kind="function"><name>v2_5Config</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_section_iter_data" kind="class"><name>AGRemapCore::SectionIterData</name>
     <member refid="class_a_g_remap_core_1_1_section_iter_data_1a3725c64cf488edbba11d92daaec2c586" kind="typedef"><name>ContentPart</name></member>
@@ -6571,6 +6587,7 @@
   <compound refid="class_a_g_remap_core_1_1_shader_filter_tags" kind="class"><name>AGRemapCore::ShaderFilterTags</name>
     <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a17335b93652b7dfb1d99347db27621b9" kind="variable"><name>tags_</name></member>
     <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a762bf41f3756501f2c38563acdd65f11" kind="function"><name>add</name></member>
+    <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a72f32c230d3785efdf529ab10d44a4b6" kind="function"><name>addNumbered</name></member>
     <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a05b040cbb40d4a7086d809a9f4fa042d" kind="function"><name>filterIndexOf</name></member>
     <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1ad2ef302f946195131fe7a0f58b1d5a47" kind="function"><name>tags</name></member>
     <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a4cbcfba8d3fcb4bd00dbab8ca1477c13" kind="function"><name>condition</name></member>
@@ -7868,6 +7885,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1afde91c6aa83f59b0dfb96a924e43ce81" kind="variable"><name>sourceLabels</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a644c193e090b6d6ba4bf83caa0f86628" kind="variable"><name>targetLabels</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a0ea8eef2b929fa4c8009bd32068c36a5" kind="variable"><name>copyPreamble</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a148e3b41469950eb8d5c1e6833495eed" kind="function"><name>of</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_objs" kind="struct"><name>AGRemapCore::WWMIParseObjs</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_objs_1a3e21730c5d3feebaa685d4856a8989af" kind="variable"><name>Watch</name></member>
@@ -7882,6 +7900,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a04156e1f7970553bb1c5ed5c958895aa" kind="variable"><name>skeletonNumberings</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9aad93fe0e21d99a44dd18f578c94d79" kind="variable"><name>referenceBoneCentroids</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a573dcd823bef4c527e788b90743c12d1" kind="variable"><name>drawSplits</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a33cb02bf539810bb8ec14a938c6184e0" kind="function"><name>of</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_w_w_m_i_sections" kind="class"><name>AGRemapCore::WWMISections</name>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a84000ffad2c51c0d067987cf78c94e1c" kind="typedef"><name>Section</name></member>

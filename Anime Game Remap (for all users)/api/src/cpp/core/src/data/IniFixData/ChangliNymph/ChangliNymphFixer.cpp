@@ -130,7 +130,7 @@ namespace AGRemapCore {
     // shader reads normal / mask / diffuse at t0-t2 as hers does; her sheer dress -> Changli's upper body,
     // drawn opaque (Changli has no see-through shader); her skirt and veils and her shawl -> Changli's coat
     // slot, the skirt's own shader (7f639abb). Changli's chest tattoo slot takes nothing.
-    IniFixBuilder::Factory IniFixBuilderFuncs::changli1_4() {
+    WWMIFixerConfig ChangliNymphFixer::changli1_4Config() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::Changli;
         config.version = "1.4";            // her live vb0 is 1.4's, and her bones are numbered as at 1.4
@@ -290,7 +290,12 @@ namespace AGRemapCore {
             {0, "bangs"}, {1, "hair"}, {2, "face"}, {3, "upper body"}, {4, "legs and skirt"},
             {5, "coat and sashes"}, {6, "eyes"}, {7, "chest flame tattoo"},
         };
-        return makeWWMIFixer(std::move(config));
+        return config;
+    }
+
+
+    IniFixBuilder::Factory IniFixBuilderFuncs::changli1_4() {
+        return makeWWMIFixer(ChangliNymphFixer::changli1_4Config());
     }
 
 

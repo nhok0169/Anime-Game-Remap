@@ -3892,7 +3892,6 @@ namespace AGRemapCore {
                     // other mod's `if ps == ...` never matches -- its textures silently unbound.
                     if (!passTagsBuilt_) {
                         passTagsBuilt_ = true;
-                        std::size_t i = 0;
                         // every pass either table names -- an extraPassRegs pass with no
                         // filter_index has nothing to match on, so its command list never fires and
                         // that slot draws with the game's textures on that pass
@@ -3907,24 +3906,16 @@ namespace AGRemapCore {
                             allPasses.push_back(passNamesOf(byPass));
                         }
 
+                        // each pass's tagged shaders, in that order: a configured filter_index, else the next of
+                        // filterBase + filterStep * n
+                        std::vector<std::string> shaders;
                         for (const auto& passes : allPasses) {
-                            for (const std::string& p : passes) {
-
-                                for (const std::string& tagged : taggedFor(p)) {
-                                    if (passTags_.filterIndexOf(tagged).has_value()) {
-                                        continue;
-                                    }
-
-                                    auto given = config_.filterIndices.find(tagged);
-                                    if (given != config_.filterIndices.end()) {
-                                        passTags_.add(tagged, given->second);
-                                    } else {
-                                        passTags_.add(tagged, NumTools::formatDouble(config_.filterBase + config_.filterStep * static_cast<double>(i)));
-                                        ++i;
-                                    }
-                                }
+                            for (const std::string& shader : taggedFor(passes)) {
+                                shaders.push_back(shader);
                             }
                         }
+                        passTags_.addNumbered(shaders, {config_.filterIndices.begin(), config_.filterIndices.end()},
+                                              config_.filterBase, config_.filterStep);
                     }
 
                     return passTags_.filterIndexOf(pass).value_or("");

@@ -17,35 +17,26 @@ import src.py.FixRaidenBoss2 as FRB
 
 
 # ======================================================================================================== data
-# Sanhua's own facts: what the C++ row reads off WWMIParserConfig / WWMITextureFacts.
+# The configs the compiled parser and fixer are built from (WWMIParserConfig.of / WWMIFixerConfig.of), read the way
+# WWMIParser and WWMIFixer read them.
 
-SOURCE = "Sanhua"
-VERSION = "2.5"
-SLOT_PREFIX = "component"
-SLOT_HASH = "vb0"
-TEX_REG = "ps-t"
+SOURCE_ID, TARGET_ID = FRB.ModTypeId.Sanhua, FRB.ModTypeId.SanhuaExorcist
+PARSE = FRB.WWMIParserConfig.of(SOURCE_ID)
+FIX = FRB.WWMIFixerConfig.of(SOURCE_ID, TARGET_ID)
+
+SOURCE = FRB.ModTypeIdTools.getName(SOURCE_ID)
+VERSION = PARSE.version
+SLOT_PREFIX = PARSE.slotPrefix
+SLOT_HASH = PARSE.slotHashType
+TEX_REG = PARSE.texRegPrefix
 WATCH = ("", "watch")
 TEXTURE = FRB.IniGraphModObjKeywords.Texture
-HASH_ONLY = [("cb4", "boneData"), ("shapekey_offsets", "shapekeyOffsets"), ("shapekey_scale", "shapekeyScale")]
+HASH_ONLY = [tuple(entry) for entry in PARSE.hashOnlyObjs]
 
-# her texture facts (thumbprints, role tables), the ones her compiled parser reads
-FACTS = FRB.WWMITextureFacts.of(FRB.ModTypeId.Sanhua)
-
-# her texture roles; which hash plays which is HashData's (every generation is filed there)
-ROLES = {"eyeMask", "bangsDiffuse", "irisDiffuse", "t5Ramp", "bangsMask", "hairDiffuse", "hairNormal", "faceMask",
-         "faceDiffuse", "skinNormal", "skinDiffuse", "bodiceNormal", "bodiceMask", "bodiceDiffuse", "skirtNormal",
-         "skirtMask", "skirtDiffuse"}
-
-# RabbitFX's resource lines name the role they hand SetTextures, per component
-RABBIT = "Resource\\RabbitFX\\"
-REGISTER_ROLES = {
-    0: {RABBIT + "Diffuse": "bangsDiffuse", RABBIT + "Lightmap": "bangsMask"},
-    1: {RABBIT + "Diffuse": "hairDiffuse", RABBIT + "Lightmap": "hairNormal"},
-    2: {RABBIT + "Diffuse": "faceDiffuse", RABBIT + "Lightmap": "faceMask"},
-    3: {RABBIT + "Diffuse": "skinDiffuse", RABBIT + "Normalmap": "skinNormal"},
-    4: {RABBIT + "Diffuse": "bodiceDiffuse", RABBIT + "Lightmap": "bodiceMask", RABBIT + "Normalmap": "bodiceNormal"},
-    5: {RABBIT + "Diffuse": "skirtDiffuse", RABBIT + "Lightmap": "skirtMask", RABBIT + "Normalmap": "skirtNormal"},
-}
+# her texture facts: the roles by hash and by register, the thumbprints, the downloads
+FACTS = PARSE.textures
+ROLES = set(FACTS.roles.values())
+REGISTER_ROLES = {slot: dict(table) for slot, table in FACTS.registerRoles.items()}
 
 # the rows the parser files, under the names the compiled parser files them by
 OVERRIDE_ROWS = "WWMIParser.textureOverrides"
@@ -303,46 +294,25 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
 
 # ======================================================================================================= fixer
 
-TARGET = "SanhuaExorcist"
-TARGET_VERSION = "2.5"
+TARGET = FRB.ModTypeIdTools.getName(TARGET_ID)
+TARGET_VERSION = FIX.version
 
-# source component -> the target slot it draws through: the bangs, hair and face onto their own slots, everything
-# of the body (arm skin, bodice, skirt) through the torso slot, the eyes onto the eye slot
-PLAN = {0: 0, 1: 1, 2: 2, 3: 3, 4: 3, 5: 3, 6: 5}
-SHAPEKEY_DISPATCH = "853"       # the target's shape-key dispatch height (its Metadata.json's dispatch_y)
+# source component -> the target slot it draws through, and the role bound at each register of its target pass
+PLAN = {component: entry.slot for component, entry in FIX.plan.items()}
+REGISTERS = {component: [(binding.reg, binding.role) for binding in entry.bindings] for component, entry in FIX.plan.items()}
+SHAPEKEY_DISPATCH = FIX.shapeKeyDispatchSize
 
-# the registers each target pass reads, and the source role bound at each, per source component
-REGISTERS = {
-    0: [("ps-t0", "bangsDiffuse"), ("ps-t1", "bangsMask"), ("ps-t5", "t5Ramp")],
-    1: [("ps-t0", "hairDiffuse"), ("ps-t1", "hairNormal"), ("ps-t5", "t5Ramp")],
-    2: [("ps-t0", "faceMask"), ("ps-t1", "faceDiffuse")],
-    3: [("ps-t0", "skinNormal"), ("ps-t1", "SkinMask"), ("ps-t2", "skinDiffuse")],
-    4: [("ps-t0", "bodiceNormal"), ("ps-t1", "bodiceMask"), ("ps-t2", "bodiceDiffuse")],
-    5: [("ps-t0", "skirtNormal"), ("ps-t1", "skirtMask"), ("ps-t2", "skirtDiffuse")],
-    6: [("ps-t1", "eyeMask"), ("ps-t2", "irisDiffuse"), ("ps-t5", "t5Ramp")],
-}
+# the target's pixel shaders per draw slot and the vertex shaders each is drawn with (the lists are gated on those)
+SLOT_PASSES = [list(passes) for passes in FIX.slotPasses]
+PASS_VERTEX_SHADERS = {shader: list(vss) for shader, vss in FIX.passVertexShaders.items()}
 
-# the target's pixel shaders per draw slot (a frame dump of SanhuaExorcist), the vertex shaders each is drawn with
-# (the lists are gated on those: RabbitFX patches the pixel shaders), and each vertex shader's filter_index -- named,
-# because the face pair must agree with ChisaParfait's and LynaePeppermint's
-SLOT_PASSES = [["0f1752e476c3804d", "394feb3747bda7a0"], ["0f1752e476c3804d"], ["ed1c0f8b2ba08ac4"],
-               ["fbe2f2f061949559"], ["348ac69e57e38686"], ["0512a7e61d6bd01d"]]
-PASS_VERTEX_SHADERS = {"0f1752e476c3804d": ["a695e6d5f9d489cf"], "394feb3747bda7a0": ["a695e6d5f9d489cf"],
-                       "ed1c0f8b2ba08ac4": ["7c0b4db32cee62d3", "4ce754b5b9574b1a"], "fbe2f2f061949559": ["02f5c4b333a78fa0"],
-                       "348ac69e57e38686": ["15a2c90dd35b8c07"], "0512a7e61d6bd01d": ["a79e471015b2a16c"]}
-FILTER_INDICES = {"a695e6d5f9d489cf": "3381.91", "7c0b4db32cee62d3": "3381.76", "4ce754b5b9574b1a": "3381.769",
-                  "02f5c4b333a78fa0": "3381.94", "15a2c90dd35b8c07": "3381.95", "a79e471015b2a16c": "3381.96"}
-
-# what stands in when the mod has no file for a role: the texture the fix invents (Exorcist's mask reads skin off
-# one colour), else Sanhua's own game texture, downloaded (the mod's UVs are hers)
-CREATED = {"SkinMask": ((255, 77, 0, 255), 16)}
-FALLBACKS = {"bangsDiffuse": "ae6e9014", "bangsMask": "1c0c8b91", "t5Ramp": "1035197c", "hairDiffuse": "68ca7071",
-             "hairNormal": "cef6494f", "faceDiffuse": "881c236d", "skinNormal": "e39835c7", "skinDiffuse": "fde0f298",
-             "bodiceNormal": "efb25eb3", "bodiceMask": "89ba19a1", "bodiceDiffuse": "abda232b", "skirtNormal": "f3b217ab",
-             "skirtMask": "f0713dc7", "skirtDiffuse": "c689a8ee", "irisDiffuse": "1dcc0f1d"}
-DOWNLOADS = ("WuWa", "Sanhua", "2_5", "Sanhua")      # the game, character and version folders, and the file prefix
-BLEND_REG = "vb4"                                     # the register a WWMI draw reads the blend at
-TARGET_LABELS = {0: "bangs", 1: "hair", 2: "face", 3: "torso, arms, ribbons", 4: "hair bun, trousers", 5: "eyes"}
+# what stands in when the mod has no file for a role: the texture the fix invents, else the source's own game texture
+CREATED = [(created.role, created.colour, created.size) for created in FIX.createdTextures]
+FALLBACKS = dict(FIX.sourceTextures.fallbackTextures)
+DOWNLOADS = (FIX.sourceTextures.downloadGameFolder, FIX.sourceTextures.downloadCharFolder,
+             FIX.sourceTextures.downloadVersionFolder, FIX.sourceTextures.downloadPrefix)
+BLEND_REG = FIX.blendReg
+TARGET_LABELS = dict(FIX.targetLabels)
 
 
 def slotNumbers(modType, version):
@@ -444,10 +414,10 @@ def makeFixer(parser, toModName, modTypeId):
     z3 = FRB.Z3Context()
     fixSections = FRB.GraphEditVariables()
     tags = FRB.ShaderFilterTags()
-    for passes in SLOT_PASSES:
-        for shader in passes:
-            for vs in PASS_VERTEX_SHADERS.get(shader, []):
-                tags.add(vs, FILTER_INDICES[vs])
+    allPasses = SLOT_PASSES + [list(byPass) for byPass in FIX.sharedMeshes.values()] + [list(byPass) for byPass in FIX.extraPassRegs.values()]
+    taggedFor = lambda shader: PASS_VERTEX_SHADERS[shader] if PASS_VERTEX_SHADERS else [shader]
+    tags.addNumbered([vs for passes in allPasses for shader in passes for vs in taggedFor(shader)],
+                     dict(FIX.filterIndices), FIX.filterBase, FIX.filterStep)
 
     def passCondition(slot):
         return tags.condition("vs", list(dict.fromkeys(vs for shader in SLOT_PASSES[slot] for vs in PASS_VERTEX_SHADERS.get(shader, []))))
@@ -493,7 +463,7 @@ def makeFixer(parser, toModName, modTypeId):
     for component in planned:
         for reg, role in REGISTERS[component]:
             assignRole(role, component)
-    for role in CREATED:
+    for role, _, _ in CREATED:
         resourceOfRole[role] = rename(FRB.IniKeywords.Resource + role)
     for component in planned:
         for reg, role in REGISTERS[component]:
@@ -560,9 +530,9 @@ def makeFixer(parser, toModName, modTypeId):
                                            resPredicates = {graph: (lambda key, value, data: value.strip() in fixDownloads)
                                                             for graph in graphs}))
             kept.append(download)
-        for role, (colour, size) in CREATED.items():
+        for role, colour, size in CREATED:
             resource = resourceOfRole[role]
-            make = FRB.TexCreate((group, "", "fixTexture" + resource), "", FRB.CppTexCreator(size, size, FRB.CppColour(*colour)))
+            make = FRB.TexCreate((group, "", "fixTexture" + resource), "", FRB.CppTexCreator(size, size, colour))
             make.files = {resource: FRB.IniNamingTools.getModSuffixedName(role, FRB.IniKeywords.RemapTex, toModName) + ".dds"}
             graphs = [(group, *obj) for obj in graphGroups[group].graphs]
             edits.append(FRB.ResRegCollect({graph: (lambda key: True) for graph in graphs}, {"fixFile": make},

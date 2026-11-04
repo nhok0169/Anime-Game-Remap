@@ -117,7 +117,7 @@ def rowsByRoot(rows, roots):
 
 def makeParser(iniFile, modTypeId, onlyThisFile = False):
     """'onlyThisFile': the parser of ANOTHER .ini of the mod, whose rows this character's parser reads -- the same parse,
-    with only the anatomy read off its rows (and so none of its own linked files)"""
+    with only the resource data read off its rows (and so none of its own linked files)"""
     modType = FRB.ModTypes.Sanhua.value
     version = iniFile.fromVersion if iniFile.fromVersion is not None else FRB.Version.parse(VERSION)
     hashTypes = hashTypesOf(modType)
@@ -204,10 +204,10 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
                 result.setdefault(slotOf(obj), []).extend(sections)
         return {slot: list(dict.fromkeys(sorted(names, key = order))) for slot, names in sorted(result.items())}
 
-    # step 4: the anatomy, by WWMI's rules
-    def readAnatomy(data):
+    # step 4: the resource data, by WWMI's rules
+    def readResourceData(data):
         slotRoots = roots(lambda obj: slotOf(obj) is not None)
-        rules = FRB.IniParseData.AnatomyRules()
+        rules = FRB.IniParseData.ResourceDataRules()
         rules.rows = FRB.IniParseRows.Objs
         rules.resources = FRB.IniParseRows.Resources
         rules.sections = FRB.IniParseRows.Sections
@@ -217,6 +217,15 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
         rules.runDraws = lambda called: iniFile.getSection(called) is None and "\\wwmiv1\\" not in called.lower()
         rules.roots = [(obj, sections) for obj, sections in parser._sectionTargets.items() if slotOf(obj) is not None]
 
+        # the toggles: which of the mod's own resources a texture override binds in several variants -- only for the
+        # file a fix reads its textures from. One `this` under `$object_detected` alone is not a toggle
+        if not onlyThisFile:
+            detected = FRB.IniKeywords.WWMIObjectDetected
+            rules.toggles = TOGGLE_ROWS
+            rules.togglesIn = lambda section: section.startswith(FRB.IniKeywords.TextureOverride) and not isFixSection(section)
+            rules.notToggles = [detected, detected + "==1"]
+            rules.textureRoots = [(obj, sections) for obj, sections in parser._sectionTargets.items() if obj[0] == TEXTURE]
+
         # does the mod replace textures by hash? a texture override with a hash and a `this`
         has = {}
         for row in data.collected(OVERRIDE_ROWS):
@@ -224,17 +233,15 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
                 has.setdefault(row.section, set()).add(row.key)
         if any({FRB.IniKeywords.Hash, FRB.IniKeywords.This} <= keys for keys in has.values()):
             data.setReplacesTexturesByHash(True)
-        data.fileAnatomy(rules)
+        data.resourceData(rules)
 
     # step 5: the skeleton numbering -- Sanhua has one numbering, so nothing to probe
 
-    # step 6: the texture roles, the toggles, and each slot's file per role
+    # step 6: the texture roles, and each slot's file per role (the toggles are step 4's)
     def readTextures(data):
         order = byWritten(iniFile.getSectionNames())
         textureRoles = buildRoles(data, order)
         data.setTextureRoles(textureRoles)
-        readThisToggles(data, order)
-        readRegisterToggles(data, order)
         chooseRoleFiles(data, textureRoles, order)
 
     def buildRoles(data, order):
@@ -270,72 +277,6 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
         # (3) a .dds no hash and no register named, identified by its pixels against her own textures
         # GAP: TexThumbprint is bound, but her thumbprint table (sanhuaTextureThumbprints) is C++ data Python cannot reach
         return out
-
-    def readThisToggles(data, order):
-        textureRoots = roots(lambda obj: obj[0] == TEXTURE)
-        own = rowsByRoot(data.collected(TOGGLE_ROWS), textureRoots)
-        ownerOf, variantsOf, single = {}, {}, set()
-        detected = FRB.IniKeywords.WWMIObjectDetected
-
-        def resolves(values):
-            return sum(1 for value in values if iniFile.getSection(value) is not None)
-
-        for name in sorted(own, key = order):
-            if not name.startswith(FRB.IniKeywords.TextureOverride) or isFixSection(name):
-                continue
-            bound, realToggle = [], False
-            for row in asWritten(own[name]):
-                for guard in row.guards:
-                    test = "".join(guard.lower().split())
-                    realToggle = realToggle or test not in (detected, detected + "==1")
-                if row.key == FRB.IniKeywords.This:
-                    bound.append(row.value.strip())
-
-            if len(bound) == 1 and realToggle:
-                if bound[0].lower() not in ownerOf:
-                    ownerOf[bound[0].lower()] = name
-                    variantsOf[name] = bound
-                    single.add(bound[0].lower())
-                continue
-            if len(bound) < 2:
-                continue
-
-            # two sections may bind one resource behind a toggle: the one answering for most of its variants keeps it
-            score = resolves(bound)
-            for resource in bound:
-                owner = ownerOf.get(resource.lower())
-                if owner is not None and owner in variantsOf and resolves(variantsOf[owner]) >= score:
-                    continue
-                ownerOf[resource.lower()] = name
-            variantsOf[name] = bound
-
-        for resource, section in ownerOf.items():
-            graph = textureRoots.get(section)
-            data.setThisToggle(resource, FRB.IniParseData.TextureToggle(section, variantsOf[section], resource in single,
-                                                                        graph[0] if graph else ("", "")))
-
-    def readRegisterToggles(data, order):
-        textureRoots = roots(lambda obj: obj[0] == TEXTURE or slotOf(obj) is not None)
-        own = rowsByRoot(data.collected(TOGGLE_ROWS), textureRoots)
-        for name, rowList in rowsByRoot(data.collected(FRB.IniParseRows.Objs), textureRoots).items():
-            own.setdefault(name, []).extend(rowList)
-
-        for name in sorted(own, key = order):
-            if not name.startswith(FRB.IniKeywords.TextureOverride) or isFixSection(name):
-                continue
-            boundOfReg = {}
-            for row in asWritten(own[name]):
-                key = row.key.strip().lower()
-                value = FRB.IniNamingTools.removeRefPrefix(row.value.strip())
-                if not key.startswith(TEX_REG) or not value or value.lower() == FRB.IniKeywords.Null.lower():
-                    continue
-                values = boundOfReg.setdefault(key, [])
-                if value.lower() not in (had.lower() for had in values):
-                    values.append(value)
-            for reg, values in sorted(boundOfReg.items()):
-                if len(values) >= 2:
-                    for value in values:
-                        data.setRegisterToggle(value.lower(), FRB.IniParseData.TextureToggle(name + " " + reg, values, False))
 
     def chooseRoleFiles(data, textureRoles, order):
         iniPath = iniFile.file
@@ -454,7 +395,7 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
             print("another .ini of the mod binds %d textures on this file's draws; carried over to the target, where"
                   " that .ini's overrides never fire" % found)
 
-    parser.deferredParseReaders += [readAnatomy] if onlyThisFile else [readAnatomy, readTextures]
+    parser.deferredParseReaders += [readResourceData] if onlyThisFile else [readResourceData, readTextures]
     return parser
 
 

@@ -535,17 +535,26 @@ name: :class:`str`
 rows: List[:class:`GraphCollect.Row`]
     The rows
        )doc")
-       .def("fileAnatomy", &AGRC::IniParseData::fileAnatomy, py::arg("rules"), R"doc(
-Reads the mod's anatomy off collected rows and records it: each resource's file (:meth:`resourceFiles`), and for each
+       .def("resourceData", &AGRC::IniParseData::resourceData, py::arg("rules"), R"doc(
+Reads the mod's resource data off collected rows and records it: each resource's file (:meth:`resourceFiles`), and for each
 object its numbered draws (:meth:`drawRanges`) and the parts they sit in (:meth:`drawParts`), the texture registers it
 binds only after it has drawn (:meth:`lateBindings`, unless :meth:`replacesTexturesByHash`), the libraries it names
 (:meth:`libraries`), and whether it is hidden -- its `sections`_ draw nothing and skip the game's draw
 (:meth:`isUndrawn`). Only the rows in an object's own root `sections`_ count, except that a draw or a ``run =``
 anywhere it reaches counts as drawing
 
+Given :attr:`ResourceDataRules.toggles`, also the toggles that choose among the mod's textures:
+
+* **a ``this =`` toggle** (:meth:`thisToggleOf`): a texture override binding several resources on its branches, or
+  ONE under a condition that is not in :attr:`ResourceDataRules.notToggles` (off, the original draws with the game's
+  texture). When two `sections`_ bind one resource, the one that declares more of its own variants as `sections`_
+  keeps it
+* **a register toggle** (:meth:`registerToggleOf`): a texture override binding one texture register to several
+  resources on its branches, per `section`_ and register
+
 Parameters
 ----------
-rules: :class:`IniParseData.AnatomyRules`
+rules: :class:`IniParseData.ResourceDataRules`
     What to read, and how
        )doc")
        .def("textureRoles", &AGRC::IniParseData::textureRoles, py::return_value_policy::reference_internal, R"doc(
@@ -794,40 +803,58 @@ why: :class:`str`
     Why, as a sentence about the file, eg. ``is a flat hairMask, which marks no regions``
        )doc");
 
-    py::class_<AGRC::IniParseData::AnatomyRules>(cls, "AnatomyRules", R"doc(
-What :meth:`IniParseData.fileAnatomy` reads, and the rules a game reads it by
+    py::class_<AGRC::IniParseData::ResourceDataRules>(cls, "ResourceDataRules", R"doc(
+What :meth:`IniParseData.resourceData` reads, and the rules a game reads it by
     )doc")
         .def(py::init<>())
-        .def_readwrite("rows", &AGRC::IniParseData::AnatomyRules::rows, py::doc(R"doc(
+        .def_readwrite("rows", &AGRC::IniParseData::ResourceDataRules::rows, py::doc(R"doc(
 :class:`str`: The collect whose rows it reads: every key each object's `sections`_ reach -- see :attr:`IniParseRows.Objs`
         )doc"))
-        .def_readwrite("resources", &AGRC::IniParseData::AnatomyRules::resources, py::doc(R"doc(
+        .def_readwrite("resources", &AGRC::IniParseData::ResourceDataRules::resources, py::doc(R"doc(
 :class:`str`: The collect whose rows name each bound resource's ``filename`` -- see :attr:`IniParseRows.Resources` -- or
 empty for none
         )doc"))
-        .def_readwrite("roots", &AGRC::IniParseData::AnatomyRules::roots, py::doc(R"doc(
+        .def_readwrite("roots", &AGRC::IniParseData::ResourceDataRules::roots, py::doc(R"doc(
 List[Tuple[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]]: The objects to read, each with its root `sections`_ in
 the order they are written
         )doc"))
-        .def_readwrite("texRegPrefix", &AGRC::IniParseData::AnatomyRules::texRegPrefix,
+        .def_readwrite("texRegPrefix", &AGRC::IniParseData::ResourceDataRules::texRegPrefix,
                         py::doc(":class:`str`: The register family a mod binds its textures with. **Default**: ``\"ps-t\"``"))
-        .def_readwrite("runDraws", &AGRC::IniParseData::AnatomyRules::runDraws, py::doc(R"doc(
+        .def_readwrite("runDraws", &AGRC::IniParseData::ResourceDataRules::runDraws, py::doc(R"doc(
 Optional[Callable[[:class:`str`], :class:`bool`]]: Whether a ``run =`` of a `section`_ counts as a draw -- eg. one of a
 library this file does not hold. **Default**: none does
         )doc"))
-        .def_readwrite("libraries", &AGRC::IniParseData::AnatomyRules::libraries, py::doc(R"doc(
+        .def_readwrite("libraries", &AGRC::IniParseData::ResourceDataRules::libraries, py::doc(R"doc(
 List[Tuple[:class:`str`, Callable[[:class:`str`], :class:`bool`]]]: The libraries to record (:meth:`IniParseData.libraries`),
 each by whether a key or value names it
         )doc"))
-        .def_readwrite("noneUndrawnWhenAll", &AGRC::IniParseData::AnatomyRules::noneUndrawnWhenAll, py::doc(R"doc(
+        .def_readwrite("noneUndrawnWhenAll", &AGRC::IniParseData::ResourceDataRules::noneUndrawnWhenAll, py::doc(R"doc(
 :class:`bool`: When EVERY object read looks hidden (draws nothing and skips the game's draw), record none of them as
 undrawn: a mod the reading does not understand. **Default**: ``False``
         )doc"))
-        .def_readwrite("sections", &AGRC::IniParseData::AnatomyRules::sections, py::doc(R"doc(
+        .def_readwrite("sections", &AGRC::IniParseData::ResourceDataRules::sections, py::doc(R"doc(
 :class:`str`: The collect whose rows hold every key of every `section`_ -- see :attr:`IniParseRows.Sections` -- for
 :meth:`IniParseData.thisOverrideOf` and :meth:`IniParseData.isThisBound`, or empty for none
         )doc"))
-        .def_readwrite("log", &AGRC::IniParseData::AnatomyRules::log, py::doc(R"doc(
+        .def_readwrite("toggles", &AGRC::IniParseData::ResourceDataRules::toggles, py::doc(R"doc(
+:class:`str`: The collect whose rows hold each texture override's ``this =`` and texture register lines, with the
+conditions they sit under, for :meth:`IniParseData.thisToggleOf` and :meth:`IniParseData.registerToggleOf` -- or
+empty for none
+        )doc"))
+        .def_readwrite("textureRoots", &AGRC::IniParseData::ResourceDataRules::textureRoots, py::doc(R"doc(
+List[Tuple[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]]: The texture objects whose `sections`_ may choose
+among the mod's textures, each with its root `sections`_: a ``this =`` toggle is read in these, and a register toggle
+in these and in :attr:`roots`
+        )doc"))
+        .def_readwrite("togglesIn", &AGRC::IniParseData::ResourceDataRules::togglesIn, py::doc(R"doc(
+Optional[Callable[[:class:`str`], :class:`bool`]]: Which `sections`_ may hold a toggle. **Default**: ``None``, every
+`section`_ named ``TextureOverride...``
+        )doc"))
+        .def_readwrite("notToggles", &AGRC::IniParseData::ResourceDataRules::notToggles, py::doc(R"doc(
+List[:class:`str`]: The conditions that do not make a toggle, lowercased and without spaces -- eg. a condition every
+section of a game's mods is wrapped in. **Default**: none
+        )doc"))
+        .def_readwrite("log", &AGRC::IniParseData::ResourceDataRules::log, py::doc(R"doc(
 Optional[Callable[[:class:`str`], None]]: Where a draw range that cannot be read is reported, or ``None``
         )doc"));
 

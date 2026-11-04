@@ -168,30 +168,110 @@ filename = Textures\Unbound.dds
         self.assertEqual(data.collected(FRB.IniParseRows.Objs), [])
         self.assertNotEqual(data.collected(FRB.IniParseRows.Declared), [])
 
-    # ====================== IniParseData.fileAnatomy ===========================
+    # ====================== IniParseData.resourceData ===========================
 
-    def anatomy(self, iniTxt = None, **rules):
+    def readResourceData(self, iniTxt = None, **rules):
         if (iniTxt is not None):
             self._stepsIniTxt = iniTxt
         everyKey = FRB.GraphCollect({self.BodyGraph: lambda key: True}, name = FRB.IniParseRows.Objs)
         parser = self.parseWith([everyKey])
-        anatomy = FRB.IniParseData.AnatomyRules()
-        anatomy.rows = FRB.IniParseRows.Objs
-        anatomy.roots = [(self.Body, ["TextureOverrideBody"])]
+        dataRules = FRB.IniParseData.ResourceDataRules()
+        dataRules.rows = FRB.IniParseRows.Objs
+        dataRules.roots = [(self.Body, ["TextureOverrideBody"])]
         for name, value in rules.items():
-            setattr(anatomy, name, value)
-        parser.parseData.fileAnatomy(anatomy)
+            setattr(dataRules, name, value)
+        parser.parseData.resourceData(dataRules)
         return parser.parseData
 
-    def test_fileAnatomy_drawsTheirPartsAndLateBindings(self):
-        data = self.anatomy()
+    # the body's own rows as the toggle rows, and its section as a texture root
+    def readToggles(self, iniTxt, **rules):
+        return self.readResourceData(iniTxt, toggles = FRB.IniParseRows.Objs, textureRoots = [(self.Body, ["TextureOverrideBody"])],
+                                     **rules)
+
+    def test_resourceData_aThisOnTwoBranches_isAThisToggleOfBoth(self):
+        data = self.readToggles(r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+if $x == 1
+    this = ResourceA
+else
+    this = ResourceB
+endif
+""")
+        toggle = data.thisToggleOf("resourceb")
+        self.assertIsNotNone(toggle)
+        self.assertEqual(toggle.section, "TextureOverrideBody")
+        self.assertEqual(toggle.variants, ["ResourceA", "ResourceB"])
+        self.assertFalse(toggle.single)
+        self.assertEqual(toggle.graph, self.Body)
+        self.assertIsNotNone(data.thisToggleOf("resourcea"))
+
+    def test_resourceData_oneThisUnderACondition_isASingleToggle_unlessTheConditionIsNotAToggle(self):
+        iniTxt = r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+if $object_detected
+    this = ResourceA
+endif
+"""
+        self.assertTrue(self.readToggles(iniTxt).thisToggleOf("resourcea").single)
+        self.assertIsNone(self.readToggles(iniTxt, notToggles = ["$object_detected"]).thisToggleOf("resourcea"))
+
+    def test_resourceData_aRegisterOnTwoBranches_isARegisterToggleOfBoth(self):
+        data = self.readToggles(r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+if $x == 1
+    ps-t3 = ResourceA
+else
+    ps-t3 = ref ResourceB
+endif
+drawindexed = 300, 0, 0
+""")
+        toggle = data.registerToggleOf("resourceb")
+        self.assertIsNotNone(toggle)
+        self.assertEqual(toggle.section, "TextureOverrideBody ps-t3")
+        self.assertEqual(toggle.variants, ["ResourceA", "ResourceB"])
+        self.assertIsNone(data.thisToggleOf("resourceb"))
+
+    def test_resourceData_noToggleCollect_readsNoToggles(self):
+        data = self.readResourceData(r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+if $x == 1
+    this = ResourceA
+else
+    this = ResourceB
+endif
+""")
+        self.assertIsNone(data.thisToggleOf("resourcea"))
+
+    def test_resourceData_aSectionTogglesInRefuses_holdsNoToggle(self):
+        data = self.readToggles(r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+if $x == 1
+    this = ResourceA
+else
+    this = ResourceB
+endif
+""", togglesIn = lambda section: False)
+        self.assertIsNone(data.thisToggleOf("resourcea"))
+
+    def test_resourceData_drawsTheirPartsAndLateBindings(self):
+        data = self.readResourceData()
         self.assertEqual(data.drawRanges(self.Body), [(300, 0)])
         self.assertEqual(data.drawParts(self.Body), {1})
         self.assertEqual(data.lateBindings(self.Body), ["ps-t1"])
         self.assertFalse(data.isUndrawn(self.Body))
 
-    def test_fileAnatomy_aDrawUnderAnIf_sitsInThePartAfterTheIfLine(self):
-        data = self.anatomy(r"""
+    def test_resourceData_aDrawUnderAnIf_sitsInThePartAfterTheIfLine(self):
+        data = self.readResourceData(r"""
 [TextureOverrideBody]
 hash = 11111111
 match_first_index = 0
@@ -201,18 +281,18 @@ endif
 """)
         self.assertEqual(data.drawParts(self.Body), {3})
 
-    def test_fileAnatomy_aSectionThatSkipsAndDrawsNothing_isUndrawn(self):
+    def test_resourceData_aSectionThatSkipsAndDrawsNothing_isUndrawn(self):
         hidden = r"""
 [TextureOverrideBody]
 hash = 11111111
 match_first_index = 0
 handling = skip
 """
-        self.assertTrue(self.anatomy(hidden).isUndrawn(self.Body))
-        self.assertFalse(self.anatomy(hidden, noneUndrawnWhenAll = True).isUndrawn(self.Body))
+        self.assertTrue(self.readResourceData(hidden).isUndrawn(self.Body))
+        self.assertFalse(self.readResourceData(hidden, noneUndrawnWhenAll = True).isUndrawn(self.Body))
 
-    def test_fileAnatomy_libraries_andARunThatDraws(self):
-        data = self.anatomy(r"""
+    def test_resourceData_libraries_andARunThatDraws(self):
+        data = self.readResourceData(r"""
 [TextureOverrideBody]
 hash = 11111111
 match_first_index = 0
@@ -222,8 +302,8 @@ run = CommandList\Lib\Draw
         self.assertEqual(data.libraries(self.Body), {"Lib"})
         self.assertFalse(data.isUndrawn(self.Body))
 
-    def test_fileAnatomy_aResourceBoundOnlyUnderAToggle_isAToggledBinding(self):
-        data = self.anatomy(r"""
+    def test_resourceData_aResourceBoundOnlyUnderAToggle_isAToggledBinding(self):
+        data = self.readResourceData(r"""
 [TextureOverrideBody]
 hash = 11111111
 match_first_index = 0
@@ -235,8 +315,8 @@ drawindexed = 300, 0, 0
 """)
         self.assertEqual(data.toggledBindings(self.Body), {"resourcealt"})
 
-    def test_fileAnatomy_aToggledLineAtARegisterWithADefault_isNotAToggledBinding(self):
-        data = self.anatomy(r"""
+    def test_resourceData_aToggledLineAtARegisterWithADefault_isNotAToggledBinding(self):
+        data = self.readResourceData(r"""
 [TextureOverrideBody]
 hash = 11111111
 match_first_index = 0

@@ -12485,10 +12485,31 @@ class IniParseData:
     slot of a GI component, ``("", "component3")`` for a Wuthering Waves draw slot
         
     """
-    class AnatomyRules:
+    class Rejection:
         """
         
-        What :meth:`IniParseData.fileAnatomy` reads, and the rules a game reads it by
+        A file refused for a role -- see :meth:`IniParseData.rejections`
+            
+        """
+        @property
+        def file(self) -> str:
+            """
+            :class:`str`: The file
+            """
+        @property
+        def role(self) -> str:
+            """
+            :class:`str`: The role it was refused FOR
+            """
+        @property
+        def why(self) -> str:
+            """
+            :class:`str`: Why, as a sentence about the file
+            """
+    class ResourceDataRules:
+        """
+        
+        What :meth:`IniParseData.resourceData` reads, and the rules a game reads it by
             
         """
         def __init__(self) -> None:
@@ -12518,6 +12539,15 @@ class IniParseData:
             """
         @noneUndrawnWhenAll.setter
         def noneUndrawnWhenAll(self, arg0: bool) -> None:
+            ...
+        @property
+        def notToggles(self) -> list[str]:
+            """
+            List[:class:`str`]: The conditions that do not make a toggle, lowercased and without spaces -- eg. a condition every
+            section of a game's mods is wrapped in. **Default**: none
+            """
+        @notToggles.setter
+        def notToggles(self, arg0: collections.abc.Sequence[str]) -> None:
             ...
         @property
         def resources(self) -> str:
@@ -12571,27 +12601,35 @@ class IniParseData:
         @texRegPrefix.setter
         def texRegPrefix(self, arg0: str) -> None:
             ...
-    class Rejection:
-        """
-        
-        A file refused for a role -- see :meth:`IniParseData.rejections`
-            
-        """
         @property
-        def file(self) -> str:
+        def textureRoots(self) -> list[tuple[tuple[str, str], list[str]]]:
             """
-            :class:`str`: The file
+            List[Tuple[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]]: The texture objects whose `sections`_ may choose
+            among the mod's textures, each with its root `sections`_: a ``this =`` toggle is read in these, and a register toggle
+            in these and in :attr:`roots`
             """
+        @textureRoots.setter
+        def textureRoots(self, arg0: collections.abc.Sequence[tuple[tuple[str, str], collections.abc.Sequence[str]]]) -> None:
+            ...
         @property
-        def role(self) -> str:
+        def toggles(self) -> str:
             """
-            :class:`str`: The role it was refused FOR
+            :class:`str`: The collect whose rows hold each texture override's ``this =`` and texture register lines, with the
+            conditions they sit under, for :meth:`IniParseData.thisToggleOf` and :meth:`IniParseData.registerToggleOf` -- or
+            empty for none
             """
+        @toggles.setter
+        def toggles(self, arg0: str) -> None:
+            ...
         @property
-        def why(self) -> str:
+        def togglesIn(self) -> collections.abc.Callable[[str], bool]:
             """
-            :class:`str`: Why, as a sentence about the file
+            Optional[Callable[[:class:`str`], :class:`bool`]]: Which `sections`_ may hold a toggle. **Default**: ``None``, every
+            `section`_ named ``TextureOverride...``
             """
+        @togglesIn.setter
+        def togglesIn(self, arg0: collections.abc.Callable[[str], bool]) -> None:
+            ...
     class ResourceRole:
         """
         
@@ -12892,20 +12930,6 @@ class IniParseData:
         List[Tuple[:class:`int`, :class:`int`]]
             Each draw's ``(index count, first index)``
         """
-    def fileAnatomy(self, rules: ...) -> None:
-        """
-        Reads the mod's anatomy off collected rows and records it: each resource's file (:meth:`resourceFiles`), and for each
-        object its numbered draws (:meth:`drawRanges`) and the parts they sit in (:meth:`drawParts`), the texture registers it
-        binds only after it has drawn (:meth:`lateBindings`, unless :meth:`replacesTexturesByHash`), the libraries it names
-        (:meth:`libraries`), and whether it is hidden -- its `sections`_ draw nothing and skip the game's draw
-        (:meth:`isUndrawn`). Only the rows in an object's own root `sections`_ count, except that a draw or a ``run =``
-        anywhere it reaches counts as drawing
-        
-        Parameters
-        ----------
-        rules: :class:`IniParseData.AnatomyRules`
-            What to read, and how
-        """
     def firstCollected(self, name: str, section: str, key: str) -> FixRaidenBoss2.core.GraphCollect.Row | None:
         """
         The first row of the :class:`GraphCollect` named 'name' that holds 'key' in 'section' itself -- not in a section it
@@ -13076,6 +13100,29 @@ class IniParseData:
         -------
         :class:`bool`
             Whether it does
+        """
+    def resourceData(self, rules: ...) -> None:
+        """
+        Reads the mod's resource data off collected rows and records it: each resource's file (:meth:`resourceFiles`), and for each
+        object its numbered draws (:meth:`drawRanges`) and the parts they sit in (:meth:`drawParts`), the texture registers it
+        binds only after it has drawn (:meth:`lateBindings`, unless :meth:`replacesTexturesByHash`), the libraries it names
+        (:meth:`libraries`), and whether it is hidden -- its `sections`_ draw nothing and skip the game's draw
+        (:meth:`isUndrawn`). Only the rows in an object's own root `sections`_ count, except that a draw or a ``run =``
+        anywhere it reaches counts as drawing
+        
+        Given :attr:`ResourceDataRules.toggles`, also the toggles that choose among the mod's textures:
+        
+        * **a ``this =`` toggle** (:meth:`thisToggleOf`): a texture override binding several resources on its branches, or
+          ONE under a condition that is not in :attr:`ResourceDataRules.notToggles` (off, the original draws with the game's
+          texture). When two `sections`_ bind one resource, the one that declares more of its own variants as `sections`_
+          keeps it
+        * **a register toggle** (:meth:`registerToggleOf`): a texture override binding one texture register to several
+          resources on its branches, per `section`_ and register
+        
+        Parameters
+        ----------
+        rules: :class:`IniParseData.ResourceDataRules`
+            What to read, and how
         """
     def resourceFile(self, section: str) -> str | None:
         """

@@ -17,9 +17,13 @@ game's config. Before proposing an edit, write down what it does to the graphs t
 **The shared readers a parser starts from (2026-10-31):** `GIMIParser::addRowSteps` (on `TemplateParser` until
 2026-11-02, when it moved down so the Python `GIMIParser` has it too) adds the standard row sets
 (`IniParseRows`: every bound resource's file, every declaration, every key of every section, every key of chosen
-objects), and `IniParseData::fileAnatomy` reads draws, draw parts (`GraphCollectRow::position`), late bindings,
-libraries and hidden objects off those rows, with the game's choices in `IniParseData::AnatomyRules`. WWMIParser is
+objects), and `IniParseData::resourceData` reads draws, draw parts (`GraphCollectRow::position`), late bindings,
+libraries and hidden objects off those rows, with the game's choices in `IniParseData::ResourceDataRules`. WWMIParser is
 built on both; the GI parsers are next. Reach for these before writing a reader of your own.
+**It was `fileAnatomy` / `AnatomyRules` until 2026-11-03** (the maintainer found the name misleading -- it reads
+nothing of another file). The same day it took over the texture TOGGLES WWMIParser had read by hand
+(`ResourceDataRules::toggles`, `textureRoots`, `togglesIn`, `notToggles` -> `thisToggleOf` / `registerToggleOf`):
+-160 lines in `WWMIParser.cpp`, -66 in the Python mirror.
 
 ## Edits pass data to each other through VARIABLES: `GraphEditVariables` (2026-10-31)
 

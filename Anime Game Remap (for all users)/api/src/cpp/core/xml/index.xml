@@ -30,17 +30,6 @@
     <member refid="class_a_g_remap_core_1_1_amber_parser_1a0654b5d9115f031a7f4ba39d424deaa5" kind="function"><name>AmberParser</name></member>
     <member refid="class_a_g_remap_core_1_1_amber_parser_1a13237c237d7d4d8710dded50e257bab1" kind="function"><name>v4_0</name></member>
   </compound>
-  <compound refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules" kind="struct"><name>AGRemapCore::IniParseData::AnatomyRules</name>
-    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules_1a94bce6c4656ae7a149bb3144a6234c2d" kind="variable"><name>rows</name></member>
-    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules_1a36437cc8e2235dcd9e0c4271300e2939" kind="variable"><name>resources</name></member>
-    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules_1a923b7fceb61de1a36edf6da1b74556c9" kind="variable"><name>roots</name></member>
-    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules_1a620e21ea28c55f3e6df17b1e9019c1b6" kind="variable"><name>texRegPrefix</name></member>
-    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules_1afa83538151a3e3ffba7c719cfeaa4d76" kind="variable"><name>runDraws</name></member>
-    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules_1a1cb9dd198e60bb5df2d994acfd96975d" kind="variable"><name>libraries</name></member>
-    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules_1a4a0791c10ced6b06e29aae617dfb3edf" kind="variable"><name>noneUndrawnWhenAll</name></member>
-    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules_1a9748b2b04e078b3faf830b6ee01027f8" kind="variable"><name>sections</name></member>
-    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_anatomy_rules_1a3dd08a5658980d66a8a3ff89c02e00b2" kind="variable"><name>log</name></member>
-  </compound>
   <compound refid="class_a_g_remap_core_1_1_arlecchino_fixer" kind="class"><name>AGRemapCore::ArlecchinoFixer</name>
     <member refid="class_a_g_remap_core_1_1_arlecchino_fixer_1a8fb1f5df61cd328ff2dcd5dbd022eb71" kind="function"><name>ArlecchinoFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_arlecchino_fixer_1a468369c2327a77cded98a93c3a34ec96" kind="function"><name>v5_7</name></member>
@@ -3948,8 +3937,9 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a2282a0f5496a67b437da7cec302afdbe" kind="function"><name>collectedSections</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aabdfbd633d7e7d03c8570b137c5a4bd6" kind="function"><name>sectionRows</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1acb144ec1f0399e6c5f52663da3c9d070" kind="function"><name>setCollected</name></member>
-    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1acf81f83202628ff4c42ae2f22d612246" kind="function"><name>fileAnatomy</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af506530a4e91ac100ee8cebb0a39cfc0" kind="function"><name>resourceData</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a87bc4e1b90972b260c6a9baf964a0da2" kind="function"><name>fill</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aebec684e278971656465636cf9640dc1" kind="function"><name>fileToggles</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a3013176a919ed8666c84bc0d8a2bfa9f" kind="function"><name>sectionIndex</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_parse_download_data" kind="class"><name>AGRemapCore::IniParseDownloadData</name>
@@ -6289,6 +6279,21 @@
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1abacd8105c841d15e5abfb4d808486db4" kind="function"><name>getResGraph</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6710f40b48ec3fe39ffa4ae31bc296bf" kind="function"><name>buildResources</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a7bc2fd1d2fe42716250c3d6d0715e241" kind="function"><name>fileAddGraphId</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules" kind="struct"><name>AGRemapCore::IniParseData::ResourceDataRules</name>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a93e789b5227581ee8855f0ea1b74d9e1" kind="variable"><name>rows</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1aaf2c107246d5fe7053acc83fd70af401" kind="variable"><name>resources</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1aa925489d749b76e08acf86654961aa7c" kind="variable"><name>roots</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1acc5ad056e11c3ef8332d8cdbf1570b7e" kind="variable"><name>texRegPrefix</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a05d3d7cdb5c86ebdffe52424e89ea868" kind="variable"><name>runDraws</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a86d5eadcf1f3e0986d6a04fa99d7926c" kind="variable"><name>libraries</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a7bae7b2e7ea9574b25732e1cb0410675" kind="variable"><name>noneUndrawnWhenAll</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a61d8363ec8f866187f2a239a8c624395" kind="variable"><name>sections</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1ab1f88d7fb14bb8d0e1ae5d2dbe19a033" kind="variable"><name>toggles</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1ac18be482cfddb6ebdd3eb12c003a7584" kind="variable"><name>textureRoots</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1afb372be26101fe5662216daea741e702" kind="variable"><name>togglesIn</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a6dbbcc3b40f1abe368da5b791a15d203" kind="variable"><name>notToggles</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a0fb962beb87ef526789a567dc5d3df74" kind="variable"><name>log</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role" kind="struct"><name>AGRemapCore::IniParseData::ResourceRole</name>
     <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role_1a28cae693c942d1962d69bd9603e99a6e" kind="variable"><name>role</name></member>

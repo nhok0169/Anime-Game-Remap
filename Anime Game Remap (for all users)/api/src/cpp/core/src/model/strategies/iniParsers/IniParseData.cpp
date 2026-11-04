@@ -13,6 +13,7 @@
 
 #include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
 #include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/iftemplate/ListValue.h"
 #include "AGRemapCore/tools/ListTools.h"
 #include "AGRemapCore/tools/StringTools.h"
@@ -23,7 +24,7 @@
 
 
 namespace AGRemapCore {
-    void IniParseData::fileAnatomy(const AnatomyRules& rules) {
+    void IniParseData::resourceData(const ResourceDataRules& rules) {
         // the files of the resources the graphs bind -- each section's first `filename`
         if (!rules.resources.empty()) {
             std::set<std::string> filed;
@@ -244,6 +245,173 @@ namespace AGRemapCore {
         if (!rules.noneUndrawnWhenAll || hidden.size() < read) {
             for (const ModObj& obj : hidden) {
                 addUndrawn(obj);
+            }
+        }
+
+        if (!rules.toggles.empty()) {
+            fileToggles(rules);
+        }
+    }
+
+    void IniParseData::fileToggles(const ResourceDataRules& rules) {
+        using Roots = std::map<std::string, std::vector<ModObj>>;
+        using OwnRows = std::map<std::string, std::vector<const CollectedRow*>>;
+
+        // the objects each root section is filed under
+        const auto rootsOf = [](const std::vector<std::pair<ModObj, std::vector<std::string>>>& objs, Roots& into) {
+            for (const auto& [obj, sections] : objs) {
+                for (const std::string& section : sections) {
+                    into[section].push_back(obj);
+                }
+            }
+        };
+
+        // a collect's rows in a section's own parts, when the section is a root of the row's graph
+        const auto ownRows = [this](const std::string& name, const Roots& roots, OwnRows& into) {
+            for (const auto& row : collected(name)) {
+                const auto root = roots.find(row.section);
+                if (root != roots.end()
+                        && std::find(root->second.begin(), root->second.end(), row.graphId.modObj) != root->second.end()) {
+                    into[row.section].push_back(&row);
+                }
+            }
+        };
+
+        // the sections that may hold a toggle, in the order they are written; each one's rows as written
+        const auto order = [&rules](OwnRows& own) {
+            std::vector<std::string> sections;
+            for (auto& [section, rows] : own) {
+                const bool holds = rules.togglesIn ? rules.togglesIn(section) : StringTools::startsWith(section, IniKeywords::TextureOverride);
+                if (!holds) {
+                    continue;
+                }
+                std::stable_sort(rows.begin(), rows.end(), [](const CollectedRow* a, const CollectedRow* b) {
+                    return std::make_tuple(a->position, a->line) < std::make_tuple(b->position, b->line);
+                });
+                sections.push_back(section);
+            }
+            std::stable_sort(sections.begin(), sections.end(), [&own](const std::string& a, const std::string& b) {
+                const auto first = [&own](const std::string& section) {
+                    std::pair<std::size_t, long long> at = {own.at(section).front()->partId, own.at(section).front()->line};
+                    for (const CollectedRow* row : own.at(section)) {
+                        at = std::min(at, std::make_pair(row->partId, row->line));
+                    }
+                    return at;
+                };
+                return first(a) < first(b);
+            });
+            return sections;
+        };
+
+        // the sections this file declares
+        std::set<std::string> declared;
+        if (!rules.sections.empty()) {
+            for (const auto& row : collected(rules.sections)) {
+                declared.insert(row.section);
+            }
+        }
+        const auto resolves = [&declared](const std::vector<std::string>& vals) {
+            return static_cast<std::size_t>(std::count_if(vals.begin(), vals.end(),
+                                                          [&declared](const std::string& val) { return declared.count(val) > 0; }));
+        };
+
+        // ---- THIS TOGGLES: a texture override binding several resources on its branches, or one under a condition
+        // that is a real toggle (an `else` is a toggle's other side) ----
+        Roots textureRoots;
+        rootsOf(rules.textureRoots, textureRoots);
+        OwnRows own;
+        ownRows(rules.toggles, textureRoots, own);
+
+        std::map<std::string, std::string> ownerOf;
+        std::map<std::string, std::vector<std::string>> variantsOf;
+        std::set<std::string> single;
+        for (const std::string& name : order(own)) {
+            std::vector<std::string> bound;
+            bool realToggle = false;
+            for (const CollectedRow* row : own.at(name)) {
+                for (const std::string& guard : row->guards) {
+                    std::string test = StringTools::toLower(guard);
+                    test.erase(std::remove_if(test.begin(), test.end(),
+                                              [](char c) { return c == ' ' || c == '\t' || c == '\r' || c == '\n'; }),
+                               test.end());
+                    if (std::find(rules.notToggles.begin(), rules.notToggles.end(), test) == rules.notToggles.end()) {
+                        realToggle = true;
+                    }
+                }
+                if (row->key == IniKeywords::This) {
+                    bound.push_back(std::string(StringTools::strip(row->value)));
+                }
+            }
+
+            if (bound.size() == 1 && realToggle) {
+                const std::string key = StringTools::toLower(bound.front());
+                if (ownerOf.count(key) == 0) {
+                    ownerOf[key] = name;
+                    variantsOf[name] = bound;
+                    single.insert(key);
+                }
+                continue;
+            }
+            if (bound.size() < 2) {
+                continue;
+            }
+
+            // two sections may bind one resource behind a toggle: the one declaring more of its own variants keeps it
+            const std::size_t score = resolves(bound);
+            for (const std::string& resource : bound) {
+                const std::string key = StringTools::toLower(resource);
+                const auto owner = ownerOf.find(key);
+                if (owner != ownerOf.end()) {
+                    const auto held = variantsOf.find(owner->second);
+                    if (held != variantsOf.end() && resolves(held->second) >= score) {
+                        continue;
+                    }
+                }
+                ownerOf[key] = name;
+            }
+            variantsOf[name] = bound;
+        }
+
+        for (const auto& [resource, section] : ownerOf) {
+            const auto graph = textureRoots.find(section);
+            setThisToggle(resource, TextureToggle{section, variantsOf[section], single.count(resource) > 0,
+                                                  graph == textureRoots.end() ? ModObj() : graph->second.front()});
+        }
+
+        // ---- REGISTER TOGGLES: a texture override binding one register to several resources on its branches -- per
+        // (section, register), since two registers of one section are two roles ----
+        Roots bindingRoots = textureRoots;
+        rootsOf(rules.roots, bindingRoots);
+        OwnRows bindings;
+        ownRows(rules.toggles, bindingRoots, bindings);
+        if (!rules.rows.empty()) {
+            ownRows(rules.rows, bindingRoots, bindings);
+        }
+
+        const std::string prefix = StringTools::toLower(rules.texRegPrefix);
+        for (const std::string& name : order(bindings)) {
+            std::map<std::string, std::vector<std::string>> boundOfReg;
+            for (const CollectedRow* row : bindings.at(name)) {
+                const std::string key = StringTools::toLower(std::string(StringTools::strip(row->key)));
+                if (!StringTools::startsWith(key, prefix)) {
+                    continue;
+                }
+                const std::string val = IniNamingTools::removeRefPrefix(std::string(StringTools::strip(row->value)));
+                if (val.empty() || StringTools::equalsIgnoreCase(val, IniKeywords::Null)) {
+                    continue;
+                }
+                std::vector<std::string>& vals = boundOfReg[key];
+                if (std::none_of(vals.begin(), vals.end(), [&val](const std::string& had) { return StringTools::equalsIgnoreCase(had, val); })) {
+                    vals.push_back(val);
+                }
+            }
+            for (const auto& [reg, vals] : boundOfReg) {
+                if (vals.size() < 2) {
+                    continue;
+                }
+                for (const std::string& val : vals) {
+                    setRegisterToggle(StringTools::toLower(val), TextureToggle{name + " " + reg, vals, false});
+                }
             }
         }
     }

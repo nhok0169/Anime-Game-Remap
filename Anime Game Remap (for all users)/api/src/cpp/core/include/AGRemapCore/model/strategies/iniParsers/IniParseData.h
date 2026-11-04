@@ -706,9 +706,9 @@ namespace AGRemapCore {
             void setCollected(const std::string& name, std::vector<CollectedRow> rows);
 
             /**
-             * @brief What #fileAnatomy reads, and the rules a game reads it by
+             * @brief What #resourceData reads, and the rules a game reads it by
              */
-            struct AnatomyRules {
+            struct ResourceDataRules {
                 /**
                  * @brief The collect whose rows it reads: every key each object's `sections`_ reach -- see :cpp:member:`IniParseRows::Objs`
                  */
@@ -762,6 +762,41 @@ namespace AGRemapCore {
                 std::string sections;
 
                 /**
+                 * @brief
+                 @rst
+                 The collect whose rows hold each texture override's ``this =`` and texture register lines, with the
+                 conditions they sit under, for #thisToggleOf and #registerToggleOf -- or empty for none
+                 @endrst
+                 */
+                std::string toggles;
+
+                /**
+                 * @brief
+                 @rst
+                 The texture objects whose `sections`_ may choose among the mod's textures, each with its root
+                 `sections`_: a ``this =`` toggle is read in these, and a register toggle in these and in #roots
+                 @endrst
+                 */
+                std::vector<std::pair<ModObj, std::vector<std::string>>> textureRoots;
+
+                /**
+                 * @brief
+                 @rst
+                 Which `sections`_ may hold a toggle. **Default**: every `section`_ named ``TextureOverride...``
+                 @endrst
+                 */
+                std::function<bool(const std::string& section)> togglesIn;
+
+                /**
+                 * @brief
+                 @rst
+                 The conditions that do not make a toggle, lowercased and without spaces -- eg. a condition every
+                 section of a game's mods is wrapped in. **Default**: none
+                 @endrst
+                 */
+                std::vector<std::string> notToggles;
+
+                /**
                  * @brief Where a draw range that cannot be read is reported, or empty
                  */
                 std::function<void(const std::string& message)> log;
@@ -770,21 +805,32 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Reads the mod's anatomy off collected rows and records it: each resource's file (#resourceFiles), and for
+             Reads the mod's resource data off collected rows and records it: each resource's file (#resourceFiles), and for
              each object its numbered draws (#drawRanges) and the parts they sit in (#drawParts), the texture registers it
              binds only after it has drawn (#lateBindings, unless #replacesTexturesByHash), the libraries it names
              (#libraries), the texture resources it binds only under a toggle (#toggledBindings), and whether it is
              hidden -- its `sections`_ draw nothing and skip the game's draw (#isUndrawn). Given
-             :cpp:member:`AnatomyRules::sections`, also every ``this =`` override (#thisOverrideOf, #isThisBound). Only the rows in an object's own root `sections`_ count, except that a draw or a ``run =``
+             :cpp:member:`ResourceDataRules::sections`, also every ``this =`` override (#thisOverrideOf, #isThisBound). Only the rows in an object's own root `sections`_ count, except that a draw or a ``run =``
              anywhere it reaches counts as drawing
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Given :cpp:member:`ResourceDataRules::toggles`, also the toggles that choose among the mod's textures:
+
+             * **a ``this =`` toggle** (#thisToggleOf): a texture override binding several resources on its branches, or
+               ONE under a condition that is not in :cpp:member:`ResourceDataRules::notToggles` (off, the original
+               draws with the game's texture). When two `sections`_ bind one resource, the one that declares more of its
+               own variants as `sections`_ keeps it
+             * **a register toggle** (#registerToggleOf): a texture override binding one texture register to several
+               resources on its branches, per `section`_ and register
              @endrst
              *
              * @param rules What to read, and how
              */
-            void fileAnatomy(const AnatomyRules& rules);
+            void resourceData(const ResourceDataRules& rules);
 
         private:
             void fill() const;
+            void fileToggles(const ResourceDataRules& rules);
 
             bool remappable_ = true;
             bool recolourOnly_ = false;

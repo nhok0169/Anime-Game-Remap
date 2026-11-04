@@ -90,7 +90,7 @@ namespace AGRemapCore {
             public:
                 /**
                  * 'onlyThisFile': the parser of ANOTHER .ini of the mod, which one of this character's parsers
-                 * reads the rows of (see readOther) -- the same parse, with only the anatomy read off its rows:
+                 * reads the rows of (see readOther) -- the same parse, with only the resource data read off its rows:
                  * no skeleton, no draw splits, no textures, and so none of its own linked files
                  */
                 WWMIParser(IniFile* iniFile, std::optional<int> modTypeId, const WWMIParserConfig& config,
@@ -292,7 +292,7 @@ namespace AGRemapCore {
                  * (1) the standard rows (GIMIParser::addRowSteps): the files of the resources the mod binds,
                  * every section's declaration and every key of every section, and every key of every slot graph;
                  * (2) the hash and the `this` of every texture override; (3) the textures' roles and toggles;
-                 * (4) the anatomy (IniParseData::fileAnatomy, by WWMI's rules); (5) the skeleton numbering;
+                 * (4) the resource data (IniParseData::resourceData, by WWMI's rules); (5) the skeleton numbering;
                  * (6) the textures; (7) the draw splits.
                  */
                 void buildSteps() {
@@ -348,7 +348,7 @@ namespace AGRemapCore {
                     steps.push_back(std::move(overrides));
                     steps.push_back(std::move(roles));
                     steps.push_back(std::move(toggles));
-                    this->deferredParseReaders = {[this](IniParseData& data) { applyAnatomy(data); }};
+                    this->deferredParseReaders = {[this](IniParseData& data) { applyResourceData(data); }};
                     if (!onlyThisFile_) {
                         this->deferredParseReaders.push_back([this](IniParseData& data) { readSkeletonNumbering(data); });
                         this->deferredParseReaders.push_back([this](IniParseData& data) { readTextures(data); });
@@ -366,15 +366,15 @@ namespace AGRemapCore {
                     }
                 }
 
-                // ---- WWMI's reading of the rows: the mod's anatomy, as WWMIFixer asks for it ----
+                // ---- WWMI's reading of the rows: the mod's resource data, as WWMIFixer asks for it ----
                 //
                 // The policies here are WWMI's: a slot is undrawn when its sections draw nothing and skip the
                 // game's draw (unless every slot is, a mod this reading does not understand); a texture register
                 // bound after a draw is late, unless the mod replaces textures by hash (its art reaches those
                 // draws anyway); a `run =` this file cannot resolve draws, unless it is WWMI's own library.
-                void applyAnatomy(IniParseData& data) {
+                void applyResourceData(IniParseData& data) {
                     std::unordered_set<std::string> slotRoots;
-                    IniParseData::AnatomyRules rules;
+                    IniParseData::ResourceDataRules rules;
                     rules.rows = SlotsCollect;
                     rules.resources = IniParseRows::Resources;
                     rules.sections = IniParseRows::Sections;
@@ -389,6 +389,24 @@ namespace AGRemapCore {
                         if (isSlotObj(obj)) {
                             slotRoots.insert(sections.begin(), sections.end());
                             rules.roots.emplace_back(obj, sections);
+                        }
+                    }
+
+                    // THE TOGGLES: which of the mod's own resources a texture override binds in SEVERAL VARIANTS. A
+                    // toggle mod writes `if $hair == 0 / this = X / else / this = XA`, and a single `<reg> = <resource>`
+                    // line in a fix can carry only one of them. One `this` under `$object_detected` alone is not a
+                    // toggle (every Sanhua mod wraps its one `this` that way); under any other condition it is a toggle
+                    // of one variant (Lynae3's `if $Hairs == 1`). Only for the file a fix reads its textures from
+                    if (!onlyThisFile_ && !(config_.textures.roles.empty() && config_.textures.registerRoles.empty())) {
+                        rules.toggles = TextureTogglesCollect;
+                        rules.togglesIn = [](const std::string& section) {
+                            return StringTools::startsWith(section, IniKeywords::TextureOverride) && !isFixSection(section);
+                        };
+                        rules.notToggles = {IniKeywords::WWMIObjectDetected, IniKeywords::WWMIObjectDetected + "==1"};
+                        for (const auto& [obj, sections] : this->sectionTargets()) {
+                            if (obj.first == IniGraphModObjKeywords::Texture) {
+                                rules.textureRoots.emplace_back(obj, sections);
+                            }
                         }
                     }
 
@@ -409,7 +427,7 @@ namespace AGRemapCore {
                         }
                     }
 
-                    data.fileAnatomy(rules);
+                    data.resourceData(rules);
                 }
 
                 // The texture roles, when the character's config carries textures to sort by
@@ -421,8 +439,6 @@ namespace AGRemapCore {
                     TextureRoles roles;
                     buildRoles(roles, data);
                     data.setTextureRoles(std::move(roles));
-                    readThisToggles(data);
-                    readRegisterToggles(data);
                     chooseRoleFiles(data, *data.textureRoles());
                 }
 
@@ -658,166 +674,6 @@ namespace AGRemapCore {
                     }
 
                     return true;
-                }
-
-                // WHICH of the mod's own resources it binds in SEVERAL VARIANTS. A toggle mod writes
-                // `if $hair == 0 / this = X / else / this = XA` in a texture override, and a single
-                // `<reg> = <resource>` line in a fix can carry only one of them. A section binding ONE
-                // resource under `$object_detected` alone is not a toggle (every Sanhua mod wraps its one
-                // `this` that way); one `this` under any other condition is a toggle of one variant
-                // (Lynae3's `if $Hairs == 1`), whose original draws with the game's texture while off.
-                void readThisToggles(IniParseData& data) {
-                    // the texture graph the parser placed each section in, and each section's own `this` rows
-                    const auto roots = rootsOf([](const ModObj& obj) { return obj.first == IniGraphModObjKeywords::Texture; });
-                    auto own = ownRows(data.collected(TextureTogglesCollect), roots);
-
-                    std::unordered_map<std::string, std::string> ownerOf;            // resource -> the section binding it
-                    std::unordered_map<std::string, std::vector<std::string>> variantsOf;
-                    std::unordered_set<std::string> single;
-                    std::vector<std::string> sections;
-                    for (const auto& entry : own) {
-                        sections.push_back(entry.first);
-                    }
-                    std::sort(sections.begin(), sections.end(),
-                              [this](const std::string& a, const std::string& b) { return sectionAt(a) < sectionAt(b); });
-
-                    for (const std::string& name : sections) {
-                        // ANY texture override binding by hash, whatever its name: Lynae3 calls its hair
-                        // overrides [TextureOverrideX] / [TextureOverrideXX]
-                        if (!StringTools::startsWith(name, IniKeywords::TextureOverride) || isFixSection(name)) {
-                            continue;
-                        }
-
-                        std::vector<const Row*>& rows = own[name];
-                        sortAsWritten(rows);
-                        std::vector<std::string> bound;
-                        bool realToggle = false;
-                        for (const Row* row : rows) {
-                            for (const std::string& guard : row->guards) {
-                                std::string test = StringTools::toLower(guard);
-                                test.erase(std::remove_if(test.begin(), test.end(),
-                                                          [](char c) { return c == ' ' || c == '\t' || c == '\r' || c == '\n'; }),
-                                           test.end());
-                                // an `else` is a toggle's other side (Chisa18 binds its normal map under `else` of `if $Gloss == 1`)
-                                if (test != IniKeywords::WWMIObjectDetected && test != IniKeywords::WWMIObjectDetected + "==1") {
-                                    realToggle = true;
-                                }
-                            }
-
-                            if (row->key == IniKeywords::This) {
-                                bound.push_back(std::string(StringTools::strip(row->value)));
-                            }
-                        }
-
-                        if (bound.size() == 1 && realToggle) {
-                            const std::string key = StringTools::toLower(bound.front());
-                            if (ownerOf.count(key) == 0) {
-                                ownerOf[key] = name;
-                                variantsOf[name] = bound;
-                                single.insert(key);
-                            }
-                            continue;
-                        }
-
-                        if (bound.size() < 2) {
-                            continue;
-                        }
-
-                        // TWO SECTIONS MAY BIND ONE RESOURCE BEHIND A TOGGLE, AND ONLY ONE OF THEM MAY BE
-                        // WHOLE: SanhuaExorcist4 selects `7 / 7a / 7b` in one and `7 / 7.1 / 7.2` -- names
-                        // it never declares -- in another. The section that answers for most of its own
-                        // variants keeps the resource.
-                        const auto resolves = [this](const std::vector<std::string>& vals) {
-                            std::size_t n = 0;
-                            for (const std::string& val : vals) {
-                                if (const_cast<IniFileParseContext&>(ctx_).getSection(val) != nullptr) {
-                                    ++n;
-                                }
-                            }
-                            return n;
-                        };
-
-                        const std::size_t score = resolves(bound);
-                        for (const std::string& resource : bound) {
-                            const std::string key = StringTools::toLower(resource);
-                            const auto owner = ownerOf.find(key);
-                            if (owner != ownerOf.end()) {
-                                const auto held = variantsOf.find(owner->second);
-                                if (held != variantsOf.end() && resolves(held->second) >= score) {
-                                    continue;
-                                }
-                            }
-                            ownerOf[key] = name;
-                        }
-                        variantsOf[name] = bound;
-                    }
-
-                    for (const auto& [resource, section] : ownerOf) {
-                        const auto graph = roots.find(section);
-                        data.setThisToggle(resource, IniParseData::TextureToggle{section, variantsOf[section], single.count(resource) > 0,
-                                                                                 graph == roots.end() ? ModObj() : graph->second.front()});
-                    }
-                }
-
-                // THE SAME TOGGLE WRITTEN AS A REGISTER BINDING: a section binding one register to
-                // several resources on its branches (`if $key2 == 1 / ps-t3 = A / else / ps-t3 = B`).
-                // Every one reaches that slot, so each is a variant of the role resolved there. Per
-                // (section, register): two registers of one section are two roles.
-                void readRegisterToggles(IniParseData& data) {
-                    // each texture override's own register rows, a slot's and a texture's
-                    const auto roots = rootsOf([this](const ModObj& obj) {
-                        return obj.first == IniGraphModObjKeywords::Texture || isSlotObj(obj);
-                    });
-                    auto own = ownRows(data.collected(TextureTogglesCollect), roots);
-                    for (auto& [name, rows] : ownRows(data.collected(SlotsCollect), roots)) {
-                        auto& into = own[name];
-                        into.insert(into.end(), rows.begin(), rows.end());
-                    }
-
-                    std::vector<std::string> sections;
-                    for (const auto& entry : own) {
-                        sections.push_back(entry.first);
-                    }
-                    std::sort(sections.begin(), sections.end(),
-                              [this](const std::string& a, const std::string& b) { return sectionAt(a) < sectionAt(b); });
-
-                    const std::string prefix = StringTools::toLower(config_.texRegPrefix);
-                    for (const std::string& name : sections) {
-                        if (!StringTools::startsWith(name, IniKeywords::TextureOverride) || isFixSection(name)) {
-                            continue;
-                        }
-
-                        std::vector<const Row*>& rows = own[name];
-                        sortAsWritten(rows);
-                        std::map<std::string, std::vector<std::string>> boundOfReg;
-                        for (const Row* row : rows) {
-                            const std::string key = StringTools::toLower(StringTools::strip(row->key));
-                            if (!StringTools::startsWith(key, prefix)) {
-                                continue;
-                            }
-
-                            const std::string val = IniNamingTools::removeRefPrefix(std::string(StringTools::strip(row->value)));
-                            if (val.empty() || StringTools::equalsIgnoreCase(val, IniKeywords::Null)) {
-                                continue;
-                            }
-
-                            std::vector<std::string>& vals = boundOfReg[key];
-                            const bool seen = std::any_of(vals.begin(), vals.end(),
-                                                          [&val](const std::string& had) { return StringTools::equalsIgnoreCase(had, val); });
-                            if (!seen) {
-                                vals.push_back(val);
-                            }
-                        }
-
-                        for (const auto& [reg, vals] : boundOfReg) {
-                            if (vals.size() < 2) {
-                                continue;
-                            }
-                            for (const std::string& val : vals) {
-                                data.setRegisterToggle(StringTools::toLower(val), IniParseData::TextureToggle{name + " " + reg, vals, false});
-                            }
-                        }
-                    }
                 }
 
                 // slot -> the sections that draw it, in the order they are written: the slot graphs' roots

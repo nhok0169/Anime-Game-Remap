@@ -651,6 +651,23 @@ def makeFixer(parser, toModName, modTypeId):
     for i in range(len(tags.tags())):
         fixSections.sections("fixSections").add(tags.section(i, rename("ShaderOverridePass" + str(i))))
 
+    # the other meshes the character draws, by their own vb0 hash (WWMIFixerConfig::sharedMeshes): the geometry is
+    # shared, so only the textures are rebound, per pass, with the file of the first component that has the role
+    sharedResourceFor = lambda role: next((resource for component in sorted(present)
+                                           for resource in [resourceFor(role, component)] if resource), None)
+    for meshNum, (meshHash, byPass) in enumerate(FIX.sharedMeshes.items()):
+        mesh = FRB.SectionText(z3, rename(FRB.IniKeywords.TextureOverride + source.name + "SharedMesh" + str(meshNum)))
+        mesh.key(FRB.IniKeywords.Hash, meshHash)
+        drew = False
+        for passName, bindings in byPass.items():
+            lines = [bindLine(binding.role, binding.reg, sharedResourceFor(binding.role)) for binding in bindings
+                     if sharedResourceFor(binding.role)]
+            if lines:
+                mesh.open(passCondition([passName])).keys(lines).close()
+                drew = True
+        if drew:
+            fixSections.sections("fixSections").add(mesh.build())
+
     # the edits, per group, keyed by the target objects the remap made
     perGroup = []
     for group in groups:

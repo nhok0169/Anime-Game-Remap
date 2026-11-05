@@ -318,7 +318,28 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
             age = min(age, newer * 100 + generation)
         return age
 
-    parser.deferredParseReaders += [readResourceData] if onlyThisFile else [readResourceData, readTextures]
+    # which numbering the blend's bone ids are in, asked of the mod's own geometry (SkeletonNumberingProbe) -- not of a
+    # mod from before WWMI's merged skeleton (no vg_offset on any slot section), whose ids are each component's own
+    def readSkeletonNumbering(data):
+        if len(PARSE.skeletonNumberings) < 2 or not PARSE.referenceBoneCentroids:
+            return
+        merged = any(data.firstCollected(FRB.IniParseRows.Objs, section, FRB.IniKeywords.WWMIVgOffset) is not None
+                     for obj, sections in parser._sectionTargets.items() if slotOf(obj) is not None for section in sections)
+        position = data.resourceFile(FRB.IniKeywords.WWMIPositionBuffer)
+        blend = data.resourceFile(FRB.IniKeywords.WWMIBlendBuffer)
+        if not merged or position is None or blend is None:
+            return
+        # the remapped skeleton's own 16-bit ids: the first resource, by name, naming them
+        vertexVG = next((file for section, file in data.resourceFiles().items()
+                         if "blendremapvertexvg" in section.replace("_", "").lower()), None)
+        pathOf = lambda rel: iniPathOf(rel, parser._iniFile.folder)
+        found = FRB.SkeletonNumberingProbe.probe(pathOf(position), pathOf(blend), pathOf(vertexVG) if vertexVG else None,
+                                                 PARSE.skeletonNumberings, PARSE.referenceBoneCentroids)
+        if found is not None:
+            data.setBlendVersion(PARSE.skeletonNumberings[found.best].version)
+
+    # GAP: WWMIParserConfig::drawSplits (readDrawSplits; only Lynae's rows set it)
+    parser.deferredParseReaders += [readResourceData] if onlyThisFile else [readResourceData, readSkeletonNumbering, readTextures]
     return parser
 
 
@@ -367,7 +388,35 @@ def makeFixer(parser, toModName, modTypeId):
     # bone indices in its blend: lifted through the source's per-component vg maps, and the fix supplies the merged
     # skeleton it lacks -- or, with no maps to lift them with, left alone (WWMIFixer::readMod) ----
     giveUp = lambda: FRB.GIMIFixer(parser, graphGroupEdits = [FRB.GraphGroupRemove()], modsToFix = [toModName])
+
+    # THE MOD'S SECTIONS ON ANOTHER HASH, BY EDITS (WWMIFixer::copyOntoHash): each section of the parser's graph 'obj'
+    # copied into a graph of its own (GraphCopy), renamed to the fix's name (GraphRename), its `hash` set (RegNewVals)
+    # and taken into the fix's sections under its comment -- in this call's place among them when 'inPlace'
+    def copyOntoHash(variables, obj, sections, hash, commentOf, inPlace):
+        copies, takes, edits = [], [], {}
+        for section in sections:
+            name = rename(section)
+            copyObj = ("", name)
+            copies.append(FRB.GraphCopy((0, *obj), (0, *copyObj), lambda owner, part, i, s = section: owner.name == s))
+            edits[copyObj] = [FRB.GraphRename(lambda old, s = section, n = name: n if old == s else old),
+                              FRB.RegNewVals({FRB.IniKeywords.Hash: hash})]
+            takes.append(FRB.VarSectionsTake(variables, "fixSections", copyObj, [name], commentOf(section), inPlace))
+        return copies + ([FRB.GraphGroupEdit([edits])] + takes if sections else [])
+
+    targetVb0 = target.hashes.get([target.name, SLOT_HASH], toVersion, False)
     if not present and not silent:
+        # A FILE THAT ONLY WATCHES THE SOURCE (WWMIFixer::buildWatcher): each watching section, as the author wrote it,
+        # under the fix's name on the target's vb0 -- copied before the removal of every group, nothing drawn
+        watching = parser._sectionTargets.get(WATCH, [])
+        if watching and targetVb0:
+            watchZ3, watchSections = FRB.Z3Context(), FRB.GraphEditVariables()
+            copies = copyOntoHash(watchSections, WATCH, watching, targetVb0, lambda section: "", False)
+            write = FRB.GraphCreate((0, "", "fixSections"))
+            write.sectionsOf = lambda group: watchSections.sections("fixSections").list()
+            write.z3 = watchZ3
+            print("only watches " + SOURCE + ", so its " + str(len(watching)) + " watching section(s) are carried onto "
+                  + toModName + "'s vb0 and nothing is drawn")
+            return FRB.GIMIFixer(parser, graphGroupEdits = [*copies, FRB.GraphGroupRemove(), write], modsToFix = [toModName])
         print("no slot section on any vb0 hash the library files under " + SOURCE + " -- so this .ini is left alone")
         return giveUp()
     legacy = not any(data.firstCollected(FRB.IniParseRows.Objs, section, FRB.IniKeywords.WWMIVgOffset) for section in slotSections)
@@ -447,11 +496,11 @@ def makeFixer(parser, toModName, modTypeId):
     # the bone-data marker into every file, the shape-key overrides once ----
     remap = {}
     for component in sorted(present):
-        if component in PLAN:
-            remap[graphId(("", SLOT_PREFIX + str(component)))] = [(0, *targetObj(component), rename)]
+        remap[graphId(("", SLOT_PREFIX + str(component)))] = [(0, *targetObj(component), rename)] if component in PLAN else []
     for component in silent:
         remap[graphId(("", SLOT_PREFIX + str(component)))] = []
-    hashOnlyObjs = [obj for obj in parser.modObjs if obj[0] != TEXTURE and slotOf(obj) is None and obj != WATCH]
+    counterpart = lambda obj: not obj[0] and obj[1] in FIX.meshCounterparts
+    hashOnlyObjs = [obj for obj in parser.modObjs if obj[0] != TEXTURE and slotOf(obj) is None and obj != WATCH and not counterpart(obj)]
     for obj in hashOnlyObjs:
         copies = 1 if obj[1] in ("shapekeyOffsets", "shapekeyScale") else len(groups)
         remap[graphId(obj)] = [(0, *obj, rename)] * copies
@@ -740,6 +789,35 @@ def makeFixer(parser, toModName, modTypeId):
                 makeBytes = lambda: cleaned()[0].data)
             fixFileRegs.add(FIX.texcoordReg)
 
+    # the mod's shape keys in the TARGET's order (WWMIFixerConfig::shapeKeyOrder): the game drives them by slot, and two
+    # skins number them differently. The mod's three buffers, checked before anything binds a copy of them
+    shapeKeyResources = [FRB.IniKeywords.WWMIShapeKeyOffsetBuffer, FRB.IniKeywords.WWMIShapeKeyVertexIdBuffer,
+                         FRB.IniKeywords.WWMIShapeKeyVertexOffsetBuffer]
+    shapeKeyRegs = ["cs-t33", "cs-t0", "cs-t1"]
+    shapeKeyFiles = {}
+    if FIX.shapeKeyOrder:
+        for resource in shapeKeyResources:
+            declaredKey = lambda key, resource = resource: data.firstCollected(FRB.IniParseRows.Declared, resource, key)
+            valueOf = lambda key, otherwise: declaredKey(key).value.strip() if declaredKey(key) is not None else otherwise
+            filename = declaredKey(FRB.IniKeywords.Filename)
+            if filename is not None and filename.value.strip():
+                shapeKeyFiles[resource] = (filename.section, filename.value.strip(), valueOf(FRB.IniKeywords.Type, FRB.IniKeywords.Buffer),
+                                           valueOf(FRB.IniKeywords.Format, ""), valueOf(FRB.IniKeywords.Stride, ""))
+
+        def shapeKeyOrderFile(resource):
+            name = resource[len(FRB.IniKeywords.Resource):]
+            name = name[:-len("Buffer")] if name.endswith("Buffer") else name
+            folder = os.path.dirname(shapeKeyFiles[resource][1].replace("\\", "/"))
+            return "/".join(part for part in (folder, FRB.IniNamingTools.getRemapElementName("", name, toModName) + ".buf") if part)
+
+        shapeKeyPaths = lambda: FRB.WWMIShapeKeys.Files(*[inIni(shapeKeyFiles[resource][1]) for resource in shapeKeyResources])
+        if len(shapeKeyFiles) != len(shapeKeyResources):
+            shapeKeyFiles = {}
+        elif FRB.WWMIShapeKeys.checkReorder(shapeKeyPaths(), list(FIX.shapeKeyOrder)):
+            print("this mod's shape keys are left in " + source.name + "'s order ("
+                  + FRB.WWMIShapeKeys.checkReorder(shapeKeyPaths(), list(FIX.shapeKeyOrder)) + ")")
+            shapeKeyFiles = {}
+
     # the zero shape-key stream: a buffer of zeros, one line a vertex, bound before every draw
     # (WWMIFixerConfig::zeroShapeKeyStream)
     zeroResource = None
@@ -753,6 +831,23 @@ def makeFixer(parser, toModName, modTypeId):
             makeBytes = lambda: bytes(zeroSize))
         fixFileRegs.add(FIX.shapeKeyStreamReg)
 
+    # ...and the reordered copies of the shape keys, declared as the mod declares its own
+    if shapeKeyFiles:
+        reordered = []
+
+        def shapeKeyBytes(which):
+            if not reordered:
+                reordered.append(FRB.WWMIShapeKeys.reordered(shapeKeyPaths(), list(FIX.shapeKeyOrder)))
+            return (reordered[0].offsets, reordered[0].vertexIds, reordered[0].vertexOffsets)[which]
+
+        for which, resource in enumerate(shapeKeyResources):
+            _, _, kind, form, keyStride = shapeKeyFiles[resource]
+            keys = [(FRB.IniKeywords.Type, kind)] + ([(FRB.IniKeywords.Format, form)] if form else []) \
+                + ([(FRB.IniKeywords.Stride, keyStride)] if keyStride else [])
+            fixFiles[rename(resource)] = FRB.FileAddCreate.File(keys, shapeKeyOrderFile(resource),
+                                                                makeBytes = lambda which = which: shapeKeyBytes(which))
+        fixFileRegs.update(shapeKeyRegs)
+
     # the invented textures: made where the fix's lists bind them, in every group the slot remap made
     # (WWMIFixer::fixFileEdits: one TexCreate per group, collected off every graph of that group)
     kept = []
@@ -763,7 +858,7 @@ def makeFixer(parser, toModName, modTypeId):
         # the fix's own files, then the downloads, then the invented textures (WWMIFixer::fixFileEdits' order)
         if fixFiles:
             create = FRB.FileAddCreate((group, "", "fixFiles"), fixFiles)
-            edits.append(FRB.ResRegCollect({graph: sorted(fixFileRegs) for graph in graphs}, {"fixFile": create},
+            edits.append(FRB.ResRegCollect({graph: sorted(fixFileRegs) for graph in sorted(graphs)}, {"fixFile": create},
                                            resPredicates = {graph: (lambda key, value, data: value.strip() in fixFiles)
                                                             for graph in graphs}))
             kept.append(create)
@@ -1000,6 +1095,22 @@ def makeFixer(parser, toModName, modTypeId):
         if drew:
             fixSections.sections("fixSections").add(mesh.build())
 
+    # GAP: WWMIFixerConfig::hiddenMeshes (only LynaePeppermint's row sets it)
+    # the mod's own sections on another mesh of the source, copied onto the target's mesh that plays the same part
+    # (WWMIFixerConfig::meshCounterparts), in this place among the fix's sections
+    copyEdits = []
+    for part in FIX.meshCounterparts:
+        hash = target.hashes.get([target.name, part], toVersion, False)
+        if hash is None:
+            print("the library files no '" + part + "' hash for " + toModName + ", so the mod's sections on " + SOURCE
+                  + "'s are not carried over")
+            continue
+        copyEdits += copyOntoHash(fixSections, ("", part), parser._sectionTargets.get(("", part), []), hash.lower(),
+                                  lambda section: section + " of the mod, on " + toModName + "'s counterpart of that mesh", True)
+    copied = [(0, "", part) for part in FIX.meshCounterparts if ("", part) in parser.modObjs]
+    if copied:
+        copyEdits.append(FRB.GraphRemove(copied))
+
     # THE MOD'S OWN `ps-t` LINES, RE-KEYED BY ROLE (WWMIFixer's CarriedLines): each to the register this component's
     # plan row reads its texture's role at -- the layout of the fix's own list, which they sit after. A line the rule
     # has no answer for is left where it is; an empty answer drops it. One RegAnchorAdd per component, replacing every
@@ -1099,12 +1210,20 @@ def makeFixer(parser, toModName, modTypeId):
         kept.append(carried)
         carriedEdits[component] = FRB.RegPartEdit(carried)
 
+    # the fix's shape-key lists bind the reordered copies (WWMIFixerConfig::shapeKeyOrder); any other value stays
+    shapeKeyRebind = []
+    if shapeKeyFiles:
+        sectionOf = {shapeKeyFiles[resource][0].lower(): rename(resource) for resource in shapeKeyResources}
+        shapeKeyRebind = [FRB.RegNewVals({reg: FRB.FromOldVal(lambda old, modType: sectionOf.get(old.strip().lower(), old))
+                                          for reg in shapeKeyRegs})]
+
     # the edits, per group, keyed by the target objects the remap made
     perGroup = []
     for group in groups:
         edits = {}
         for component in group:
-            edits[targetObj(component)] = [*([regRemove] if regRemove else []), slotValues[PLAN[component]], assetRemap, dispatch]
+            edits[targetObj(component)] = [*([regRemove] if regRemove else []), slotValues[PLAN[component]], assetRemap, dispatch,
+                                           *shapeKeyRebind]
             if component in listOf:
                 edits[targetObj(component)].append(FRB.RegSurroundedAdd(
                     [(FRB.IniKeywords.Run, listOf[component])], {FRB.IniKeywords.MatchFirstIndex: lambda value: True}))
@@ -1123,17 +1242,21 @@ def makeFixer(parser, toModName, modTypeId):
                 edits[targetObj(component)].append(FRB.RegSurroundedAdd(
                     additions, {FRB.IniKeywords.Run: lambda value: value in (sharedList, rename(sharedList))}, {}, False))
         for obj in hashOnlyObjs:
-            edits[obj] = [assetRemap, dispatch]
+            edits[obj] = [assetRemap, dispatch, *shapeKeyRebind]
         perGroup.append(edits)
     mainEdits = FRB.GraphGroupEdit(perGroup)
 
     # ---- step 8: the blend, onto the target's bones: the library's vertex-group row over WWMI's layout (N ids then N
     # weights, N off the mod's own Blend.buf), collected off each group's slot sections at the blend register -- only a
     # line that names a file: `ref` names a buffer of WWMI's own ----
+    # the mod's own Position.buf, however its .ini names it: a file that declares none has no mesh to read a vertex
+    # count from, and is refused here, before any edit runs (WWMIFixer::positionBufPath)
+    if positionFile is None:
+        raise RuntimeError("cannot fix this mod: its .ini declares no [" + FRB.IniKeywords.WWMIPositionBuffer
+                           + "], so there is no mesh to read a vertex count from")
+    positionPath = iniPathOf(positionFile, parser._iniFile.folder)
+
     def blendElements(srcPath):
-        if positionFile is None:
-            raise RuntimeError("cannot fix this mod: its .ini declares no [" + FRB.IniKeywords.WWMIPositionBuffer + "]")
-        positionPath = iniPathOf(positionFile, parser._iniFile.folder)
         return FRB.WWMIBlend.blendElements(FRB.WWMIBlend.influencesOf(srcPath, vertexCount, positionPath))
 
     # WHERE the mod's ids live: a character past 256 bones keeps them in WWMI's BlendRemapVertexVG.buf, named by the
@@ -1205,7 +1328,7 @@ def makeFixer(parser, toModName, modTypeId):
     writeSections = FRB.GraphCreate((0, "", "fixSections"))
     writeSections.sectionsOf = lambda group: fixSections.sections("fixSections").list()
     writeSections.z3 = z3       # the context the sections' `if` lines were parsed in, kept as long as the edit is
-    fixer = FRB.GIMIFixer(parser, graphGroupEdits = [*toggleEdits, slotRemap, mainEdits, *blendCollects, *rebindEdits, writeSections,
+    fixer = FRB.GIMIFixer(parser, graphGroupEdits = [*copyEdits, *toggleEdits, slotRemap, mainEdits, *blendCollects, *rebindEdits, writeSections,
                                                            *madeTextures, *latchEdits, *texEdits],
                           modsToFix = [toModName])
     # a copy carries the fix's own sections and none of the mod's texture overrides live: the mod's own file keeps

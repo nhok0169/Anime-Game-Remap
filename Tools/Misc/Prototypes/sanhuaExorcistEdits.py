@@ -441,8 +441,8 @@ def makeFixer(parser, toModName, modTypeId):
     tags.addNumbered([vs for passes in allPasses for shader in passes for vs in taggedFor(shader)],
                      dict(FIX.filterIndices), FIX.filterBase, FIX.filterStep)
 
-    def passCondition(slot):
-        return tags.condition("vs", list(dict.fromkeys(vs for shader in SLOT_PASSES[slot] for vs in PASS_VERTEX_SHADERS.get(shader, []))))
+    def passCondition(passes):
+        return tags.condition("vs" if PASS_VERTEX_SHADERS else "ps", list(dict.fromkeys(tag for p in passes for tag in taggedFor(p))))
 
     # layer 1, the mod's own file for each role a component binds (WWMIFixer::assignRole): the resource the mod uses for
     # it (IniParseData::resourceOfFile), or one the fix declares -- RemapRef, since an undo deletes what a RemapFix names
@@ -485,12 +485,26 @@ def makeFixer(parser, toModName, modTypeId):
     for component in planned:
         for reg, role in REGISTERS[component]:
             assignRole(role, component)
+
+    # the roles only a slot's OTHER passes (of a slot something is drawn through) or a shared mesh bind
+    # (WWMIFixer::passOnlyRoles), offered to every component that could serve them
+    drawnThrough = {PLAN[component] for component in planned}
+    passOnlyRoles = list(dict.fromkeys(
+        [binding.role for slot, byPass in FIX.extraPassRegs.items() if slot in drawnThrough
+         for bindings in byPass.values() for binding in bindings]
+        + [binding.role for byPass in FIX.sharedMeshes.values() for bindings in byPass.values() for binding in bindings]))
+    for role in passOnlyRoles:
+        for component in sorted(present):
+            assignRole(role, component)
     for role, _, _ in CREATED:
         resourceOfRole[role] = rename(FRB.IniKeywords.Resource + role)
     for component in planned:
         for reg, role in REGISTERS[component]:
             if (role, component) not in resourceOfSlotRole:
                 standIn(role)
+    for role in passOnlyRoles:
+        if not any(owned == role for owned, _ in resourceOfSlotRole):
+            standIn(role)
 
     def resourceFor(role, component):
         return resourceOfSlotRole.get((role, component), resourceOfRole.get(role))
@@ -523,7 +537,7 @@ def makeFixer(parser, toModName, modTypeId):
         roleLists[(role, reg)] = name                                                    # off binding (planGameDefaults)
         return (FRB.IniKeywords.Run, name)
 
-    listOf = {}
+    listOf, passListsOf = {}, {}
     for component in sorted(present):
         if component not in PLAN:
             continue
@@ -531,7 +545,22 @@ def makeFixer(parser, toModName, modTypeId):
         if lines:
             listOf[component] = rename(FRB.IniKeywords.CommandList + source.name + "Component" + str(component) + "Textures")
             fixSections.sections("fixSections").add(
-                FRB.SectionText(z3, listOf[component]).open(passCondition(PLAN[component])).keys(lines).close().build())
+                FRB.SectionText(z3, listOf[component]).open(passCondition(SLOT_PASSES[PLAN[component]])).keys(lines).close().build())
+
+        # a slot's OTHER passes bind the same art at DIFFERENT registers (WWMIFixerConfig::extraPassRegs): each its own
+        # list, gated on that pass, run before the draw -- and a pass the slot's draw must not be re-issued on
+        # (extraPassNoDraw) nulls it there
+        noDraw = FIX.extraPassNoDraw.get(PLAN[component], set())
+        for n, (passName, bindings) in enumerate(FIX.extraPassRegs.get(PLAN[component], {}).items()):
+            passLines = [bindLine(binding.role, binding.reg, resourceFor(binding.role, component)) for binding in bindings
+                         if binding.srcComponent in (-1, component) and resourceFor(binding.role, component)]
+            if passName in noDraw:
+                passLines.append((FRB.IniKeywords.Ib, FRB.IniKeywords.Null))
+            if passLines:
+                passList = rename(FRB.IniKeywords.CommandList + source.name + "Component" + str(component) + "TexturesPass" + str(n))
+                passListsOf.setdefault(component, []).append(passList)
+                fixSections.sections("fixSections").add(
+                    FRB.SectionText(z3, passList).open(passCondition([passName])).keys(passLines).close().build())
 
     # the resources the fix declares, after the lists (WWMIFixer::buildAppended), in the order they were named
     for file, name in declaredName.items():
@@ -584,7 +613,7 @@ def makeFixer(parser, toModName, modTypeId):
     # ---- step 6: the shared-resource pair made symmetric (WWMIFixer::buildBypasses): every buffer the mod's override
     # list binds and its cleanup list does not put back is parked in a resource of the fix's before it is replaced, and
     # the cleanup list runs the fix's list that puts them back ----
-    sharedList, cleanupList = "CommandListOverrideSharedResources", "CommandListCleanupSharedResources"
+    sharedList, cleanupList = FIX.sharedResourcesList, FIX.cleanupResourcesList
     restoreList = FRB.WWMISections.restoreListName(toModName)
     bypasses = FRB.WWMISections.bypasses(data, FRB.IniParseRows.Sections, sharedList, cleanupList, toModName)
 
@@ -633,6 +662,11 @@ def makeFixer(parser, toModName, modTypeId):
                     [(FRB.IniKeywords.Run, listOf[component])], {FRB.IniKeywords.MatchFirstIndex: lambda value: True}))
             # the shared lists are reached through every component's graph; the edits are idempotent
             edits[targetObj(component)] += bypassEdits
+            # what runs before the draw, right after the shared-resource override (WWMIFixer::buildComponentAdditions)
+            if component in passListsOf:
+                edits[targetObj(component)].append(FRB.RegSurroundedAdd(
+                    [(FRB.IniKeywords.Run, passList) for passList in passListsOf[component]],
+                    {FRB.IniKeywords.Run: lambda value: value in (sharedList, rename(sharedList))}, {}, False))
         for obj in hashOnlyObjs:
             edits[obj] = [assetRemap, dispatch]
         perGroup.append(edits)

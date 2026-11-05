@@ -2927,132 +2927,71 @@ namespace AGRemapCore {
                     shaderBufferRegs_.clear();
                     for (const auto& [as, shader] : rerouteShaders_) {
                         const std::string onPlan = passCondition(config_.slotPasses.at(static_cast<std::size_t>(config_.plan.at(as).slot)));
-                        for (const auto& range : shaderDraws(as)) {
-                            const std::string draw = std::to_string(range.first) + ", " + std::to_string(range.second) + ", 0";
-                            const std::string custom = rerouteShaderSection(as, range, "CustomShader");
-                            const Kvp fallback = offDraw(as, range);
-                            const std::size_t passCount = std::max<std::size_t>(1, shader->passes.size());
-                            const auto passName = [&](std::size_t p) {
-                                return p == 0 ? custom : custom + "Pass" + std::to_string(p);
-                            };
+                        const std::size_t passCount = std::max<std::size_t>(1, shader->passes.size());
 
-                            std::vector<Kvp> runs;
-                            std::vector<Kvp> assigned;
-                            for (std::size_t p = 0; p < passCount; ++p) {
-                                runs.emplace_back(IniKeywords::Run, passName(p));
-                                if (!shader->passes.empty()) {
-                                    assigned.insert(assigned.end(), shader->passes[p].begin(), shader->passes[p].end());
-                                }
+                        // what every draw of the shader assigns, and each pass's lines (WWMISections::ShaderDraw)
+                        std::vector<Kvp> assigned;
+                        std::vector<std::vector<Kvp>> passes(passCount);
+                        for (std::size_t p = 0; p < passCount; ++p) {
+                            if (!shader->passes.empty()) {
+                                assigned.insert(assigned.end(), shader->passes[p].begin(), shader->passes[p].end());
                             }
+                            const bool ownPs = p < shader->passPs.size() && !shader->passPs[p].empty();
+                            passes[p].emplace_back("ps", ownPs ? reroutePassShaderFile(*shader, p) : rerouteShaderFile(*shader));
                             for (const auto& entry : shader->constantBuffers) {
-                                assigned.emplace_back(entry.first, "");
+                                passes[p].emplace_back(entry.first, rerouteBufferResource(*shader, entry.first));
                             }
                             for (const auto& line : shader->lines) {
-                                assigned.push_back(line);
-                            }
-                            runs = restoringRuns(runs, assigned);
-
-                            SectionText list(z3_, rerouteShaderSection(as, range));
-                            const std::vector<std::pair<int, int>> waits = awaited(*shader);
-                            if (waits.empty()) {
-                                if (shader->onlyWith.empty()) {
-                                    addFixSection(list.open(onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close().build());
-                                } else {
-                                    addFixSection(list.open(shader->onlyWith + " !== null")
-                                                   .open(onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close()
-                                               .orElse().key(fallback.first, fallback.second)
-                                               .close()
-                                               .build());
-                                }
-                            } else {
-                                // Shader::after -- in each pass (told apart by the target resource) every
-                                // awaited component's game draw counts once; the draw is made by whichever
-                                // comes last, the deferred draw itself or the last awaited one
-                                const WWMIFixerConfig::Shader::After& after = *shader->after;
-                                const std::string target = after.target;
-                                int total = 0;
-                                for (const auto& wait : waits) {
-                                    total += wait.second;
-                                }
-                                const std::string frame = "$" + rerouteShaderSection(as, range, "", "Frame");
-                                const std::string count = "$" + rerouteShaderSection(as, range, "", "Count");
-                                const std::string seen = rerouteShaderSection(as, range, IniKeywords::Resource, "Seen");
-                                const std::string pending = rerouteShaderSection(as, range, IniKeywords::Resource, "Pending");
-                                const auto carried = [&](const std::string& reg) {
-                                    return rerouteShaderSection(as, range, IniKeywords::Resource, "Carried" + IniNamingTools::getRegTag(reg));
-                                };
-                                const std::vector<Kvp> reset{{frame, "time"}, {seen, "null"}, {pending, "null"}, {count, "0"}};
-                                const std::string ready = seen + " === " + target + " && " + count + " >= " + std::to_string(total);
-
-                                std::vector<Kvp> hold{{pending, IniKeywords::Ref + " " + target}};
-                                std::vector<Kvp> release;
-                                for (const std::string& reg : after.carried) {
-                                    hold.emplace_back(carried(reg), IniKeywords::Ref + " " + reg);
-                                    release.emplace_back(reg, IniKeywords::Ref + " " + carried(reg));
-                                }
-                                for (const Kvp& run : runs) {
-                                    release.push_back(run);
-                                }
-                                release.emplace_back(pending, "null");
-
-                                list.open(frame + " != time").keys(reset).close()
-                                    .open(target + " === null");
-                                if (shader->onlyWith.empty()) {
-                                    list.open(onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close();
-                                } else {
-                                    list.key(fallback.first, fallback.second);
-                                }
-                                addFixSection(list.orElse()
-                                               .open(onPlan)
-                                                   .open(ready).keys(runs)
-                                                   .orElse().keys(hold)
-                                                   .close()
-                                               .orElse().key(fallback.first, fallback.second)
-                                               .close()
-                                           .close()
-                                           .build());
-
-                                // what each awaited component's game draws run (through its DrawAfter list)
-                                addFixSection(SectionText(z3_, rerouteShaderSection(as, range, IniKeywords::CommandList, "After"))
-                                           .open(frame + " != time").keys(reset).close()
-                                           .open(target + " !== null")
-                                               .open(seen + " !== " + target).key(seen, IniKeywords::Ref + " " + target).key(count, "0").close()
-                                               .key(count, count + " + 1")
-                                               .open(pending + " === " + target + " && " + count + " >= " + std::to_string(total)).keys(release).close()
-                                           .close()
-                                           .build());
-
-                                afterConstants_.emplace_back(IniKeywords::Global + " " + frame, "-1");
-                                afterConstants_.emplace_back(IniKeywords::Global + " " + count, "0");
-                                for (const std::string& name : {seen, pending}) {
-                                    addFixSection(SectionText(z3_, name).build());
-                                }
-                                for (const std::string& reg : after.carried) {
-                                    addFixSection(SectionText(z3_, carried(reg)).build());
+                                if (auto written = shaderLine(line)) {
+                                    passes[p].push_back(*written);
                                 }
                             }
-
-                            for (std::size_t p = 0; p < passCount; ++p) {
-                                const bool ownPs = p < shader->passPs.size() && !shader->passPs[p].empty();
-                                std::vector<Kvp> lines{{"ps", ownPs ? reroutePassShaderFile(*shader, p) : rerouteShaderFile(*shader)}};
-                                for (const auto& entry : shader->constantBuffers) {
-                                    lines.emplace_back(entry.first, rerouteBufferResource(*shader, entry.first));
-                                }
-                                for (const auto& line : shader->lines) {
+                            if (!shader->passes.empty()) {
+                                for (const auto& line : shader->passes[p]) {
                                     if (auto written = shaderLine(line)) {
-                                        lines.push_back(*written);
+                                        passes[p].push_back(*written);
                                     }
                                 }
-                                if (!shader->passes.empty()) {
-                                    for (const auto& line : shader->passes[p]) {
-                                        if (auto written = shaderLine(line)) {
-                                            lines.push_back(*written);
-                                        }
-                                    }
-                                }
-                                lines.emplace_back(IniKeywords::DrawIndexed, draw);
-                                addShaderSection(passName(p), lines);
                             }
+                        }
+                        for (const auto& entry : shader->constantBuffers) {
+                            assigned.emplace_back(entry.first, "");
+                        }
+                        for (const auto& line : shader->lines) {
+                            assigned.push_back(line);
+                        }
+
+                        // Shader::after: the draws a pass makes of the components the shader waits for
+                        const std::vector<std::pair<int, int>> waits = awaited(*shader);
+                        int total = 0;
+                        for (const auto& wait : waits) {
+                            total += wait.second;
+                        }
+
+                        for (const auto& range : shaderDraws(as)) {
+                            WWMISections::ShaderDraw draw;
+                            draw.name = [this, as = as, range](const std::string& kind, const std::string& suffix) {
+                                return rerouteShaderSection(as, range, kind, suffix);
+                            };
+                            draw.draw = std::to_string(range.first) + ", " + std::to_string(range.second) + ", 0";
+                            draw.onPlan = onPlan;
+                            draw.onlyWith = shader->onlyWith;
+                            draw.fallback = offDraw(as, range);
+                            draw.passes = passes;
+                            draw.assigned = assigned;
+                            if (!waits.empty()) {
+                                draw.afterTarget = shader->after->target;
+                                draw.afterDraws = total;
+                                draw.afterCarried = shader->after->carried;
+                            }
+
+                            for (auto& section : WWMISections::shaderDrawSections(z3_, draw, shaderBackups_)) {
+                                addFixSection(std::move(section));
+                            }
+                            for (const Kvp& constant : WWMISections::shaderDrawConstants(draw)) {
+                                afterConstants_.push_back(constant);
+                            }
+                            hasShaders_ = true;
                         }
 
                         if (!declared.insert(shader->name).second) {

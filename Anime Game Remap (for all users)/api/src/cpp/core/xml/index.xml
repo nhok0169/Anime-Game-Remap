@@ -6584,6 +6584,18 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a64fc798f150c19250d203acd7b2bc269" kind="variable"><name>registers</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a925fa2b98a7c1bedf5d1b88a129bde15" kind="variable"><name>after</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw" kind="struct"><name>AGRemapCore::WWMISections::ShaderDraw</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a72c153f6912740d3aee3e1d2fe00f995" kind="variable"><name>name</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a93b9458690b855a3ba612a64ed5144e1" kind="variable"><name>draw</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a08272eb748f36ebf73079a4049dd3a18" kind="variable"><name>onPlan</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a62cbc2ef314f859a8e1d522553cb518f" kind="variable"><name>onlyWith</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a3b33b3451e5bf276e66d1637464e01dc" kind="variable"><name>fallback</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a5d5644609db7cc3673f76bf06958f862" kind="variable"><name>passes</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a9dce5a4fa8fcc19bdec7c9451006fc8c" kind="variable"><name>assigned</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a93096bbf9834dfe7da6af9cbe72113e8" kind="variable"><name>afterTarget</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a9449a567f96d349c87120545c855aa87" kind="variable"><name>afterDraws</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a6a18a840efd27698ae621bbf37f8aafc" kind="variable"><name>afterCarried</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_shader_filter_tags" kind="class"><name>AGRemapCore::ShaderFilterTags</name>
     <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a17335b93652b7dfb1d99347db27621b9" kind="variable"><name>tags_</name></member>
     <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a762bf41f3756501f2c38563acdd65f11" kind="function"><name>add</name></member>
@@ -7905,6 +7917,7 @@
   <compound refid="class_a_g_remap_core_1_1_w_w_m_i_sections" kind="class"><name>AGRemapCore::WWMISections</name>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a84000ffad2c51c0d067987cf78c94e1c" kind="typedef"><name>Section</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a1d40b86d3773c718f2da482c1b5eb0ab" kind="typedef"><name>Bypasses</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a675ecded5d1d9f3a59dc48ae0ee1017d" kind="typedef"><name>KVPs</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a9d05dce73578feed425b58ecfb73a82f" kind="function"><name>mergeListName</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a902ca300858490200701b029fc708436" kind="function"><name>skeletonSections</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1aef39983921cb45eeeb5081f15584be3c" kind="function"><name>blendRemapInitList</name></member>
@@ -7913,6 +7926,8 @@
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a19be270374ab1430312e4d261f13bc10" kind="function"><name>bypasses</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a896d348b30ddb329f43fe1f8d2cd8fe8" kind="function"><name>restoreListName</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1acfd080a2c98c49fdf141eef92b2bb5dd" kind="function"><name>bypassSections</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1ac048b5acfd14651d520aa753132afb93" kind="function"><name>shaderDrawSections</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1ada51a6bd8d6115fa722d02ca67f72342" kind="function"><name>shaderDrawConstants</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys" kind="class"><name>AGRemapCore::WWMIShapeKeys</name>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1abd0c4c6edba5cb9bc49bbe2e71a3f77c" kind="function"><name>layoutOf</name></member>

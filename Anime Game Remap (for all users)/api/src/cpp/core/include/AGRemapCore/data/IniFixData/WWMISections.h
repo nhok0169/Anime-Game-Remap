@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
+#include "AGRemapCore/model/strategies/iniFixers/CustomShaderBackups.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
 
@@ -31,8 +32,8 @@ namespace AGRemapCore {
      @rst
      The sections a fix of a Wuthering Waves mod writes to drive WWMI, the mod loader in the game: the merged
      skeleton a mod from before WWMI's merged skeleton has none of, a remapped copy of it for a target past 256 bones,
-     one merge list per target draw slot, the blend remap that runs WWMI's ``BlendRemapper``, and the section of a
-     target draw slot nothing of the mod is drawn through :raw-html:`<br />` :raw-html:`<br />`
+     one merge list per target draw slot, the blend remap that runs WWMI's ``BlendRemapper``, the section of a
+     target draw slot nothing of the mod is drawn through, and the sections of a draw made with a pixel shader of the fix's own :raw-html:`<br />` :raw-html:`<br />`
 
      Each builder fills a fixed template with the values it is given. Every name goes through
      :cpp:member:`Skeleton::name` / :cpp:member:`BlendRemap::name`, so the sections carry the fix's own names and an
@@ -288,6 +289,104 @@ namespace AGRemapCore {
              */
             static std::vector<std::unique_ptr<Section>> bypassSections(Z3Context& z3, const Bypasses& bypasses,
                                                                          const std::string& restoreList);
+
+            /**
+             * @brief `KVPs`_, in order
+             */
+            using KVPs = std::vector<std::pair<std::string, std::string>>;
+
+            /**
+             * @brief What shaderDrawSections writes
+             */
+            struct ShaderDraw {
+                /**
+                 * @brief
+                 @rst
+                 The fix's name of one of the draw's sections, from its kind (``CommandList``, ``CustomShader``,
+                 ``Resource``, or ``""`` for a variable) and a suffix (``""`` for the draw's own list and shader)
+                 @endrst
+                 */
+                std::function<std::string(const std::string& kind, const std::string& suffix)> name;
+
+                /**
+                 * @brief The `drawindexed` value each pass draws
+                 */
+                std::string draw;
+
+                /**
+                 * @brief The `.ini` condition true on the passes the shader draws on
+                 */
+                std::string onPlan;
+
+                /**
+                 * @brief A resource the pass must bind for the shader to draw (`o3`), or empty to draw on every pass of #onPlan
+                 */
+                std::string onlyWith;
+
+                /**
+                 * @brief The line that draws the range everywhere the shader does not
+                 */
+                std::pair<std::string, std::string> fallback;
+
+                /**
+                 * @brief
+                 @rst
+                 Each pass's ``CustomShader`` lines, before its ``drawindexed``: the first pass's section is
+                 ``name("CustomShader", "")``, pass ``p``'s that name followed by ``Pass<p>``
+                 @endrst
+                 */
+                std::vector<KVPs> passes;
+
+                /**
+                 * @brief The lines the shaders assign whose registers are saved before the runs and restored after them
+                 * (CustomShaderBackups::wrap)
+                 */
+                KVPs assigned;
+
+                /**
+                 * @brief
+                 @rst
+                 For a draw held back until other draws of the same pass are made: the resource that tells one pass from
+                 another (a render target), or empty to draw at once
+                 @endrst
+                 */
+                std::string afterTarget;
+
+                /**
+                 * @brief How many game draws a pass makes before the held-back draw, for #afterTarget
+                 */
+                int afterDraws = 0;
+
+                /**
+                 * @brief The registers the held-back draw takes from the pass it was held in, for #afterTarget
+                 */
+                std::vector<std::string> afterCarried;
+            };
+
+            /**
+             * @brief
+             @rst
+             One range of a mod drawn with a pixel shader of the fix's own, on the passes :cpp:member:`ShaderDraw::onPlan`
+             names and as :cpp:member:`ShaderDraw::fallback` everywhere else: the command list a ``run =`` in place of the
+             mod's ``drawindexed`` calls, and one ``CustomShader`` per pass. A draw held back
+             (:cpp:member:`ShaderDraw::afterTarget`) adds the list each awaited game draw runs (``name("CommandList",
+             "After")``) and the resources that count them; its variables are #shaderDrawConstants
+             @endrst
+             *
+             * @param z3 The Z3 context the `if` lines are parsed in
+             * @param draw What to write
+             * @param backups What the runs save and restore
+             * @return The sections, in order
+             */
+            static std::vector<std::unique_ptr<Section>> shaderDrawSections(Z3Context& z3, const ShaderDraw& draw,
+                                                                             CustomShaderBackups& backups);
+
+            /**
+             * @brief The `global` variables a held-back draw keeps (empty for one drawn at once), for a `[Constants]`
+             * @param draw The draw
+             * @return The lines
+             */
+            static KVPs shaderDrawConstants(const ShaderDraw& draw);
     };
 }
 

@@ -31,8 +31,8 @@ void initCppWWMISections(pybind11::module_ &m) {
     auto cls = py::class_<Sections>(m, "WWMISections", R"doc(
 The sections a fix of a Wuthering Waves mod writes to drive WWMI, the mod loader in the game: the merged skeleton a mod
 from before WWMI's merged skeleton has none of, a remapped copy of it for a target past 256 bones, one merge list per
-target draw slot, the blend remap that runs WWMI's ``BlendRemapper``, and the section of a target draw slot nothing of
-the mod is drawn through :raw-html:`<br />` :raw-html:`<br />`
+target draw slot, the blend remap that runs WWMI's ``BlendRemapper``, the section of a target draw slot nothing of
+the mod is drawn through, and the sections of a draw made with a pixel shader of the fix's own :raw-html:`<br />` :raw-html:`<br />`
 
 Each builder fills a fixed template with the values it is given. Every name goes through :attr:`Skeleton.name` /
 :attr:`BlendRemap.name`, so the sections carry the fix's own names and an undo removes them)doc");
@@ -92,6 +92,33 @@ Each builder fills a fixed template with the values it is given. Every name goes
                        ":class:`str`: The list run once a frame without :attr:`mergeWindowList`")
         .def_readwrite("stashed", &Sections::Hide::stashed,
                        "List[Tuple[:class:`str`, :class:`str`]]: Lines that capture the game's own bindings on the slot, run while a pixel shader is bound");
+
+    py::class_<Sections::ShaderDraw>(cls, "ShaderDraw", "What :meth:`WWMISections.shaderDrawSections` writes")
+        .def(py::init<>())
+        .def_readwrite("name", &Sections::ShaderDraw::name,
+                       "Callable[[:class:`str`, :class:`str`], :class:`str`]: The fix's name of one of the draw's sections, from its "
+                       "kind (``CommandList``, ``CustomShader``, ``Resource``, or ``\"\"`` for a variable) and a suffix (``\"\"`` for "
+                       "the draw's own list and shader)")
+        .def_readwrite("draw", &Sections::ShaderDraw::draw, ":class:`str`: The ``drawindexed`` value each pass draws")
+        .def_readwrite("onPlan", &Sections::ShaderDraw::onPlan, ":class:`str`: The ``.ini`` condition true on the passes the shader draws on")
+        .def_readwrite("onlyWith", &Sections::ShaderDraw::onlyWith,
+                       ":class:`str`: A resource the pass must bind for the shader to draw (``o3``), or empty to draw on every pass of "
+                       ":attr:`onPlan`")
+        .def_readwrite("fallback", &Sections::ShaderDraw::fallback,
+                       "Tuple[:class:`str`, :class:`str`]: The line that draws the range everywhere the shader does not")
+        .def_readwrite("passes", &Sections::ShaderDraw::passes,
+                       "List[List[Tuple[:class:`str`, :class:`str`]]]: Each pass's ``CustomShader`` lines, before its ``drawindexed``: "
+                       "the first pass's section is ``name(\"CustomShader\", \"\")``, pass ``p``'s that name followed by ``Pass<p>``")
+        .def_readwrite("assigned", &Sections::ShaderDraw::assigned,
+                       "List[Tuple[:class:`str`, :class:`str`]]: The lines the shaders assign whose registers are saved before the runs "
+                       "and restored after them (:meth:`CustomShaderBackups.wrap`)")
+        .def_readwrite("afterTarget", &Sections::ShaderDraw::afterTarget,
+                       ":class:`str`: For a draw held back until other draws of the same pass are made: the resource that tells one "
+                       "pass from another (a render target), or empty to draw at once")
+        .def_readwrite("afterDraws", &Sections::ShaderDraw::afterDraws,
+                       ":class:`int`: How many game draws a pass makes before the held-back draw, for :attr:`afterTarget`")
+        .def_readwrite("afterCarried", &Sections::ShaderDraw::afterCarried,
+                       "List[:class:`str`]: The registers the held-back draw takes from the pass it was held in, for :attr:`afterTarget`");
 
     cls.def_static("mergeListName", &Sections::mergeListName, py::arg("skeleton"), py::arg("slot"), py::doc(R"doc(
 The merge list of one target draw slot
@@ -219,5 +246,40 @@ restoreList: :class:`str`
 Returns
 -------
 List[:class:`IfTemplate`]
-    The sections, empty when there are no bypasses)doc"));
+    The sections, empty when there are no bypasses)doc"))
+       .def_static("shaderDrawSections", &Sections::shaderDrawSections, py::arg("z3"), py::arg("draw"), py::arg("backups"),
+                   py::doc(R"doc(
+One range of a mod drawn with a pixel shader of the fix's own, on the passes :attr:`ShaderDraw.onPlan` names and as
+:attr:`ShaderDraw.fallback` everywhere else: the command list a ``run =`` in place of the mod's ``drawindexed`` calls,
+and one ``CustomShader`` per pass. A draw held back (:attr:`ShaderDraw.afterTarget`) adds the list each awaited game
+draw runs (``name("CommandList", "After")``) and the resources that count them; its variables are
+:meth:`shaderDrawConstants`
+
+Parameters
+----------
+z3: :class:`Z3Context`
+    The Z3 context the ``if`` lines are parsed in
+
+draw: :class:`WWMISections.ShaderDraw`
+    What to write
+
+backups: :class:`CustomShaderBackups`
+    What the runs save and restore
+
+Returns
+-------
+List[:class:`IfTemplate`]
+    The sections, in order)doc"))
+       .def_static("shaderDrawConstants", &Sections::shaderDrawConstants, py::arg("draw"), py::doc(R"doc(
+The ``global`` variables a held-back draw keeps (empty for one drawn at once), for a ``[Constants]``
+
+Parameters
+----------
+draw: :class:`WWMISections.ShaderDraw`
+    The draw
+
+Returns
+-------
+List[Tuple[:class:`str`, :class:`str`]]
+    The lines)doc"));
 }

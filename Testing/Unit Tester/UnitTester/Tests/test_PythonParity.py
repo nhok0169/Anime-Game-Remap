@@ -86,6 +86,41 @@ class PythonParityTest(unittest.TestCase):
         skeleton.name = lambda name: name + "RemapFix"
         self.assertEqual(FRB.WWMISections.mergeListName(skeleton, 3), "CommandListMergeSlot3RemapFix")
 
+    @classmethod
+    def shaderDraw(cls) -> FRB.WWMISections.ShaderDraw:
+        draw = FRB.WWMISections.ShaderDraw()
+        draw.name = lambda kind, suffix: kind + "XShader5Draw0" + suffix + "RemapFix"
+        draw.draw, draw.onPlan, draw.fallback = "300, 0, 0", "vs == 3381.61", ("drawindexed", "300, 0, 0")
+        draw.passes = [[("ps", "XShader.hlsl"), ("ps-t5", "ResourceRamp")], [("ps", "XShaderPass1.hlsl")]]
+        draw.assigned = [("ps-t5", "role ramp")]
+        return draw
+
+    def test_wwmiSections_shaderDraw_drawsEachPassOnThePlanAndFallsBackElsewhere(self):
+        backups = FRB.CustomShaderBackups(lambda reg: "ResourceBackup" + reg.replace("-", ""))
+        sections = FRB.WWMISections.shaderDrawSections(FRB.Z3Context(), self.shaderDraw(), backups)
+        self.assertEqual([section.name for section in sections],
+                         ["CommandListXShader5Draw0RemapFix", "CustomShaderXShader5Draw0RemapFix", "CustomShaderXShader5Draw0RemapFixPass1"])
+        listText = sections[0].toStr()
+        for line in ("if vs == 3381.61", "ResourceBackuppst5 = ref ps-t5", "run = CustomShaderXShader5Draw0RemapFix",
+                     "run = CustomShaderXShader5Draw0RemapFixPass1", "ps-t5 = ref ResourceBackuppst5", "else", "drawindexed = 300, 0, 0"):
+            self.assertIn(line, listText)
+        self.assertIn("ps-t5 = ResourceRamp", sections[1].toStr())
+        self.assertIn("drawindexed = 300, 0, 0", sections[2].toStr())
+        self.assertEqual(backups.registers(), ["ps-t5"])
+        self.assertEqual(FRB.WWMISections.shaderDrawConstants(self.shaderDraw()), [])
+
+    def test_wwmiSections_shaderDraw_heldBackCountsTheAwaitedDraws(self):
+        draw = self.shaderDraw()
+        draw.afterTarget, draw.afterDraws, draw.afterCarried = "o3", 2, ["ps-t0"]
+        sections = FRB.WWMISections.shaderDrawSections(FRB.Z3Context(), draw, FRB.CustomShaderBackups(lambda reg: "B" + reg))
+        names = [section.name for section in sections]
+        self.assertEqual(names[:5], ["CommandListXShader5Draw0RemapFix", "CommandListXShader5Draw0AfterRemapFix",
+                                     "ResourceXShader5Draw0SeenRemapFix", "ResourceXShader5Draw0PendingRemapFix",
+                                     "ResourceXShader5Draw0CarriedPst0RemapFix"])
+        self.assertIn("$XShader5Draw0CountRemapFix >= 2", sections[1].toStr())
+        self.assertEqual(FRB.WWMISections.shaderDrawConstants(draw),
+                         [("global $XShader5Draw0FrameRemapFix", "-1"), ("global $XShader5Draw0CountRemapFix", "0")])
+
     def test_resRegCollect_skipsKeywords_skipsARef(self):
         skips = FRB.ResRegCollect.skipsKeywords()
         self.assertFalse(skips("vb4", "ref ResourceBlendBufferOverride", None))

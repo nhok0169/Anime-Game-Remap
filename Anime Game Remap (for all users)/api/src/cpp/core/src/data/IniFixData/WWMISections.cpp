@@ -1,5 +1,7 @@
 #include "AGRemapCore/data/IniFixData/WWMISections.h"
 
+#include <algorithm>
+
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/IniSectionText.h"
 #include "AGRemapCore/model/IniNamingTools.h"
@@ -360,5 +362,108 @@ namespace AGRemapCore {
         }
         sections.push_back(restore.build());
         return sections;
+    }
+
+    std::vector<std::unique_ptr<WWMISections::Section>> WWMISections::shaderDrawSections(Z3Context& z3, const ShaderDraw& draw,
+                                                                                          CustomShaderBackups& backups) {
+        std::vector<std::unique_ptr<Section>> sections;
+        const std::size_t passCount = std::max<std::size_t>(1, draw.passes.size());
+        const std::string custom = draw.name("CustomShader", "");
+        const auto passName = [&custom](std::size_t p) {
+            return p == 0 ? custom : custom + "Pass" + std::to_string(p);
+        };
+
+        KVPs runs;
+        for (std::size_t p = 0; p < passCount; ++p) {
+            runs.emplace_back(IniKeywords::Run, passName(p));
+        }
+        runs = backups.wrap(runs, draw.assigned);
+
+        const auto& fallback = draw.fallback;
+        SectionText list(z3, draw.name(IniKeywords::CommandList, ""));
+        if (draw.afterTarget.empty()) {
+            if (draw.onlyWith.empty()) {
+                sections.push_back(list.open(draw.onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close().build());
+            } else {
+                sections.push_back(list.open(draw.onlyWith + " !== null")
+                                       .open(draw.onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close()
+                                   .orElse().key(fallback.first, fallback.second)
+                                   .close()
+                                   .build());
+            }
+        } else {
+            // in each pass (told apart by the target resource) every awaited game draw counts once; the draw is
+            // made by whichever comes last, the held-back draw itself or the last awaited one
+            const std::string& target = draw.afterTarget;
+            const std::string frame = "$" + draw.name("", "Frame");
+            const std::string count = "$" + draw.name("", "Count");
+            const std::string seen = draw.name(IniKeywords::Resource, "Seen");
+            const std::string pending = draw.name(IniKeywords::Resource, "Pending");
+            const auto carried = [&draw](const std::string& reg) {
+                return draw.name(IniKeywords::Resource, "Carried" + IniNamingTools::getRegTag(reg));
+            };
+            const KVPs reset{{frame, "time"}, {seen, "null"}, {pending, "null"}, {count, "0"}};
+            const std::string total = std::to_string(draw.afterDraws);
+            const std::string ready = seen + " === " + target + " && " + count + " >= " + total;
+
+            KVPs hold{{pending, IniKeywords::Ref + " " + target}};
+            KVPs release;
+            for (const std::string& reg : draw.afterCarried) {
+                hold.emplace_back(carried(reg), IniKeywords::Ref + " " + reg);
+                release.emplace_back(reg, IniKeywords::Ref + " " + carried(reg));
+            }
+            for (const auto& run : runs) {
+                release.push_back(run);
+            }
+            release.emplace_back(pending, "null");
+
+            list.open(frame + " != time").keys(reset).close()
+                .open(target + " === null");
+            if (draw.onlyWith.empty()) {
+                list.open(draw.onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close();
+            } else {
+                list.key(fallback.first, fallback.second);
+            }
+            sections.push_back(list.orElse()
+                                   .open(draw.onPlan)
+                                       .open(ready).keys(runs)
+                                       .orElse().keys(hold)
+                                       .close()
+                                   .orElse().key(fallback.first, fallback.second)
+                                   .close()
+                               .close()
+                               .build());
+
+            // what each awaited game draw runs
+            sections.push_back(SectionText(z3, draw.name(IniKeywords::CommandList, "After"))
+                                   .open(frame + " != time").keys(reset).close()
+                                   .open(target + " !== null")
+                                       .open(seen + " !== " + target).key(seen, IniKeywords::Ref + " " + target).key(count, "0").close()
+                                       .key(count, count + " + 1")
+                                       .open(pending + " === " + target + " && " + count + " >= " + total).keys(release).close()
+                                   .close()
+                                   .build());
+
+            for (const std::string& name : {seen, pending}) {
+                sections.push_back(SectionText(z3, name).build());
+            }
+            for (const std::string& reg : draw.afterCarried) {
+                sections.push_back(SectionText(z3, carried(reg)).build());
+            }
+        }
+
+        for (std::size_t p = 0; p < passCount; ++p) {
+            KVPs lines = p < draw.passes.size() ? draw.passes[p] : KVPs{};
+            lines.emplace_back(IniKeywords::DrawIndexed, draw.draw);
+            sections.push_back(SectionText(z3, passName(p)).keys(lines).build());
+        }
+        return sections;
+    }
+
+    WWMISections::KVPs WWMISections::shaderDrawConstants(const ShaderDraw& draw) {
+        if (draw.afterTarget.empty()) {
+            return {};
+        }
+        return {{IniKeywords::Global + " $" + draw.name("", "Frame"), "-1"}, {IniKeywords::Global + " $" + draw.name("", "Count"), "0"}};
     }
 }

@@ -33357,8 +33357,8 @@ class WWMISections:
     
     The sections a fix of a Wuthering Waves mod writes to drive WWMI, the mod loader in the game: the merged skeleton a mod
     from before WWMI's merged skeleton has none of, a remapped copy of it for a target past 256 bones, one merge list per
-    target draw slot, the blend remap that runs WWMI's ``BlendRemapper``, and the section of a target draw slot nothing of
-    the mod is drawn through :raw-html:`<br />` :raw-html:`<br />`
+    target draw slot, the blend remap that runs WWMI's ``BlendRemapper``, the section of a target draw slot nothing of
+    the mod is drawn through, and the sections of a draw made with a pixel shader of the fix's own :raw-html:`<br />` :raw-html:`<br />`
     
     Each builder fills a fixed template with the values it is given. Every name goes through :attr:`Skeleton.name` /
     :attr:`BlendRemap.name`, so the sections carry the fix's own names and an undo removes them
@@ -33518,6 +33518,92 @@ class WWMISections:
             """
         @vgOffset.setter
         def vgOffset(self, arg0: str) -> None:
+            ...
+    class ShaderDraw:
+        """
+        What :meth:`WWMISections.shaderDrawSections` writes
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def afterCarried(self) -> list[str]:
+            """
+            List[:class:`str`]: The registers the held-back draw takes from the pass it was held in, for :attr:`afterTarget`
+            """
+        @afterCarried.setter
+        def afterCarried(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
+        def afterDraws(self) -> int:
+            """
+            :class:`int`: How many game draws a pass makes before the held-back draw, for :attr:`afterTarget`
+            """
+        @afterDraws.setter
+        def afterDraws(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def afterTarget(self) -> str:
+            """
+            :class:`str`: For a draw held back until other draws of the same pass are made: the resource that tells one pass from another (a render target), or empty to draw at once
+            """
+        @afterTarget.setter
+        def afterTarget(self, arg0: str) -> None:
+            ...
+        @property
+        def assigned(self) -> list[tuple[str, str]]:
+            """
+            List[Tuple[:class:`str`, :class:`str`]]: The lines the shaders assign whose registers are saved before the runs and restored after them (:meth:`CustomShaderBackups.wrap`)
+            """
+        @assigned.setter
+        def assigned(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
+            ...
+        @property
+        def draw(self) -> str:
+            """
+            :class:`str`: The ``drawindexed`` value each pass draws
+            """
+        @draw.setter
+        def draw(self, arg0: str) -> None:
+            ...
+        @property
+        def fallback(self) -> tuple[str, str]:
+            """
+            Tuple[:class:`str`, :class:`str`]: The line that draws the range everywhere the shader does not
+            """
+        @fallback.setter
+        def fallback(self, arg0: tuple[str, str]) -> None:
+            ...
+        @property
+        def name(self) -> collections.abc.Callable[[str, str], str]:
+            """
+            Callable[[:class:`str`, :class:`str`], :class:`str`]: The fix's name of one of the draw's sections, from its kind (``CommandList``, ``CustomShader``, ``Resource``, or ``""`` for a variable) and a suffix (``""`` for the draw's own list and shader)
+            """
+        @name.setter
+        def name(self, arg0: collections.abc.Callable[[str, str], str]) -> None:
+            ...
+        @property
+        def onPlan(self) -> str:
+            """
+            :class:`str`: The ``.ini`` condition true on the passes the shader draws on
+            """
+        @onPlan.setter
+        def onPlan(self, arg0: str) -> None:
+            ...
+        @property
+        def onlyWith(self) -> str:
+            """
+            :class:`str`: A resource the pass must bind for the shader to draw (``o3``), or empty to draw on every pass of :attr:`onPlan`
+            """
+        @onlyWith.setter
+        def onlyWith(self, arg0: str) -> None:
+            ...
+        @property
+        def passes(self) -> list[list[tuple[str, str]]]:
+            """
+            List[List[Tuple[:class:`str`, :class:`str`]]]: Each pass's ``CustomShader`` lines, before its ``drawindexed``: the first pass's section is ``name("CustomShader", "")``, pass ``p``'s that name followed by ``Pass<p>``
+            """
+        @passes.setter
+        def passes(self, arg0: collections.abc.Sequence[collections.abc.Sequence[tuple[str, str]]]) -> None:
             ...
     class Skeleton:
         """
@@ -33741,6 +33827,46 @@ class WWMISections:
     def restoreListName(modName: str) -> str:
         """
         :class:`str`: The list that binds every bypassed buffer back (``CommandListRestoreSharedResources<Mod>RemapFix``)
+        """
+    @staticmethod
+    def shaderDrawConstants(draw: WWMISections.ShaderDraw) -> list[tuple[str, str]]:
+        """
+        The ``global`` variables a held-back draw keeps (empty for one drawn at once), for a ``[Constants]``
+        
+        Parameters
+        ----------
+        draw: :class:`WWMISections.ShaderDraw`
+            The draw
+        
+        Returns
+        -------
+        List[Tuple[:class:`str`, :class:`str`]]
+            The lines
+        """
+    @staticmethod
+    def shaderDrawSections(z3: Z3Context, draw: WWMISections.ShaderDraw, backups: ...) -> list[IfTemplate]:
+        """
+        One range of a mod drawn with a pixel shader of the fix's own, on the passes :attr:`ShaderDraw.onPlan` names and as
+        :attr:`ShaderDraw.fallback` everywhere else: the command list a ``run =`` in place of the mod's ``drawindexed`` calls,
+        and one ``CustomShader`` per pass. A draw held back (:attr:`ShaderDraw.afterTarget`) adds the list each awaited game
+        draw runs (``name("CommandList", "After")``) and the resources that count them; its variables are
+        :meth:`shaderDrawConstants`
+        
+        Parameters
+        ----------
+        z3: :class:`Z3Context`
+            The Z3 context the ``if`` lines are parsed in
+        
+        draw: :class:`WWMISections.ShaderDraw`
+            What to write
+        
+        backups: :class:`CustomShaderBackups`
+            What the runs save and restore
+        
+        Returns
+        -------
+        List[:class:`IfTemplate`]
+            The sections, in order
         """
     @staticmethod
     def skeletonSections(z3: Z3Context, skeleton: WWMISections.Skeleton) -> list[IfTemplate]:

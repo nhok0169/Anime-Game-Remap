@@ -472,8 +472,13 @@ def makeFixer(parser, toModName, modTypeId):
     # downloaded as `<prefix><Role>RemapDL.dds` (WWMIFixer::fallbackOf)
     fixDownloads, fallbackFileOfRole = {}, {}
 
+    # a role whose files the parser all refused (a flat texture) and that the config leaves to the game: no stand-in
+    # either, the game's own is what the mod rendered with (WWMIFixer::readRefusals)
+    leftToGame = {rejection.role for rejection in data.rejections()
+                  if rejection.role in FIX.flatLeftToGame and not data.roleCandidates(rejection.role)}
+
     def standIn(role):
-        if role in resourceOfRole or role not in FALLBACKS:
+        if role in resourceOfRole or role in leftToGame or role not in FALLBACKS:
             return
         game, character, version, prefix = DOWNLOADS
         kind = prefix + role[0].upper() + role[1:]
@@ -580,13 +585,49 @@ def makeFixer(parser, toModName, modTypeId):
         fixSections.sections("fixSections").add(
             FRB.SectionText(z3, name).key(FRB.IniKeywords.Filename, os.path.relpath(file, parser._iniFile.folder)).build())
 
+    # a remap-only copy of the mod's texcoord buffer, NaN halves cleared and a U in the [1, 2) tile folded back unless its
+    # triangle straddles the seam (WWMIFixerConfig::cleanTexcoords; TexcoordFile.clean) -- only when the copy differs,
+    # bound before the draw and written with the fix's files (WWMIFixer::buildTexcoordCopy)
+    texcoordResource, fixFiles = None, {}
+    declared = lambda key: data.firstCollected(FRB.IniParseRows.Declared, FRB.IniKeywords.WWMITexcoordBuffer, key)
+    if FIX.cleanTexcoords and declared(FRB.IniKeywords.Filename) is not None:
+        texcoordPath = os.path.normpath(os.path.join(parser._iniFile.folder, declared(FRB.IniKeywords.Filename).value.strip()))
+        strideRow, formatRow = declared(FRB.IniKeywords.Stride), declared(FRB.IniKeywords.Format)
+        stride = int(strideRow.value.strip()) if strideRow is not None else 16
+        indexRel = data.resourceFile(FRB.IniKeywords.WWMIIndexBuffer)
+
+        def cleaned():
+            texcoord = FRB.TexcoordFile(texcoordPath, FRB.TexcoordFile.halfElements(stride))
+            keep = (texcoord.straddling(FRB.IbFile(os.path.join(parser._iniFile.folder, indexRel)).getIndices())
+                    if indexRel else [False] * len(texcoord.us()))
+            return texcoord, texcoord.clean(keep)
+
+        texcoord, stats = cleaned()
+        if texcoord.us() and (stats.cleared or stats.folded):
+            blendRel = data.resourceFile(FRB.IniKeywords.WWMIBlendBuffer)
+            meshFolder = os.path.dirname(blendRel.replace("\\", "/")) if blendRel else ""
+            texcoordResource = rename(FRB.IniKeywords.Resource + "TexcoordNoNaN")
+            fixFiles[texcoordResource] = FRB.FileAddCreate.File(
+                [(FRB.IniKeywords.Type, FRB.IniKeywords.Buffer),
+                 (FRB.IniKeywords.Format, formatRow.value.strip() if formatRow is not None else "DXGI_FORMAT_R16G16_FLOAT"),
+                 (FRB.IniKeywords.Stride, str(stride))],
+                "/".join(part for part in (meshFolder, toModName + FRB.IniKeywords.Remap + "Texcoord.buf") if part),
+                makeBytes = lambda: cleaned()[0].data)
+
     # the invented textures: made where the fix's lists bind them, in every group the slot remap made
     # (WWMIFixer::fixFileEdits: one TexCreate per group, collected off every graph of that group)
     kept = []
 
     def makeTextures(group, graphGroups):
         edits = []
-        # the downloads first, then the invented textures (WWMIFixer::fixFileEdits' order)
+        graphs = [(group, *obj) for obj in graphGroups[group].graphs]
+        # the fix's own files, then the downloads, then the invented textures (WWMIFixer::fixFileEdits' order)
+        if fixFiles:
+            create = FRB.FileAddCreate((group, "", "fixFiles"), fixFiles)
+            edits.append(FRB.ResRegCollect({graph: [FIX.texcoordReg] for graph in graphs}, {"fixFile": create},
+                                           resPredicates = {graph: (lambda key, value, data: value.strip() in fixFiles)
+                                                            for graph in graphs}))
+            kept.append(create)
         if fixDownloads:
             download = FRB.FileDownloadCreate((group, "", "fixDownloads"), fixDownloads)
             graphs = [(group, *obj) for obj in graphGroups[group].graphs]
@@ -773,10 +814,11 @@ def makeFixer(parser, toModName, modTypeId):
             # the shared lists are reached through every component's graph; the edits are idempotent
             edits[targetObj(component)] += bypassEdits
             # what runs before the draw, right after the shared-resource override (WWMIFixer::buildComponentAdditions)
-            if component in passListsOf:
+            additions = ([(FIX.texcoordReg, texcoordResource)] if texcoordResource else []) + \
+                [(FRB.IniKeywords.Run, passList) for passList in passListsOf.get(component, [])]
+            if additions:
                 edits[targetObj(component)].append(FRB.RegSurroundedAdd(
-                    [(FRB.IniKeywords.Run, passList) for passList in passListsOf[component]],
-                    {FRB.IniKeywords.Run: lambda value: value in (sharedList, rename(sharedList))}, {}, False))
+                    additions, {FRB.IniKeywords.Run: lambda value: value in (sharedList, rename(sharedList))}, {}, False))
         for obj in hashOnlyObjs:
             edits[obj] = [assetRemap, dispatch]
         perGroup.append(edits)

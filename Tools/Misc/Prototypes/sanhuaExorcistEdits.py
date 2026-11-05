@@ -912,6 +912,105 @@ def makeFixer(parser, toModName, modTypeId):
         if drew:
             fixSections.sections("fixSections").add(mesh.build())
 
+    # THE MOD'S OWN `ps-t` LINES, RE-KEYED BY ROLE (WWMIFixer's CarriedLines): each to the register this component's
+    # plan row reads its texture's role at -- the layout of the fix's own list, which they sit after. A line the rule
+    # has no answer for is left where it is; an empty answer drops it. One RegAnchorAdd per component, replacing every
+    # `ps-t` line it names
+    # GAP: a rerouted component (WWMIFixerConfig::Shader) keeps the mod's own art -- no mirrored pair reroutes
+    roleKindOf = lambda role: next((role[i:] for i, char in enumerate(role) if char.isupper()), "")
+    sourceComponentOf = lambda obj: slotOf(obj) if not obj[0] else None
+    bindsRole = lambda component, role: (any(binding.role == role for binding in FIX.plan[component].bindings)
+                                         if component in FIX.plan else False) or role in passOnlyRoles
+
+    def carriedLines(component):
+        regOfRole = {}
+        for binding in FIX.plan[component].bindings:
+            if binding.role != FRB.IniKeywords.Null:
+                regOfRole.setdefault(binding.role, binding.reg)
+
+        # the register for a role: the row's own, or the one the row binds the same KIND at, where that is unambiguous
+        def regOf(role):
+            if role in regOfRole:
+                return regOfRole[role]
+            kind, byKind = roleKindOf(role), None
+            for rowRole, reg in regOfRole.items():
+                if not kind or roleKindOf(rowRole) != kind:
+                    continue
+                if byKind is not None and byKind != reg:
+                    return None
+                byKind = reg
+            return byKind
+
+        # the role the source reads at each register (WWMIFixerConfig::carryByRegisterRole)
+        slotRoles = ({reg.lower(): role for reg, role in FIX.sourceTextures.registerRoles.get(component, {}).items()}
+                     if FIX.carryByRegisterRole else None)
+        # the registers the fix's own list binds (a toggled role's `run =` binds its register too)
+        listRegs = {reg.lower() for reg, role in REGISTERS[component]
+                    if role == FRB.IniKeywords.Null or resourceFor(role, component)}
+
+        # the line in this one's place: [] drops it, None leaves it alone
+        def fateOf(key, value):
+            resource = value
+            if resource.lower().startswith(FRB.IniKeywords.Ref.lower() + " "):
+                resource = resource[len(FRB.IniKeywords.Ref):].lstrip()
+
+            # the role is the parser's answer: one it chose the resource's file for, among the roles the fix binds on a
+            # component it draws -- this component's first, then any
+            own, role = None, None
+            for chosen in data.rolesOfResource(resource.lower()):
+                of = sourceComponentOf(chosen.modObj)
+                if of is None or of not in present or not bindsRole(of, chosen.role):
+                    continue
+                if of == component:
+                    own = chosen.role
+                elif role is None:
+                    role = chosen.role
+            if own is not None:
+                role = own
+            # ...or the role the parser refused the file for
+            if role is None:
+                role = data.refusedRoleOf(resource.lower())
+
+            # a texture put into another kind of slot on purpose goes by the slot
+            if role is not None and slotRoles is not None:
+                slotRole = slotRoles.get(key)
+                if slotRole is None or roleKindOf(slotRole) != roleKindOf(role):
+                    slotReg = regOf(slotRole) if slotRole is not None else None
+                    if slotReg is not None and slotReg.lower() != key:
+                        return [(slotReg, value)]
+                    return None
+
+            # left alone where the role or its register is unknown -- unless the fix's list binds that register
+            reg = regOf(role) if role is not None else None
+            if reg is None:
+                return [] if key in listRegs else None
+
+            # a file refused for this role does not go back: the line follows what the role resolved to
+            if data.refusedRoleOf(resource) == role:
+                resolved = resourceFor(role, component)
+                return [(reg, resolved)] if resolved is not None else []
+            return [(reg, resource)]
+
+        lines = {}
+        for section in data.collectedSections(FRB.IniParseRows.Sections):
+            for row in ownRows(section):
+                key, value = row.key.strip().lower(), row.value.strip()
+                if not key.startswith(TEX_REG.lower()) or (key, value) in lines:
+                    continue
+                fate = fateOf(key, value)
+                if fate is not None:
+                    lines[(key, value)] = fate
+        return lines
+
+    carriedEdits = {}
+    for component in planned:
+        lines = carriedLines(component)
+        carried = FRB.RegAnchorAdd([], lambda key, value, lines = lines: lines.get((key.strip().lower(), value.strip())),
+                                   FRB.RegAnchorAdd.Placement.Replace,
+                                   lambda key: key.lower().startswith(TEX_REG.lower()))
+        kept.append(carried)
+        carriedEdits[component] = FRB.RegPartEdit(carried)
+
     # the edits, per group, keyed by the target objects the remap made
     perGroup = []
     for group in groups:
@@ -923,6 +1022,7 @@ def makeFixer(parser, toModName, modTypeId):
                     [(FRB.IniKeywords.Run, listOf[component])], {FRB.IniKeywords.MatchFirstIndex: lambda value: True}))
             # the shared lists are reached through every component's graph; the edits are idempotent
             edits[targetObj(component)] += bypassEdits
+            edits[targetObj(component)].append(carriedEdits[component])
             # what runs before the draw, right after the shared-resource override (WWMIFixer::buildComponentAdditions)
             additions = ([(FRB.IniKeywords.Run, FRB.WWMISections.mergeListName(skeleton, PLAN[component]))]
                          if legacy or targetPast256 else []) + \

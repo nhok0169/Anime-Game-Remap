@@ -360,12 +360,14 @@ def makeFixer(parser, toModName, modTypeId):
         slotSections += sections
 
     # ---- a mod from before WWMI's merged skeleton (no slot section carries a vg_offset) holds each component's OWN
-    # bone indices in its blend, and Sanhua has no per-component vg maps to lift them with: it is left alone ----
+    # bone indices in its blend: lifted through the source's per-component vg maps, and the fix supplies the merged
+    # skeleton it lacks -- or, with no maps to lift them with, left alone (WWMIFixer::readMod) ----
     giveUp = lambda: FRB.GIMIFixer(parser, graphGroupEdits = [FRB.GraphGroupRemove()], modsToFix = [toModName])
     if not present and not silent:
         print("no slot section on any vb0 hash the library files under " + SOURCE + " -- so this .ini is left alone")
         return giveUp()
-    if not any(data.firstCollected(FRB.IniParseRows.Objs, section, FRB.IniKeywords.WWMIVgOffset) for section in slotSections):
+    legacy = not any(data.firstCollected(FRB.IniParseRows.Objs, section, FRB.IniKeywords.WWMIVgOffset) for section in slotSections)
+    if legacy and not FIX.sourceVgMaps:
         print("this mod is from before WWMI's merged skeleton, and " + SOURCE + " carries no vg maps to lift its blend"
               " with -- so this .ini is left alone")
         return giveUp()
@@ -407,6 +409,25 @@ def makeFixer(parser, toModName, modTypeId):
 
     # ---- step 3: each target slot's numbers, over the source's ----
     targetSlots = slotNumbers(target, toVersion)
+
+    # the merged skeleton the fix supplies for a legacy mod or a target past 256 bones (WWMIFixer::runtimeSkeleton);
+    # the merge is latched on $object_detected where the host's [Present] resets it
+    # GAP: blendRemapBones (a target past 256 bones -- the reverse pair)
+    skeleton = FRB.WWMISections.Skeleton()
+    skeleton.name = rename
+    skeleton.cb4Hash = (target.hashes.get([target.name, "cb4"], toVersion, False) or "").lower()
+    skeleton.boneDataFilter = FIX.boneDataFilter
+    skeleton.mergedSkeletonSlots = FIX.mergedSkeletonSlots
+    skeleton.remapped = targetPast256
+    skeleton.latched = any(row.key.lower().startswith(FRB.IniKeywords.Post + " " + FRB.IniKeywords.WWMIObjectDetected)
+                           and row.value.strip() == "0"
+                           for section in data.collectedSections(FRB.IniParseRows.Sections)
+                           if section.lower() == FRB.IniKeywords.Present.lower()
+                           for row in data.sectionRows(FRB.IniParseRows.Sections, section))
+    skeleton.currentPoseInCb3Only = FIX.currentPoseInCb3Only
+    skeleton.bindPrevPoseAlways = FIX.bindPrevPoseAlways
+    skeleton.blendRemapForward = rename(FRB.IniKeywords.Resource + "BlendRemapForwardBuffer")
+    skeleton.slotWindows = [(vgOffset, vgCount) for _, _, vgOffset, vgCount in targetSlots]
     slotValues = {}
     for slot in sorted(set(PLAN[c] for group in groups for c in group)):
         first, count, vgOffset, vgCount = targetSlots[slot]
@@ -786,7 +807,11 @@ def makeFixer(parser, toModName, modTypeId):
         hide.indexOffset, hide.indexCount, hide.vgOffset, hide.vgCount = first, count, vgOffset, vgCount
         hide.slot = str(slot)
         hide.mergeSkeletonList = rename("CommandListMergeSkeleton")
+        hide.legacyMergeList = FRB.WWMISections.mergeListName(skeleton, slot) if legacy else ""
         fixSections.sections("fixSections").add(FRB.WWMISections.hideSection(z3, hide))
+    if legacy or targetPast256:
+        for section in FRB.WWMISections.skeletonSections(z3, skeleton):
+            fixSections.sections("fixSections").add(section)
     for i in range(len(tags.tags())):
         fixSections.sections("fixSections").add(tags.section(i, rename("ShaderOverridePass" + str(i))))
 
@@ -817,7 +842,9 @@ def makeFixer(parser, toModName, modTypeId):
             # the shared lists are reached through every component's graph; the edits are idempotent
             edits[targetObj(component)] += bypassEdits
             # what runs before the draw, right after the shared-resource override (WWMIFixer::buildComponentAdditions)
-            additions = ([(FIX.texcoordReg, texcoordResource)] if texcoordResource else []) + \
+            additions = ([(FRB.IniKeywords.Run, FRB.WWMISections.mergeListName(skeleton, PLAN[component]))]
+                         if legacy or targetPast256 else []) + \
+                ([(FIX.texcoordReg, texcoordResource)] if texcoordResource else []) + \
                 [(FRB.IniKeywords.Run, passList) for passList in passListsOf.get(component, [])]
             if additions:
                 edits[targetObj(component)].append(FRB.RegSurroundedAdd(
@@ -850,7 +877,10 @@ def makeFixer(parser, toModName, modTypeId):
     # how the blend is written (WWMIFixer::buildBlendCollects): a TARGET past 256 bones cannot be named by an 8-bit id,
     # so the fix writes WWMI's blend remap; a source past 256 bones has its ids remapped through BlendRemapVertexVG.buf;
     # otherwise the row runs over Blend.buf itself
-    # GAP: the legacy lift (a mod from before the merged skeleton) -- the mirror leaves such a mod alone
+    drawRanges = {component: data.drawRanges(obj) for component, obj in objOf.items() if data.drawRanges(obj)}
+    indexRel = data.resourceFile(FRB.IniKeywords.WWMIIndexBuffer)
+    legacyLift = (FRB.WWMIBlend.LegacyLift(inIni(indexRel), drawRanges, dict(FIX.sourceVgMaps))
+                  if legacy and indexRel else None)
     lift, pairedIds = None, None
     if targetPast256:
         out = FRB.WWMIBlend.RemapFiles(*[inIni(modFile(FRB.IniNamingTools.getRemapElementName("", "BlendRemap" + which, toModName) + ".buf"))
@@ -858,7 +888,8 @@ def makeFixer(parser, toModName, modTypeId):
         vgPath = inIni(vertexVGRel) if vertexVGRel else ""
 
         def lift(resource):
-            FRB.WWMIBlend.writeRemap(resource.srcPath, resource.fixedPath, vgPath, inIni(positionFile), resource.vgRemap, out)
+            FRB.WWMIBlend.writeRemap(resource.srcPath, resource.fixedPath, vgPath, inIni(positionFile), resource.vgRemap, out,
+                                     legacyLift)
             return True
         pairedIds = lambda srcPath: [FRB.VGRemapBlendReplace.PairedIds(out.vertexVG, 2)]
     elif vertexVGRel is not None:
@@ -866,10 +897,19 @@ def makeFixer(parser, toModName, modTypeId):
             FRB.WWMIBlend.remapThroughVertexVG(resource.srcPath, resource.fixedPath, inIni(vertexVGRel), inIni(positionFile),
                                                resource.vgRemap)
             return True
+    elif legacy:
+        def lift(resource):
+            FRB.WWMIBlend.liftLegacy(resource.srcPath, resource.fixedPath, inIni(positionFile), legacyLift, resource.vgRemap)
+            return True
+
+    # the row's version: the numbering the parser read off the mod's own geometry, unless the mod is legacy
+    # (WWMIFixer::vgRemapVersion)
+    blendVersion = data.blendVersion()
+    rowVersion = fromVersion if legacy or blendVersion is None else FRB.Version.parse(blendVersion)
 
     blendCollects, blendReplaces = [], []
     for g, group in enumerate(groups):
-        replace = FRB.VGRemapBlendReplace((g, "", "blend"), source, fromVersion, toVersion)
+        replace = FRB.VGRemapBlendReplace((g, "", "blend"), source, rowVersion, toVersion)
         if lift is not None:
             replace.fixFunc = lift
         replace.anchorChains = dict(FIX.anchorChains)

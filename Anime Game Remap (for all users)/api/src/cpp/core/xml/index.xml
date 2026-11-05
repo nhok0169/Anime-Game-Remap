@@ -6353,6 +6353,7 @@
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1affb2399571a0b4c4fa4dcf3ca0a40649" kind="variable"><name>srcRegMatches</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a3f3f67d5ae53dbba2b6f5ff0f0f3fbaf" kind="variable"><name>bindToReg</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1acff25ee10bc8aa39996a7c74d38cb212" kind="variable"><name>resEdits</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a616ac3343fa69ebf15a228b4fd226817" kind="variable"><name>extraResources</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a3aa161c60d9d358e01346317be0abe83" kind="variable"><name>partPredicates</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a147f2e1f62a30f21aec9bea0cf54e54d" kind="variable"><name>resPredicates</name></member>
     <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a3e252bb747f2b3c655202cea7dbed91a" kind="variable"><name>remaps</name></member>

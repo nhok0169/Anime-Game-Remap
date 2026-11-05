@@ -27340,6 +27340,12 @@ class ResRegCollect(BaseIniGraphGroupEdit):
         only in the group its index names -- see :attr:`everyGroup` :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``False``
+    
+    extraResources: Optional[List[:class:`str`]]
+        Resources handed to every edit in ``resEdits`` as if a register had named them -- see
+        :attr:`extraResources` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
         
     """
     @staticmethod
@@ -27361,7 +27367,7 @@ class ResRegCollect(BaseIniGraphGroupEdit):
         Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]
             The predicate
         """
-    def __init__(self, srcRegs: typing.Any, resEdits: typing.Any, partPredicates: typing.Any = None, resPredicates: typing.Any = None, remaps: typing.Any = None, trackKeys: typing.Any = False, keysToTrack: typing.Any = None, everyGroup: bool = False) -> None:
+    def __init__(self, srcRegs: typing.Any, resEdits: typing.Any, partPredicates: typing.Any = None, resPredicates: typing.Any = None, remaps: typing.Any = None, trackKeys: typing.Any = False, keysToTrack: typing.Any = None, everyGroup: bool = False, extraResources: collections.abc.Sequence[str] | None = None) -> None:
         ...
     def clear(self) -> None:
         """
@@ -27435,6 +27441,19 @@ class ResRegCollect(BaseIniGraphGroupEdit):
         """
     @everyGroup.setter
     def everyGroup(self, arg1: bool) -> None:
+        ...
+    @property
+    def extraResources(self) -> list[str]:
+        """
+        List[:class:`str`]: Resources handed to every edit in :attr:`resEdits` as if a register had named them, besides the
+        ones the registers do
+        
+        What it is for: a file the fix needs that no line binds -- eg. a game texture a texture edit compares against. A
+        collect builds only what it finds, so such a file would never be made. Each name is built under its fixed name
+        (:meth:`BaseResEdit.getFixResourceName`), and no line is rewritten for it
+        """
+    @extraResources.setter
+    def extraResources(self, arg0: collections.abc.Sequence[str]) -> None:
         ...
     @property
     def keysToTrack(self) -> typing.Any:

@@ -17,6 +17,7 @@
 #include "AGRemapCore/model/IniNamingTools.h"
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -292,18 +293,35 @@ everyGroup: :class:`bool`
     only in the group its index names -- see :attr:`everyGroup` :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``False``
+
+extraResources: Optional[List[:class:`str`]]
+    Resources handed to every edit in ``resEdits`` as if a register had named them -- see
+    :attr:`extraResources` :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
     )doc");
 
     cls.def(py::init([](py::object srcRegs, py::object resEdits, py::object partPredicates, py::object resPredicates,
-                        py::object remaps, py::object trackKeys, py::object keysToTrack, bool everyGroup) {
+                        py::object remaps, py::object trackKeys, py::object keysToTrack, bool everyGroup,
+                        std::optional<std::vector<std::string>> extraResources) {
         auto result = std::make_unique<PyResRegCollect>(std::move(srcRegs), std::move(resEdits), std::move(partPredicates),
                                                          std::move(resPredicates), std::move(remaps), std::move(trackKeys),
                                                          std::move(keysToTrack));
         result->everyGroup = everyGroup;
+        result->extraResources = extraResources.value_or(std::vector<std::string>{});
         return result;
     }), py::arg("srcRegs"), py::arg("resEdits"), py::arg("partPredicates") = py::none(),
         py::arg("resPredicates") = py::none(), py::arg("remaps") = py::none(), py::arg("trackKeys") = false,
-        py::arg("keysToTrack") = py::none(), py::arg("everyGroup") = false);
+        py::arg("keysToTrack") = py::none(), py::arg("everyGroup") = false, py::arg("extraResources") = py::none());
+
+    cls.def_readwrite("extraResources", &PyResRegCollect::extraResources, py::doc(R"doc(
+List[:class:`str`]: Resources handed to every edit in :attr:`resEdits` as if a register had named them, besides the
+ones the registers do
+
+What it is for: a file the fix needs that no line binds -- eg. a game texture a texture edit compares against. A
+collect builds only what it finds, so such a file would never be made. Each name is built under its fixed name
+(:meth:`BaseResEdit.getFixResourceName`), and no line is rewritten for it
+    )doc"));
 
     cls.def_property("everyGroup", [](const PyResRegCollect &self) { return self.everyGroup; },
                      [](PyResRegCollect &self, bool value) { self.everyGroup = value; },

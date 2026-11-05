@@ -223,6 +223,20 @@ namespace AGRemapCore {
             tsl::ordered_map<std::string, ResEdit*> resEdits;
 
             /**
+             * @brief
+             @rst
+             Resources handed to every edit in \ref resEdits as if a register had named them, besides the ones
+             the registers do :raw-html:`<br />` :raw-html:`<br />`
+
+             What it is for: a file the fix needs that no line binds -- eg. a game texture a texture edit
+             compares against. A collect builds only what it finds, so such a file would never be made. Each
+             name is built under its fixed name (:cpp:func:`BaseResEdit::getFixResourceName`), and no line
+             is rewritten for it. **Default**: empty
+             @endrst
+             */
+            std::vector<V> extraResources;
+
+            /**
              * @brief Which order indices to collect from, keyed by which graph the predicate applies to
              */
             ByGraph<PartPredicate> partPredicates;

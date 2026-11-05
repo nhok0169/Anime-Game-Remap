@@ -4264,8 +4264,14 @@ namespace AGRemapCore {
                     // their role on
                     if (!fixDownloads_.empty()) {
                         auto create = std::make_unique<FileDownloadCreate<>>(GraphId(g, "", "fixDownloads"), fixDownloads_, resEditConfig());
-                        result.edits.push_back(collectNamed(groups, g, *create, [this](const std::string& name) { return fixDownloads_.count(name) > 0; },
-                                                            {}));
+                        auto collect = collectNamed(groups, g, *create, [this](const std::string& name) { return fixDownloads_.count(name) > 0; },
+                                                    {});
+                        // ...and, in the mod's own file, the game textures a texture edit reads and nothing binds
+                        // (TexEdit::sourceGameRoles): a collect builds only what it finds
+                        if (g == 0) {
+                            collect->extraResources.assign(referenceDownloads_.begin(), referenceDownloads_.end());
+                        }
+                        result.edits.push_back(std::move(collect));
                         result.resEdits.push_back(std::move(create));
                     }
 
@@ -4443,7 +4449,9 @@ namespace AGRemapCore {
 
                         // the source's own textures the edit compares against -- downloaded, never bound
                         for (const std::string& role : edit.sourceGameRoles) {
-                            if (!addGameDownload(role)) {
+                            if (addGameDownload(role)) {
+                                referenceDownloads_.insert(gameFallbacks_.at(role).resource);
+                            } else {
                                 ctx_.log("the " + edit.name + " edit of " + edit.role + " reads " + source_.name
                                      + "'s own " + role + ", and fallbackTextures has no hash for it");
                             }
@@ -5080,6 +5088,7 @@ namespace AGRemapCore {
                 std::map<std::string, std::string> declaredName_;      // that file -> the resource section the fix declares for it
                 std::set<std::string> usedDeclaredNames_;
                 std::map<std::string, Fallback> fallbacks_;           // role -> the source's game texture, for a planned role the mod has no file for
+                std::set<std::string> referenceDownloads_;           // the resources of gameFallbacks_ only a texture edit reads (TexEdit::sourceGameRoles)
                 std::map<std::string, Fallback> gameFallbacks_;      // ...and the same download for a role the mod DOES serve, for the pre-binding draws of a split section
                 std::map<std::string, std::string> gameResourceOfRole_;  // role -> what a pre-binding draw binds: the source's own game texture, edited
                 std::map<std::pair<std::string, int>, std::string> toggledGame_;  // (role, source component) -> the game's own, for a role the mod binds only under a toggle

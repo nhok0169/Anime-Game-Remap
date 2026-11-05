@@ -303,7 +303,7 @@ equivalent of a `Python`_ ``Tuple[str, str]``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="418" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="418" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="432" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="432" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -419,6 +419,29 @@ shared with whatever constructed them
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="223" column="30" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="223" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a616ac3343fa69ebf15a228b4fd226817" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; V &gt;</type>
+        <definition>std::vector&lt;V&gt; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::extraResources</definition>
+        <argsstring></argsstring>
+        <name>extraResources</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::extraResources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Resources handed to every edit in \ref resEdits as if a register had named them, besides the ones
+the registers do :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+What it is for: a file the fix needs that no line binds -- eg. a game texture a texture edit
+compares against. A collect builds only what it finds, so such a file would never be made. Each
+name is built under its fixed name (:cpp:func:`BaseResEdit::getFixResourceName`), and no line
+is rewritten for it. **Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="237" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a3aa161c60d9d358e01346317be0abe83" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a08d4683a21d4ac7ae8b3673365e127ab" kindref="member">PartPredicate</ref> &gt;</type>
         <definition>ByGraph&lt;PartPredicate&gt; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::partPredicates</definition>
@@ -432,7 +455,7 @@ shared with whatever constructed them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="228" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="228" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="242" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="242" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a147f2e1f62a30f21aec9bea0cf54e54d" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a1467692921647beca6d7d9d7386dfa6b" kindref="member">ResPredicate</ref> &gt;</type>
@@ -447,7 +470,7 @@ shared with whatever constructed them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="233" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="233" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="247" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="247" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a3e252bb747f2b3c655202cea7dbed91a" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; tsl::ordered_map&lt; std::string, typename Remapper::RemapTarget &gt; &gt;</type>
@@ -468,7 +491,7 @@ nothing&quot; -- see \ref edit
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="258" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="258" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="272" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="272" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a85bb83a9bbc719753729a0f6ccef2e0a" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -484,7 +507,7 @@ nothing&quot; -- see \ref edit
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="263" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="263" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="277" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="277" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1ab69477fe40c2c03aa1eddee29634e69c" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -500,7 +523,7 @@ nothing&quot; -- see \ref edit
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="268" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="268" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="282" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="282" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a3f62e7967467dd77c7e4d85827e189e4" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; bool &gt;</type>
@@ -515,7 +538,7 @@ nothing&quot; -- see \ref edit
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="273" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="273" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="287" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="287" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1aa242fdb60fa5df69906cafe30222ee4d" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; std::optional&lt; std::unordered_set&lt; K, KeyHash, KeyEqual &gt; &gt; &gt;</type>
@@ -533,7 +556,7 @@ Which `KVP`_ keys to track while searching each graph. A missing entry (or
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="282" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="282" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="296" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="296" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a8a0b6e1ffc8b4d06e78926d6a8461a8c" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -568,7 +591,7 @@ for all the groups together. **Default**: ``false``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="307" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="307" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="321" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="321" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a700641923bebe510fb5882face064534" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; tsl::ordered_map&lt; std::string, tsl::ordered_map&lt; std::size_t, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_res_call" kindref="compound">ResCall</ref> &gt; &gt; &gt; &gt;</type>
@@ -589,7 +612,7 @@ Rebuilt from scratch by every \ref edit, and cleared again afterwards by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="334" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="334" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="348" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="348" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -626,7 +649,7 @@ declared, so collecting it as a file would look for a section called ``ref Resou
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="246" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="260" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a6f7991d9e326894da8462ac692de9eef" kindref="member">Graph</ref> *</type>
@@ -808,7 +831,7 @@ Whether the graph was added -- ``false`` if ``id.iniIndex`` is out of range for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="342" column="13"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="356" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -824,7 +847,7 @@ Whether the graph was added -- ``false`` if ``id.iniIndex`` is out of range for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="347" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="361" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a49a20da6ec9db9f9d763c6d941632f9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
@@ -912,7 +935,7 @@ C++ counterpart, over :cpp:class:`IniFileResEditContext`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="379" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="393" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1ae61ecc29ef18d91b18ac00b54ee89bcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
@@ -980,7 +1003,7 @@ C++ counterpart, over :cpp:class:`IniFileResEditContext`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="392" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="406" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1ab53e60e186ad53fbc495ac4d8b1392bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
@@ -1040,7 +1063,7 @@ for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="408" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="422" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -1056,7 +1079,7 @@ for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="432" column="27"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="446" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a4640f798e6d4b9eebd5cc4fa7ec17a50" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1074,7 +1097,7 @@ for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="433" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="447" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a1d9eee9b8798ee19e6438a1e80a9f341" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings" kindref="compound">GraphSettings</ref></type>
@@ -1096,7 +1119,7 @@ for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="434" column="27"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="448" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a3ff3038683952907b81ce249f776b25f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
@@ -1118,7 +1141,7 @@ for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="436" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="450" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1ab3a243bad4fd648d6c18ac1dccfb686c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1160,7 +1183,7 @@ for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="437" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="451" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a42b346a00f66ba288982f192fcb5033e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
@@ -1190,7 +1213,7 @@ for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="440" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="454" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1ad8ca0b4b0beb863e9ca2c7723dba2792" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
@@ -1216,7 +1239,7 @@ for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="441" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="455" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1312,7 +1335,7 @@ reference, rewrites it in place, and hands the collected set to that subtype&apo
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="70" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="70" bodyend="442"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="70" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="70" bodyend="456"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>addGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1af02b4bc40c9f15df41392a4c1846b5ef" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>Base</name></member>
@@ -1327,6 +1350,7 @@ reference, rewrites it in place, and hands the collected set to that subtype&apo
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a42b346a00f66ba288982f192fcb5033e" prot="private" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>editImpl</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1ae61ecc29ef18d91b18ac00b54ee89bcd" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>editWithContext</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a8a0b6e1ffc8b4d06e78926d6a8461a8c" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>everyGroup</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a616ac3343fa69ebf15a228b4fd226817" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>extraResources</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a1f40614454c899494f89b9f74cd9dd02" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>extraSrcRegs</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>getGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a6f7991d9e326894da8462ac692de9eef" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>Graph</name></member>

@@ -374,6 +374,14 @@ namespace AGRemapCore {
             collectResourceNames(resEditEntry.first, *resEditEntry.second, collectedSections, graphGroups, remappedGraphs,
                                   hasIni, modName);
 
+            // the resources no register names (extraResources), under the name a collected one would get
+            for (const V& resource : extraResources) {
+                const std::string val = resEditEntry.second->config.fileOf(resource);
+                const std::optional<std::string> newVal = resEditEntry.second->getFixResourceName(val, modName);
+                auto collected = resEditEntry.second->collectResourceName(val, newVal.value_or(val));
+                collectedSections.insert_or_assign(collected.first, collected.second);
+            }
+
             if (hasIni) {
                 resEditEntry.second->buildResources(collectedSections, *ctx, graphGroups, modName, {}, copySections);
             }

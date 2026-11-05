@@ -108,6 +108,26 @@ filename = RaidenShogunBlend.buf"""
         self.assertEqual(len(resources), 1)
         self.assertIsInstance(resources[0], FRB.RemapIniDownload)
 
+    def test_resRegCollect_extraResources_buildsWhatNoLineBinds(self):
+        # a file the fix needs that nothing binds (a game texture a texture edit reads): without extraResources the
+        # collect finds no line naming it and builds nothing
+        file = FRB.FileDownloadCreate.File([], "RaidenLightMapGameRemapDL.dds", "https://example.invalid/b.dds")
+        unbound = FRB.FileDownloadCreate((0, "", "download"), {"ResourceRaidenLightMapGameRemapDL": file})
+        result = self._fix(FRB.ResRegCollect({(0, "", "blend"): "ps-t9"}, {"download": unbound}))
+        self.assertNotIn("ResourceRaidenLightMapGameRemapDL", result[0])
+        self.assertEqual(len(self._iniFile.getResources()), 0)
+
+        download = FRB.FileDownloadCreate((0, "", "download"), {"ResourceRaidenLightMapGameRemapDL": file})
+        collect = FRB.ResRegCollect({(0, "", "blend"): "ps-t9"}, {"download": download},
+                                    extraResources = ["ResourceRaidenLightMapGameRemapDL"])
+        result = self._fix(collect)
+
+        self.assertEqual(collect.extraResources, ["ResourceRaidenLightMapGameRemapDL"])
+        self.assertIn("[ResourceRaidenLightMapGameRemapDL]\nfilename = RaidenLightMapGameRemapDL.dds\n", self._fixBlock(result[0]))
+        self.assertNotIn("= ResourceRaidenLightMapGameRemapDL", result[0])      # no line was rewritten to bind it
+        resources = self._iniFile.getResources()
+        self.assertEqual([type(resource).__name__ for resource in resources], ["RemapIniDownload"])
+
     def test_fileDownloadCreate_aTexEdit_editsTheDownload(self):
         editor = FRB.TexEditor([lambda tex: None])
         file = FRB.FileDownloadCreate.File([], "Edited.dds", "https://example.invalid/a.dds", texEdit = editor, rawFile = "RawRemapDL.dds")

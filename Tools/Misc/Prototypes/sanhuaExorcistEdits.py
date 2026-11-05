@@ -768,7 +768,7 @@ def makeFixer(parser, toModName, modTypeId):
     # THE SOURCE'S OWN GAME TEXTURE AS THE DEFAULT, where the mod's file reaches only some of a component's draws
     # (WWMIFixer::planGameDefaults): 1. the draws a section makes before it binds anything, 2. a role bound only under a
     # toggle that reaches none of the section's draws, 3. a role bound with one `this` under a toggle (off, the game's)
-    gameDownloads, gameResourceOfRole, toggledGame = {}, {}, {}     # role -> download; role -> resource; (role, component) -> resource
+    gameDownloads, gameResourceOfRole, toggledGame, referenceDownloads = {}, {}, {}, set()     # role -> download; role -> resource; (role, component) -> resource
 
     # the source's own game texture of a role, downloaded (WWMIFixer::addGameDownload) -- declaring it binds nothing
     def addGameDownload(role):
@@ -1090,9 +1090,11 @@ def makeFixer(parser, toModName, modTypeId):
         if fixDownloads:
             download = FRB.FileDownloadCreate((group, "", "fixDownloads"), fixDownloads)
             graphs = [(group, *obj) for obj in graphGroups[group].graphs]
+            # ...and, in the mod's own file, the game textures a texture edit reads and nothing binds (extraResources)
             edits.append(FRB.ResRegCollect({graph: (lambda key: True) for graph in graphs}, {"fixFile": download},
                                            resPredicates = {graph: (lambda key, value, data: value.strip() in fixDownloads)
-                                                            for graph in graphs}))
+                                                            for graph in graphs},
+                                           extraResources = sorted(referenceDownloads) if group == 0 else None))
             kept.append(download)
         for role, colour, size in CREATED:
             resource = resourceOfRole[role]
@@ -1161,7 +1163,9 @@ def makeFixer(parser, toModName, modTypeId):
             continue
         # the source's own textures the edit compares against -- downloaded, never bound (TexEdit.sourceGameRoles)
         for role in edit.sourceGameRoles:
-            if not addGameDownload(role):
+            if addGameDownload(role):
+                referenceDownloads.add(gameDownloads[role][0])
+            else:
                 print("the " + edit.name + " edit of " + edit.role + " reads " + source.name + "'s own " + role
                       + ", and fallbackTextures has no hash for it")
         if edit.role not in fileOfRole and edit.role not in fallbackFileOfRole:

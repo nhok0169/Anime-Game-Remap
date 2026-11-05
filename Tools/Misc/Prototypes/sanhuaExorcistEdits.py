@@ -347,7 +347,7 @@ def makeFixer(parser, toModName, modTypeId):
     rename = lambda name: FRB.IniNamingTools.getRemapFixName(name, toModName)
 
     # ---- what the mod draws: each source component with sections that draw, and the ones it hides ----
-    present, silent, slotSections = {}, [], []
+    present, silent, slotSections, objOf = {}, [], [], {}
     for obj, sections in parser._sectionTargets.items():
         component = slotOf(obj)
         if component is None or not sections:
@@ -356,6 +356,7 @@ def makeFixer(parser, toModName, modTypeId):
             silent.append(component)
         else:
             present[component] = sections
+            objOf[component] = obj
         slotSections += sections
 
     # ---- a mod from before WWMI's merged skeleton (no slot section carries a vg_offset) holds each component's OWN
@@ -447,12 +448,13 @@ def makeFixer(parser, toModName, modTypeId):
     # layer 1, the mod's own file for each role a component binds (WWMIFixer::assignRole): the resource the mod uses for
     # it (IniParseData::resourceOfFile), or one the fix declares -- RemapRef, since an undo deletes what a RemapFix names
     remapNames = [source.name, toModName]
-    resourceOfSlotRole, resourceOfRole, declaredName = {}, {}, {}
+    resourceOfSlotRole, resourceOfRole, declaredName, fileOfRole = {}, {}, {}, {}
 
     def assignRole(role, component):
         chosen = data.roleFile(role, ("", SLOT_PREFIX + str(component)))
         if chosen is None or (role, component) in resourceOfSlotRole:
             return
+        fileOfRole[role] = chosen.file
         own = data.resourceOfFile(chosen.file)
         if own is not None and not FRB.IniNamingTools.looksRemapped(own, remapNames):
             resourceOfSlotRole[(role, component)] = own
@@ -468,7 +470,7 @@ def makeFixer(parser, toModName, modTypeId):
 
     # layer 3, the stand-in rule (WWMIFixer::standIn): the texture the fix invents, else Sanhua's own game texture,
     # downloaded as `<prefix><Role>RemapDL.dds` (WWMIFixer::fallbackOf)
-    fixDownloads = {}
+    fixDownloads, fallbackFileOfRole = {}, {}
 
     def standIn(role):
         if role in resourceOfRole or role not in FALLBACKS:
@@ -480,6 +482,7 @@ def makeFixer(parser, toModName, modTypeId):
         download.url = FRB.DownloadTools.url(game, character, version, prefix, "Texture" + FALLBACKS[role], ".dds")
         resourceOfRole[role] = FRB.IniNamingTools.getRemapDLResourceName(kind)
         fixDownloads[resourceOfRole[role]] = download
+        fallbackFileOfRole[role] = download.file
 
     planned = [component for component in sorted(present) if component in PLAN]
     for component in planned:
@@ -509,13 +512,16 @@ def makeFixer(parser, toModName, modTypeId):
     def resourceFor(role, component):
         return resourceOfSlotRole.get((role, component), resourceOfRole.get(role))
 
+    sharedResourceFor = lambda role: next((resource for component in sorted(present)
+                                           for resource in [resourceFor(role, component)] if resource), None)
+
     # a role whose file the mod binds behind a toggle (WWMIFixer::bindLine): bound by a COPY of the mod's own texture
     # override, its `this` lines moved onto the target's register, run from the list -- built by buildToggleLists below
     fileOfResource = {}
     for resource, file in data.textureRoles().resourcesOf(parser._iniFile.file):
         fileOfResource.setdefault(resource.lower(), file)
     ownRows = lambda section: data.sectionRows(FRB.IniParseRows.Sections, section)
-    toggleLists, roleLists = [], {}
+    toggleLists, roleLists, listsOfRole = [], {}, {}
 
     def bindLine(role, reg, resource):
         toggle = data.thisToggleOf(resource.lower())
@@ -533,6 +539,7 @@ def makeFixer(parser, toModName, modTypeId):
             return (reg, resource)
 
         name = rename(FRB.IniKeywords.CommandList + source.name + role[0].upper() + role[1:] + FRB.IniNamingTools.getRegTag(reg))
+        listsOfRole.setdefault((role, reg), set()).add(name)
         toggleLists.append((name, toggle.graph, toggle.section, reg, thisKeys, isDead))   # GAP: a one-variant toggle's
         roleLists[(role, reg)] = name                                                    # off binding (planGameDefaults)
         return (FRB.IniKeywords.Run, name)
@@ -541,9 +548,12 @@ def makeFixer(parser, toModName, modTypeId):
     for component in sorted(present):
         if component not in PLAN:
             continue
-        lines = [bindLine(role, reg, resourceFor(role, component)) for reg, role in REGISTERS[component] if resourceFor(role, component)]
+        bound = [(reg, role) for reg, role in REGISTERS[component] if resourceFor(role, component)]
+        lines = [bindLine(role, reg, resourceFor(role, component)) for reg, role in bound]
         if lines:
             listOf[component] = rename(FRB.IniKeywords.CommandList + source.name + "Component" + str(component) + "Textures")
+            for reg, role in bound:
+                listsOfRole.setdefault((role, reg), set()).add(listOf[component])
             fixSections.sections("fixSections").add(
                 FRB.SectionText(z3, listOf[component]).open(passCondition(SLOT_PASSES[PLAN[component]])).keys(lines).close().build())
 
@@ -552,13 +562,16 @@ def makeFixer(parser, toModName, modTypeId):
         # (extraPassNoDraw) nulls it there
         noDraw = FIX.extraPassNoDraw.get(PLAN[component], set())
         for n, (passName, bindings) in enumerate(FIX.extraPassRegs.get(PLAN[component], {}).items()):
-            passLines = [bindLine(binding.role, binding.reg, resourceFor(binding.role, component)) for binding in bindings
+            passBound = [binding for binding in bindings
                          if binding.srcComponent in (-1, component) and resourceFor(binding.role, component)]
+            passLines = [bindLine(binding.role, binding.reg, resourceFor(binding.role, component)) for binding in passBound]
             if passName in noDraw:
                 passLines.append((FRB.IniKeywords.Ib, FRB.IniKeywords.Null))
             if passLines:
                 passList = rename(FRB.IniKeywords.CommandList + source.name + "Component" + str(component) + "TexturesPass" + str(n))
                 passListsOf.setdefault(component, []).append(passList)
+                for binding in passBound:
+                    listsOfRole.setdefault((binding.role, binding.reg), set()).add(passList)
                 fixSections.sections("fixSections").add(
                     FRB.SectionText(z3, passList).open(passCondition([passName])).keys(passLines).close().build())
 
@@ -593,6 +606,88 @@ def makeFixer(parser, toModName, modTypeId):
 
         return edits
     madeTextures = [FRB.IterGraphGroupEdit(makeTextures)]
+
+    # the edits the fix makes to a role's texture before binding it (WWMIFixer::planTexEdits): each edit applies to
+    # the role's resolved resource and to every other variant the mod's toggles bind it as -- unless another role's
+    # edit of another kind has claimed that file already
+    # GAP: TexEdit.sourceGameRoles (the source's own game texture an edit reads; only Lynae -> LynaePeppermint) and
+    # the game defaults' edits (planGameResource), which the mirror has no planGameDefaults for
+    roleKind = lambda role: next((role[i:] for i, char in enumerate(role) if char.isupper()), "")
+    editTargets, editedRolesOf = {}, {}
+
+    def noteEdited(resource, role):
+        editTargets.setdefault(role, set()).add(resource.lower())
+        roles = editedRolesOf.setdefault(resource.lower(), [])
+        if role not in roles:
+            roles.append(role)
+
+    for edit in FIX.texEdits:
+        if edit.makeFilter is None or sharedResourceFor(edit.role) is None:
+            continue
+        if edit.role not in fileOfRole and edit.role not in fallbackFileOfRole:
+            continue
+        was = sharedResourceFor(edit.role)
+        noteEdited(was, edit.role)
+        for toggle in (data.thisToggleOf(was.lower()), data.registerToggleOf(was.lower())):
+            for variant in (toggle.variants if toggle is not None else []):
+                if variant.lower() == was.lower():
+                    continue
+                claimed = editedRolesOf.get(variant.lower())
+                if claimed and any(by == edit.role or roleKind(by) != roleKind(edit.role) for by in claimed):
+                    continue
+                if variant.lower() not in fileOfResource:
+                    continue
+                noteEdited(variant, edit.role)
+
+    # what a filter factory is told about the mod (WWMIFixerConfig::TexEditContext)
+    folder = parser._iniFile.folder
+    inFolder = lambda rel: os.path.normpath(os.path.join(folder, rel))
+    context = FRB.WWMIFixerConfig.TexEditContext()
+    context.iniFolder = folder
+    context.indexFile = inFolder(data.resourceFile(FRB.IniKeywords.WWMIIndexBuffer) or "")
+    context.positionFile = inFolder(data.resourceFile(FRB.IniKeywords.WWMIPositionBuffer) or "")
+    context.texcoordFile = inFolder(data.resourceFile(FRB.IniKeywords.WWMITexcoordBuffer) or "")
+    context.drawRanges = {component: data.drawRanges(obj) for component, obj in objOf.items() if data.drawRanges(obj)}
+    context.fileOfRole = {**{role: inFolder(file) for role, file in fallbackFileOfRole.items()}, **fileOfRole}
+
+    # each edit: a TexReplace collected wherever the role's register binds one of its resources -- on the remapped
+    # slot sections (the mod's own lines) and, in the fix's sections, by one of the role's own lists; once for every
+    # group (WWMIFixer::addTexEditCollects)
+    texEdits = []
+    for edit in FIX.texEdits:
+        if edit.makeFilter is None or edit.role not in editTargets:
+            continue
+        texFilter = edit.makeFilter(context)
+        if texFilter is None:
+            continue
+
+        componentsAt = {}
+        for component in sorted(present):
+            if component not in PLAN:
+                continue
+            bindings = list(FIX.plan[component].bindings) + [binding for bindings in FIX.extraPassRegs.get(PLAN[component], {}).values()
+                                                             for binding in bindings]
+            for binding in bindings:
+                if binding.role == edit.role:
+                    componentsAt.setdefault(binding.reg, set()).add(component)
+
+        name = edit.role[0].upper() + edit.role[1:] + edit.name
+        editor = FRB.TexReplace((0, "", "texEdit" + name), FRB.TexEditor([texFilter], compress = edit.compress),
+                                "resourceRemapTexEdit", resSubType = name)
+        targets = editTargets[edit.role]
+        isTarget = lambda key, value, data, targets = targets: value.strip().lower() in targets
+        inRoleList = lambda key, value, data, role = edit.role, isTarget = isTarget: (
+            data.sectionName in listsOfRole.get((role, key), set()) and isTarget(key, value, data))
+
+        srcRegs, predicates = {}, {}
+        for reg, components in componentsAt.items():
+            srcRegs.setdefault((0, "", "fixSections"), []).append(reg)
+            for component in components:
+                srcRegs.setdefault((0, *targetObj(component)), []).append(reg)
+                predicates[(0, *targetObj(component))] = isTarget
+        predicates[(0, "", "fixSections")] = inRoleList
+        texEdits.append(FRB.ResRegCollect(srcRegs, {"texEdit": editor}, resPredicates = predicates, everyGroup = True))
+        kept.append(editor)
 
     # the toggle lists (WWMIFixer::buildToggleLists): copy the section out of the parser's graph without 3DMigoto's
     # matching keys, rename it to the list's name, drop its dead branches, move `this` onto the register, and take it into
@@ -653,8 +748,6 @@ def makeFixer(parser, toModName, modTypeId):
 
     # the other meshes the character draws, by their own vb0 hash (WWMIFixerConfig::sharedMeshes): the geometry is
     # shared, so only the textures are rebound, per pass, with the file of the first component that has the role
-    sharedResourceFor = lambda role: next((resource for component in sorted(present)
-                                           for resource in [resourceFor(role, component)] if resource), None)
     for meshNum, (meshHash, byPass) in enumerate(FIX.sharedMeshes.items()):
         mesh = FRB.SectionText(z3, rename(FRB.IniKeywords.TextureOverride + source.name + "SharedMesh" + str(meshNum)))
         mesh.key(FRB.IniKeywords.Hash, meshHash)
@@ -730,7 +823,7 @@ def makeFixer(parser, toModName, modTypeId):
     writeSections.sectionsOf = lambda group: fixSections.sections("fixSections").list()
     writeSections.z3 = z3       # the context the sections' `if` lines were parsed in, kept as long as the edit is
     fixer = FRB.GIMIFixer(parser, graphGroupEdits = [*toggleEdits, slotRemap, mainEdits, *blendCollects, *rebindEdits, writeSections,
-                                                           *madeTextures],
+                                                           *madeTextures, *texEdits],
                           modsToFix = [toModName])
     # a copy carries the fix's own sections and none of the mod's texture overrides live: the mod's own file keeps
     # serving the mod on its own character

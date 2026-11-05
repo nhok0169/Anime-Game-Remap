@@ -6,13 +6,11 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
-#include "AGRemapCore/model/buffers/BufElementType.h"
-#include "AGRemapCore/model/buffers/BufFloat.h"
-#include "AGRemapCore/model/files/BufFile.h"
 #include "AGRemapCore/model/buffers/DrawUVCoverage.h"
 #include "AGRemapCore/model/buffers/SkeletonNumberingProbe.h"
 #include "AGRemapCore/model/buffers/WWMIBlend.h"
 #include "AGRemapCore/model/files/IbFile.h"
+#include "AGRemapCore/model/files/TexcoordFile.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
@@ -562,9 +560,6 @@ namespace AGRemapCore {
                     data.roleFiles(rules);
                 }
 
-                // the name the texcoord buffer's one element is read under
-                inline static const std::string UVElement = "Texcoord";
-
                 // ---- WWMIParserConfig::skeletonNumberings ----
                 // Which numbering the blend's bone ids are in, asked of the mod's own geometry
                 // (SkeletonNumberingProbe). Not asked of a mod with no vg_offset on any slot section: one from
@@ -694,12 +689,9 @@ namespace AGRemapCore {
                             }
 
                             // a texcoord line is the U and V of the first channel, then any more, each a half float
-                            std::vector<std::unique_ptr<BufElementType>> elements;
-                            elements.push_back(BufElementType::repeated(UVElement, uvBytes / vertices / 2,
-                                                                        [] { return std::make_unique<BufFloat16>(); }));
-                            BufFile uvFile{uvPath, std::move(elements)};
+                            TexcoordFile uvFile{uvPath, TexcoordFile::halfElements(uvBytes / vertices)};
                             const DrawUVCoverage coverage(IbFile{FileService::absPathOfRelPath(*index, folder)}.getIndices(),
-                                                          uvFile.column(UVElement, 0), uvFile.column(UVElement, 1), vertices);
+                                                          uvFile.column(TexcoordFile::UVKey, 0), uvFile.column(TexcoordFile::UVKey, 1), vertices);
 
                             const DrawUVCoverage::TexelTest marked = [&](long long x, long long y) {
                                 const auto at = static_cast<std::size_t>(y * w + x);

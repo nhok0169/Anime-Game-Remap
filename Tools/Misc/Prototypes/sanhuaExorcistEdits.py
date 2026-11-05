@@ -124,6 +124,20 @@ def asWritten(rows):
     return sorted(rows, key = lambda row: (row.position, row.line))
 
 
+def drawRangeOf(value, zeroBase = False):
+    """A `drawindexed = <count>, <first>, <base>` value's (count, first) -- with 'zeroBase', only with a base of 0"""
+    numbers = FRB.ListValue(value).numbers()
+    if numbers is None or len(numbers) < 3 or numbers[0] < 0 or numbers[1] < 0 or (zeroBase and (len(numbers) != 3 or numbers[2] != 0)):
+        return None
+    return (numbers[0], numbers[1])
+
+
+def lineRole(line):
+    """The role a Shader line `X = role <name>` names, if it is one"""
+    words = line[1].split()
+    return words[1] if len(words) >= 2 and words[0] == "role" else None
+
+
 def iniPathOf(rel, folder):
     return os.path.normpath(os.path.join(folder, rel.strip().replace("\\", os.sep)))
 
@@ -338,8 +352,71 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
         if found is not None:
             data.setBlendVersion(PARSE.skeletonNumberings[found.best].version)
 
-    # GAP: WWMIParserConfig::drawSplits (readDrawSplits; only Lynae's rows set it)
-    parser.deferredParseReaders += [readResourceData] if onlyThisFile else [readResourceData, readSkeletonNumbering, readTextures]
+    # step 7: which draws of a slot carry a split's flags (WWMIParserConfig::drawSplits), read off the code map the mod
+    # draws the slot with at the draws' vertices (DrawUVCoverage), filed as the draw ranges of `(split name, slot)`
+    def readDrawSplits(data):
+        index, texcoord, position = (data.resourceFile(key) for key in (FRB.IniKeywords.WWMIIndexBuffer,
+                                                                        FRB.IniKeywords.WWMITexcoordBuffer,
+                                                                        FRB.IniKeywords.WWMIPositionBuffer))
+        if not PARSE.drawSplits or index is None or texcoord is None or position is None:
+            return
+        folder = iniFile.folder
+        drawn = drawnSlots(byWritten(iniFile.getSectionNames()))
+        for split in PARSE.drawSplits:
+            obj = ("", SLOT_PREFIX + str(split.component))
+            ranges = data.drawRanges(obj)
+            if not ranges or data.isUndrawn(obj) or not drawn.get(split.component):
+                continue
+
+            # the MOD's own map, when a resource of this .ini names the file chosen for the role (one a previous fix
+            # declared is no evidence about the mod) -- else the character's own game map, sourceFlags
+            codesPath = None
+            chosen = data.roleFile(split.codeRole, obj)
+            if chosen is not None and data.textureRoles() is not None:
+                for resource, file in data.textureRoles().resourcesOf(iniFile.file or ""):
+                    if file == chosen.file:
+                        if not FRB.IniNamingTools.looksRemapped(resource, []):
+                            codesPath = iniPathOf(file, folder)
+                        break
+            mask = split.sourceFlags
+            if codesPath is None and (mask.width <= 0 or mask.height <= 0 or len(mask.bits) * 8 < mask.width * mask.height):
+                continue
+
+            try:
+                codes, w, h = None, mask.width, mask.height
+                if codesPath is not None:
+                    codeMap = FRB.TextureFile(codesPath)
+                    codeMap.open()
+                    if not codeMap.hasImage:
+                        continue
+                    codes, w, h = codeMap.shaderChannel(0), codeMap.width, codeMap.height
+
+                uvPath = iniPathOf(texcoord, folder)
+                uvBytes = os.path.getsize(uvPath)
+                vertices = os.path.getsize(iniPathOf(position, folder)) // FRB.WWMIBlend.PositionStride
+                if vertices == 0 or uvBytes % vertices != 0 or uvBytes // vertices < 4:
+                    continue
+                uvFile = FRB.TexcoordFile(uvPath, FRB.TexcoordFile.halfElements(uvBytes // vertices))
+                coverage = FRB.DrawUVCoverage(FRB.IbFile(iniPathOf(index, folder)).getIndices(),
+                                              uvFile.column(FRB.TexcoordFile.UVKey, 0), uvFile.column(FRB.TexcoordFile.UVKey, 1),
+                                              vertices)
+                if codes is None:
+                    marked = lambda x, y: (mask.bits[(y * w + x) // 8] >> ((y * w + x) % 8)) & 1 != 0
+                else:
+                    marked = lambda x, y: y * w + x < len(codes) and codes[y * w + x] & split.flags != 0
+                taken = []
+                for drawRange in ranges:
+                    counted = coverage.count(drawRange[1], drawRange[0], w, h, marked)
+                    if counted.vertices > 0 and counted.matched > split.share * counted.vertices:
+                        taken.append(drawRange)
+            except Exception as error:
+                print("could not read which draws of " + obj[1] + " carry the " + split.codeRole + " flags: " + str(error))
+                continue
+            for drawRange in taken:
+                data.addDrawRange((split.name, obj[1]), drawRange)
+
+    parser.deferredParseReaders += [readResourceData] if onlyThisFile else [readResourceData, readSkeletonNumbering, readTextures,
+                                                                             readDrawSplits]
     return parser
 
 
@@ -363,7 +440,18 @@ def makeFixer(parser, toModName, modTypeId):
     source, target = FRB.ModTypes[SOURCE].value, FRB.ModTypes[TARGET].value
     data = parser.parseData
     toVersion = FRB.Version.parse(TARGET_VERSION)
-    fromVersion = parser._iniFile.fromVersion     # the .ini's own version; None = the newest bucket holding a value
+    # the source's version (WWMIFixer::fromVersion): the .ini's own, else the one sourceVersionByVb0 files the mod's vb0
+    # under (its first slot section's), else the source's own -- not the target's, under a reverse-then-forward lookup
+    fromVersion = parser._iniFile.fromVersion
+    if fromVersion is None and FIX.sourceVersionByVb0:
+        sections = FRB.IniParseRows.Sections
+        byVb0 = next((FIX.sourceVersionByVb0[hash.value.strip().lower()] for section in data.collectedSections(sections)
+                      if data.firstCollected(sections, section, FRB.IniKeywords.MatchFirstIndex) is not None
+                      for hash in [data.firstCollected(sections, section, FRB.IniKeywords.Hash)]
+                      if hash is not None and hash.value.strip().lower() in FIX.sourceVersionByVb0), None)
+        fromVersion = FRB.Version.parse(byVb0) if byVb0 else None
+    if fromVersion is None:
+        fromVersion = FRB.Version.parse(FIX.sourceVersion or FIX.version)
     # the target object a source component's sections are remapped onto: its slot's, or -- for a second section on a
     # shared slot in the mod's own file (SourceComponent::sameFileSection) -- one of its own, so the two claimants do
     # not collide in one group (WWMIFixer::targetObjOf)
@@ -383,6 +471,44 @@ def makeFixer(parser, toModName, modTypeId):
             present[component] = sections
             objOf[component] = obj
         slotSections += sections
+
+    # WHICH DRAWS OF A COMPONENT GO ELSEWHERE (WWMIFixer::readReroutes, WWMIFixerConfig::drawReroutes): the ones the
+    # parser picked for the reroute's split. A reroute that takes draws is a present component of its own, drawn from
+    # its source component's sections, with every texture they read
+    drawRanges = {component: list(data.drawRanges(obj)) for component, obj in objOf.items() if data.drawRanges(obj)}
+    rerouteFrom, reroutedDraws = {}, {}
+    sourceOf = lambda component: rerouteFrom.get(component, component)
+    for reroute in FIX.drawReroutes:
+        if reroute.from_ not in present or reroute.as_ not in FIX.plan or reroute.from_ not in drawRanges or reroute.as_ in present:
+            continue
+        taken = sorted(set(data.drawRanges((reroute.split, SLOT_PREFIX + str(reroute.from_)))))
+        if not taken:
+            continue
+        rerouteFrom[reroute.as_], reroutedDraws[reroute.as_] = reroute.from_, taken
+        present[reroute.as_], objOf[reroute.as_] = present[reroute.from_], objOf[reroute.from_]
+        drawRanges[reroute.as_] = taken
+        drawRanges[reroute.from_] = [drawRange for drawRange in drawRanges[reroute.from_] if drawRange not in taken]
+        print(str(len(taken)) + " of " + SLOT_PREFIX + str(reroute.from_) + "'s draws are in the split " + reroute.split
+              + ", and go through target slot " + str(FIX.plan[reroute.as_].slot) + " instead")
+
+    # A COMPONENT DRAWN WITH ITS OWN SHADER (SourceComponent::shader; WWMIFixer::readShaders, after the roles are read):
+    # its bindings are its plan entry's, the shader's own registers in their place -- unless the mod hands the
+    # component's maps to RabbitFX and the shader yields to it
+    usesRabbitFX = lambda component: component in present and FRB.RabbitFX.Name in data.libraries(objOf[component])
+    shaderUsed = lambda component: (component in FIX.plan and FIX.plan[component].shader is not None
+                                    and not (FIX.plan[component].shader.yieldToRabbitFX and usesRabbitFX(component)))
+    rerouteShaders, markLines = {}, {}
+
+    def bindingsOf(component):
+        if component not in FIX.plan:
+            return []
+        result = list(FIX.plan[component].bindings)
+        if shaderUsed(component):
+            for extra in FIX.plan[component].shader.registers:
+                result = [binding for binding in result if binding.reg.lower() != extra.reg.lower()] + [extra]
+        return result
+
+    registersOf = lambda component: [(binding.reg, binding.role) for binding in bindingsOf(component)]
 
     # ---- a mod from before WWMI's merged skeleton (no slot section carries a vg_offset) holds each component's OWN
     # bone indices in its blend: lifted through the source's per-component vg maps, and the fix supplies the merged
@@ -449,10 +575,13 @@ def makeFixer(parser, toModName, modTypeId):
     targetPast256 = (any(bone > FRB.WWMIBlend.MaxByteBone for bone in rowTargets)
                      and len(rowTargets) <= FRB.WWMIBlend.RemapSize)
     removals = list(FIX.removedRegs) + (list(FIX.remappedSkeletonRemovals) if targetPast256 else [])
-    # each value matched with or without `ref`; GAP: a component that keeps RabbitFX keeps RabbitFX's own lines
-    # (SourceComponent::rabbitFX) -- no component of a mirrored pair does
-    regRemove = FRB.RegRemove([(removal.reg, FRB.RegRemove.valueStartsWith(removal.valuePrefix) if removal.valuePrefix else None)
-                               for removal in removals]) if removals else None
+    # each value matched with or without `ref`; a component that keeps RabbitFX (SourceComponent::rabbitFX) keeps
+    # RabbitFX's own lines
+    removalKeys = lambda removals: [(removal.reg, FRB.RegRemove.valueStartsWith(removal.valuePrefix) if removal.valuePrefix else None)
+                                    for removal in removals]
+    regRemove = FRB.RegRemove(removalKeys(removals)) if removals else None
+    keepRabbitFX = [removal for removal in removals if not FRB.RabbitFX.isOwnKVP(removal.reg, removal.valuePrefix)]
+    regRemoveKeepRabbitFX = FRB.RegRemove(removalKeys(keepRabbitFX)) if removals and keepRabbitFX else None
 
     # ---- step 2: the hashes and the shape-key checksums, onto the target's ----
     checksum = FRB.IniKeywords.WWMIShapeKeyChecksum
@@ -496,13 +625,20 @@ def makeFixer(parser, toModName, modTypeId):
     # the bone-data marker into every file, the shape-key overrides once ----
     remap = {}
     for component in sorted(present):
+        if component in rerouteFrom:
+            continue                    # a target of its source's graph, below
         remap[graphId(("", SLOT_PREFIX + str(component)))] = [(0, *targetObj(component), rename)] if component in PLAN else []
+        # ...and each reroute of it: the same sections again under their own names, so the two do not collide
+        for reroute, origin in sorted(rerouteFrom.items()):
+            if origin == component:
+                remap[graphId(("", SLOT_PREFIX + str(component)))].append(
+                    (0, *targetObj(reroute), lambda name, tag = "Reroute" + str(reroute): rename(name + tag)))
     for component in silent:
         remap[graphId(("", SLOT_PREFIX + str(component)))] = []
     counterpart = lambda obj: not obj[0] and obj[1] in FIX.meshCounterparts
     hashOnlyObjs = [obj for obj in parser.modObjs if obj[0] != TEXTURE and slotOf(obj) is None and obj != WATCH and not counterpart(obj)]
     for obj in hashOnlyObjs:
-        copies = 1 if obj[1] in ("shapekeyOffsets", "shapekeyScale") else len(groups)
+        copies = 1 if (targetPast256 and FIX.copiesShareSkeleton) or obj[1] in ("shapekeyOffsets", "shapekeyScale") else len(groups)
         remap[graphId(obj)] = [(0, *obj, rename)] * copies
     # the texture overrides and the watching sections are the texture step's (step 5); remapped nowhere until then,
     # or each would be rendered into the fix block again under the mod's own section names
@@ -555,6 +691,8 @@ def makeFixer(parser, toModName, modTypeId):
     leftToGame = {rejection.role for rejection in data.rejections()
                   if rejection.role in FIX.flatLeftToGame and not data.roleCandidates(rejection.role)}
 
+    fallbackResource = {}
+
     def standIn(role):
         if role in resourceOfRole or role in leftToGame or role not in FALLBACKS:
             return
@@ -566,10 +704,11 @@ def makeFixer(parser, toModName, modTypeId):
         resourceOfRole[role] = FRB.IniNamingTools.getRemapDLResourceName(kind)
         fixDownloads[resourceOfRole[role]] = download
         fallbackFileOfRole[role] = download.file
+        fallbackResource[role] = resourceOfRole[role]
 
-    planned = [component for component in sorted(present) if component in PLAN]
+    planned = [component for component in sorted(present) if component in PLAN and component not in rerouteFrom]
     for component in planned:
-        for reg, role in REGISTERS[component]:
+        for reg, role in registersOf(component):
             assignRole(role, component)
 
     # the roles only a slot's OTHER passes (of a slot something is drawn through) or a shared mesh bind
@@ -581,19 +720,47 @@ def makeFixer(parser, toModName, modTypeId):
         + [binding.role for byPass in FIX.sharedMeshes.values() for bindings in byPass.values() for binding in bindings]))
     for role in passOnlyRoles:
         for component in sorted(present):
-            assignRole(role, component)
+            if component not in rerouteFrom:
+                assignRole(role, component)
     for role, _, _ in CREATED:
         resourceOfRole[role] = rename(FRB.IniKeywords.Resource + role)
-    for component in planned:
-        for reg, role in REGISTERS[component]:
-            if (role, component) not in resourceOfSlotRole:
-                standIn(role)
+    # a planned role a component has no file for; a role a shader names in a `role <name>` line (a texture of the
+    # source's no mod ships -- a reroute's plan entry counts when the component it draws from is present)
+    for component in sorted(FIX.plan):
+        if component in planned:
+            for reg, role in registersOf(component):
+                if (role, component) not in resourceOfSlotRole:
+                    standIn(role)
+        shader = FIX.plan[component].shader
+        drawn = component in planned or any(reroute.as_ == component and reroute.from_ in present for reroute in FIX.drawReroutes)
+        for line in (list(shader.lines) + [line for lines in shader.passes for line in lines]) if drawn and shader else []:
+            if lineRole(line) is not None:
+                standIn(lineRole(line))
     for role in passOnlyRoles:
         if not any(owned == role for owned, _ in resourceOfSlotRole):
             standIn(role)
 
+    # each reroute reads its source component's files
+    for reroute, origin in rerouteFrom.items():
+        for (role, component), resource in list(resourceOfSlotRole.items()):
+            if component == origin:
+                resourceOfSlotRole.setdefault((role, reroute), resource)
+    for component in sorted(FIX.plan):
+        if component in present and shaderUsed(component):
+            rerouteShaders[component] = FIX.plan[component].shader
+        elif component in present and FIX.plan[component].shader is not None:
+            print("component " + str(component) + " hands its maps to RabbitFX, so it keeps " + toModName
+                  + "'s own shader rather than " + FIX.plan[component].shader.name)
+        if component in present and FIX.plan[component].markLines:
+            markLines[component] = list(FIX.plan[component].markLines)
+
+    # a component drawn with its own shader reads the download itself, not a texture edit of it
     def resourceFor(role, component):
-        return resourceOfSlotRole.get((role, component), resourceOfRole.get(role))
+        if (role, component) in resourceOfSlotRole:
+            return resourceOfSlotRole[(role, component)]
+        if component in rerouteShaders and role in fallbackResource:
+            return fallbackResource[role]
+        return resourceOfRole.get(role)
 
     sharedResourceFor = lambda role: next((resource for component in sorted(present)
                                            for resource in [resourceFor(role, component)] if resource), None)
@@ -603,9 +770,8 @@ def makeFixer(parser, toModName, modTypeId):
     # toggle that reaches none of the section's draws, 3. a role bound with one `this` under a toggle (off, the game's)
     gameDownloads, gameResourceOfRole, toggledGame = {}, {}, {}     # role -> download; role -> resource; (role, component) -> resource
 
-    def planGameResource(role):
-        if role in gameResourceOfRole:
-            return True
+    # the source's own game texture of a role, downloaded (WWMIFixer::addGameDownload) -- declaring it binds nothing
+    def addGameDownload(role):
         if not DOWNLOADS[1] or role not in FALLBACKS:
             return False
         if role not in gameDownloads:
@@ -615,14 +781,24 @@ def makeFixer(parser, toModName, modTypeId):
             download.file = FRB.IniNamingTools.getRemapDLName(kind) + ".dds"
             download.url = FRB.DownloadTools.url(game, character, version, prefix, "Texture" + FALLBACKS[role], ".dds")
             gameDownloads[role] = (FRB.IniNamingTools.getRemapDLResourceName(kind), download)
+            fixDownloads[gameDownloads[role][0]] = download
+        return True
+
+    def planGameResource(role):
+        if role in gameResourceOfRole:
+            return True
+        if not addGameDownload(role):
+            return False
         gameResourceOfRole[role] = gameDownloads[role][0]
         return True
 
     lateBinds = {component: data.lateBindings(obj) for component, obj in objOf.items() if data.lateBindings(obj)}
+    gameResourceFor = lambda role, component: (gameDownloads[role][0] if component in rerouteShaders and role in gameDownloads
+                                               else gameResourceOfRole[role])
     if DOWNLOADS[1]:
         # 1. the draws before the first binding: a role the mod has no file for is already the source's own
         lateRoles = sorted({binding.role for component in lateBinds if component in FIX.plan
-                            for binding in FIX.plan[component].bindings
+                            for binding in bindingsOf(component)
                             if binding.role != FRB.IniKeywords.Null and binding.role not in leftToGame})
         for role in lateRoles:
             if role not in fileOfRole:
@@ -636,10 +812,10 @@ def makeFixer(parser, toModName, modTypeId):
             for component in sorted(present):
                 if component not in FIX.plan:
                     continue
-                toggledOnly = data.toggledBindings(("", SLOT_PREFIX + str(component)))
+                toggledOnly = data.toggledBindings(objOf[component])
                 if gamePass == 2 and not toggledOnly:
                     continue
-                for binding in FIX.plan[component].bindings:
+                for binding in bindingsOf(component):
                     resource = resourceFor(binding.role, component)
                     if binding.role == FRB.IniKeywords.Null or binding.role in leftToGame or resource is None \
                             or (gamePass == 2 and binding.role not in fileOfRole):
@@ -653,9 +829,7 @@ def makeFixer(parser, toModName, modTypeId):
                     if base not in toggledOnly or data.isThisBound(base):
                         continue
                     if planGameResource(binding.role):
-                        toggledGame[(binding.role, component)] = gameResourceOfRole[binding.role]
-    for resource, download in gameDownloads.values():
-        fixDownloads[resource] = download
+                        toggledGame[(binding.role, component)] = gameResourceFor(binding.role, component)
 
     # a role whose file the mod binds behind a toggle (WWMIFixer::bindLine): bound by a COPY of the mod's own texture
     # override, its `this` lines moved onto the target's register, run from the list -- built by buildToggleLists below
@@ -663,14 +837,55 @@ def makeFixer(parser, toModName, modTypeId):
     for resource, file in data.textureRoles().resourcesOf(parser._iniFile.file):
         fileOfResource.setdefault(resource.lower(), file)
     ownRows = lambda section: data.sectionRows(FRB.IniParseRows.Sections, section)
-    toggleLists, roleLists, listsOfRole = [], {}, {}
+    # A COMPONENT THAT KEEPS RABBITFX (SourceComponent::rabbitFX; WWMIFixer::readRabbitFX): the mod's RabbitFX lines stay,
+    # and RabbitFX's routing is pinned to what its SetTextures sets on the source's own draw -- from what that draw has
+    # bound at ps-t0..t3: the mod's own line (unless only a toggle sets it), else the mod's `this` over the game texture
+    # there, else the game texture itself (gameTags)
+    bindsRegister = lambda component, reg: any(FRB.IniNamingTools.sameKey(row.key, reg)
+                                               for name in present.get(component, []) for row in ownRows(name))
+    callsSetTextures = lambda component: component in objOf and any(
+        row.graphId[1:] == objOf[component] and row.key == FRB.IniKeywords.Run
+        and row.value.strip().lower() == FRB.IniKeywords.RabbitFXSetTexturesPath.lower()
+        for row in data.collected(FRB.IniParseRows.Objs))
+    rabbitFXFlags = {}
+    pinList = lambda component: rename(FRB.IniKeywords.CommandList + "RabbitFXPin" + str(component))
+    tagOfResource = lambda resource: (FRB.RabbitFX.textureTag(iniPathOf(fileOfResource[resource.lower()], parser._iniFile.folder))
+                                      if resource.lower() in fileOfResource else None)
+    for component in sorted(FIX.plan):
+        if FIX.plan[component].rabbitFX is None or component not in present or not callsSetTextures(sourceOf(component)):
+            continue
+        source_ = sourceOf(component)
+        roles = FIX.sourceTextures.registerRoles.get(source_)
+        tags_ = [0, 0, 0, 0]
+        for k in range(4):
+            reg = "ps-t" + str(k)
+            tags_[k] = FIX.plan[component].rabbitFX.gameTags.get(reg, 0)
+            role = roles.get(reg) if roles is not None else None
+            if role is None:
+                continue
+            # the mod's own line at this register, in its base state
+            if bindsRegister(source_, reg) and (role, source_) not in toggledGame and (role, source_) in resourceOfSlotRole:
+                tag = tagOfResource(FRB.IniNamingTools.removeRefPrefix(resourceOfSlotRole[(role, source_)]))
+                if tag is not None:
+                    tags_[k] = tag
+                    continue
+            # ...else the game's texture there, or the mod's `this` in its place
+            if role in FALLBACKS:
+                over = data.thisOverrideOf(FALLBACKS[role])
+                tag = tagOfResource(FRB.IniNamingTools.removeRefPrefix(over)) if over is not None else None
+                if tag is not None:
+                    tags_[k] = tag
+        rabbitFXFlags[component] = FRB.RabbitFX.routingFlags(tags_)
 
-    def bindLine(role, reg, resource):
+    toggleLists, roleLists, listsOfRole, rawLists = [], {}, {}, set()
+
+    def bindLine(role, reg, resource, raw = False):
         toggle = data.thisToggleOf(resource.lower())
         if toggle is None:
             return (reg, resource)
-        if (role, reg) in roleLists:
-            return (FRB.IniKeywords.Run, roleLists[(role, reg)])
+        cacheRole = role + "\x01" if raw else role
+        if (cacheRole, reg) in roleLists:
+            return (FRB.IniKeywords.Run, roleLists[(cacheRole, reg)])
         if not ownRows(toggle.section) or not toggle.graph[0]:
             return (reg, resource)
 
@@ -680,23 +895,29 @@ def makeFixer(parser, toModName, modTypeId):
         if not any(not isDead(0, row.value) for row in ownRows(toggle.section) if row.key.lower() == FRB.IniKeywords.This):
             return (reg, resource)
 
-        name = rename(FRB.IniKeywords.CommandList + source.name + role[0].upper() + role[1:] + FRB.IniNamingTools.getRegTag(reg))
+        name = rename(FRB.IniKeywords.CommandList + source.name + role[0].upper() + role[1:] + FRB.IniNamingTools.getRegTag(reg)
+                      + ("Raw" if raw else ""))
+        if raw:
+            rawLists.add(name)
         listsOfRole.setdefault((role, reg), set()).add(name)
         # a one-variant toggle: off, the original draws with the game's texture
         offBinding = gameResourceOfRole.get(role) if toggle.single else None
         toggleLists.append((name, toggle.graph, toggle.section, reg, thisKeys, isDead, offBinding))
-        roleLists[(role, reg)] = name
+        roleLists[(cacheRole, reg)] = name
         return (FRB.IniKeywords.Run, name)
 
     listOf, passListsOf, gameListOf = {}, {}, {}
     for component in sorted(present):
         if component not in PLAN:
             continue
-        bound = [(reg, role) for reg, role in REGISTERS[component] if resourceFor(role, component)]
+        raw = component in rerouteShaders
+        bound = [(reg, role) for reg, role in registersOf(component) if resourceFor(role, component)]
         lines = [(reg, toggledGame[(role, component)]) if (role, component) in toggledGame
-                 else bindLine(role, reg, resourceFor(role, component)) for reg, role in bound]
+                 else bindLine(role, reg, resourceFor(role, component), raw) for reg, role in bound]
         if lines:
             listOf[component] = rename(FRB.IniKeywords.CommandList + source.name + "Component" + str(component) + "Textures")
+            if raw:
+                rawLists.add(listOf[component])
             for reg, role in bound:
                 listsOfRole.setdefault((role, reg), set()).add(listOf[component])
             fixSections.sections("fixSections").add(
@@ -705,11 +926,13 @@ def makeFixer(parser, toModName, modTypeId):
         # generation 0: the draws this section makes before it binds anything rendered with the source's own game
         # textures, so that is what they are given
         if component in lateBinds and gameResourceOfRole:
-            gameBound = [(reg, role) for reg, role in REGISTERS[component]
+            gameBound = [(reg, role) for reg, role in registersOf(component)
                          if role != FRB.IniKeywords.Null and role in gameResourceOfRole]
-            gameLines = [bindLine(role, reg, gameResourceOfRole[role]) for reg, role in gameBound]
+            gameLines = [bindLine(role, reg, gameResourceFor(role, component), raw) for reg, role in gameBound]
             if gameLines:
                 gameListOf[component] = rename(FRB.IniKeywords.CommandList + source.name + "Component" + str(component) + "GameTextures")
+                if raw:
+                    rawLists.add(gameListOf[component])
                 for reg, role in gameBound:
                     listsOfRole.setdefault((role, reg), set()).add(gameListOf[component])
                 fixSections.sections("fixSections").add(
@@ -723,12 +946,14 @@ def makeFixer(parser, toModName, modTypeId):
         for n, (passName, bindings) in enumerate(FIX.extraPassRegs.get(PLAN[component], {}).items()):
             passBound = [binding for binding in bindings
                          if binding.srcComponent in (-1, component) and resourceFor(binding.role, component)]
-            passLines = [bindLine(binding.role, binding.reg, resourceFor(binding.role, component)) for binding in passBound]
+            passLines = [bindLine(binding.role, binding.reg, resourceFor(binding.role, component), raw) for binding in passBound]
             if passName in noDraw:
                 passLines.append((FRB.IniKeywords.Ib, FRB.IniKeywords.Null))
             if passLines:
                 passList = rename(FRB.IniKeywords.CommandList + source.name + "Component" + str(component) + "TexturesPass" + str(n))
                 passListsOf.setdefault(component, []).append(passList)
+                if raw:
+                    rawLists.add(passList)
                 for binding in passBound:
                     listsOfRole.setdefault((binding.role, binding.reg), set()).add(passList)
                 fixSections.sections("fixSections").add(
@@ -922,7 +1147,6 @@ def makeFixer(parser, toModName, modTypeId):
     # the edits the fix makes to a role's texture before binding it (WWMIFixer::planTexEdits): each edit applies to
     # the role's resolved resource and to every other variant the mod's toggles bind it as -- unless another role's
     # edit of another kind has claimed that file already
-    # GAP: TexEdit.sourceGameRoles (the source's own game texture an edit reads; only Lynae -> LynaePeppermint)
     roleKind = lambda role: next((role[i:] for i, char in enumerate(role) if char.isupper()), "")
     editTargets, editedRolesOf = {}, {}
 
@@ -935,6 +1159,11 @@ def makeFixer(parser, toModName, modTypeId):
     for edit in FIX.texEdits:
         if edit.makeFilter is None or sharedResourceFor(edit.role) is None:
             continue
+        # the source's own textures the edit compares against -- downloaded, never bound (TexEdit.sourceGameRoles)
+        for role in edit.sourceGameRoles:
+            if not addGameDownload(role):
+                print("the " + edit.name + " edit of " + edit.role + " reads " + source.name + "'s own " + role
+                      + ", and fallbackTextures has no hash for it")
         if edit.role not in fileOfRole and edit.role not in fallbackFileOfRole:
             continue
         was = sharedResourceFor(edit.role)
@@ -963,7 +1192,7 @@ def makeFixer(parser, toModName, modTypeId):
     context.indexFile = inFolder(data.resourceFile(FRB.IniKeywords.WWMIIndexBuffer) or "")
     context.positionFile = inFolder(data.resourceFile(FRB.IniKeywords.WWMIPositionBuffer) or "")
     context.texcoordFile = inFolder(data.resourceFile(FRB.IniKeywords.WWMITexcoordBuffer) or "")
-    context.drawRanges = {component: data.drawRanges(obj) for component, obj in objOf.items() if data.drawRanges(obj)}
+    context.drawRanges = drawRanges
     toggledRoles = {role for role, _ in toggledGame}
     context.fileOfRole = {**{role: inFolder(file) for role, file in fallbackFileOfRole.items()},
                           **{role: file for role, file in fileOfRole.items() if role not in toggledRoles}}
@@ -982,10 +1211,10 @@ def makeFixer(parser, toModName, modTypeId):
 
         componentsAt = {}
         for component in sorted(present):
-            if component not in PLAN:
+            if component not in PLAN or component in rerouteShaders:
                 continue
-            bindings = list(FIX.plan[component].bindings) + [binding for bindings in FIX.extraPassRegs.get(PLAN[component], {}).values()
-                                                             for binding in bindings]
+            bindings = bindingsOf(component) + [binding for bindings in FIX.extraPassRegs.get(PLAN[component], {}).values()
+                                                for binding in bindings]
             for binding in bindings:
                 if binding.role == edit.role:
                     componentsAt.setdefault(binding.reg, set()).add(component)
@@ -996,7 +1225,8 @@ def makeFixer(parser, toModName, modTypeId):
         targets = editTargets[edit.role]
         isTarget = lambda key, value, data, targets = targets: value.strip().lower() in targets
         inRoleList = lambda key, value, data, role = edit.role, isTarget = isTarget: (
-            data.sectionName in listsOfRole.get((role, key), set()) and isTarget(key, value, data))
+            data.sectionName in listsOfRole.get((role, key), set()) and data.sectionName not in rawLists
+            and isTarget(key, value, data))
 
         # by register, as the C++ map orders them: what the collect meets first is declared first
         srcRegs, predicates = {}, {}
@@ -1040,21 +1270,25 @@ def makeFixer(parser, toModName, modTypeId):
         names = {name.lower() for name in names}
         return lambda sectionName: sectionName.lower() in names
 
+    # every name a mod's command list can carry in the remapped graphs: its own, the fix's, and each reroute copy's
+    listNames = lambda name: [name, rename(name)] + [rename(name + "Reroute" + str(reroute)) for reroute in sorted(rerouteFrom)]
+
     bypassEdits = []
     if bypasses:
         for reg, bypass in bypasses:
             bypassEdits.append(FRB.RegPartEdit(
                 FRB.RegAnchorAdd([reg], lambda key, value, b = bypass, r = reg: [(b, FRB.IniKeywords.Ref + " " + r)],
                                  FRB.RegAnchorAdd.Placement.Before, None, True, True),
-                onlyIn([sharedList, rename(sharedList)])))
+                onlyIn(listNames(sharedList))))
         bypassEdits.append(FRB.RegPartEdit(FRB.RegAdd([(FRB.IniKeywords.Run, restoreList)], True, True),
-                                           onlyIn([cleanupList, rename(cleanupList)])))
+                                           onlyIn(listNames(cleanupList))))
         for section in FRB.WWMISections.bypassSections(z3, bypasses, restoreList):
             fixSections.sections("fixSections").add(section)
 
     # ---- step 7: WWMI's own sections (WWMISections): each target slot nothing of the mod is drawn through skips the
     # skin's geometry and still merges the slot's bones; then the shader tags the texture lists are gated on ----
     drawnSlots = {PLAN[component] for group in groups for component in group}
+    stashResource = lambda slot, reg: rename(FRB.IniKeywords.Resource + "Stash" + str(slot) + FRB.IniNamingTools.getRegTag(reg))
     for slot, (first, count, vgOffset, vgCount) in enumerate(targetSlots):
         if slot in drawnSlots:
             continue
@@ -1068,15 +1302,20 @@ def makeFixer(parser, toModName, modTypeId):
         hide.mergeSkeletonList = rename("CommandListMergeSkeleton")
         hide.legacyMergeList = FRB.WWMISections.mergeListName(skeleton, slot) if legacy else ""
         hide.mergeWindowList = rename("CommandListMergeWindow") if targetPast256 else ""
+        # the game's own bindings on this slot, for a shader drawn on another that reads them (stashRegs) -- only when
+        # a shader drawn for this mod has a `stash <slot> ...` line
+        stashed = FIX.stashRegs.get(slot, []) if any(line[1].strip().startswith("stash " + str(slot) + " ")
+                                                     for shader in rerouteShaders.values() for line in shader.lines) else []
+        hide.stashed = [(stashResource(slot, reg), FRB.IniKeywords.Ref + " " + reg) for reg in stashed]
         fixSections.sections("fixSections").add(FRB.WWMISections.hideSection(z3, hide))
+        for reg in stashed:
+            fixSections.sections("fixSections").add(FRB.SectionText(z3, stashResource(slot, reg)).build())
     if legacy or targetPast256:
         for section in FRB.WWMISections.skeletonSections(z3, skeleton):
             fixSections.sections("fixSections").add(section)
         if targetPast256:
             for section in FRB.WWMISections.blendRemapSections(z3, blendRemap):
                 fixSections.sections("fixSections").add(section)
-    # GAP: a copy's merge-only sections (WWMIFixer::buildCopyMerges, WWMIFixerConfig::copiesShareSkeleton) -- no
-    # mirrored pair sets it
     for i in range(len(tags.tags())):
         fixSections.sections("fixSections").add(tags.section(i, rename("ShaderOverridePass" + str(i))))
 
@@ -1095,7 +1334,14 @@ def makeFixer(parser, toModName, modTypeId):
         if drew:
             fixSections.sections("fixSections").add(mesh.build())
 
-    # GAP: WWMIFixerConfig::hiddenMeshes (only LynaePeppermint's row sets it)
+    # the target's meshes the mod replaces, skipped while the mod is on (WWMIFixerConfig::hiddenMeshes)
+    for i, hiddenHash in enumerate(FIX.hiddenMeshes):
+        fixSections.sections("fixSections").add(
+            FRB.SectionText(z3, rename(FRB.IniKeywords.TextureOverride + toModName + "HiddenMesh" + str(i)))
+            .prefix("; a mesh of " + toModName + "'s own outfit the mod replaces: skipped")
+            .key(FRB.IniKeywords.Hash, hiddenHash).open(FRB.IniKeywords.WWMIModEnabled)
+            .key(FRB.IniKeywords.Handling, FRB.IniKeywords.Skip).close().build())
+
     # the mod's own sections on another mesh of the source, copied onto the target's mesh that plays the same part
     # (WWMIFixerConfig::meshCounterparts), in this place among the fix's sections
     copyEdits = []
@@ -1111,19 +1357,217 @@ def makeFixer(parser, toModName, modTypeId):
     if copied:
         copyEdits.append(FRB.GraphRemove(copied))
 
+    # ---- A COMPONENT DRAWN WITH A PIXEL SHADER OF THE FIX'S OWN (SourceComponent::shader): each of its draws becomes a
+    # `run =` of a list that draws it with the shader on the plan's passes and as it was on any other
+    # (WWMISections::ShaderDraw); a component's draws marked after they are made (markLines), kept off some passes
+    # (offPasses), or held back until other draws of the pass are made (Shader::after) ----
+    shaderDraws = lambda component: reroutedDraws[component] if component in reroutedDraws else sorted(set(drawRanges.get(component, [])))
+    drawAt = lambda component, drawRange: shaderDraws(component).index(drawRange)
+    shaderSection = lambda component, drawRange, kind = FRB.IniKeywords.CommandList, suffix = "": rename(
+        kind + rerouteShaders[component].name + str(component) + "Draw" + str(drawAt(component, drawRange)) + suffix)
+    markSection = lambda component, drawRange, kind = FRB.IniKeywords.CommandList: rename(
+        kind + "Mark" + str(component) + "Draw" + str(drawAt(component, drawRange)))
+    drawValue = lambda drawRange: str(drawRange[0]) + ", " + str(drawRange[1]) + ", 0"
+    shaderFile = lambda shader, p = None: modFile(toModName + FRB.IniKeywords.Remap + shader.name
+                                                  + ("Pass" + str(p) if p is not None else "") + ".hlsl")
+    bufferResource = lambda shader, reg: rename(FRB.IniKeywords.Resource + shader.name + FRB.IniNamingTools.getRegTag(reg))
+    afterLatch = lambda component: "$" + rename("DrawAfter" + str(component) + "Latch")
+    awaited = lambda shader: ([] if shader.after is None else
+                              [(shader.after.component, shader.after.draws)] * (shader.after.component in present)
+                              + [wait for wait in shader.after.also if wait[0] in present])
+
+    # a draw kept off the passes its offPasses names: a `run =` of a list that draws it only off them
+    offLists = {}
+
+    def offDraw(component, drawRange):
+        draw = (FRB.IniKeywords.DrawIndexed, drawValue(drawRange))
+        off = FIX.plan[component].offPasses if component in FIX.plan else []
+        condition = tags.condition("vs" if PASS_VERTEX_SHADERS else "ps",
+                                   list(dict.fromkeys(tag for p in off for tag in taggedFor(p))), True) if off else ""
+        if not condition:
+            return draw
+        name = rename(FRB.IniKeywords.CommandList + "OffPass" + str(component) + "Draw" + str(drawRange[0]) + "_" + str(drawRange[1]))
+        offLists[name] = (condition, draw[1])
+        return (FRB.IniKeywords.Run, name)
+
+    # a `run =` of a section for each draw it names, in place of the draw or right after it
+    def drawRunAdd(sectionOf, placement):
+        return FRB.RegPartEdit(FRB.RegAnchorAdd(
+            [FRB.IniKeywords.DrawIndexed],
+            lambda key, value: [(FRB.IniKeywords.Run, sectionOf[drawRangeOf(value, True)])] if drawRangeOf(value, True) in sectionOf else None,
+            placement))
+
+    drawEdits = {}          # component -> the edits on its draws, in the order they run (after the rest)
+    afterDispatch = {}
+    for component, shader in sorted(rerouteShaders.items()):
+        for first, draws in awaited(shader):
+            if first in afterDispatch:
+                continue
+            afterDispatch[first] = rename(FRB.IniKeywords.CommandList + "DrawAfter" + str(first))
+            anchors = [cleanupList.lower(), rename(cleanupList).lower()]
+            drawEdits.setdefault(first, []).append(FRB.RegPartEdit(FRB.RegAnchorAdd(
+                [FRB.IniKeywords.Run],
+                lambda key, value, dispatch = afterDispatch[first], latch = afterLatch(first): (
+                    [(FRB.IniKeywords.Run, dispatch), (FRB.IniKeywords.Post + " " + latch, "0")]
+                    if value.strip().lower() in anchors else None),
+                FRB.RegAnchorAdd.Placement.Before)))
+    markOf = {drawRange: markSection(component, drawRange) for component in sorted(markLines) for drawRange in shaderDraws(component)}
+    for component in sorted(markLines):
+        drawEdits.setdefault(component, []).append(drawRunAdd(markOf, FRB.RegAnchorAdd.Placement.After))
+    shaderOf = {}
+    for component in sorted(rerouteShaders):
+        for drawRange in shaderDraws(component):
+            shaderOf.setdefault(drawRange, shaderSection(component, drawRange))
+    for component in sorted(rerouteShaders):
+        drawEdits.setdefault(component, []).append(drawRunAdd(shaderOf, FRB.RegAnchorAdd.Placement.Replace))
+    for component in sorted(FIX.plan):
+        if not FIX.plan[component].offPasses or component in rerouteShaders or component not in present:
+            continue
+        runOf = {}
+        for drawRange in shaderDraws(component):
+            line = offDraw(component, drawRange)
+            if line[0] == FRB.IniKeywords.Run:
+                runOf[drawRange] = line[1]
+        if runOf:
+            drawEdits.setdefault(component, []).append(drawRunAdd(runOf, FRB.RegAnchorAdd.Placement.Replace))
+
+    # the sections: each draw's list and CustomShaders (WWMISections.shaderDrawSections), and the shader's files
+    def shaderLine(line):
+        role = lineRole(line)
+        if role is not None:
+            resource = sharedResourceFor(role)
+            return (line[0], resource) if resource is not None else None
+        words = line[1].split()
+        if len(words) == 3 and words[0] == "stash":
+            return (line[0], FRB.IniKeywords.Ref + " " + stashResource(int(words[1]), words[2]))
+        return line
+
+    shaderBackups = FRB.CustomShaderBackups(
+        lambda reg: rename(FRB.IniKeywords.Resource + "ShaderBackup" + FRB.IniNamingTools.getRegTag(reg)))
+    shaderSources, shaderBuffers, shaderBufferRegs, afterConstants, hasShaders = {}, {}, set(), [], False
+    for component, shader in sorted(rerouteShaders.items()):
+        passCount = max(1, len(shader.passes))
+        assigned, passes = [], []
+        for p in range(passCount):
+            if shader.passes:
+                assigned += list(shader.passes[p])
+            ownPs = p < len(shader.passPs) and shader.passPs[p]
+            lines = [("ps", shaderFile(shader, p) if ownPs else shaderFile(shader))]
+            lines += [(reg, bufferResource(shader, reg)) for reg in sorted(shader.constantBuffers)]
+            lines += [written for line in list(shader.lines) + (list(shader.passes[p]) if shader.passes else [])
+                      for written in [shaderLine(line)] if written is not None]
+            passes.append(lines)
+        assigned += [(reg, "") for reg in sorted(shader.constantBuffers)] + list(shader.lines)
+        waits = awaited(shader)
+
+        for drawRange in shaderDraws(component):
+            draw = FRB.WWMISections.ShaderDraw()
+            draw.name = lambda kind, suffix, c = component, r = drawRange: shaderSection(c, r, kind, suffix)
+            draw.draw = drawValue(drawRange)
+            draw.onPlan = passCondition(SLOT_PASSES[PLAN[component]])
+            draw.onlyWith = shader.onlyWith
+            draw.fallback = offDraw(component, drawRange)
+            draw.passes = passes
+            draw.assigned = assigned
+            if waits:
+                draw.afterTarget, draw.afterDraws, draw.afterCarried = shader.after.target, sum(d for _, d in waits), list(shader.after.carried)
+            for section in FRB.WWMISections.shaderDrawSections(z3, draw, shaderBackups):
+                fixSections.sections("fixSections").add(section)
+            afterConstants += FRB.WWMISections.shaderDrawConstants(draw)
+            hasShaders = True
+
+        # the shader's files, named after the shader, so two reroutes drawn with one share them
+        if shaderFile(shader) not in shaderSources:
+            shaderSources[shaderFile(shader)] = shader.ps.encode()
+            for p, ps in enumerate(shader.passPs):
+                if ps:
+                    shaderSources[shaderFile(shader, p)] = ps.encode()
+            for reg, words in sorted(shader.constantBuffers.items()):
+                shaderBufferRegs.add(reg)
+                shaderBuffers[bufferResource(shader, reg)] = FRB.FileAddCreate.File(
+                    [(FRB.IniKeywords.Type, FRB.IniKeywords.Buffer), (FRB.IniKeywords.Format, "DXGI_FORMAT_R32G32B32A32_FLOAT")],
+                    modFile(toModName + FRB.IniKeywords.Remap + shader.name + FRB.IniNamingTools.getRegTag(reg) + ".buf"),
+                    b"".join(FRB.BufUnSignedInt().encode(word) for word in words))
+
+    # what each awaited component's draws run, once per game draw
+    for first, dispatchList in sorted(afterDispatch.items()):
+        afterRuns = [(FRB.IniKeywords.Run, shaderSection(component, drawRange, FRB.IniKeywords.CommandList, "After"))
+                     for component, shader in sorted(rerouteShaders.items()) for wait in awaited(shader) if wait[0] == first
+                     for drawRange in shaderDraws(component)]
+        afterConstants.append((FRB.IniKeywords.Global + " " + afterLatch(first), "0"))
+        fixSections.sections("fixSections").add(FRB.SectionText(z3, dispatchList).open(afterLatch(first) + " == 0")
+                                                .key(afterLatch(first), "1").keys(afterRuns).close().build())
+    if afterConstants:
+        fixSections.sections("fixSections").add(FRB.SectionText(z3, FRB.IniKeywords.Constants).keys(afterConstants).build())
+
+    for component, lines in sorted(markLines.items()):
+        for drawRange in shaderDraws(component):
+            custom = markSection(component, drawRange, "CustomShader")
+            fixSections.sections("fixSections").add(
+                FRB.SectionText(z3, markSection(component, drawRange)).open(passCondition(SLOT_PASSES[PLAN[component]]))
+                .keys(shaderBackups.wrap([(FRB.IniKeywords.Run, custom)], lines)).close().build())
+            fixSections.sections("fixSections").add(
+                FRB.SectionText(z3, custom).keys([("ps", "null")] + lines + [(FRB.IniKeywords.DrawIndexed, drawValue(drawRange))]).build())
+            hasShaders = True
+    for reg in shaderBackups.registers():
+        fixSections.sections("fixSections").add(shaderBackups.section(reg))
+    for name, (condition, draw) in sorted(offLists.items()):
+        fixSections.sections("fixSections").add(
+            FRB.SectionText(z3, name).open(condition).key(FRB.IniKeywords.DrawIndexed, draw).close().build())
+
+    # RabbitFX's routing flags, pinned on the slot's passes (WWMIFixer::rabbitFXPinSections) -- and, below, the sections
+    # only one copy writes
+    for component, flags in sorted(rabbitFXFlags.items()):
+        fixSections.sections("fixSections").add(
+            FRB.SectionText(z3, pinList(component)).open(passCondition(SLOT_PASSES[PLAN[component]]))
+            .keys([(key, str(flag)) for key, flag in zip(FRB.RabbitFX.FlagKeys, flags)]).close().build())
+
+    # A COPY'S SKELETON RECEIVES EVERY SLOT'S BONES (WWMIFixer::buildCopyMerges, copiesShareSkeleton): each copy gets a
+    # merge-only section for every target slot another file draws -- no skip, no draw, only the window into its skeleton
+    copyMerges = {}
+    if targetPast256 and FIX.copiesShareSkeleton and len(groups) >= 2:
+        for g in range(1, len(groups)):
+            own = {PLAN[component] for component in groups[g]}
+            for slot, (first, count, vgOffset, vgCount) in enumerate(targetSlots):
+                if slot in own or slot not in drawnSlots:
+                    continue
+                merge = FRB.SectionText(z3, FRB.IniKeywords.TextureOverride + toModName + "Component" + str(slot)
+                                        + FRB.IniKeywords.Remap + "Merge")
+                merge.prefix("; another file draws this slot: only its bones are merged into this file's skeleton") \
+                    .keys([(FRB.IniKeywords.Hash, targetVb0), (FRB.IniKeywords.MatchFirstIndex, first),
+                           (FRB.IniKeywords.MatchIndexCount, count)])
+                merge.open(FRB.IniKeywords.WWMIModEnabled).keys([(FRB.IniKeywords.WWMIVgOffset, vgOffset),
+                                                                 (FRB.IniKeywords.WWMIVgCount, vgCount),
+                                                                 (FRB.IniKeywords.Run, rename("CommandListMergeWindow"))]).close()
+                copyMerges.setdefault(g, []).append(merge.build())
+
+    # the shaders' files, collected off the fix's sections in every group: `ps-cbN = Resource...` makes a buffer,
+    # `ps = <file>.hlsl` names the shader's source (WWMIFixer::shaderFileEdits)
+    def shaderFiles(group, graphGroups):
+        if not hasShaders or ("", "fixSections") not in graphGroups[group].graphs:
+            return []
+        shaders = (group, "", "fixSections")
+        bufferCreate = FRB.FileAddCreate((group, "", "rerouteShaderBuffers"), shaderBuffers)
+        sourceAdd = FRB.FileRefAdd(shaderSources)
+        kept.extend([bufferCreate, sourceAdd])
+        return ([FRB.ResRegCollect({shaders: reg}, {"shaderBuffer": bufferCreate},
+                                   resPredicates = {shaders: FRB.ResRegCollect.skipsKeywords()}) for reg in sorted(shaderBufferRegs)]
+                + [FRB.ResRegCollect({shaders: "ps"}, {"shaderSource": sourceAdd},
+                                     resPredicates = {shaders: FRB.ResRegCollect.skipsKeywords()})])
+    shaderFileEdits = [FRB.IterGraphGroupEdit(shaderFiles)]
+
     # THE MOD'S OWN `ps-t` LINES, RE-KEYED BY ROLE (WWMIFixer's CarriedLines): each to the register this component's
     # plan row reads its texture's role at -- the layout of the fix's own list, which they sit after. A line the rule
     # has no answer for is left where it is; an empty answer drops it. One RegAnchorAdd per component, replacing every
     # `ps-t` line it names
-    # GAP: a rerouted component (WWMIFixerConfig::Shader) keeps the mod's own art -- no mirrored pair reroutes
+    # (a component drawn with its own shader keeps the mod's own art: see fateOf)
     roleKindOf = lambda role: next((role[i:] for i, char in enumerate(role) if char.isupper()), "")
     sourceComponentOf = lambda obj: slotOf(obj) if not obj[0] else None
-    bindsRole = lambda component, role: (any(binding.role == role for binding in FIX.plan[component].bindings)
-                                         if component in FIX.plan else False) or role in passOnlyRoles
+    bindsRole = lambda component, role: any(binding.role == role for binding in bindingsOf(component)) or role in passOnlyRoles
 
     def carriedLines(component):
         regOfRole = {}
-        for binding in FIX.plan[component].bindings:
+        for binding in bindingsOf(component):
             if binding.role != FRB.IniKeywords.Null:
                 regOfRole.setdefault(binding.role, binding.reg)
 
@@ -1141,10 +1585,11 @@ def makeFixer(parser, toModName, modTypeId):
             return byKind
 
         # the role the source reads at each register (WWMIFixerConfig::carryByRegisterRole)
-        slotRoles = ({reg.lower(): role for reg, role in FIX.sourceTextures.registerRoles.get(component, {}).items()}
+        ownSource = sourceOf(component)
+        slotRoles = ({reg.lower(): role for reg, role in FIX.sourceTextures.registerRoles.get(ownSource, {}).items()}
                      if FIX.carryByRegisterRole else None)
         # the registers the fix's own list binds (a toggled role's `run =` binds its register too)
-        listRegs = {reg.lower() for reg, role in REGISTERS[component]
+        listRegs = {reg.lower() for reg, role in registersOf(component)
                     if role == FRB.IniKeywords.Null or resourceFor(role, component)}
 
         # the line in this one's place: [] drops it, None leaves it alone
@@ -1160,7 +1605,7 @@ def makeFixer(parser, toModName, modTypeId):
                 of = sourceComponentOf(chosen.modObj)
                 if of is None or of not in present or not bindsRole(of, chosen.role):
                     continue
-                if of == component:
+                if of == ownSource:
                     own = chosen.role
                 elif role is None:
                     role = chosen.role
@@ -1184,8 +1629,9 @@ def makeFixer(parser, toModName, modTypeId):
             if reg is None:
                 return [] if key in listRegs else None
 
-            # a file refused for this role does not go back: the line follows what the role resolved to
-            if data.refusedRoleOf(resource) == role:
+            # a file refused for this role does not go back: the line follows what the role resolved to -- except on
+            # a component drawn with its own shader, which keeps the mod's art
+            if component not in rerouteShaders and data.refusedRoleOf(resource) == role:
                 resolved = resourceFor(role, component)
                 return [(reg, resolved)] if resolved is not None else []
             return [(reg, resource)]
@@ -1202,7 +1648,7 @@ def makeFixer(parser, toModName, modTypeId):
         return lines
 
     carriedEdits = {}
-    for component in planned:
+    for component in [component for component in sorted(present) if component in PLAN]:
         lines = carriedLines(component)
         carried = FRB.RegAnchorAdd([], lambda key, value, lines = lines: lines.get((key.strip().lower(), value.strip())),
                                    FRB.RegAnchorAdd.Placement.Replace,
@@ -1222,8 +1668,18 @@ def makeFixer(parser, toModName, modTypeId):
     for group in groups:
         edits = {}
         for component in group:
-            edits[targetObj(component)] = [*([regRemove] if regRemove else []), slotValues[PLAN[component]], assetRemap, dispatch,
-                                           *shapeKeyRebind]
+            if component in rabbitFXFlags:
+                # a `run =` of the pin list right after each `run = CommandList\RabbitFX\SetTextures`
+                pin = FRB.RegPartEdit(FRB.RegAnchorAdd(
+                    [FRB.IniKeywords.Run],
+                    lambda key, value, pinned = pinList(component): (
+                        [(FRB.IniKeywords.Run, pinned)]
+                        if value.strip().lower() == FRB.IniKeywords.RabbitFXSetTexturesPath.lower() else None),
+                    FRB.RegAnchorAdd.Placement.After))
+                removal = [*([regRemoveKeepRabbitFX] if regRemoveKeepRabbitFX else []), pin]
+            else:
+                removal = [regRemove] if regRemove else []
+            edits[targetObj(component)] = [*removal, slotValues[PLAN[component]], assetRemap, dispatch, *shapeKeyRebind]
             if component in listOf:
                 edits[targetObj(component)].append(FRB.RegSurroundedAdd(
                     [(FRB.IniKeywords.Run, listOf[component])], {FRB.IniKeywords.MatchFirstIndex: lambda value: True}))
@@ -1240,7 +1696,17 @@ def makeFixer(parser, toModName, modTypeId):
                 [(FRB.IniKeywords.Run, passList) for passList in passListsOf.get(component, [])]
             if additions:
                 edits[targetObj(component)].append(FRB.RegSurroundedAdd(
-                    additions, {FRB.IniKeywords.Run: lambda value: value in (sharedList, rename(sharedList))}, {}, False))
+                    additions, {FRB.IniKeywords.Run: lambda value: value in listNames(sharedList)}, {}, False))
+            # a reroute keeps only the draws it took, its source component everything else (WWMIFixer::buildRerouteFilters)
+            for reroute, origin in sorted(rerouteFrom.items()):
+                taken = reroutedDraws[reroute]
+                if component == origin:
+                    edits[targetObj(component)].append(FRB.RegRemove(
+                        {FRB.IniKeywords.DrawIndexed: lambda i, value, taken = taken: drawRangeOf(value) in taken}))
+                elif component == reroute:
+                    edits[targetObj(component)].append(FRB.RegRemove(
+                        {FRB.IniKeywords.DrawIndexed: lambda i, value, taken = taken: drawRangeOf(value) not in taken}))
+            edits[targetObj(component)] += drawEdits.get(component, [])
         for obj in hashOnlyObjs:
             edits[obj] = [assetRemap, dispatch, *shapeKeyRebind]
         perGroup.append(edits)
@@ -1266,7 +1732,6 @@ def makeFixer(parser, toModName, modTypeId):
     # how the blend is written (WWMIFixer::buildBlendCollects): a TARGET past 256 bones cannot be named by an 8-bit id,
     # so the fix writes WWMI's blend remap; a source past 256 bones has its ids remapped through BlendRemapVertexVG.buf;
     # otherwise the row runs over Blend.buf itself
-    drawRanges = {component: data.drawRanges(obj) for component, obj in objOf.items() if data.drawRanges(obj)}
     indexRel = data.resourceFile(FRB.IniKeywords.WWMIIndexBuffer)
     legacyLift = (FRB.WWMIBlend.LegacyLift(inIni(indexRel), drawRanges, dict(FIX.sourceVgMaps))
                   if legacy and indexRel else None)
@@ -1326,14 +1791,14 @@ def makeFixer(parser, toModName, modTypeId):
 
     # the fix's own sections, into every file it writes
     writeSections = FRB.GraphCreate((0, "", "fixSections"))
-    writeSections.sectionsOf = lambda group: fixSections.sections("fixSections").list()
+    writeSections.sectionsOf = lambda group: fixSections.sections("fixSections").list() + copyMerges.get(group, [])
     writeSections.z3 = z3       # the context the sections' `if` lines were parsed in, kept as long as the edit is
     fixer = FRB.GIMIFixer(parser, graphGroupEdits = [*copyEdits, *toggleEdits, slotRemap, mainEdits, *blendCollects, *rebindEdits, writeSections,
-                                                           *madeTextures, *latchEdits, *texEdits],
+                                                           *shaderFileEdits, *madeTextures, *latchEdits, *texEdits],
                           modsToFix = [toModName])
     # a copy carries the fix's own sections and none of the mod's texture overrides live: the mod's own file keeps
     # serving the mod on its own character
     fixer.copyHiddenSectionNames = {section for section in data.collectedSections(FRB.IniParseRows.Sections)
                                     if section.startswith(FRB.IniKeywords.TextureOverride)}
-    fixer.copyPreamble = FRB.IniComments.GIMIObjMergerPreamble
+    fixer.copyPreamble = FIX.copyPreamble
     return fixer

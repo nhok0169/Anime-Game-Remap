@@ -410,20 +410,9 @@ namespace AGRemapCore {
         }
 
 
-        /**
-         * @brief What a config's role name says the texture IS, with the part it belongs to stripped
-         *
-         * `upperDiffuse`, `lowerDiffuse` and `panelDiffuse` all have the kind `Diffuse`. The names
-         * are the config's own, so the convention is this repo's -- see CarriedLines.
-         */
+        // What a config's role name says the texture IS -- see WWMIFixerConfig::roleKind
         std::string roleKind(const std::string& role) {
-            for (std::size_t i = 0; i < role.size(); ++i) {
-                if (std::isupper(static_cast<unsigned char>(role[i])) != 0) {
-                    return role.substr(i);
-                }
-            }
-
-            return "";
+            return WWMIFixerConfig::roleKind(role);
         }
 
 
@@ -2158,36 +2147,12 @@ namespace AGRemapCore {
                         // which they sit after. Before the twin, because it reads what the mod wrote and the
                         // twin only adds draws. See CarriedLines.
                         {
-                            std::map<std::string, std::string> regOfRole;
-                            for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
-                                if (binding.role != IniKeywords::Null) {
-                                    regOfRole.emplace(binding.role, binding.reg);
-                                }
-                            }
-
                             // The register for a role: the row's own, or else the one the row binds the same
-                            // KIND at, for a role of another component. `ResourceTexture4_3` is a `lowerDiffuse`
-                            // and this row names `panelDiffuse`; both are the config's OWN names, so their shared
-                            // tail is a convention this repo controls rather than a guess about the mod. Only
-                            // where the kind is unambiguous in the row -- `irisDiffuse` and `eyeDiffuse` share
-                            // one, at different registers.
-                            const auto regOf = [&regOfRole](const std::string& role) -> std::optional<std::string> {
-                                if (const auto found = regOfRole.find(role); found != regOfRole.end()) {
-                                    return found->second;
-                                }
-
-                                const std::string kind = roleKind(role);
-                                std::optional<std::string> byKind;
-                                for (const auto& [rowRole, reg] : regOfRole) {
-                                    if (kind.empty() || roleKind(rowRole) != kind) {
-                                        continue;
-                                    }
-                                    if (byKind.has_value() && *byKind != reg) {
-                                        return std::nullopt;
-                                    }
-                                    byKind = reg;
-                                }
-                                return byKind;
+                            // KIND at, for a role of another component -- `ResourceTexture4_3` is a `lowerDiffuse`
+                            // and this row names `panelDiffuse` (WWMIFixerConfig::registerOf)
+                            const std::vector<WWMIFixerConfig::Binding> rowBindings = bindingsOf(component);
+                            const auto regOf = [&rowBindings](const std::string& role) {
+                                return WWMIFixerConfig::registerOf(rowBindings, role);
                             };
 
                             // see WWMIFixerConfig::carryByRegisterRole: the role the source reads at each register
@@ -2220,29 +2185,14 @@ namespace AGRemapCore {
                                 // among the roles this fix binds on a component it draws -- this component's
                                 // first, then any. One file may serve several components under different roles:
                                 // Lynae9 draws one sweater through her jacket (5) and her props (6).
-                                std::optional<std::string> own;
-                                std::optional<std::string> role;
-                                for (const IniParseData::ResourceRole& chosen : data.rolesOfResource(StringTools::toLower(resource))) {
-                                    const std::optional<int> of = sourceComponentOf(chosen.modObj);
-                                    if (!of.has_value() || present_.count(*of) == 0 || !bindsRole(*of, chosen.role)) {
-                                        continue;
-                                    }
-                                    if (*of == ownSource) {
-                                        own = chosen.role;
-                                    } else if (!role.has_value()) {
-                                        role = chosen.role;
-                                    }
-                                }
-                                if (own.has_value()) {
-                                    role = own;
-                                }
-
                                 // ...or the role the parser REFUSED the file for (2026-10-03): it was chosen for
                                 // nothing precisely because it was refused, and a line left alone puts the refused
                                 // file back (ChisaParfait3's flat `3_1.dds` across her whole body)
-                                if (!role.has_value()) {
-                                    role = data.refusedRoleOf(StringTools::toLower(resource));
-                                }
+                                const std::optional<std::string> role = data.roleOfResource(
+                                    StringTools::toLower(resource), slotObj(ownSource), [this](const IniParseData::ResourceRole& chosen) {
+                                        const std::optional<int> of = sourceComponentOf(chosen.modObj);
+                                        return of.has_value() && present_.count(*of) > 0 && bindsRole(*of, chosen.role);
+                                    });
 
                                 // A TEXTURE PUT INTO ANOTHER KIND OF SLOT ON PURPOSE goes by the slot: to the
                                 // target's register for the role the source reads at this one, its file unchanged

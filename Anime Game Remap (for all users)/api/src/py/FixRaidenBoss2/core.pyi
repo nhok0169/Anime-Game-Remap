@@ -6360,6 +6360,33 @@ class DrawUVCoverage:
         def vertices(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
     @staticmethod
+    def ofMesh(indexFile: str, texcoordFile: str, vertices: typing.SupportsInt | typing.SupportsIndex) -> DrawUVCoverage:
+        """
+        The coverage of a mesh read off its files: the index list of 'indexFile' (:class:`IbFile`), and the first U and V of
+        each vertex of 'texcoordFile', whose stride is its size over 'vertices' (:meth:`TexcoordFile.halfElements`)
+        
+        Parameters
+        ----------
+        indexFile: :class:`str`
+            The mesh's index buffer
+        
+        texcoordFile: :class:`str`
+            The mesh's texcoord buffer, the UVs as 16-bit halves
+        
+        vertices: :class:`int`
+            How many vertices the mesh has
+        
+        Raises
+        ------
+        :class:`RuntimeError`
+            If 'texcoordFile''s size is not a whole number of vertices of at least one UV each
+        
+        Returns
+        -------
+        :class:`DrawUVCoverage`
+            The coverage
+        """
+    @staticmethod
     def texelOf(u: typing.SupportsFloat | typing.SupportsIndex, v: typing.SupportsFloat | typing.SupportsIndex, width: typing.SupportsInt | typing.SupportsIndex, height: typing.SupportsInt | typing.SupportsIndex) -> tuple[int, int]:
         """
         The texel a UV lands on in a texture of ``width`` x ``height``, wrapped into the texture
@@ -6410,6 +6437,33 @@ class DrawUVCoverage:
         -------
         :class:`DrawUVCoverage.Count`
             The counts
+        """
+    def coveredRanges(self, ranges: collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]], width: typing.SupportsInt | typing.SupportsIndex, height: typing.SupportsInt | typing.SupportsIndex, test: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], bool], share: typing.SupportsFloat | typing.SupportsIndex) -> list[tuple[int, int]]:
+        """
+        The ``drawindexed`` ranges more than 'share' of whose distinct vertices land on texels 'test' accepts
+        (:meth:`count`), in the order given
+        
+        Parameters
+        ----------
+        ranges: List[Tuple[:class:`int`, :class:`int`]]
+            The ranges, each ``(index count, first index)``
+        
+        width: :class:`int`
+            The width of the texture the texels are in
+        
+        height: :class:`int`
+            Its height
+        
+        test: Callable[[:class:`int`, :class:`int`], :class:`bool`]
+            Which texels count
+        
+        share: :class:`float`
+            The share of a range's vertices that must land on them, from 0 to 1
+        
+        Returns
+        -------
+        List[Tuple[:class:`int`, :class:`int`]]
+            The ranges
         """
 
 class FileAddCreate(BaseResEdit):
@@ -13425,6 +13479,28 @@ class IniParseData:
         ----------
         rules: :class:`IniParseData.RoleFileRules`
             What to read, and how
+        """
+    def roleOfResource(self, resource: str, own: tuple[str, str], accepts: collections.abc.Callable[[...], bool]) -> str | None:
+        """
+        The one role a texture line binding 'resource' is for: among :meth:`rolesOfResource`, the role 'accepts' takes on
+        'own' (the last, in that order), else the first it takes on another mod object -- else the role the parser REFUSED
+        the file for (:meth:`refusedRoleOf`), since a file chosen for nothing may have been refused precisely for this one
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The resource `section`_, in any case
+        
+        own: Tuple[:class:`str`, :class:`str`]
+            The mod object whose role wins, eg. the component the line belongs to
+        
+        accepts: Callable[[:class:`IniParseData.ResourceRole`], :class:`bool`]
+            Which ``(role, mod object)`` pairs count, eg. the roles a fix binds on the components it draws
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The role
         """
     def rolesOfResource(self, resource: str) -> list[...]:
         """
@@ -32681,6 +32757,27 @@ class WWMIFixerConfig:
         :param source: The character a mod is made for
         :param target: The character it is remapped onto
         :returns: The config
+        """
+    @staticmethod
+    def registerOf(bindings: collections.abc.Sequence[WWMIFixerConfig.Binding], role: str) -> str | None:
+        """
+        The register ``bindings`` bind ``role`` at: the first of its own, else the one they bind its KIND at (:meth:`roleKind`)
+        -- only where that is one register, since two roles of one kind (``irisDiffuse``, ``eyeDiffuse``) may sit at
+        different ones. A ``null`` binding binds nothing
+        
+        :param bindings: A component's bindings, eg. its plan row's
+        :param role: The role
+        :returns: The register, or ``None``
+        """
+    @staticmethod
+    def roleKind(role: str) -> str:
+        """
+        What a config's role name says the texture IS, with the part it belongs to stripped: ``upperDiffuse``,
+        ``lowerDiffuse`` and ``panelDiffuse`` all have the kind ``Diffuse``. The names are the config's own, so the
+        convention is this library's -- empty for a name with no capital
+        
+        :param role: The role
+        :returns: Its kind
         """
     def __init__(self) -> None:
         ...

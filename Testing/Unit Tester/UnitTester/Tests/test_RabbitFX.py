@@ -117,6 +117,34 @@ class DrawUVCoverageTest(BaseUnitTest):
         counted = coverage.count(0, 10, 1, 1, lambda x, y: True)
         self.assertEqual((counted.vertices, counted.matched), (2, 2))
 
+    def test_coveredRanges_keepsTheRangesPastTheShare(self):
+        # the two triangles of test_count_distinctVerticesOfTheRange: the whole mesh has 2 of 4 vertices on the left,
+        # each triangle 2 of 3
+        coverage = FRB.DrawUVCoverage([0, 1, 2, 2, 3, 0], [0.1, 0.9, 0.2, 0.8], [0.5, 0.5, 0.5, 0.5], 4)
+        left = lambda x, y: x == 0
+        ranges = [(6, 0), (3, 3), (3, 0)]
+        self.assertEqual(coverage.coveredRanges(ranges, 2, 2, left, 0.5), [(3, 3), (3, 0)])     # more than half, not half
+        self.assertEqual(coverage.coveredRanges(ranges, 2, 2, left, 0.4), [(6, 0), (3, 3), (3, 0)])
+        self.assertEqual(coverage.coveredRanges(ranges, 2, 2, left, 0.7), [])
+        self.assertEqual(coverage.coveredRanges([(0, 0)], 2, 2, left, 0.0), [])        # a range of no vertices
+
+    def test_ofMesh_readsTheIndexAndTheFirstUV(self):
+        folder = tempfile.mkdtemp()
+        index, texcoord = os.path.join(folder, "Index.buf"), os.path.join(folder, "Texcoord.buf")
+        with open(index, "wb") as file:
+            file.write(struct.pack("<6I", 0, 1, 2, 2, 3, 0))
+        # 8 bytes a vertex: the first UV, then a second channel the coverage does not read
+        with open(texcoord, "wb") as file:
+            for u in (0.125, 0.875, 0.25, 0.75):
+                file.write(struct.pack("<4e", u, 0.5, 0.9, 0.9))
+
+        coverage = FRB.DrawUVCoverage.ofMesh(index, texcoord, 4)
+        counted = coverage.count(0, 6, 2, 2, lambda x, y: x == 0)
+        self.assertEqual((counted.vertices, counted.matched), (4, 2))
+
+        with self.assertRaises(RuntimeError):
+            FRB.DrawUVCoverage.ofMesh(index, texcoord, 3)        # 32 bytes are not 3 whole vertices
+
 
 class WWMIKeywordsTest(BaseUnitTest):
     """

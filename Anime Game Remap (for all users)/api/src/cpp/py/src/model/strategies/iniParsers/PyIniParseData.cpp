@@ -855,6 +855,27 @@ Returns
 Optional[:class:`str`]
     The role
        )doc")
+       .def("roleOfResource", &AGRC::IniParseData::roleOfResource, py::arg("resource"), py::arg("own"), py::arg("accepts"), R"doc(
+The one role a texture line binding 'resource' is for: among :meth:`rolesOfResource`, the role 'accepts' takes on
+'own' (the last, in that order), else the first it takes on another mod object -- else the role the parser REFUSED
+the file for (:meth:`refusedRoleOf`), since a file chosen for nothing may have been refused precisely for this one
+
+Parameters
+----------
+resource: :class:`str`
+    The resource `section`_, in any case
+
+own: Tuple[:class:`str`, :class:`str`]
+    The mod object whose role wins, eg. the component the line belongs to
+
+accepts: Callable[[:class:`IniParseData.ResourceRole`], :class:`bool`]
+    Which ``(role, mod object)`` pairs count, eg. the roles a fix binds on the components it draws
+
+Returns
+-------
+Optional[:class:`str`]
+    The role
+       )doc")
        .def("reject", &AGRC::IniParseData::reject, py::arg("file"), py::arg("role"), py::arg("why"), R"doc(
 Records that ``file`` was refused for ``role``
 

@@ -9,8 +9,6 @@
 #include "AGRemapCore/model/buffers/DrawUVCoverage.h"
 #include "AGRemapCore/model/buffers/SkeletonNumberingProbe.h"
 #include "AGRemapCore/model/buffers/WWMIBlend.h"
-#include "AGRemapCore/model/files/IbFile.h"
-#include "AGRemapCore/model/files/TexcoordFile.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
@@ -680,18 +678,11 @@ namespace AGRemapCore {
                                 h = map.getHeight();
                             }
 
-                            const std::string uvPath = FileService::absPathOfRelPath(*texcoord, folder);
-                            const std::size_t uvBytes = static_cast<std::size_t>(FileService::fileSize(uvPath).value_or(0));
+                            // the mesh's vertices are its Position.buf's lines
                             const std::size_t vertices = static_cast<std::size_t>(std::filesystem::file_size(
                                 FileService::strToPath(FileService::absPathOfRelPath(*position, folder))) / WWMIBlend::PositionStride);
-                            if (vertices == 0 || uvBytes % vertices != 0 || uvBytes / vertices < 4) {
-                                continue;
-                            }
-
-                            // a texcoord line is the U and V of the first channel, then any more, each a half float
-                            TexcoordFile uvFile{uvPath, TexcoordFile::halfElements(uvBytes / vertices)};
-                            const DrawUVCoverage coverage(IbFile{FileService::absPathOfRelPath(*index, folder)}.getIndices(),
-                                                          uvFile.column(TexcoordFile::UVKey, 0), uvFile.column(TexcoordFile::UVKey, 1), vertices);
+                            const DrawUVCoverage coverage = DrawUVCoverage::ofMesh(FileService::absPathOfRelPath(*index, folder),
+                                                                                   FileService::absPathOfRelPath(*texcoord, folder), vertices);
 
                             const DrawUVCoverage::TexelTest marked = [&](long long x, long long y) {
                                 const auto at = static_cast<std::size_t>(y * w + x);
@@ -701,13 +692,7 @@ namespace AGRemapCore {
                                 return at < codes.size() && (codes[at] & split.flags) != 0;
                             };
 
-                            for (const IniParseData::DrawRange& range : ranges) {
-                                const DrawUVCoverage::Count counted = coverage.count(range.second, range.first, w, h, marked);
-                                if (counted.vertices > 0
-                                        && static_cast<double>(counted.matched) > split.share * static_cast<double>(counted.vertices)) {
-                                    taken.push_back(range);
-                                }
-                            }
+                            taken = coverage.coveredRanges(ranges, w, h, marked, split.share);
                         } catch (const std::exception& e) {
                             ctx_.log("could not read which draws of " + obj.second + " carry the " + split.codeRole + " flags: " + e.what());
                             continue;

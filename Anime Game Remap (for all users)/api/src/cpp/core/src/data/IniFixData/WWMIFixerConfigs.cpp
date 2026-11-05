@@ -13,6 +13,11 @@
 
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 
+#include <cctype>
+#include <map>
+
+#include "AGRemapCore/constants/IniKeywords.h"
+
 #include "AGRemapCore/data/IniFixData/Changli/ChangliFixer.h"
 #include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphFixer.h"
 #include "AGRemapCore/data/IniFixData/Chisa/ChisaFixer.h"
@@ -24,6 +29,40 @@
 
 
 namespace AGRemapCore {
+    std::string WWMIFixerConfig::roleKind(const std::string& role) {
+        for (std::size_t i = 0; i < role.size(); ++i) {
+            if (std::isupper(static_cast<unsigned char>(role[i])) != 0) {
+                return role.substr(i);
+            }
+        }
+        return "";
+    }
+
+    std::optional<std::string> WWMIFixerConfig::registerOf(const std::vector<Binding>& bindings, const std::string& role) {
+        std::map<std::string, std::string> regOfRole;
+        for (const Binding& binding : bindings) {
+            if (binding.role != IniKeywords::Null) {
+                regOfRole.emplace(binding.role, binding.reg);
+            }
+        }
+        if (const auto found = regOfRole.find(role); found != regOfRole.end()) {
+            return found->second;
+        }
+
+        const std::string kind = roleKind(role);
+        std::optional<std::string> byKind;
+        for (const auto& [rowRole, reg] : regOfRole) {
+            if (kind.empty() || roleKind(rowRole) != kind) {
+                continue;
+            }
+            if (byKind.has_value() && *byKind != reg) {
+                return std::nullopt;
+            }
+            byKind = reg;
+        }
+        return byKind;
+    }
+
     std::optional<WWMIFixerConfig> WWMIFixerConfig::of(ModTypeId source, ModTypeId target) {
         if (source == ModTypeId::Changli && target == ModTypeId::ChangliNymph) {
             return ChangliFixer::nymph2_4Config();

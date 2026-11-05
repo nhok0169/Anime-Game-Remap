@@ -1352,6 +1352,8 @@
     <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1a658833b8572d93e9ddd5f8a217b6a8e8" kind="variable"><name>vertices_</name></member>
     <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1a5616b7afc689cbfb0040c0dcf8c8b46d" kind="function"><name>DrawUVCoverage</name></member>
     <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1af83edbe37041121b81abe92d263c08a5" kind="function"><name>count</name></member>
+    <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1ac0c479de664437488f414273e551acf9" kind="function"><name>coveredRanges</name></member>
+    <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1a9f49bde4905e9f202b6419117aa07177" kind="function"><name>ofMesh</name></member>
     <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1a2331c579c77f2ad0ffcf3d19a19d3e43" kind="function"><name>texelOf</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry" kind="struct"><name>AGRemapCore::IniFixResourceModel::Entry</name>
@@ -3939,6 +3941,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a5319d267c1be24cee9918c44e227a8a2" kind="function"><name>setFileResource</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a141a1658c04b597b78fb07502222d87e" kind="function"><name>rolesOfResource</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a99389479dfe8029268175554ef5cc477" kind="function"><name>refusedRoleOf</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ace192b5019d36aeb8f8b2ea0b6d9daeb" kind="function"><name>roleOfResource</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a6364b89f0d3d967da5352efa86899ada" kind="function"><name>reject</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a77d55fe1d6666a9e459a92c70a56bfd4" kind="function"><name>collected</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a31ce256750ee899f45f4c52b6e88540a" kind="function"><name>firstCollected</name></member>
@@ -7899,6 +7902,8 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a644c193e090b6d6ba4bf83caa0f86628" kind="variable"><name>targetLabels</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a0ea8eef2b929fa4c8009bd32068c36a5" kind="variable"><name>copyPreamble</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a148e3b41469950eb8d5c1e6833495eed" kind="function"><name>of</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a3e3bd283aa5338a643a091e26f65865c" kind="function"><name>roleKind</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1adb175ac52912c03f8aad5635156b3618" kind="function"><name>registerOf</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_objs" kind="struct"><name>AGRemapCore::WWMIParseObjs</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_objs_1a3e21730c5d3feebaa685d4856a8989af" kind="variable"><name>Watch</name></member>

@@ -630,6 +630,23 @@ namespace AGRemapCore {
             std::optional<std::string> refusedRoleOf(const std::string& resource) const;
 
             /**
+             * @brief
+             @rst
+             The one role a texture line binding 'resource' is for: among #rolesOfResource, the role 'accepts' takes on
+             'own' (the last, in that order), else the first it takes on another mod object -- else the role the parser REFUSED the file for
+             (#refusedRoleOf), since a file chosen for nothing may have been refused precisely for this one
+             @endrst
+             *
+             * @param resource The resource `section`_, in any case
+             * @param own The mod object whose role wins, eg. the component the line belongs to
+             * @param accepts Which ``(role, mod object)`` pairs count, eg. the roles a fix binds on the components it draws
+             *
+             * @return The role, or ``std::nullopt``
+             */
+            std::optional<std::string> roleOfResource(const std::string& resource, const ModObj& own,
+                                                      const std::function<bool(const ResourceRole&)>& accepts) const;
+
+            /**
              * @brief Records that 'file' was refused for 'role'
              *
              * @param file The file

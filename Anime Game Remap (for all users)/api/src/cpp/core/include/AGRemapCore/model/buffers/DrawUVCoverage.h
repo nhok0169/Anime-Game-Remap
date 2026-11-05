@@ -16,6 +16,7 @@
 
 #include <cstddef>
 #include <functional>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -70,6 +71,25 @@ namespace AGRemapCore {
             DrawUVCoverage(std::vector<long long> indices, std::vector<double> us, std::vector<double> vs, std::size_t vertices);
 
             /**
+             * @brief
+             @rst
+             The coverage of a mesh read off its files: the index list of 'indexFile' (:cpp:class:`IbFile`), and the
+             first U and V of each vertex of 'texcoordFile', whose stride is its size over 'vertices'
+             (:cpp:func:`TexcoordFile::halfElements`)
+             @endrst
+             *
+             * @param indexFile The mesh's index buffer
+             * @param texcoordFile The mesh's texcoord buffer, the UVs as 16-bit halves
+             * @param vertices How many vertices the mesh has
+             *
+             * @throws std::runtime_error If 'texcoordFile''s size is not a whole number of vertices of at least
+             *      one UV each
+             *
+             * @return The coverage
+             */
+            static DrawUVCoverage ofMesh(const std::string& indexFile, const std::string& texcoordFile, std::size_t vertices);
+
+            /**
              * @brief The texel a UV lands on in a texture of 'width' x 'height', wrapped into the texture
              *
              * @param u The U
@@ -93,6 +113,25 @@ namespace AGRemapCore {
              * @return The counts
              */
             Count count(long long firstIndex, long long indexCount, long long width, long long height, const TexelTest& test) const;
+
+            /**
+             * @brief
+             @rst
+             The ``drawindexed`` ranges more than 'share' of whose distinct vertices land on texels 'test' accepts
+             (ef count), in the order given
+             @endrst
+             *
+             * @param ranges The ranges, each ``(index count, first index)``
+             * @param width The width of the texture the texels are in
+             * @param height Its height
+             * @param test Which texels count
+             * @param share The share of a range's vertices that must land on them, from 0 to 1
+             *
+             * @return The ranges
+             */
+            std::vector<std::pair<long long, long long>> coveredRanges(const std::vector<std::pair<long long, long long>>& ranges,
+                                                                       long long width, long long height, const TexelTest& test,
+                                                                       double share) const;
 
         private:
             std::vector<long long> indices_;

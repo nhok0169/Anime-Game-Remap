@@ -732,6 +732,23 @@ slots rather than mod types of their own
 :returns: A fixer factory, for :meth:`CppStrategyOverrides.setFixer` or the builder table
     )doc"));
 
+    fixerConfig.def_static("roleKind", &AGRC::WWMIFixerConfig::roleKind, py::arg("role"), R"doc(
+What a config's role name says the texture IS, with the part it belongs to stripped: ``upperDiffuse``,
+``lowerDiffuse`` and ``panelDiffuse`` all have the kind ``Diffuse``. The names are the config's own, so the
+convention is this library's -- empty for a name with no capital
+
+:param role: The role
+:returns: Its kind
+    )doc");
+    fixerConfig.def_static("registerOf", &AGRC::WWMIFixerConfig::registerOf, py::arg("bindings"), py::arg("role"), R"doc(
+The register ``bindings`` bind ``role`` at: the first of its own, else the one they bind its KIND at (:meth:`roleKind`)
+-- only where that is one register, since two roles of one kind (``irisDiffuse``, ``eyeDiffuse``) may sit at
+different ones. A ``null`` binding binds nothing
+
+:param bindings: A component's bindings, eg. its plan row's
+:param role: The role
+:returns: The register, or ``None``
+    )doc");
     fixerConfig.def_static("of", &AGRC::WWMIFixerConfig::of, py::arg("source"), py::arg("target"), R"doc(
 The config the library's own fix from ``source`` to ``target`` is built from, or ``None`` for a pair it has no WWMI fix
 for -- to start a variant of a shipped fix from (change a field, hand it to :func:`makeWWMIFixer`), or to read what it does

@@ -391,24 +391,14 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
                         continue
                     codes, w, h = codeMap.shaderChannel(0), codeMap.width, codeMap.height
 
-                uvPath = iniPathOf(texcoord, folder)
-                uvBytes = os.path.getsize(uvPath)
+                # the mesh's vertices are its Position.buf's lines
                 vertices = os.path.getsize(iniPathOf(position, folder)) // FRB.WWMIBlend.PositionStride
-                if vertices == 0 or uvBytes % vertices != 0 or uvBytes // vertices < 4:
-                    continue
-                uvFile = FRB.TexcoordFile(uvPath, FRB.TexcoordFile.halfElements(uvBytes // vertices))
-                coverage = FRB.DrawUVCoverage(FRB.IbFile(iniPathOf(index, folder)).getIndices(),
-                                              uvFile.column(FRB.TexcoordFile.UVKey, 0), uvFile.column(FRB.TexcoordFile.UVKey, 1),
-                                              vertices)
+                coverage = FRB.DrawUVCoverage.ofMesh(iniPathOf(index, folder), iniPathOf(texcoord, folder), vertices)
                 if codes is None:
                     marked = lambda x, y: (mask.bits[(y * w + x) // 8] >> ((y * w + x) % 8)) & 1 != 0
                 else:
                     marked = lambda x, y: y * w + x < len(codes) and codes[y * w + x] & split.flags != 0
-                taken = []
-                for drawRange in ranges:
-                    counted = coverage.count(drawRange[1], drawRange[0], w, h, marked)
-                    if counted.vertices > 0 and counted.matched > split.share * counted.vertices:
-                        taken.append(drawRange)
+                taken = coverage.coveredRanges(list(ranges), w, h, marked, split.share)
             except Exception as error:
                 print("could not read which draws of " + obj[1] + " carry the " + split.codeRole + " flags: " + str(error))
                 continue
@@ -1149,7 +1139,7 @@ def makeFixer(parser, toModName, modTypeId):
     # the edits the fix makes to a role's texture before binding it (WWMIFixer::planTexEdits): each edit applies to
     # the role's resolved resource and to every other variant the mod's toggles bind it as -- unless another role's
     # edit of another kind has claimed that file already
-    roleKind = lambda role: next((role[i:] for i, char in enumerate(role) if char.isupper()), "")
+    roleKind = FRB.WWMIFixerConfig.roleKind
     editTargets, editedRolesOf = {}, {}
 
     def noteEdited(resource, role):
@@ -1565,28 +1555,13 @@ def makeFixer(parser, toModName, modTypeId):
     # has no answer for is left where it is; an empty answer drops it. One RegAnchorAdd per component, replacing every
     # `ps-t` line it names
     # (a component drawn with its own shader keeps the mod's own art: see fateOf)
-    roleKindOf = lambda role: next((role[i:] for i, char in enumerate(role) if char.isupper()), "")
     sourceComponentOf = lambda obj: slotOf(obj) if not obj[0] else None
     bindsRole = lambda component, role: any(binding.role == role for binding in bindingsOf(component)) or role in passOnlyRoles
 
     def carriedLines(component):
-        regOfRole = {}
-        for binding in bindingsOf(component):
-            if binding.role != FRB.IniKeywords.Null:
-                regOfRole.setdefault(binding.role, binding.reg)
-
-        # the register for a role: the row's own, or the one the row binds the same KIND at, where that is unambiguous
-        def regOf(role):
-            if role in regOfRole:
-                return regOfRole[role]
-            kind, byKind = roleKindOf(role), None
-            for rowRole, reg in regOfRole.items():
-                if not kind or roleKindOf(rowRole) != kind:
-                    continue
-                if byKind is not None and byKind != reg:
-                    return None
-                byKind = reg
-            return byKind
+        # the register for a role: the row's own, or the one the row binds the same KIND at (WWMIFixerConfig.registerOf)
+        rowBindings = bindingsOf(component)
+        regOf = lambda role: FRB.WWMIFixerConfig.registerOf(rowBindings, role)
 
         # the role the source reads at each register (WWMIFixerConfig::carryByRegisterRole)
         ownSource = sourceOf(component)
@@ -1603,26 +1578,14 @@ def makeFixer(parser, toModName, modTypeId):
                 resource = resource[len(FRB.IniKeywords.Ref):].lstrip()
 
             # the role is the parser's answer: one it chose the resource's file for, among the roles the fix binds on a
-            # component it draws -- this component's first, then any
-            own, role = None, None
-            for chosen in data.rolesOfResource(resource.lower()):
-                of = sourceComponentOf(chosen.modObj)
-                if of is None or of not in present or not bindsRole(of, chosen.role):
-                    continue
-                if of == ownSource:
-                    own = chosen.role
-                elif role is None:
-                    role = chosen.role
-            if own is not None:
-                role = own
-            # ...or the role the parser refused the file for
-            if role is None:
-                role = data.refusedRoleOf(resource.lower())
+            # component it draws -- this component's first, then any -- or the one it refused the file for
+            role = data.roleOfResource(resource.lower(), ("", SLOT_PREFIX + str(ownSource)), lambda chosen: (
+                sourceComponentOf(chosen.modObj) in present and bindsRole(sourceComponentOf(chosen.modObj), chosen.role)))
 
             # a texture put into another kind of slot on purpose goes by the slot
             if role is not None and slotRoles is not None:
                 slotRole = slotRoles.get(key)
-                if slotRole is None or roleKindOf(slotRole) != roleKindOf(role):
+                if slotRole is None or roleKind(slotRole) != roleKind(role):
                     slotReg = regOf(slotRole) if slotRole is not None else None
                     if slotReg is not None and slotReg.lower() != key:
                         return [(slotReg, value)]

@@ -151,6 +151,35 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         What a config's role name says the texture IS, with the part it belongs to stripped: ``upperDiffuse``,
+         ``lowerDiffuse`` and ``panelDiffuse`` all have the kind ``Diffuse``. The names are the config's own, so the
+         convention is this library's -- empty for a name with no capital
+         @endrst
+         *
+         * @param role The role
+         *
+         * @return Its kind
+         */
+        static std::string roleKind(const std::string& role);
+
+        /**
+         * @brief
+         @rst
+         The register 'bindings' bind 'role' at: the first of its own, else the one they bind its KIND at (#roleKind)
+         -- only where that is one register, since two roles of one kind (``irisDiffuse``, ``eyeDiffuse``) may sit at
+         different ones. A ``null`` binding binds nothing
+         @endrst
+         *
+         * @param bindings A component's bindings, eg. its plan row's
+         * @param role The role
+         *
+         * @return The register, or ``std::nullopt``
+         */
+        static std::optional<std::string> registerOf(const std::vector<Binding>& bindings, const std::string& role);
+
+        /**
+         * @brief
+         @rst
          A pixel shader a :cpp:struct:`SourceComponent` is drawn with in place of the target slot's
          :raw-html:`<br />` :raw-html:`<br />`
 

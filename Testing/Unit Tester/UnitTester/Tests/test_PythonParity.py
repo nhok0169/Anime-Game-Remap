@@ -121,6 +121,19 @@ class PythonParityTest(unittest.TestCase):
         self.assertEqual(FRB.WWMISections.shaderDrawConstants(draw),
                          [("global $XShader5Draw0FrameRemapFix", "-1"), ("global $XShader5Draw0CountRemapFix", "0")])
 
+    def test_wwmiFixerConfig_roleKind_andRegisterOf(self):
+        Config = FRB.WWMIFixerConfig
+        self.assertEqual(Config.roleKind("panelDiffuse"), "Diffuse")
+        self.assertEqual(Config.roleKind("ramp"), "")
+
+        bindings = [Config.Binding("ps-t0", "upperNormal"), Config.Binding("ps-t3", "upperDiffuse"),
+                    Config.Binding("ps-t5", "null"), Config.Binding("ps-t1", "irisDiffuse")]
+        self.assertEqual(Config.registerOf(bindings, "upperNormal"), "ps-t0")
+        self.assertEqual(Config.registerOf(bindings, "lowerNormal"), "ps-t0")      # by kind
+        self.assertIsNone(Config.registerOf(bindings, "eyeDiffuse"))                # two registers bind a Diffuse
+        self.assertIsNone(Config.registerOf(bindings, "ramp"))                      # no kind, no role of its own
+        self.assertIsNone(Config.registerOf(bindings, "null"))                      # a null binding binds nothing
+
     def test_resRegCollect_skipsKeywords_skipsARef(self):
         skips = FRB.ResRegCollect.skipsKeywords()
         self.assertFalse(skips("vb4", "ref ResourceBlendBufferOverride", None))

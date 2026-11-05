@@ -688,6 +688,59 @@ What :meth:`DrawUVCoverage.count` found for one range
     coverage.def(py::init<std::vector<long long>, std::vector<double>, std::vector<double>, std::size_t>(),
                  py::arg("indices"), py::arg("us"), py::arg("vs"), py::arg("vertices"));
 
+    coverage.def_static("ofMesh", &AGRC::DrawUVCoverage::ofMesh, py::arg("indexFile"), py::arg("texcoordFile"), py::arg("vertices"),
+                        R"doc(
+The coverage of a mesh read off its files: the index list of 'indexFile' (:class:`IbFile`), and the first U and V of
+each vertex of 'texcoordFile', whose stride is its size over 'vertices' (:meth:`TexcoordFile.halfElements`)
+
+Parameters
+----------
+indexFile: :class:`str`
+    The mesh's index buffer
+
+texcoordFile: :class:`str`
+    The mesh's texcoord buffer, the UVs as 16-bit halves
+
+vertices: :class:`int`
+    How many vertices the mesh has
+
+Raises
+------
+:class:`RuntimeError`
+    If 'texcoordFile''s size is not a whole number of vertices of at least one UV each
+
+Returns
+-------
+:class:`DrawUVCoverage`
+    The coverage)doc");
+
+    coverage.def("coveredRanges", &AGRC::DrawUVCoverage::coveredRanges, py::arg("ranges"), py::arg("width"), py::arg("height"),
+                 py::arg("test"), py::arg("share"), R"doc(
+The ``drawindexed`` ranges more than 'share' of whose distinct vertices land on texels 'test' accepts
+(:meth:`count`), in the order given
+
+Parameters
+----------
+ranges: List[Tuple[:class:`int`, :class:`int`]]
+    The ranges, each ``(index count, first index)``
+
+width: :class:`int`
+    The width of the texture the texels are in
+
+height: :class:`int`
+    Its height
+
+test: Callable[[:class:`int`, :class:`int`], :class:`bool`]
+    Which texels count
+
+share: :class:`float`
+    The share of a range's vertices that must land on them, from 0 to 1
+
+Returns
+-------
+List[Tuple[:class:`int`, :class:`int`]]
+    The ranges)doc");
+
     coverage.def_static("texelOf", &AGRC::DrawUVCoverage::texelOf, py::arg("u"), py::arg("v"), py::arg("width"), py::arg("height"), R"doc(
 The texel a UV lands on in a texture of ``width`` x ``height``, wrapped into the texture
 

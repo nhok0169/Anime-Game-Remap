@@ -151,6 +151,28 @@ class IniParseDataTest(BaseUnitTest):
         data.clear()
         self.assertEqual(data.rolesOfResource("ResourceTexture7"), [])
 
+    def test_roleOfResource_ownFirst_thenAny_thenRefused(self):
+        data = FRB.IniParseData()
+        data.setTextureResource("ResourceTexture7", "a.dds")
+        data.setTextureResource("ResourceTexture8", "b.dds")
+        data.setRoleFile("upperDiffuse", ("", "component4"), FRB.IniParseData.RoleFile("a.dds", "how"))
+        data.setRoleFile("jacketDiffuse", ("", "component5"), FRB.IniParseData.RoleFile("a.dds", "how"))
+        data.reject("b.dds", "upperMask", "is flat")
+        every = lambda chosen: True
+
+        # the role on the line's own component wins; else the first another one takes
+        self.assertEqual(data.roleOfResource("ResourceTexture7", ("", "component4"), every), "upperDiffuse")
+        self.assertEqual(data.roleOfResource("ResourceTexture7", ("", "component5"), every), "jacketDiffuse")
+        self.assertEqual(data.roleOfResource("ResourceTexture7", ("", "component9"), every), "jacketDiffuse")
+
+        # only the pairs 'accepts' takes count
+        notJacket = lambda chosen: chosen.role != "jacketDiffuse"
+        self.assertEqual(data.roleOfResource("ResourceTexture7", ("", "component5"), notJacket), "upperDiffuse")
+
+        # a file chosen for nothing it accepts: the role it was refused for, else none
+        self.assertEqual(data.roleOfResource("ResourceTexture8", ("", "component4"), every), "upperMask")
+        self.assertIsNone(data.roleOfResource("ResourceTexture7", ("", "component4"), lambda chosen: False))
+
     def test_libraries_perObject(self):
         data = FRB.IniParseData()
         obj = ("", "component3")

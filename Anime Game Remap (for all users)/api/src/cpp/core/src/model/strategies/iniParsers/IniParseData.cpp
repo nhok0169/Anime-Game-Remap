@@ -639,6 +639,26 @@ namespace AGRemapCore {
         return std::nullopt;
     }
 
+    std::optional<std::string> IniParseData::roleOfResource(const std::string& resource, const ModObj& own,
+                                                            const std::function<bool(const ResourceRole&)>& accepts) const {
+        std::optional<std::string> ownRole;
+        std::optional<std::string> other;
+        for (const ResourceRole& chosen : rolesOfResource(resource)) {
+            if (accepts && !accepts(chosen)) {
+                continue;
+            }
+            if (chosen.modObj == own) {
+                ownRole = chosen.role;
+            } else if (!other.has_value()) {
+                other = chosen.role;
+            }
+        }
+        if (ownRole.has_value()) {
+            return ownRole;
+        }
+        return other.has_value() ? other : refusedRoleOf(resource);
+    }
+
     void IniParseData::setResourceFile(const std::string& section, std::string file) {
         resourceFiles_.emplace(StringTools::toLower(section), std::move(file));
     }

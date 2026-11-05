@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="45" column="13" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="45" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="46" column="13" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="46" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="98" column="25" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="98" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="138" column="25" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="138" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_draw_u_v_coverage_1a20ef06653e9bbb14970977c076b1683e" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double &gt;</type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="99" column="25" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="99" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="139" column="25" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="139" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_draw_u_v_coverage_1afdfc468721075c9ab4d7f92cc850c4fd" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double &gt;</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="100" column="25" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="100" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="140" column="25" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="140" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_draw_u_v_coverage_1a658833b8572d93e9ddd5f8a217b6a8e8" prot="private" static="no" mutable="no">
         <type>std::size_t</type>
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="101" column="25" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="101" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="141" column="25" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="141" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -143,7 +143,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="70" column="13" bodyfile="src/model/buffers/DrawUVCoverage.cpp" bodystart="24" bodyend="25"/>
+        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="71" column="13" bodyfile="src/model/buffers/DrawUVCoverage.cpp" bodystart="29" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_draw_u_v_coverage_1af83edbe37041121b81abe92d263c08a5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_draw_u_v_coverage_1_1_count" kindref="compound">Count</ref></type>
@@ -222,10 +222,161 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="95" column="19" bodyfile="src/model/buffers/DrawUVCoverage.cpp" bodystart="33" bodyend="55"/>
+        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="115" column="19" bodyfile="src/model/buffers/DrawUVCoverage.cpp" bodystart="49" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_draw_u_v_coverage_1ac0c479de664437488f414273e551acf9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; long long, long long &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; long long, long long &gt; &gt; AGRemapCore::DrawUVCoverage::coveredRanges</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; long long, long long &gt; &gt; &amp;ranges, long long width, long long height, const TexelTest &amp;test, double share) const</argsstring>
+        <name>coveredRanges</name>
+        <qualifiedname>AGRemapCore::DrawUVCoverage::coveredRanges</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; long long, long long &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <param>
+          <type>long long</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>long long</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1aeb73e5da4c14ed8b4f2efb993dab08c6" kindref="member">TexelTest</ref> &amp;</type>
+          <declname>test</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>share</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+             The ``drawindexed`` ranges more than &apos;share&apos; of whose distinct vertices land on texels &apos;test&apos; accepts
+             (
+ef count), in the order given
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ranges, each <computeroutput>(index <ref refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1af83edbe37041121b81abe92d263c08a5" kindref="member">count</ref>, first index)</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The width of the texture the texels are in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Its height </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>test</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which texels count </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>share</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The share of a range&apos;s vertices that must land on them, from 0 to 1</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The ranges </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="133" column="25" bodyfile="src/model/buffers/DrawUVCoverage.cpp" bodystart="73" bodyend="84"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_draw_u_v_coverage_1a9f49bde4905e9f202b6419117aa07177" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1a5616b7afc689cbfb0040c0dcf8c8b46d" kindref="member">DrawUVCoverage</ref></type>
+        <definition>DrawUVCoverage AGRemapCore::DrawUVCoverage::ofMesh</definition>
+        <argsstring>(const std::string &amp;indexFile, const std::string &amp;texcoordFile, std::size_t vertices)</argsstring>
+        <name>ofMesh</name>
+        <qualifiedname>AGRemapCore::DrawUVCoverage::ofMesh</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>indexFile</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>texcoordFile</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>vertices</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The coverage of a mesh read off its files: the index list of &apos;indexFile&apos; (:cpp:class:`IbFile`), and the
+first U and V of each vertex of &apos;texcoordFile&apos;, whose stride is its size over &apos;vertices&apos;
+(:cpp:func:`TexcoordFile::halfElements`)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>indexFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mesh&apos;s index buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>texcoordFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mesh&apos;s texcoord buffer, the UVs as 16-bit halves </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How many vertices the mesh has</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If &apos;texcoordFile&apos;&apos;s size is not a whole number of vertices of at least one UV each</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The coverage </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="90" column="35" bodyfile="src/model/buffers/DrawUVCoverage.cpp" bodystart="32" bodyend="41"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_draw_u_v_coverage_1a2331c579c77f2ad0ffcf3d19a19d3e43" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; long long, long long &gt;</type>
         <definition>std::pair&lt; long long, long long &gt; AGRemapCore::DrawUVCoverage::texelOf</definition>
@@ -291,7 +442,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="82" column="30" bodyfile="src/model/buffers/DrawUVCoverage.cpp" bodystart="27" bodyend="31"/>
+        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="102" column="30" bodyfile="src/model/buffers/DrawUVCoverage.cpp" bodystart="43" bodyend="47"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -310,11 +461,13 @@ A UV is wrapped into ``[0, 1)`` the way a sampler in wrap mode reads it, and a U
 finite number is read as ``0``
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="40" column="5" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="40" bodyend="102"/>
+    <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="41" column="5" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="41" bodyend="142"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1af83edbe37041121b81abe92d263c08a5" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawUVCoverage</scope><name>count</name></member>
+      <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1ac0c479de664437488f414273e551acf9" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawUVCoverage</scope><name>coveredRanges</name></member>
       <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1a5616b7afc689cbfb0040c0dcf8c8b46d" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawUVCoverage</scope><name>DrawUVCoverage</name></member>
       <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1aa7c6e8f5375ed6daf15f7c042109a9b7" prot="private" virt="non-virtual"><scope>AGRemapCore::DrawUVCoverage</scope><name>indices_</name></member>
+      <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1a9f49bde4905e9f202b6419117aa07177" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawUVCoverage</scope><name>ofMesh</name></member>
       <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1a2331c579c77f2ad0ffcf3d19a19d3e43" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawUVCoverage</scope><name>texelOf</name></member>
       <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1aeb73e5da4c14ed8b4f2efb993dab08c6" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawUVCoverage</scope><name>TexelTest</name></member>
       <member refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1a20ef06653e9bbb14970977c076b1683e" prot="private" virt="non-virtual"><scope>AGRemapCore::DrawUVCoverage</scope><name>us_</name></member>

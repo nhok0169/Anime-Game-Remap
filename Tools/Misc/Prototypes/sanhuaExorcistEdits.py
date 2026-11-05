@@ -588,6 +588,11 @@ def makeFixer(parser, toModName, modTypeId):
     # a remap-only copy of the mod's texcoord buffer, NaN halves cleared and a U in the [1, 2) tile folded back unless its
     # triangle straddles the seam (WWMIFixerConfig::cleanTexcoords; TexcoordFile.clean) -- only when the copy differs,
     # bound before the draw and written with the fix's files (WWMIFixer::buildTexcoordCopy)
+    # where the fix writes its own buffers: beside the mod's Blend.buf, else beside the .ini (WWMIFixer::meshFolder_)
+    blendRel = data.resourceFile(FRB.IniKeywords.WWMIBlendBuffer)
+    meshFolder = os.path.dirname(blendRel.replace("\\", "/")) if blendRel else ""
+    modFile = lambda name: "/".join(part for part in (meshFolder, name) if part)
+
     texcoordResource, fixFiles = None, {}
     declared = lambda key: data.firstCollected(FRB.IniParseRows.Declared, FRB.IniKeywords.WWMITexcoordBuffer, key)
     if FIX.cleanTexcoords and declared(FRB.IniKeywords.Filename) is not None:
@@ -604,14 +609,12 @@ def makeFixer(parser, toModName, modTypeId):
 
         texcoord, stats = cleaned()
         if texcoord.us() and (stats.cleared or stats.folded):
-            blendRel = data.resourceFile(FRB.IniKeywords.WWMIBlendBuffer)
-            meshFolder = os.path.dirname(blendRel.replace("\\", "/")) if blendRel else ""
             texcoordResource = rename(FRB.IniKeywords.Resource + "TexcoordNoNaN")
             fixFiles[texcoordResource] = FRB.FileAddCreate.File(
                 [(FRB.IniKeywords.Type, FRB.IniKeywords.Buffer),
                  (FRB.IniKeywords.Format, formatRow.value.strip() if formatRow is not None else "DXGI_FORMAT_R16G16_FLOAT"),
                  (FRB.IniKeywords.Stride, str(stride))],
-                "/".join(part for part in (meshFolder, toModName + FRB.IniKeywords.Remap + "Texcoord.buf") if part),
+                modFile(toModName + FRB.IniKeywords.Remap + "Texcoord.buf"),
                 makeBytes = lambda: cleaned()[0].data)
 
     # the invented textures: made where the fix's lists bind them, in every group the slot remap made
@@ -838,9 +841,41 @@ def makeFixer(parser, toModName, modTypeId):
         positionPath = iniPathOf(positionFile, parser._iniFile.folder)
         return FRB.WWMIBlend.blendElements(FRB.WWMIBlend.influencesOf(srcPath, vertexCount, positionPath))
 
+    # WHERE the mod's ids live: a character past 256 bones keeps them in WWMI's BlendRemapVertexVG.buf, named by the
+    # .ini's resource section rather than a file name (WWMIFixer::vertexVGFile_)
+    vertexVGRel = next((file for section, file in data.resourceFiles().items()
+                        if "blendremapvertexvg" in section.replace("_", "").lower()), None)
+    inIni = lambda rel: iniPathOf(rel, parser._iniFile.folder)
+
+    # how the blend is written (WWMIFixer::buildBlendCollects): a TARGET past 256 bones cannot be named by an 8-bit id,
+    # so the fix writes WWMI's blend remap; a source past 256 bones has its ids remapped through BlendRemapVertexVG.buf;
+    # otherwise the row runs over Blend.buf itself
+    # GAP: the legacy lift (a mod from before the merged skeleton) -- the mirror leaves such a mod alone
+    lift, pairedIds = None, None
+    if targetPast256:
+        out = FRB.WWMIBlend.RemapFiles(*[inIni(modFile(FRB.IniNamingTools.getRemapElementName("", "BlendRemap" + which, toModName) + ".buf"))
+                                         for which in ("VertexVG", "Forward", "Reverse")])
+        vgPath = inIni(vertexVGRel) if vertexVGRel else ""
+
+        def lift(resource):
+            FRB.WWMIBlend.writeRemap(resource.srcPath, resource.fixedPath, vgPath, inIni(positionFile), resource.vgRemap, out)
+            return True
+        pairedIds = lambda srcPath: [FRB.VGRemapBlendReplace.PairedIds(out.vertexVG, 2)]
+    elif vertexVGRel is not None:
+        def lift(resource):
+            FRB.WWMIBlend.remapThroughVertexVG(resource.srcPath, resource.fixedPath, inIni(vertexVGRel), inIni(positionFile),
+                                               resource.vgRemap)
+            return True
+
     blendCollects, blendReplaces = [], []
     for g, group in enumerate(groups):
         replace = FRB.VGRemapBlendReplace((g, "", "blend"), source, fromVersion, toVersion)
+        if lift is not None:
+            replace.fixFunc = lift
+        replace.anchorChains = dict(FIX.anchorChains)
+        replace.influences = FIX.targetInfluences
+        if pairedIds is not None:
+            replace.pairedIds = pairedIds
         replace.elements = blendElements
         graphs = [(g, *targetObj(component)) for component in group]
         blendCollects.append(FRB.ResRegCollect({graph: BLEND_REG for graph in graphs}, {"blend": replace},

@@ -156,8 +156,7 @@ void PyGraphCollect::refresh() {
 
 void initCppIParseResult(pybind11::module_ &m) {
     py::class_<AGRC::IParseResult, py::smart_holder>(m, "IParseResult", R"doc(
-An edit with a result a parser keeps: after running an edit of :attr:`GIMIParser.parseSteps` or
-:attr:`GIMIParser.deferredParseSteps`, the parser hands its :class:`IniParseData` to the edit's :meth:`fileInto`
+An edit with a result a parser keeps: after running an edit of :attr:`GIMIParser.commandEdits`, the parser hands its :class:`IniParseData` to the edit's :meth:`fileInto`
 when the edit is one of these
 
 :class:`GraphCollect` files its rows this way
@@ -191,8 +190,7 @@ value, and optionally
   the value carried in, and a value set on a sibling ``if`` branch is never carried
 * ``withConditions``: the condition of the ``if`` blocks the part sits in
 
-The rows stay until the next :meth:`edit` or :meth:`clear`. Run as one of :attr:`GIMIParser.parseSteps` (or
-:attr:`GIMIParser.deferredParseSteps`), a collect with a :attr:`name` files its rows in the parser's
+The rows stay until the next :meth:`edit` or :meth:`clear`. Run as one of :attr:`GIMIParser.commandEdits`, a collect with a :attr:`name` files its rows in the parser's
 :attr:`BaseIniParser.parseData` (:meth:`IniParseData.collected`)
 
 .. warning::
@@ -217,7 +215,7 @@ contextKeys: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], List
 
 name: :class:`str`
     The name the rows are filed under in :class:`IniParseData` when this runs as one of
-    :attr:`GIMIParser.parseSteps` -- empty files nothing :raw-html:`<br />` :raw-html:`<br />`
+    :attr:`GIMIParser.commandEdits` -- empty files nothing :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``""``
 

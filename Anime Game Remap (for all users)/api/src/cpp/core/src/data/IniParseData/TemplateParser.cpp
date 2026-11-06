@@ -41,15 +41,9 @@ namespace AGRemapCore {
         return *steps_.back();
     }
 
-    TemplateParser::GroupEdit& TemplateParser::addParseStep(std::unique_ptr<GroupEdit> step) {
+    TemplateParser::GroupEdit& TemplateParser::addCommandEdit(std::unique_ptr<GroupEdit> step) {
         GroupEdit& owned = ownStep(std::move(step));
-        this->parseSteps.push_back(&owned);
-        return owned;
-    }
-
-    TemplateParser::GroupEdit& TemplateParser::addDeferredParseStep(std::unique_ptr<GroupEdit> step) {
-        GroupEdit& owned = ownStep(std::move(step));
-        this->deferredParseSteps.push_back(&owned);
+        this->commandEdits.push_back(&owned);
         return owned;
     }
 }

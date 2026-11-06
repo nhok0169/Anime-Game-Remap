@@ -33,7 +33,7 @@ ps-t2 = ResourceD
     def parseWith(self, steps):
         self.setupIniTxt(self._collectIniTxt)
         self.createIniFile()
-        self._parser = FRB.GIMIParser(self._iniFile, modObjs = [("", "body")], trackKeys = False, parseSteps = steps)
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = [("", "body")], trackKeys = False, commandEdits = steps)
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
         return self._parser
@@ -106,7 +106,7 @@ ps-t0 = ResourceD
 """)
         self.createIniFile()
         collect = FRB.GraphCollect({self.Body: ["ps-t0"]})
-        self._parser = FRB.GIMIParser(self._iniFile, modObjs = [("", "body")], trackKeys = False, parseSteps = [collect])
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = [("", "body")], trackKeys = False, commandEdits = [collect])
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
         self.assertEqual([(row.value, row.guards) for row in collect.rows],
@@ -125,7 +125,7 @@ ps-t0 = ResourceB
 """)
         self.createIniFile()
         collect = FRB.GraphCollect({self.Body: ["ps-t0"]})
-        self._parser = FRB.GIMIParser(self._iniFile, modObjs = [("", "body")], trackKeys = False, parseSteps = [collect])
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = [("", "body")], trackKeys = False, commandEdits = [collect])
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
         self.assertEqual([(row.value, row.position) for row in collect.rows], [("ResourceA", 2), ("ResourceB", 4)])
@@ -150,7 +150,7 @@ ps-t0 = ResourceE
 """)
         self.createIniFile()
         collect = FRB.GraphCollect({self.Body: ["ps-t0"]})
-        self._parser = FRB.GIMIParser(self._iniFile, modObjs = [("", "body")], trackKeys = False, parseSteps = [collect])
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = [("", "body")], trackKeys = False, commandEdits = [collect])
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
         blocks = {row.value: row.blocks for row in collect.rows}

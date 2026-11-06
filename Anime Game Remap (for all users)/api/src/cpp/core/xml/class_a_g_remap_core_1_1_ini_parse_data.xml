@@ -1907,12 +1907,12 @@ others. Asking for them runs the steps deferred to the first ask, like every oth
         <detaileddescription>
 <para><verbatim>embed:rst 
 The rows of the :cpp:class:`GraphCollect` named &apos;name&apos; among the parser&apos;s
-:cpp:member:`GIMIParser::parseSteps`, in the order it collected them: the variable of that name (see
+:cpp:member:`GIMIParser::commandEdits`, in the order it collected them: the variable of that name (see
 #variables). Empty for a name nothing filed, or a variable holding another type
 
 .. warning::
    The rows describe the graphs as they were when the collect ran (see :cpp:class:`GraphCollect`).
-   A collect among :cpp:member:`GIMIParser::deferredParseSteps` runs on the FIRST ask of this data, so
+   A collect among deferred :cpp:member:`GIMIParser::commandEdits` runs on the FIRST ask of this data, so
    that first ask has to come before any edit to the graphs it reads: a fixer asks in its constructor,
    before its edits run. Asked first after an edit, the rows are read from the edited graphs
 </verbatim></para>
@@ -2154,7 +2154,7 @@ together with this (:cpp:func:`GraphCollect::valueUnder`). A variable another fi
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1275" column="27" bodyfile="src/model/strategies/iniParsers/IniParseDataRoleFiles.cpp" bodystart="814" bodyend="856"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1275" column="27" bodyfile="src/model/strategies/iniParsers/IniParseDataRoleFiles.cpp" bodystart="816" bodyend="858"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a577a85f24a9ed707bff774737a79d355" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -2454,7 +2454,7 @@ The variables it reads: the rows of each collect &apos;rules&apos; names, by its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1299" column="18" bodyfile="src/model/strategies/iniParsers/IniParseDataRoleFiles.cpp" bodystart="169" bodyend="812"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1299" column="18" bodyfile="src/model/strategies/iniParsers/IniParseDataRoleFiles.cpp" bodystart="169" bodyend="814"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a7579144e8fc3cdcce160946ac075703b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data" kindref="compound">ResourceData</ref> &amp;</type>

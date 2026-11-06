@@ -432,8 +432,9 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
                                   FRB.IniParseData.RoleFilesVar)
     splits = FRB.GraphVarApply([FRB.IniParseData.ResourceDataVar, FRB.IniParseData.RoleFilesVar], drawSplits,
                                FRB.IniParseData.ResourceDataVar)
-    parser.deferredParseSteps = ([*parser.rowSteps(rows), overrides, roles, toggles, carried] + ([] if onlyThisFile else [skeleton])
-                                 + [resources] + ([] if onlyThisFile else [roleFiles, splits]))
+    parser.deferCommandEdits = True
+    parser.commandEdits = ([*parser.rowSteps(rows), overrides, roles, toggles, carried] + ([] if onlyThisFile else [skeleton])
+                           + [resources] + ([] if onlyThisFile else [roleFiles, splits]))
     return parser
 
 

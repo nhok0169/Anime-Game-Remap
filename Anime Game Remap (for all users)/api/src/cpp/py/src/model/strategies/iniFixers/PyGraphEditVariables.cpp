@@ -494,7 +494,7 @@ Makes a variable of the parse from others: when the parser files it, the variabl
 :meth:`IniParseData.variables` are handed to :attr:`fn`, and what it returns replaces the variable :attr:`into` -- see
 :meth:`GraphEditVariables.apply`
 
-Put it in :attr:`GIMIParser.parseSteps` or :attr:`GIMIParser.deferredParseSteps` after the edits that file its inputs
+Put it in :attr:`GIMIParser.commandEdits` after the edits that file its inputs
 (a :class:`GraphCollect` files its rows in the variable named after it). It changes no graph; it reads only variables,
 so anything a graph says is collected into one first
 
@@ -506,7 +506,7 @@ so anything a graph says is collected into one first
 
     resources = FRB.GraphCollect([FRB.IniKeywords.Filename], name = "Resources")
     files = FRB.GraphVarApply(["Resources"], lambda rows: len(rows or []), "ResourceCount")
-    parser.deferredParseSteps = [resources, files]
+    parser.commandEdits = [resources, files]
     parser.parseData().variables()["ResourceCount"]
 
 Parameters

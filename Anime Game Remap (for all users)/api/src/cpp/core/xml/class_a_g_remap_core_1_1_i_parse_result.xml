@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IParseResult.h" line="34" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IParseResult.h" line="33" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_parse_result_1a587ddbfe485d3565aff9a17f352af9d7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -49,15 +49,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IParseResult.h" line="41" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IParseResult.h" line="40" column="26"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-An edit with a result a parser keeps: after running an edit of :cpp:member:`GIMIParser::parseSteps` or
-:cpp:member:`GIMIParser::deferredParseSteps`, the parser hands its :cpp:class:`IniParseData` to the edit&apos;s
+An edit with a result a parser keeps: after running an edit of :cpp:member:`GIMIParser::commandEdits`, the parser hands its :cpp:class:`IniParseData` to the edit&apos;s
 #fileInto when the edit implements this :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 :cpp:class:`GraphCollect` files its rows this way
@@ -81,7 +80,7 @@ An edit with a result a parser keeps: after running an edit of :cpp:member:`GIMI
         <link refid="class_a_g_remap_core_1_1_i_parse_result"/>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/IParseResult.h" line="32" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IParseResult.h" bodystart="32" bodyend="42"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IParseResult.h" line="31" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IParseResult.h" bodystart="31" bodyend="41"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_i_parse_result_1a587ddbfe485d3565aff9a17f352af9d7" prot="public" virt="pure-virtual"><scope>AGRemapCore::IParseResult</scope><name>fileInto</name></member>
       <member refid="class_a_g_remap_core_1_1_i_parse_result_1ace3009fcb292407a9acc5153830ec147" prot="public" virt="virtual"><scope>AGRemapCore::IParseResult</scope><name>~IParseResult</name></member>

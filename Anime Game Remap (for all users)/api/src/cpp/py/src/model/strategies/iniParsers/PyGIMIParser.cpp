@@ -475,17 +475,15 @@ void PyIniParseContext::setCommandGraphs(py::object graphs) {
 
 PyGIMIParser::PyGIMIParser(py::object iniFile, py::object modObjs, py::object objTargetFuncs, py::object downloads,
                              py::object commandEdits, bool makeGlobalGraph, bool disjointModObjs, bool trackKeys,
-                             py::object keysToTrack, std::optional<int> modTypeId, py::object parseSteps,
-                             py::object deferredParseSteps):
-    Core(nullptr, {}, {}, {}, nullptr, makeGlobalGraph, disjointModObjs, trackKeys, std::nullopt, makeParserConfig()),
+                             py::object keysToTrack, std::optional<int> modTypeId, bool deferCommandEdits):
+    Core(nullptr, {}, {}, {}, {}, makeGlobalGraph, disjointModObjs, trackKeys, std::nullopt, makeParserConfig()),
     ctxImpl(iniFile, modTypeId),
     modObjsObj(modObjs.is_none() ? py::object(py::set()) : std::move(modObjs)),
     objTargetFuncsObj(objTargetFuncs.is_none() ? py::object(py::list()) : std::move(objTargetFuncs)),
     downloadsObj(downloads.is_none() ? py::object(py::dict()) : std::move(downloads)),
-    commandEditsObj(std::move(commandEdits)),
-    keysToTrackObj(std::move(keysToTrack)),
-    parseStepsObj(parseSteps.is_none() ? py::object(py::list()) : std::move(parseSteps)),
-    deferredParseStepsObj(deferredParseSteps.is_none() ? py::object(py::list()) : std::move(deferredParseSteps)) {
+    commandEditsObj(commandEdits.is_none() ? py::object(py::list()) : std::move(commandEdits)),
+    keysToTrackObj(std::move(keysToTrack)) {
+    this->deferCommandEdits = deferCommandEdits;
 
     // The context is a member, so it can only be handed to the core base after that base has
     // already been constructed -- hence nullptr above plus this.
@@ -557,16 +555,15 @@ void PyGIMIParser::refresh() {
 
 
 void PyGIMIParser::editCommands() {
-    PyIniGraphGroups::KeepScope keep(graphKeeper);
-    if (!commandEditsObj.is_none()) {
-        editGroupsFromPy(commandEditsObj);
+    // The core's runCommandEdits, with every edit going back through Python
+    if (!this->deferCommandEdits) {
+        PyIniGraphGroups::KeepScope keep(graphKeeper);
+        runStepsFromPy(commandEditsObj, this->parseData());
+        return;
     }
 
-    // The core's runParseSteps, with every edit going back through Python
-    runStepsFromPy(parseStepsObj, this->parseData());
-
     // Kept alive until the data is first asked for, by this parser, which owns the data
-    deferredStepsObj = deferredParseStepsObj.is_none() ? py::list() : py::list(deferredParseStepsObj);
+    deferredStepsObj = commandEditsObj.is_none() ? py::list() : py::list(commandEditsObj);
     if (py::len(deferredStepsObj) > 0) {
         this->parseData().defer([this](AGRC::IniParseData& data) {
             py::gil_scoped_acquire gil;
@@ -876,19 +873,8 @@ downloads: Optional[Dict[Tuple[:class:`str`, :class:`str`], Dict[:class:`str`, :
 
     **Default**: ``None``
 
-commandEdits: Optional[:class:`GraphGroupEdit`]
-    Any further edits to the parsed caller/callee graphs for ``TextureOverride`` related command
-    `sections`_ :raw-html:`<br />` :raw-html:`<br />`
-
-    **Default**: ``None``
-
-parseSteps: Optional[List[:class:`BaseIniGraphGroupEdit`]]
-    The edits that read the mod, in the order they run -- see :attr:`parseSteps` :raw-html:`<br />` :raw-html:`<br />`
-
-    **Default**: ``None``
-
-deferredParseSteps: Optional[List[:class:`BaseIniGraphGroupEdit`]]
-    More reading edits, run on the first ask of :attr:`parseData` -- see :attr:`deferredParseSteps`
+commandEdits: Optional[List[:class:`BaseIniGraphGroupEdit`]]
+    The parser's edits, run on the parsed command graphs in order -- see :attr:`commandEdits`. ``None`` for none
     :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
@@ -932,16 +918,15 @@ keysToTrack: Optional[Set[:class:`str`]]
 
     cls.def(py::init([](py::object iniFile, py::object modObjs, py::object objTargetFuncs, py::object downloads,
                          py::object commandEdits, bool makeGlobalGraph, bool disjointModObjs, bool trackKeys,
-                         py::object keysToTrack, std::optional<int> modTypeId, py::object parseSteps,
-                         py::object deferredParseSteps) {
+                         py::object keysToTrack, std::optional<int> modTypeId, bool deferCommandEdits) {
         return std::make_unique<PyGIMIParser>(std::move(iniFile), std::move(modObjs), std::move(objTargetFuncs),
                                                 std::move(downloads), std::move(commandEdits), makeGlobalGraph,
                                                 disjointModObjs, trackKeys, std::move(keysToTrack), modTypeId,
-                                                std::move(parseSteps), std::move(deferredParseSteps));
+                                                deferCommandEdits);
     }), py::arg("iniFile"), py::arg("modObjs") = py::none(), py::arg("objTargetFuncs") = py::none(),
         py::arg("downloads") = py::none(), py::arg("commandEdits") = py::none(), py::arg("makeGlobalGraph") = true,
         py::arg("disjointModObjs") = true, py::arg("trackKeys") = true, py::arg("keysToTrack") = py::none(),
-        py::arg("modTypeId") = py::none(), py::arg("parseSteps") = py::none(), py::arg("deferredParseSteps") = py::none())
+        py::arg("modTypeId") = py::none(), py::arg("deferCommandEdits") = false)
 
        // Trailing and defaulted, so no existing call site had to change. Readable because
        // PyGIMIFixer picks it up off its parser, exactly as it already picks up '_iniFile'.
@@ -1000,27 +985,22 @@ List[:class:`IniGraphGroup`]
        .def_readwrite("downloads", &PyGIMIParser::downloadsObj,
             py::doc(R"doc(Dict[Tuple[:class:`str`, :class:`str`], Dict[:class:`str`, :class:`DownloadData`]]: The files to download if the mod is missing some required files)doc"))
 
-       .def_readwrite("commandEdits", &PyGIMIParser::commandEditsObj,
-            py::doc(R"doc(Optional[:class:`GraphGroupEdit`]: Any further edits to the parsed caller/callee graphs for ``TextureOverride`` related command `sections`_)doc"))
+       .def_property("commandEdits", [](PyGIMIParser &self) {
+            return self.commandEditsObj;
+        }, [](PyGIMIParser &self, py::object edits) {
+            self.commandEditsObj = edits.is_none() ? py::object(py::list()) : std::move(edits);
+        }, py::doc(R"doc(List[:class:`BaseIniGraphGroupEdit`]: The parser's edits, run on the parsed command graphs in this order (``None`` sets an empty list) :raw-html:`<br />` :raw-html:`<br />`
 
-       .def_property("parseSteps", [](PyGIMIParser &self) {
-            return self.parseStepsObj;
-        }, [](PyGIMIParser &self, py::object steps) {
-            self.parseStepsObj = steps.is_none() ? py::object(py::list()) : std::move(steps);
-        }, py::doc(R"doc(List[:class:`BaseIniGraphGroupEdit`]: The edits that read the mod, in the order they run :raw-html:`<br />` :raw-html:`<br />`
+The one list of what a parser does after building its graphs: an edit may change the graphs, or only read them and
+keep what it found (:class:`GraphCollect` is the primitive). An edit that is an :class:`IParseResult` files its
+result in :attr:`parseData` right after it runs. When they run is :attr:`deferCommandEdits`)doc"))
 
-They run after :attr:`commandEdits`, at the end of :meth:`parse`, on the command graphs. A reading edit changes no
-graph and keeps what it found -- :class:`GraphCollect` is the primitive -- and an edit that is an
-:class:`IParseResult` files its result in :attr:`parseData` right after it runs)doc"))
+       .def_readwrite("deferCommandEdits", &PyGIMIParser::deferCommandEdits,
+            py::doc(R"doc(:class:`bool`: Whether :attr:`commandEdits` run on the first ask of :attr:`parseData` rather than during :meth:`parse` :raw-html:`<br />` :raw-html:`<br />`
 
-       .def_property("deferredParseSteps", [](PyGIMIParser &self) {
-            return self.deferredParseStepsObj;
-        }, [](PyGIMIParser &self, py::object steps) {
-            self.deferredParseStepsObj = steps.is_none() ? py::object(py::list()) : std::move(steps);
-        }, py::doc(R"doc(List[:class:`BaseIniGraphGroupEdit`]: More reading edits, run on the first ask of :attr:`parseData` rather than during the parse :raw-html:`<br />` :raw-html:`<br />`
-
-For reading that may open many files, when most parsed .ini files are never asked about. They run together, in
-order, after :attr:`parseSteps`, and each is filed as :attr:`parseSteps`' are)doc"))
+For edits that only READ and may open many files, when most parsed .ini files are never asked about. Deferred edits
+run after :meth:`parse` has returned its graphs, so an edit that changes them has no effect on that result.
+**Default**: ``False``)doc"))
 
        .def("rowSteps", [](PyGIMIParser &self, const PyGIMIParser::Core::RowSteps &rows) {
             // the core builds and owns the edits; each is handed out kept alive by this parser, for a step list
@@ -1031,7 +1011,7 @@ order, after :attr:`parseSteps`, and each is filed as :attr:`parseSteps`' are)do
                 steps.append(py::cast(step, py::return_value_policy::reference_internal, owner));
             }
             return steps;
-        }, py::arg("rows"), py::doc(R"doc(The standard row sets, as edits to put in :attr:`deferredParseSteps` (or :attr:`parseSteps`) -- see :class:`IniParseRows` :raw-html:`<br />` :raw-html:`<br />`
+        }, py::arg("rows"), py::doc(R"doc(The standard row sets, as edits to put in :attr:`commandEdits` -- see :class:`IniParseRows` :raw-html:`<br />` :raw-html:`<br />`
 
 In this order: a copy of the parser's global graph is put in the groups (:class:`GraphCreate`); a
 :class:`ResRegCollect` over the keys that ever name a resource builds a graph of the resource `sections`_ bound

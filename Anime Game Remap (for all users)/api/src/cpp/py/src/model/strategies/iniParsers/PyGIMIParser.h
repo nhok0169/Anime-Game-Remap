@@ -198,7 +198,7 @@ using PyGIMIParserCore = AGRC::GIMIParser<std::string, std::string, std::hash<st
  :raw-html:`<br />`
 
  .. note::
-    #editCommands is overridden to go back through `Python`_ (``self.commandEdits.editFromIni(...)``)
+    #editCommands is overridden to go back through `Python`_ (each edit's ``editFromIni(...)``)
     rather than using the core's own default. That is not just faithfulness: the core default has
     no `Python`_ ``IniFile``/``ModType`` to pass down (see
     :cpp:func:`AGRemapCore::GIMIParser::editCommands`'s own comment), and a ``GraphGroupEdit``
@@ -217,11 +217,12 @@ class PyGIMIParser: public PyGIMIParserCore {
          * @param modObjs The mod objects to parse, or ``None``
          * @param objTargetFuncs The custom classification functions, or ``None``
          * @param downloads The files to download, or ``None``
-         * @param commandEdits Further edits for the parsed command graphs, or ``None``
+         * @param commandEdits The edits run on the parsed command graphs, in order, or ``None`` for none
          * @param makeGlobalGraph Whether to make the graph for the entire .ini file
          * @param disjointModObjs Whether each `section`_ belongs to at most one mod object
          * @param trackKeys Whether to track the `KVPs`_ in the .ini file
          * @param keysToTrack Specific keys to track, or ``None`` for all of them
+         * @param deferCommandEdits Whether the edits run on the first ask of the parse data -- see :cpp:member:`AGRemapCore::GIMIParser::deferCommandEdits`
          * @param modTypeId
          @rst
          The id of the mod type this parser is being built for, or ``std::nullopt`` :raw-html:`<br />`
@@ -235,7 +236,7 @@ class PyGIMIParser: public PyGIMIParserCore {
         PyGIMIParser(py::object iniFile, py::object modObjs, py::object objTargetFuncs, py::object downloads,
                       py::object commandEdits, bool makeGlobalGraph, bool disjointModObjs, bool trackKeys,
                       py::object keysToTrack, std::optional<int> modTypeId = std::nullopt,
-                      py::object parseSteps = py::none(), py::object deferredParseSteps = py::none());
+                      bool deferCommandEdits = false);
 
         /**
          * @brief The .ini file being parsed, and the graphs built from it
@@ -258,7 +259,12 @@ class PyGIMIParser: public PyGIMIParserCore {
         py::object downloadsObj;
 
         /**
-         * @brief The exact Python object given for ``commandEdits``
+         * @brief
+         @rst
+         The exact Python object given for ``commandEdits`` (a list; ``None`` is taken as an empty one): the core's
+         :cpp:member:`AGRemapCore::GIMIParser::commandEdits`, run by #editCommands, each edit going back through
+         `Python`_
+         @endrst
          */
         py::object commandEditsObj;
 
@@ -266,21 +272,6 @@ class PyGIMIParser: public PyGIMIParserCore {
          * @brief The exact Python object given for ``keysToTrack``
          */
         py::object keysToTrackObj;
-
-        /**
-         * @brief
-         @rst
-         The exact Python object given for ``parseSteps``: the core's
-         :cpp:member:`AGRemapCore::GIMIParser::parseSteps`, run by #editCommands, each edit going back
-         through `Python`_ as #commandEditsObj does
-         @endrst
-         */
-        py::object parseStepsObj;
-
-        /**
-         * @brief The exact Python object given for ``deferredParseSteps`` -- the core's :cpp:member:`AGRemapCore::GIMIParser::deferredParseSteps`
-         */
-        py::object deferredParseStepsObj;
 
         /**
          * @brief The deferred edits of the last parse, kept alive until the parse data is filled
@@ -387,7 +378,7 @@ class PyGIMIParser: public PyGIMIParserCore {
         void editCommands() override;
 
         /**
-         * @brief Applies one `Python`_ ``GraphGroupEdit`` to the command graphs, as #editCommands does #commandEditsObj
+         * @brief Applies one `Python`_ edit to the command graphs, as #editCommands does each of #commandEditsObj
          */
         void editGroupsFromPy(const py::object& edit);
 

@@ -57,8 +57,7 @@ namespace AGRemapCore {
 
      :raw-html:`<br />`
 
-     The rows stay until the next \ref edit or \ref clear. Run as one of :cpp:member:`GIMIParser::parseSteps` (or
-     :cpp:member:`GIMIParser::deferredParseSteps`), a collect with a \ref name files its rows in the parser's
+     The rows stay until the next \ref edit or \ref clear. Run as one of :cpp:member:`GIMIParser::commandEdits`, a collect with a \ref name files its rows in the parser's
      :cpp:class:`IniParseData` (:cpp:func:`IniParseData::collected`) -- see :cpp:class:`IParseResult`
 
      .. warning::
@@ -235,7 +234,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              The name the rows are filed under in :cpp:class:`IniParseData` when this runs as one of
-             :cpp:member:`GIMIParser::parseSteps` -- empty files nothing. **Default**: empty
+             :cpp:member:`GIMIParser::commandEdits` -- empty files nothing. **Default**: empty
              @endrst
              */
             std::string name;

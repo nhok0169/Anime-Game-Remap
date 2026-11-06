@@ -9697,19 +9697,8 @@ class GIMIParser(BaseIniParser):
     
         **Default**: ``None``
     
-    commandEdits: Optional[:class:`GraphGroupEdit`]
-        Any further edits to the parsed caller/callee graphs for ``TextureOverride`` related command
-        `sections`_ :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``
-    
-    parseSteps: Optional[List[:class:`BaseIniGraphGroupEdit`]]
-        The edits that read the mod, in the order they run -- see :attr:`parseSteps` :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``
-    
-    deferredParseSteps: Optional[List[:class:`BaseIniGraphGroupEdit`]]
-        More reading edits, run on the first ask of :attr:`parseData` -- see :attr:`deferredParseSteps`
+    commandEdits: Optional[List[:class:`BaseIniGraphGroupEdit`]]
+        The parser's edits, run on the parsed command graphs in order -- see :attr:`commandEdits`. ``None`` for none
         :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``None``
@@ -9832,7 +9821,7 @@ class GIMIParser(BaseIniParser):
         list[tuple[:class:`str`, :class:`GraphCollect.Row`]]
             The overrides, in the order of the `sections`_
         """
-    def __init__(self, iniFile: typing.Any, modObjs: typing.Any = None, objTargetFuncs: typing.Any = None, downloads: typing.Any = None, commandEdits: typing.Any = None, makeGlobalGraph: bool = True, disjointModObjs: bool = True, trackKeys: bool = True, keysToTrack: typing.Any = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None, parseSteps: typing.Any = None, deferredParseSteps: typing.Any = None) -> None:
+    def __init__(self, iniFile: typing.Any, modObjs: typing.Any = None, objTargetFuncs: typing.Any = None, downloads: typing.Any = None, commandEdits: typing.Any = None, makeGlobalGraph: bool = True, disjointModObjs: bool = True, trackKeys: bool = True, keysToTrack: typing.Any = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None, deferCommandEdits: bool = False) -> None:
         ...
     def _getSectionTargets(self) -> None:
         """
@@ -9940,7 +9929,7 @@ class GIMIParser(BaseIniParser):
         """
     def rowSteps(self, rows: GIMIParser.RowSteps) -> list:
         """
-        The standard row sets, as edits to put in :attr:`deferredParseSteps` (or :attr:`parseSteps`) -- see :class:`IniParseRows` :raw-html:`<br />` :raw-html:`<br />`
+        The standard row sets, as edits to put in :attr:`commandEdits` -- see :class:`IniParseRows` :raw-html:`<br />` :raw-html:`<br />`
         
         In this order: a copy of the parser's global graph is put in the groups (:class:`GraphCreate`); a
         :class:`ResRegCollect` over the keys that ever name a resource builds a graph of the resource `sections`_ bound
@@ -9996,10 +9985,14 @@ class GIMIParser(BaseIniParser):
     @property
     def commandEdits(self) -> typing.Any:
         """
-        Optional[:class:`GraphGroupEdit`]: Any further edits to the parsed caller/callee graphs for ``TextureOverride`` related command `sections`_
+        List[:class:`BaseIniGraphGroupEdit`]: The parser's edits, run on the parsed command graphs in this order (``None`` sets an empty list) :raw-html:`<br />` :raw-html:`<br />`
+        
+        The one list of what a parser does after building its graphs: an edit may change the graphs, or only read them and
+        keep what it found (:class:`GraphCollect` is the primitive). An edit that is an :class:`IParseResult` files its
+        result in :attr:`parseData` right after it runs. When they run is :attr:`deferCommandEdits`
         """
     @commandEdits.setter
-    def commandEdits(self, arg0: typing.Any) -> None:
+    def commandEdits(self, arg1: typing.Any) -> None:
         ...
     @property
     def commandGraphs(self) -> typing.Any:
@@ -10020,15 +10013,16 @@ class GIMIParser(BaseIniParser):
         Set[:class:`str`]: The different components to parse
         """
     @property
-    def deferredParseSteps(self) -> typing.Any:
+    def deferCommandEdits(self) -> bool:
         """
-        List[:class:`BaseIniGraphGroupEdit`]: More reading edits, run on the first ask of :attr:`parseData` rather than during the parse :raw-html:`<br />` :raw-html:`<br />`
+        :class:`bool`: Whether :attr:`commandEdits` run on the first ask of :attr:`parseData` rather than during :meth:`parse` :raw-html:`<br />` :raw-html:`<br />`
         
-        For reading that may open many files, when most parsed .ini files are never asked about. They run together, in
-        order, after :attr:`parseSteps`, and each is filed as :attr:`parseSteps`' are
+        For edits that only READ and may open many files, when most parsed .ini files are never asked about. Deferred edits
+        run after :meth:`parse` has returned its graphs, so an edit that changes them has no effect on that result.
+        **Default**: ``False``
         """
-    @deferredParseSteps.setter
-    def deferredParseSteps(self, arg1: typing.Any) -> None:
+    @deferCommandEdits.setter
+    def deferCommandEdits(self, arg0: bool) -> None:
         ...
     @property
     def disjointModObjs(self) -> bool:
@@ -10103,18 +10097,6 @@ class GIMIParser(BaseIniParser):
         """
     @objTargetFuncs.setter
     def objTargetFuncs(self, arg0: typing.Any) -> None:
-        ...
-    @property
-    def parseSteps(self) -> typing.Any:
-        """
-        List[:class:`BaseIniGraphGroupEdit`]: The edits that read the mod, in the order they run :raw-html:`<br />` :raw-html:`<br />`
-        
-        They run after :attr:`commandEdits`, at the end of :meth:`parse`, on the command graphs. A reading edit changes no
-        graph and keeps what it found -- :class:`GraphCollect` is the primitive -- and an edit that is an
-        :class:`IParseResult` files its result in :attr:`parseData` right after it runs
-        """
-    @parseSteps.setter
-    def parseSteps(self, arg1: typing.Any) -> None:
         ...
     @property
     def tempKwargs(self) -> dict:
@@ -10601,8 +10583,7 @@ class GraphCollect(BaseIniGraphGroupEdit, IParseResult):
       the value carried in, and a value set on a sibling ``if`` branch is never carried
     * ``withConditions``: the condition of the ``if`` blocks the part sits in
     
-    The rows stay until the next :meth:`edit` or :meth:`clear`. Run as one of :attr:`GIMIParser.parseSteps` (or
-    :attr:`GIMIParser.deferredParseSteps`), a collect with a :attr:`name` files its rows in the parser's
+    The rows stay until the next :meth:`edit` or :meth:`clear`. Run as one of :attr:`GIMIParser.commandEdits`, a collect with a :attr:`name` files its rows in the parser's
     :attr:`BaseIniParser.parseData` (:meth:`IniParseData.collected`)
     
     .. warning::
@@ -10627,7 +10608,7 @@ class GraphCollect(BaseIniGraphGroupEdit, IParseResult):
     
     name: :class:`str`
         The name the rows are filed under in :class:`IniParseData` when this runs as one of
-        :attr:`GIMIParser.parseSteps` -- empty files nothing :raw-html:`<br />` :raw-html:`<br />`
+        :attr:`GIMIParser.commandEdits` -- empty files nothing :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``""``
     
@@ -12423,7 +12404,7 @@ class GraphVarApply(BaseIniGraphGroupEdit, IParseResult):
     :meth:`IniParseData.variables` are handed to :attr:`fn`, and what it returns replaces the variable :attr:`into` -- see
     :meth:`GraphEditVariables.apply`
     
-    Put it in :attr:`GIMIParser.parseSteps` or :attr:`GIMIParser.deferredParseSteps` after the edits that file its inputs
+    Put it in :attr:`GIMIParser.commandEdits` after the edits that file its inputs
     (a :class:`GraphCollect` files its rows in the variable named after it). It changes no graph; it reads only variables,
     so anything a graph says is collected into one first
     
@@ -12435,7 +12416,7 @@ class GraphVarApply(BaseIniGraphGroupEdit, IParseResult):
     
         resources = FRB.GraphCollect([FRB.IniKeywords.Filename], name = "Resources")
         files = FRB.GraphVarApply(["Resources"], lambda rows: len(rows or []), "ResourceCount")
-        parser.deferredParseSteps = [resources, files]
+        parser.commandEdits = [resources, files]
         parser.parseData().variables()["ResourceCount"]
     
     Parameters
@@ -13789,12 +13770,12 @@ class IniParseData:
         """
     def collected(self, name: str) -> list[GraphCollect.Row]:
         """
-        The rows of the :class:`GraphCollect` named 'name' among the parser's :attr:`GIMIParser.parseSteps`, in the order
+        The rows of the :class:`GraphCollect` named 'name' among the parser's :attr:`GIMIParser.commandEdits`, in the order
         it collected them. Empty for a name nothing filed
         
         .. warning::
             The rows describe the graphs as they were when the collect ran (see :class:`GraphCollect`). A collect among
-            :attr:`GIMIParser.deferredParseSteps` runs on the FIRST ask of this data, so that first ask has to come
+            deferred :attr:`GIMIParser.commandEdits` runs on the FIRST ask of this data, so that first ask has to come
             before any edit to the graphs it reads. Asked first after an edit, the rows are read from the edited graphs
         
         Parameters
@@ -14719,8 +14700,7 @@ class IOrderedMultiMap:
 class IParseResult:
     """
     
-    An edit with a result a parser keeps: after running an edit of :attr:`GIMIParser.parseSteps` or
-    :attr:`GIMIParser.deferredParseSteps`, the parser hands its :class:`IniParseData` to the edit's :meth:`fileInto`
+    An edit with a result a parser keeps: after running an edit of :attr:`GIMIParser.commandEdits`, the parser hands its :class:`IniParseData` to the edit's :meth:`fileInto`
     when the edit is one of these
     
     :class:`GraphCollect` files its rows this way

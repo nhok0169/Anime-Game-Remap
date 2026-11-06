@@ -29,7 +29,7 @@ namespace AGRemapCore {
      :cpp:func:`IniParseData::variables` are handed to #fn, and what it returns replaces the variable #into -- see
      :cpp:func:`GraphEditVariables::apply` :raw-html:`<br />` :raw-html:`<br />`
 
-     Put it in :cpp:member:`GIMIParser::parseSteps` or :cpp:member:`GIMIParser::deferredParseSteps` after the edits
+     Put it in :cpp:member:`GIMIParser::commandEdits` after the edits
      that file its inputs (a :cpp:class:`GraphCollect` files its rows in the variable named after it). It changes no
      graph; it reads only variables, so anything a graph says is collected into one first
      @endrst

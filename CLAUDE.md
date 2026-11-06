@@ -534,7 +534,9 @@ both at the maintainer's question of why it was restricted to sections and to th
 makes a variable from others (value in, value out, `into` replaced) and **`GraphVarApply`** runs it in a parser's step
 list -- it replaced the parser's `parseReaders`, which are gone (2026-11-06): WWMIParser's skeleton numbering, resource
 data (`IniParseData::ResourceData` in `ResourceDataVar`), role files (`RoleFileData` in `RoleFilesVar`) and draw splits
-are four `GraphVarApply` steps, and the getters read those variables, so a parser is ONE list of edits. See
+are four `GraphVarApply` steps, and the getters read those variables, so a parser is ONE list of edits --
+`GIMIParser::commandEdits` (with `deferCommandEdits` to run it on the first ask of the parse data), which replaced
+the old single `commandEdits` edit AND the `parseSteps` / `deferredParseSteps` lists the same day. See
 [Ini Graph Editing](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md)'s variables section.
 **THE PYTHON ACCEPTANCE TEST MIRRORS THE C++ (the maintainer, 2026-11-02; and 2026-11-04: it is a test OF THE REFACTOR,
 not kept after it -- so never make the Python shorter or cleverer than the C++, simplify the C++ and mirror it):** the explicit Python parser and fixer

@@ -22,8 +22,11 @@ game's config. Before proposing an edit, write down what it does to the graphs t
 (`IniParseRows`: every bound resource's file, every declaration, every key of every section, every key of chosen
 objects) as edits and RETURNS them -- until 2026-11-05 it was `addRowSteps` and appended them out of sight, which
 left a parser with no one list to read (the maintainer asked where "the list of edits" was). A parser writes its
-steps as ONE explicit list, `deferredParseSteps = [*rowSteps(rows), ...its own collects, ...its GraphVarApply
-steps]`; and `IniParseData::resourceDataOf` reads draws, draw parts (`GraphCollectRow::position`), late bindings,
+steps as ONE explicit list, `commandEdits = [*rowSteps(rows), ...its own collects, ...its GraphVarApply steps]`, with
+`deferCommandEdits = true` when they only read and may open many files (WWMI, ZZMI: they then run on the first ask
+of the parse data). **`commandEdits` IS the list (2026-11-06)**: it was one edit beside two step lists
+(`parseSteps`, `deferredParseSteps`), which the maintainer had asked to fold into one list and an agent left undone
+for a day; `rowSteps` is a factory of edits for that list, not a list of its own; and `IniParseData::resourceDataOf` reads draws, draw parts (`GraphCollectRow::position`), late bindings,
 libraries and hidden objects off those rows, with the game's choices in `IniParseData::ResourceDataRules`. WWMIParser is
 built on both; the GI parsers are next. Reach for these before writing a reader of your own.
 **Which file each object takes per texture role is `IniParseData::roleFilesOf` (2026-11-04; `roleFiles` until 2026-11-06)**, the same kind of reader

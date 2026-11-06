@@ -40,7 +40,7 @@ namespace AGRemapCore {
      * the parse context: an :cpp:class:`IniFileParseContext` over the ``.ini`` file, owned here and installed as the
        parser's context
      * owning what the parser is built from: its :cpp:class:`GIMISectionClassifier`\\ s (:cpp:func:`ownClassifier`)
-       and its steps (:cpp:func:`addParseStep`, :cpp:func:`addDeferredParseStep`, :cpp:func:`ownStep`), which
+       and its edits (:cpp:func:`addCommandEdit`, :cpp:func:`ownStep`), which
        :cpp:class:`GIMIParser` itself only borrows
 
      The steps worth sharing between parsers are edits of their own -- a :cpp:class:`GraphCollect`, the standard rows of
@@ -89,22 +89,13 @@ namespace AGRemapCore {
             GroupEdit& ownStep(std::unique_ptr<GroupEdit> step);
 
             /**
-             * @brief Owns 'step' and adds it to the end of :cpp:member:`GIMIParser::parseSteps`
+             * @brief Owns 'step' and adds it to the end of :cpp:member:`GIMIParser::commandEdits`
              *
              * @param step The step
              *
              * @return The step, now owned here
              */
-            GroupEdit& addParseStep(std::unique_ptr<GroupEdit> step);
-
-            /**
-             * @brief Owns 'step' and adds it to the end of :cpp:member:`GIMIParser::deferredParseSteps`
-             *
-             * @param step The step
-             *
-             * @return The step, now owned here
-             */
-            GroupEdit& addDeferredParseStep(std::unique_ptr<GroupEdit> step);
+            GroupEdit& addCommandEdit(std::unique_ptr<GroupEdit> step);
 
             /**
              * @brief The parse context over the .ini file being parsed

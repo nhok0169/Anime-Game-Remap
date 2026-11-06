@@ -1944,8 +1944,8 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a7c35bf4324ada87fee9ecbc35fc37113" kind="typedef"><name>GraphMapEntry</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa16ee63543137b037ff10380059ee72a" kind="variable"><name>objTargetFuncs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a25483cc4ddfb668103f3d46f70b233d1" kind="variable"><name>downloads</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac9b3276b01d26403f4b3dd54b10ccd66" kind="variable"><name>parseSteps</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2c3329560eb289b36bc8850bea9e1656" kind="variable"><name>deferredParseSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0fd5972e2aaea4546b553af51b636cd4" kind="variable"><name>commandEdits</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a5342780700a58b2fb12fcd5a34a179c9" kind="variable"><name>deferCommandEdits</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a9884e677c16b9e934cff106b86dbf93f" kind="variable"><name>makeGlobalGraph</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ad9484497843f074cde878b26feacdc62" kind="variable"><name>disjointModObjs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a8db822664e08465ba2cfeeef2f3db859" kind="variable"><name>trackKeys</name></member>
@@ -1955,7 +1955,6 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6ae5045af6e23cc00f9e6a9d044247eb" kind="variable"><name>ctx_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab2c830ccd80791c931b3088c439ab531" kind="variable"><name>modObjs_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a058f547d674c01eba2c7bc321549a6f6" kind="variable"><name>components_</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aae3684054250ebc13e0eef41d65b8956" kind="variable"><name>commandEdits_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a611b434e5482969173ed33123c0989a7" kind="variable"><name>downloadResourceGraphs_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6b0bb4502d852ef6b687d54eb28ce01" kind="variable"><name>sectionTargets_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af4d62b687383ffdaa732dc3660e568b5" kind="variable"><name>globalGraph_</name></member>
@@ -1972,7 +1971,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a19eaf48948e6c2f6e0d2e265d610eff8" kind="function"><name>defaultConfig</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab58845342b6264ddb068766b5205a509" kind="function"><name>classifyByTextureOverrideName</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a46c31c873379fc81e47939cb61d58be4" kind="function"><name>fileResult</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1acbfa91b5398204141ffdd3158b4e7470" kind="function"><name>GIMIParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aae35c787e6c24021a945cb9717ee3ff0" kind="function"><name>GIMIParser</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2f3f6ea6dbbf0d78cd6e4eac4eab835e" kind="function"><name>rowSteps</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0785ce8b232e98af49e87b00552310c6" kind="function"><name>resourceNamed</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a10cc2ae684b6aee36b4d4a9e61215b08" kind="function"><name>ctx</name></member>
@@ -1980,8 +1979,6 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a02aa67871bc35ecd5384d95cbbd7e0c4" kind="function"><name>modObjs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a41a9cb3da08d35ffa0371abf6e7cfb7f" kind="function"><name>setModObjs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a43a371e19b03ad649120b1b739134fa3" kind="function"><name>components</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4ec4004256f5da0bc804e1b7432d62da" kind="function"><name>commandEdits</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aefd6d651835376757bcd00272db60607" kind="function"><name>setCommandEdits</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a3e76fe2748e8e3170dbbd4025f69f1d3" kind="function"><name>commandGraphs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0b644ba7cf8f4d167cbae687cc8d5d1e" kind="function"><name>getCommandGraph</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1afc2f05b03d626573379fd8858e37cabe" kind="function"><name>downloadResourceGraphs</name></member>
@@ -2000,7 +1997,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6f94ad8c346904fecbbe75e926113c6a" kind="function"><name>addDownloads</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac8119931260c037232ded5a5b148335f" kind="function"><name>setupDownloads</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4d47b3d737fe7e557909cadc38853b70" kind="function"><name>editCommands</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa6a82f0acdd726ef7a88fad461a23409" kind="function"><name>runParseSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a41035517148c12da0d81f4624dd3bcab" kind="function"><name>runCommandEdits</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a62f1220d29023cf3b1411ad204282b9b" kind="function"><name>collectParseResult</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af93c15b04646ae2e057a3e907f47757f" kind="function"><name>parse</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aaa12974b1ee1eb41cbdfdb562352a3bf" kind="function"><name>getSectionTargets</name></member>
@@ -2077,8 +2074,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1ae5932df071fea74474a5b74488b2fa18" kind="function"><name>collectParseResult</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1ae776667cf96a60f5e22cad89b53a002d" kind="function"><name>ownClassifier</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1a93f8d58e7ebf7ab830a7867b567a1d47" kind="function"><name>ownStep</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1a680110c143a5e6263dcc0f38b884a2a6" kind="function"><name>addParseStep</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1aba675213e344efcb70ab4656c3212fb6" kind="function"><name>addDeferredParseStep</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_parser_1a763ceda5c0a5921ea818dc0178587bff" kind="function"><name>addCommandEdit</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a58c9f5a2b19d86b25158a40fefda6578" kind="function"><name>TemplateParser</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1aafd0c7ad2d07f52953ef48725eca4027" kind="function"><name>TemplateParser</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2f3f6ea6dbbf0d78cd6e4eac4eab835e" kind="function"><name>rowSteps</name></member>
@@ -2088,8 +2084,6 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a02aa67871bc35ecd5384d95cbbd7e0c4" kind="function"><name>modObjs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a41a9cb3da08d35ffa0371abf6e7cfb7f" kind="function"><name>setModObjs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a43a371e19b03ad649120b1b739134fa3" kind="function"><name>components</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4ec4004256f5da0bc804e1b7432d62da" kind="function"><name>commandEdits</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aefd6d651835376757bcd00272db60607" kind="function"><name>setCommandEdits</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a3e76fe2748e8e3170dbbd4025f69f1d3" kind="function"><name>commandGraphs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0b644ba7cf8f4d167cbae687cc8d5d1e" kind="function"><name>getCommandGraph</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1afc2f05b03d626573379fd8858e37cabe" kind="function"><name>downloadResourceGraphs</name></member>
@@ -2108,7 +2102,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6f94ad8c346904fecbbe75e926113c6a" kind="function"><name>addDownloads</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac8119931260c037232ded5a5b148335f" kind="function"><name>setupDownloads</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4d47b3d737fe7e557909cadc38853b70" kind="function"><name>editCommands</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa6a82f0acdd726ef7a88fad461a23409" kind="function"><name>runParseSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a41035517148c12da0d81f4624dd3bcab" kind="function"><name>runCommandEdits</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af93c15b04646ae2e057a3e907f47757f" kind="function"><name>parse</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aaa12974b1ee1eb41cbdfdb562352a3bf" kind="function"><name>getSectionTargets</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1a619695a457cce49704ea099390337f8f" kind="typedef"><name>GroupEdit</name></member>
@@ -2132,7 +2126,6 @@
     <member refid="class_a_g_remap_core_1_1_template_parser_1ad4c59de790a96195e567479f915d7489" kind="variable"><name>steps_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab2c830ccd80791c931b3088c439ab531" kind="variable"><name>modObjs_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a058f547d674c01eba2c7bc321549a6f6" kind="variable"><name>components_</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aae3684054250ebc13e0eef41d65b8956" kind="variable"><name>commandEdits_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a611b434e5482969173ed33123c0989a7" kind="variable"><name>downloadResourceGraphs_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6b0bb4502d852ef6b687d54eb28ce01" kind="variable"><name>sectionTargets_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af4d62b687383ffdaa732dc3660e568b5" kind="variable"><name>globalGraph_</name></member>
@@ -2149,8 +2142,8 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a7c35bf4324ada87fee9ecbc35fc37113" kind="typedef"><name>GraphMapEntry</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa16ee63543137b037ff10380059ee72a" kind="variable"><name>objTargetFuncs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a25483cc4ddfb668103f3d46f70b233d1" kind="variable"><name>downloads</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac9b3276b01d26403f4b3dd54b10ccd66" kind="variable"><name>parseSteps</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2c3329560eb289b36bc8850bea9e1656" kind="variable"><name>deferredParseSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0fd5972e2aaea4546b553af51b636cd4" kind="variable"><name>commandEdits</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a5342780700a58b2fb12fcd5a34a179c9" kind="variable"><name>deferCommandEdits</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a9884e677c16b9e934cff106b86dbf93f" kind="variable"><name>makeGlobalGraph</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ad9484497843f074cde878b26feacdc62" kind="variable"><name>disjointModObjs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a8db822664e08465ba2cfeeef2f3db859" kind="variable"><name>trackKeys</name></member>
@@ -7054,7 +7047,6 @@
     <member refid="class_a_g_remap_core_1_1_template_parser_1ad4c59de790a96195e567479f915d7489" kind="variable"><name>steps_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab2c830ccd80791c931b3088c439ab531" kind="variable"><name>modObjs_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a058f547d674c01eba2c7bc321549a6f6" kind="variable"><name>components_</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aae3684054250ebc13e0eef41d65b8956" kind="variable"><name>commandEdits_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a611b434e5482969173ed33123c0989a7" kind="variable"><name>downloadResourceGraphs_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6b0bb4502d852ef6b687d54eb28ce01" kind="variable"><name>sectionTargets_</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af4d62b687383ffdaa732dc3660e568b5" kind="variable"><name>globalGraph_</name></member>
@@ -7078,8 +7070,6 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a02aa67871bc35ecd5384d95cbbd7e0c4" kind="function"><name>modObjs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a41a9cb3da08d35ffa0371abf6e7cfb7f" kind="function"><name>setModObjs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a43a371e19b03ad649120b1b739134fa3" kind="function"><name>components</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4ec4004256f5da0bc804e1b7432d62da" kind="function"><name>commandEdits</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aefd6d651835376757bcd00272db60607" kind="function"><name>setCommandEdits</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a3e76fe2748e8e3170dbbd4025f69f1d3" kind="function"><name>commandGraphs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0b644ba7cf8f4d167cbae687cc8d5d1e" kind="function"><name>getCommandGraph</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1afc2f05b03d626573379fd8858e37cabe" kind="function"><name>downloadResourceGraphs</name></member>
@@ -7098,19 +7088,18 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6f94ad8c346904fecbbe75e926113c6a" kind="function"><name>addDownloads</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac8119931260c037232ded5a5b148335f" kind="function"><name>setupDownloads</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4d47b3d737fe7e557909cadc38853b70" kind="function"><name>editCommands</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa6a82f0acdd726ef7a88fad461a23409" kind="function"><name>runParseSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a41035517148c12da0d81f4624dd3bcab" kind="function"><name>runCommandEdits</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a62f1220d29023cf3b1411ad204282b9b" kind="function"><name>collectParseResult</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af93c15b04646ae2e057a3e907f47757f" kind="function"><name>parse</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aaa12974b1ee1eb41cbdfdb562352a3bf" kind="function"><name>getSectionTargets</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1ae776667cf96a60f5e22cad89b53a002d" kind="function"><name>ownClassifier</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1a93f8d58e7ebf7ab830a7867b567a1d47" kind="function"><name>ownStep</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1a680110c143a5e6263dcc0f38b884a2a6" kind="function"><name>addParseStep</name></member>
-    <member refid="class_a_g_remap_core_1_1_template_parser_1aba675213e344efcb70ab4656c3212fb6" kind="function"><name>addDeferredParseStep</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_parser_1a763ceda5c0a5921ea818dc0178587bff" kind="function"><name>addCommandEdit</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a7c35bf4324ada87fee9ecbc35fc37113" kind="typedef"><name>GraphMapEntry</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa16ee63543137b037ff10380059ee72a" kind="variable"><name>objTargetFuncs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a25483cc4ddfb668103f3d46f70b233d1" kind="variable"><name>downloads</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac9b3276b01d26403f4b3dd54b10ccd66" kind="variable"><name>parseSteps</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2c3329560eb289b36bc8850bea9e1656" kind="variable"><name>deferredParseSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0fd5972e2aaea4546b553af51b636cd4" kind="variable"><name>commandEdits</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a5342780700a58b2fb12fcd5a34a179c9" kind="variable"><name>deferCommandEdits</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a9884e677c16b9e934cff106b86dbf93f" kind="variable"><name>makeGlobalGraph</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ad9484497843f074cde878b26feacdc62" kind="variable"><name>disjointModObjs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a8db822664e08465ba2cfeeef2f3db859" kind="variable"><name>trackKeys</name></member>

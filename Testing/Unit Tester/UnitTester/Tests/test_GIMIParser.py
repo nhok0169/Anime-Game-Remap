@@ -32,13 +32,13 @@ class GIMIParserTest(BaseIniFileTest):
                                                                       "vb1": FRB.DownloadData("testTexture", FRB.FileDownload("someURL", "someBaseFile"))},
                                                    ("", "blend"): {"ps-t0": FRB.DownloadData("testDiffuse", FRB.FileDownload("unknownURL", "unknownBaseFile"), refToSection = True),
                                                                    "ps-t1": FRB.DownloadData("testLightMap", FRB.FileDownload("uniqueURL", "uniqueBaseFile"), refToSection = False)}},
-                                      commandEdits = FRB.GraphGroupEdit(edits = [{("", "blend"): [FRB.RegFillMissing("handling2", [("handling2", "skip"), ("drawindexed2", "auto")], fillMode = FRB.RegFillMissingMode.TopdownCover, dependOnDownload = True),
+                                      commandEdits = [FRB.GraphGroupEdit(edits = [{("", "blend"): [FRB.RegFillMissing("handling2", [("handling2", "skip"), ("drawindexed2", "auto")], fillMode = FRB.RegFillMissingMode.TopdownCover, dependOnDownload = True),
                                                                                                   FRB.RegFillMissing("ib", "null", dependOnDownload = True)],
                                                                                   ("", "body"): [FRB.RegFillMissing("ps-t999", "DigitOverflow")],
                                                                                   ("", "ib"): [FRB.RegFillMissing("ps-t2,147,483,647", "DigitUnderflow"), FRB.RegNewVals({"hash": "Matsuribayashi-hen"})]}],
                                                                         trackKeys = [{("", "ib"): True}],
                                                                         keysToTrack = [{("", "ib"): {"hash", "match_first_index"}}],
-                                                                        keyFilters = [{("", "ib"): self._getIbOnly}]))
+                                                                        keyFilters = [{("", "ib"): self._getIbOnly}])])
 
     def create(self):
         self.createIniFile()

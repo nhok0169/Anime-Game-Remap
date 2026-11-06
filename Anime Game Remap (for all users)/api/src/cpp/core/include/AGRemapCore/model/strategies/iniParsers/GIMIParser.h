@@ -171,7 +171,7 @@ namespace AGRemapCore {
             using DownloadData = IniParseDownloadData<K, V, KeyHash, KeyEqual>;
 
             /**
-             * @brief The kind of edit #commandEdits is
+             * @brief The kind of edit #commandEdits holds
              */
             using GroupEdit = BaseIniGraphGroupEdit<K, V, KeyHash, KeyEqual>;
 
@@ -331,7 +331,7 @@ namespace AGRemapCore {
              * @param modObjs The mod objects to parse, in the order they should be walked. **Default**: empty
              * @param objTargetFuncs How to find each mod object's root `sections`_ -- see #objTargetFuncs. **Default**: empty
              * @param downloads The files to download if the mod is missing some -- **borrowed**. **Default**: empty
-             * @param commandEdits Further edits to apply to the parsed command graphs -- **borrowed**, nullable. **Default**: ``nullptr``
+             * @param commandEdits The edits run on the parsed command graphs, in order -- see #commandEdits. **Default**: empty
              * @param makeGlobalGraph Whether to build a graph over the entire .ini file. **Default**: ``true``
              * @param disjointModObjs Whether each `section`_ belongs to at most one mod object. **Default**: ``true``
              * @param trackKeys Whether to track the `KVPs`_ in the .ini file. **Default**: ``true``
@@ -339,7 +339,7 @@ namespace AGRemapCore {
              * @param config The .ini-domain customization points to use. **Default**: #defaultConfig
              */
             explicit GIMIParser(Context* ctx, std::vector<ModObj> modObjs = {}, std::vector<ObjTargetFunc> objTargetFuncs = {},
-                                 Downloads downloads = {}, GroupEdit* commandEdits = nullptr,
+                                 Downloads downloads = {}, std::vector<GroupEdit*> commandEdits = {},
                                  bool makeGlobalGraph = true, bool disjointModObjs = true,
                                  bool trackKeys = true,
                                  std::optional<std::unordered_set<K, KeyHash, KeyEqual>> keysToTrack = std::nullopt,
@@ -366,29 +366,29 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The edits that read the mod, in the order they run -- **borrowed**, not owned :raw-html:`<br />`
-             :raw-html:`<br />`
+             The parser's edits, run on the parsed command graphs in this order -- **borrowed**, not owned
+             :raw-html:`<br />` :raw-html:`<br />`
 
-             They run in #editCommands, after #commandEdits, on the command graphs. A reading edit changes no
-             graph and keeps what it found -- :cpp:class:`GraphCollect` is the primitive -- and an edit that
-             implements :cpp:class:`IParseResult` files its result in :cpp:func:`BaseIniParser::parseData` right
-             after it runs. Each is handed this parser's ``.ini`` file (:cpp:func:`BaseIniParser::getIniFile`),
-             which an edit that builds resources, such as :cpp:class:`ResRegCollect`, needs: a parser bound to no
-             ``.ini`` file collects without building
+             The one list of what a parser does after building its graphs: an edit may change the graphs, or only
+             read them and keep what it found (:cpp:class:`GraphCollect` is the primitive). An edit that implements
+             :cpp:class:`IParseResult` files its result in :cpp:func:`BaseIniParser::parseData` right after it runs.
+             Each is handed this parser's ``.ini`` file (:cpp:func:`BaseIniParser::getIniFile`), which an edit that
+             builds resources, such as :cpp:class:`ResRegCollect`, needs: a parser bound to no ``.ini`` file
+             collects without building. When they run is #deferCommandEdits
              @endrst
              */
-            std::vector<GroupEdit*> parseSteps;
+            std::vector<GroupEdit*> commandEdits;
 
             /**
              * @brief
              @rst
-             More reading edits, run on the first ask of :cpp:func:`BaseIniParser::parseData` rather than during
-             the parse (see :cpp:func:`IniParseData::defer`) -- for reading that may open many files, when most
-             parsed ``.ini`` files are never asked about. They run together, in order, after #parseSteps, and
-             each is filed as #parseSteps' are -- **borrowed**, not owned
+             Whether #commandEdits run on the first ask of :cpp:func:`BaseIniParser::parseData` (see
+             :cpp:func:`IniParseData::defer`) rather than during #parse -- for edits that only READ and may open many
+             files, when most parsed ``.ini`` files are never asked about. Deferred edits run after #parse has
+             returned its graphs, so an edit that changes them has no effect on that result. **Default**: ``false``
              @endrst
              */
-            std::vector<GroupEdit*> deferredParseSteps;
+            bool deferCommandEdits = false;
 
             /**
              * @brief Which of the standard row sets #rowSteps builds -- see :cpp:struct:`IniParseRows`
@@ -418,7 +418,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The standard row sets, as edits to put in #deferredParseSteps (or #parseSteps), in this order: a copy of the parser's
+             The standard row sets, as edits to put in #commandEdits, in this order: a copy of the parser's
              global graph is put in the groups (:cpp:class:`GraphCreate`); a :cpp:class:`ResRegCollect` over the
              keys that ever name a resource builds a graph of the resource `sections`_ bound anywhere
              (:cpp:class:`ResIdentity`: nothing renamed, no models) and a :cpp:class:`GraphCollect` reads their
@@ -523,19 +523,6 @@ namespace AGRemapCore {
              * @brief The distinct components of #modObjs, in first-seen order
              */
             const std::vector<std::string>& components() const;
-
-            /**
-             * @brief
-             @rst
-             Further edits to apply to the parsed command graphs -- borrowed, ``nullptr`` for none
-             @endrst
-             */
-            GroupEdit* commandEdits() const;
-
-            /**
-             * @copydoc commandEdits() const
-             */
-            void setCommandEdits(GroupEdit* newCommandEdits);
 
             /**
              * @brief
@@ -709,8 +696,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Applies #commandEdits to the command graphs, then runs #parseSteps and defers
-             #deferredParseSteps. No-op when there are none
+             Runs #commandEdits on the command graphs (#runCommandEdits). No-op when there are none
              @endrst
              */
             virtual void editCommands();
@@ -718,17 +704,17 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Runs #parseSteps on the context's graph groups, filing each result, and hands
-             #deferredParseSteps to :cpp:func:`IniParseData::defer` to run the same way
+             Runs #commandEdits on the context's graph groups, filing each result -- or, with #deferCommandEdits,
+             hands them to :cpp:func:`IniParseData::defer` to run the same way
              @endrst
              */
-            void runParseSteps();
+            void runCommandEdits();
 
             /**
              * @brief
              @rst
              Files the result of 'edit' in 'data' when it implements :cpp:class:`IParseResult` -- what
-             #runParseSteps does after each edit
+             #runCommandEdits does after each edit
              @endrst
              *
              * @param edit An edit that has just run
@@ -804,7 +790,6 @@ namespace AGRemapCore {
             Context* ctx_;
             std::vector<ModObj> modObjs_;
             std::vector<std::string> components_;
-            GroupEdit* commandEdits_;
             ResourceGraphs downloadResourceGraphs_;
             tsl::ordered_map<ModObj, std::vector<std::string>, ModObjHash> sectionTargets_;
             Graph* globalGraph_;

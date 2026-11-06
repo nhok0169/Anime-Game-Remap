@@ -22,8 +22,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     An edit with a result a parser keeps: after running an edit of :cpp:member:`GIMIParser::parseSteps` or
-     :cpp:member:`GIMIParser::deferredParseSteps`, the parser hands its :cpp:class:`IniParseData` to the edit's
+     An edit with a result a parser keeps: after running an edit of :cpp:member:`GIMIParser::commandEdits`, the parser hands its :cpp:class:`IniParseData` to the edit's
      #fileInto when the edit implements this :raw-html:`<br />` :raw-html:`<br />`
 
      :cpp:class:`GraphCollect` files its rows this way

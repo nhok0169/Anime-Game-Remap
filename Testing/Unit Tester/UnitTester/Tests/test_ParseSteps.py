@@ -11,8 +11,8 @@ import src.py.FixRaidenBoss2 as FRB
 
 
 class ParseStepsTest(BaseIniFileTest):
-    """GIMIParser.parseSteps and deferredParseSteps: reading edits, run at the end of the parse or on the first ask
-    of the parse data, each filed through IParseResult"""
+    """GIMIParser.commandEdits: the parser's one list of edits, run at the end of the parse or, with
+    deferCommandEdits, on the first ask of the parse data, each filed through IParseResult"""
 
     _stepsIniTxt = r"""
 [TextureOverrideBody]
@@ -32,11 +32,11 @@ filename = Textures\BodyLM.dds
     Body = ("", "body")
     BodyGraph = (0, "", "body")
 
-    def parseWith(self, parseSteps = None, deferredParseSteps = None):
+    def parseWith(self, commandEdits = None, defer = False):
         self.setupIniTxt(self._stepsIniTxt)
         self.createIniFile()
         self._parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([self.Body]), trackKeys = False,
-                                      parseSteps = parseSteps, deferredParseSteps = deferredParseSteps)
+                                      commandEdits = commandEdits, deferCommandEdits = defer)
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
         return self._parser
@@ -51,42 +51,43 @@ filename = Textures\BodyLM.dds
     def values(cls, rows):
         return [row.value for row in rows]
 
-    # ====================== the lists ==========================================
+    # ====================== the list ==========================================
 
-    def test_bothLists_defaultToEmpty(self):
+    def test_commandEdits_defaultToEmpty_andNotDeferred(self):
         self.setupIniTxt(self._stepsIniTxt)
         self.createIniFile()
         parser = FRB.GIMIParser(self._iniFile)
-        self.assertFalse(parser.parseSteps)
-        self.assertFalse(parser.deferredParseSteps)
+        self.assertEqual(parser.commandEdits, [])
+        self.assertFalse(parser.deferCommandEdits)
 
-    def test_bothLists_areTheCallersOwnLists(self):
-        steps, deferred = [self.registers()], [self.registers("later")]
+    def test_commandEdits_isTheCallersOwnList_andNoneSetsEmpty(self):
+        edits = [self.registers()]
         self.setupIniTxt(self._stepsIniTxt)
         self.createIniFile()
-        parser = FRB.GIMIParser(self._iniFile, parseSteps = steps, deferredParseSteps = deferred)
-        self.assertIs(parser.parseSteps, steps)
-        self.assertIs(parser.deferredParseSteps, deferred)
+        parser = FRB.GIMIParser(self._iniFile, commandEdits = edits)
+        self.assertIs(parser.commandEdits, edits)
+        parser.commandEdits = None
+        self.assertEqual(parser.commandEdits, [])
 
-    def test_parseSteps_aCollectIsFiled(self):
+    def test_commandEdits_aCollectIsFiled(self):
         parser = self.parseWith([self.registers()])
         self.assertEqual(self.values(parser.parseData.collected("regs")), ["ResourceBodyDiffuse", "ResourceBodyLightMap"])
 
-    def test_parseSteps_runInOrder_aCollectBeforeAnEditReadsTheUneditedGraphs(self):
+    def test_commandEdits_runInOrder_aCollectBeforeAnEditReadsTheUneditedGraphs(self):
         parser = self.parseWith([self.registers(), self.removeLightMap()])
         self.assertEqual(self.values(parser.parseData.collected("regs")), ["ResourceBodyDiffuse", "ResourceBodyLightMap"])
 
-    def test_parseSteps_aCollectAfterAnEditReadsTheEditedGraphs(self):
+    def test_commandEdits_aCollectAfterAnEditReadsTheEditedGraphs(self):
         parser = self.parseWith([self.removeLightMap(), self.registers()])
         self.assertEqual(self.values(parser.parseData.collected("regs")), ["ResourceBodyDiffuse"])
 
-    def test_deferredParseSteps_runAfterTheParseSteps(self):
-        parser = self.parseWith([self.removeLightMap()], [self.registers()])
+    def test_commandEdits_deferred_runInOrderToo(self):
+        parser = self.parseWith([self.removeLightMap(), self.registers()], defer = True)
         self.assertEqual(self.values(parser.parseData.collected("regs")), ["ResourceBodyDiffuse"])
 
-    def test_deferredParseSteps_runOnTheFirstAsk(self):
+    def test_commandEdits_deferred_runOnTheFirstAsk(self):
         collect = self.registers()
-        parser = self.parseWith(deferredParseSteps = [collect])
+        parser = self.parseWith([collect], defer = True)
         self.assertEqual(collect.rows, [])
 
         self.assertEqual(len(parser.parseData.collected("regs")), 2)
@@ -124,7 +125,8 @@ filename = Textures\Unbound.dds
         rows.objs = lambda obj: obj == self.Body
         for name, value in fields.items():
             setattr(rows, name, value)
-        self._parser.deferredParseSteps = self._parser.rowSteps(rows)
+        self._parser.deferCommandEdits = True
+        self._parser.commandEdits = self._parser.rowSteps(rows)
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
         return self._parser.parseData
@@ -137,14 +139,14 @@ filename = Textures\Unbound.dds
         # the global graph, the resource collect, files, declarations, sections, the removal and the objects
         self.assertEqual(len(steps), 7)
         self.assertTrue(all(isinstance(step, FRB.BaseIniGraphGroupEdit) for step in steps))
-        self.assertFalse(parser.deferredParseSteps)
-        self.assertFalse(parser.parseSteps)
+        self.assertEqual(parser.commandEdits, [])
 
     def parseRowsThen(self, *after):
         self.setupIniTxt(self._rowsIniTxt)
         self.createIniFile()
         self._parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([self.Body]), trackKeys = False)
-        self._parser.deferredParseSteps = [*self._parser.rowSteps(FRB.GIMIParser.RowSteps()), *after]
+        self._parser.deferCommandEdits = True
+        self._parser.commandEdits = [*self._parser.rowSteps(FRB.GIMIParser.RowSteps()), *after]
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
         return self._parser.parseData
@@ -459,7 +461,8 @@ drawindexed = 300, 0, 0
                                       keysToTrack = {FRB.IniKeywords.Hash, FRB.IniKeywords.MatchFirstIndex})
         steps = FRB.GIMIParser.RowSteps()
         steps.objs = lambda obj: obj == self.Body
-        self._parser.deferredParseSteps = [*self._parser.rowSteps(steps), overrides, roleRows]
+        self._parser.deferCommandEdits = True
+        self._parser.commandEdits = [*self._parser.rowSteps(steps), overrides, roleRows]
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
 
@@ -541,7 +544,8 @@ filename = G.dds
                                        name = "test.carried", withConditions = True)
             steps = FRB.GIMIParser.RowSteps()
             steps.objs = lambda obj: obj == self.Body
-            parser.deferredParseSteps = [*parser.rowSteps(steps), roles, carried]
+            parser.deferCommandEdits = True
+            parser.commandEdits = [*parser.rowSteps(steps), roles, carried]
             parser.parse()
             # the files its resources name, as the resource data an only-this-file parse reads them
             resources = FRB.IniParseData.ResourceData()

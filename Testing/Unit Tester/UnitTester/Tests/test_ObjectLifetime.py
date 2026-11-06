@@ -147,7 +147,7 @@ drawindexed = 300, 0, 0
 
         self.setupIniTxt(self._iniTxt)
         self.createIniFile()
-        parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([self.Body]), trackKeys = False, parseSteps = steps)
+        parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([self.Body]), trackKeys = False, commandEdits = steps)
         self.useStrategies(parser = parser)
         self._iniFile.parse()
 

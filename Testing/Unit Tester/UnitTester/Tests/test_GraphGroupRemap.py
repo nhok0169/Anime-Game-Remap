@@ -23,8 +23,8 @@ class GraphGroupRemapTest(BaseIniFileTest):
                                                                       "vb1": FRB.DownloadData("testTexture", FRB.FileDownload("someURL", "someBaseFile"))},
                                                    ("", "blend"): {"ps-t0": FRB.DownloadData("testDiffuse", FRB.FileDownload("unknownURL", "unknownBaseFile"), refToSection = True),
                                                                    "ps-t1": FRB.DownloadData("testLightMap", FRB.FileDownload("uniqueURL", "uniqueBaseFile"), refToSection = False)}},
-                                      commandEdits = FRB.GraphGroupEdit(edits = [{("", "blend"): [FRB.RegFillMissing("handling2", [("handling2", "skip"), ("drawindexed2", "auto")], fillMode = FRB.RegFillMissingMode.TopdownCover, dependOnDownload = True),
-                                                                                                  FRB.RegFillMissing("ib", "null", dependOnDownload = True)]}]))
+                                      commandEdits = [FRB.GraphGroupEdit(edits = [{("", "blend"): [FRB.RegFillMissing("handling2", [("handling2", "skip"), ("drawindexed2", "auto")], fillMode = FRB.RegFillMissingMode.TopdownCover, dependOnDownload = True),
+                                                                                                  FRB.RegFillMissing("ib", "null", dependOnDownload = True)]}])])
         
     def createFixer(self):
         self._fixer = FRB.GIMIFixer(self._parser,

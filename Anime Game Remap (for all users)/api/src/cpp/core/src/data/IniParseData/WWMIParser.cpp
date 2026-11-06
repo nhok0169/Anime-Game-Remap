@@ -389,18 +389,19 @@ namespace AGRemapCore {
                     }
 
                     // THE STEPS: the edits that read the mod, then the variables made from their rows
-                    this->deferredParseSteps = this->rowSteps(rows);
+                    this->deferCommandEdits = true;
+                    this->commandEdits = this->rowSteps(rows);
                     for (GroupEdit* step : {&this->ownStep(std::move(overrides)), &this->ownStep(std::move(roles)),
                                             &this->ownStep(std::move(toggles)), &this->ownStep(std::move(carried))}) {
-                        this->deferredParseSteps.push_back(step);
+                        this->commandEdits.push_back(step);
                     }
                     if (!onlyThisFile_) {
-                        this->deferredParseSteps.push_back(&this->ownStep(std::move(skeleton)));
+                        this->commandEdits.push_back(&this->ownStep(std::move(skeleton)));
                     }
-                    this->deferredParseSteps.push_back(&this->ownStep(std::move(resources)));
+                    this->commandEdits.push_back(&this->ownStep(std::move(resources)));
                     if (!onlyThisFile_) {
-                        this->deferredParseSteps.push_back(&this->ownStep(std::move(roleFiles)));
-                        this->deferredParseSteps.push_back(&this->ownStep(std::move(splits)));
+                        this->commandEdits.push_back(&this->ownStep(std::move(roleFiles)));
+                        this->commandEdits.push_back(&this->ownStep(std::move(splits)));
                     }
                 }
 

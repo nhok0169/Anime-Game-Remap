@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="184" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="184" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="185" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="185" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a7c6e533786c8a09a83ee568dde49e54e" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="189" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="189" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="190" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="190" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1adc53f70db354e1838ba002fa0d1618b9" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="194" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="194" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="195" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="195" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ab61a2c3177dd8ee7c18526421062e0c3" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="199" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="199" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="200" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="200" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ab602fe0db638c8d7a98f46dafc27b426" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="199" column="41" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="199" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="200" column="41" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="200" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a57ab239346c3c5987354a3c165a0b927" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -91,7 +91,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="204" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="204" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="205" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="205" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ae1837ebfdd8e2b72c16554bb3607b6b8" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -105,7 +105,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="204" column="38" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="204" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="205" column="38" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="205" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a01373cd283828a706b8d833c2a25e166" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="209" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="209" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="210" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="210" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a679634e22841ce3ffce009b86f21756f" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -135,7 +135,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="215" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="215" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="216" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="216" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a8d3a3d6d8716404179ad1e044925bf91" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -150,7 +150,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="221" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="221" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="222" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="222" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a8e6140f513e903ac6a027f8b69d13761" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -165,7 +165,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="226" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="226" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="227" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="227" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1aa5499cb3b4b6d8bb055131f166230736" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
@@ -180,7 +180,23 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="231" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="231" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="232" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ad68228d7ea957441c204951c8f10f866" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::WWMISections::Hide::mergeOnly</definition>
+        <argsstring></argsstring>
+        <name>mergeOnly</name>
+        <qualifiedname>AGRemapCore::WWMISections::Hide::mergeOnly</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Only merge the slot&apos;s window (<ref refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a8d3a3d6d8716404179ad1e044925bf91" kindref="member">mergeWindowList</ref>), for a file whose skeleton needs the bones of a slot another file draws: no <computeroutput>$object_detected</computeroutput> and no skip. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="238" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="238" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -188,12 +204,13 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="180" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="180" bodyend="232"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="181" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="181" bodyend="239"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a7c6e533786c8a09a83ee568dde49e54e" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>comment</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ab602fe0db638c8d7a98f46dafc27b426" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>indexCount</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ab61a2c3177dd8ee7c18526421062e0c3" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>indexOffset</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a679634e22841ce3ffce009b86f21756f" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>legacyMergeList</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ad68228d7ea957441c204951c8f10f866" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>mergeOnly</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a8e6140f513e903ac6a027f8b69d13761" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>mergeSkeletonList</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a8d3a3d6d8716404179ad1e044925bf91" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>mergeWindowList</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ace091a06702da6b6d9f0a98aa498e046" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::Hide</scope><name>name</name></member>

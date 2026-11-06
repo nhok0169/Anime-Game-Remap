@@ -1359,8 +1359,8 @@ def makeFixer(parser, toModName, modTypeId):
     drawAt = lambda component, drawRange: shaderDraws(component).index(drawRange)
     shaderSection = lambda component, drawRange, kind = FRB.IniKeywords.CommandList, suffix = "": rename(
         kind + rerouteShaders[component].name + str(component) + "Draw" + str(drawAt(component, drawRange)) + suffix)
-    markSection = lambda component, drawRange, kind = FRB.IniKeywords.CommandList: rename(
-        kind + "Mark" + str(component) + "Draw" + str(drawAt(component, drawRange)))
+    markSection = lambda component, drawRange, kind = FRB.IniKeywords.CommandList, suffix = "": rename(
+        kind + "Mark" + str(component) + "Draw" + str(drawAt(component, drawRange)) + suffix)
     drawValue = lambda drawRange: str(drawRange[0]) + ", " + str(drawRange[1]) + ", 0"
     shaderFile = lambda shader, p = None: modFile(toModName + FRB.IniKeywords.Remap + shader.name
                                                   + ("Pass" + str(p) if p is not None else "") + ".hlsl")
@@ -1494,14 +1494,15 @@ def makeFixer(parser, toModName, modTypeId):
     if afterConstants:
         fixSections.sections("fixSections").add(FRB.SectionText(z3, FRB.IniKeywords.Constants).keys(afterConstants).build())
 
+    # a mark is a shader draw with no fallback: the mod's own draw of the range is kept, the mark drawn after it
     for component, lines in sorted(markLines.items()):
         for drawRange in shaderDraws(component):
-            custom = markSection(component, drawRange, "CustomShader")
-            fixSections.sections("fixSections").add(
-                FRB.SectionText(z3, markSection(component, drawRange)).open(passCondition(SLOT_PASSES[PLAN[component]]))
-                .keys(shaderBackups.wrap([(FRB.IniKeywords.Run, custom)], lines)).close().build())
-            fixSections.sections("fixSections").add(
-                FRB.SectionText(z3, custom).keys([("ps", "null")] + lines + [(FRB.IniKeywords.DrawIndexed, drawValue(drawRange))]).build())
+            mark = FRB.WWMISections.ShaderDraw()
+            mark.name = lambda kind, suffix, component = component, drawRange = drawRange: markSection(component, drawRange, kind, suffix)
+            mark.draw, mark.onPlan = drawValue(drawRange), passCondition(SLOT_PASSES[PLAN[component]])
+            mark.passes, mark.assigned = [[("ps", "null")] + lines], lines
+            for section in FRB.WWMISections.shaderDrawSections(z3, mark, shaderBackups):
+                fixSections.sections("fixSections").add(section)
             hasShaders = True
     for reg in shaderBackups.registers():
         fixSections.sections("fixSections").add(shaderBackups.section(reg))
@@ -1525,15 +1526,13 @@ def makeFixer(parser, toModName, modTypeId):
             for slot, (first, count, vgOffset, vgCount) in enumerate(targetSlots):
                 if slot in own or slot not in drawnSlots:
                     continue
-                merge = FRB.SectionText(z3, FRB.IniKeywords.TextureOverride + toModName + "Component" + str(slot)
-                                        + FRB.IniKeywords.Remap + "Merge")
-                merge.prefix("; another file draws this slot: only its bones are merged into this file's skeleton") \
-                    .keys([(FRB.IniKeywords.Hash, targetVb0), (FRB.IniKeywords.MatchFirstIndex, first),
-                           (FRB.IniKeywords.MatchIndexCount, count)])
-                merge.open(FRB.IniKeywords.WWMIModEnabled).keys([(FRB.IniKeywords.WWMIVgOffset, vgOffset),
-                                                                 (FRB.IniKeywords.WWMIVgCount, vgCount),
-                                                                 (FRB.IniKeywords.Run, rename("CommandListMergeWindow"))]).close()
-                copyMerges.setdefault(g, []).append(merge.build())
+                merge = FRB.WWMISections.Hide()
+                merge.name = FRB.IniKeywords.TextureOverride + toModName + "Component" + str(slot) + FRB.IniKeywords.Remap + "Merge"
+                merge.comment = "; another file draws this slot: only its bones are merged into this file's skeleton"
+                merge.vb0Hash, merge.indexOffset, merge.indexCount = targetVb0, first, count
+                merge.vgOffset, merge.vgCount = vgOffset, vgCount
+                merge.mergeWindowList, merge.mergeOnly = rename("CommandListMergeWindow"), True
+                copyMerges.setdefault(g, []).append(FRB.WWMISections.hideSection(z3, merge))
 
     # the shaders' files, collected off the fix's sections in every group: `ps-cbN = Resource...` makes a buffer,
     # `ps = <file>.hlsl` names the shader's source (WWMIFixer::shaderFileEdits)

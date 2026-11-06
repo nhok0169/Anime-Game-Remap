@@ -230,6 +230,12 @@ namespace AGRemapCore {
                  * @brief Lines that capture the game's own bindings on the slot, run while a pixel shader is bound
                  */
                 std::vector<std::pair<std::string, std::string>> stashed;
+
+                /**
+                 * @brief Only merge the slot's window (#mergeWindowList), for a file whose skeleton needs the bones of a slot
+                 * another file draws: no `$object_detected` and no skip
+                 */
+                bool mergeOnly = false;
             };
 
             /**
@@ -324,7 +330,8 @@ namespace AGRemapCore {
                 std::string onlyWith;
 
                 /**
-                 * @brief The line that draws the range everywhere the shader does not
+                 * @brief The line that draws the range everywhere the shader does not, or an empty key to draw nothing there
+                 * (a draw made after the mod's own, which still draws the range)
                  */
                 std::pair<std::string, std::string> fallback;
 

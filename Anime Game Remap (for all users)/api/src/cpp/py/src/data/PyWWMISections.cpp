@@ -91,7 +91,10 @@ Each builder fills a fixed template with the values it is given. Every name goes
         .def_readwrite("mergeSkeletonList", &Sections::Hide::mergeSkeletonList,
                        ":class:`str`: The list run once a frame without :attr:`mergeWindowList`")
         .def_readwrite("stashed", &Sections::Hide::stashed,
-                       "List[Tuple[:class:`str`, :class:`str`]]: Lines that capture the game's own bindings on the slot, run while a pixel shader is bound");
+                       "List[Tuple[:class:`str`, :class:`str`]]: Lines that capture the game's own bindings on the slot, run while a pixel shader is bound")
+        .def_readwrite("mergeOnly", &Sections::Hide::mergeOnly,
+                       ":class:`bool`: Only merge the slot's window (:attr:`mergeWindowList`), for a file whose skeleton needs the bones "
+                       "of a slot another file draws: no ``$object_detected`` and no skip");
 
     py::class_<Sections::ShaderDraw>(cls, "ShaderDraw", "What :meth:`WWMISections.shaderDrawSections` writes")
         .def(py::init<>())
@@ -105,7 +108,8 @@ Each builder fills a fixed template with the values it is given. Every name goes
                        ":class:`str`: A resource the pass must bind for the shader to draw (``o3``), or empty to draw on every pass of "
                        ":attr:`onPlan`")
         .def_readwrite("fallback", &Sections::ShaderDraw::fallback,
-                       "Tuple[:class:`str`, :class:`str`]: The line that draws the range everywhere the shader does not")
+                       "Tuple[:class:`str`, :class:`str`]: The line that draws the range everywhere the shader does not, or an empty "
+                       "key to draw nothing there (a draw made after the mod's own, which still draws the range)")
         .def_readwrite("passes", &Sections::ShaderDraw::passes,
                        "List[List[Tuple[:class:`str`, :class:`str`]]]: Each pass's ``CustomShader`` lines, before its ``drawindexed``: "
                        "the first pass's section is ``name(\"CustomShader\", \"\")``, pass ``p``'s that name followed by ``Pass<p>``")

@@ -18,8 +18,10 @@ namespace AGRemapCore {
             .keys({{IniKeywords::Hash, hide.vb0Hash},
                    {IniKeywords::MatchFirstIndex, hide.indexOffset},
                    {IniKeywords::MatchIndexCount, hide.indexCount}});
-        text.key(IniKeywords::WWMIObjectDetected, "1")
-            .open(IniKeywords::WWMIModEnabled);
+        if (!hide.mergeOnly) {
+            text.key(IniKeywords::WWMIObjectDetected, "1");
+        }
+        text.open(IniKeywords::WWMIModEnabled);
 
         if (!hide.legacyMergeList.empty()) {
             text.keys({{IniKeywords::Run, hide.legacyMergeList}, {IniKeywords::Handling, IniKeywords::Skip}});
@@ -42,9 +44,11 @@ namespace AGRemapCore {
                     .close();
             }
 
-            text.open("ResourceMergedSkeleton !== null")
-                .key(IniKeywords::Handling, IniKeywords::Skip)
-                .close();
+            if (!hide.mergeOnly) {
+                text.open("ResourceMergedSkeleton !== null")
+                    .key(IniKeywords::Handling, IniKeywords::Skip)
+                    .close();
+            }
         }
 
         if (!hide.stashed.empty()) {
@@ -380,17 +384,20 @@ namespace AGRemapCore {
         runs = backups.wrap(runs, draw.assigned);
 
         const auto& fallback = draw.fallback;
+        // the `else` that draws the range where the shader does not, unless there is nothing to draw there
+        const auto elseFallback = [&fallback](SectionText& text) -> SectionText& {
+            return fallback.first.empty() ? text : text.orElse().key(fallback.first, fallback.second);
+        };
         SectionText list(z3, draw.name(IniKeywords::CommandList, ""));
         if (draw.afterTarget.empty()) {
-            if (draw.onlyWith.empty()) {
-                sections.push_back(list.open(draw.onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close().build());
-            } else {
-                sections.push_back(list.open(draw.onlyWith + " !== null")
-                                       .open(draw.onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close()
-                                   .orElse().key(fallback.first, fallback.second)
-                                   .close()
-                                   .build());
+            if (!draw.onlyWith.empty()) {
+                list.open(draw.onlyWith + " !== null");
             }
+            elseFallback(list.open(draw.onPlan).keys(runs)).close();
+            if (!draw.onlyWith.empty()) {
+                elseFallback(list).close();
+            }
+            sections.push_back(list.build());
         } else {
             // in each pass (told apart by the target resource) every awaited game draw counts once; the draw is
             // made by whichever comes last, the held-back draw itself or the last awaited one
@@ -420,19 +427,18 @@ namespace AGRemapCore {
             list.open(frame + " != time").keys(reset).close()
                 .open(target + " === null");
             if (draw.onlyWith.empty()) {
-                list.open(draw.onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close();
-            } else {
+                elseFallback(list.open(draw.onPlan).keys(runs)).close();
+            } else if (!fallback.first.empty()) {
                 list.key(fallback.first, fallback.second);
             }
-            sections.push_back(list.orElse()
-                                   .open(draw.onPlan)
-                                       .open(ready).keys(runs)
-                                       .orElse().keys(hold)
-                                       .close()
-                                   .orElse().key(fallback.first, fallback.second)
-                                   .close()
-                               .close()
-                               .build());
+            list.orElse()
+                .open(draw.onPlan)
+                    .open(ready).keys(runs)
+                    .orElse().keys(hold)
+                    .close();
+            elseFallback(list).close()
+                .close();
+            sections.push_back(list.build());
 
             // what each awaited game draw runs
             sections.push_back(SectionText(z3, draw.name(IniKeywords::CommandList, "After"))

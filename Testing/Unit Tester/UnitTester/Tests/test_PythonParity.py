@@ -81,6 +81,22 @@ class PythonParityTest(unittest.TestCase):
         for line in ("hash = b101dcf3", "match_first_index = 10", "run = CommandListMergeSkeletonXRemapFix", "handling = skip"):
             self.assertIn(line, text)
 
+    def test_wwmiSections_hideMergeOnly_mergesTheWindowWithoutSkipping(self):
+        merge = FRB.WWMISections.Hide()
+        merge.name, merge.comment, merge.vb0Hash = "TextureOverrideXComponent2RemapMerge", "; merged", "b101dcf3"
+        merge.indexOffset, merge.indexCount, merge.vgOffset, merge.vgCount = "10", "20", "127", "63"
+        merge.mergeWindowList, merge.mergeOnly = "CommandListMergeWindowRemapFix", True
+        text = FRB.WWMISections.hideSection(FRB.Z3Context(), merge).toStr()
+        for line in ("hash = b101dcf3", "match_first_index = 10", "vg_offset = 127", "run = CommandListMergeWindowRemapFix"):
+            self.assertIn(line, text)
+        self.assertNotIn("handling = skip", text)
+        self.assertNotIn("$object_detected", text)
+
+        merge.mergeOnly = False
+        text = FRB.WWMISections.hideSection(FRB.Z3Context(), merge).toStr()
+        self.assertIn("handling = skip", text)
+        self.assertIn("$object_detected = 1", text)
+
     def test_wwmiSections_mergeListNameGoesThroughTheSkeletonsName(self):
         skeleton = FRB.WWMISections.Skeleton()
         skeleton.name = lambda name: name + "RemapFix"
@@ -108,6 +124,20 @@ class PythonParityTest(unittest.TestCase):
         self.assertIn("drawindexed = 300, 0, 0", sections[2].toStr())
         self.assertEqual(backups.registers(), ["ps-t5"])
         self.assertEqual(FRB.WWMISections.shaderDrawConstants(self.shaderDraw()), [])
+
+    def test_wwmiSections_shaderDraw_noFallbackDrawsNothingOffThePlan(self):
+        draw = self.shaderDraw()
+        draw.fallback = ("", "")
+        sections = FRB.WWMISections.shaderDrawSections(FRB.Z3Context(), draw, FRB.CustomShaderBackups(lambda reg: "B" + reg))
+        listText = sections[0].toStr()
+        self.assertIn("run = CustomShaderXShader5Draw0RemapFix", listText)
+        self.assertNotIn("else", listText)
+        self.assertEqual(listText.count("drawindexed"), 0)
+
+        draw.onlyWith = "o3"
+        listText = FRB.WWMISections.shaderDrawSections(FRB.Z3Context(), draw, FRB.CustomShaderBackups(lambda reg: "B" + reg))[0].toStr()
+        self.assertIn("if o3 !== null", listText)
+        self.assertNotIn("else", listText)
 
     def test_wwmiSections_shaderDraw_heldBackCountsTheAwaitedDraws(self):
         draw = self.shaderDraw()

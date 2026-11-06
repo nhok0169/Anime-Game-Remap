@@ -33572,6 +33572,14 @@ class WWMISections:
         def legacyMergeList(self, arg0: str) -> None:
             ...
         @property
+        def mergeOnly(self) -> bool:
+            """
+            :class:`bool`: Only merge the slot's window (:attr:`mergeWindowList`), for a file whose skeleton needs the bones of a slot another file draws: no ``$object_detected`` and no skip
+            """
+        @mergeOnly.setter
+        def mergeOnly(self, arg0: bool) -> None:
+            ...
+        @property
         def mergeSkeletonList(self) -> str:
             """
             :class:`str`: The list run once a frame without :attr:`mergeWindowList`
@@ -33684,7 +33692,7 @@ class WWMISections:
         @property
         def fallback(self) -> tuple[str, str]:
             """
-            Tuple[:class:`str`, :class:`str`]: The line that draws the range everywhere the shader does not
+            Tuple[:class:`str`, :class:`str`]: The line that draws the range everywhere the shader does not, or an empty key to draw nothing there (a draw made after the mod's own, which still draws the range)
             """
         @fallback.setter
         def fallback(self, arg0: tuple[str, str]) -> None:

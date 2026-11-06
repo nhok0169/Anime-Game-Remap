@@ -2686,10 +2686,10 @@ namespace AGRemapCore {
 
                 // ---- WWMIFixerConfig::SourceComponent::markLines ----
                 std::string markSection(int component, const std::pair<long long, long long>& range,
-                                        const std::string& kind = IniKeywords::CommandList) const {
+                                        const std::string& kind = IniKeywords::CommandList, const std::string& suffix = "") const {
                     const std::set<std::pair<long long, long long>> draws = shaderDraws(component);
                     const auto at = static_cast<std::size_t>(std::distance(draws.begin(), draws.find(range)));
-                    return remapFixName(kind + "Mark" + std::to_string(component) + "Draw" + std::to_string(at));
+                    return remapFixName(kind + "Mark" + std::to_string(component) + "Draw" + std::to_string(at) + suffix);
                 }
 
                 // The source's own game texture of a role, as a component binds it: edited for the
@@ -2999,20 +2999,21 @@ namespace AGRemapCore {
                     for (const auto& [component, lines] : markLines_) {
                         const std::string onPlan = passCondition(config_.slotPasses.at(static_cast<std::size_t>(config_.plan.at(component).slot)));
                         for (const auto& range : shaderDraws(component)) {
-                            const std::string draw = std::to_string(range.first) + ", " + std::to_string(range.second) + ", 0";
-                            const std::string custom = markSection(component, range, "CustomShader");
-                            addFixSection(SectionText(z3_, markSection(component, range))
-                                       .open(onPlan)
-                                       .keys(restoringRuns({{IniKeywords::Run, custom}}, *lines))
-                                       .close()
-                                       .build());
-
-                            std::vector<Kvp> keys{{"ps", "null"}};
-                            for (const auto& line : *lines) {
-                                keys.push_back(line);
+                            // a shader draw with no fallback: the mod's own draw of the range is kept, and the
+                            // mark is drawn after it on the slot's passes
+                            WWMISections::ShaderDraw mark;
+                            mark.name = [this, component, range](const std::string& kind, const std::string& suffix) {
+                                return markSection(component, range, kind, suffix);
+                            };
+                            mark.draw = std::to_string(range.first) + ", " + std::to_string(range.second) + ", 0";
+                            mark.onPlan = onPlan;
+                            mark.passes = {{{"ps", "null"}}};
+                            mark.passes[0].insert(mark.passes[0].end(), lines->begin(), lines->end());
+                            mark.assigned = *lines;
+                            for (auto& section : WWMISections::shaderDrawSections(z3_, mark, shaderBackups_)) {
+                                addFixSection(std::move(section));
                             }
-                            keys.emplace_back(IniKeywords::DrawIndexed, draw);
-                            addShaderSection(custom, keys);
+                            hasShaders_ = true;
                         }
                     }
 
@@ -4072,19 +4073,18 @@ namespace AGRemapCore {
                             }
 
                             const Slot& window = target_.slots[slot];
-                            SectionText merge(z3_, IniKeywords::TextureOverride + toModName_
-                                                       + TextTools::capitalize(config_.slotPrefix)
-                                                       + std::to_string(slot) + IniKeywords::Remap + "Merge");
-                            merge.prefix("; another file draws this slot: only its bones are merged into this file's skeleton")
-                                .keys({{IniKeywords::Hash, target_.vb0Hash},
-                                       {IniKeywords::MatchFirstIndex, window.indexOffset},
-                                       {IniKeywords::MatchIndexCount, window.indexCount}});
-                            merge.open(IniKeywords::WWMIModEnabled)
-                                .keys({{IniKeywords::WWMIVgOffset, window.vgOffset},
-                                       {IniKeywords::WWMIVgCount, window.vgCount},
-                                       {IniKeywords::Run, remapFixName("CommandListMergeWindow")}})
-                                .close();
-                            addFixSection(merge.build(), g);
+                            WWMISections::Hide merge;
+                            merge.name = IniKeywords::TextureOverride + toModName_ + TextTools::capitalize(config_.slotPrefix)
+                                         + std::to_string(slot) + IniKeywords::Remap + "Merge";
+                            merge.comment = "; another file draws this slot: only its bones are merged into this file's skeleton";
+                            merge.vb0Hash = target_.vb0Hash;
+                            merge.indexOffset = window.indexOffset;
+                            merge.indexCount = window.indexCount;
+                            merge.vgOffset = window.vgOffset;
+                            merge.vgCount = window.vgCount;
+                            merge.mergeWindowList = remapFixName("CommandListMergeWindow");
+                            merge.mergeOnly = true;
+                            addFixSection(WWMISections::hideSection(z3_, merge), g);
                         }
 
                     }

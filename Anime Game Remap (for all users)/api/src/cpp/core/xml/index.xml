@@ -2596,6 +2596,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a8d3a3d6d8716404179ad1e044925bf91" kind="variable"><name>mergeWindowList</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1a8e6140f513e903ac6a027f8b69d13761" kind="variable"><name>mergeSkeletonList</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1aa5499cb3b4b6d8bb055131f166230736" kind="variable"><name>stashed</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_hide_1ad68228d7ea957441c204951c8f10f866" kind="variable"><name>mergeOnly</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_highlight_shadow" kind="class"><name>AGRemapCore::HighlightShadow</name>
     <member refid="class_a_g_remap_core_1_1_highlight_shadow_1a6d22ff4eb640fdf09a3081bb185cf2ff" kind="variable"><name>highlight</name></member>

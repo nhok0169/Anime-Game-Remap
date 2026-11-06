@@ -1099,23 +1099,12 @@ namespace AGRemapCore {
                             }
 
                             present_[*component] = sections;
-                            graphOf_[*component] = obj;
 
                             // Its draw ranges, read for EVERY mod: the remap of a toggled draw through the split
                             // and TexEditContext::drawRanges (what a texture edit knows a component covers) both
-                            // need them
+                            // need them. A copy, because readReroutes moves a reroute's draws out of it
                             if (!data.drawRanges(obj).empty()) {
                                 drawRanges_[*component] = data.drawRanges(obj);
-                            }
-                            if (!data.drawParts(obj).empty()) {
-                                drawParts_[*component] = data.drawParts(obj);
-                            }
-
-                            // TWO BINDING GENERATIONS IN ONE SECTION (2026-10-03): draws before the section's
-                            // own `ps-t` lines render with the SOURCE's atlas. ChisaParfait3's hat and chest
-                            // bandages rendered as flat skin until each draw got its own list.
-                            if (!data.lateBindings(obj).empty()) {
-                                lateBindRegs_[*component] = data.lateBindings(obj);
                             }
                         }
                     }
@@ -1178,19 +1167,6 @@ namespace AGRemapCore {
                         }
                     }
 
-                    // ITS BUFFERS, off the .ini rather than as sibling names: a mod-manager-packaged mod names
-                    // every file by GUID with a `.assets` extension, so there is no `Position.buf` beside
-                    // anything -- built as a sibling, the path did not exist, the remapped blend was never
-                    // written, and the .ini still bound vb4 to it, which drew NOTHING of the character.
-                    // Found without regard to case: one mod spells it ResourceTexCoordBuffer.
-                    for (const auto& [section, into] : std::vector<std::pair<std::string, std::string*>>{
-                             {IniKeywords::WWMIIndexBuffer, &indexFile_}, {IniKeywords::WWMIPositionBuffer, &positionFile_},
-                             {IniKeywords::WWMITexcoordBuffer, &texcoordFile_}, {IniKeywords::WWMIVectorBuffer, &vectorFile_}}) {
-                        if (std::optional<std::string> file = data.resourceFile(section)) {
-                            *into = *file;
-                        }
-                    }
-
                     // THE MOD'S SHAPE-KEY BUFFERS, for WWMIFixerConfig::shapeKeyOrder. Read and checked
                     // here, because the edit that binds the reordered copies is built from what this
                     // finds: a copy that could not be written must never be bound.
@@ -1227,19 +1203,6 @@ namespace AGRemapCore {
                             ctx_.log("this mod's shape keys are left in " + source_.name + "'s order (" + why
                                  + "), so the target's expressions drive the wrong ones");
                             shapeKeyFiles_.clear();
-                        }
-                    }
-
-                    // WHERE the 16-bit ids live, off the .ini rather than a sibling filename: a
-                    // mod-manager-packaged mod names every file by GUID with a `.assets` extension,
-                    // so the WWMI export's own name is not beside Blend.buf and the search finds
-                    // nothing -- and the fallback that then runs is a no-op dressed as a fix.
-                    for (const auto& [section, file] : data.resourceFiles()) {
-                        std::string name = section;
-                        name.erase(std::remove(name.begin(), name.end(), '_'), name.end());
-                        if (name.find("blendremapvertexvg") != std::string::npos) {
-                            vertexVGFile_ = file;
-                            break;
                         }
                     }
 
@@ -1667,15 +1630,53 @@ namespace AGRemapCore {
                  *
                  * @return The path
                  */
+                // A buffer of the mod's, as its .ini names it ("" when it declares none) -- the parser's
+                // IniParseData::resourceFile. Off the .ini rather than as sibling names: a mod-manager
+                // -packaged mod names every file by GUID with a `.assets` extension, so there is no
+                // `Position.buf` beside anything -- built as a sibling, the path did not exist, the
+                // remapped blend was never written, and the .ini still bound vb4 to it, which drew
+                // NOTHING of the character. Found without regard to case: one mod spells it
+                // ResourceTexCoordBuffer.
+                std::string modBuffer(const std::string& resource) const {
+                    return parseData().resourceFile(resource).value_or("");
+                }
+
+                // WHERE the 16-bit ids live, off the .ini rather than a sibling filename: a
+                // mod-manager-packaged mod names every file by GUID with a `.assets` extension,
+                // so the WWMI export's own name is not beside Blend.buf and the search finds
+                // nothing -- and the fallback that then runs is a no-op dressed as a fix.
+                std::optional<std::string> vertexVGFile() const {
+                    for (const auto& [section, file] : parseData().resourceFiles()) {
+                        std::string name = section;
+                        name.erase(std::remove(name.begin(), name.end(), '_'), name.end());
+                        if (name.find("blendremapvertexvg") != std::string::npos) {
+                            return file;
+                        }
+                    }
+                    return std::nullopt;
+                }
+
+                // TWO BINDING GENERATIONS IN ONE SECTION (2026-10-03): the registers a drawn component's
+                // own section binds only AFTER it has drawn (IniParseData::lateBindings) -- the draws
+                // before them render with the SOURCE's atlas. ChisaParfait3's hat and chest bandages
+                // rendered as flat skin until each draw got its own list. A reroute's are its source's.
+                std::vector<std::string> lateBindings(int component) const {
+                    if (present_.count(component) == 0) {
+                        return {};
+                    }
+                    return parseData().lateBindings(slotObj(component));
+                }
+
                 std::string positionBufPath() const {
-                    if (positionFile_.empty()) {
+                    const std::string positionFile = modBuffer(IniKeywords::WWMIPositionBuffer);
+                    if (positionFile.empty()) {
                         throw std::runtime_error(
                             "cannot fix this mod: its .ini declares no [" + IniKeywords::WWMIPositionBuffer
                             + "], so there is no mesh to read a vertex count from");
                     }
 
                     return FileService::absPathOfRelPath(
-                        positionFile_, ctx_.getIniFile()->getFolder());
+                        positionFile, ctx_.getIniFile()->getFolder());
                 }
 
                 static std::string modFile(const std::string& folder, const std::string& name) {
@@ -2069,9 +2070,9 @@ namespace AGRemapCore {
 
                         // GENERATION 0: THE DRAWS THIS SECTION MAKES BEFORE IT BINDS ANYTHING
                         // (2026-10-03). They rendered with the SOURCE's own game textures, so that
-                        // is what they are given -- see lateBindRegs_ and planGameDefaults. Run with the
+                        // is what they are given -- see lateBindings and planGameDefaults. Run with the
                         // additions, after the list above, so it wins for those draws.
-                        if (lateBindRegs_.count(component) > 0 && !gameResourceOfRole_.empty()) {
+                        if (!lateBindings(component).empty() && !gameResourceOfRole_.empty()) {
                             TextureLines game;
                             for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
                                 if (binding.role != IniKeywords::Null && gameResourceOfRole_.count(binding.role) > 0) {
@@ -2338,8 +2339,6 @@ namespace AGRemapCore {
                         rerouteFrom_[reroute.as] = reroute.from;
                         reroutedDraws_[reroute.as] = taken;
                         present_[reroute.as] = present_.at(reroute.from);
-                        graphOf_[reroute.as] = graphOf_.at(reroute.from);
-                        drawParts_[reroute.as] = drawParts_[reroute.from];
                         for (const auto& range : taken) {
                             drawRanges_[reroute.as].push_back(range);
                         }
@@ -2362,10 +2361,6 @@ namespace AGRemapCore {
                         };
                         copyFor(resourceOfSlotRole_);
                         copyFor(toggledGame_);
-                        const auto late = lateBindRegs_.find(reroute.from);
-                        if (late != lateBindRegs_.end()) {
-                            lateBindRegs_[reroute.as] = late->second;
-                        }
 
                         ctx_.log(std::to_string(taken.size()) + " of " + config_.slotPrefix + std::to_string(reroute.from)
                              + "'s draws are in the split " + reroute.split + ", and go through target slot "
@@ -2491,15 +2486,15 @@ namespace AGRemapCore {
                 // Whether the component's own sections run RabbitFX's SetTextures, directly or through
                 // a command list they call
                 bool callsSetTextures(int component) const {
-                    const auto obj = graphOf_.find(component);
-                    if (obj == graphOf_.end()) {
+                    if (present_.count(component) == 0) {
                         return false;
                     }
+                    const ModObj obj = slotObj(component);
 
                     // the component's graph: its sections and every one they `run =`
                     const auto& rows = parseData().collected(IniParseRows::Objs);
                     return std::any_of(rows.begin(), rows.end(), [&obj](const Row& row) {
-                        return row.graphId.modObj == obj->second && row.key == IniKeywords::Run
+                        return row.graphId.modObj == obj && row.key == IniKeywords::Run
                                && StringTools::equalsIgnoreCase(StringTools::strip(row.value), IniKeywords::RabbitFXSetTexturesPath);
                     });
                 }
@@ -3206,7 +3201,7 @@ namespace AGRemapCore {
                             // them writes 8-bit ids only, which for this target is the silent
                             // truncation this exists to stop (81004 weighted slots of one real mod,
                             // not one of them landing on the bone the row asks for).
-                            const std::string vgRel = FileService::iniPathToRel(vertexVGFile_.value_or(""));
+                            const std::string vgRel = FileService::iniPathToRel(vertexVGFile().value_or(""));
                             const std::string vgPath = vgRel.empty()
                                 ? std::string()
                                 : FileService::absPathOfRelPath(vgRel, ctx_.getIniFile()->getFolder());
@@ -3218,7 +3213,7 @@ namespace AGRemapCore {
                                 FileService::absPathOfRelPath(blendRemapFile("Reverse"), ctx_.getIniFile()->getFolder())};
                             std::optional<WWMIBlend::LegacyLift> legacy;
                             if (legacy_) {
-                                legacy = WWMIBlend::LegacyLift{FileService::absPathOfRelPath(indexFile_, ctx_.getIniFile()->getFolder()),
+                                legacy = WWMIBlend::LegacyLift{FileService::absPathOfRelPath(modBuffer(IniKeywords::WWMIIndexBuffer), ctx_.getIniFile()->getFolder()),
                                                                drawRanges_, config_.sourceVgMaps};
                             }
 
@@ -3228,8 +3223,8 @@ namespace AGRemapCore {
                                                           resource.vgRemap, out, legacy);
                                 });
                             };
-                        } else if (vertexVGFile_.has_value()) {
-                            const std::string vgRel = FileService::iniPathToRel(*vertexVGFile_);
+                        } else if (const std::optional<std::string> vertexVG = vertexVGFile()) {
+                            const std::string vgRel = FileService::iniPathToRel(*vertexVG);
                             const std::string vgPath =
                                 FileService::absPathOfRelPath(vgRel, ctx_.getIniFile()->getFolder());
                             const std::string posPath =
@@ -3241,7 +3236,7 @@ namespace AGRemapCore {
                                 });
                             };
                         } else if (legacy_) {
-                            const std::string indexPath = FileService::absPathOfRelPath(indexFile_, ctx_.getIniFile()->getFolder());
+                            const std::string indexPath = FileService::absPathOfRelPath(modBuffer(IniKeywords::WWMIIndexBuffer), ctx_.getIniFile()->getFolder());
                             const std::string positionPath =
                             positionBufPath();
                             const WWMIBlend::LegacyLift legacy{indexPath, drawRanges_, config_.sourceVgMaps};
@@ -3857,7 +3852,7 @@ namespace AGRemapCore {
                     }
 
                     // ...and the same for a role the mod DOES serve, downloaded for the draws that
-                    // happen before its section binds anything -- see lateBindRegs_.
+                    // happen before its section binds anything -- see lateBindings.
                     for (const auto& entry : gameFallbacks_) {
                         addFixDownload(entry.second);
                     }
@@ -4159,7 +4154,8 @@ namespace AGRemapCore {
                  */
                 std::set<int> mirroredSet() const {
                     std::set<int> out;
-                    if (config_.mirroredComponents.empty() || indexFile_.empty() || vectorFile_.empty()) {
+                    if (config_.mirroredComponents.empty() || modBuffer(IniKeywords::WWMIIndexBuffer).empty()
+                            || modBuffer(IniKeywords::WWMIVectorBuffer).empty()) {
                         return out;
                     }
 
@@ -4333,7 +4329,7 @@ namespace AGRemapCore {
                     };
 
                     try {
-                        BufFile vectors{FileService::absPathOfRelPath(vectorFile_, folder), std::move(elements)};
+                        BufFile vectors{FileService::absPathOfRelPath(modBuffer(IniKeywords::WWMIVectorBuffer), folder), std::move(elements)};
                         return std::get<ByteVec>(vectors.fix(std::nullopt, {negateNormal}));
                     } catch (const std::exception& exception) {
                         throw std::runtime_error("cannot build the mirrored vector buffer " + mirrorVectorFile() + ": " + exception.what());
@@ -4365,7 +4361,7 @@ namespace AGRemapCore {
                     // presented to the rasterizer the other way.
                     ByteVec out;
                     try {
-                        out = IbFile{FileService::absPathOfRelPath(indexFile_, folder)}.windingReversed(
+                        out = IbFile{FileService::absPathOfRelPath(modBuffer(IniKeywords::WWMIIndexBuffer), folder)}.windingReversed(
                             static_cast<std::size_t>(first), static_cast<std::size_t>(count));
                     } catch (const std::out_of_range&) {
                         throw std::runtime_error("component " + std::to_string(component)
@@ -4526,7 +4522,7 @@ namespace AGRemapCore {
                 // component's draws -- see the stand-in rule above. Three cases, each the source's own texture
                 // where the original drew with the GAME's:
                 //
-                //   1. the draws a section makes BEFORE it binds anything (#lateBindRegs_): they rendered with
+                //   1. the draws a section makes BEFORE it binds anything (#lateBindings): they rendered with
                 //      the textures the game had bound when it matched the draw (ChisaParfait3's hat and chest
                 //      bandages). A role the mod has no file for is already the source's game texture (its
                 //      stand-in, edits and all), so only a role the mod DOES serve needs a second file.
@@ -4544,7 +4540,12 @@ namespace AGRemapCore {
 
                     // 1. the draws before the first binding
                     std::set<std::string> lateRoles;
-                    for (const auto& entry : lateBindRegs_) {
+                    std::size_t lateComponents = 0;
+                    for (const auto& entry : present_) {
+                        if (lateBindings(entry.first).empty()) {
+                            continue;
+                        }
+                        ++lateComponents;
                         const auto planned = config_.plan.find(entry.first);
                         for (const WWMIFixerConfig::Binding& binding : planned != config_.plan.end() ? bindingsOf(planned->first)
                                                                                                     : std::vector<WWMIFixerConfig::Binding>{}) {
@@ -4573,7 +4574,7 @@ namespace AGRemapCore {
                         for (const std::string& role : downloaded) {
                             names += (names.empty() ? "" : ", ") + role;
                         }
-                        ctx_.log(std::to_string(lateBindRegs_.size()) + " component section(s) draw before binding a texture"
+                        ctx_.log(std::to_string(lateComponents) + " component section(s) draw before binding a texture"
                                  " register, so those draws take " + source_.name + "'s own " + names + " rather than the mod's");
                     }
 
@@ -4698,9 +4699,9 @@ namespace AGRemapCore {
                     const std::string folder = ini->getFolder();
                     WWMIFixerConfig::TexEditContext context;
                     context.iniFolder = folder;
-                    context.indexFile = FileService::absPathOfRelPath(indexFile_, folder);
+                    context.indexFile = FileService::absPathOfRelPath(modBuffer(IniKeywords::WWMIIndexBuffer), folder);
                     context.positionFile = positionBufPath();
-                    context.texcoordFile = FileService::absPathOfRelPath(texcoordFile_, folder);
+                    context.texcoordFile = FileService::absPathOfRelPath(modBuffer(IniKeywords::WWMITexcoordBuffer), folder);
                     context.drawRanges = drawRanges_;
                     for (const auto& entry : fileOfRole_) {
                         bool toggled = false;
@@ -4871,13 +4872,14 @@ namespace AGRemapCore {
                 // buffer that cannot be read keeps nothing, which folds more rather than less.
                 std::vector<bool> straddlingVertices(const TexcoordFile& texcoord) const {
                     IniFile* ini = ctx_.getIniFile();
-                    if (indexFile_.empty() || ini == nullptr) {
+                    const std::string indexFile = modBuffer(IniKeywords::WWMIIndexBuffer);
+                    if (indexFile.empty() || ini == nullptr) {
                         return std::vector<bool>(texcoord.us().size(), false);
                     }
 
                     try {
                         return texcoord.straddling(IbFile{FileService::absPathOfRelPath(
-                            FileService::iniPathToRel(indexFile_), ini->getFolder())}.getIndices());
+                            FileService::iniPathToRel(indexFile), ini->getFolder())}.getIndices());
                     } catch (const std::exception&) {
                         return std::vector<bool>(texcoord.us().size(), false);
                     }
@@ -4983,7 +4985,6 @@ namespace AGRemapCore {
                 Character source_;
                 Character target_;
                 std::map<int, std::vector<std::string>> present_;     // source component -> its sections
-                std::map<int, ModObj> graphOf_;                       // source component -> the parser's graph of those sections
                 std::vector<int> silent_;                              // components whose sections draw nothing
                 std::vector<int> dropped_;
                 std::vector<std::vector<int>> groups_;
@@ -5042,7 +5043,6 @@ namespace AGRemapCore {
                 std::map<std::string, Fallback> gameFallbacks_;      // ...and the same download for a role the mod DOES serve, for the pre-binding draws of a split section
                 std::map<std::string, std::string> gameResourceOfRole_;  // role -> what a pre-binding draw binds: the source's own game texture, edited
                 std::map<std::pair<std::string, int>, std::string> toggledGame_;  // (role, source component) -> the game's own, for a role the mod binds only under a toggle
-                std::map<int, std::vector<std::string>> lateBindRegs_;   // source component -> the registers its own section binds AFTER it has already drawn
                 std::set<std::string> leftToGame_;                    // roles whose only file was flat and whose config says not to stand anything in
 
                 ShaderFilterTags passTags_;                            // the shaders the passes are told apart by -- passFilter
@@ -5051,19 +5051,11 @@ namespace AGRemapCore {
 
 
                 bool legacy_ = false;                                 // a mod from before WWMI's merged skeleton
-                // EMPTY UNTIL THE MOD'S OWN `.ini` SAYS OTHERWISE (2026-09-30). Each of these used to
-                // start at `Meshes/<Name>.buf`, so a mod declaring no such section was read at a path
-                // the fix invented -- the same assumption about a mod's folder structure that
-                // `DefaultTextureFolder` / `DefaultMeshFolder` made on the write side. A mod-manager
-                // -packaged mod names every file by GUID with a `.assets` extension and has no
-                // `Meshes/` at all.
-                std::string indexFile_;                               // the mod's own [ResourceIndexBuffer]
-                std::string positionFile_;                            // ...and [ResourcePositionBuffer]
-                std::string blendSourceFile_;                         // ...and [ResourceBlendBuffer]; blendFixedFile() derives the fix's name FROM it
-                std::string texcoordFile_;                            // ...and [ResourceTexcoordBuffer]
-                std::string vectorFile_;                              // ...and [ResourceVectorBuffer]; the normals the mirrored twin negates
-                std::map<int, std::vector<std::pair<long long, long long>>> drawRanges_;   // source component -> its (index count, first index) draws
-                std::map<int, std::set<std::size_t>> drawParts_;      // ...and which PARTS those draws sit in -- see mirroredSet()
+                // EMPTY UNTIL THE MOD'S OWN `.ini` SAYS OTHERWISE (2026-09-30): it used to start at
+                // `Meshes/<Name>.buf`, so a mod declaring no such section was read at a path the fix
+                // invented. The mod's other buffers are the parser's -- see modBuffer.
+                std::string blendSourceFile_;                         // the mod's [ResourceBlendBuffer]; blendFixedFile() derives the fix's name FROM it
+                std::map<int, std::vector<std::pair<long long, long long>>> drawRanges_;   // source component -> its (index count, first index) draws, less a reroute's
                 std::map<int, int> rerouteFrom_;                      // WWMIFixerConfig::DrawReroute: its `as` -> its `from`, for a reroute that took draws
                 std::map<int, const std::vector<std::pair<std::string, std::string>>*> markLines_;   // a drawn component -> SourceComponent::markLines
                 CustomShaderBackups shaderBackups_{[this](const std::string& reg) { return shaderBackup(reg); }};   // what a CustomShader run saves and restores (restoringRuns)
@@ -5141,7 +5133,6 @@ namespace AGRemapCore {
                 std::map<int, std::vector<PartEdit*>> editsOf_;
                 std::unique_ptr<ObjGroupEdit> mainEdits_;
                 std::vector<std::unique_ptr<VGRemapBlendReplace<>>> blendReplaces_;
-                std::optional<std::string> vertexVGFile_;                            // WWMI's 16-bit ids, as the .ini names them
                 std::optional<std::string> texcoordResource_;                        // the cleaned texcoord copy's resource
                 std::unordered_map<std::string, std::string> fileOfRole_;            // role -> the file it resolved to
                 // One texture edit, named and sourced at read time and registered at fix time

@@ -38,7 +38,8 @@ should name only the mods the prediction did.
 (case-insensitively -- one mod spells it `ResourceTexCoordBuffer`), which is right. Each was
 *initialised* to `Meshes/<Name>.buf`, so a mod declaring no such section was read at an invented path.
 All four start empty now, which also makes `straddlingVertices`' existing `indexFile_.empty()` test
-reachable -- it could never have been true.
+reachable -- it could never have been true. (Since 2026-11-06 the fixer keeps no copy of them: it asks the
+parser, `WWMIFixer::modBuffer` over `IniParseData::resourceFile`; only `blendSourceFile_` is still a member.)
 
 Every one of the 82 WWMI character `.ini` files in the corpus declares all four, so this fires for
 none of them. Exercise it with `Tools/Misc/Diagnostics/noPositionProbe.py <mod>`, which deletes the

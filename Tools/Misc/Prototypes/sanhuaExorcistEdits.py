@@ -1712,7 +1712,7 @@ def makeFixer(parser, toModName, modTypeId):
         return FRB.WWMIBlend.blendElements(FRB.WWMIBlend.influencesOf(srcPath, vertexCount, positionPath))
 
     # WHERE the mod's ids live: a character past 256 bones keeps them in WWMI's BlendRemapVertexVG.buf, named by the
-    # .ini's resource section rather than a file name (WWMIFixer::vertexVGFile_)
+    # .ini's resource section rather than a file name (WWMIFixer::vertexVGFile)
     vertexVGRel = next((file for section, file in data.resourceFiles().items()
                         if "blendremapvertexvg" in section.replace("_", "").lower()), None)
     # how the blend is written (WWMIFixer::buildBlendCollects): a TARGET past 256 bones cannot be named by an 8-bit id,

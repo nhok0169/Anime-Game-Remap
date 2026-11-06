@@ -568,6 +568,10 @@ out to be fixer policy, not moves); write in the proposal which layer it is (edi
 parser data, game data, fixer policy), what an edit does to the graph that existing edits cannot, why an existing
 class (`IniParseData::defer`, `GraphCollect`, ...) does not already cover it, and that no game rule hides behind a
 library name; then build several slices and sweep them ONCE, keeping each slice's build to bisect a difference.
+**And testing is the expensive part (the maintainer, 2026-11-06):** the WWMI refactor's full check is ~80 minutes -- the
+ZZZ/GI sweep 2, the 174-folder WWMI sweep 37, the Unit Tester 1, the Python mirror's A/B over 68 mods 38. So batch
+changes before testing, run only the stages a batch can affect (the sweeps when C++ changed, the A/B when the mirror
+or the C++ it mirrors changed), and run the sweeps and the A/B in parallel -- they share nothing.
 
 If you're unsure which applies, start with **Overview** — it's the map the rest assume you have.
 These files were authored from hands-on, verified work in five subsystems: the C++ core / pybind11

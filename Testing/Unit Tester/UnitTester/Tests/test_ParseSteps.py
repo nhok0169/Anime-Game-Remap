@@ -498,6 +498,79 @@ filename = Textures\A.dds
 filename = Textures\B.dds
 """
 
+    def test_roleFiles_aLinkedFile_carriesItsGlowMapAndItsConditionedRegisters_notAnUnconditionedOne(self):
+        # the linked file, beside the .ini, parsed by the same collects in a parser of its own
+        linkedTxt = r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+ps-t0 = ResourceL
+if $break == 1
+    ps-t0 = ResourceLB
+endif
+Resource\RabbitFX\GlowMap = ref ResourceG
+
+[ResourceL]
+filename = L.dds
+
+[ResourceLB]
+filename = LB.dds
+
+[ResourceG]
+filename = G.dds
+"""
+        def linkedRules(roleRules):
+            folder = roleRules.folder
+            for name in ("L.dds", "LB.dds", "G.dds"):
+                path = os.path.join(folder, name)
+                open(path, "wb").close()
+                self.addCleanup(lambda path = path: os.path.exists(path) and os.remove(path))
+            path = os.path.join(folder, "linked.ini")
+            with open(path, "w", encoding = "utf-8") as f:
+                f.write(linkedTxt)
+            self.addCleanup(lambda: os.path.exists(path) and os.remove(path))
+
+            linked = FRB.IniFile(path)
+            def target(parser, name, section, disjoint, part, kvps):
+                return [self.Body] if kvps is not None and name == "TextureOverrideBody" else []
+            parser = FRB.GIMIParser(linked, modObjs = [self.Body], objTargetFuncs = [target], disjointModObjs = False,
+                                    keysToTrack = {FRB.IniKeywords.Hash, FRB.IniKeywords.MatchFirstIndex})
+            roles = FRB.GraphCollect({self.BodyGraph: lambda key: FRB.IniNamingTools.sameKey(key, "ps-t0")},
+                                     name = "test.roles", withConditions = True)
+            carried = FRB.GraphCollect({self.BodyGraph: lambda key: FRB.IniNamingTools.sameKey(key, FRB.RabbitFX.GlowMapKey)},
+                                       name = "test.carried", withConditions = True)
+            steps = FRB.GIMIParser.RowSteps()
+            steps.objs = lambda obj: obj == self.Body
+            parser.deferredParseSteps = [*parser.rowSteps(steps), roles, carried]
+            parser.parse()
+            # the files its resources name, as the resource data an only-this-file parse reads them
+            resources = FRB.IniParseData.ResourceData()
+            resources.resourceFiles = {"resourcel": "L.dds", "resourcelb": "LB.dds", "resourceg": "G.dds"}
+            parser.parseData.variables()[FRB.IniParseData.ResourceDataVar] = resources
+            self._linkedKeep = (linked, parser)
+            return [FRB.IniParseData.RoleFileRules.Linked(parser.parseData, folder, "linked.ini", path)]
+
+        self.setupIniTxt(r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+drawindexed = 300, 0, 0
+""")
+        self.createIniFile()
+        rules = FRB.IniParseData.RoleFileRules()
+        rules.folder = self._iniFile.folder
+        data, folder = self.readRoleFiles(r"""
+[TextureOverrideBody]
+hash = 11111111
+match_first_index = 0
+drawindexed = 300, 0, 0
+""", [], carriedRows = "test.carried", linked = linkedRules(rules))
+
+        lines = {(line.key, line.role, line.condition.replace(" ", ""), os.path.basename(line.file)) for line in data.linkedLines()}
+        self.assertEqual(lines, {(FRB.RabbitFX.GlowMapKey, "", "", "G.dds"), ("", "bodyDiffuse", "$break==1", "LB.dds")})
+        for line in data.linkedLines():
+            self.assertEqual(line.obj, self.Body)
+
     def test_roleFiles_aFileTheObjectBinds_winsOverOneItsHashDeclares(self):
         data, folder = self.readRoleFiles(r"""
 [TextureOverrideBody]

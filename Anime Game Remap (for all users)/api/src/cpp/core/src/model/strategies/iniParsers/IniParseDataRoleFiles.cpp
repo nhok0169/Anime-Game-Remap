@@ -540,13 +540,15 @@ namespace AGRemapCore {
                 }
                 const IniParseData& other = *linked.data;
                 const auto carry = [&other, &linked, this](const Row& row, const std::string& key, const std::string& role) {
+                    // the condition, unless it holds everywhere -- a line under no `if` still carries the walk's
+                    // predicate, which is TRUE: asked of Z3 (its negation cannot hold), not of how it renders
                     std::string condition;
-                    if (row.condition.has_value()) {
+                    if (row.condition.has_value() && (!*row.condition).isSatisfiable()) {
                         const std::optional<std::string> text = IfPredPart::getIfPredStr(*row.condition);
                         if (!text.has_value()) {
                             return;
                         }
-                        condition = *text == "1" ? std::string() : *text;     // a line under no `if` is true everywhere
+                        condition = *text;
                     }
                     if (key.empty() && condition.empty()) {
                         return;

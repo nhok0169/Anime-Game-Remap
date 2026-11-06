@@ -16,6 +16,7 @@
 #include <filesystem>
 #include <memory>
 #include <optional>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -146,7 +147,7 @@ void initCppIniFile(pybind11::module_ &m) {
     // py::smart_holder, as IfTemplate is: a wrapper of a file the library has freed is then invalidated so it raises
     // when used (see PyObjectLifetime.h). Under the default holder pybind11 also hands a freed file's wrapper back for
     // a new file at the same address (sibling, siblingOf) and deletes the new file
-    py::class_<AGRC::IniFile, py::smart_holder>(m, "IniFile", R"doc(
+    py::class_<AGRC::IniFile, py::smart_holder> iniFile(m, "IniFile", R"doc(
 Class for handling .ini files
 :raw-html:`<br />` :raw-html:`<br />`
 
@@ -218,8 +219,41 @@ filteredToModTypeIds: Optional[Set[:class:`int`]]
     :raw-html:`<br />`
 
     **Default**: ``None``, meaning no filter
-    )doc")
+    )doc");
 
+    // before IniFile's methods, so varState's signature can name it
+    py::class_<AGRC::IniFile::VarState>(iniFile, "VarState", R"doc(
+The state an .ini file keeps for some of its variables, as another file reading them needs it -- see
+:meth:`IniFile.varState`
+    )doc")
+        .def_readonly("vars", &AGRC::IniFile::VarState::vars, R"doc(
+Set[:class:`str`]: The variables asked for, and every variable a line assigning one of them reads -- in its value or in
+an ``if`` it sits under -- to the closure. Lowercased, as :meth:`IniNamingTools.varsIn` gives them
+        )doc")
+        .def_readonly("undeclared", &AGRC::IniFile::VarState::undeclared, R"doc(
+Set[:class:`str`]: The :attr:`vars` no ``[Constants]`` of the file declares -- 3DMigoto starts such a variable at 0
+        )doc")
+        .def("takeSections", [](AGRC::IniFile::VarState &self) {
+            py::list result;
+            for (auto &section : self.sections) {
+                result.append(py::cast(std::move(section)));
+            }
+            self.sections.clear();
+            return result;
+        }, py::doc(R"doc(
+Hands over the copies of the sections that hold the state, in the file's order and under their own names, each cut to
+the lines that make it: a ``[Constants]`` keeps its declarations of :attr:`vars`; every other section keeps the lines
+assigning one of :attr:`vars`, plus what decides when it runs -- in a ``[Key...]`` every line that assigns no other
+variable (``key``, ``type``, ``back``, ``condition``, ...), elsewhere its ``hash``, ``match_...`` and ``condition``
+lines. An ``if`` block left empty goes. A second call returns an empty list
+
+Returns
+-------
+List[:class:`IfTemplate`]
+    The copies, now the caller's
+        )doc"));
+
+    iniFile
         .def(py::init([](std::optional<std::string> file, std::string txt, std::optional<std::unordered_set<int>> gameTypeIds,
                          std::optional<std::unordered_set<int>> filteredFromModTypeIds,
                          std::optional<std::unordered_set<int>> forcedFromModTypeIds,
@@ -659,6 +693,25 @@ Returns
 -------
 List[:class:`IniFile`]
     The files
+        )doc"))
+        .def("varState", &AGRC::IniFile::varState, py::arg("vars"), py::doc(R"doc(
+The state this file keeps for 'vars': where they are declared and every section that assigns them -- ``[Present]``,
+a key, a trigger on a hash -- with the variables those lines read in turn. A file with no ``namespace =`` names its
+variables after its path, so another file reads them only through a copy of this state, renamed
+(:class:`GraphVarRename`).
+
+Never a section that draws (one with ``match_first_index``) nor a ``[Resource...]``. Only the sections that keep a
+line are copied
+
+Parameters
+----------
+vars: Set[:class:`str`]
+    The variables, as :meth:`IniNamingTools.varsIn` gives them
+
+Returns
+-------
+:class:`IniFile.VarState`
+    The state
         )doc"))
         .def("getNamespace", &AGRC::IniFile::getNamespace, py::doc(R"doc(
 Returns

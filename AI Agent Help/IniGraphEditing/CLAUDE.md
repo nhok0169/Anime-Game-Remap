@@ -96,6 +96,15 @@ condition in its old file's context and a later graph walk that conjoins predica
 contexts. `renameIn(section, renames, z3)` does one section, for a copy not yet in a graph (WWMIFixer's
 `copyLinkedState`). After cutting a copy's lines, `IfTemplate::removeEmptyBlocks` drops the `if` blocks left empty.
 
+**WHICH sections to copy is `IniFile::varState(vars)` (2026-11-06)**: the file's `[Constants]` declarations of the
+variables, every other section assigning them (`[Present]`, a key, a trigger on a hash; never a draw or a resource),
+closed over what those lines read, each cut to its state -- a key keeps every line but other variables' assignments
+(`key`, `type`, `back`, ...), a trigger its `hash` / `match_...` / `condition` -- plus the variables no `[Constants]`
+declares. It READS every section first and deep-copies only the ones that keep a line: a deep copy is expensive, and the
+fixer's first version copied every candidate and threw most away. Python takes the copies with `takeSections()`.
+GI's sibling-toggle carrying (`GIMICharParser::carryCondition` / `carrySections`) is the same job built as text, and the
+candidate to move onto it -- left to the GI refactor so the two branches do not collide.
+
 ## `RegNewVals` can write a value computed FROM the old one (2026-09-29)
 
 **The whole `regEdits` family moves a `KVP` around; until this, none of them could turn a value into

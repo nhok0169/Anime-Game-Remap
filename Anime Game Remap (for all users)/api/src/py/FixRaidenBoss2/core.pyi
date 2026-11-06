@@ -17183,6 +17183,37 @@ class IniFile:
         **Default**: ``None``, meaning no filter
         
     """
+    class VarState:
+        """
+        
+        The state an .ini file keeps for some of its variables, as another file reading them needs it -- see
+        :meth:`IniFile.varState`
+            
+        """
+        def takeSections(self) -> list:
+            """
+            Hands over the copies of the sections that hold the state, in the file's order and under their own names, each cut to
+            the lines that make it: a ``[Constants]`` keeps its declarations of :attr:`vars`; every other section keeps the lines
+            assigning one of :attr:`vars`, plus what decides when it runs -- in a ``[Key...]`` every line that assigns no other
+            variable (``key``, ``type``, ``back``, ``condition``, ...), elsewhere its ``hash``, ``match_...`` and ``condition``
+            lines. An ``if`` block left empty goes. A second call returns an empty list
+            
+            Returns
+            -------
+            List[:class:`IfTemplate`]
+                The copies, now the caller's
+            """
+        @property
+        def undeclared(self) -> set[str]:
+            """
+            Set[:class:`str`]: The :attr:`vars` no ``[Constants]`` of the file declares -- 3DMigoto starts such a variable at 0
+            """
+        @property
+        def vars(self) -> set[str]:
+            """
+            Set[:class:`str`]: The variables asked for, and every variable a line assigning one of them reads -- in its value or in
+            an ``if`` it sits under -- to the closure. Lowercased, as :meth:`IniNamingTools.varsIn` gives them
+            """
     @staticmethod
     def getSectionNameFromLine(line: str) -> str:
         """
@@ -17613,6 +17644,26 @@ class IniFile:
         -------
         :class:`IniFile`
             The new file
+        """
+    def varState(self, vars: collections.abc.Set[str]) -> IniFile.VarState:
+        """
+        The state this file keeps for 'vars': where they are declared and every section that assigns them -- ``[Present]``,
+        a key, a trigger on a hash -- with the variables those lines read in turn. A file with no ``namespace =`` names its
+        variables after its path, so another file reads them only through a copy of this state, renamed
+        (:class:`GraphVarRename`).
+        
+        Never a section that draws (one with ``match_first_index``) nor a ``[Resource...]``. Only the sections that keep a
+        line are copied
+        
+        Parameters
+        ----------
+        vars: Set[:class:`str`]
+            The variables, as :meth:`IniNamingTools.varsIn` gives them
+        
+        Returns
+        -------
+        :class:`IniFile.VarState`
+            The state
         """
     def write(self, txt: str | None = None) -> str:
         """

@@ -3238,6 +3238,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_file_1afad9b591c13050989ec17c7194c4d96d" kind="function"><name>sibling</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a2f4f2576ea9d7dcd680bd3ba9c5b7a61" kind="function"><name>sibling</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a0e47d4bef6d1a9854404bc8d312ce5f2" kind="function"><name>linkedInis</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_file_1aab726451e2d20a3206ee0fad712c14c7" kind="function"><name>varState</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a91c788a4082881b9d98fd9ca425870a5" kind="function"><name>getNamespace</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a3c866085ebe536b72cc60833f19ba90e" kind="function"><name>getParseData</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a733d303177cf235033bb38df486d9c4e" kind="function"><name>getParseData</name></member>
@@ -7448,6 +7449,16 @@
     <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a0de329768b0f9d04ca182450a2031d7b" kind="function"><name>type</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1ace75686ee135a6f63ff6598ad95e2e8a" kind="function"><name>of</name></member>
     <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1acc7fbfa0eb7b41367d47feeb9b9fb259" kind="function"><name>make</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_ini_file_1_1_var_state" kind="struct"><name>AGRemapCore::IniFile::VarState</name>
+    <member refid="struct_a_g_remap_core_1_1_ini_file_1_1_var_state_1a0932d0181825b267ccaef39ae70290cb" kind="variable"><name>sections</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_file_1_1_var_state_1a047b0f88e0288f5f650d5b9d1905152f" kind="variable"><name>vars</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_file_1_1_var_state_1a4b9a52155f4220fee19c8f2906df57f8" kind="variable"><name>undeclared</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_file_1_1_var_state_1aaf9126cbac31d5ee93509d978db5dcc5" kind="function"><name>VarState</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_file_1_1_var_state_1a6509866496f8afdb9cefe02636e84b03" kind="function"><name>VarState</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_file_1_1_var_state_1addd7c0bf3bf2614dccd915845a587c92" kind="function"><name>operator=</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_file_1_1_var_state_1a19850a1ad146b117b80c8d2ca163b3ae" kind="function"><name>VarState</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_file_1_1_var_state_1ad818897ffe4764a75cd1481dc75319bd" kind="function"><name>operator=</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_vb_file" kind="class"><name>AGRemapCore::VbFile</name>
     <member refid="class_a_g_remap_core_1_1_vb_file_1a9e5935a42cc669a810e12b2152aa782e" kind="function"><name>VbFile</name></member>

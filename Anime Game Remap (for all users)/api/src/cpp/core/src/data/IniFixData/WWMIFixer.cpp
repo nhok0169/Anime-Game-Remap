@@ -921,21 +921,6 @@ namespace AGRemapCore {
 
             private:
 
-                /**
-                 * @brief Whether a section is one a PREVIOUS run of this fix wrote
-                 *
-                 * The variant scans read what the MOD binds, and a mod that has been fixed before
-                 * still carries the last run's sections when they are read. Counting those makes
-                 * the fix's output depend on its own previous output: the first run of
-                 * the register toggles (IniParseData::registerToggleOf) gave `upperDiffuse: 2 variants bound by
-                 * TextureOverrideComponent3 ps-t3` on a clean mod and `3 variants bound by
-                 * TextureOverrideComponent3<Fix> ps-t2` on the same mod fixed once already, which
-                 * is a different set of edited copies for the same input.
-                 */
-                static bool isFixSection(const std::string& name, const std::string& fixSuffix) {
-                    return !fixSuffix.empty() && StringTools::endsWithIgnoreCase(name, fixSuffix);
-                }
-
                 ModObj slotObj(int component) const {
                     const auto alias = rerouteFrom_.find(component);
                     if (alias != rerouteFrom_.end()) {
@@ -1736,172 +1721,30 @@ namespace AGRemapCore {
                     return nullptr;
                 }
 
-                // The variables a key ASSIGNS -- `$x`, `post $x`, `global persist $x` -- lower-cased
-                static std::vector<std::string> assignedVars(const std::string& key) {
-                    const std::string text(StringTools::strip(key));
-                    const std::size_t space = text.rfind(' ');
-                    const std::string last = space == std::string::npos ? text : text.substr(space + 1);
-                    return !last.empty() && last[0] == '$' ? IniNamingTools::varsIn(last) : std::vector<std::string>{};
-                }
-
-                // Each line of a section with the conditions it sits under (every branch of every enclosing `if` so far)
-                template <typename Visit>
-                static void forEachLine(const Section& section, Visit&& visit) {
-                    std::vector<std::vector<std::string>> open;
-                    for (const auto& part : section.parts()) {
-                        if (const auto* pred = dynamic_cast<const IfPredPart*>(part.get())) {
-                            if (pred->type == IfPredPartType::If) {
-                                open.push_back({pred->src});
-                            } else if (pred->type == IfPredPartType::EndIf) {
-                                if (!open.empty()) {
-                                    open.pop_back();
-                                }
-                            } else if (!open.empty()) {
-                                open.back().push_back(pred->src);
-                            }
-                            continue;
-                        }
-                        const auto* content = dynamic_cast<const Section::ContentPart*>(part.get());
-                        if (content == nullptr) {
-                            continue;
-                        }
-                        std::string conditions;
-                        for (const auto& level : open) {
-                            for (const std::string& src : level) {
-                                conditions += src + "\n";
-                            }
-                        }
-                        for (const auto& [key, value] : content->entries()) {
-                            visit(key, value, conditions);
-                        }
-                    }
-                }
-
-                // Every line of 'section' 'keep' rejects, removed
-                template <typename Keep>
-                static void keepLines(Section& section, Keep&& keep) {
-                    for (auto& part : section.parts()) {
-                        auto* content = dynamic_cast<Section::ContentPart*>(part.get());
-                        if (content == nullptr) {
-                            continue;
-                        }
-                        const std::vector<std::pair<std::string, std::string>> entries = content->entries();
-                        for (std::size_t i = entries.size(); i-- > 0;) {
-                            if (!keep(entries[i].first, entries[i].second)) {
-                                content->removeKVPAt(i);
-                            }
-                        }
-                    }
-
-                    // an `if` block left with no line in any branch goes, `if` to `endif`
-                    section.removeEmptyBlocks();
-                }
-
-                // THE STATE A LINKED FILE KEEPS FOR 'vars', copied into the fix under the variables' new names
-                // (GraphVarRename): its [Constants] declarations of them, the [Present] lines that assign them, and every
-                // other section -- not a mesh's, not a resource -- that assigns them (a trigger on a game texture's hash,
-                // a key), of which only the matching keys and the assignments. 'vars' grows to the closure: every
-                // variable a line assigning one of them reads, in its value or in a condition it sits under.
+                // THE STATE A LINKED FILE KEEPS FOR 'vars' (IniFile::varState), copied into the fix under the variables'
+                // new names (GraphVarRename) -- a section other than [Constants] and [Present] under a name of the fix's
+                // own too. 'vars' grows to the state's closure, and a variable the file never declares is declared, as
+                // 3DMigoto starts it, at 0
                 void copyLinkedState(IniFile& linked, std::set<std::string>& vars, const std::string& suffix) {
-                    const auto& templates = linked.getIfTemplates();
-                    const std::string fixSuffix = remapFixName("");
-                    const auto isMesh = [](const Section& section) {
-                        return section.firstValMatching([](const std::string& key) {
-                            return IniNamingTools::sameKey(key, IniKeywords::MatchFirstIndex);
-                        }).has_value();
-                    };
-                    const auto kind = [&](const std::string& name, const Section& section) {
-                        if (StringTools::equalsIgnoreCase(name, IniKeywords::Constants)) {
-                            return 0;
-                        }
-                        if (StringTools::equalsIgnoreCase(name, IniKeywords::Present)) {
-                            return 1;
-                        }
-                        if (isMesh(section) || StringTools::startsWith(StringTools::toLower(name), StringTools::toLower(IniKeywords::Resource))
-                                || isFixSection(name, fixSuffix)) {
-                            return -1;
-                        }
-                        return 2;
-                    };
-                    const auto assigns = [&vars](const std::string& key) {
-                        for (const std::string& var : assignedVars(key)) {
-                            if (vars.count(var) > 0) {
-                                return true;
-                            }
-                        }
-                        return false;
-                    };
-
-                    for (bool grew = true; grew;) {
-                        grew = false;
-                        for (const auto& [name, section] : templates) {
-                            if (section == nullptr || kind(name, *section) < 1) {
-                                continue;
-                            }
-                            forEachLine(*section, [&](const std::string& key, const std::string& value, const std::string& conditions) {
-                                if (!assigns(key)) {
-                                    return;
-                                }
-                                for (const std::string& var : IniNamingTools::varsIn(value + "\n" + conditions)) {
-                                    grew |= vars.insert(var).second;
-                                }
-                            });
-                        }
-                    }
+                    IniFile::VarState state = linked.varState(vars);
+                    vars = state.vars;
 
                     std::map<std::string, std::string> renames;
                     for (const std::string& var : vars) {
                         renames[var] = var + suffix;
                     }
-
-                    std::set<std::string> declared;
-                    for (const auto& [name, section] : templates) {
-                        const int sectionKind = section == nullptr ? -1 : kind(name, *section);
-                        if (sectionKind < 0) {
-                            continue;
+                    for (std::unique_ptr<Section>& section : state.sections) {
+                        GraphVarRename<>::renameIn(*section, renames, &z3_);
+                        if (!StringTools::equalsIgnoreCase(section->name, IniKeywords::Constants)
+                                && !StringTools::equalsIgnoreCase(section->name, IniKeywords::Present)) {
+                            section->name = remapFixName(section->name);
                         }
-
-                        bool kept = false;
-                        std::unique_ptr<Section> copy = section->deepcopy();
-                        keepLines(*copy, [&](const std::string& key, const std::string& value) {
-                            (void)value;
-                            bool keep = false;
-                            if (sectionKind == 0) {
-                                const std::vector<std::string> names = IniNamingTools::varsIn(key);
-                                keep = !names.empty() && vars.count(names.back()) > 0;
-                                if (keep) {
-                                    declared.insert(names.back());
-                                }
-                            } else if (sectionKind == 1) {
-                                keep = assigns(key);
-                            } else {
-                                const std::string lower = StringTools::toLower(std::string(StringTools::strip(key)));
-                                keep = assigns(key) || StringTools::startsWith(lower, IniKeywords::Hash)
-                                    || StringTools::startsWith(lower, "match_") || StringTools::startsWith(lower, "key")
-                                    || StringTools::startsWith(lower, "type") || StringTools::startsWith(lower, "condition");
-                                kept |= assigns(key);
-                                return keep;
-                            }
-                            kept |= keep;
-                            return keep;
-                        });
-                        if (!kept) {
-                            continue;
-                        }
-
-                        GraphVarRename<>::renameIn(*copy, renames, &z3_);
-                        if (sectionKind == 2) {
-                            copy->name = remapFixName(name);
-                        }
-                        addFixSection(std::move(copy));
+                        addFixSection(std::move(section));
                     }
 
-                    // a variable the linked file uses without declaring it is declared, as 3DMigoto starts it, at 0
                     std::vector<Kvp> undeclared;
-                    for (const std::string& var : vars) {
-                        if (declared.count(var) == 0) {
-                            undeclared.emplace_back(IniKeywords::Global + " $" + renames.at(var), "0");
-                        }
+                    for (const std::string& var : state.undeclared) {
+                        undeclared.emplace_back(IniKeywords::Global + " $" + renames.at(var), "0");
                     }
                     if (!undeclared.empty()) {
                         addFixSection(SectionText(z3_, IniKeywords::Constants).keys(undeclared).build());

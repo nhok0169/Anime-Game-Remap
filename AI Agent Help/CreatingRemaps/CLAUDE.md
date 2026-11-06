@@ -1428,10 +1428,10 @@ overworld is a stale shape-key buffer (START HERE's first row). What this pair t
   file's lines are a PARSER answer: `IniParseData::linkedLines` (`RoleFileData::carried`, one `LinkedLine` each: object,
   key or role, condition rendered by `IfPredPart::getIfPredStr`, value, file, linked `.ini`), read in the same
   `roleFilesOf` pass that reads that file's bindings, from a `WWMIParser.carried` collect of `RabbitFX::GlowMapKey`.
-  The fixer's `planLinkedLines` builds the `...Glow` lists, and `copyLinkedState` copies the linked file's
-  [Constants] / [Present] / trigger sections (`IfTemplate::deepcopy`, lines cut, `IfTemplate::removeEmptyBlocks`)
-  and renames their variables with the new graph edit `GraphVarRename` (in the fix's Z3 context) -- where master
-  rebuilt them as text. A glow line names the mod.ini's own resource when it declares that file (`ResourceBodyFX`), and
+  The fixer's `planLinkedLines` builds the `...Glow` lists, and `copyLinkedState` takes the linked file's
+  [Constants] / [Present] / key / trigger state from `IniFile::varState` (copies of only the sections that hold it,
+  cut to it) and renames its variables with the new graph edit `GraphVarRename` (in the fix's Z3 context) -- where
+  master rebuilt them as text. A glow line names the mod.ini's own resource when it declares that file (`ResourceBodyFX`), and
   a renamed variable is lower-cased (`$breakcheck...`; 3DMigoto's names are case-insensitive). The overlay
   (`SourceComponent::overlay`) is a `WWMISections::ShaderDraw` with no fallback and `before` lines binding the mod's
   files, as a mark is.

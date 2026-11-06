@@ -812,6 +812,68 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The state this file keeps for some of its variables, as another file reading them needs it -- see
+             #varState
+             @endrst
+             */
+            struct VarState {
+                VarState() = default;
+                VarState(const VarState&) = delete;
+                VarState& operator=(const VarState&) = delete;
+                VarState(VarState&&) = default;
+                VarState& operator=(VarState&&) = default;
+
+                /**
+                 * @brief
+                 @rst
+                 Copies of the `sections`_ that hold the state, in the file's order and under their own names, each
+                 cut to the lines that make it: a ``[Constants]`` keeps its declarations of #vars; every other
+                 `section`_ keeps the lines assigning one of #vars, plus what decides when it runs -- in a ``[Key...]``
+                 every line that assigns no other variable (``key``, ``type``, ``back``, ``condition``, ...), elsewhere
+                 its ``hash``, ``match_...`` and ``condition`` lines. An ``if`` block left empty goes
+                 @endrst
+                 */
+                std::vector<std::unique_ptr<IfTemplate<std::string, std::string>>> sections;
+
+                /**
+                 * @brief
+                 @rst
+                 The variables asked for, and every variable a line assigning one of them reads -- in its value or in
+                 an ``if`` it sits under -- to the closure. Lowercased, as :cpp:func:`IniNamingTools::varsIn` gives them
+                 @endrst
+                 */
+                std::set<std::string> vars;
+
+                /**
+                 * @brief
+                 @rst
+                 The #vars no ``[Constants]`` of the file declares -- 3DMigoto starts such a variable at 0
+                 @endrst
+                 */
+                std::set<std::string> undeclared;
+            };
+
+            /**
+             * @brief
+             @rst
+             The state this file keeps for 'vars': where they are declared and every `section`_ that assigns them --
+             ``[Present]``, a key, a trigger on a hash -- with the variables those lines read in turn. A file with no
+             ``namespace =`` names its variables after its path, so another file reads them only through a copy of
+             this state, renamed (:cpp:class:`GraphVarRename`).
+
+             Never a `section`_ that draws (one with ``match_first_index``) nor a ``[Resource...]``. Only the
+             `sections`_ that keep a line are copied
+             @endrst
+             *
+             * @param vars The variables, as :cpp:func:`IniNamingTools::varsIn` gives them
+             *
+             * @return The state
+             */
+            VarState varState(const std::set<std::string>& vars);
+
+            /**
+             * @brief
+             @rst
              The namespace this file declares -- a ``namespace = X`` line before its first `section`_, as
              3DMigoto reads it -- or ``std::nullopt``
              @endrst

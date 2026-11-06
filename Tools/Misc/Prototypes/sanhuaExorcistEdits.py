@@ -937,105 +937,27 @@ def makeFixer(parser, toModName, modTypeId):
                     if planGameResource(binding.role):
                         toggledGame[(binding.role, component)] = gameResourceFor(binding.role, component)
 
-    # WHAT A LINKED .ini SETS ON THIS FILE'S DRAWS (WWMIFixer::planLinkedLines): each line the parser carried, on a
-    # component the mod draws, its condition reading the fix's copies of that file's own variables (copyLinkedState) and
-    # its value naming the file through a resource of this .ini -- the mod's own, or a RemapRef the fix declares
-    assignedVars = lambda key: (FRB.IniNamingTools.varsIn(key.strip().split(" ")[-1])
-                                if key.strip().split(" ")[-1].startswith("$") else [])
-
-    def forEachLine(section, visit):
-        open_ = []
-        for part in section.parts:
-            if isinstance(part, FRB.IfPredPart):
-                if part.type == FRB.IfPredPartType.If:
-                    open_.append([part.src])
-                elif part.type == FRB.IfPredPartType.EndIf:
-                    if open_:
-                        open_.pop()
-                elif open_:
-                    open_[-1].append(part.src)
-            elif isinstance(part, FRB.IfContentPart):
-                conditions = "".join(src + "\n" for level in open_ for src in level)
-                for key, value in part.entries():
-                    visit(key, value, conditions)
-
-    def keepLines(section, keep):
-        for part in section.parts:
-            if isinstance(part, FRB.IfContentPart):
-                entries = part.entries()
-                for i in reversed(range(len(entries))):
-                    if not keep(*entries[i]):
-                        part.removeKVPAt(i)
-        section.removeEmptyBlocks()
-
-    # the state a linked file keeps for 'vars', copied into the fix under the variables' new names
+    # THE STATE A LINKED FILE KEEPS FOR 'vars' (IniFile.varState), copied into the fix under the variables' new names
+    # (GraphVarRename) -- a section other than [Constants] and [Present] under a name of the fix's own too. 'vars' grows to
+    # the state's closure, and a variable the file never declares is declared, as 3DMigoto starts it, at 0
     def copyLinkedState(linked, vars, suffix):
-        templates = linked.getIfTemplates()
-        fixSuffix = rename("")
-        isMesh = lambda section: section.firstValMatching(lambda key: FRB.IniNamingTools.sameKey(key, FRB.IniKeywords.MatchFirstIndex)) is not None
-
-        def kind(name, section):
-            if name.lower() == FRB.IniKeywords.Constants.lower():
-                return 0
-            if name.lower() == FRB.IniKeywords.Present.lower():
-                return 1
-            if (isMesh(section) or name.lower().startswith(FRB.IniKeywords.Resource.lower())
-                    or (fixSuffix and name.lower().endswith(fixSuffix.lower()))):
-                return -1
-            return 2
-
-        assigns = lambda key: any(var in vars for var in assignedVars(key))
-        grew = True
-        while grew:
-            grew = False
-            for name, section in templates.items():
-                if section is None or kind(name, section) < 1:
-                    continue
-                found = []
-                forEachLine(section, lambda key, value, conditions: found.extend(
-                    FRB.IniNamingTools.varsIn(value + "\n" + conditions)) if assigns(key) else None)
-                for var in found:
-                    if var not in vars:
-                        vars.add(var)
-                        grew = True
+        state = linked.varState(vars)
+        vars.update(state.vars)
 
         renames = {var: var + suffix for var in vars}
-        declared = set()
-        for name, section in templates.items():
-            sectionKind = -1 if section is None else kind(name, section)
-            if sectionKind < 0:
-                continue
-            kept = [False]
-            copy = section.deepcopy()
+        for section in state.takeSections():
+            FRB.GraphVarRename.renameIn(section, renames, z3)
+            if section.name.lower() not in (FRB.IniKeywords.Constants.lower(), FRB.IniKeywords.Present.lower()):
+                section.name = rename(section.name)
+            addFixSection(section)
 
-            def keep(key, value, sectionKind = sectionKind):
-                if sectionKind == 0:
-                    names = FRB.IniNamingTools.varsIn(key)
-                    result = bool(names) and names[-1] in vars
-                    if result:
-                        declared.add(names[-1])
-                elif sectionKind == 1:
-                    result = assigns(key)
-                else:
-                    lower = key.strip().lower()
-                    result = assigns(key) or lower.startswith((FRB.IniKeywords.Hash, "match_", "key", "type", "condition"))
-                    kept[0] |= assigns(key)
-                    return result
-                kept[0] |= result
-                return result
-
-            keepLines(copy, keep)
-            if not kept[0]:
-                continue
-            FRB.GraphVarRename.renameIn(copy, renames, z3)
-            if sectionKind == 2:
-                copy.name = rename(name)
-            addFixSection(copy)
-
-        undeclared = [(FRB.IniKeywords.Global + " $" + renames[var], "0") for var in sorted(vars) if var not in declared]
+        undeclared = [(FRB.IniKeywords.Global + " $" + renames[var], "0") for var in sorted(state.undeclared)]
         if undeclared:
             addFixSection(FRB.SectionText(z3, FRB.IniKeywords.Constants).keys(undeclared).build())
 
+    # WHAT A LINKED .ini SETS ON THIS FILE'S DRAWS (WWMIFixer::planLinkedLines): each line the parser carried, on a
+    # component the mod draws, its condition reading the fix's copies of that file's own variables (copyLinkedState) and
+    # its value naming the file through a resource of this .ini -- the mod's own, or a RemapRef the fix declares
     linkedLines = {}
     lines = list(data.linkedLines())
     files, varsOf = [], {}

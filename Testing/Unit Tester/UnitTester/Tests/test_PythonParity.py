@@ -68,6 +68,31 @@ class PythonParityTest(unittest.TestCase):
         FRB.GraphVarRename.renameIn(constants, {"mask": "maskX"})
         self.assertIn("global persist $maskX = 0", constants.toStr())
 
+    def test_varState_closureAndEachSectionCutToItsState_noDrawNorResource(self):
+        ini, templates = self._section(
+            "[Constants]\nglobal persist $mask = 0\nglobal $other = 0\n"
+            "\n[Present]\nif $mask != $maskCheck\n\t$mask = $maskCheck\nendif\nrun = CommandListX\npost $maskCheck = 0\n"
+            "\n[KeyMask]\nkey = VK_F1\ntype = cycle\nback = VK_F2\n$mask = 0,1\n$other = 0,1\n"
+            "\n[KeyOther]\nkey = VK_F3\n$other = 0,1\n"
+            "\n[TextureOverrideTrigger]\nhash = abcdef01\nps-t0 = ResourceX\n$maskCheck = 1\n"
+            "\n[TextureOverrideMesh]\nhash = abcdef02\nmatch_first_index = 0\n$mask = 1\n"
+            "\n[ResourceX]\nfilename = x.dds\n")
+        state = ini.varState({"mask"})
+        self.assertEqual(state.vars, {"mask", "maskcheck"})
+        self.assertEqual(state.undeclared, {"maskcheck"})
+
+        sections = state.takeSections()
+        self.assertEqual([section.name for section in sections], ["Constants", "Present", "KeyMask", "TextureOverrideTrigger"])
+        lines = lambda section: [line.strip() for line in section.toStr().splitlines() if line.strip()][1:]
+        self.assertEqual(lines(sections[0]), ["global persist $mask = 0"])
+        self.assertEqual(lines(sections[1]), ["if $mask != $maskCheck", "$mask = $maskCheck", "endif", "post $maskCheck = 0"])
+        self.assertEqual(lines(sections[2]), ["key = VK_F1", "type = cycle", "back = VK_F2", "$mask = 0,1"])
+        self.assertEqual(lines(sections[3]), ["hash = abcdef01", "$maskCheck = 1"])
+        self.assertEqual(state.takeSections(), [])
+
+        # the file's own sections are untouched
+        self.assertIn("run = CommandListX", templates["Present"].toStr())
+
     def test_removeEmptyBlocks_anIfLeftWithNoLineGoes_andAnEnclosingOneWithIt(self):
         ini, templates = self._section("[Present]\nif $a == 1\n\tif $b == 1\n\t\tx = 1\n\tendif\nendif\nif $c == 1\n\ty = 2\nendif\nz = 3\n")
         present = templates["Present"].deepcopy()

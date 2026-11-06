@@ -142,6 +142,178 @@ namespace AGRemapCore {
         return result;
     }
 
+    namespace {
+        using VarSection = IfTemplate<std::string, std::string>;
+
+        // The variables a key ASSIGNS -- `$x`, `post $x`, `global persist $x` -- lowercased
+        std::vector<std::string> assignedVars(const std::string& key) {
+            const std::string text(StringTools::strip(key));
+            const std::size_t space = text.rfind(' ');
+            const std::string last = space == std::string::npos ? text : text.substr(space + 1);
+            return !last.empty() && last[0] == '$' ? IniNamingTools::varsIn(last) : std::vector<std::string>{};
+        }
+
+        // Each line of a section with the conditions it sits under (every branch of every enclosing `if` so far)
+        template <typename Visit>
+        void forEachLine(const VarSection& section, Visit&& visit) {
+            std::vector<std::vector<std::string>> open;
+            for (const auto& part : section.parts()) {
+                if (const auto* pred = dynamic_cast<const IfPredPart*>(part.get())) {
+                    if (pred->type == IfPredPartType::If) {
+                        open.push_back({pred->src});
+                    } else if (pred->type == IfPredPartType::EndIf) {
+                        if (!open.empty()) {
+                            open.pop_back();
+                        }
+                    } else if (!open.empty()) {
+                        open.back().push_back(pred->src);
+                    }
+                    continue;
+                }
+                const auto* content = dynamic_cast<const VarSection::ContentPart*>(part.get());
+                if (content == nullptr) {
+                    continue;
+                }
+                std::string conditions;
+                for (const auto& level : open) {
+                    for (const std::string& src : level) {
+                        conditions += src + "\n";
+                    }
+                }
+                for (const auto& [key, value] : content->entries()) {
+                    visit(key, value, conditions);
+                }
+            }
+        }
+    }
+
+    IniFile::VarState IniFile::varState(const std::set<std::string>& vars) {
+        VarState result;
+        result.vars = vars;
+        const auto& templates = getIfTemplates();
+
+        enum class Kind { Skip, Constants, Present, Key, Trigger };
+        const auto kind = [](const std::string& name, const VarSection& section) {
+            const std::string lower = StringTools::toLower(name);
+            if (lower == StringTools::toLower(IniKeywords::Constants)) {
+                return Kind::Constants;
+            }
+            if (lower == StringTools::toLower(IniKeywords::Present)) {
+                return Kind::Present;
+            }
+            const bool draws = section.firstValMatching([](const std::string& key) {
+                return IniNamingTools::sameKey(key, IniKeywords::MatchFirstIndex);
+            }).has_value();
+            if (draws || StringTools::startsWith(lower, StringTools::toLower(IniKeywords::Resource))) {
+                return Kind::Skip;
+            }
+            return StringTools::startsWith(lower, "key") ? Kind::Key : Kind::Trigger;
+        };
+        const auto assigns = [&result](const std::string& key) {
+            for (const std::string& var : assignedVars(key)) {
+                if (result.vars.count(var) > 0) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        // the closure: every variable a line assigning one of 'vars' reads, in its value or an `if` around it
+        for (bool grew = true; grew;) {
+            grew = false;
+            for (const auto& [name, section] : templates) {
+                if (section == nullptr) {
+                    continue;
+                }
+                const Kind sectionKind = kind(name, *section);
+                if (sectionKind == Kind::Skip || sectionKind == Kind::Constants) {
+                    continue;
+                }
+                forEachLine(*section, [&](const std::string& key, const std::string& value, const std::string& conditions) {
+                    if (!assigns(key)) {
+                        return;
+                    }
+                    for (const std::string& var : IniNamingTools::varsIn(value + "\n" + conditions)) {
+                        grew |= result.vars.insert(var).second;
+                    }
+                });
+            }
+        }
+
+        // a line a section keeps: a declaration of one of 'vars' in [Constants], an assignment of one elsewhere, and
+        // what decides when a key or a trigger runs
+        std::set<std::string> declared;
+        const auto declares = [&result](const std::string& key) {
+            const std::vector<std::string> names = IniNamingTools::varsIn(key);
+            return names.empty() || result.vars.count(names.back()) == 0 ? std::string() : names.back();
+        };
+        const auto keeps = [&](Kind sectionKind, const std::string& key) {
+            switch (sectionKind) {
+                case Kind::Constants:
+                    return !declares(key).empty();
+                case Kind::Present:
+                    return assigns(key);
+                case Kind::Key:
+                    return assigns(key) || assignedVars(key).empty();
+                default: {
+                    const std::string lower = StringTools::toLower(std::string(StringTools::strip(key)));
+                    return assigns(key) || StringTools::startsWith(lower, IniKeywords::Hash)
+                        || StringTools::startsWith(lower, "match_") || StringTools::startsWith(lower, "condition");
+                }
+            }
+        };
+
+        for (const auto& [name, section] : templates) {
+            if (section == nullptr) {
+                continue;
+            }
+            const Kind sectionKind = kind(name, *section);
+            if (sectionKind == Kind::Skip) {
+                continue;
+            }
+
+            // read first: only a section that declares or assigns one of 'vars' is copied
+            bool holds = false;
+            forEachLine(*section, [&](const std::string& key, const std::string&, const std::string&) {
+                if (sectionKind == Kind::Constants) {
+                    const std::string var = declares(key);
+                    if (!var.empty()) {
+                        declared.insert(var);
+                        holds = true;
+                    }
+                } else {
+                    holds |= assigns(key);
+                }
+            });
+            if (!holds) {
+                continue;
+            }
+
+            std::unique_ptr<VarSection> copy = section->deepcopy();
+            for (auto& part : copy->parts()) {
+                auto* content = dynamic_cast<VarSection::ContentPart*>(part.get());
+                if (content == nullptr) {
+                    continue;
+                }
+                const std::vector<std::pair<std::string, std::string>> entries = content->entries();
+                for (std::size_t i = entries.size(); i-- > 0;) {
+                    if (!keeps(sectionKind, entries[i].first)) {
+                        content->removeKVPAt(i);
+                    }
+                }
+            }
+            copy->removeEmptyBlocks();
+            result.sections.push_back(std::move(copy));
+        }
+
+        for (const std::string& var : result.vars) {
+            if (declared.count(var) == 0) {
+                result.undeclared.insert(var);
+            }
+        }
+        return result;
+    }
+
     std::optional<std::string> IniFile::getNamespace() {
         for (const std::string& raw : readFileLines()) {
             const std::string line(StringTools::strip(raw));

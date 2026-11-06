@@ -1952,8 +1952,8 @@
         </childnode>
       </node>
       <node id="184">
-        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.h</label>
-        <link refid="_var_sections_take_8h"/>
+        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.h</label>
+        <link refid="_graph_var_take_8h"/>
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="5" relation="include">

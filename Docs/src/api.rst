@@ -1127,12 +1127,12 @@ GraphEditVariables
 
 :raw-html:`<br />`
 
-VarSectionsTake
+GraphVarTake
 ===============
 
-.. attributetable:: FixRaidenBoss2.VarSectionsTake
+.. attributetable:: FixRaidenBoss2.GraphVarTake
 
-.. autoclass:: FixRaidenBoss2.VarSectionsTake
+.. autoclass:: FixRaidenBoss2.GraphVarTake
     :members:
     :private-members:
 

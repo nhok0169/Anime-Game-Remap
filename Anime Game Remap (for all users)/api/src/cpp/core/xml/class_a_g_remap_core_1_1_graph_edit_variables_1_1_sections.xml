@@ -244,7 +244,7 @@ or at the end, when the variable was cleared since the place was held
 A variable holding the `sections`_ of one graph, in order :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 Each :cpp:func:`add` is one place in the order. :cpp:func:`reserve` holds a place open so sections known
-only later (a :cpp:class:`VarSectionsTake` that runs at fix time) land where the reservation was made
+only later (a :cpp:class:`GraphVarTake` that runs at fix time) land where the reservation was made
 rather than after everything added since
 </verbatim> </para>
     </detaileddescription>

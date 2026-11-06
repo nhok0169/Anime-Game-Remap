@@ -27,7 +27,7 @@
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h"
@@ -437,7 +437,7 @@ namespace AGRemapCore {
 
             // the sections the fix writes of its own, as variables, and the edits that take and write them
             GraphEditVariables fixVariables_;
-            std::vector<std::unique_ptr<VarSectionsTake>> takeEdits_;
+            std::vector<std::unique_ptr<GraphVarTake>> takeEdits_;
             std::unique_ptr<GraphCreate<std::string, std::string>> createEdit_;
             bool gaveUp_ = false;
             GraphGroupRemove<std::string, std::string> removeEveryGroup_;

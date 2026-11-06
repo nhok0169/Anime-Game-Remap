@@ -9,13 +9,13 @@
 //   HazrateGolabi#1364 (for being awesome, and improving the code)
 // ##### EndCredits
 
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.h"
 
 #include <memory>
 
 
 namespace AGRemapCore {
-    VarSectionsTake::VarSectionsTake(GraphEditVariables& variables, std::string variable, ModObj graph,
+    GraphVarTake::GraphVarTake(GraphEditVariables& variables, std::string variable, ModObj graph,
                                      std::vector<std::string> sections, std::string comment, bool inPlace):
         variables_(variables), variable_(std::move(variable)), graph_(std::move(graph)), sections_(std::move(sections)),
         comment_(std::move(comment)) {
@@ -24,7 +24,7 @@ namespace AGRemapCore {
         }
     }
 
-    VarSectionsTake::GraphGroups& VarSectionsTake::edit(GraphGroups& graphGroups, const ModType*, const std::string&) {
+    GraphVarTake::GraphGroups& GraphVarTake::edit(GraphGroups& graphGroups, const ModType*, const std::string&) {
         if (graphGroups.size() == 0) {
             return graphGroups;
         }

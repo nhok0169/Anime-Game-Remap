@@ -30,7 +30,7 @@ namespace AGRemapCore {
      list of edits passes from one edit to another :raw-html:`<br />` :raw-html:`<br />`
 
      A variable holds one graph's worth of `sections`_ (:cpp:class:`GraphEditVariables::Sections`): an edit copies
-     sections of a graph into it (:cpp:class:`VarSectionsTake`), code adds sections it builds itself
+     sections of a graph into it (:cpp:class:`GraphVarTake`), code adds sections it builds itself
      (:cpp:func:`Sections::add`), and an edit writes it out as a graph (:cpp:member:`GraphCreate::sectionsOf`). A fixer's own
      sections are one such variable
 
@@ -52,7 +52,7 @@ namespace AGRemapCore {
              A variable holding the `sections`_ of one graph, in order :raw-html:`<br />` :raw-html:`<br />`
 
              Each :cpp:func:`add` is one place in the order. :cpp:func:`reserve` holds a place open so sections known
-             only later (a :cpp:class:`VarSectionsTake` that runs at fix time) land where the reservation was made
+             only later (a :cpp:class:`GraphVarTake` that runs at fix time) land where the reservation was made
              rather than after everything added since
              @endrst
              */

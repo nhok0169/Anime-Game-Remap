@@ -14,7 +14,7 @@
     <includes refid="_ini_keywords_8h" local="yes">AGRemapCore/constants/IniKeywords.h</includes>
     <includes refid="_g_i_m_i_fixer_8h" local="yes">AGRemapCore/model/strategies/iniFixers/GIMIFixer.h</includes>
     <includes refid="_graph_edit_variables_8h" local="yes">AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h</includes>
-    <includes refid="_var_sections_take_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.h</includes>
+    <includes refid="_graph_var_take_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.h</includes>
     <includes refid="_graph_rename_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h</includes>
     <includes refid="_graph_create_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h</includes>
     <includes refid="_graph_remove_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h</includes>
@@ -858,8 +858,8 @@
         </childnode>
       </node>
       <node id="94">
-        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.h</label>
-        <link refid="_var_sections_take_8h"/>
+        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.h</label>
+        <link refid="_graph_var_take_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
@@ -1467,7 +1467,7 @@
 <codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_keywords_8h" kindref="compound">AGRemapCore/constants/IniKeywords.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_g_i_m_i_fixer_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/GIMIFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_graph_edit_variables_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_var_sections_take_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_graph_var_take_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_graph_rename_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_graph_create_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_graph_remove_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -1577,7 +1577,7 @@
 <codeline lineno="437"><highlight class="normal"></highlight></codeline>
 <codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>sections<sp/>the<sp/>fix<sp/>writes<sp/>of<sp/>its<sp/>own,<sp/>as<sp/>variables,<sp/>and<sp/>the<sp/>edits<sp/>that<sp/>take<sp/>and<sp/>write<sp/>them</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="439" refid="class_a_g_remap_core_1_1_template_fixer_1aa3323d222dea73a37deb6db5feb65916" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_graph_edit_variables" kindref="compound">GraphEditVariables</ref><sp/><ref refid="class_a_g_remap_core_1_1_template_fixer_1aa3323d222dea73a37deb6db5feb65916" kindref="member">fixVariables_</ref>;</highlight></codeline>
-<codeline lineno="440" refid="class_a_g_remap_core_1_1_template_fixer_1ac11010781717a91084f3adff03fd6e4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;VarSectionsTake&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_template_fixer_1ac11010781717a91084f3adff03fd6e4e" kindref="member">takeEdits_</ref>;</highlight></codeline>
+<codeline lineno="440" refid="class_a_g_remap_core_1_1_template_fixer_1a0a02e7e9e1fe8c2552699d2eb9d44c9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;GraphVarTake&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_template_fixer_1a0a02e7e9e1fe8c2552699d2eb9d44c9d" kindref="member">takeEdits_</ref>;</highlight></codeline>
 <codeline lineno="441" refid="class_a_g_remap_core_1_1_template_fixer_1acd493906eb26e325631b7202036aafff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GraphCreate&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_template_fixer_1acd493906eb26e325631b7202036aafff" kindref="member">createEdit_</ref>;</highlight></codeline>
 <codeline lineno="442" refid="class_a_g_remap_core_1_1_template_fixer_1a1c8789814df39bd24cb2a286d91c5f1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_template_fixer_1a1c8789814df39bd24cb2a286d91c5f1b" kindref="member">gaveUp_</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="443" refid="class_a_g_remap_core_1_1_template_fixer_1a0be54ceaeea2db488acaacb8276373e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_graph_group_remove" kindref="compound">GraphGroupRemove&lt;std::string, std::string&gt;</ref><sp/><ref refid="class_a_g_remap_core_1_1_template_fixer_1a0be54ceaeea2db488acaacb8276373e9" kindref="member">removeEveryGroup_</ref>;</highlight></codeline>

@@ -1,5 +1,5 @@
-#ifndef AGRemapCore_VarSectionsTake_H
-#define AGRemapCore_VarSectionsTake_H
+#ifndef AGRemapCore_GraphVarTake_H
+#define AGRemapCore_GraphVarTake_H
 // ##### Credits
 // ===== Anime Game Remap (AG Remap) =====
 // Authors: Albert Gold#2696, NK#1321
@@ -36,7 +36,7 @@ namespace AGRemapCore {
      them
      @endrst
      */
-    class VarSectionsTake: public BaseIniGraphGroupEdit<> {
+    class GraphVarTake: public BaseIniGraphGroupEdit<> {
         public:
             /**
              * @brief A mod object: ``(component, object)``
@@ -53,7 +53,7 @@ namespace AGRemapCore {
              * @param comment A comment written above each section taken. **Default**: none
              * @param inPlace Whether the sections keep the place held when the edit is made. **Default**: ``false``
              */
-            VarSectionsTake(GraphEditVariables& variables, std::string variable, ModObj graph, std::vector<std::string> sections,
+            GraphVarTake(GraphEditVariables& variables, std::string variable, ModObj graph, std::vector<std::string> sections,
                             std::string comment = "", bool inPlace = false);
 
             /**

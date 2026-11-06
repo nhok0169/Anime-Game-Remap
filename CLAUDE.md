@@ -469,7 +469,7 @@ and the docs refreshed. **A capability a C++ SUBCLASS adds belongs on the shared
 (2026-11-02):** `TemplateParser` / `TemplateFixer` sit beside the Python `GIMIParser` / `GIMIFixer` (both derive the
 same core templates, with a different context), so binding them would make two Python classes for one job; their
 `RowSteps` / `addRowSteps` / `resourceNamed` moved down into `GIMIParser` instead. `TemplateFixer`'s fix sections,
-give-up and renames needed no move -- `GraphEditVariables`, `VarSectionsTake` / `GraphCreate::sectionsOf`,
+give-up and renames needed no move -- `GraphEditVariables`, `GraphVarTake` / `GraphCreate::sectionsOf`,
 `GraphGroupRemove`, `GraphRename` and `RegAssetRemap` are bound, and a Python fixer lists them as edits. **And an edit
 BUILT in C++ whose class has no Python class of its own reaches Python as `BaseIniGraphGroupEdit`, whose `edit` was a
 no-op** -- it now runs the C++ edit (and `GIMIParser` files its `IParseResult`), so a C++-built step works in a Python
@@ -484,7 +484,7 @@ Python classes for the same thing. See [Architecture](AI%20Agent%20Help/Architec
 FOR PYTHON TOO".
 
 **EDITS PASS DATA THROUGH NAMED VARIABLES: `GraphEditVariables` (2026-10-31).** When one edit hands data to a later
-one, keep it in a variable of a `GraphEditVariables` (`VarSectionsTake` saves sections into one, `GraphCreate::sectionsOf`
+one, keep it in a variable of a `GraphEditVariables` (`GraphVarTake` saves sections into one, `GraphCreate::sectionsOf`
 writes them out as a graph in each group -- `VarSectionsCreate` until it was folded in, 2026-11-02) rather than writing a
 new holder class. A variable holds `IfTemplate` sections. It holds data about ONE graph; a
 `GraphGroupEditVariables` for data spanning several graphs is made only when a use case needs it (the maintainer's

@@ -1862,8 +1862,8 @@
         </childnode>
       </node>
       <node id="175">
-        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.h</label>
-        <link refid="_var_sections_take_8h"/>
+        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.h</label>
+        <link refid="_graph_var_take_8h"/>
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="6" relation="include">

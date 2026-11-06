@@ -1140,8 +1140,8 @@
         </childnode>
       </node>
       <node id="95">
-        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.h</label>
-        <link refid="_var_sections_take_8h"/>
+        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.h</label>
+        <link refid="_graph_var_take_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
@@ -1887,7 +1887,7 @@
 <codeline lineno="115"><highlight class="normal"></highlight></codeline>
 <codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>TemplateFixer::GroupEdit*<sp/>TemplateFixer::takeFixSections(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModObj&amp;<sp/>graph,<sp/>std::vector&lt;std::string&gt;<sp/>sections,</highlight></codeline>
 <codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>comment,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inPlace)<sp/>{</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>takeEdits_.push_back(std::make_unique&lt;VarSectionsTake&gt;(fixVariables_,<sp/>fixSectionsVariable(),<sp/>graph,<sp/>std::move(sections),</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>takeEdits_.push_back(std::make_unique&lt;GraphVarTake&gt;(fixVariables_,<sp/>fixSectionsVariable(),<sp/>graph,<sp/>std::move(sections),</highlight></codeline>
 <codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>comment,<sp/>inPlace));</highlight></codeline>
 <codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>takeEdits_.back().get();</highlight></codeline>
 <codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>

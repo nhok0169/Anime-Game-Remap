@@ -187,7 +187,7 @@ Named variables that edits save data about one graph into, and read or write bac
 list of edits passes from one edit to another :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 A variable holds one graph&apos;s worth of `sections`_ (:cpp:class:`GraphEditVariables::Sections`): an edit copies
-sections of a graph into it (:cpp:class:`VarSectionsTake`), code adds sections it builds itself
+sections of a graph into it (:cpp:class:`GraphVarTake`), code adds sections it builds itself
 (:cpp:func:`Sections::add`), and an edit writes it out as a graph (:cpp:member:`GraphCreate::sectionsOf`). A fixer&apos;s own
 sections are one such variable
 

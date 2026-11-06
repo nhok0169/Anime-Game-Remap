@@ -127,13 +127,13 @@ class GraphEditVariablesTest(BaseUnitTest):
 
         self.assertEqual([section.name for section in sections.list()], ["One", "Two"])
 
-    # ====================== VarSectionsTake ====================================
+    # ====================== GraphVarTake ====================================
 
     def test_take_copiesTheNamedSections_underTheComment_andRemovesTheGraph(self):
         variables = FRB.GraphEditVariables()
         groups = [FRB.IniGraphGroup({("", "src"): self.graph("A", "B")})]
 
-        FRB.VarSectionsTake(variables, "v", ("", "src"), ["B", "Missing"], "taken").edit(groups, None)
+        FRB.GraphVarTake(variables, "v", ("", "src"), ["B", "Missing"], "taken").edit(groups, None)
 
         self.assertNotIn(("", "src"), groups[0].graphs)
         self.assertEqual(variables.sections("v").names(), ["B"])
@@ -146,7 +146,7 @@ class GraphEditVariablesTest(BaseUnitTest):
             variables = FRB.GraphEditVariables()
             groups = [FRB.IniGraphGroup({("", "src"): self.graph("Taken")})]
             variables.sections("v").add(self.section("Before"))
-            take = FRB.VarSectionsTake(variables, "v", ("", "src"), ["Taken"], inPlace = inPlace)
+            take = FRB.GraphVarTake(variables, "v", ("", "src"), ["Taken"], inPlace = inPlace)
             variables.sections("v").add(self.section("After"))
             take.edit(groups, None)
             return variables.sections("v").names()
@@ -160,7 +160,7 @@ class GraphEditVariablesTest(BaseUnitTest):
         variables.sections("v").add(self.section("Own"))
         groups = [FRB.IniGraphGroup({("", "src"): self.graph("Taken")})]
 
-        for edit in [FRB.VarSectionsTake(variables, "v", ("", "src"), ["Taken"]), self.create(variables, lambda group: ["v"])]:
+        for edit in [FRB.GraphVarTake(variables, "v", ("", "src"), ["Taken"]), self.create(variables, lambda group: ["v"])]:
             edit.editFromIni(groups, None, None)
 
         self.assertEqual(self.names(groups[0]), ["Own", "Taken"])

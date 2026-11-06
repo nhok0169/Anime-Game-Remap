@@ -20,7 +20,7 @@
 #include <pybind11/stl.h>
 
 #include "AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
 
 #include "graphGroupEdits/PyBaseIniGraphGroupEdit.h"
@@ -69,7 +69,7 @@ Named variables that edits save data about one graph into, and read or write bac
 edits passes from one edit to another
 
 A variable holds one graph's worth of `sections`_ (:class:`GraphEditVariables.Sections`): an edit copies sections of a
-graph into it (:class:`VarSectionsTake`), code adds sections it builds itself (:meth:`GraphEditVariables.Sections.add`),
+graph into it (:class:`GraphVarTake`), code adds sections it builds itself (:meth:`GraphEditVariables.Sections.add`),
 and an edit writes it out as a graph (:attr:`GraphCreate.sectionsOf`). A fixer's own sections are one such variable
 
 .. warning::
@@ -84,7 +84,7 @@ and an edit writes it out as a graph (:attr:`GraphCreate.sectionsOf`). A fixer's
 
     variables = FRB.GraphEditVariables()
     variables.sections("fix").add(FRB.IfTemplate([FRB.IfContentPart({"handling": [(0, "skip")]}, 0)], name = "TextureOverrideMine"))
-    take = FRB.VarSectionsTake(variables, "fix", ("", "body"), ["TextureOverrideBody"])
+    take = FRB.GraphVarTake(variables, "fix", ("", "body"), ["TextureOverrideBody"])
     create = FRB.GraphCreate((0, "", "fixSections"))
     create.sectionsOf = lambda group: variables.sections("fix").list() if group == 0 else []
     fixer.graphGroupEdits = [take, create]
@@ -194,7 +194,7 @@ List[:class:`str`]
 Drops every section of every variable; a place held before is held no more
             )doc"));
 
-    auto take = py::class_<AGRC::VarSectionsTake, PyBaseIniGraphGroupEdit, py::smart_holder>(m, "VarSectionsTake", R"doc(
+    auto take = py::class_<AGRC::GraphVarTake, PyBaseIniGraphGroupEdit, py::smart_holder>(m, "GraphVarTake", R"doc(
 This class inherits from :class:`BaseIniGraphGroupEdit`
 
 Copies named `sections`_ of a graph in the first group into a sections variable of a :class:`GraphEditVariables`, and
@@ -229,8 +229,8 @@ inPlace: :class:`bool`
 
     **Default**: ``False``
     )doc");
-    take.def(py::init<Vars&, std::string, AGRC::VarSectionsTake::ModObj, std::vector<std::string>, std::string, bool>(),
+    take.def(py::init<Vars&, std::string, AGRC::GraphVarTake::ModObj, std::vector<std::string>, std::string, bool>(),
              py::arg("variables"), py::arg("variable"), py::arg("graph"), py::arg("sections"), py::arg("comment") = std::string(),
              py::arg("inPlace") = false, py::keep_alive<1, 2>());
-    defEdit<AGRC::VarSectionsTake>(take, EditReturns);
+    defEdit<AGRC::GraphVarTake>(take, EditReturns);
 }

@@ -518,7 +518,7 @@ def makeFixer(parser, toModName, modTypeId):
             copies.append(FRB.GraphCopy((0, *obj), (0, *copyObj), lambda owner, part, i, s = section: owner.name == s))
             edits[copyObj] = [FRB.GraphRename(lambda old, s = section, n = name: n if old == s else old),
                               FRB.RegNewVals({FRB.IniKeywords.Hash: hash})]
-            takes.append(FRB.VarSectionsTake(variables, "fixSections", copyObj, [name], commentOf(section), inPlace))
+            takes.append(FRB.GraphVarTake(variables, "fixSections", copyObj, [name], commentOf(section), inPlace))
         return copies + ([FRB.GraphGroupEdit([edits])] + takes if sections else [])
 
     targetVb0 = target.hashes.get([target.name, SLOT_HASH], toVersion, False)
@@ -1250,7 +1250,7 @@ def makeFixer(parser, toModName, modTypeId):
             cover = FRB.RegFillMissing(reg, offBinding, FRB.RegFillMissingMode.TopdownCover)
             cover.countMissingElse = True       # the toggle binds only while it is on
             listEdits[listObj].append(cover)
-        takes.append(FRB.VarSectionsTake(fixSections, "fixSections", listObj, [name]))
+        takes.append(FRB.GraphVarTake(fixSections, "fixSections", listObj, [name]))
     if listEdits:
         toggleEdits.append(FRB.GraphGroupEdit([listEdits]))
     toggleEdits += takes + [FRB.GraphRemove([(0, *obj) for obj in parser.modObjs if obj[0] == TEXTURE])]

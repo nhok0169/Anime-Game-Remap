@@ -2932,8 +2932,8 @@
         </childnode>
       </node>
       <node id="416">
-        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.h</label>
-        <link refid="_var_sections_take_8h"/>
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.h</label>
+        <link refid="_graph_var_take_8h"/>
         <childnode refid="173" relation="include">
         </childnode>
         <childnode refid="417" relation="include">
@@ -4304,8 +4304,8 @@
         <link refid="_v_g_split_group_res_builder_8cpp"/>
       </node>
       <node id="417">
-        <label>src/model/strategies/iniFixers/graphGroupEdits/VarSectionsTake.cpp</label>
-        <link refid="_var_sections_take_8cpp"/>
+        <label>src/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.cpp</label>
+        <link refid="_graph_var_take_8cpp"/>
       </node>
       <node id="423">
         <label>src/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEditInstantiation.cpp</label>

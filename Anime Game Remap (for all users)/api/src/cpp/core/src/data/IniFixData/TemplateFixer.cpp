@@ -115,7 +115,7 @@ namespace AGRemapCore {
 
     TemplateFixer::GroupEdit* TemplateFixer::takeFixSections(const ModObj& graph, std::vector<std::string> sections,
                                                                   const std::string& comment, bool inPlace) {
-        takeEdits_.push_back(std::make_unique<VarSectionsTake>(fixVariables_, fixSectionsVariable(), graph, std::move(sections),
+        takeEdits_.push_back(std::make_unique<GraphVarTake>(fixVariables_, fixSectionsVariable(), graph, std::move(sections),
                                                                comment, inPlace));
         return takeEdits_.back().get();
     }

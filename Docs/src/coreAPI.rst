@@ -1036,12 +1036,12 @@ GraphEditVariables
 
 :raw-html:`<br />`
 
-VarSectionsTake
+GraphVarTake
 ---------------
 
-.. cppattributetable:: AGRemapCore::VarSectionsTake
+.. cppattributetable:: AGRemapCore::GraphVarTake
 
-.. doxygenclass:: AGRemapCore::VarSectionsTake
+.. doxygenclass:: AGRemapCore::GraphVarTake
     :members:
     :protected-members:
 

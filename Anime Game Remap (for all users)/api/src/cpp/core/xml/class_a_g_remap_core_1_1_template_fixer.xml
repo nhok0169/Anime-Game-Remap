@@ -559,9 +559,9 @@ the fix
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/TemplateFixer.h" line="439" column="32" bodyfile="include/AGRemapCore/data/IniFixData/TemplateFixer.h" bodystart="439" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1ac11010781717a91084f3adff03fd6e4e" prot="private" static="no" mutable="no">
-        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_var_sections_take" kindref="compound">VarSectionsTake</ref> &gt; &gt;</type>
-        <definition>std::vector&lt;std::unique_ptr&lt;VarSectionsTake&gt; &gt; AGRemapCore::TemplateFixer::takeEdits_</definition>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1a0a02e7e9e1fe8c2552699d2eb9d44c9d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_graph_var_take" kindref="compound">GraphVarTake</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;GraphVarTake&gt; &gt; AGRemapCore::TemplateFixer::takeEdits_</definition>
         <argsstring></argsstring>
         <name>takeEdits_</name>
         <qualifiedname>AGRemapCore::TemplateFixer::takeEdits_</qualifiedname>
@@ -2398,7 +2398,7 @@ This class then supplies what every such fixer needs and none of them is about:
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a8173db7e04d0a54256a0557476ddb6c6" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>SectionToStr</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ae2c624a14d5c090257cba4e57d62a9a2" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>setCtx</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4a8599309d747e4d2800778803df0bd9" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>snapshotPreEditSectionNames</name></member>
-      <member refid="class_a_g_remap_core_1_1_template_fixer_1ac11010781717a91084f3adff03fd6e4e" prot="private" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>takeEdits_</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1a0a02e7e9e1fe8c2552699d2eb9d44c9d" prot="private" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>takeEdits_</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a1f6eaa19989d9767e8d3ef350c636bb6" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>takeFixSections</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a6c1a1b103e327c0e0b14427a54999b37" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>TemplateFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a94dea6ebb916551710b5a02c9ab0e148" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>TemplateFixer</name></member>

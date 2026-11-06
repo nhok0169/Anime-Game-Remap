@@ -35,7 +35,7 @@ nothing of another file). The same day it took over the texture TOGGLES WWMIPars
 **When one edit has to hand data to a later one, keep it in a named variable rather than a new holder class.**
 `GraphEditVariables` (`model/strategies/iniFixers/`) holds named variables, each one graph's worth of data; today a
 variable holds `sections`, in order, with places `reserve` can hold open. Two graph-group edits use it:
-`VarSectionsTake` copies named sections of a graph into a variable (optionally keeping the place held when the edit
+`GraphVarTake` copies named sections of a graph into a variable (optionally keeping the place held when the edit
 was made) and removes the graph, and `GraphCreate::sectionsOf` writes them out as a graph in each group (a callable
 hands, per group, the sections of its graph -- a variable's `list()`). `VarSectionsCreate` did the second until
 2026-11-02 and was folded into `GraphCreate`: it was `GraphCreate` per group over a graph built from sections, which

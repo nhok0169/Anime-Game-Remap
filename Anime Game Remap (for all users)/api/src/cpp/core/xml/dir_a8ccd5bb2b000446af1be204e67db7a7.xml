@@ -3,6 +3,8 @@
   <compounddef id="dir_a8ccd5bb2b000446af1be204e67db7a7" kind="dir">
     <compoundname>include/AGRemapCore/data/IniFixData/ChangliNymph</compoundname>
     <innerfile refid="_changli_nymph_fixer_8h">ChangliNymphFixer.h</innerfile>
+    <innerfile refid="_changli_nymph_shawl_shader_8h">ChangliNymphShawlShader.h</innerfile>
+    <innerfile refid="_changli_nymph_sheer_shader_8h">ChangliNymphSheerShader.h</innerfile>
     <innerfile refid="_changli_nymph_skeleton_8h">ChangliNymphSkeleton.h</innerfile>
     <innerfile refid="_changli_nymph_textures_8h">ChangliNymphTextures.h</innerfile>
     <innerfile refid="_changli_nymph_thumbprints_8h">ChangliNymphThumbprints.h</innerfile>

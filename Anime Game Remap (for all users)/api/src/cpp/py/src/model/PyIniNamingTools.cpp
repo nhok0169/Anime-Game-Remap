@@ -87,6 +87,39 @@ Returns
     Whether they are the same key
     )doc"));
 
+    cls.def_static("varsIn", &AGRC::IniNamingTools::varsIn, py::arg("text"), py::doc(R"doc(
+The `3DMigoto`_ variables a line of an ``.ini`` names -- each ``$name`` in a key, a value or an ``if`` condition --
+by name, lower-cased (`3DMigoto`_'s names are case-insensitive), in the order they appear. A namespaced reference
+(``$\\ns\\name``) belongs to another file and is not one of them
+
+Parameters
+----------
+text: :class:`str`
+    The line, or a part of it
+
+Returns
+-------
+List[:class:`str`]
+    The names, without the ``$``
+    )doc"));
+
+    cls.def_static("renameVars", &AGRC::IniNamingTools::renameVars, py::arg("text"), py::arg("renames"), py::doc(R"doc(
+'text' with each variable 'renames' names renamed -- see :meth:`varsIn` for which ``$name`` count
+
+Parameters
+----------
+text: :class:`str`
+    The line, or a part of it
+
+renames: Dict[:class:`str`, :class:`str`]
+    A variable's lower-cased name -> its new name, both without the ``$``
+
+Returns
+-------
+:class:`str`
+    The renamed text; 'text' itself when it names none of them
+    )doc"));
+
     cls.def_static("boundResource", &AGRC::IniNamingTools::boundResource, py::arg("value"), py::doc(R"doc(
 The resource a register's value binds: the value itself, or empty when there is no value or it is ``null`` (which
 unbinds the register)

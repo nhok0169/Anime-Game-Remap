@@ -200,6 +200,18 @@ suffix: :class:`str`
         .def("rebuild", &PyIfTemplate::rebuild,
     py::doc(R"doc(Updates the parse tree and the reference to other sections that this object calls)doc"))
 
+        .def("removeEmptyBlocks", &PyIfTemplate::removeEmptyBlocks,
+    py::doc(R"doc(
+Removes every ``if`` block with no line in any of its branches -- ``if`` to ``endif``, and an outer block left empty by
+an inner one's removal too -- and :meth:`rebuild`\s when one went. Eg. after the lines of a `section`_ copied elsewhere
+were cut down to the ones the copy needs
+
+Returns
+-------
+:class:`bool`
+    Whether a block was removed
+    )doc"))
+
         .def("refreshPartIds", &PyIfTemplate::refreshPartIds,
     py::doc(R"doc(Regenerates the ids for the parts)doc"))
 

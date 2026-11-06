@@ -36,6 +36,22 @@
         </inbodydescription>
         <location file="include/AGRemapCore/data/RabbitFX.h" line="47" column="44" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="47" bodyend="47"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_rabbit_f_x_1acd69e0a602c81d9323cd1c7f37472ba5" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::RabbitFX::GlowMapKey</definition>
+        <argsstring></argsstring>
+        <name>GlowMapKey</name>
+        <qualifiedname>AGRemapCore::RabbitFX::GlowMapKey</qualifiedname>
+        <initializer>= std::string(&quot;Resource&quot;) + char(92) + &quot;RabbitFX&quot; + char(92) + &quot;GlowMap&quot;</initializer>
+        <briefdescription>
+<para>The key a mod sets <ref refid="class_a_g_remap_core_1_1_rabbit_f_x" kindref="compound">RabbitFX</ref>&apos;s glow map on a draw with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="52" column="45" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1a7c78f788dff06e424c24bbb11a2ae2c6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -75,7 +91,7 @@ header: ``3`` for ``filter_index = 1718.3`` .. ``6`` for ``1718.6``, ``0`` for n
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/RabbitFX.h" line="65" column="24" bodyfile="src/data/RabbitFX.cpp" bodystart="25" bodyend="53"/>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="70" column="24" bodyfile="src/data/RabbitFX.cpp" bodystart="25" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1ac74c6108b22de6d1a3c049c3e1620adc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::array&lt; int, 4 &gt;</type>
@@ -110,7 +126,7 @@ can know; it is ``0`` here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/RabbitFX.h" line="79" column="31" bodyfile="src/data/RabbitFX.cpp" bodystart="55" bodyend="67"/>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="84" column="31" bodyfile="src/data/RabbitFX.cpp" bodystart="55" bodyend="67"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1ad8c161164f1abf7e2bd5d12a09834a25" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -139,7 +155,7 @@ can know; it is ``0`` here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/RabbitFX.h" line="86" column="25" bodyfile="src/data/RabbitFX.cpp" bodystart="69" bodyend="71"/>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="91" column="25" bodyfile="src/data/RabbitFX.cpp" bodystart="69" bodyend="71"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1a7c34bf70df98798eff673071afa293c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -183,7 +199,7 @@ Whether a `KVP`_ is one of RabbitFX&apos;s own: a resource under
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/RabbitFX.h" line="98" column="25" bodyfile="src/data/RabbitFX.cpp" bodystart="73" bodyend="77"/>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="103" column="25" bodyfile="src/data/RabbitFX.cpp" bodystart="73" bodyend="77"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -201,9 +217,10 @@ from the source&apos;s textures (:cpp:func:`textureTag`, :cpp:func:`routingFlags
 the call (:cpp:member:`FlagKeys`)
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/RabbitFX.h" line="37" column="5" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="37" bodyend="99"/>
+    <location file="include/AGRemapCore/data/RabbitFX.h" line="37" column="5" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="37" bodyend="104"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7db3af6ee18fb7741818ac5813a78f93" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>FlagKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1acd69e0a602c81d9323cd1c7f37472ba5" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>GlowMapKey</name></member>
       <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c34bf70df98798eff673071afa293c5" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>isOwnKVP</name></member>
       <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1adf8f0499f9d5d8e3bab1f700f2f7d71d" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>Name</name></member>
       <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1ad8c161164f1abf7e2bd5d12a09834a25" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>names</name></member>

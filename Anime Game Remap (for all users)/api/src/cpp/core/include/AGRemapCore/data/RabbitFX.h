@@ -47,6 +47,11 @@ namespace AGRemapCore {
             static inline const std::array<std::string, 4> FlagKeys = {"x187", "y187", "z187", "w187"};
 
             /**
+             * @brief The key a mod sets RabbitFX's glow map on a draw with
+             */
+            static inline const std::string GlowMapKey = std::string("Resource") + char(92) + "RabbitFX" + char(92) + "GlowMap";
+
+            /**
              * @brief
              @rst
              The tag RabbitFX's texture overrides give the texture at 'path', from its ``.dds``

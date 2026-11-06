@@ -129,7 +129,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="45" column="13" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="38" bodyend="39"/>
+        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="45" column="13" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="39" bodyend="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_unorm_1a5c3aeafc777571de83cef572d67db1b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref></type>
@@ -166,7 +166,7 @@ Decode the raw bytes to the `floating point`_ value for the `unsigned normalized
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="60" column="22" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="41" bodyend="44"/>
+        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="60" column="22" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="42" bodyend="45"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_unorm_1adb388dcf976a6c98c2c34d12007ab5a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -183,10 +183,10 @@ Decode the raw bytes to the `floating point`_ value for the `unsigned normalized
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Encodes the `floating point`_ back to raw bytes
-
-.. warning::
-   Please make sure &apos;src&apos; is within the acceptable range for the type
+Encodes the `floating point`_ back to raw bytes, rounded to the nearest step (as D3D
+converts a float to a UNORM), so a value printed to 9 significant digits -- a frame
+dump&apos;s text -- encodes back to the integer it came from. A value outside ``[0, 1]``
+is clamped to that range
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -203,7 +203,7 @@ Encodes the `floating point`_ back to raw bytes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="75" column="21" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="46" bodyend="50"/>
+        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="75" column="21" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="47" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_unorm_1ae0a02aba8423b8d2395b91a2224812ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type" kindref="compound">BufDataType</ref> &gt;</type>
@@ -230,7 +230,7 @@ than one :cpp:class:`BufElementType` without being consumed by the first use
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="77" column="29" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="52" bodyend="54"/>
+        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="77" column="29" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="59" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_int_1a51935c0626d30e82e479b496d3d84d3d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>

@@ -77,50 +77,13 @@ namespace AGRemapCore {
         const std::string KeySectionPrefix = "key";
         const std::string ConditionKey = "condition";
 
-        bool isIdentChar(char c) {
-            return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';
-        }
-
-        // Each `$name` in 'text' through 'visit(start, end, name)', where [start, end) spans the
-        // `$name`. A namespaced reference (`$\ns\name`) belongs to another file and is skipped.
-        template <typename Visit>
-        void forEachVar(const std::string& text, Visit&& visit) {
-            for (std::size_t i = 0; i < text.size(); ++i) {
-                if (text[i] != '$' || i + 1 >= text.size() || !isIdentChar(text[i + 1])) {
-                    continue;
-                }
-
-                std::size_t end = i + 1;
-                while (end < text.size() && isIdentChar(text[end])) {
-                    ++end;
-                }
-                visit(i, end, text.substr(i + 1, end - i - 1));
-                i = end - 1;
-            }
-        }
-
-        // The variables 'text' reads, lowercased (3DMigoto's names are case-insensitive)
+        // The variables 'text' names, and 'text' with some renamed -- IniNamingTools's
         std::vector<std::string> varsIn(const std::string& text) {
-            std::vector<std::string> result;
-            forEachVar(text, [&result](std::size_t, std::size_t, const std::string& name) {
-                result.push_back(StringTools::toLower(name));
-            });
-            return result;
+            return IniNamingTools::varsIn(text);
         }
 
-        // 'text' with each variable 'renames' names (by its lowercased name) renamed
         std::string renameVars(const std::string& text, const std::map<std::string, std::string>& renames) {
-            std::string result;
-            std::size_t copied = 0;
-            forEachVar(text, [&](std::size_t start, std::size_t end, const std::string& name) {
-                auto found = renames.find(StringTools::toLower(name));
-                if (found == renames.end()) {
-                    return;
-                }
-                result += text.substr(copied, start - copied) + "$" + found->second;
-                copied = end;
-            });
-            return result + text.substr(copied);
+            return IniNamingTools::renameVars(text, renames);
         }
 
         // The variable a `[Constants]` line declares (`global persist $color = 0` -> "color"), lowercased

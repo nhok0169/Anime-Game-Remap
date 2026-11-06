@@ -27,6 +27,9 @@
 #include "AGRemapCore/model/files/IbFile.h"
 #include "AGRemapCore/tools/files/FileService.h"
 
+#include <fstream>
+#include <iterator>
+
 
 namespace AGRemapCore {
 
@@ -459,4 +462,69 @@ namespace AGRemapCore {
         write(out.reverse, reverse, 1);
     }
 
+    std::vector<std::uint16_t> WWMIBlend::reverseOf(const VGRemap& row) {
+        std::set<std::uint16_t> used;
+        for (const auto& [srcBone, dstBone] : row.getRemap()) {
+            (void)srcBone;
+            if (dstBone >= 0 && static_cast<std::size_t>(dstBone) < RemapSize) {
+                used.insert(static_cast<std::uint16_t>(dstBone));
+            }
+        }
+
+        std::vector<std::uint16_t> reverse(RemapSize, 0);
+        std::uint16_t local = 0;
+        for (const std::uint16_t merged : used) {
+            reverse[merged] = local++;
+        }
+        return reverse;
+    }
+
+    ByteVec WWMIBlend::componentBlend(const std::string& blendPath, const std::string& positionPath, long long vgOffset,
+                                      const std::vector<int>& vgMap, const VGRemap& row, std::size_t outInfluences,
+                                      std::set<long long>* unmapped) {
+        const std::optional<Layout> layout = layoutOf(blendPath, positionPath);
+        if (!layout.has_value()) {
+            throw std::runtime_error("its Blend.buf and Position.buf do not agree on a vertex count and an even number of"
+                                     " influences per vertex");
+        }
+
+        std::ifstream in(FileService::strToPath(blendPath), std::ios::binary);
+        const ByteVec src{std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>()};
+        const std::size_t influences = layout->influences;
+        const std::size_t vertices = layout->vertices;
+        const std::size_t width = std::max(influences, outInfluences);
+        const std::unordered_map<long long, long long>& remap = row.getRemap();
+        const std::vector<std::uint16_t> reverse = reverseOf(row);
+
+        ByteVec out(vertices * width * 2, 0);
+        for (std::size_t v = 0; v < vertices; ++v) {
+            for (std::size_t b = 0; b < influences; ++b) {
+                const std::uint8_t weight = src[v * influences * 2 + influences + b];
+                out[v * width * 2 + width + b] = weight;
+                if (weight == 0) {
+                    continue;
+                }
+
+                const long long local = static_cast<long long>(src[v * influences * 2 + b]) - vgOffset;
+                if (local < 0 || static_cast<std::size_t>(local) >= vgMap.size()) {
+                    if (unmapped != nullptr) {
+                        unmapped->insert(local);
+                    }
+                    continue;
+                }
+
+                const auto target = remap.find(vgMap[static_cast<std::size_t>(local)]);
+                if (target == remap.end() || target->second < 0 || static_cast<std::size_t>(target->second) >= reverse.size()) {
+                    if (unmapped != nullptr) {
+                        unmapped->insert(local);
+                    }
+                    continue;
+                }
+
+                out[v * width * 2 + b] = static_cast<std::uint8_t>(reverse[static_cast<std::size_t>(target->second)]);
+            }
+        }
+
+        return out;
+    }
 }

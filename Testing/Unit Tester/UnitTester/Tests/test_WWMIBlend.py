@@ -139,6 +139,41 @@ class WWMIBlendTest(BaseUnitTest):
         self.assertEqual(forward[:3], (300, 400, 0))
         self.assertEqual((reverse[300], reverse[400]), (0, 1))
 
+    # ================================================
+    # ======= one component's own mesh blend =========
+
+    def test_reverseOf_theRowsTargetsInOrder_everythingElseZero(self):
+        reverse = FRB.WWMIBlend.reverseOf({0: 400, 1: 300, 2: 300, 3: -1, 4: 600})
+        self.assertEqual(len(reverse), 512)
+        self.assertEqual((reverse[300], reverse[400]), (0, 1))
+        self.assertEqual(sum(reverse), 1)                   # 600 cannot be held, and nothing else is named
+
+    def test_componentBlend_liftsThroughTheVgMapAndTheRow_toLocalIds(self):
+        position = self._position(2)
+        # ids start at the component's vg_offset (10): local 0 and 1, then 1 alone
+        blend = self._write("Own.buf", _blendLine([10, 11], [200, 55]) + _blendLine([11, 10], [255, 0]))
+        vgMap = [7, 9]                                      # local -> merged source bone
+        row = {7: 400, 9: 300}
+
+        data, unmapped = FRB.WWMIBlend.componentBlend(blend, position, 10, vgMap, row, 2)
+        # the row's targets in order (300, 400) are locals 0 and 1; a weight-0 slot reads 0
+        self.assertEqual(data, _blendLine([1, 0], [200, 55]) + _blendLine([0, 0], [255, 0]))
+        self.assertEqual(unmapped, [])
+
+    def test_componentBlend_widensToTheTarget_andReportsWhatItCannotPlace(self):
+        position = self._position(1)
+        blend = self._write("Own.buf", _blendLine([5, 9], [128, 127]))
+        data, unmapped = FRB.WWMIBlend.componentBlend(blend, position, 5, [3], {3: 20}, 4)
+        # 9 - 5 = local 4, past the vg map: local 0, its weight kept; two empty slots after
+        self.assertEqual(data, _blendLine([0, 0, 0, 0], [128, 127, 0, 0]))
+        self.assertEqual(unmapped, [4])
+
+    def test_componentBlend_buffersThatDisagree_raise(self):
+        position = self._position(2)
+        blend = self._write("Own.buf", b"\0" * 3)
+        with self.assertRaises(RuntimeError):
+            FRB.WWMIBlend.componentBlend(blend, position, 0, [], {}, 4)
+
     def test_writeRemap_unaddressableBone_raises(self):
         position = self._position(1)
         blend = self._write("Blend.buf", _blendLine([0], [255]))

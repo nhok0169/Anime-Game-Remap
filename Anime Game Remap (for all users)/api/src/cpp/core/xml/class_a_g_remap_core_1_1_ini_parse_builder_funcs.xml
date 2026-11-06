@@ -1544,6 +1544,26 @@ The standard GIMI character shape, drawing ``head`` / ``body`` / ``dress``, all 
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="889" column="45" bodyfile="src/data/IniParseData/Lumine/LumineParser.cpp" bodystart="27" bodyend="55"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ae0c5728d0d3b8979ad587e98ca71f744" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::aether4_0</definition>
+        <argsstring>()</argsstring>
+        <name>aether4_0</name>
+        <qualifiedname>AGRemapCore::IniParseBuilderFuncs::aether4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era **Aether** ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The standard GIMI character shape, drawing ``head`` / ``body``, both on the plain layout. See
+``data/IniParseData/Aether/AetherParser.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="900" column="45" bodyfile="src/data/IniParseData/Aether/AetherParser.cpp" bodystart="27" bodyend="54"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa6df3db53d6170f419d55c418762220b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::lumineHeaven6_3</definition>
@@ -1562,7 +1582,27 @@ A skin of three components -- an unnamed main mesh, a Bang and an Eye. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="900" column="45" bodyfile="src/data/IniParseData/LumineHeaven/LumineHeavenParser.cpp" bodystart="25" bodyend="78"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="911" column="45" bodyfile="src/data/IniParseData/LumineHeaven/LumineHeavenParser.cpp" bodystart="25" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a18a10b24025f17addd5c7a300a68c923" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::aetherHeaven6_3</definition>
+        <argsstring>()</argsstring>
+        <name>aetherHeaven6_3</name>
+        <qualifiedname>AGRemapCore::IniParseBuilderFuncs::aetherHeaven6_3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 6.3-era **AetherHeaven** ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A skin of three components -- an unnamed main mesh, a Bang and an Eye. See
+``data/IniParseData/AetherHeaven/AetherHeavenParser.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="922" column="45" bodyfile="src/data/IniParseData/AetherHeaven/AetherHeavenParser.cpp" bodystart="25" bodyend="76"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1587,8 +1627,10 @@ One static method per (mod, version-it-changed-at) pair, each returning the :cpp
    yet (:cpp:func:`IniParseBuilderFuncs::wwmiStub`)
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="45" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="45" bodyend="902"/>
+    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="45" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="45" bodyend="924"/>
     <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ae0c5728d0d3b8979ad587e98ca71f744" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>aether4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a18a10b24025f17addd5c7a300a68c923" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>aetherHeaven6_3</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a0f031e3c3bc6a5784f978725a2f30f90" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>amber4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac929d9cdc7d62f7339d4b5c340553daa" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>amberCN4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aedc30a01d309a33aa3a28a6e856a425d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>arlecchino5_4</name></member>

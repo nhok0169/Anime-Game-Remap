@@ -116,6 +116,10 @@ Each builder fills a fixed template with the values it is given. Every name goes
         .def_readwrite("assigned", &Sections::ShaderDraw::assigned,
                        "List[Tuple[:class:`str`, :class:`str`]]: The lines the shaders assign whose registers are saved before the runs "
                        "and restored after them (:meth:`CustomShaderBackups.wrap`)")
+        .def_readwrite("before", &Sections::ShaderDraw::before,
+                       "List[Tuple[:class:`str`, :class:`str`]]: Lines the draw's command list writes before it runs the shader, "
+                       "inside the same save and restore as the runs -- eg. the textures an overlay drawn over the mod's own draw "
+                       "reads. **Default**: none")
         .def_readwrite("afterTarget", &Sections::ShaderDraw::afterTarget,
                        ":class:`str`: For a draw held back until other draws of the same pass are made: the resource that tells one "
                        "pass from another (a render target), or empty to draw at once")

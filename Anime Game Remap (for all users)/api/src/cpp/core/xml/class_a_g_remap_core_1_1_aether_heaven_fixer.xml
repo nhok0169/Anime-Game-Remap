@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_aether_heaven_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::AetherHeavenFixer</compoundname>
+    <includes refid="_aether_heaven_fixer_8h" local="no">AetherHeavenFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_aether_heaven_fixer_1a257cd315f661257bc674254891f2fd71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::AetherHeavenFixer::AetherHeavenFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>AetherHeavenFixer</name>
+        <qualifiedname>AGRemapCore::AetherHeavenFixer::AetherHeavenFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/AetherHeaven/AetherHeavenFixer.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_aether_heaven_fixer_1a31cea84bfd40d41d4ca1e0fc87b2ea94" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::AetherHeavenFixer::toAether6_3</definition>
+        <argsstring>()</argsstring>
+        <name>toAether6_3</name>
+        <qualifiedname>AGRemapCore::AetherHeavenFixer::toAether6_3</qualifiedname>
+        <briefdescription>
+<para>The fix onto Aether <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a5281e18a3ea60ced4a48eb71d8e45276" kindref="member">IniFixBuilderFuncs::aetherHeavenToAether6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/AetherHeaven/AetherHeavenFixer.h" line="40" column="43" bodyfile="src/data/IniFixData/AetherHeaven/AetherHeavenFixer.cpp" bodystart="149" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+AetherHeaven&apos;s own fixers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A skin of SEVERAL components merged onto a target of ONE, the inverse of :cpp:class:`AetherFixer`&apos;s direction.
+See :cpp:func:`makeGIMIMergeFixer`. Pair this with :cpp:class:`AetherHeavenParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/AetherHeaven/AetherHeavenFixer.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniFixData/AetherHeaven/AetherHeavenFixer.h" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_aether_heaven_fixer_1a257cd315f661257bc674254891f2fd71" prot="public" virt="non-virtual"><scope>AGRemapCore::AetherHeavenFixer</scope><name>AetherHeavenFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_aether_heaven_fixer_1a31cea84bfd40d41d4ca1e0fc87b2ea94" prot="public" virt="non-virtual"><scope>AGRemapCore::AetherHeavenFixer</scope><name>toAether6_3</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

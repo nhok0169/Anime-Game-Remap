@@ -12220,6 +12220,100 @@ class GraphRename(BaseIniGraphEdit):
     @renameFunc.setter
     def renameFunc(self, arg1: typing.Any) -> None:
         ...
+class GraphVarRename(BaseIniGraphEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphEdit`
+    
+    Renames `3DMigoto`_ variables everywhere in the `sections`_ of some caller/callee graph of :class:`IniSectionGraph`:
+    in each key (``global persist $x``, ``post $x``), each value and each ``if`` / ``else if`` condition. Which
+    ``$name`` count is :meth:`IniNamingTools.varsIn`'s answer -- a namespaced reference names another file's variable
+    and is left alone
+    
+    For a `section`_ copied out of another ``.ini`` whose conditions read that file's own variables: a file with no
+    ``namespace`` names its variables after its PATH, so another file cannot read them, and the copy reads a variable
+    of its own under a name no other file uses
+    
+    Parameters
+    ----------
+    renames: Dict[:class:`str`, :class:`str`]
+        A variable's lower-cased name -> its new name, both without the ``$`` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``{}``
+    
+    z3: Optional[:class:`Z3Context`]
+        The `Z3`_ context every condition of an edited `section`_ is parsed again in, so a renamed one reads its new names
+        and a `section`_ copied from another ``.ini`` shares the context of the `sections`_ it now sits beside; ``None`` to
+        rename only the conditions' text. Kept alive as long as this edit :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    @staticmethod
+    def renameIn(section: IfTemplate, renames: collections.abc.Mapping[str, str], z3: Z3Context = None) -> None:
+        """
+        Renames the variables of one `section`_, as :meth:`edit` does each `section`_ of a graph
+        
+        Parameters
+        ----------
+        section: :class:`IfTemplate`
+            The `section`_, modified in place
+        
+        renames: Dict[:class:`str`, :class:`str`]
+            A variable's lower-cased name -> its new name, both without the ``$``
+        
+        z3: Optional[:class:`Z3Context`]
+            The `Z3`_ context every condition is parsed again in, or ``None`` to rename only their text :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        """
+    def __init__(self, renames: collections.abc.Mapping[str, str] = {}, z3: Z3Context = None) -> None:
+        ...
+    def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
+        """
+        Renames the variables of every `section`_ of 'graph' by :attr:`renames`
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph to edit
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partFilter: Optional[Callable[[:class:`SectionIterData`, Optional[:class:`ModType`], Optional[:class:`IniFile`]], :class:`Ranges`]]
+            Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        trackKeys: :class:`bool`
+            Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        keysToTrack: Optional[Set[:class:`str`]]
+            Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The same graph that was passed in
+        """
+    @property
+    def renames(self) -> dict[str, str]:
+        """
+        Dict[:class:`str`, :class:`str`]: A variable's lower-cased name -> its new name, both without the ``$``
+        """
+    @renames.setter
+    def renames(self, arg0: collections.abc.Mapping[str, str]) -> None:
+        ...
 class GraphTools:
     """
     
@@ -12754,6 +12848,74 @@ class IniParseData:
     slot of a GI component, ``("", "component3")`` for a Wuthering Waves draw slot
         
     """
+    class LinkedLine:
+        """
+        
+        A line a LINKED ``.ini`` sets on one of this file's draws, as :meth:`IniParseData.roleFilesOf` carries it: a line of
+        :attr:`IniParseData.RoleFileRules.carriedRows` wherever it sits, or a register of
+        :attr:`IniParseData.RoleFileRules.registerRoles` set under a condition. On the mod's own character both files fire on
+        the draw; remapped, the linked file's section never does, so a fix that wants the line writes it itself
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def condition(self) -> str:
+            """
+            :class:`str`: The condition the line sits under, as one ``.ini`` condition (:meth:`IfPredPart.getIfPredStr`), or empty
+            for none. It may read the linked file's own variables
+            """
+        @condition.setter
+        def condition(self, arg0: str) -> None:
+            ...
+        @property
+        def file(self) -> str:
+            """
+            :class:`str`: The file the value's resource names
+            """
+        @file.setter
+        def file(self, arg0: str) -> None:
+            ...
+        @property
+        def ini(self) -> str:
+            """
+            :class:`str`: The linked ``.ini`` the line is in
+            """
+        @ini.setter
+        def ini(self, arg0: str) -> None:
+            ...
+        @property
+        def key(self) -> str:
+            """
+            :class:`str`: The line's key, for a line of :attr:`IniParseData.RoleFileRules.carriedRows`; empty for a role's register
+            """
+        @key.setter
+        def key(self, arg0: str) -> None:
+            ...
+        @property
+        def obj(self) -> tuple[str, str]:
+            """
+            Tuple[:class:`str`, :class:`str`]: The mod object of this file the line is set on
+            """
+        @obj.setter
+        def obj(self, arg0: tuple[str, str]) -> None:
+            ...
+        @property
+        def role(self) -> str:
+            """
+            :class:`str`: The role the register binds, for a register of :attr:`IniParseData.RoleFileRules.registerRoles`; empty otherwise
+            """
+        @role.setter
+        def role(self, arg0: str) -> None:
+            ...
+        @property
+        def value(self) -> str:
+            """
+            :class:`str`: The line's value as written, eg. ``ref ResourceGlow``
+            """
+        @value.setter
+        def value(self, arg0: str) -> None:
+            ...
     class Rejection:
         """
         
@@ -13110,6 +13272,15 @@ class IniParseData:
         def candidates(self, arg0: collections.abc.Mapping[str, collections.abc.Sequence[tuple[str, str]]]) -> None:
             ...
         @property
+        def carried(self) -> list[IniParseData.LinkedLine]:
+            """
+            List[:class:`IniParseData.LinkedLine`]: What the linked ``.ini`` files set on this file's draws, in the order read --
+            see :meth:`IniParseData.linkedLines`
+            """
+        @carried.setter
+        def carried(self, arg0: collections.abc.Sequence[IniParseData.LinkedLine]) -> None:
+            ...
+        @property
         def fileResources(self) -> dict[str, str]:
             """
             Dict[:class:`str`, :class:`str`]: ``file -> the resource the mod uses for it`` -- see :meth:`IniParseData.resourceOfFile`
@@ -13170,7 +13341,7 @@ class IniParseData:
             Another .ini of the mod, linked to this one, whose parse is read too -- see :attr:`IniParseData.RoleFileRules.linked`
                 
             """
-            def __init__(self, data: IniParseData, folder: str, name: str = '') -> None:
+            def __init__(self, data: IniParseData, folder: str, name: str = '', path: str = '') -> None:
                 ...
             @property
             def folder(self) -> str:
@@ -13188,7 +13359,25 @@ class IniParseData:
             @name.setter
             def name(self, arg0: str) -> None:
                 ...
+            @property
+            def path(self) -> str:
+                """
+                :class:`str`: Its path -- :attr:`IniParseData.LinkedLine.ini` of a line read from it
+                """
+            @path.setter
+            def path(self, arg0: str) -> None:
+                ...
         def __init__(self) -> None:
+            ...
+        @property
+        def carriedRows(self) -> str:
+            """
+            :class:`str`: The collect, with conditions, of the rows a LINKED file sets on an object's draw that
+            :meth:`IniParseData.roleFilesOf` carries as they are (:attr:`IniParseData.RoleFileData.carried`) -- eg. RabbitFX's glow
+            map. Empty for none
+            """
+        @carriedRows.setter
+        def carriedRows(self, arg0: str) -> None:
             ...
         @property
         def declared(self) -> str:
@@ -13781,6 +13970,15 @@ class IniParseData:
         -------
         Set[:class:`str`]
             The libraries
+        """
+    def linkedLines(self) -> list[IniParseData.LinkedLine]:
+        """
+        What the linked ``.ini`` files set on this file's draws -- see :class:`IniParseData.LinkedLine`
+        
+        Returns
+        -------
+        List[:class:`IniParseData.LinkedLine`]
+            The lines, in the order read
         """
     def refusedRoleOf(self, resource: str) -> str | None:
         """
@@ -16251,6 +16449,17 @@ class IfTemplate:
         """
         Regenerates the ids for the parts
         """
+    def removeEmptyBlocks(self) -> bool:
+        """
+        Removes every ``if`` block with no line in any of its branches -- ``if`` to ``endif``, and an outer block left empty by
+        an inner one's removal too -- and :meth:`rebuild`\\s when one went. Eg. after the lines of a `section`_ copied elsewhere
+        were cut down to the ones the copy needs
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether a block was removed
+        """
     def toStr(self, linePrefix: str = '', autoindent: bool = True) -> str:
         """
         Converts this :class:`IfTemplate` to a string
@@ -18445,6 +18654,24 @@ class IniNamingTools:
         Removes the resource prefix from some `section`_ name
         """
     @staticmethod
+    def renameVars(text: str, renames: collections.abc.Mapping[str, str]) -> str:
+        """
+        'text' with each variable 'renames' names renamed -- see :meth:`varsIn` for which ``$name`` count
+        
+        Parameters
+        ----------
+        text: :class:`str`
+            The line, or a part of it
+        
+        renames: Dict[:class:`str`, :class:`str`]
+            A variable's lower-cased name -> its new name, both without the ``$``
+        
+        Returns
+        -------
+        :class:`str`
+            The renamed text; 'text' itself when it names none of them
+        """
+    @staticmethod
     def sameKey(key1: str, key2: str) -> bool:
         """
         Whether two keys of a `section`_ are the same key as a mod's author may write it: without regard to case, as
@@ -18463,6 +18690,23 @@ class IniNamingTools:
         -------
         :class:`bool`
             Whether they are the same key
+        """
+    @staticmethod
+    def varsIn(text: str) -> list[str]:
+        """
+        The `3DMigoto`_ variables a line of an ``.ini`` names -- each ``$name`` in a key, a value or an ``if`` condition --
+        by name, lower-cased (`3DMigoto`_'s names are case-insensitive), in the order they appear. A namespaced reference
+        (``$\\\\ns\\\\name``) belongs to another file and is not one of them
+        
+        Parameters
+        ----------
+        text: :class:`str`
+            The line, or a part of it
+        
+        Returns
+        -------
+        List[:class:`str`]
+            The names, without the ``$``
         """
 class IniParseBuilder:
     """
@@ -22454,6 +22698,7 @@ class RabbitFX:
         
     """
     FlagKeys: typing.ClassVar[list] = ['x187', 'y187', 'z187', 'w187']
+    GlowMapKey: typing.ClassVar[str] = 'Resource\\RabbitFX\\GlowMap'
     Name: typing.ClassVar[str] = 'RabbitFX'
     @staticmethod
     def isOwnKVP(key: str, value: str) -> bool:
@@ -32360,6 +32605,48 @@ class WWMIBlend:
             The elements
         """
     @staticmethod
+    def componentBlend(blendPath: str, positionPath: str, vgOffset: typing.SupportsInt | typing.SupportsIndex, vgMap: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], row: typing.Any, outInfluences: typing.SupportsInt | typing.SupportsIndex) -> tuple[bytes, list[int]]:
+        """
+        The blend of ONE source component drawn from mesh files of its own -- a ``Blend.buf`` whose ids start at the
+        component's ``vg_offset`` -- remapped into the TARGET's local ids, as WWMI's BlendRemapper would write them for
+        the main mesh under :meth:`writeRemap`'s remap: each id lifted out of the component's window (``id - vgOffset``)
+        into the source's merged skeleton through ``vgMap``, then through ``row``, then through :meth:`reverseOf` ``row``.
+        So the bytes need no compute pass to be right
+        
+        Weights are kept. A slot of weight ``0``, and an id the vg map or the row does not place, reads local ``0``. The
+        output has ``max(influences, outInfluences)`` slots a vertex -- the extra ones empty
+        
+        Parameters
+        ----------
+        blendPath: :class:`str`
+            The component's ``Blend.buf``
+        
+        positionPath: :class:`str`
+            Its ``Position.buf``, which gives the vertex count (:meth:`layoutOf`)
+        
+        vgOffset: :class:`int`
+            The first merged id the component's window covers
+        
+        vgMap: List[:class:`int`]
+            The component's ``vg_map``: component-local bone id -> merged source bone id
+        
+        row: Union[:class:`VGRemap`, Dict[:class:`int`, :class:`int`]]
+            The vertex group remap
+        
+        outInfluences: :class:`int`
+            The influences a vertex of the target reads
+        
+        Raises
+        ------
+        :class:`RuntimeError`
+            When the two buffers' sizes imply no layout
+        
+        Returns
+        -------
+        Tuple[:class:`bytes`, List[:class:`int`]]
+            The remapped blend, and the component-local ids that could not be placed
+        """
+    @staticmethod
     def componentOfVertex(indexPath: str, drawRanges: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]]], vertices: typing.SupportsInt | typing.SupportsIndex) -> list[int]:
         """
         Which source component draws each vertex, off the mod's own draw ranges over its index buffer -- ``-1`` for
@@ -32475,6 +32762,23 @@ class WWMIBlend:
         
         row: Union[:class:`VGRemap`, Dict[:class:`int`, :class:`int`]]
             The vertex group remap
+        """
+    @staticmethod
+    def reverseOf(row: typing.Any) -> list[int]:
+        """
+        The reverse map of a blend remap over a row -- merged target bone -> local id -- as :meth:`writeRemap`
+        writes it: every distinct target the row names that a remap of :attr:`RemapSize` entries can hold, numbered
+        in ascending order. Every other entry is ``0``
+        
+        Parameters
+        ----------
+        row: Union[:class:`VGRemap`, Dict[:class:`int`, :class:`int`]]
+            The vertex group remap
+        
+        Returns
+        -------
+        List[:class:`int`]
+            :attr:`RemapSize` local ids
         """
     @staticmethod
     def vertexVGElements(influences: typing.SupportsInt | typing.SupportsIndex) -> list:
@@ -32969,6 +33273,22 @@ class WWMIFixerConfig:
             """
         @offPasses.setter
         def offPasses(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
+        def overlay(self) -> FixRaidenBoss2.core.WWMIFixerConfig.Shader | None:
+            """
+            Optional[:class:`WWMIFixerConfig.Shader`]: After each of the component's draws on the passes the slot's
+            :attr:`WWMIFixerConfig.slotPasses` name, the same draw again with this shader -- its
+            :attr:`WWMIFixerConfig.Shader.registers`, constant buffers and :attr:`WWMIFixerConfig.Shader.lines` --
+            while the component itself keeps the target slot's shader and its plan bindings. For a part whose surface
+            the target's shader draws right and only the SOURCE's shader can finish, eg. a glow written into the
+            scene-colour target alone (``("mask[1]", "0")`` ... with ``("depth_func", "equal")``). Its
+            :attr:`WWMIFixerConfig.Shader.registers` bind the mod's own files, unedited. Only its ``name``, ``ps``,
+            ``constantBuffers``, ``registers``, ``lines``, ``onlyWith`` and ``yieldToRabbitFX`` are read.
+            **Default**: ``None``, no such draw
+            """
+        @overlay.setter
+        def overlay(self, arg0: FixRaidenBoss2.core.WWMIFixerConfig.Shader | None) -> None:
             ...
         @property
         def rabbitFX(self) -> FixRaidenBoss2.core.WWMIFixerConfig.SourceComponent.RabbitFX | None:
@@ -34067,6 +34387,14 @@ class WWMISections:
             """
         @assigned.setter
         def assigned(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
+            ...
+        @property
+        def before(self) -> list[tuple[str, str]]:
+            """
+            List[Tuple[:class:`str`, :class:`str`]]: Lines the draw's command list writes before it runs the shader, inside the same save and restore as the runs -- eg. the textures an overlay drawn over the mod's own draw reads. **Default**: none
+            """
+        @before.setter
+        def before(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
             ...
         @property
         def draw(self) -> str:

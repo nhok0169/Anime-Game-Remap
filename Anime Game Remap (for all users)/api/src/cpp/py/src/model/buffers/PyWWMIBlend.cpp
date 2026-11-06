@@ -296,6 +296,73 @@ row: Union[:class:`VGRemap`, Dict[:class:`int`, :class:`int`]]
     The vertex group remap
     )doc");
 
+    wwmiBlend.def_static("reverseOf", [](const py::object& row) {
+        return AGRC::WWMIBlend::reverseOf(vgRemapFromPy(row));
+    }, py::arg("row"), R"doc(
+The reverse map of a blend remap over a row -- merged target bone -> local id -- as :meth:`writeRemap`
+writes it: every distinct target the row names that a remap of :attr:`RemapSize` entries can hold, numbered
+in ascending order. Every other entry is ``0``
+
+Parameters
+----------
+row: Union[:class:`VGRemap`, Dict[:class:`int`, :class:`int`]]
+    The vertex group remap
+
+Returns
+-------
+List[:class:`int`]
+    :attr:`RemapSize` local ids
+)doc");
+
+    wwmiBlend.def_static("componentBlend", [](const std::string& blendPath, const std::string& positionPath, long long vgOffset,
+                                              const std::vector<int>& vgMap, const py::object& row, std::size_t outInfluences) {
+        std::set<long long> unmapped;
+        const AGRC::ByteVec bytes = AGRC::WWMIBlend::componentBlend(blendPath, positionPath, vgOffset, vgMap, vgRemapFromPy(row),
+                                                                    outInfluences, &unmapped);
+        return py::make_tuple(py::bytes(reinterpret_cast<const char*>(bytes.data()), bytes.size()),
+                              std::vector<long long>(unmapped.begin(), unmapped.end()));
+    }, py::arg("blendPath"), py::arg("positionPath"), py::arg("vgOffset"), py::arg("vgMap"), py::arg("row"),
+       py::arg("outInfluences"), R"doc(
+The blend of ONE source component drawn from mesh files of its own -- a ``Blend.buf`` whose ids start at the
+component's ``vg_offset`` -- remapped into the TARGET's local ids, as WWMI's BlendRemapper would write them for
+the main mesh under :meth:`writeRemap`'s remap: each id lifted out of the component's window (``id - vgOffset``)
+into the source's merged skeleton through ``vgMap``, then through ``row``, then through :meth:`reverseOf` ``row``.
+So the bytes need no compute pass to be right
+
+Weights are kept. A slot of weight ``0``, and an id the vg map or the row does not place, reads local ``0``. The
+output has ``max(influences, outInfluences)`` slots a vertex -- the extra ones empty
+
+Parameters
+----------
+blendPath: :class:`str`
+    The component's ``Blend.buf``
+
+positionPath: :class:`str`
+    Its ``Position.buf``, which gives the vertex count (:meth:`layoutOf`)
+
+vgOffset: :class:`int`
+    The first merged id the component's window covers
+
+vgMap: List[:class:`int`]
+    The component's ``vg_map``: component-local bone id -> merged source bone id
+
+row: Union[:class:`VGRemap`, Dict[:class:`int`, :class:`int`]]
+    The vertex group remap
+
+outInfluences: :class:`int`
+    The influences a vertex of the target reads
+
+Raises
+------
+:class:`RuntimeError`
+    When the two buffers' sizes imply no layout
+
+Returns
+-------
+Tuple[:class:`bytes`, List[:class:`int`]]
+    The remapped blend, and the component-local ids that could not be placed
+)doc");
+
     wwmiBlend.def_static("writeRemap", [](const std::string& blendPath, const std::string& fixedPath,
                                           const std::string& srcVertexVGPath, const std::string& positionPath,
                                           const py::object& row, const AGRC::WWMIBlend::RemapFiles& out,
@@ -583,6 +650,7 @@ so the flags the source's draw would have had are worked out from the source's t
 
     rabbitFX.attr("FlagKeys") = py::cast(AGRC::RabbitFX::FlagKeys);
     rabbitFX.attr("Name") = py::str(AGRC::RabbitFX::Name);
+    rabbitFX.attr("GlowMapKey") = py::str(AGRC::RabbitFX::GlowMapKey);
 
     rabbitFX.def_static("textureTag", &AGRC::RabbitFX::textureTag, py::arg("path"), R"doc(
 The tag RabbitFX's texture overrides give the texture at ``path``, from its ``.dds`` header: ``3`` for

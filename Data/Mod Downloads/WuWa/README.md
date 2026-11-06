@@ -159,5 +159,38 @@ character's dump (Lynae, LynaePeppermint, Sanhua, SanhuaExorcist, Chisa, ChisaPa
 `c0f0b1e1` and `e047ea9c` (Changli, `BC1_UNORM_SRGB`) are bound by no draw of the character-menu frame;
 they are kept from the asset repo with no live hash.
 
+**`Jinhsi/3_7` and `JinhsiBlossom/3_7` (2026-10-27)** are WWMI-Assets' `Jinshi` and `JinshiSkin1` (the
+Peach Blossom outfit, both last updated there at 2.7), built by `wwmiDownloadFolder.py`, and proved current
+against two character-menu dumps at WuWa 3.7 with LOD bias `2` and no Jinhsi mod installed:
+`FrameAnalysis-Jinhsi-2026-10-27-133822` (Abyssal Ascension, the original outfit's card selected in Resonator
+Outfits) and `FrameAnalysis-JinhsiBlossom-2026-10-27-133642` (Peach Blossom, worn). Neither moved since 2.7: WWMI
+Tools' extraction of each dump (`wwmiExtractDump.py --only <vb0>`) rebuilds every buffer and `Metadata.json`
+byte-identical to the asset build (`--check`: 10 and 13 identical; only `TextureUsage.json` differs, since it
+lists the dump's live texture hashes), and `wwmiCheckDownload.py` finds `Position`, `Vector`, `Color`, `Texcoord`
+and `Index` among the slots the draws bound, 0 unexplained.
+
+| character | `vb0` | `ib` | components | merged skeleton | blend remap | weights |
+| --- | --- | --- | --- | --- | --- | --- |
+| `Jinhsi` | `243b7e59` (`vb1=27b2df39`, `vb2=38d81542`, `vb3=d91bd7da`) | `db58ef4b` (**`R16_UINT`**) | 7, 40662 vertices | highest bone 199 | none | 4 (8-byte `Blend.buf`) |
+| `JinhsiBlossom` | `8a382bf1` (`vb1=8a5388df`, `vb2=3aac2773`, `vb3=f556f29b`) | `8d54e846` (`R32_UINT`) | 8, 65604 vertices | highest bone 307 | components 4, 7 | 4 (8-byte `Blend.buf`) |
+
+Both bind skeleton `cb4` `f02baf77` (as Changli does), and both shape-key checksums match `Metadata.json` (2305
+and 2010). The textures are WWMI-Assets' under the asset hashes; `<Name>LiveHashes.json` beside the version folder
+maps each to the live hash the game binds at LOD bias `2`, paired by pixel correlation off those dumps (all 16 of
+Jinhsi's, all 17 of JinhsiBlossom's; the file's `_` notes the one weaker pair). Added beside them, each a byte copy
+of a `dump_tex dds` dump's `.dds` (`FrameAnalysis-JinhsiTexDDS-2026-10-27-134230`,
+`FrameAnalysis-JinhsiBlossomTexDDS-2026-10-27-134443`), are the textures the characters' draws bind that the asset
+repo lacks and no other character's dump (Changli, ChangliNymph, Lynae, LynaePeppermint, Sanhua, SanhuaExorcist,
+Chisa, ChisaParfait) binds:
+
+| character | added | what |
+| --- | --- | --- |
+| `Jinhsi` | `e030eb83` | the 512 x 25 subsurface lookup most of her passes bind at `ps-t2` - `ps-t4` (a `.jpg` in a default dump) |
+| | `2c771f75` | the eye pass's (`e04f4df8`) `ps-t1`, under the extractor's 256 KB floor |
+| | `6bf22197` | a small `ps-t1` map of the `021a95ef` pass |
+| `JinhsiBlossom` | `bdfd2bb4` | her 512 x 25 subsurface lookup, `ps-t3` / `ps-t4` |
+| | `d3f918c9` | the eye pass's (`e04f4df8`) `ps-t1` |
+| | `05c4ee5b` | a small `ps-t1` map of the `021a95ef` pass |
+
 Not yet wired into a parser: `DownloadTools::urlPath` composes `GI/<char>/<version>/...` and needs
 a game folder before a WuWa fixer can fetch these (2026-09-19).

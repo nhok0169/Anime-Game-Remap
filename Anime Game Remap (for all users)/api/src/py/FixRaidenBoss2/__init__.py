@@ -201,6 +201,7 @@ from .core import RegRemap
 from .core import RegRemove
 from .core import BaseIniGraphEdit
 from .core import GraphRename
+from .core import GraphVarRename
 from .core import RegFillMissing
 from .core import RegSurroundedAdd
 from .core import RegBottomAdd
@@ -404,7 +405,7 @@ __all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA",
            "GIMICharParserConfig", "GIMICharFixerConfig", "makeGIMICharParser", "makeGIMICharFixer",
            "GIMIComponentParserConfig", "GIMIMergeFixerConfig", "makeGIMIComponentParser", "makeGIMIMergeFixer", "SideMeshes",
            "WWMITextureFacts", "WWMIParserConfig", "WWMIFixerConfig", "makeWWMIParser", "makeWWMIFixer",
-           "BaseIniGraphEdit", "GraphRename", "RegFillMissing",
+           "BaseIniGraphEdit", "GraphRename", "GraphVarRename", "RegFillMissing",
            "GraphRemove", "GraphInherit", "GraphGroupRemap", "GraphGroupEdit", "RegPartEdit", "IterGraphGroupEdit",
            "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "TexCreate", "TexReplace", "FileAddCreate", "FileRefAdd", "FileDownloadCreate", "VGRemapBlendReplace", "ResRegCollect", "GraphCollect", "ResGroupCollect", "BaseIniGraphGroupEdit",
            "TextureRoles", "IniParseData", "IniParseRows", "IParseResult", "GraphEditVariables", "GraphVarTake", "GraphVarApply", "ShaderFilterTags", "CustomShaderBackups", "CppBaseIniParser", "BaseIniParser", "CppIniParseBuilderArgs", "GIMISectionClassifier", "GIMIParser", "CppBaseIniFixer", "BaseIniFixer", "CppIniFixBuilderArgs", "GIMIFixer", "MultiModFixer", "IniFixingContext",

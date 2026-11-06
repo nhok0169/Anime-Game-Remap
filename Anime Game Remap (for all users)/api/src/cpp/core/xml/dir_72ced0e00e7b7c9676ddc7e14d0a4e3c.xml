@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_72ced0e00e7b7c9676ddc7e14d0a4e3c" kind="dir">
+    <compoundname>src/data/IniParseData/Aether</compoundname>
+    <innerfile refid="_aether_parser_8cpp">AetherParser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniParseData/Aether/"/>
+  </compounddef>
+</doxygen>

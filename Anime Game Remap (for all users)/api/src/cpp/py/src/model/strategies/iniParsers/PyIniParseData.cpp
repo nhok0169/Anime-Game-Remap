@@ -148,6 +148,26 @@ Each attribute is a copy: change one by assigning it whole
         .def_readwrite("thisToggles", &AGRC::IniParseData::ResourceData::thisToggles, py::doc("Dict[:class:`str`, :class:`IniParseData.TextureToggle`]: ``lowercased resource -> toggle`` -- see :meth:`IniParseData.thisToggleOf`"))
         .def_readwrite("registerToggles", &AGRC::IniParseData::ResourceData::registerToggles, py::doc("Dict[:class:`str`, :class:`IniParseData.TextureToggle`]: ``lowercased resource -> toggle`` -- see :meth:`IniParseData.registerToggleOf`"));
 
+    py::class_<AGRC::IniParseData::LinkedLine>(cls, "LinkedLine", R"doc(
+A line a LINKED ``.ini`` sets on one of this file's draws, as :meth:`IniParseData.roleFilesOf` carries it: a line of
+:attr:`IniParseData.RoleFileRules.carriedRows` wherever it sits, or a register of
+:attr:`IniParseData.RoleFileRules.registerRoles` set under a condition. On the mod's own character both files fire on
+the draw; remapped, the linked file's section never does, so a fix that wants the line writes it itself
+    )doc")
+        .def(py::init<>())
+        .def_readwrite("obj", &AGRC::IniParseData::LinkedLine::obj, py::doc("Tuple[:class:`str`, :class:`str`]: The mod object of this file the line is set on"))
+        .def_readwrite("key", &AGRC::IniParseData::LinkedLine::key,
+                       py::doc(":class:`str`: The line's key, for a line of :attr:`IniParseData.RoleFileRules.carriedRows`; empty for a role's register"))
+        .def_readwrite("role", &AGRC::IniParseData::LinkedLine::role,
+                       py::doc(":class:`str`: The role the register binds, for a register of :attr:`IniParseData.RoleFileRules.registerRoles`; empty otherwise"))
+        .def_readwrite("condition", &AGRC::IniParseData::LinkedLine::condition, py::doc(R"doc(
+:class:`str`: The condition the line sits under, as one ``.ini`` condition (:meth:`IfPredPart.getIfPredStr`), or empty
+for none. It may read the linked file's own variables
+        )doc"))
+        .def_readwrite("value", &AGRC::IniParseData::LinkedLine::value, py::doc(":class:`str`: The line's value as written, eg. ``ref ResourceGlow``"))
+        .def_readwrite("file", &AGRC::IniParseData::LinkedLine::file, py::doc(":class:`str`: The file the value's resource names"))
+        .def_readwrite("ini", &AGRC::IniParseData::LinkedLine::ini, py::doc(":class:`str`: The linked ``.ini`` the line is in"));
+
     py::class_<AGRC::IniParseData::RoleFileData>(cls, "RoleFileData", R"doc(
 Which file each mod object takes for each texture role, as :meth:`IniParseData.roleFilesOf` chooses it: one value, held
 in the variable :attr:`IniParseData.RoleFilesVar`, which :meth:`IniParseData.textureRoles`,
@@ -166,10 +186,22 @@ Each attribute is a copy: change one by assigning it whole
         .def_readwrite("registerToggles", &AGRC::IniParseData::RoleFileData::registerToggles, py::doc(R"doc(
 Dict[:class:`str`, :class:`IniParseData.TextureToggle`]: ``lowercased resource -> toggle``: the register toggles found
 only through ``run =``, which :meth:`IniParseData.registerToggleOf` reads after :attr:`ResourceData.registerToggles`
+        )doc"))
+        .def_readwrite("carried", &AGRC::IniParseData::RoleFileData::carried, py::doc(R"doc(
+List[:class:`IniParseData.LinkedLine`]: What the linked ``.ini`` files set on this file's draws, in the order read --
+see :meth:`IniParseData.linkedLines`
         )doc"));
 
     cls.def(py::init<>())
        .def("clear", &AGRC::IniParseData::clear, "Resets everything to the defaults")
+       .def("linkedLines", &AGRC::IniParseData::linkedLines, py::return_value_policy::copy, R"doc(
+What the linked ``.ini`` files set on this file's draws -- see :class:`IniParseData.LinkedLine`
+
+Returns
+-------
+List[:class:`IniParseData.LinkedLine`]
+    The lines, in the order read
+       )doc")
        .def("hasRemappableContent", &AGRC::IniParseData::hasRemappableContent, R"doc(
 Whether the .ini file carries anything to remap. ``False`` for a file that only WATCHES the character
 -- eg. a help overlay whose one section matches the position hash to know she is on screen, which
@@ -993,9 +1025,11 @@ How :meth:`IniParseData.roleFilesOf` reads which file each mod object takes for 
     py::class_<AGRC::IniParseData::RoleFileRules::Linked>(roleFileRules, "Linked", R"doc(
 Another .ini of the mod, linked to this one, whose parse is read too -- see :attr:`IniParseData.RoleFileRules.linked`
     )doc")
-        .def(py::init([](const AGRC::IniParseData& data, std::string folder, std::string name) {
-            return AGRC::IniParseData::RoleFileRules::Linked{&data, std::move(folder), std::move(name)};
-        }), py::arg("data"), py::arg("folder"), py::arg("name") = "", py::keep_alive<1, 2>())
+        .def(py::init([](const AGRC::IniParseData& data, std::string folder, std::string name, std::string path) {
+            return AGRC::IniParseData::RoleFileRules::Linked{&data, std::move(folder), std::move(name), std::move(path)};
+        }), py::arg("data"), py::arg("folder"), py::arg("name") = "", py::arg("path") = "", py::keep_alive<1, 2>())
+        .def_readwrite("path", &AGRC::IniParseData::RoleFileRules::Linked::path,
+                       py::doc(":class:`str`: Its path -- :attr:`IniParseData.LinkedLine.ini` of a line read from it"))
         .def_readwrite("folder", &AGRC::IniParseData::RoleFileRules::Linked::folder,
                        py::doc(":class:`str`: Its folder, which its resources' files are relative to"))
         .def_readwrite("name", &AGRC::IniParseData::RoleFileRules::Linked::name, py::doc(":class:`str`: Its file name, for the log"));
@@ -1016,6 +1050,11 @@ Another .ini of the mod, linked to this one, whose parse is read too -- see :att
         .def_readwrite("roleRows", &AGRC::IniParseData::RoleFileRules::roleRows, py::doc(R"doc(
 :class:`str`: The collect, with conditions, of the rows that STATE a role: a ``this`` in a role's texture graph (mod object
 ``(IniGraphModObjKeywords.Texture, <role>)``), and a register of :attr:`registerRoles` in an object's graph, through ``run =``
+        )doc"))
+        .def_readwrite("carriedRows", &AGRC::IniParseData::RoleFileRules::carriedRows, py::doc(R"doc(
+:class:`str`: The collect, with conditions, of the rows a LINKED file sets on an object's draw that
+:meth:`IniParseData.roleFilesOf` carries as they are (:attr:`IniParseData.RoleFileData.carried`) -- eg. RabbitFX's glow
+map. Empty for none
         )doc"))
         .def_readwrite("objRows", &AGRC::IniParseData::RoleFileRules::objRows,
                        py::doc(":class:`str`: The collect of every key of each object's graph, whose OWN `sections`_ say what the object binds"))

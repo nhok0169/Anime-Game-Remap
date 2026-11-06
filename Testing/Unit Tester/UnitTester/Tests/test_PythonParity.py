@@ -28,6 +28,62 @@ class PythonParityTest(unittest.TestCase):
     def test_iniComments_andRabbitFXName(self):
         self.assertTrue(FRB.IniComments.GIMIObjMergerPreamble.startswith(";"))
         self.assertEqual(FRB.RabbitFX.Name, "RabbitFX")
+        self.assertEqual(FRB.RabbitFX.GlowMapKey, "Resource\\RabbitFX\\GlowMap")
+
+    # ---- a variable of another file, carried under a name of the fix's own ----
+
+    def test_varsIn_eachPlainVariable_lowerCased_notAnotherFilesNamespaced(self):
+        self.assertEqual(FRB.IniNamingTools.varsIn("if $Break == 1 && $\\entei\\fire == 1 || $x_2"), ["break", "x_2"])
+        self.assertEqual(FRB.IniNamingTools.varsIn("global persist $mask"), ["mask"])
+        self.assertEqual(FRB.IniNamingTools.varsIn("no variable"), [])
+
+    def test_renameVars_onlyTheNamedOnes_anyCase(self):
+        renames = {"break": "breakFix", "breakcheck": "breakcheckFix"}
+        self.assertEqual(FRB.IniNamingTools.renameVars("$BREAK != $breakCheck && $other", renames),
+                         "$breakFix != $breakcheckFix && $other")
+        self.assertEqual(FRB.IniNamingTools.renameVars("$\\ns\\break", renames), "$\\ns\\break")
+
+    def _section(self, text):
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        path = os.path.join(folder.name, "t.ini")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(text)
+        ini = FRB.IniFile(path)
+        self.addCleanup(lambda: ini)
+        return ini, ini.getIfTemplates()
+
+    def test_graphVarRename_keysValuesAndConditions_movedIntoTheGivenContext(self):
+        ini, templates = self._section("[Present]\nif $mask != $maskCheck\n\t$mask = $maskCheck\nendif\npost $maskCheck = 0\n"
+                                       "\n[Constants]\nglobal persist $mask = 0\n")
+        z3 = FRB.Z3Context()
+        present = templates["Present"].deepcopy()
+        FRB.GraphVarRename.renameIn(present, {"mask": "maskX", "maskcheck": "maskcheckX"}, z3)
+        text = present.toStr()
+        for line in ("if $maskX != $maskcheckX", "$maskX = $maskcheckX", "post $maskcheckX = 0"):
+            self.assertIn(line, text)
+        self.assertNotIn("$mask ", text)
+
+        constants = templates["Constants"].deepcopy()
+        FRB.GraphVarRename.renameIn(constants, {"mask": "maskX"})
+        self.assertIn("global persist $maskX = 0", constants.toStr())
+
+    def test_removeEmptyBlocks_anIfLeftWithNoLineGoes_andAnEnclosingOneWithIt(self):
+        ini, templates = self._section("[Present]\nif $a == 1\n\tif $b == 1\n\t\tx = 1\n\tendif\nendif\nif $c == 1\n\ty = 2\nendif\nz = 3\n")
+        present = templates["Present"].deepcopy()
+        for part in present.parts:
+            if isinstance(part, FRB.IfContentPart):
+                entries = part.entries()
+                for i in reversed(range(len(entries))):
+                    if entries[i][0] == "x":
+                        part.removeKVPAt(i)
+        self.assertTrue(present.removeEmptyBlocks())
+        text = present.toStr()
+        self.assertNotIn("$a", text)
+        self.assertNotIn("$b", text)
+        self.assertIn("if $c == 1", text)
+        self.assertIn("z = 3", text)
+        self.assertFalse(present.removeEmptyBlocks())
 
     def test_texThumbprint_identifiesTheCleanWinnerOnly(self):
         stored = [0, 64, 128, 255]
@@ -138,6 +194,20 @@ class PythonParityTest(unittest.TestCase):
         listText = FRB.WWMISections.shaderDrawSections(FRB.Z3Context(), draw, FRB.CustomShaderBackups(lambda reg: "B" + reg))[0].toStr()
         self.assertIn("if o3 !== null", listText)
         self.assertNotIn("else", listText)
+
+    def test_wwmiSections_shaderDraw_beforeLinesRunInsideTheSaveAndRestore(self):
+        draw = self.shaderDraw()
+        draw.fallback = ("", "")
+        draw.before = [("ps-t7", "ResourceGlow")]
+        draw.assigned = [("ps-t7", "")]
+        backups = FRB.CustomShaderBackups(lambda reg: "B" + reg.replace("-", ""))
+        listText = FRB.WWMISections.shaderDrawSections(FRB.Z3Context(), draw, backups)[0].toStr()
+        lines = [line.strip() for line in listText.splitlines()]
+        save, bind, run = lines.index("Bpst7 = ref ps-t7"), lines.index("ps-t7 = ResourceGlow"), lines.index("run = CustomShaderXShader5Draw0RemapFix")
+        restore = lines.index("ps-t7 = ref Bpst7")
+        self.assertLess(save, bind)
+        self.assertLess(bind, run)
+        self.assertLess(run, restore)
 
     def test_wwmiSections_shaderDraw_heldBackCountsTheAwaitedDraws(self):
         draw = self.shaderDraw()

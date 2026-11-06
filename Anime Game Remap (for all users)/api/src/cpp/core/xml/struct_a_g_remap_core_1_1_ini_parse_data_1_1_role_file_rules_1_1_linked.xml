@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="843" column="40" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="843" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1081" column="40" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1081" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked_1a64627794201c1d7e3c451e21fe3d5166" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="848" column="33" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="848" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1086" column="33" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1086" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked_1ada7d485a19f489b8beccc210f91d2488" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -48,7 +48,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="853" column="33" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="853" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1091" column="33" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1091" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked_1aeb3cb31d439d774d9437ba5a8d98d19e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::RoleFileRules::Linked::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFileRules::Linked::path</qualifiedname>
+        <briefdescription>
+<para>Its path <ndash/> :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1aab857821bb5e0f1c32e6adb615dfaa57" kindref="member">LinkedLine::ini</ref></computeroutput> of a line read from it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1096" column="33" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1096" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -57,9 +72,16 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::GraphEditVariables</label>
+        <link refid="class_a_g_remap_core_1_1_graph_edit_variables"/>
+      </node>
       <node id="2">
         <label>AGRemapCore::IniParseData</label>
         <link refid="class_a_g_remap_core_1_1_ini_parse_data"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>variables_</edgelabel>
+        </childnode>
       </node>
       <node id="1">
         <label>AGRemapCore::IniParseData::RoleFileRules::Linked</label>
@@ -69,11 +91,12 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="839" column="17" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="839" bodyend="854"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1077" column="17" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1077" bodyend="1097"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked_1ad32af7a20eba29881857ddac9a6daa22" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileRules::Linked</scope><name>data</name></member>
       <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked_1a64627794201c1d7e3c451e21fe3d5166" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileRules::Linked</scope><name>folder</name></member>
       <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked_1ada7d485a19f489b8beccc210f91d2488" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileRules::Linked</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1_1_linked_1aeb3cb31d439d774d9437ba5a8d98d19e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileRules::Linked</scope><name>path</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

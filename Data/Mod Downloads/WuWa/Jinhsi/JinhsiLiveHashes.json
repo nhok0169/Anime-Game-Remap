@@ -1,0 +1,19 @@
+{
+  "_": "Jinhsi's textures: the hash WWMI-Assets (2.7, PlayerCharacterData/Jinshi) and this download folder file them under -> the hash the game binds with its texture quality (LOD bias, ImageDetail) at its maximum, 2. Paired by pixel correlation over every channel that varies (0.998 - 1.0000 on 15 of 16, each with a margin of over 0.37 to the next candidate) off a character-menu frame dump at WuWa 3.7, FrameAnalysis-Jinhsi-2026-10-27-133822 (Abyssal Ascension, the original outfit, no Jinhsi mod installed). d2715d43 pairs with 46715aa7 at 0.96 only: the frame bound a 512 x 512 copy of the 1024 x 1024 asset (BC1, a low-contrast hair map), visually identical. Feed it to Tools/Misc/Diagnostics/wwmiTextureFix.py as --live.",
+  "188f9150": "ea3281f1",
+  "439ed7f4": "8cf0eb6f",
+  "5b14639e": "fee2b7db",
+  "7031d19e": "b499688d",
+  "81bc8818": "401813e0",
+  "829180c8": "323acfe7",
+  "8383cbbf": "a506a70d",
+  "88aafbc0": "c435fc2b",
+  "913631e7": "ab9067bf",
+  "95034a03": "4314173b",
+  "9d12b710": "b0bedb6b",
+  "ad5acbc4": "5b48c9c5",
+  "d00f99ad": "0e679840",
+  "e51f0115": "e4025b5f",
+  "efd704d1": "df86edd8",
+  "d2715d43": "46715aa7"
+}

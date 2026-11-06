@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_aether_heaven_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::AetherHeavenParser</compoundname>
+    <includes refid="_aether_heaven_parser_8h" local="no">AetherHeavenParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_aether_heaven_parser_1a060903e91ae433c14468eafca2f6015e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::AetherHeavenParser::AetherHeavenParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>AetherHeavenParser</name>
+        <qualifiedname>AGRemapCore::AetherHeavenParser::AetherHeavenParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/AetherHeaven/AetherHeavenParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_aether_heaven_parser_1a1646def9f3bc613ea8d45e7334d5db85" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::AetherHeavenParser::v6_3</definition>
+        <argsstring>()</argsstring>
+        <name>v6_3</name>
+        <qualifiedname>AGRemapCore::AetherHeavenParser::v6_3</qualifiedname>
+        <briefdescription>
+<para>The parser for a 6.3-era AetherHeaven <computeroutput>.ini</computeroutput> file <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a18a10b24025f17addd5c7a300a68c923" kindref="member">IniParseBuilderFuncs::aetherHeaven6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/AetherHeaven/AetherHeavenParser.h" line="40" column="45" bodyfile="src/data/IniParseData/AetherHeaven/AetherHeavenParser.cpp" bodystart="79" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+AetherHeaven&apos;s own ``.ini`` parsers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A skin of three components -- an unnamed main mesh, a Bang and an Eye. See :cpp:func:`makeGIMIComponentParser`.
+Pair this with :cpp:class:`AetherHeavenFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/AetherHeaven/AetherHeavenParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/AetherHeaven/AetherHeavenParser.h" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_aether_heaven_parser_1a060903e91ae433c14468eafca2f6015e" prot="public" virt="non-virtual"><scope>AGRemapCore::AetherHeavenParser</scope><name>AetherHeavenParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_aether_heaven_parser_1a1646def9f3bc613ea8d45e7334d5db85" prot="public" virt="non-virtual"><scope>AGRemapCore::AetherHeavenParser</scope><name>v6_3</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

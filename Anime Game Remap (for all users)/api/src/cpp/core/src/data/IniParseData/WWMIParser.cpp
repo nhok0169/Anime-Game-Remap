@@ -209,6 +209,7 @@ namespace AGRemapCore {
                 inline static const std::string DeclaredCollect = IniParseRows::Declared;
                 inline static const std::string TextureRolesCollect = "WWMIParser.textureRoles";
                 inline static const std::string TextureTogglesCollect = "WWMIParser.textureToggles";
+                inline static const std::string CarriedCollect = "WWMIParser.carried";
 
                 using Row = IniParseData::CollectedRow;
 
@@ -374,10 +375,23 @@ namespace AGRemapCore {
                         [this](const std::vector<const GraphEditVariables::Value*>& inputs) { return drawSplits(inputs); },
                         IniParseData::ResourceDataVar);
 
+                    // WHAT A LINKED FILE SETS THAT A FIX CARRIES AS IT IS (IniParseData::LinkedLine): RabbitFX's glow
+                    // map on a slot's draw, with its condition -- read from a file parsed in its only-this-file mode
+                    auto carried = std::make_unique<Collect>();
+                    carried->name = CarriedCollect;
+                    carried->withConditions = true;
+                    for (const ModObj& obj : onlyThisFile_ && readsTextures ? this->modObjs() : std::vector<ModObj>{}) {
+                        if (slotOf(obj).has_value()) {
+                            carried->keyMatches.insert_or_assign(GraphId(0, obj.first, obj.second), [](const std::string& key) {
+                                return IniNamingTools::sameKey(key, RabbitFX::GlowMapKey);
+                            });
+                        }
+                    }
+
                     // THE STEPS: the edits that read the mod, then the variables made from their rows
                     this->deferredParseSteps = this->rowSteps(rows);
                     for (GroupEdit* step : {&this->ownStep(std::move(overrides)), &this->ownStep(std::move(roles)),
-                                            &this->ownStep(std::move(toggles))}) {
+                                            &this->ownStep(std::move(toggles)), &this->ownStep(std::move(carried))}) {
                         this->deferredParseSteps.push_back(step);
                     }
                     if (!onlyThisFile_) {
@@ -477,6 +491,7 @@ namespace AGRemapCore {
                     rules.declared = DeclaredCollect;
                     rules.overrides = TextureOverridesCollect;
                     rules.roleRows = TextureRolesCollect;
+                    rules.carriedRows = CarriedCollect;
                     rules.objRows = SlotsCollect;
                     for (const auto& [slot, sections] : drawnSlots()) {
                         rules.objs.emplace_back(slotObj(slot), sections);
@@ -582,7 +597,8 @@ namespace AGRemapCore {
                         others.push_back(otherIni(*linked));
                         readers.push_back(readOther(*others.back()));
                         rules.linked.push_back({&readers.back()->parseData(), others.back()->getFolder(),
-                                                FileService::pathToStr(FileService::strToPath(linked->getFile().value_or("")).filename())});
+                                                FileService::pathToStr(FileService::strToPath(linked->getFile().value_or("")).filename()),
+                                                linked->getFile().value_or("")});
                     }
 
                     return GraphEditVariables::Value::of(IniParseData::roleFilesOf(rules, rows));

@@ -84,6 +84,18 @@ choice. **A variable is a snapshot** -- an edit that changes a graph later does 
 the fix's sections plus two edits, bound -- and it was replaced the same day, because it was one more class for what is
 one idea: a named place an edit saves graph content into, and reads or writes back later.
 
+## A section copied from another `.ini` reads that file's variables: `GraphVarRename` (2026-11-06)
+
+A file with no `namespace =` names its variables after its PATH, so a section copied out of it (a linked file's
+[Present], a trigger on a game texture's hash) cannot read them in its new file. `GraphVarRename(renames, z3)` renames
+`$name` everywhere in a graph's sections -- keys (`global persist $x`, `post $x`), values and `if` conditions -- with
+`IniNamingTools::varsIn` / `renameVars` deciding what a `$name` is (a namespaced `$\ns\x` is another file's and is
+left alone; GI's sibling-toggle carrying uses the same two functions). Given a `Z3Context`, every condition of the
+section is parsed again in it, so a copy shares the context of the sections it now sits beside -- leave a copied
+condition in its old file's context and a later graph walk that conjoins predicates across sections mixes two
+contexts. `renameIn(section, renames, z3)` does one section, for a copy not yet in a graph (WWMIFixer's
+`copyLinkedState`). After cutting a copy's lines, `IfTemplate::removeEmptyBlocks` drops the `if` blocks left empty.
+
 ## `RegNewVals` can write a value computed FROM the old one (2026-09-29)
 
 **The whole `regEdits` family moves a `KVP` around; until this, none of them could turn a value into

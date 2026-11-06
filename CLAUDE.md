@@ -86,9 +86,36 @@ an epoch, re-shoot every item fixed in ANY earlier epoch on the new build yourse
 epoch-6 fault and voided an epoch run. And from the maintainer's GI experience: **game shaders break on updates far
 faster than meshes or textures**, so a remap reaches for its own `.hlsl` or an extra texture (TexFx-style glow or
 luminosity channels included) only when a measured fault has no other fix, and lists every shipped shader as an
-update risk. Lynae <-> LynaePeppermint ships ten. **The game is also the maintainer's**: ask before driving it in a
+update risk. Lynae <-> LynaePeppermint ships ten. **BUT "NO SHADER" MEANS NOT AS THE FIRST FIX, NEVER "DOCUMENT A
+LIMITATION INSTEAD" (the maintainer, 2026-10-25):** "if you are backed into a corner with no other options, I rather
+you change in game shaders, than to back out and document it as a limitation." Once registers, texture edits,
+downloads and routing are exhausted, a fault a shader can fix -- transparency, a cut-out, a glow -- is fixed with the
+source's own game shader (`WWMIFixerConfig::Shader`), and before closing a pair every limitation in
+`Docs/src/remapGrading.rst` is re-asked "would the source's own shader fix this?" (Creating Remaps' "A REMAP ADDS NO
+SHADER OR TEXTURE IT CAN DO WITHOUT"). **The game is also the maintainer's**: ask before driving it in a
 session where they may be playing, and if an "Application Hang Detected" dialog appears, click nothing and ask. See
 Creating Remaps' "RUNNING THE EPOCHS: what eight of them on Lynae taught" and Overview habits 116-118.
+**THE MAINTAINER RAN CHANGLI <-> CHANGLINYMPH'S FINAL CHECK THREE TIMES (2026-10-25/27), AND EVERY EXTRA ROUND WAS
+AVOIDABLE.** Four "limitations" handed over as done were fixed within a day with the source's own game shaders, and
+one epoch never reached the overworld because nobody had asked for "Wear Outfit". A brief also called a behaviour
+"not a fault" without checking the original. Then two later reports turned out not to be remap bugs at all, each
+settled by measuring rather than reasoning: a shape-key buffer the overworld character kept from before the mod
+was loaded, and a mod's own auto mode, checked against the original outfit. Read Overview habits **128-133**
+(earn a limit; verify every "not a fault"; measure the report and the original; re-fix every copy the game runs;
+state a reload does not reset; ask for game permissions up front) and Creating Remaps' **"COPYING A GAME SHADER
+ONTO THE OTHER CHARACTER: the checklist"** -- vertex signature, constant-buffer registers, no `ref ps-tN` (the
+overworld's layout differs), effect-only overlays, the source's own cut-off, the camera-near fade, `fxc` before
+the game.
+**CHISAPARFAIT4 RENDERED ITS WHOLE SKIN BLACK ON CHISA (2026-10-27), AND FINDING IT TOOK MINUTES WHILE PROVING IT
+TOOK HOURS.** The cause was one line: a command list the fix copies from the mod runs AFTER the fix's texture list,
+and it bound the mod's `.jpg` detail code map on `ps-t2`, which is Chisa's DIFFUSE. Every pre-flight check passed.
+What found it was reading the remapped section in the order 3DMigoto runs it. What nearly un-found it was the game:
+WuWa **stops rendering while the Claude window has focus**, so a screenshot can be a frozen frame from before the
+change, and `GameView crop` re-cuts the LAST screenshot. Read Overview habits **134-137** (a vague report means go
+and look; prove every probe with A B A B on live frames; hand the maintainer the `AG_REMAP_REPO` command, in
+PowerShell, for a fix that is not merged; read the generated section in execution order) and Creating Remaps'
+"A CARRIED LINE OF NO KNOWN ROLE ON A REGISTER THE PLAN BINDS".
+
 **After every prototype and every compiled fix, a full AUDIT (the maintainer's rule, 2026-09-27)**:
 against every mistake earlier agents made and every issue you hit, and against every mod a person
 COULD make -- some characters have almost no mods to test on, so the fix must be right for the ones
@@ -240,9 +267,24 @@ two resource sections declare is named by the one a section USES (and a re-fix m
 only a fix-twice comparison catches); an `.ini` in a mod's subfolder is read when it is LINKED (see below). And alpha MEANS different
 things per shader: on the skin's see-through shaders it is opacity (up to 255), on Changli's opaque ones a scalar that
 lights the part above ~117 -- so the reverse clamps it, and pads the texels the skin's shader cuts away, or her fine gold
-chains draw as dark cords. Limits: her chest tattoo (a cut-out shader) is not drawn on the skin, her arm feathers do not
-glow there, the skin's sheer parts are opaque on her, and one mod's own-mesh components are open (a session card). See
+chains draw as dark cords. **Since 2026-10-25 every one of its four shader-shaped limits is FIXED with a game shader**
+(the maintainer's rule above): the skin's sheer dress and shawl are drawn on Changli by HER OWN see-through passes (a
+screen-door dither, not a blend), and Changli's tattoo and feather glow on the skin by HERS -- the glow through the new
+`SourceComponent::overlay`, because her whole upper-body shader drew the dress dark red there. A copied shader must
+fit the target draw's vertex outputs and constant-buffer registers (a missing `COLOR0` shifted every input), and
+carry the overworld's camera-near fade: each character reads it from a different place, so the copies stayed solid
+while the body dithered out (fixed 2026-10-26; forward epoch 7 and reverse epoch 8 both clean after it). A mod
+component drawn from its OWN mesh files (Changli13's coat) is remapped since 2026-10-24 (`WWMIFixer::readOwnMeshes`). See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "CHANGLI <-> CHANGLINYMPH".
+**A REFACTOR BRANCH MUST TAKE `master` IN, AND ITS OWN SWEEPS CANNOT TELL YOU WHEN (2026-11-06).** `add-miyabi` refactored
+`WWMIFixer` for 88 commits without merging `master`, which meanwhile gained ~900 old-style lines there (Changli's game
+shaders, overlays, own meshes, linked-.ini glow; ChisaParfait4's carried-code-map rule). Every sweep compared the branch
+with itself, so all said SAME while the branch lacked all of it; Changli13's "pre-existing" errors were that gap. The
+merge re-expressed each feature as API (`WWMIBlend::componentBlend`, `IniParseData::linkedLines`, `GraphVarRename`,
+`IfTemplate::removeEmptyBlocks`, `ShaderDraw::before`) and was checked AGAINST A `master` BUILD, normalised for the
+refactor's deliberate changes (texture names, placement beside the `.ini`) -- which also showed three master defects
+(unbound declarations, an undeclared list, a toggle group paired with the wrong panel texture). Build the other side and
+compare to it; see Creating Remaps' Changli section for what moved where.
 
 **AETHER <-> AETHERHEAVEN IS COMPILED BOTH WAYS (2026-10-25), LUMINE'S TWIN, AND ITS DRAPES TOOK MOST OF THE EPOCHS.**
 Four shared-code findings: a slot section that only says `handling = skip` is a hidden slot (the merge drew the skin's
@@ -344,7 +386,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is over a hundred short habits (127 as of 2026-10-26), none of
+feature or bug request here: the habits that pay" first.** It is over a hundred short habits (137 as of 2026-10-27), none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -1461,7 +1503,7 @@ about a day. The domain was not the difference --- how much each in-game round w
 answer was. An in-game round needs the game up, a mod swapped, a reload, a capture and often the
 maintainer; a structural check over the fixed `.ini` costs seconds and names a large share of the
 same faults. [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s **"THE PRE-FLIGHT"**
-is the ten commands to run over EVERY mod first, with what each one has actually caught --- a
+is the eleven checks to run over EVERY mod first (the eleventh, reading each remapped section in execution order, added 2026-10-27), with what each one has actually caught --- a
 dangling `filename =` that made a mod render nothing but its weapon, a texture written and bound
 by nothing while the summary said `editted 4 *.dds files`, a remapped section keeping the three
 lines that undo the remap. Two rules go with it. **The identity mod is the cheapest input and

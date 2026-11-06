@@ -4,8 +4,10 @@
     <compoundname>src/data/IniFixData/Changli</compoundname>
     <innerfile refid="_changli_fixer_8cpp">ChangliFixer.cpp</innerfile>
     <innerfile refid="_changli_skeleton_8cpp">ChangliSkeleton.cpp</innerfile>
+    <innerfile refid="_changli_tattoo_shader_8cpp">ChangliTattooShader.cpp</innerfile>
     <innerfile refid="_changli_textures_8cpp">ChangliTextures.cpp</innerfile>
     <innerfile refid="_changli_thumbprints_8cpp">ChangliThumbprints.cpp</innerfile>
+    <innerfile refid="_changli_upper_shader_8cpp">ChangliUpperShader.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

@@ -121,6 +121,9 @@ def one(src, work, pkgs, download, iniUnordered = False):
 
 
 def main():
+    # a DIFF line names files, and a mod's file names may be in any script (`mod-自动生成.ini`)
+    sys.stdout.reconfigure(encoding = "utf-8", errors = "replace")
+
     parser = argparse.ArgumentParser(description = __doc__, formatter_class = argparse.RawDescriptionHelpFormatter)
     parser.add_argument("corpus")
     parser.add_argument("work")

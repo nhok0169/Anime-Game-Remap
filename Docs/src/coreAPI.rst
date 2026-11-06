@@ -876,6 +876,17 @@ GraphRename
 
 :raw-html:`<br />`
 
+GraphVarRename
+--------------
+
+.. cppattributetable:: AGRemapCore::GraphVarRename
+
+.. doxygenclass:: AGRemapCore::GraphVarRename
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 RegBottomAdd
 ------------
 

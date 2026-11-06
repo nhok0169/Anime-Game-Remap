@@ -100,7 +100,7 @@ Holds both #names and #aliases, each **lowercased**, matching how
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameType.h" line="45" column="13" bodyfile="src/constants/GameType.cpp" bodystart="40" bodyend="58"/>
+        <location file="include/AGRemapCore/constants/GameType.h" line="45" column="13" bodyfile="src/constants/GameType.cpp" bodystart="41" bodyend="59"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

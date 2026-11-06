@@ -839,6 +839,10 @@ namespace AGRemapCore {
     }
 
     // the resource data's first, then the ones only role files found through `run =`
+    const std::vector<IniParseData::LinkedLine>& IniParseData::linkedLines() const {
+        return roles().carried;
+    }
+
     const IniParseData::TextureToggle* IniParseData::registerToggleOf(const std::string& resource) const {
         const auto& all = resources().registerToggles;
         const auto found = all.find(resource);

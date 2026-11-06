@@ -125,6 +125,7 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/regEdits/PyRegAnchorAdd.cpp
     src/model/strategies/iniFixers/graphEdits/PyBaseIniGraphEdit.cpp
     src/model/strategies/iniFixers/graphEdits/PyGraphRename.cpp
+    src/model/strategies/iniFixers/graphEdits/PyGraphVarRename.cpp
     src/model/strategies/iniFixers/graphEdits/PyRegFillMissing.cpp
     src/model/strategies/iniFixers/graphEdits/PyRegSurroundedAdd.cpp
     src/model/strategies/iniFixers/graphEdits/PyRegBottomAdd.cpp

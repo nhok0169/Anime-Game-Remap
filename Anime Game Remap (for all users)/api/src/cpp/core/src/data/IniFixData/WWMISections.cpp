@@ -377,7 +377,7 @@ namespace AGRemapCore {
             return p == 0 ? custom : custom + "Pass" + std::to_string(p);
         };
 
-        KVPs runs;
+        KVPs runs = draw.before;
         for (std::size_t p = 0; p < passCount; ++p) {
             runs.emplace_back(IniKeywords::Run, passName(p));
         }

@@ -19,9 +19,6 @@
       <node id="39">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="69">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="65">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -1095,6 +1092,9 @@
         </childnode>
         <childnode refid="64" relation="include">
         </childnode>
+      </node>
+      <node id="69">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="76">
         <label>Generator.tpp</label>

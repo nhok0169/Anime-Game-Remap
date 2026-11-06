@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="178" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="178" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="179" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="179" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1afc2c8fce2888e997c0bfb7290265e630" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -44,7 +44,7 @@ download. **Default**: empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="195" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="195" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="196" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="196" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1ac7a5209932913b4fe21846d38c9bbdbf" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot" kindref="compound">Slot</ref> &gt;</type>
@@ -59,7 +59,7 @@ download. **Default**: empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="200" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="200" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="201" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="201" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1aecebc1423a6c0dfa0a66f841803542b6" prot="public" static="no" mutable="no">
         <type>long long</type>
@@ -97,7 +97,7 @@ component that is missing AND has no download to fall back on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="228" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="228" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="229" column="23" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="229" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a56070ffb0264e75fa368fd1b79c96597" prot="public" static="no" mutable="no">
         <type>std::array&lt; float, 3 &gt;</type>
@@ -122,7 +122,7 @@ forward offset
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="243" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="243" bodyend="243"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="244" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="244" bodyend="244"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a4b88af438e12c13de27215b31c73ca78" prot="public" static="no" mutable="no">
         <type>std::array&lt; float, 2 &gt;</type>
@@ -161,7 +161,7 @@ eyes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="272" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="272" bodyend="272"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="273" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="273" bodyend="273"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a26753f8b7bf4495c8f379e6bbbbce143" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -182,7 +182,51 @@ sit where its own face has them. The forward direction&apos;s rule, see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="283" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="283" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="284" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1aebc4cde2ef5239c614acdfa5a0e97ff4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_v_g_push_away" kindref="compound">VGPushAway</ref> &gt;</type>
+        <definition>std::vector&lt;VGPushAway&gt; AGRemapCore::GIMIMergeFixerConfig::Component::pushAway</definition>
+        <argsstring></argsstring>
+        <name>pushAway</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Component::pushAway</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Cloth of this component pushed HORIZONTALLY, by its weight share on the push&apos;s SOURCE groups, before it
+is merged -- see :cpp:class:`VGPushAway`, and ``GIMIComponentFixerConfig::Component::pushAway`` for the
+other direction. For a part the source&apos;s own bones carry somewhere at rest that no target bone takes it:
+AetherHeaven&apos;s one-sided left back drape is modelled splayed out to his left and the skin&apos;s simulated
+bones swing it to the middle of its back; on any of Aether&apos;s bones it hung off to his left.
+**Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="297" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1af0ac48715fae85e906bb3f9419f567e8" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; long long, std::vector&lt; std::pair&lt; long long, double &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;long long, std::vector&lt;std::pair&lt;long long, double&gt; &gt; &gt; AGRemapCore::GIMIMergeFixerConfig::Component::splitGroups</definition>
+        <argsstring></argsstring>
+        <name>splitGroups</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Component::splitGroups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+SHARED groups of this component: ``{source group: [(target bone, share), ...]}`` in place of its reverse
+row&apos;s one bone -- see :cpp:member:`VGMergeComponentSpec::splitGroups`, and
+``GIMIComponentFixerConfig::Component::splitGroups`` for the other direction. For a part the source&apos;s
+simulated bones hang at the MIDDLE of a pair the target has one of each side: AetherHeaven&apos;s back drape
+rides both of Aether&apos;s inner cape chains, half each, so it stays centred and does not twist with one.
+**Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="310" column="32" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="310" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -190,14 +234,16 @@ sit where its own face has them. The forward direction&apos;s rule, see
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="174" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="174" bodyend="284"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="175" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="175" bodyend="311"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1afc2c8fce2888e997c0bfb7290265e630" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>modTypeName</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a068618ed142582f5aa27ad806b04ee3d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>name</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a26753f8b7bf4495c8f379e6bbbbce143" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>offsetOnlyWithGameFace</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a56070ffb0264e75fa368fd1b79c96597" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>positionOffset</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a4b88af438e12c13de27215b31c73ca78" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>positionOffsetFade</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1aebc4cde2ef5239c614acdfa5a0e97ff4" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>pushAway</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1ac7a5209932913b4fe21846d38c9bbdbf" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>slots</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1af0ac48715fae85e906bb3f9419f567e8" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>splitGroups</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1aecebc1423a6c0dfa0a66f841803542b6" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>vertexCount</name></member>
     </listofallmembers>
   </compounddef>

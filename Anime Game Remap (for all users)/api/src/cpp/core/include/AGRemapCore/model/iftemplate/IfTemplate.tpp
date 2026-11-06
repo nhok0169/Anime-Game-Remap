@@ -177,6 +177,54 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    bool IfTemplate<K, V, KeyHash, KeyEqual>::removeEmptyBlocks() {
+        auto& all = parts();
+        const auto isEmpty = [](const std::unique_ptr<IfTemplatePart>& part) {
+            if (dynamic_cast<const IfPredPart*>(part.get()) != nullptr) {
+                return true;
+            }
+            const auto* content = dynamic_cast<const ContentPart*>(part.get());
+            return content == nullptr || content->entries().empty();
+        };
+
+        bool removed = false;
+        for (bool again = true; again;) {
+            again = false;
+            for (std::size_t i = 0; i < all.size() && !again; ++i) {
+                const auto* open = dynamic_cast<const IfPredPart*>(all[i].get());
+                if (open == nullptr || open->type != IfPredPartType::If) {
+                    continue;
+                }
+
+                // its `endif`, counting the blocks inside it
+                int depth = 0;
+                std::size_t end = i;
+                for (std::size_t j = i; j < all.size(); ++j) {
+                    if (const auto* pred = dynamic_cast<const IfPredPart*>(all[j].get())) {
+                        depth += pred->type == IfPredPartType::If ? 1 : pred->type == IfPredPartType::EndIf ? -1 : 0;
+                        if (depth == 0) {
+                            end = j;
+                            break;
+                        }
+                    }
+                }
+
+                const auto first = all.begin() + static_cast<long long>(i);
+                const auto last = all.begin() + static_cast<long long>(end) + 1;
+                if (end > i && std::all_of(first, last, isEmpty)) {
+                    all.erase(first, last);
+                    again = removed = true;
+                }
+            }
+        }
+
+        if (removed) {
+            rebuild();
+        }
+        return removed;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     void IfTemplate<K, V, KeyHash, KeyEqual>::rebuild() {
         partsById_ = setupPartsById();
         rebuildTree();

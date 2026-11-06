@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_aether_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::AetherParser</compoundname>
+    <includes refid="_aether_parser_8h" local="no">AetherParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_aether_parser_1a405f3e86fcfa836001076f554b9350bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::AetherParser::AetherParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>AetherParser</name>
+        <qualifiedname>AGRemapCore::AetherParser::AetherParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Aether/AetherParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_aether_parser_1ada4c9dc7e0cc53f66f3c9f5312386db6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::AetherParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::AetherParser::v4_0</qualifiedname>
+        <briefdescription>
+<para>The parser for a 4.0-era Aether <computeroutput>.ini</computeroutput> file <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ae0c5728d0d3b8979ad587e98ca71f744" kindref="member">IniParseBuilderFuncs::aether4_0</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Aether/AetherParser.h" line="40" column="45" bodyfile="src/data/IniParseData/Aether/AetherParser.cpp" bodystart="57" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Aether&apos;s own ``.ini`` parsers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The standard GIMI character shape, drawing ``head`` / ``body`` -- both on the plain texture layout.
+Pair this with :cpp:class:`AetherFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Aether/AetherParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Aether/AetherParser.h" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_aether_parser_1a405f3e86fcfa836001076f554b9350bf" prot="public" virt="non-virtual"><scope>AGRemapCore::AetherParser</scope><name>AetherParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_aether_parser_1ada4c9dc7e0cc53f66f3c9f5312386db6" prot="public" virt="non-virtual"><scope>AGRemapCore::AetherParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

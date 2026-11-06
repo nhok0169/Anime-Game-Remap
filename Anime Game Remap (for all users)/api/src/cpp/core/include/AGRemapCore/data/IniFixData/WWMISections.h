@@ -353,6 +353,15 @@ namespace AGRemapCore {
                 /**
                  * @brief
                  @rst
+                 Lines the draw's command list writes before it runs the shader, inside the same save and restore as
+                 the runs -- eg. the textures an overlay drawn over the mod's own draw reads. **Default**: none
+                 @endrst
+                 */
+                KVPs before;
+
+                /**
+                 * @brief
+                 @rst
                  For a draw held back until other draws of the same pass are made: the resource that tells one pass from
                  another (a render target), or empty to draw at once
                  @endrst

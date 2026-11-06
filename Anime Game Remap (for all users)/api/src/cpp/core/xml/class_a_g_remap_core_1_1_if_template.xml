@@ -160,7 +160,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="426" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="426" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="438" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="438" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a81d3cdabbc1eafa4feee6e8283fb2684" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; size_t, <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> * &gt;</type>
@@ -174,7 +174,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="427" column="32" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="427" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="439" column="32" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="439" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1acc09310a994b8e0e94bfefc06c244464" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; size_t, std::vector&lt; std::string &gt; &gt;</type>
@@ -188,7 +188,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="428" column="32" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="428" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="440" column="32" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="440" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a05b4b3d0f0d8e1a0217488b536fe501b" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_template_1a9b04a0bcfd68c4aa9b7559d323c39aca" kindref="member">TreeKind</ref></type>
@@ -202,7 +202,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="429" column="22" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="429" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="441" column="22" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="441" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a99685f427c370546c50ffb198de93b4b" prot="private" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_1ad0bd7959508762f570d7a38330823a78" kindref="member">TreeType</ref> &gt;</type>
@@ -216,7 +216,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="430" column="29" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="430" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="442" column="29" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="442" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a32f9629b20f04ea1b5f8bc3c0028b538" prot="private" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
@@ -230,7 +230,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="431" column="33" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="431" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="443" column="33" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="443" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -588,6 +588,28 @@ as one a mod&apos;s author wrote (see :cpp:func:`IniNamingTools::sameKey`)
         </inbodydescription>
         <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="283" column="18"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ae75696bc462fac58b48746f9124c5ea3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::removeEmptyBlocks</definition>
+        <argsstring>()</argsstring>
+        <name>removeEmptyBlocks</name>
+        <qualifiedname>AGRemapCore::IfTemplate::removeEmptyBlocks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Removes every ``if`` block with no line in any of its branches -- ``if`` to ``endif``, and an outer block
+left empty by an inner one&apos;s removal too -- and #rebuild\s when one went. Eg. after the lines of a
+`section`_ copied elsewhere were cut down to the ones the copy needs
+</verbatim></para>
+<para><simplesect kind="return"><para>Whether a block was removed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="295" column="18"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a51c2a6210e3627c1c783c1dc2590ad5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::refreshCalledSubCommand</definition>
@@ -625,7 +647,7 @@ reference out of thin air).
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="301" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="313" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1aa323424bea95c5c5f43277c3f9ea7c9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -640,7 +662,7 @@ reference out of thin air).
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="306" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="318" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a81fc37c500e06a5645b278e8895fdd02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" kindref="member">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
@@ -672,7 +694,7 @@ reference out of thin air).
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="314" column="29"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="326" column="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a874e46fe12d2754eb3b801ca072b8c95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -690,7 +712,7 @@ Normalizes the branching structure within this `IfTemplate` to follow
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="323" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="335" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1af757a3035be470bb58aa1996ba83ba1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> *</type>
@@ -734,7 +756,7 @@ Normalizes the branching structure within this `IfTemplate` to follow
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="332" column="28"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="344" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ac05697e5450c185ccfaad6da9177c037" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -791,7 +813,7 @@ Normalizes the branching structure within this `IfTemplate` to follow
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="343" column="32"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="355" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1abfba519ec0753f50b7b06492488c5127" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">ContentPart</ref> *</type>
@@ -809,7 +831,7 @@ Normalizes the branching structure within this `IfTemplate` to follow
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="352" column="25"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="364" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a1d2800e9aaf18160927eca128652956d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -828,7 +850,7 @@ Normalizes the branching structure within this `IfTemplate` to follow
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="357" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="369" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a5d7a0282a9dfd74c234e12b26626662d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -851,7 +873,7 @@ Normalizes the branching structure within this `IfTemplate` to follow
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="362" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="374" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ab090c483de09cca700d10f32f81efee8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">ContentPart</ref> *</type>
@@ -869,7 +891,7 @@ Normalizes the branching structure within this `IfTemplate` to follow
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="369" column="25"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="381" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1abf47e386e6bceea1dac29e3d75fb38b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -888,7 +910,7 @@ Normalizes the branching structure within this `IfTemplate` to follow
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="374" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="386" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a984f70a0d0c1aa715dcdcbc6d7425588" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -911,7 +933,7 @@ Normalizes the branching structure within this `IfTemplate` to follow
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="379" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="391" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ad624eb9ee56c8004b3c44e275180c779" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -960,7 +982,7 @@ its conditions holds, and that path sets nothing. Without it, only the branches 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="404" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="416" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ad139adbafe43cc1be4e7c67d54ec3b03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::set&lt; <ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">ContentPart</ref> * &gt;</type>
@@ -1003,7 +1025,7 @@ branches is missing &apos;key&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="420" column="22"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="432" column="22"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -1109,7 +1131,7 @@ via :cpp:class:`IfPredPart`) or a fully-indexed ``src``-shaped description of an
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="433" column="32"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="445" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a3242b3b2c61aa1f3d7a62abbbb032288" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1123,7 +1145,7 @@ via :cpp:class:`IfPredPart`) or a fully-indexed ``src``-shaped description of an
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="434" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="446" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1aa9abc4b424b99269a1317610e54cc2ae" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1161,7 +1183,7 @@ via :cpp:class:`IfPredPart`) or a fully-indexed ``src``-shaped description of an
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="436" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="448" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a26eeb2294874156af24e166778c32ba3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::set&lt; <ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">ContentPart</ref> * &gt;, bool &gt;</type>
@@ -1199,7 +1221,7 @@ via :cpp:class:`IfPredPart`) or a fully-indexed ``src``-shaped description of an
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="441" column="23"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="453" column="23"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1288,7 +1310,7 @@ Data for storing information about a `section`_ in a ``.ini`` file :raw-html:`&l
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="136" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="136" bodyend="446"/>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="136" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="136" bodyend="458"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_if_template_1af757a3035be470bb58aa1996ba83ba1b" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>add</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_1ab090c483de09cca700d10f32f81efee8" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>addBottomContentPart</name></member>
@@ -1327,6 +1349,7 @@ Data for storing information about a `section`_ in a ``.ini`` file :raw-html:`&l
       <member refid="class_a_g_remap_core_1_1_if_template_1a3242b3b2c61aa1f3d7a62abbbb032288" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>rebuildTree</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_1a51c2a6210e3627c1c783c1dc2590ad5e" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>refreshCalledSubCommand</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_1aa323424bea95c5c5f43277c3f9ea7c9b" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>refreshPartIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1ae75696bc462fac58b48746f9124c5ea3" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>removeEmptyBlocks</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_1a94e4227bb2d58a30f85bca186b33cca9" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>runConfig</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_1a32f9629b20f04ea1b5f8bc3c0028b538" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>runConfig_</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_1aa1e4e5429a3ede949e2ec5ad26e52762" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>setupPartsById</name></member>

@@ -551,6 +551,13 @@ namespace AGRemapCore {
              */
             const TextureToggle* registerToggleOf(const std::string& resource) const;
 
+            struct LinkedLine;
+
+            /**
+             * @brief What the linked ``.ini`` files set on this file's draws -- see :cpp:struct:`LinkedLine`
+             */
+            const std::vector<LinkedLine>& linkedLines() const;
+
             /**
              * @brief Records the register toggle that chooses 'resource'
              *
@@ -827,6 +834,56 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             A line a LINKED ``.ini`` sets on one of this file's draws, as #roleFilesOf carries it: a line of
+             :cpp:member:`RoleFileRules::carriedRows` wherever it sits, or a register of
+             :cpp:member:`RoleFileRules::registerRoles` set under a condition. On the mod's own character both files fire
+             on the draw; remapped, the linked file's section never does, so a fix that wants the line writes it itself
+             @endrst
+             */
+            struct LinkedLine {
+                /**
+                 * @brief The mod object of this file the line is set on
+                 */
+                ModObj obj;
+
+                /**
+                 * @brief The line's key, for a line of :cpp:member:`RoleFileRules::carriedRows`; empty for a role's register
+                 */
+                std::string key;
+
+                /**
+                 * @brief The role the register binds, for a register of :cpp:member:`RoleFileRules::registerRoles`; empty otherwise
+                 */
+                std::string role;
+
+                /**
+                 * @brief
+                 @rst
+                 The condition the line sits under, as one ``.ini`` condition (:cpp:func:`IfPredPart::getIfPredStr`), or empty
+                 for none. It may read the linked file's own variables
+                 @endrst
+                 */
+                std::string condition;
+
+                /**
+                 * @brief The line's value as written, eg. ``ref ResourceGlow``
+                 */
+                std::string value;
+
+                /**
+                 * @brief The file the value's resource names
+                 */
+                std::string file;
+
+                /**
+                 * @brief The linked ``.ini`` the line is in
+                 */
+                std::string ini;
+            };
+
+            /**
+             * @brief
+             @rst
              Which file each mod object takes for each texture role, as #roleFilesOf chooses it: one value, held in the
              variable #RoleFilesVar, which #textureRoles, #roleCandidates, #roleFile, #rejections and the other getters
              of it read
@@ -871,6 +928,11 @@ namespace AGRemapCore {
                  @endrst
                  */
                 std::map<std::string, TextureToggle> registerToggles;
+
+                /**
+                 * @brief What the linked ``.ini`` files set on this file's draws, in the order read -- see #linkedLines
+                 */
+                std::vector<LinkedLine> carried;
             };
 
             /**
@@ -1027,6 +1089,11 @@ namespace AGRemapCore {
                      * @brief Its file name, for the log
                      */
                     std::string name;
+
+                    /**
+                     * @brief Its path -- :cpp:member:`LinkedLine::ini` of a line read from it
+                     */
+                    std::string path;
                 };
 
                 /**
@@ -1063,6 +1130,15 @@ namespace AGRemapCore {
                  @endrst
                  */
                 std::string roleRows;
+
+                /**
+                 * @brief
+                 @rst
+                 The collect, with conditions, of the rows a LINKED file sets on an object's draw that #roleFilesOf carries
+                 as they are (:cpp:member:`RoleFileData::carried`) -- eg. RabbitFX's glow map. Empty for none
+                 @endrst
+                 */
+                std::string carriedRows;
 
                 /**
                  * @brief The collect of every key of each object's graph, whose OWN `sections`_ say what the object binds

@@ -5,9 +5,6 @@
     <includes refid="_version_set_8h" local="yes">AGRemapCore/model/VersionSet.h</includes>
     <includes local="no">algorithm</includes>
     <incdepgraph>
-      <node id="15">
-        <label>Cache.tpp</label>
-      </node>
       <node id="6">
         <label>AGRemapCore/model/Version.h</label>
         <link refid="_version_8h"/>
@@ -81,6 +78,9 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
+      </node>
+      <node id="15">
+        <label>Cache.tpp</label>
       </node>
       <node id="16">
         <label>LruCache.tpp</label>

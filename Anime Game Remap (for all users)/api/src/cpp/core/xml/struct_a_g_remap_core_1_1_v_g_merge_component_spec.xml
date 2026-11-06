@@ -38,6 +38,26 @@ the components cannot be remapped together
         </inbodydescription>
         <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="47" column="17" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="47" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1aa9aa9e3cc53e5bead2faa75b8a49348e" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; long long, std::vector&lt; std::pair&lt; long long, double &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;long long, std::vector&lt;std::pair&lt;long long, double&gt; &gt; &gt; AGRemapCore::VGMergeComponentSpec::splitGroups</definition>
+        <argsstring></argsstring>
+        <name>splitGroups</name>
+        <qualifiedname>AGRemapCore::VGMergeComponentSpec::splitGroups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+SHARED groups: a source group of this component whose weight is spread over several TARGET bones,
+``{source group: [(target bone, share), ...]}``, in place of :cpp:member:`remap`&apos;s one bone -- the merge
+counterpart of :cpp:member:`VGComponentSpec::splitGroups`. Each influence on such a group becomes one per
+bone of the share, equal bones merged and the 4 largest kept, renormalised. Empty by default
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="58" column="28" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -60,10 +80,11 @@ One SOURCE component of a skin made of several -- YelanTranquil&apos;s ``Body``,
         <link refid="class_a_g_remap_core_1_1_v_g_remap"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="33" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="33" bodyend="48"/>
+    <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="33" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="33" bodyend="59"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1a0253c789317229a5a26a3680b762c5a3" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeComponentSpec</scope><name>name</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1ac01354111812774e6ea940409f712afe" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeComponentSpec</scope><name>remap</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1aa9aa9e3cc53e5bead2faa75b8a49348e" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeComponentSpec</scope><name>splitGroups</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

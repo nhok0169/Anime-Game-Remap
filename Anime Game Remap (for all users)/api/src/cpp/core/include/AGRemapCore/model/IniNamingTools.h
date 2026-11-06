@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <map>
 #include <optional>
 #include <string>
 #include <utility>
@@ -101,6 +102,33 @@ namespace AGRemapCore {
              * @return Whether they are the same key
              */
             static bool sameKey(const std::string& key1, const std::string& key2);
+
+            /**
+             * @brief
+             @rst
+             The `3DMigoto`_ variables a line of an ``.ini`` names -- each ``$name`` in a key, a value or an ``if``
+             condition -- by name, lower-cased (`3DMigoto`_'s names are case-insensitive), in the order they appear. A
+             namespaced reference (``$\\ns\\name``) belongs to another file and is not one of them
+             @endrst
+             *
+             * @param text The line, or a part of it
+             *
+             * @return The names, without the ``$``
+             */
+            static std::vector<std::string> varsIn(const std::string& text);
+
+            /**
+             * @brief
+             @rst
+             'text' with each variable 'renames' names renamed -- see #varsIn for which ``$name`` count
+             @endrst
+             *
+             * @param text The line, or a part of it
+             * @param renames A variable's lower-cased name -> its new name, both without the ``$``
+             *
+             * @return The renamed text; 'text' itself when it names none of them
+             */
+            static std::string renameVars(const std::string& text, const std::map<std::string, std::string>& renames);
 
             /**
              * @brief

@@ -1259,6 +1259,17 @@ GraphRename
 
 :raw-html:`<br />`
 
+GraphVarRename
+==============
+
+.. attributetable:: FixRaidenBoss2.GraphVarRename
+
+.. autoclass:: FixRaidenBoss2.GraphVarRename
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 Hashes
 ======
 

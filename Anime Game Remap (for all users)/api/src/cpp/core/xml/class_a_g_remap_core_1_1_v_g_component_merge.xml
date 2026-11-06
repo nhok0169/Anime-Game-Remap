@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="120" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="120" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="131" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="131" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_v_g_component_merge_1ad9c4e907fbac81fe2cd156f7aa9b2b01" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_v_g_component_split_1ac0e4ae55a6af2af066027cce029a84f8" kindref="member">VGComponentSplit::Indices</ref></type>
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="121" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="121" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="132" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="132" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_v_g_component_merge_1ab475035d4eb477e53072ee6910838f85" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_v_g_component_split_1a2a68c79a4ee8bb83b1f8e15cd47847f1" kindref="member">VGComponentSplit::Triangles</ref></type>
@@ -45,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="122" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="122" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="133" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="133" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -61,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="255" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="255" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="266" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="266" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_component_merge_1a363d9a6a42d454b31207f9058c82c4da" prot="private" static="no" mutable="no">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -75,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="256" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="256" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="267" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="267" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_component_merge_1a3d798af548c9c685e69a84cc97afc071" prot="private" static="no" mutable="no">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -89,7 +89,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="257" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="257" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="268" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="268" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_component_merge_1a9bb71fa1c363ac8499709e4bfa1da4e1" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; std::string, std::size_t &gt;</type>
@@ -103,7 +103,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="258" column="32" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="258" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="269" column="32" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="269" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_component_merge_1a6fbc2301b3c4c810e608e1a03f3be005" prot="private" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats" kindref="compound">VGComponentMergeStats</ref></type>
@@ -117,7 +117,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="259" column="35" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="259" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="270" column="35" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="270" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -192,7 +192,7 @@ line -- see #padLines. ``-1`` (the default) pads with zeros
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="172" column="22" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="94" bodyend="163"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="183" column="22" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="94" bodyend="215"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_merge_1a4769176fdede88045d1152dadb0a8041" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &amp;</type>
@@ -207,7 +207,7 @@ line -- see #padLines. ``-1`` (the default) pads with zeros
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="219" column="27" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="166" bodyend="168"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="230" column="27" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="218" bodyend="220"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_merge_1a2fb5e21a1379627510bee3433730ecdb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &amp;</type>
@@ -222,7 +222,7 @@ line -- see #padLines. ``-1`` (the default) pads with zeros
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="224" column="27" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="171" bodyend="173"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="235" column="27" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="223" bodyend="225"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_merge_1af2b2109a436b5da1127fb23560a0554a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &amp;</type>
@@ -237,7 +237,7 @@ line -- see #padLines. ``-1`` (the default) pads with zeros
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="229" column="27" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="176" bodyend="178"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="240" column="27" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="228" bodyend="230"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_merge_1a2a6d26a6d80c4df30dbb1e557c59967a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1ab475035d4eb477e53072ee6910838f85" kindref="member">Triangles</ref></type>
@@ -278,7 +278,7 @@ first vertex, concatenated in the order given
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="242" column="23" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="181" bodyend="196"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="253" column="23" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="233" bodyend="248"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_merge_1a7d7c62569178c69930835cb7ce111248" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -307,7 +307,7 @@ first vertex, concatenated in the order given
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="249" column="25" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="199" bodyend="205"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="260" column="25" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="251" bodyend="257"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_merge_1a2755caa7c6758dc1f31f941bb954e85d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -321,7 +321,7 @@ first vertex, concatenated in the order given
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="251" column="25" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="208" bodyend="210"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="262" column="25" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="260" bodyend="262"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_merge_1a10633ff9ad86c21bcf4be2272279e83f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats" kindref="compound">VGComponentMergeStats</ref> &amp;</type>
@@ -335,7 +335,7 @@ first vertex, concatenated in the order given
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="252" column="41" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="213" bodyend="215"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="263" column="41" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="265" bodyend="267"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -409,7 +409,7 @@ difference is invisible except as a byte diff
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="191" column="28" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="20" bodyend="53"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="202" column="28" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="20" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_merge_1a0a0e00d28b5aefddd8ac16c264355817" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -492,7 +492,7 @@ at that offset, as many as the padding is wide: ``4`` makes a 12-byte
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="214" column="28" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="56" bodyend="91"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="225" column="28" bodyfile="src/model/buffers/VGComponentMerge.cpp" bodystart="56" bodyend="91"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -532,7 +532,7 @@ from the other components&apos; vertex counts -- so this is a grouped resource&a
         <link refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="118" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="118" bodyend="260"/>
+    <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="129" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="129" bodyend="271"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a4769176fdede88045d1152dadb0a8041" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentMerge</scope><name>blend</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a013149909f01e1d8dbe1592f355a888b" prot="private" virt="non-virtual"><scope>AGRemapCore::VGComponentMerge</scope><name>blend_</name></member>

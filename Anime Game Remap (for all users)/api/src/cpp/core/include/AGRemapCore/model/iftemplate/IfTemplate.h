@@ -285,6 +285,18 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Removes every ``if`` block with no line in any of its branches -- ``if`` to ``endif``, and an outer block
+             left empty by an inner one's removal too -- and #rebuild\s when one went. Eg. after the lines of a
+             `section`_ copied elsewhere were cut down to the ones the copy needs
+             @endrst
+             *
+             * @return Whether a block was removed
+             */
+            bool removeEmptyBlocks();
+
+            /**
+             * @brief
+             @rst
              Recomputes just #calledSubCommands()'s entry for a single part index, from that part's
              *current* ``run =`` values -- for a caller (eg. `IniSectionGraph::rename`) that just
              rewrote a ``run =`` value in place via :cpp:func:`IfContentPart::setValByInd` and needs

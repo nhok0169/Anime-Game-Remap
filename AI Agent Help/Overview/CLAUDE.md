@@ -2165,6 +2165,85 @@ map with the same subtype wrote two files and ONE section, so every branch bound
 reported nothing. Give each edit its own subtype (`"LightMap" + suffix`), then read the fixed `.ini`'s resource
 sections, not just the files on disk, to see that each branch binds its own.
 
+**128. A "LIMITATION" IS A CONCLUSION YOU HAVE TO EARN, AND "IT WOULD NEED A SHADER" IS NOT ONE (2026-10-26).**
+Changli <-> ChangliNymph went to the maintainer's final check with four limits written into `remapGrading.rst`: a
+skirt that would not go see-through, chains drawn as dark cords, a tattoo not drawn, feathers that did not glow.
+All four were fixable with the source's own game shader, and every one was fixed within a day once that was asked
+for. The maintainer had to run the final check three times. Before writing any limit, list what you tried and ask
+two questions: would the source's own shader fix it, and would a different route through the target fix it? A
+limit is only something you MEASURED to be out of reach. See Creating Remaps' "A REMAP ADDS NO SHADER OR TEXTURE IT
+CAN DO WITHOUT".
+
+**129. EVERY "NOT A FAULT" IN A BRIEF IS A CLAIM -- VERIFY IT ON THE ORIGINAL BEFORE IT GOES IN (2026-10-27).**
+An epoch brief told the game agent that Changli13's overworld mode 0 glowing like mode 5 was "the mod's own rule".
+That happened to be right, but nobody had checked it on Changli's own outfit until the maintainer reported it as a
+bug. The game agent believes the brief and stops looking. So for each item in a brief's "not a fault" list, write
+down how it was verified -- the original's shot, the line of the mod's `.ini` -- or take it out.
+
+**130. WHEN THE MAINTAINER REPORTS A BUG, MEASURE IT BEFORE YOU EXPLAIN IT, AND MEASURE THE ORIGINAL TOO
+(2026-10-27).** The last two Changli reports were not remap faults: a stale shape-key buffer and a mod's auto mode.
+Each was settled in under an hour by measurement. For the buffer, a `dump = ResourceShapeKeyedPosition buf` line
+in the remapped section showed the vest's vertices never moved. For the mode, the same mod on the original
+outfit showed the same behaviour. Two traps on the way: a frame dump's `vb0=` files are the GAME's buffers,
+captured before the fix's override swaps them, so dump the fix's own resource by name; and a log-only dump
+(`--options log`) shows which sections ran, but no buffer contents.
+
+**131. A FIX TO SHARED REMAP DATA IS NOT DONE UNTIL EVERY COPY THE GAME RUNS IS RE-FIXED (2026-10-26).** After every
+build: A/B the prototype against the compiled fix on every test mod (`abWWMI.py`), re-fix every test copy AND the
+maintainer's live copy (they move it between `Mods` and a parked folder, so find it first), and run the dangling-
+reference check on each. A missing file in the output that is also missing from the untouched original is the
+author's; one the original has is yours.
+
+**132. THE GAME HOLDS STATE THAT A RELOAD DOES NOT RESET (2026-10-27).** 3DMigoto resizes or replaces a game
+resource only when the game CREATES it, and the overworld character is created once. So after you load, swap or
+park a mod, the overworld can show the previous state: a shape-key buffer sized for another mod (only part of the
+mesh morphs), or a blindfold from a mod no longer loaded. Switch party member and back before any overworld shot,
+and write that into every game agent's brief.
+
+**133. ASK FOR EVERY GAME PERMISSION THE EPOCH WILL NEED BEFORE IT STARTS (2026-10-25).** Changli's forward epoch 5
+could not check the overworld because the skin was not worn, and "Wear Outfit" had not been cleared. That cost a
+whole epoch. Before launching a game agent, list what it must do that the rules forbid by default -- wear an
+outfit, spend a forte gauge, change the time of day -- and ask the maintainer once, up front.
+
+**134. A VAGUE REPORT ABOUT A MOD IN GAME IS A REQUEST TO GO AND LOOK -- REPRODUCE IT BEFORE ANALYSING
+FILES (2026-10-27).** "People have reported that the textures in the remap for that mod seem incorrect"
+got a round of offline checks first: binding tables, alpha ceilings, variant diffs. Every one came back
+clean, and none of them named the fault. The maintainer's answer was "why don't you look in game and see.
+they don't mention what is wrong because it should be obvious" -- the skin was black from head to foot.
+A report that does not say WHAT is wrong is usually one where the picture says it at a glance. Put the mod
+on the target, take one screenshot beside the same mod on its own character, and let what you see choose
+the instrument. The offline checks are for after you know what you are looking for.
+
+**135. A PROBE IS EVIDENCE ONLY IF YOU CAN SHOW THE STATE CHANGED -- ALTERNATE A B A B, AND JUDGE ONLY LIVE
+FRAMES (2026-10-27).** One ChisaParfait4 round produced, in order: a probe that "fixed" the fault (the
+frame was a `crop` of the PREVIOUS screenshot), a reload that "changed nothing" (the F10 never landed),
+and a fresh load of the FIXED `.ini` that "still showed the bug" (WuWa had stopped rendering when the
+Claude window took the focus, so the capture was a frozen frame from before the change). Each is a
+confident wrong conclusion, and the right one was reached only by swapping the old and new `.ini` four
+times, A B A B, and reading only frames proven live -- two consecutive captures that differ. One
+before/after pair cannot tell a change from a stale frame. Two alternations can, because a stale state
+cannot follow the swap both ways. (The mechanics are in Game View's "When it does not work".)
+
+**136. WHEN YOU HAND THE MAINTAINER A FIX THAT IS NOT MERGED, HAND THEM THE COMMAND THAT RUNS IT
+(2026-10-27).** Habit 91 is about your own tests; this is the same trap reaching the maintainer. The fix
+was built in a worktree and verified; the maintainer re-ran their usual `py -3 FixRaidenBoss7.py -s
+ChisaParfait4`, which loads the MAIN checkout's build, and reported "the skin still appears black" --
+the old build had written the old lines back. So whenever you say "fixed" before the branch is merged
+and the main checkout rebuilt, give the exact command with `AG_REMAP_REPO` pointing at your checkout,
+in the maintainer's shell. They use **PowerShell**, so give
+`$env:AG_REMAP_REPO = "<path>"; py -3 FixRaidenBoss7.py -s <mod>; Remove-Item Env:AG_REMAP_REPO`
+first and the bash form second. And say plainly that their normal command will bring the bug back
+until the merge.
+
+**137. WHEN EVERY CHECK PASSES AND THE PICTURE IS WRONG, READ THE GENERATED SECTION IN THE ORDER 3DMIGOTO
+RUNS IT (2026-10-27).** All ten pre-flight checks passed on ChisaParfait4's black skin, because each
+answers a narrower question: does a file exist, is a section defined, is an alpha in band. The fault was
+one screenful of the fixed `.ini`: the remapped section's `run =` into a command list copied from the mod,
+ending in a `ps-t2 =` line that names the mod's `.jpg` code map, after the fix's own texture list.
+Walk the section top to bottom, step into every `run =` where it appears, and write down what each
+register holds at each `drawindexed`. It costs minutes, it is the only check that sees ORDER, and it names
+the line to probe.
+
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 
 Four separate speed-ups landed in one day --- startup, the texture decode, the gamma pass, the mod

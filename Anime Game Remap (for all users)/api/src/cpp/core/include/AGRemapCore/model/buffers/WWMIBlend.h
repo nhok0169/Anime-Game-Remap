@@ -19,12 +19,14 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "AGRemapCore/model/VGRemap.h"
 #include "AGRemapCore/model/buffers/BufElementType.h"
+#include "AGRemapCore/model/buffers/BufValue.h"
 
 
 namespace AGRemapCore {
@@ -281,6 +283,51 @@ namespace AGRemapCore {
                                    const std::string& srcVertexVGPath, const std::string& positionPath,
                                    const VGRemap& row, const RemapFiles& out,
                                    const std::optional<LegacyLift>& legacy = std::nullopt);
+
+            /**
+             * @brief
+             @rst
+             The reverse map of a blend remap over a row -- merged target bone -> local id -- as
+             :cpp:func:`writeRemap` writes it: every distinct target the row names that a remap of
+             :cpp:member:`RemapSize` entries can hold, numbered in ascending order. Every other entry is ``0``
+             @endrst
+             *
+             * @param row The vertex group remap
+             *
+             * @return :cpp:member:`RemapSize` local ids
+             */
+            static std::vector<std::uint16_t> reverseOf(const VGRemap& row);
+
+            /**
+             * @brief
+             @rst
+             The blend of ONE source component drawn from mesh files of its own -- a ``Blend.buf`` whose ids
+             start at the component's ``vg_offset`` -- remapped into the TARGET's local ids, as WWMI's
+             BlendRemapper would write them for the main mesh under :cpp:func:`writeRemap`'s remap: each id
+             lifted out of the component's window (``id - vgOffset``) into the source's merged skeleton through
+             'vgMap', then through 'row', then through :cpp:func:`reverseOf` 'row'. So the bytes need no
+             compute pass to be right :raw-html:`<br />` :raw-html:`<br />`
+
+             Weights are kept. A slot of weight ``0``, and an id the vg map or the row does not place, reads
+             local ``0``. The output has ``max(influences, outInfluences)`` slots a vertex -- the extra ones
+             empty -- so a narrower source is widened to a target that reads more
+             @endrst
+             *
+             * @param blendPath The component's ``Blend.buf``
+             * @param positionPath Its ``Position.buf``, which gives the vertex count (:cpp:func:`layoutOf`)
+             * @param vgOffset The first merged id the component's window covers
+             * @param vgMap The component's ``vg_map``: component-local bone id -> merged source bone id
+             * @param row The vertex group remap
+             * @param outInfluences The influences a vertex of the target reads
+             * @param unmapped Filled with the component-local ids that could not be placed, when given
+             *
+             * @throws std::runtime_error When the two buffers' sizes imply no layout
+             *
+             * @return The remapped blend
+             */
+            static ByteVec componentBlend(const std::string& blendPath, const std::string& positionPath, long long vgOffset,
+                                          const std::vector<int>& vgMap, const VGRemap& row, std::size_t outInfluences,
+                                          std::set<long long>* unmapped = nullptr);
     };
 }
 

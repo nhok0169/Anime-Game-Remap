@@ -531,6 +531,54 @@ namespace AGRemapCore {
                     }
                 }
             }
+            // WHAT A LINKED FILE SETS ON THESE DRAWS THAT NO CHOICE ABOVE CARRIES: every line of the carried rows (RabbitFX's
+            // glow map), and a role's register set under a CONDITION (Changli13's break-damaged body) -- each with its
+            // condition, for a list of the fix's own. An unconditioned register is a candidate above
+            for (const RoleFileRules::Linked& linked : rules.linked) {
+                if (linked.data == nullptr) {
+                    continue;
+                }
+                const IniParseData& other = *linked.data;
+                const auto carry = [&other, &linked, this](const Row& row, const std::string& key, const std::string& role) {
+                    std::string condition;
+                    if (row.condition.has_value()) {
+                        const std::optional<std::string> text = IfPredPart::getIfPredStr(*row.condition);
+                        if (!text.has_value()) {
+                            return;
+                        }
+                        condition = *text == "1" ? std::string() : *text;     // a line under no `if` is true everywhere
+                    }
+                    if (key.empty() && condition.empty()) {
+                        return;
+                    }
+                    const std::optional<std::string> file = fileOfResource(other, linked.folder, row.value);
+                    if (!file.has_value() || !exists(*file)) {
+                        return;
+                    }
+                    rolesToWrite().carried.push_back(LinkedLine{row.graphId.modObj, key, role, condition,
+                                                                std::string(StringTools::strip(row.value)), *file, linked.path});
+                };
+
+                if (!rules.carriedRows.empty()) {
+                    for (const Row& row : other.collected(rules.carriedRows)) {
+                        if (rules.registerRoles.count(row.graphId.modObj) > 0) {
+                            carry(row, std::string(StringTools::strip(row.key)), "");
+                        }
+                    }
+                }
+                for (const Row& row : other.collected(rules.roleRows)) {
+                    const auto layout = rules.registerRoles.find(row.graphId.modObj);
+                    if (layout == rules.registerRoles.end()) {
+                        continue;
+                    }
+                    for (const auto& [reg, role] : layout->second) {
+                        if (IniNamingTools::sameKey(row.key, reg)) {
+                            carry(row, "", role);
+                        }
+                    }
+                }
+            }
+
             if (bound > 0) {
                 log("another .ini of the mod binds " + std::to_string(bound)
                     + " textures on this file's draws; carried over to the target, where that .ini's overrides never fire");

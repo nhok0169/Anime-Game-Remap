@@ -102,6 +102,7 @@ void initCppRegRestrict(pybind11::module_ &m);
 void initCppRegAnchorAdd(pybind11::module_ &m);
 void initCppBaseIniGraphEdit(pybind11::module_ &m);
 void initCppGraphRename(pybind11::module_ &m);
+void initCppGraphVarRename(pybind11::module_ &m);
 void initCppRegFillMissing(pybind11::module_ &m);
 void initCppRegSurroundedAdd(pybind11::module_ &m);
 void initCppRegBottomAdd(pybind11::module_ &m);
@@ -333,6 +334,7 @@ PYBIND11_MODULE(core, m) {
     // Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
     initCppBaseIniGraphEdit(m); // must come after initCppBaseRegEdit (registers BaseIniGraphPartEdit, its base) and initCppIniSectionGraph (the type it edits)
     initCppGraphRename(m); // must come after initCppBaseIniGraphEdit (registers its base)
+    initCppGraphVarRename(m); // must come after initCppBaseIniGraphEdit (registers its base)
     initCppRegFillMissing(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppIfContentPart (the parts it fills)
     initCppRegSurroundedAdd(m); // must come after initCppBaseIniGraphEdit (registers its base)
     initCppRegBottomAdd(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppRegSurroundedAdd (shares its parseAdditions/additionsToPy)

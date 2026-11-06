@@ -5,6 +5,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/buffers/DrawUVCoverage.h"
 #include "AGRemapCore/model/buffers/SkeletonNumberingProbe.h"
@@ -287,8 +288,9 @@ namespace AGRemapCore {
                  * (1) the standard rows (GIMIParser::rowSteps): the files of the resources the mod binds,
                  * every section's declaration and every key of every section, and every key of every slot graph;
                  * (2) the hash and the `this` of every texture override; (3) the textures' roles and toggles;
-                 * (4) the resource data (IniParseData::resourceData, by WWMI's rules); (5) the skeleton numbering;
-                 * (6) the textures; (7) the draw splits.
+                 * (4) the skeleton numbering, a variable made from the slot and resource rows (GraphVarApply); then
+                 * the functions reading the rows: (5) the resource data (IniParseData::resourceData, by WWMI's
+                 * rules); (6) the textures; (7) the draw splits.
                  */
                 void buildSteps() {
                     auto overrides = std::make_unique<Collect>();
@@ -344,16 +346,24 @@ namespace AGRemapCore {
                     rows.declaredKeys = {IniKeywords::Global + " " + IniKeywords::WWMIMeshVertexCount};
                     rows.objs = [this](const ModObj& obj) { return isSlotObj(obj); };
 
+                    // the skeleton numbering, made from the slot rows and the resource rows
+                    auto skeleton = std::make_unique<GraphVarApply>(
+                        std::vector<std::string>{SlotsCollect, IniParseRows::Resources},
+                        [this](const std::vector<const GraphEditVariables::Value*>& inputs) { return skeletonNumbering(inputs); },
+                        IniParseData::BlendVersion);
+
                     // THE STEPS: the edits that read the mod, then the functions that read their rows
                     this->deferredParseSteps = this->rowSteps(rows);
                     for (GroupEdit* step : {&this->ownStep(std::move(overrides)), &this->ownStep(std::move(roles)),
                                             &this->ownStep(std::move(toggles))}) {
                         this->deferredParseSteps.push_back(step);
                     }
+                    if (!onlyThisFile_) {
+                        this->deferredParseSteps.push_back(&this->ownStep(std::move(skeleton)));
+                    }
 
                     this->deferredParseReaders = {[this](IniParseData& data) { applyResourceData(data); }};
                     if (!onlyThisFile_) {
-                        this->deferredParseReaders.push_back([this](IniParseData& data) { readSkeletonNumbering(data); });
                         this->deferredParseReaders.push_back([this](IniParseData& data) { readTextures(data); });
                         this->deferredParseReaders.push_back([this](IniParseData& data) { readDrawSplits(data); });
                     }
@@ -557,30 +567,42 @@ namespace AGRemapCore {
 
                 // ---- WWMIParserConfig::skeletonNumberings ----
                 // Which numbering the blend's bone ids are in, asked of the mod's own geometry
-                // (SkeletonNumberingProbe). Not asked of a mod with no vg_offset on any slot section: one from
-                // before WWMI's merged skeleton, whose ids are each component's own.
-                void readSkeletonNumbering(IniParseData& data) {
+                // (SkeletonNumberingProbe), from the slot rows and the resource rows -- the version, or nothing.
+                // Not asked of a mod with no vg_offset on any slot section: one from before WWMI's merged skeleton,
+                // whose ids are each component's own.
+                std::optional<GraphEditVariables::Value> skeletonNumbering(const std::vector<const GraphEditVariables::Value*>& inputs) {
+                    static const std::vector<Row> none;
+                    const auto rowsOf = [](const GraphEditVariables::Value* value) -> const std::vector<Row>& {
+                        const std::vector<Row>* rows = value == nullptr ? nullptr : value->as<std::vector<Row>>();
+                        return rows == nullptr ? none : *rows;
+                    };
+
                     IniFile* ini = ctx_.getIniFile();
                     if (ini == nullptr || config_.skeletonNumberings.size() < 2 || config_.referenceBoneCentroids.empty()) {
-                        return;
+                        return std::nullopt;
                     }
 
                     bool merged = false;
-                    for (const auto& entry : ownRows(data.collected(SlotsCollect), rootsOf([this](const ModObj& obj) { return isSlotObj(obj); }))) {
+                    for (const auto& entry : ownRows(rowsOf(inputs[0]), rootsOf([this](const ModObj& obj) { return isSlotObj(obj); }))) {
                         for (const Row* row : entry.second) {
                             merged = merged || row->key == IniKeywords::WWMIVgOffset;
                         }
                     }
 
-                    const std::optional<std::string> position = data.resourceFile(IniKeywords::WWMIPositionBuffer);
-                    const std::optional<std::string> blend = data.resourceFile(IniKeywords::WWMIBlendBuffer);
+                    const std::map<std::string, std::string> files = IniParseData::resourceFilesOf(rowsOf(inputs[1]));
+                    const auto fileOf = [&files](const std::string& section) -> std::optional<std::string> {
+                        const auto found = files.find(StringTools::toLower(section));
+                        return found == files.end() ? std::nullopt : std::optional<std::string>(found->second);
+                    };
+                    const std::optional<std::string> position = fileOf(IniKeywords::WWMIPositionBuffer);
+                    const std::optional<std::string> blend = fileOf(IniKeywords::WWMIBlendBuffer);
                     if (!merged || !position.has_value() || !blend.has_value()) {
-                        return;
+                        return std::nullopt;
                     }
 
                     // the remapped skeleton's own 16-bit ids: the first resource, by name, naming them
                     std::optional<std::string> vertexVG;
-                    for (const auto& [section, file] : data.resourceFiles()) {
+                    for (const auto& [section, file] : files) {
                         std::string name = section;
                         name.erase(std::remove(name.begin(), name.end(), '_'), name.end());
                         if (name.find("blendremapvertexvg") != std::string::npos) {
@@ -597,7 +619,7 @@ namespace AGRemapCore {
                         pathOf(*position), pathOf(*blend), vertexVG.has_value() ? std::optional<std::string>(pathOf(*vertexVG)) : std::nullopt,
                         config_.skeletonNumberings, config_.referenceBoneCentroids);
                     if (!found.has_value()) {
-                        return;
+                        return std::nullopt;
                     }
 
                     std::ostringstream how;
@@ -607,9 +629,9 @@ namespace AGRemapCore {
                     }
 
                     const std::string& version = config_.skeletonNumberings[found->best].version;
-                    data.setBlendVersion(version);
                     ctx_.log("its bone ids are " + version + "'s numbering (" + std::to_string(found->vertices)
                              + " vertices on renumbered bones; median distance to the bone by version: " + how.str() + ")");
+                    return GraphEditVariables::Value::of<std::string>(version);
                 }
 
                 // ---- WWMIParserConfig::drawSplits ----

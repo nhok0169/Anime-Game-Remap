@@ -486,9 +486,13 @@ FOR PYTHON TOO".
 **EDITS PASS DATA THROUGH NAMED VARIABLES: `GraphEditVariables` (2026-10-31).** When one edit hands data to a later
 one, keep it in a variable of a `GraphEditVariables` (`GraphVarTake` saves sections into one, `GraphCreate::sectionsOf`
 writes them out as a graph in each group -- `VarSectionsCreate` until it was folded in, 2026-11-02) rather than writing a
-new holder class. A variable holds `IfTemplate` sections. It holds data about ONE graph; a
-`GraphGroupEditVariables` for data spanning several graphs is made only when a use case needs it (the maintainer's
-rule). See [Ini Graph Editing](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md)'s first section.
+new holder class. **Since 2026-11-06 a variable holds ANY value (`GraphEditVariables::Value`) and the parser owns
+variables too** (`IniParseData::variables()`: every `GraphCollect` files its rows there, `collected(name)` reads them),
+both at the maintainer's question of why it was restricted to sections and to the fixer. `GraphEditVariables::apply`
+makes a variable from others (value in, value out, `into` replaced) and **`GraphVarApply`** runs it in a parser's step
+list -- it is replacing the parser's `parseReaders` one at a time (`readSkeletonNumbering` first -> the
+`IniParseData::BlendVersion` variable), so a parser becomes ONE list of edits. See
+[Ini Graph Editing](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md)'s variables section.
 **THE PYTHON ACCEPTANCE TEST MIRRORS THE C++ (the maintainer, 2026-11-02; and 2026-11-04: it is a test OF THE REFACTOR,
 not kept after it -- so never make the Python shorter or cleverer than the C++, simplify the C++ and mirror it):** the explicit Python parser and fixer
 (`Tools/Misc/Prototypes/sanhuaExorcistEdits.py`, Sanhua -> SanhuaExorcist) only show the C++ is simple if they follow

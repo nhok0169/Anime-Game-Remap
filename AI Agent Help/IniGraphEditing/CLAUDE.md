@@ -8,8 +8,11 @@ proposed `DrawTexelSplit` (which draws of a component carry a material-code flag
 to the graph side: the keys and resource filenames they look for are already `GraphCollect` rows, and the rest is
 buffer math (`SkeletonNumberingProbe`, `DrawUVCoverage`). Both are plain functions in `WWMIParser`'s `deferredParseReaders` now (the first
 retired, the second never built), with the one general piece -- the value a shader reads off a texture channel -- as
-`TextureFile::shaderChannel`. The right shape for such a read is a function in the parser's `parseReaders` / `deferredParseReaders` (`ParseDataStep`,
-a step that only carried a function, was the same mistake and is gone), or a
+`TextureFile::shaderChannel`. The right shape for such a read is now a `GraphVarApply` over the variables the collects
+filed (see "Edits pass data to each other through VARIABLES" below; until 2026-11-06 it was a function in the parser's
+`parseReaders` / `deferredParseReaders`, which are being retired reader by reader). `ParseDataStep` was not wrong
+for carrying a function: the maintainer's objection was that the parser was built of them INSTEAD of edits, doing by
+hand what collects do. A `GraphVarApply` reads only variables, so the graph reading stays in the collects. Or a
 fixer step) over the rows, calling a bound capability of the buffer / texture class, with the game's choices in the
 game's config. Before proposing an edit, write down what it does to the graphs that `GraphCollect`, `ResRegCollect`,
 `GraphCopy`, `RegNewVals` and the rest cannot -- if that sentence is empty, it is not an edit.
@@ -43,14 +46,29 @@ edited the graph no way `GraphCreate` could not. `TemplateFixer`'s own sections 
 (no group) and `fixSections.<g>` (one group). All of it is bound to Python, so a fixer built on the Python
 `GIMIFixer` has the same thing.
 
-**The maintainer's naming rule:** `GraphEditVariables` is for data about ONE graph. If a use case ever needs data that
-spans several graphs, that is a `GraphGroupEditVariables` -- **made only when such a use case exists**, not ahead of
-it. A per-group piece of data is not that case: it is one variable per group (as `fixSections.<g>` is), and which
-groups a variable is written into is the writing edit's choice, not the variable's.
+**A variable holds ANY value, and the parser owns variables too (2026-11-06, the maintainer: "why does
+GraphEditVariables necessarily need to be restricted to only a list of sections ... And why is it only restricted
+to the fixer?").** Neither restriction had a reason beyond the first use. A value is type-erased
+(`GraphEditVariables::Value`, sharing its object, so `Sections` -- which cannot be copied -- is one value type among
+others); `set` / `find<T>` / `get<T>` / `has` / `erase` / `names`, and `sections(name)` as before. The parser's are
+`IniParseData::variables()`: every `GraphCollect` files its rows into the variable named after it (that map was
+`collected_`, and `collected(name)` is now a typed read of the variable), and `blendVersion()` reads the string in
+`IniParseData::BlendVersion`. **`GraphEditVariables::apply(inputs, fn, into)`** makes a variable from others -- value
+in, value out, `into` REPLACED (a write of sections adds; a function's output is a new value), nothing returned
+leaves it -- and **`GraphVarApply`** is the edit that runs it in a parser's step list, the scheduling wrapper as
+`GraphVarTake` is for taking sections: all the logic is in the store. It reads ONLY variables, so whatever a graph
+says is collected into one first. **It replaces the parser's readers one at a time**: `readSkeletonNumbering` was
+the first (slot rows + resource rows -> `BlendVersion`; `IniParseData::resourceFilesOf` reads the resource rows the
+way `resourceData` files them). `applyResourceData`, `readTextures` and `readDrawSplits` are next, each needing its
+conclusions moved into variables (the getters stay, so the fixers do not move), after which `parseReaders` goes.
+Python: `variables[name]`; a value crosses as the first type both sides know (`str` / `bool` / `int` / `float`, a
+list of `GraphCollect.Row`, a `Sections`), anything else stays a Python object -- so a Python function returning a
+`str` into `BlendVersion` is what C++ reads.
 
-**The other variable-like mechanism is `GraphCollect`** (KVP rows, filed by name into `IniParseData`). It predates
-this and was not moved onto it; putting its rows in the same store is a possible later step. The same warning applies
-to both: **a variable is a snapshot** -- an edit that changes a graph later does not change what was saved from it.
+The older rule that a variable is about ONE graph, and a `GraphGroupEditVariables` waits for a use case, is
+superseded by the above: the parse data's variables span every graph of the `.ini`. A per-group piece of data is still
+one variable per group (as `fixSections.<g>` is), and which groups a variable is written into is the writing edit's
+choice. **A variable is a snapshot** -- an edit that changes a graph later does not change what was saved from it.
 
 **Before adding a holder for some edit's data, use a variable.** A first try at this was a `FixSections` class --
 the fix's sections plus two edits, bound -- and it was replaced the same day, because it was one more class for what is

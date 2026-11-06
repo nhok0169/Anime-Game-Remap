@@ -184,13 +184,17 @@ class IniParseDataTest(BaseUnitTest):
         data.clear()
         self.assertEqual(data.libraries(obj), set())
 
-    def test_blendVersion(self):
+    def test_blendVersion_isTheStringItsVariableHolds(self):
         data = FRB.IniParseData()
         self.assertIsNone(data.blendVersion())
-        data.setBlendVersion("3.6")
+        data.variables()[FRB.IniParseData.BlendVersion] = "3.6"
         self.assertEqual(data.blendVersion(), "3.6")
+        data.variables()[FRB.IniParseData.BlendVersion] = 36
+        self.assertIsNone(data.blendVersion())
+        data.variables()[FRB.IniParseData.BlendVersion] = "3.6"
         data.clear()
         self.assertIsNone(data.blendVersion())
+        self.assertEqual(data.variables().names(), [])
 
     def test_clear_resetsTheDefaults(self):
         data = FRB.IniParseData()

@@ -3,6 +3,7 @@
   <compounddef id="class_a_g_remap_core_1_1_i_parse_result" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>AGRemapCore::IParseResult</compoundname>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_collect" prot="public" virt="non-virtual">AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_var_apply" prot="public" virt="non-virtual">AGRemapCore::GraphVarApply</derivedcompoundref>
     <includes refid="_i_parse_result_8h" local="no">IParseResult.h</includes>
     <sectiondef kind="public-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_parse_result_1ace3009fcb292407a9acc5153830ec147" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
@@ -26,6 +27,7 @@
         <name>fileInto</name>
         <qualifiedname>AGRemapCore::IParseResult::fileInto</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_collect_1a99ba0c97ac25300c4bd25271d2ddaf4e">fileInto</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_var_apply_1afdd70491bb170b754c7a21a6980442c1">fileInto</reimplementedby>
         <param>
           <type><ref refid="class_a_g_remap_core_1_1_ini_parse_data" kindref="compound">IniParseData</ref> &amp;</type>
           <declname>data</declname>
@@ -65,6 +67,12 @@ An edit with a result a parser keeps: after running an edit of :cpp:member:`GIMI
       <node id="2">
         <label>AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_collect"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::GraphVarApply</label>
+        <link refid="class_a_g_remap_core_1_1_graph_var_apply"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>

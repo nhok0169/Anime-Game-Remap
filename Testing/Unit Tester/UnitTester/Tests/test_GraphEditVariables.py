@@ -30,6 +30,92 @@ class GraphEditVariablesTest(BaseUnitTest):
         create.sectionsOf = lambda group: [section for name in variablesOf(group) for section in variables.sections(name).list()]
         return create
 
+    # ====================== values of any type =================================
+
+    def test_aValue_crossesAsTheFirstTypeBothKnow(self):
+        variables = FRB.GraphEditVariables()
+        held = object()
+        for name, value in [("text", "3.6"), ("flag", True), ("count", 3), ("real", 0.5), ("held", held), ("none", None)]:
+            variables[name] = value
+
+        self.assertEqual(variables["text"], "3.6")
+        self.assertIs(variables["flag"], True)
+        self.assertEqual(variables["count"], 3)
+        self.assertIsInstance(variables["count"], int)
+        self.assertEqual(variables["real"], 0.5)
+        self.assertIs(variables["held"], held)
+        self.assertIsNone(variables["none"])
+        self.assertEqual(variables.names(), ["text", "flag", "count", "real", "held", "none"])
+
+    def test_setItem_replaces_delItemRemoves_aMissingOneIsAKeyError(self):
+        variables = FRB.GraphEditVariables()
+        variables["v"] = 1
+        variables["v"] = "two"
+        self.assertEqual(variables["v"], "two")
+        self.assertIn("v", variables)
+
+        del variables["v"]
+        self.assertNotIn("v", variables)
+        with self.assertRaises(KeyError):
+            variables["v"]
+        with self.assertRaises(KeyError):
+            del variables["v"]
+
+    def test_sections_onAVariableOfAnotherType_raises(self):
+        variables = FRB.GraphEditVariables()
+        variables["v"] = 1
+        with self.assertRaises(Exception):
+            variables.sections("v")
+
+        variables.sections("s").add(self.section("One"))
+        self.assertEqual(variables["s"].names(), ["One"])
+        self.assertEqual(variables.sectionsNames(), ["s"])
+
+    def test_clear_keepsTheSectionsVariablesEmpty_andDropsTheRest(self):
+        variables = FRB.GraphEditVariables()
+        variables.sections("s").add(self.section("One"))
+        variables["v"] = 1
+        variables.clear()
+
+        self.assertEqual(variables.names(), ["s"])
+        self.assertTrue(variables.sections("s").empty())
+
+    def test_apply_replacesInto_withTheInputsInOrder(self):
+        variables = FRB.GraphEditVariables()
+        variables["a"], variables["b"], variables["into"] = 2, 3, "old"
+        variables.apply(["b", "a", "missing"], lambda b, a, missing: f"{b}{a}{missing}", "into")
+        self.assertEqual(variables["into"], "32None")
+
+    def test_apply_returningNone_leavesInto(self):
+        variables = FRB.GraphEditVariables()
+        variables["into"] = "old"
+        variables.apply([], lambda: None, "into")
+        self.assertEqual(variables["into"], "old")
+
+        variables.apply([], lambda: None, "new")
+        self.assertNotIn("new", variables)
+
+    def test_varApply_editsNoGraph_andAppliesWhenFiled(self):
+        data = FRB.IniParseData()
+        data.variables()["a"] = 2
+        apply = FRB.GraphVarApply(["a"], lambda a: a * 10, "b")
+        group = FRB.IniGraphGroup({("", "src"): self.graph("One")})
+
+        apply.edit([group], None)
+        self.assertEqual(list(group.graphs[("", "src")].targetSectionNames), ["One"])
+        self.assertNotIn("b", data.variables())
+
+        apply.fileInto(data)
+        self.assertEqual(data.variables()["b"], 20)
+
+    def test_varApply_fieldsReadAndWrite(self):
+        apply = FRB.GraphVarApply(["a"], lambda a: a, "b")
+        apply.inputs, apply.into = ["x", "y"], "z"
+        self.assertEqual((apply.inputs, apply.into), (["x", "y"], "z"))
+
+        apply.fn = lambda x, y: x + y
+        self.assertEqual(apply.fn(1, 2), 3)
+
     # ====================== the variables ======================================
 
     def test_sections_madeOnFirstAsk_inTheOrderMade(self):

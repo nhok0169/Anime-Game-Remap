@@ -331,25 +331,26 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
             age = min(age, newer * 100 + generation)
         return age
 
-    # which numbering the blend's bone ids are in, asked of the mod's own geometry (SkeletonNumberingProbe) -- not of a
-    # mod from before WWMI's merged skeleton (no vg_offset on any slot section), whose ids are each component's own
-    def readSkeletonNumbering(data):
+    # which numbering the blend's bone ids are in, asked of the mod's own geometry (SkeletonNumberingProbe), from the
+    # slot rows and the resource rows -- the version, or None. Not asked of a mod from before WWMI's merged skeleton (no
+    # vg_offset on any slot section), whose ids are each component's own
+    def skeletonNumbering(objRows, resourceRows):
         if len(PARSE.skeletonNumberings) < 2 or not PARSE.referenceBoneCentroids:
-            return
-        merged = any(data.firstCollected(FRB.IniParseRows.Objs, section, FRB.IniKeywords.WWMIVgOffset) is not None
-                     for obj, sections in parser._sectionTargets.items() if slotOf(obj) is not None for section in sections)
-        position = data.resourceFile(FRB.IniKeywords.WWMIPositionBuffer)
-        blend = data.resourceFile(FRB.IniKeywords.WWMIBlendBuffer)
+            return None
+        slotSections = {section.lower() for obj, sections in parser._sectionTargets.items() if slotOf(obj) is not None
+                        for section in sections}
+        merged = any(row.key == FRB.IniKeywords.WWMIVgOffset and row.section.lower() in slotSections for row in objRows or [])
+        files = FRB.IniParseData.resourceFilesOf(resourceRows or [])
+        position = files.get(FRB.IniKeywords.WWMIPositionBuffer.lower())
+        blend = files.get(FRB.IniKeywords.WWMIBlendBuffer.lower())
         if not merged or position is None or blend is None:
-            return
+            return None
         # the remapped skeleton's own 16-bit ids: the first resource, by name, naming them
-        vertexVG = next((file for section, file in data.resourceFiles().items()
-                         if "blendremapvertexvg" in section.replace("_", "").lower()), None)
+        vertexVG = next((file for section, file in files.items() if "blendremapvertexvg" in section.replace("_", "").lower()), None)
         pathOf = lambda rel: iniPathOf(rel, parser._iniFile.folder)
         found = FRB.SkeletonNumberingProbe.probe(pathOf(position), pathOf(blend), pathOf(vertexVG) if vertexVG else None,
                                                  PARSE.skeletonNumberings, PARSE.referenceBoneCentroids)
-        if found is not None:
-            data.setBlendVersion(PARSE.skeletonNumberings[found.best].version)
+        return None if found is None else PARSE.skeletonNumberings[found.best].version
 
     # step 7: which draws of a slot carry a split's flags (WWMIParserConfig::drawSplits), read off the code map the mod
     # draws the slot with at the draws' vertices (DrawUVCoverage), filed as the draw ranges of `(split name, slot)`
@@ -406,8 +407,9 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
 
     # ==== THE STEPS: the edits that read the mod, then the functions that read their rows -- all run on the first ask
     # of the parse data ====
-    parser.deferredParseSteps = [*parser.rowSteps(rows), overrides, roles, toggles]
-    parser.deferredParseReaders = [readResourceData] if onlyThisFile else [readResourceData, readSkeletonNumbering, readTextures,
+    skeleton = FRB.GraphVarApply([FRB.IniParseRows.Objs, FRB.IniParseRows.Resources], skeletonNumbering, FRB.IniParseData.BlendVersion)
+    parser.deferredParseSteps = [*parser.rowSteps(rows), overrides, roles, toggles] + ([] if onlyThisFile else [skeleton])
+    parser.deferredParseReaders = [readResourceData] if onlyThisFile else [readResourceData, readTextures,
                                                                            readDrawSplits]
     return parser
 

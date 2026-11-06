@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GraphEditVariables::Value</compoundname>
+    <includes refid="_graph_edit_variables_8h" local="no">GraphEditVariables.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a38daea990292b8ae83e6e7b373c50fc8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; void &gt;</type>
+        <definition>std::shared_ptr&lt;void&gt; AGRemapCore::GraphEditVariables::Value::object_</definition>
+        <argsstring></argsstring>
+        <name>object_</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Value::object_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="193" column="37" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a56f61f5be9e784ffc7b1582e30c01c75" prot="private" static="no" mutable="no">
+        <type>std::type_index</type>
+        <definition>std::type_index AGRemapCore::GraphEditVariables::Value::type_</definition>
+        <argsstring></argsstring>
+        <name>type_</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Value::type_</qualifiedname>
+        <initializer>= std::type_index(typeid(void))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="194" column="37" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a01337078965b00339620cf622614e68c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GraphEditVariables::Value::Value</definition>
+        <argsstring>()=default</argsstring>
+        <name>Value</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Value::Value</qualifiedname>
+        <briefdescription>
+<para>An empty value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="138" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a4f273a166bc0a0247b5b07715c5a8b89" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T *</type>
+        <definition>T * AGRemapCore::GraphEditVariables::Value::as</definition>
+        <argsstring>() const</argsstring>
+        <name>as</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Value::as</qualifiedname>
+        <briefdescription>
+<para>The object, or <computeroutput>nullptr</computeroutput> when the value is empty or holds another type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The object&apos;s type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="178" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" bodystart="178" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a0c6195734248493511d2b8b0bb8d5572" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GraphEditVariables::Value::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Value::empty</qualifiedname>
+        <briefdescription>
+<para>Whether the value holds nothing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="185" column="26" bodyfile="src/model/strategies/iniFixers/GraphEditVariables.cpp" bodystart="61" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a0de329768b0f9d04ca182450a2031d7b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::type_index</type>
+        <definition>std::type_index AGRemapCore::GraphEditVariables::Value::type</definition>
+        <argsstring>() const</argsstring>
+        <name>type</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Value::type</qualifiedname>
+        <briefdescription>
+<para>The type of the object held <ndash/> <computeroutput>void</computeroutput> when the value is empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="190" column="37" bodyfile="src/model/strategies/iniFixers/GraphEditVariables.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1ace75686ee135a6f63ff6598ad95e2e8a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a01337078965b00339620cf622614e68c" kindref="member">Value</ref></type>
+        <definition>static Value AGRemapCore::GraphEditVariables::Value::of</definition>
+        <argsstring>(T object)</argsstring>
+        <name>of</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Value::of</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>object</declname>
+        </param>
+        <briefdescription>
+<para>A value holding &apos;object&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The object&apos;s type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>object</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The object</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="149" column="34" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" bodystart="149" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1acc7fbfa0eb7b41367d47feeb9b9fb259" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type><ref refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a01337078965b00339620cf622614e68c" kindref="member">Value</ref></type>
+        <definition>static Value AGRemapCore::GraphEditVariables::Value::make</definition>
+        <argsstring>(Args &amp;&amp;... args)</argsstring>
+        <name>make</name>
+        <qualifiedname>AGRemapCore::GraphEditVariables::Value::make</qualifiedname>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>A value holding a new object of type &apos;T&apos;, made from &apos;args&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The object&apos;s type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What the object is made from</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="165" column="34" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" bodystart="165" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The value of a variable: an object of any type, or nothing :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A copy shares the object it holds rather than copying it, so a type that cannot be copied
+(:cpp:class:`GraphEditVariables::Sections`) can be held too
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" line="133" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h" bodystart="133" bodyend="195"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a4f273a166bc0a0247b5b07715c5a8b89" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Value</scope><name>as</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a0c6195734248493511d2b8b0bb8d5572" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Value</scope><name>empty</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1acc7fbfa0eb7b41367d47feeb9b9fb259" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Value</scope><name>make</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a38daea990292b8ae83e6e7b373c50fc8" prot="private" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Value</scope><name>object_</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1ace75686ee135a6f63ff6598ad95e2e8a" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Value</scope><name>of</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a0de329768b0f9d04ca182450a2031d7b" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Value</scope><name>type</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a56f61f5be9e784ffc7b1582e30c01c75" prot="private" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Value</scope><name>type_</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_edit_variables_1_1_value_1a01337078965b00339620cf622614e68c" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphEditVariables::Value</scope><name>Value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -58,30 +58,98 @@ namespace AGRemapCore {
         ++cleared_;
     }
 
-    GraphEditVariables::Sections& GraphEditVariables::sections(const std::string& name) {
-        auto found = sections_.find(name);
-        if (found == sections_.end()) {
-            found = sections_.emplace(name, std::make_unique<Sections>()).first;
+    bool GraphEditVariables::Value::empty() const {
+        return object_ == nullptr;
+    }
+
+    std::type_index GraphEditVariables::Value::type() const {
+        return type_;
+    }
+
+    void GraphEditVariables::set(const std::string& name, Value value) {
+        values_.insert_or_assign(name, std::move(value));
+    }
+
+    const GraphEditVariables::Value* GraphEditVariables::value(const std::string& name) const {
+        const auto found = values_.find(name);
+        return found == values_.end() ? nullptr : &found->second;
+    }
+
+    bool GraphEditVariables::has(const std::string& name) const {
+        return values_.find(name) != values_.end();
+    }
+
+    void GraphEditVariables::erase(const std::string& name) {
+        values_.erase(name);
+    }
+
+    std::vector<std::string> GraphEditVariables::names() const {
+        std::vector<std::string> result;
+        for (const auto& entry : values_) {
+            result.push_back(entry.first);
         }
-        return *found->second;
+        return result;
+    }
+
+    void GraphEditVariables::apply(const std::vector<std::string>& inputs, const Apply& fn, const std::string& into) {
+        if (!fn) {
+            return;
+        }
+
+        // the inputs' values are copies sharing their objects, so 'fn' may write over any of them
+        std::vector<Value> held;
+        held.reserve(inputs.size());
+        std::vector<const Value*> values;
+        for (const std::string& name : inputs) {
+            const Value* found = value(name);
+            held.push_back(found == nullptr ? Value() : *found);
+            values.push_back(found == nullptr ? nullptr : &held.back());
+        }
+
+        std::optional<Value> result = fn(values);
+        if (result.has_value()) {
+            set(into, std::move(*result));
+        }
+    }
+
+    GraphEditVariables::Sections& GraphEditVariables::sections(const std::string& name) {
+        auto found = values_.find(name);
+        if (found == values_.end()) {
+            found = values_.emplace(name, Value::make<Sections>()).first;
+        }
+
+        Sections* result = found->second.as<Sections>();
+        if (result == nullptr) {
+            throw std::invalid_argument("the variable '" + name + "' holds a value other than sections");
+        }
+        return *result;
     }
 
     const GraphEditVariables::Sections* GraphEditVariables::findSections(const std::string& name) const {
-        const auto found = sections_.find(name);
-        return found == sections_.end() ? nullptr : found->second.get();
+        return find<Sections>(name);
     }
 
     std::vector<std::string> GraphEditVariables::sectionsNames() const {
-        std::vector<std::string> names;
-        for (const auto& entry : sections_) {
-            names.push_back(entry.first);
+        std::vector<std::string> result;
+        for (const auto& entry : values_) {
+            if (entry.second.as<Sections>() != nullptr) {
+                result.push_back(entry.first);
+            }
         }
-        return names;
+        return result;
     }
 
     void GraphEditVariables::clear() {
-        for (auto& entry : sections_) {
-            entry.second->clear();
+        std::vector<std::string> others;
+        for (const auto& entry : values_) {
+            if (Sections* held = entry.second.as<Sections>()) {
+                held->clear();
+            } else {
+                others.push_back(entry.first);
+            }
+        }
+        for (const std::string& name : others) {
+            values_.erase(name);
         }
     }
 }

@@ -1036,6 +1036,17 @@ GraphEditVariables
 
 :raw-html:`<br />`
 
+GraphVarApply
+-------------
+
+.. cppattributetable:: AGRemapCore::GraphVarApply
+
+.. doxygenclass:: AGRemapCore::GraphVarApply
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 GraphVarTake
 ---------------
 

@@ -28,11 +28,8 @@ namespace AGRemapCore {
     void IniParseData::resourceData(const ResourceDataRules& rules) {
         // the files of the resources the graphs bind -- each section's first `filename`
         if (!rules.resources.empty()) {
-            std::set<std::string> filed;
-            for (const auto& row : collected(rules.resources)) {
-                if (filed.insert(row.section).second) {
-                    setResourceFile(row.section, std::string(StringTools::strip(row.value)));
-                }
+            for (auto& [section, file] : resourceFilesOf(collected(rules.resources))) {
+                resourceFiles_.emplace(section, std::move(file));
             }
         }
 
@@ -433,14 +430,13 @@ namespace AGRemapCore {
         resourceFiles_.clear();
         textureResources_.clear();
         fileResources_.clear();
-        blendVersion_.reset();
         roles_.reset();
         candidates_.clear();
         roleFiles_.clear();
         rejections_.clear();
         thisToggles_.clear();
         registerToggles_.clear();
-        collected_.clear();
+        variables_ = GraphEditVariables();
         sectionIndexes_.clear();
         fill_ = nullptr;
     }
@@ -584,13 +580,30 @@ namespace AGRemapCore {
         return resourceFiles_;
     }
 
-    const std::optional<std::string>& IniParseData::blendVersion() const {
-        fill();
-        return blendVersion_;
+    std::map<std::string, std::string> IniParseData::resourceFilesOf(const std::vector<GraphCollectRow<>>& rows) {
+        std::map<std::string, std::string> files;
+        std::set<std::string> filed;
+        for (const auto& row : rows) {
+            if (filed.insert(row.section).second) {
+                files.emplace(StringTools::toLower(row.section), std::string(StringTools::strip(row.value)));
+            }
+        }
+        return files;
     }
 
-    void IniParseData::setBlendVersion(std::string version) {
-        blendVersion_ = std::move(version);
+    std::optional<std::string> IniParseData::blendVersion() const {
+        const std::string* version = variables().find<std::string>(BlendVersion);
+        return version == nullptr ? std::nullopt : std::optional<std::string>(*version);
+    }
+
+    GraphEditVariables& IniParseData::variables() {
+        fill();
+        return variables_;
+    }
+
+    const GraphEditVariables& IniParseData::variables() const {
+        fill();
+        return variables_;
     }
 
     void IniParseData::setTextureResource(const std::string& resource, std::string file) {
@@ -684,9 +697,8 @@ namespace AGRemapCore {
 
     const std::vector<IniParseData::CollectedRow>& IniParseData::collected(const std::string& name) const {
         static const std::vector<CollectedRow> none;
-        fill();
-        const auto found = collected_.find(name);
-        return found == collected_.end() ? none : found->second;
+        const std::vector<CollectedRow>* rows = variables().find<std::vector<CollectedRow>>(name);
+        return rows == nullptr ? none : *rows;
     }
 
     const IniParseData::CollectedRow* IniParseData::firstCollected(const std::string& name, const std::string& section,
@@ -700,20 +712,25 @@ namespace AGRemapCore {
     }
 
     void IniParseData::setCollected(const std::string& name, std::vector<CollectedRow> rows) {
-        collected_.insert_or_assign(name, std::move(rows));
+        variables_.setObject(name, std::move(rows));
         sectionIndexes_.erase(name);
     }
 
     const IniParseData::SectionIndex& IniParseData::sectionIndex(const std::string& name) const {
-        const std::vector<CollectedRow>& rows = collected(name);
+        static const std::vector<CollectedRow> none;
+        const GraphEditVariables::Value* source = variables().value(name);
+        const std::vector<CollectedRow>* held = source == nullptr ? nullptr : source->as<std::vector<CollectedRow>>();
+        const std::vector<CollectedRow>& rows = held == nullptr ? none : *held;
         const auto found = sectionIndexes_.find(name);
-        if (found != sectionIndexes_.end()) {
+        if (found != sectionIndexes_.end() && found->second.source.as<std::vector<CollectedRow>>() == held) {
             return found->second;
         }
 
         // A collect files its rows key by key, so they are put back in the order of their parts, whose ids are
         // handed out as the file is parsed -- which orders the sections too
+        sectionIndexes_.erase(name);
         SectionIndex& index = sectionIndexes_[name];
+        index.source = held == nullptr ? GraphEditVariables::Value() : *source;
         std::set<std::tuple<std::string, std::size_t, long long>> seen;
         for (const CollectedRow& row : rows) {
             if (!seen.emplace(row.section, row.partId, row.line).second) {

@@ -1127,6 +1127,17 @@ GraphEditVariables
 
 :raw-html:`<br />`
 
+GraphVarApply
+=============
+
+.. attributetable:: FixRaidenBoss2.GraphVarApply
+
+.. autoclass:: FixRaidenBoss2.GraphVarApply
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 GraphVarTake
 ===============
 

@@ -24,6 +24,7 @@
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
@@ -427,6 +428,20 @@ namespace AGRemapCore {
             const std::map<std::string, std::string>& resourceFiles() const;
 
             /**
+             * @brief
+             @rst
+             The resource files that rows of ``filename`` keys name (the rows of
+             :cpp:member:`IniParseRows::Resources`), as #resourceFiles holds them: ``lowercased name -> filename``,
+             each `section`_'s first, its value stripped
+             @endrst
+             *
+             * @param rows The rows
+             *
+             * @return The files
+             */
+            static std::map<std::string, std::string> resourceFilesOf(const std::vector<GraphCollectRow<>>& rows);
+
+            /**
              * @brief Records one of #resourceFiles
              *
              * @param section The resource `section`_
@@ -554,17 +569,16 @@ namespace AGRemapCore {
              @rst
              The game version whose skeleton numbering the mod's blend gives its bone ids in, when the
              parser could tell from the mod's geometry -- a mod's hashes may name one version while its
-             bone ids are another's. ``std::nullopt`` when the parser did not ask or could not tell
+             bone ids are another's: the string the variable #BlendVersion holds. ``std::nullopt`` when the
+             parser did not ask or could not tell
              @endrst
              */
-            const std::optional<std::string>& blendVersion() const;
+            std::optional<std::string> blendVersion() const;
 
             /**
-             * @brief Sets #blendVersion
-             *
-             * @param version The version
+             * @brief The name of the variable #blendVersion reads: a string, the version
              */
-            void setBlendVersion(std::string version);
+            static inline const std::string BlendVersion = "BlendVersion";
 
             /**
              * @brief One role the parser chose a file for, on one mod object -- see #rolesOfResource
@@ -663,8 +677,25 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The variables of the parse: what the parser's edits save for later ones to read. Each
+             :cpp:class:`GraphCollect` files its rows in the variable named after it (a list of
+             :cpp:type:`CollectedRow`, read by #collected), and a :cpp:class:`GraphVarApply` makes a variable from
+             others. Asking for them runs the steps deferred to the first ask, like every other read of this data
+             @endrst
+             */
+            GraphEditVariables& variables();
+
+            /**
+             * @copydoc variables()
+             */
+            const GraphEditVariables& variables() const;
+
+            /**
+             * @brief
+             @rst
              The rows of the :cpp:class:`GraphCollect` named 'name' among the parser's
-             :cpp:member:`GIMIParser::parseSteps`, in the order it collected them. Empty for a name nothing filed
+             :cpp:member:`GIMIParser::parseSteps`, in the order it collected them: the variable of that name (see
+             #variables). Empty for a name nothing filed, or a variable holding another type
 
              .. warning::
                 The rows describe the graphs as they were when the collect ran (see :cpp:class:`GraphCollect`).
@@ -716,7 +747,7 @@ namespace AGRemapCore {
             const std::vector<const CollectedRow*>& sectionRows(const std::string& name, const std::string& section) const;
 
             /**
-             * @brief Files 'rows' under 'name', replacing what was filed there -- see #collected
+             * @brief Files 'rows' under 'name', replacing what was filed there -- the variable 'name' (see #variables, #collected)
              *
              * @param name The name
              * @param rows The rows
@@ -1060,17 +1091,19 @@ namespace AGRemapCore {
             std::map<std::string, std::string> resourceFiles_;
             std::map<std::string, std::string> textureResources_;
             std::map<std::string, std::string> fileResources_;     // file -> the resource the mod uses for it
-            std::optional<std::string> blendVersion_;
             std::unique_ptr<TextureRoles> roles_;
             std::map<std::string, std::vector<std::pair<std::string, std::string>>> candidates_;
             std::map<std::pair<std::string, ModObj>, RoleFile> roleFiles_;
             std::vector<Rejection> rejections_;
             std::map<std::string, TextureToggle> thisToggles_;
             std::map<std::string, TextureToggle> registerToggles_;
-            std::map<std::string, std::vector<CollectedRow>> collected_;
+            GraphEditVariables variables_;
 
-            // A collect's rows by section, in written order -- built on the first ask, dropped when the rows change
+            // A collect's rows by section, in written order -- built on the first ask, rebuilt when the variable holds
+            // other rows. 'source' shares the rows it was built from, so they outlive it and a new list never has
+            // their address
             struct SectionIndex {
+                GraphEditVariables::Value source;
                 std::vector<std::string> order;
                 std::map<std::string, std::vector<const CollectedRow*>> rows;
             };

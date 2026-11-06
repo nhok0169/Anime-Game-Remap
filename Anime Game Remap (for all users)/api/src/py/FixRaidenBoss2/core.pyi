@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'DownloadTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalIniClassifiers', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'GraphVarTake', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniComments', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSharedState', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegPartEdit', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexThumbprint', 'TexcoordFile', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMISections', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'DownloadTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalIniClassifiers', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'GraphVarApply', 'GraphVarTake', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniComments', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSharedState', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegPartEdit', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexThumbprint', 'TexcoordFile', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMISections', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -11286,12 +11286,18 @@ class GraphCreate(BaseIniGraphGroupEdit):
 class GraphEditVariables:
     """
     
-    Named variables that edits save data about one graph into, and read or write back out later -- the data a list of
-    edits passes from one edit to another
+    Named variables that edits save data into, and read or write back out later -- the data a list of edits passes from one
+    edit to another. A variable holds a value of any type, read and written like a dictionary's (``variables[name]``)
     
-    A variable holds one graph's worth of `sections`_ (:class:`GraphEditVariables.Sections`): an edit copies sections of a
+    A value crosses between Python and C++ as the first type both know: a :class:`str`, :class:`bool`, :class:`int` or
+    :class:`float`, a list of :class:`GraphCollect.Row` (what a :class:`GraphCollect` files), or a
+    :class:`GraphEditVariables.Sections`. Any other Python object is held as itself, readable from Python only
+    
+    A fixer keeps the `sections`_ it writes in one (:class:`GraphEditVariables.Sections`): an edit copies sections of a
     graph into it (:class:`GraphVarTake`), code adds sections it builds itself (:meth:`GraphEditVariables.Sections.add`),
-    and an edit writes it out as a graph (:attr:`GraphCreate.sectionsOf`). A fixer's own sections are one such variable
+    and an edit writes it out as a graph (:attr:`GraphCreate.sectionsOf`). A parser's data keeps its variables too
+    (:meth:`IniParseData.variables`): each :class:`GraphCollect` files its rows into one, and a :class:`GraphVarApply`
+    makes a variable from others (:meth:`apply`)
     
     .. warning::
         A variable is a snapshot. An edit that changes a graph afterwards does not change what a variable copied from it
@@ -11382,15 +11388,93 @@ class GraphEditVariables:
             Tuple[:class:`int`, :class:`int`]
                 The place: its index, and how many times the variable was cleared when it was held
             """
+    def __contains__(self, name: str) -> bool:
+        """
+        Whether there is a variable named 'name'
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The variable's name
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether there is one
+        """
+    def __delitem__(self, name: str) -> None:
+        """
+        Removes the variable named 'name'. Raises a :class:`KeyError` when there is none
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The variable's name
+        """
+    def __getitem__(self, name: str) -> typing.Any:
+        """
+        The value of the variable named 'name' -- a sections variable by reference, valid while the variable is. Raises a
+        :class:`KeyError` when there is none
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The variable's name
+        
+        Returns
+        -------
+        Any
+            The value
+        """
     def __init__(self) -> None:
         ...
+    def __setitem__(self, name: str, value: typing.Any) -> None:
+        """
+        Sets the variable named 'name' to 'value', replacing what it held
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The variable's name
+        
+        value: Any
+            The value
+        """
+    def apply(self, inputs: collections.abc.Sequence[str], fn: typing.Any, into: str) -> None:
+        """
+        Makes the variable named 'into' from the variables named 'inputs': 'fn' is called with their values, in order
+        (``None`` for one that does not exist), and what it returns replaces the value of 'into'. When it returns ``None``,
+        'into' is left as it is
+        
+        Parameters
+        ----------
+        inputs: List[:class:`str`]
+            The names of the variables read
+        
+        fn: Callable[..., Any]
+            The function
+        
+        into: :class:`str`
+            The name of the variable written
+        """
     def clear(self) -> None:
         """
-        Drops every section of every variable; a place held before is held no more
+        Drops every section of every sections variable -- a place held before is held no more -- and every other variable. A
+        sections variable stays, empty: an edit may hold a place in it
+        """
+    def names(self) -> list[str]:
+        """
+        The names of the variables, in the order they were made
+        
+        Returns
+        -------
+        List[:class:`str`]
+            The names
         """
     def sections(self, name: str) -> GraphEditVariables.Sections:
         """
-        The sections variable named 'name', made empty if there is none
+        The sections variable named 'name', made empty if there is none. Raises an error when the variable holds a value of
+        another type
         
         Parameters
         ----------
@@ -12247,6 +12331,89 @@ class GraphTools:
             Every node reachable in the graph structure, mapped to whether the property is satisfied
             entering that node.
         """
+class GraphVarApply(BaseIniGraphGroupEdit, IParseResult):
+    """
+    
+    This class inherits from :class:`BaseIniGraphGroupEdit` and :class:`IParseResult`
+    
+    Makes a variable of the parse from others: when the parser files it, the variables named :attr:`inputs` of the parser's
+    :meth:`IniParseData.variables` are handed to :attr:`fn`, and what it returns replaces the variable :attr:`into` -- see
+    :meth:`GraphEditVariables.apply`
+    
+    Put it in :attr:`GIMIParser.parseSteps` or :attr:`GIMIParser.deferredParseSteps` after the edits that file its inputs
+    (a :class:`GraphCollect` files its rows in the variable named after it). It changes no graph; it reads only variables,
+    so anything a graph says is collected into one first
+    
+    :example:
+    
+    .. code-block:: python
+    
+        import FixRaidenBoss2 as FRB
+    
+        resources = FRB.GraphCollect([FRB.IniKeywords.Filename], name = "Resources")
+        files = FRB.GraphVarApply(["Resources"], lambda rows: len(rows or []), "ResourceCount")
+        parser.deferredParseSteps = [resources, files]
+        parser.parseData().variables()["ResourceCount"]
+    
+    Parameters
+    ----------
+    inputs: List[:class:`str`]
+        The names of the variables read, in the order :attr:`fn` is given them
+    
+    fn: Callable[..., Any]
+        The function making the new value of :attr:`into`: given the inputs' values (``None`` for a missing one), it returns
+        the new value, or ``None`` to leave :attr:`into` as it is
+    
+    into: :class:`str`
+        The name of the variable written
+        
+    """
+    def __init__(self, inputs: collections.abc.Sequence[str], fn: typing.Any, into: str) -> None:
+        ...
+    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
+        """
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in
+        """
+    def editFromIni(self, graphGroups: list, ini: typing.Any, modType: typing.Any, modName: str = '') -> list:
+        """
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in
+        """
+    @property
+    def fn(self) -> typing.Any:
+        """
+        The function making the new value of :attr:`into`
+        
+        :type: Callable[..., Any]
+        """
+    @fn.setter
+    def fn(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def inputs(self) -> list[str]:
+        """
+        The names of the variables read, in the order :attr:`fn` is given them
+        
+        :type: List[:class:`str`]
+        """
+    @inputs.setter
+    def inputs(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
+    def into(self) -> str:
+        """
+        The name of the variable written
+        
+        :type: :class:`str`
+        """
+    @into.setter
+    def into(self, arg0: str) -> None:
+        ...
 class GraphVarTake(BaseIniGraphGroupEdit):
     """
     
@@ -13059,6 +13226,23 @@ class IniParseData:
         @variants.setter
         def variants(self, arg0: collections.abc.Sequence[str]) -> None:
             ...
+    BlendVersion: typing.ClassVar[str] = 'BlendVersion'
+    @staticmethod
+    def resourceFilesOf(rows: collections.abc.Sequence[GraphCollect.Row]) -> dict[str, str]:
+        """
+        The resource files that rows of ``filename`` keys name (the rows of :attr:`IniParseRows.Resources`), as
+        :meth:`resourceFiles` holds them: each `section`_'s first, its value stripped
+        
+        Parameters
+        ----------
+        rows: List[:class:`GraphCollect.Row`]
+            The rows
+        
+        Returns
+        -------
+        Dict[:class:`str`, :class:`str`]
+            lowercased `section`_ name -> its ``filename =``
+        """
     def __init__(self) -> None:
         ...
     def addDrawPart(self, modObj: tuple[str, str], part: typing.SupportsInt | typing.SupportsIndex) -> None:
@@ -13118,8 +13302,8 @@ class IniParseData:
     def blendVersion(self) -> str | None:
         """
         The game version whose skeleton numbering the mod's blend gives its bone ids in, when the parser could tell
-        from the mod's geometry -- a mod's hashes may name one version while its bone ids are another's. ``None``
-        when the parser did not ask or could not tell
+        from the mod's geometry -- a mod's hashes may name one version while its bone ids are another's: the string the
+        variable :attr:`BlendVersion` holds. ``None`` when the parser did not ask or could not tell
         
         Returns
         -------
@@ -13596,15 +13780,6 @@ class IniParseData:
         List[:class:`GraphCollect.Row`]
             The rows
         """
-    def setBlendVersion(self, version: str) -> None:
-        """
-        Sets :meth:`blendVersion`
-        
-        Parameters
-        ----------
-        version: :class:`str`
-            The version
-        """
     def setCarriedSections(self, sections: str) -> None:
         """
         Sets :meth:`carriedSections`
@@ -13871,6 +14046,18 @@ class IniParseData:
         -------
         Set[Tuple[:class:`str`, :class:`str`]]
             The mod objects
+        """
+    def variables(self) -> GraphEditVariables:
+        """
+        The variables of the parse: what the parser's edits save for later ones to read. Each :class:`GraphCollect` files its
+        rows in the variable named after it (a list of :class:`GraphCollect.Row`, read by :meth:`collected`), and a
+        :class:`GraphVarApply` makes a variable from others. Asking for them runs the steps deferred to the first ask, like
+        every other read of this data
+        
+        Returns
+        -------
+        :class:`GraphEditVariables`
+            The variables
         """
 
 class IniParseDownloadData:

@@ -319,6 +319,7 @@ add_library(AGRemapCore STATIC
     src/model/strategies/iniFixers/ShaderFilterTags.cpp
     src/model/strategies/iniFixers/CustomShaderBackups.cpp
     src/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.cpp
     src/model/strategies/iniParsers/IniFileParseContext.cpp
     src/data/IniParseData/GIMITemplateParser.cpp
     src/data/IniParseData/TemplateParser.cpp

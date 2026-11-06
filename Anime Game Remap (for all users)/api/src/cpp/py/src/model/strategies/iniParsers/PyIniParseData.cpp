@@ -431,6 +431,20 @@ Returns
 Dict[:class:`str`, :class:`str`]
     lowercased `section`_ name -> its ``filename =``
        )doc")
+       .def_static("resourceFilesOf", &AGRC::IniParseData::resourceFilesOf, py::arg("rows"), R"doc(
+The resource files that rows of ``filename`` keys name (the rows of :attr:`IniParseRows.Resources`), as
+:meth:`resourceFiles` holds them: each `section`_'s first, its value stripped
+
+Parameters
+----------
+rows: List[:class:`GraphCollect.Row`]
+    The rows
+
+Returns
+-------
+Dict[:class:`str`, :class:`str`]
+    lowercased `section`_ name -> its ``filename =``
+       )doc")
        .def("setResourceFile", &AGRC::IniParseData::setResourceFile, py::arg("section"), py::arg("file"), R"doc(
 Records one of :meth:`resourceFiles`
 
@@ -772,23 +786,31 @@ Returns
 List[:class:`IniParseData.Rejection`]
     The refusals
        )doc")
-       .def("blendVersion", &AGRC::IniParseData::blendVersion, py::return_value_policy::copy, R"doc(
+       .def("blendVersion", &AGRC::IniParseData::blendVersion, R"doc(
 The game version whose skeleton numbering the mod's blend gives its bone ids in, when the parser could tell
-from the mod's geometry -- a mod's hashes may name one version while its bone ids are another's. ``None``
-when the parser did not ask or could not tell
+from the mod's geometry -- a mod's hashes may name one version while its bone ids are another's: the string the
+variable :attr:`BlendVersion` holds. ``None`` when the parser did not ask or could not tell
 
 Returns
 -------
 Optional[:class:`str`]
     The version
        )doc")
-       .def("setBlendVersion", &AGRC::IniParseData::setBlendVersion, py::arg("version"), R"doc(
-Sets :meth:`blendVersion`
+       .def_property_readonly_static("BlendVersion", [](py::object) { return AGRC::IniParseData::BlendVersion; }, R"doc(
+The name of the variable :meth:`blendVersion` reads: a string, the version
 
-Parameters
-----------
-version: :class:`str`
-    The version
+:type: :class:`str`
+       )doc")
+       .def("variables", py::overload_cast<>(&AGRC::IniParseData::variables), py::return_value_policy::reference_internal, R"doc(
+The variables of the parse: what the parser's edits save for later ones to read. Each :class:`GraphCollect` files its
+rows in the variable named after it (a list of :class:`GraphCollect.Row`, read by :meth:`collected`), and a
+:class:`GraphVarApply` makes a variable from others. Asking for them runs the steps deferred to the first ask, like
+every other read of this data
+
+Returns
+-------
+:class:`GraphEditVariables`
+    The variables
        )doc")
        .def("setTextureResource", &AGRC::IniParseData::setTextureResource, py::arg("resource"), py::arg("file"), R"doc(
 Records that the .ini's resource `section`_ ``resource`` names the texture ``file``

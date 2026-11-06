@@ -159,6 +159,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_graph_remove" prot="public">AGRemapCore::GraphRemove</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_rename" prot="public">AGRemapCore::GraphRename</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_tools" prot="public">AGRemapCore::GraphTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_var_apply" prot="public">AGRemapCore::GraphVarApply</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_var_take" prot="public">AGRemapCore::GraphVarTake</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_hash128" prot="public">AGRemapCore::Hash128</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_hash64" prot="public">AGRemapCore::Hash64</innerclass>

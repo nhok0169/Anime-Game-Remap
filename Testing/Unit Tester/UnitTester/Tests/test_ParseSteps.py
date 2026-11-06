@@ -140,6 +140,55 @@ filename = Textures\Unbound.dds
         self.assertFalse(parser.deferredParseSteps)
         self.assertFalse(parser.parseSteps)
 
+    def parseRowsThen(self, *after):
+        self.setupIniTxt(self._rowsIniTxt)
+        self.createIniFile()
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([self.Body]), trackKeys = False)
+        self._parser.deferredParseSteps = [*self._parser.rowSteps(FRB.GIMIParser.RowSteps()), *after]
+        self.useStrategies(parser = self._parser)
+        self._iniFile.parse()
+        return self._parser.parseData
+
+    def test_varApply_inTheStepList_readsTheRowsOfTheCollectsBeforeIt(self):
+        count = FRB.GraphVarApply([FRB.IniParseRows.Resources], lambda rows: len(rows), "resources")
+        data = self.parseRowsThen(count)
+        self.assertEqual(data.variables()["resources"], 2)
+
+    def test_varApply_beforeTheCollectItReads_seesNone(self):
+        seen = []
+        early = FRB.GraphVarApply(["later"], lambda rows: seen.append(rows), "unused")
+        later = FRB.GraphCollect({self.BodyGraph: ["ps-t0"]}, name = "later")
+        data = self.parseRowsThen(early, later)
+        self.assertEqual(len(data.collected("later")), 1)
+        self.assertEqual(seen, [None])
+        self.assertNotIn("unused", data.variables())
+
+    def test_varApply_aStrItReturns_isReadByCpp(self):
+        files = lambda rows: FRB.IniParseData.resourceFilesOf(rows)[r"resourcebodydiffuse"]
+        data = self.parseRowsThen(FRB.GraphVarApply([FRB.IniParseRows.Resources], files, FRB.IniParseData.BlendVersion))
+        self.assertEqual(data.blendVersion(), r"Textures\Body.dds")
+
+    def test_collected_isTheRowsVariableOfItsName(self):
+        data = self.parseRows()
+        rows = data.variables()[FRB.IniParseRows.Resources]
+        both = ["ResourceBodyDiffuse", "ResourceBodyLightMap"]
+        self.assertEqual([row.section for row in rows], both)
+        self.assertEqual([row.section for row in data.collected(FRB.IniParseRows.Resources)], both)
+        self.assertEqual(data.collectedSections(FRB.IniParseRows.Resources), both)
+
+        # rows written over from Python are what collected, and the sections built on them, read next
+        data.variables()[FRB.IniParseRows.Resources] = rows[1:]
+        self.assertEqual([row.section for row in data.collected(FRB.IniParseRows.Resources)], ["ResourceBodyLightMap"])
+        self.assertEqual(data.collectedSections(FRB.IniParseRows.Resources), ["ResourceBodyLightMap"])
+        del data.variables()[FRB.IniParseRows.Resources]
+        self.assertEqual(data.collected(FRB.IniParseRows.Resources), [])
+        self.assertEqual(data.collectedSections(FRB.IniParseRows.Resources), [])
+
+    def test_resourceFilesOf_eachSectionsFile_byLowercasedName(self):
+        rows = self.parseRows().collected(FRB.IniParseRows.Resources)
+        self.assertEqual(FRB.IniParseData.resourceFilesOf(rows),
+                         {"resourcebodydiffuse": r"Textures\Body.dds", "resourcebodylightmap": r"Textures\BodyLM.dds"})
+
     def test_rowSteps_resourcesAreTheFilesBoundAnywhere(self):
         # the light map is bound only from [Present], by a lower-cased reference
         rows = self.parseRows().collected(FRB.IniParseRows.Resources)

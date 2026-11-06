@@ -11,6 +11,7 @@
 
 #include <cstddef>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -20,7 +21,10 @@
 #include <pybind11/stl.h>
 
 #include "AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollectRow.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.h"
+#include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
 
 #include "graphGroupEdits/PyBaseIniGraphGroupEdit.h"
@@ -57,6 +61,122 @@ Returns
 List[:class:`IniGraphGroup`]
     The same list that was passed in
 )doc";
+
+    using Value = AGRC::GraphEditVariables::Value;
+    using Rows = std::vector<AGRC::GraphCollectRow<>>;
+
+    // A Python object held as a variable's value: let go of with the GIL held, whichever thread drops the last copy
+    struct PyHeld {
+        explicit PyHeld(py::object object): object(std::move(object)) {}
+        PyHeld(const PyHeld&) = delete;
+        PyHeld& operator=(const PyHeld&) = delete;
+        ~PyHeld() {
+            if (object) {
+                py::gil_scoped_acquire gil;
+                object = py::object();
+            }
+        }
+
+        py::object object;
+    };
+
+    // A value as Python sees it: the C++ types the binding knows cross as their Python types (a sections variable by
+    // reference, kept alive by 'owner' when one is given), a Python object as itself. 'name' names it in an error
+    py::object valueToPy(const Value& value, const py::handle& owner, const std::string& name) {
+        if (value.empty()) {
+            return py::none();
+        }
+        if (auto* held = value.as<PyHeld>()) {
+            return held->object;
+        }
+        if (auto* sections = value.as<AGRC::GraphEditVariables::Sections>()) {
+            return owner ? py::cast(sections, py::return_value_policy::reference_internal, owner)
+                         : py::cast(sections, py::return_value_policy::reference);
+        }
+        if (auto* rows = value.as<Rows>()) {
+            return py::cast(*rows);
+        }
+        if (auto* text = value.as<std::string>()) {
+            return py::str(*text);
+        }
+        if (auto* flag = value.as<bool>()) {
+            return py::bool_(*flag);
+        }
+        if (auto* number = value.as<long long>()) {
+            return py::int_(*number);
+        }
+        if (auto* real = value.as<double>()) {
+            return py::float_(*real);
+        }
+        throw py::type_error("the variable '" + name + "' holds a C++ value Python cannot read");
+    }
+
+    // A Python object as a value: the first C++ type the binding knows that takes it, so C++ reads it as that type
+    // (a str as a std::string, a list of GraphCollect.Row as rows), or else the object itself
+    Value valueFromPy(const py::handle& object) {
+        if (py::isinstance<py::bool_>(object)) {
+            return Value::of<bool>(object.cast<bool>());
+        }
+        if (py::isinstance<py::int_>(object)) {
+            return Value::of<long long>(object.cast<long long>());
+        }
+        if (py::isinstance<py::float_>(object)) {
+            return Value::of<double>(object.cast<double>());
+        }
+        if (py::isinstance<py::str>(object)) {
+            return Value::of<std::string>(object.cast<std::string>());
+        }
+        if (py::isinstance<py::list>(object) && py::len(object) > 0) {
+            bool allRows = true;
+            for (auto item : object) {
+                allRows = allRows && py::isinstance<AGRC::GraphCollectRow<>>(item);
+            }
+            if (allRows) {
+                return Value::of<Rows>(object.cast<Rows>());
+            }
+        }
+        return Value::make<PyHeld>(py::reinterpret_borrow<py::object>(object));
+    }
+
+    // A Python function as an Apply: given the inputs' values as Python sees them (``None`` for a missing one), its
+    // result is the new value, ``None`` leaving the variable as it is
+    AGRC::GraphEditVariables::Apply applyFromPy(py::object fn) {
+        if (fn.is_none()) {
+            return nullptr;
+        }
+
+        auto held = std::make_shared<PyHeld>(std::move(fn));
+        return [held](const std::vector<const Value*>& inputs) -> std::optional<Value> {
+            py::gil_scoped_acquire gil;
+            py::list values;
+            for (const Value* input : inputs) {
+                values.append(input == nullptr ? py::none() : valueToPy(*input, py::handle(), "an input"));
+            }
+            py::object result = held->object(*values);
+            if (result.is_none()) {
+                return std::nullopt;
+            }
+            return valueFromPy(result);
+        };
+    }
+
+    // An Apply as a Python function, for an edit whose function was made in C++
+    py::object applyToPy(const AGRC::GraphEditVariables::Apply& fn) {
+        if (!fn) {
+            return py::none();
+        }
+        return py::cpp_function([fn](py::args args) -> py::object {
+            std::vector<Value> held;
+            held.reserve(args.size());
+            std::vector<const Value*> inputs;
+            for (auto arg : args) {
+                held.push_back(arg.is_none() ? Value() : valueFromPy(arg));
+                inputs.push_back(arg.is_none() ? nullptr : &held.back());
+            }
+            std::optional<Value> result = fn(inputs);
+            return result.has_value() ? valueToPy(*result, py::handle(), "the result") : py::none();
+        });
+    }
 }
 
 
@@ -65,12 +185,18 @@ void initCppGraphEditVariables(pybind11::module_ &m) {
     using Sections = Vars::Sections;
 
     auto vars = py::class_<Vars>(m, "GraphEditVariables", R"doc(
-Named variables that edits save data about one graph into, and read or write back out later -- the data a list of
-edits passes from one edit to another
+Named variables that edits save data into, and read or write back out later -- the data a list of edits passes from one
+edit to another. A variable holds a value of any type, read and written like a dictionary's (``variables[name]``)
 
-A variable holds one graph's worth of `sections`_ (:class:`GraphEditVariables.Sections`): an edit copies sections of a
+A value crosses between Python and C++ as the first type both know: a :class:`str`, :class:`bool`, :class:`int` or
+:class:`float`, a list of :class:`GraphCollect.Row` (what a :class:`GraphCollect` files), or a
+:class:`GraphEditVariables.Sections`. Any other Python object is held as itself, readable from Python only
+
+A fixer keeps the `sections`_ it writes in one (:class:`GraphEditVariables.Sections`): an edit copies sections of a
 graph into it (:class:`GraphVarTake`), code adds sections it builds itself (:meth:`GraphEditVariables.Sections.add`),
-and an edit writes it out as a graph (:attr:`GraphCreate.sectionsOf`). A fixer's own sections are one such variable
+and an edit writes it out as a graph (:attr:`GraphCreate.sectionsOf`). A parser's data keeps its variables too
+(:meth:`IniParseData.variables`): each :class:`GraphCollect` files its rows into one, and a :class:`GraphVarApply`
+makes a variable from others (:meth:`apply`)
 
 .. warning::
     A variable is a snapshot. An edit that changes a graph afterwards does not change what a variable copied from it
@@ -169,8 +295,94 @@ Drops every section; a place held before is held no more
              )doc"));
 
     vars.def(py::init<>())
+        .def("__getitem__", [](py::object self, const std::string& name) {
+                const Value* found = self.cast<const Vars&>().value(name);
+                if (found == nullptr) {
+                    throw py::key_error("there is no variable '" + name + "'");
+                }
+                return valueToPy(*found, self, name);
+            }, py::arg("name"), py::doc(R"doc(
+The value of the variable named 'name' -- a sections variable by reference, valid while the variable is. Raises a
+:class:`KeyError` when there is none
+
+Parameters
+----------
+name: :class:`str`
+    The variable's name
+
+Returns
+-------
+Any
+    The value
+            )doc"))
+        .def("__setitem__", [](Vars& self, const std::string& name, const py::object& value) {
+                self.set(name, valueFromPy(value));
+            }, py::arg("name"), py::arg("value"), py::doc(R"doc(
+Sets the variable named 'name' to 'value', replacing what it held
+
+Parameters
+----------
+name: :class:`str`
+    The variable's name
+
+value: Any
+    The value
+            )doc"))
+        .def("__contains__", &Vars::has, py::arg("name"), py::doc(R"doc(
+Whether there is a variable named 'name'
+
+Parameters
+----------
+name: :class:`str`
+    The variable's name
+
+Returns
+-------
+:class:`bool`
+    Whether there is one
+            )doc"))
+        .def("__delitem__", [](Vars& self, const std::string& name) {
+                if (!self.has(name)) {
+                    throw py::key_error("there is no variable '" + name + "'");
+                }
+                self.erase(name);
+            }, py::arg("name"), py::doc(R"doc(
+Removes the variable named 'name'. Raises a :class:`KeyError` when there is none
+
+Parameters
+----------
+name: :class:`str`
+    The variable's name
+            )doc"))
+        .def("names", &Vars::names, py::doc(R"doc(
+The names of the variables, in the order they were made
+
+Returns
+-------
+List[:class:`str`]
+    The names
+            )doc"))
+        .def("apply", [](Vars& self, const std::vector<std::string>& inputs, py::object fn, const std::string& into) {
+                self.apply(inputs, applyFromPy(std::move(fn)), into);
+            }, py::arg("inputs"), py::arg("fn"), py::arg("into"), py::doc(R"doc(
+Makes the variable named 'into' from the variables named 'inputs': 'fn' is called with their values, in order
+(``None`` for one that does not exist), and what it returns replaces the value of 'into'. When it returns ``None``,
+'into' is left as it is
+
+Parameters
+----------
+inputs: List[:class:`str`]
+    The names of the variables read
+
+fn: Callable[..., Any]
+    The function
+
+into: :class:`str`
+    The name of the variable written
+            )doc"))
         .def("sections", &Vars::sections, py::arg("name"), py::return_value_policy::reference_internal, py::doc(R"doc(
-The sections variable named 'name', made empty if there is none
+The sections variable named 'name', made empty if there is none. Raises an error when the variable holds a value of
+another type
 
 Parameters
 ----------
@@ -191,7 +403,8 @@ List[:class:`str`]
     The names
             )doc"))
         .def("clear", &Vars::clear, py::doc(R"doc(
-Drops every section of every variable; a place held before is held no more
+Drops every section of every sections variable -- a place held before is held no more -- and every other variable. A
+sections variable stays, empty: an edit may hold a place in it
             )doc"));
 
     auto take = py::class_<AGRC::GraphVarTake, PyBaseIniGraphGroupEdit, py::smart_holder>(m, "GraphVarTake", R"doc(
@@ -233,4 +446,59 @@ inPlace: :class:`bool`
              py::arg("variables"), py::arg("variable"), py::arg("graph"), py::arg("sections"), py::arg("comment") = std::string(),
              py::arg("inPlace") = false, py::keep_alive<1, 2>());
     defEdit<AGRC::GraphVarTake>(take, EditReturns);
+
+    auto apply = py::class_<AGRC::GraphVarApply, PyBaseIniGraphGroupEdit, AGRC::IParseResult, py::smart_holder>(m, "GraphVarApply", R"doc(
+This class inherits from :class:`BaseIniGraphGroupEdit` and :class:`IParseResult`
+
+Makes a variable of the parse from others: when the parser files it, the variables named :attr:`inputs` of the parser's
+:meth:`IniParseData.variables` are handed to :attr:`fn`, and what it returns replaces the variable :attr:`into` -- see
+:meth:`GraphEditVariables.apply`
+
+Put it in :attr:`GIMIParser.parseSteps` or :attr:`GIMIParser.deferredParseSteps` after the edits that file its inputs
+(a :class:`GraphCollect` files its rows in the variable named after it). It changes no graph; it reads only variables,
+so anything a graph says is collected into one first
+
+:example:
+
+.. code-block:: python
+
+    import FixRaidenBoss2 as FRB
+
+    resources = FRB.GraphCollect([FRB.IniKeywords.Filename], name = "Resources")
+    files = FRB.GraphVarApply(["Resources"], lambda rows: len(rows or []), "ResourceCount")
+    parser.deferredParseSteps = [resources, files]
+    parser.parseData().variables()["ResourceCount"]
+
+Parameters
+----------
+inputs: List[:class:`str`]
+    The names of the variables read, in the order :attr:`fn` is given them
+
+fn: Callable[..., Any]
+    The function making the new value of :attr:`into`: given the inputs' values (``None`` for a missing one), it returns
+    the new value, or ``None`` to leave :attr:`into` as it is
+
+into: :class:`str`
+    The name of the variable written
+    )doc");
+    apply.def(py::init([](std::vector<std::string> inputs, py::object fn, std::string into) {
+                  return std::make_unique<AGRC::GraphVarApply>(std::move(inputs), applyFromPy(std::move(fn)), std::move(into));
+              }), py::arg("inputs"), py::arg("fn"), py::arg("into"))
+        .def_readwrite("inputs", &AGRC::GraphVarApply::inputs, R"doc(
+The names of the variables read, in the order :attr:`fn` is given them
+
+:type: List[:class:`str`]
+        )doc")
+        .def_property("fn", [](const AGRC::GraphVarApply& self) { return applyToPy(self.fn); },
+                      [](AGRC::GraphVarApply& self, py::object fn) { self.fn = applyFromPy(std::move(fn)); }, R"doc(
+The function making the new value of :attr:`into`
+
+:type: Callable[..., Any]
+        )doc")
+        .def_readwrite("into", &AGRC::GraphVarApply::into, R"doc(
+The name of the variable written
+
+:type: :class:`str`
+        )doc");
+    defEdit<AGRC::GraphVarApply>(apply, EditReturns);
 }

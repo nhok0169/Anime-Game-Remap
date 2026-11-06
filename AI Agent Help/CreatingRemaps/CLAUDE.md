@@ -144,7 +144,7 @@ that works on the mods you happened to test.
 **A texture is identified by a HASH and a REGISTER** -- the hash being the texture's own (the section
 IS that texture, and `this =` names the file) or the MESH's (the section is a draw
 `GIMISectionClassifier` placed, and the register says what it binds). That is section classification,
-so **the parser does it** (`IniParseData::roleFiles` -> `TextureRoles`, `roleFile`) and the fixer asks through
+so **the parser does it** (`IniParseData::roleFilesOf` -> `TextureRoles`, `roleFile`) and the fixer asks through
 the parser's `IniParseData` (`BaseIniParser::parseData`, 2026-10-28; every parser owns one, and it
 replaced the three per-template `*Facts` interfaces a fixer used to `dynamic_cast` for). The parser
 also CHOOSES the file each slot takes per role (refusals for `WWMITextureFacts::regionRoles`, then the per-slot
@@ -153,7 +153,7 @@ GI uses the mesh-hash form and WuWa almost always the texture's own -- 609 files
 corpus -- and the mesh route is kept because a future mod could be written that way.
 
 **WHICH FILE A ROLE TAKES IS READ OFF WHAT THE .ini STATES, NEVER OFF A FILE NAME (2026-11-04).** The choice is
-`IniParseData::roleFiles` (a library reader; `WWMIParser` only hands it WWMI's rules: the register table, HashData's
+`IniParseData::roleFilesOf` (a library reader, run by a `GraphVarApply`; `WWMIParser` only hands it WWMI's rules: the register table, HashData's
 role and AGE of a hash, the thumbprints, the linked files). It replaced `TextureRoleChooser`, whose ranking ended in
 "declared resource, folders up, path length, path text". Measured first (a logging build over the 137 WuWa folders,
 2589 (folder, role) choices): the first two NEVER decided anything, and path length / path text decided 19 choices in
@@ -7209,7 +7209,7 @@ what settles it, and a statistic that cannot fail is habit 34 in its other form.
 ### ...AND EXTENDING THAT RULE TO THE DOWNLOAD WAS WRONG (2026-09-26, RETRACTED SAME DAY)
 
 (2026-10-28: `flatFallsBackToSource` is now the source's `WWMITextureFacts::regionRoles`, together with the
-`flatLeftToGame` roles, and the refusals run in the PARSER's role reader (`IniParseData::roleFiles` since 2026-11-04); the fixer keeps only
+`flatLeftToGame` roles, and the refusals run in the PARSER's role reader (`IniParseData::roleFilesOf` since 2026-11-04); the fixer keeps only
 `flatLeftToGame`, to decide that a refused role is left to the game. The mechanism below is unchanged.)
 
 The mechanism written up here is real: `flatLeftToGame` and `flatFallsBackToSource` run over

@@ -226,7 +226,7 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
     roles = FRB.GraphCollect(roleKeys, name = ROLE_ROWS, withConditions = True)
     toggles = FRB.GraphCollect(toggleKeys, name = TOGGLE_ROWS)
 
-    # ---- the readers that run on the rows ----
+    # ---- the variables made from the rows ----
     def roots(keep):
         result = {}
         for obj, sections in parser._sectionTargets.items():
@@ -242,8 +242,8 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
                 result.setdefault(slotOf(obj), []).extend(sections)
         return {slot: list(dict.fromkeys(sorted(names, key = order))) for slot, names in sorted(result.items())}
 
-    # step 4: the resource data, by WWMI's rules
-    def readResourceData(data):
+    # step 5: the resource data (IniParseData.resourceDataOf), by WWMI's rules, made from the rows
+    def resourceData(rows):
         slotRoots = roots(lambda obj: slotOf(obj) is not None)
         rules = FRB.IniParseData.ResourceDataRules()
         rules.rows = FRB.IniParseRows.Objs
@@ -265,20 +265,20 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
             rules.textureRoots = [(obj, sections) for obj, sections in parser._sectionTargets.items() if obj[0] == TEXTURE]
 
         # does the mod replace textures by hash? a texture override with a hash and a `this`
+        start = FRB.IniParseData.ResourceData()
         has = {}
-        for row in data.collected(OVERRIDE_ROWS):
+        for row in (rows[OVERRIDE_ROWS] if OVERRIDE_ROWS in rows else []):
             if row.section.startswith(FRB.IniKeywords.TextureOverride) and row.section not in slotRoots:
                 has.setdefault(row.section, set()).add(row.key)
         if any({FRB.IniKeywords.Hash, FRB.IniKeywords.This} <= keys for keys in has.values()):
-            data.setReplacesTexturesByHash(True)
-        data.resourceData(rules)
+            start.replacesTexturesByHash = True
+        return FRB.IniParseData.resourceDataOf(rules, rows, start)
 
-    # step 5: the skeleton numbering -- Sanhua has one numbering, so nothing to probe
-
-    # step 6: the texture roles, and each slot's file per role (IniParseData.roleFiles), by WWMI's rules -- the
-    # same rules the compiled parser hands it: her facts (WWMITextureFacts.of) say what each hash is and what each
-    # file is by its pixels, HashData how old each hash is, and each linked .ini is read by this parser
-    def readTextures(data):
+    # step 6: the texture roles, and each slot's file per role (IniParseData.roleFilesOf), by WWMI's rules, made from
+    # the rows and the resource data -- the same rules the compiled parser hands it: her facts (WWMITextureFacts.of) say
+    # what each hash is and what each file is by its pixels, HashData how old each hash is, and each linked .ini is read
+    # by this parser
+    def textureRoleFiles(rows):
         rules = FRB.IniParseData.RoleFileRules()
         rules.iniPath, rules.folder = iniFile.file, iniFile.folder
         rules.sections, rules.declared = FRB.IniParseRows.Sections, FRB.IniParseRows.Declared
@@ -299,7 +299,7 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
         rules.log = print
 
         # the files LINKED to this one, each parsed by this character's parser in its only-this-file mode -- kept alive
-        # while roleFiles reads them
+        # while roleFilesOf reads them
         readers = []
         if rules.objs and rules.iniPath:
             for linked in iniFile.linkedInis():
@@ -309,7 +309,7 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
                 readers.append((sibling, reader))
                 rules.linked = [*rules.linked, FRB.IniParseData.RoleFileRules.Linked(reader.parseData, sibling.folder,
                                                                                       os.path.basename(linked.file))]
-        data.roleFiles(rules)
+        return FRB.IniParseData.roleFilesOf(rules, rows)
 
     # how old a hash of hers is, lower newer: the versions HashData files it at, newest first, then the current hash
     # before its `Live` and `Old`, `Old2`, ... generations
@@ -331,7 +331,7 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
             age = min(age, newer * 100 + generation)
         return age
 
-    # which numbering the blend's bone ids are in, asked of the mod's own geometry (SkeletonNumberingProbe), from the
+    # step 4: which numbering the blend's bone ids are in, asked of the mod's own geometry (SkeletonNumberingProbe), from the
     # slot rows and the resource rows -- the version, or None. Not asked of a mod from before WWMI's merged skeleton (no
     # vg_offset on any slot section), whose ids are each component's own
     def skeletonNumbering(objRows, resourceRows):
@@ -353,27 +353,33 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
         return None if found is None else PARSE.skeletonNumberings[found.best].version
 
     # step 7: which draws of a slot carry a split's flags (WWMIParserConfig::drawSplits), read off the code map the mod
-    # draws the slot with at the draws' vertices (DrawUVCoverage), filed as the draw ranges of `(split name, slot)`
-    def readDrawSplits(data):
-        index, texcoord, position = (data.resourceFile(key) for key in (FRB.IniKeywords.WWMIIndexBuffer,
-                                                                        FRB.IniKeywords.WWMITexcoordBuffer,
-                                                                        FRB.IniKeywords.WWMIPositionBuffer))
-        if not PARSE.drawSplits or index is None or texcoord is None or position is None:
-            return
+    # draws the slot with at the draws' vertices (DrawUVCoverage): the resource data with them added as the draw ranges
+    # of `(split name, slot)`, read with the role files
+    def drawSplits(data, roleData):
+        if not PARSE.drawSplits or data is None:
+            return None
+        index, texcoord, position = (data.resourceFiles.get(key.lower()) for key in (FRB.IniKeywords.WWMIIndexBuffer,
+                                                                                      FRB.IniKeywords.WWMITexcoordBuffer,
+                                                                                      FRB.IniKeywords.WWMIPositionBuffer))
+        if index is None or texcoord is None or position is None:
+            return None
+        allRanges = data.drawRanges
+        roleFiles = {} if roleData is None else roleData.roleFiles
+        textureRoles = None if roleData is None else roleData.roles
         folder = iniFile.folder
         drawn = drawnSlots(byWritten(iniFile.getSectionNames()))
         for split in PARSE.drawSplits:
             obj = ("", SLOT_PREFIX + str(split.component))
-            ranges = data.drawRanges(obj)
-            if not ranges or data.isUndrawn(obj) or not drawn.get(split.component):
+            ranges = data.drawRanges.get(obj, [])
+            if not ranges or obj in data.undrawn or not drawn.get(split.component):
                 continue
 
             # the MOD's own map, when a resource of this .ini names the file chosen for the role (one a previous fix
             # declared is no evidence about the mod) -- else the character's own game map, sourceFlags
             codesPath = None
-            chosen = data.roleFile(split.codeRole, obj)
-            if chosen is not None and data.textureRoles() is not None:
-                for resource, file in data.textureRoles().resourcesOf(iniFile.file or ""):
+            chosen = roleFiles.get((split.codeRole, obj))
+            if chosen is not None and textureRoles is not None:
+                for resource, file in textureRoles.resourcesOf(iniFile.file or ""):
                     if file == chosen.file:
                         if not FRB.IniNamingTools.looksRemapped(resource, []):
                             codesPath = iniPathOf(file, folder)
@@ -403,14 +409,24 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
                 print("could not read which draws of " + obj[1] + " carry the " + split.codeRole + " flags: " + str(error))
                 continue
             for drawRange in taken:
-                data.addDrawRange((split.name, obj[1]), drawRange)
+                allRanges.setdefault((split.name, obj[1]), []).append(drawRange)
+        data.drawRanges = allRanges
+        return data
 
-    # ==== THE STEPS: the edits that read the mod, then the functions that read their rows -- all run on the first ask
+    # ==== THE STEPS: the edits that read the mod, then the variables made from their rows -- all run on the first ask
     # of the parse data ====
     skeleton = FRB.GraphVarApply([FRB.IniParseRows.Objs, FRB.IniParseRows.Resources], skeletonNumbering, FRB.IniParseData.BlendVersion)
-    parser.deferredParseSteps = [*parser.rowSteps(rows), overrides, roles, toggles] + ([] if onlyThisFile else [skeleton])
-    parser.deferredParseReaders = [readResourceData] if onlyThisFile else [readResourceData, readTextures,
-                                                                           readDrawSplits]
+    resourceInputs = [FRB.IniParseRows.Objs, FRB.IniParseRows.Resources, FRB.IniParseRows.Sections, TOGGLE_ROWS, OVERRIDE_ROWS]
+    resources = FRB.GraphVarApply(resourceInputs, lambda *inputs: resourceData(FRB.GraphEditVariables.of(resourceInputs, list(inputs))),
+                                  FRB.IniParseData.ResourceDataVar)
+    roleInputs = [FRB.IniParseRows.Sections, FRB.IniParseRows.Declared, OVERRIDE_ROWS, ROLE_ROWS, FRB.IniParseRows.Objs,
+                  FRB.IniParseData.ResourceDataVar]
+    roleFiles = FRB.GraphVarApply(roleInputs, lambda *inputs: textureRoleFiles(FRB.GraphEditVariables.of(roleInputs, list(inputs))),
+                                  FRB.IniParseData.RoleFilesVar)
+    splits = FRB.GraphVarApply([FRB.IniParseData.ResourceDataVar, FRB.IniParseData.RoleFilesVar], drawSplits,
+                               FRB.IniParseData.ResourceDataVar)
+    parser.deferredParseSteps = ([*parser.rowSteps(rows), overrides, roles, toggles] + ([] if onlyThisFile else [skeleton])
+                                 + [resources] + ([] if onlyThisFile else [roleFiles, splits]))
     return parser
 
 

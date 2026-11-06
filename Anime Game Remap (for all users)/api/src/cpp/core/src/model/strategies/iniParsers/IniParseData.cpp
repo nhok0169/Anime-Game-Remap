@@ -25,11 +25,61 @@
 
 
 namespace AGRemapCore {
-    void IniParseData::resourceData(const ResourceDataRules& rules) {
+    IniParseData::ResourceData IniParseData::resourceDataOf(const ResourceDataRules& rules, const GraphEditVariables& rows, ResourceData start) {
+        IniParseData scratch;
+        for (const std::string& name : rows.names()) {
+            scratch.variables_.set(name, *rows.value(name));
+        }
+        scratch.variables_.setObject(ResourceDataVar, std::move(start));
+        scratch.fillResourceData(rules);
+        return std::move(*scratch.variables_.find<ResourceData>(ResourceDataVar));
+    }
+
+    IniParseData::RoleFileData IniParseData::roleFilesOf(const RoleFileRules& rules, const GraphEditVariables& rows) {
+        IniParseData scratch;
+        for (const std::string& name : rows.names()) {
+            scratch.variables_.set(name, *rows.value(name));
+        }
+        scratch.variables_.setObject(RoleFilesVar, RoleFileData());
+        scratch.fillRoleFiles(rules);
+        return std::move(*scratch.variables_.find<RoleFileData>(RoleFilesVar));
+    }
+
+    const IniParseData::ResourceData& IniParseData::resources() const {
+        static const ResourceData none;
+        const ResourceData* data = variables().find<ResourceData>(ResourceDataVar);
+        return data == nullptr ? none : *data;
+    }
+
+    IniParseData::ResourceData& IniParseData::resourcesToWrite() {
+        ResourceData* data = variables_.find<ResourceData>(ResourceDataVar);
+        if (data == nullptr) {
+            variables_.setObject(ResourceDataVar, ResourceData());
+            data = variables_.find<ResourceData>(ResourceDataVar);
+        }
+        return *data;
+    }
+
+    const IniParseData::RoleFileData& IniParseData::roles() const {
+        static const RoleFileData none;
+        const RoleFileData* data = variables().find<RoleFileData>(RoleFilesVar);
+        return data == nullptr ? none : *data;
+    }
+
+    IniParseData::RoleFileData& IniParseData::rolesToWrite() {
+        RoleFileData* data = variables_.find<RoleFileData>(RoleFilesVar);
+        if (data == nullptr) {
+            variables_.setObject(RoleFilesVar, RoleFileData());
+            data = variables_.find<RoleFileData>(RoleFilesVar);
+        }
+        return *data;
+    }
+
+    void IniParseData::fillResourceData(const ResourceDataRules& rules) {
         // the files of the resources the graphs bind -- each section's first `filename`
         if (!rules.resources.empty()) {
             for (auto& [section, file] : resourceFilesOf(collected(rules.resources))) {
-                resourceFiles_.emplace(section, std::move(file));
+                resourcesToWrite().resourceFiles.emplace(section, std::move(file));
             }
         }
 
@@ -418,24 +468,6 @@ namespace AGRemapCore {
         remappable_ = true;
         recolourOnly_ = false;
         carriedSections_.clear();
-        undrawn_.clear();
-        drawRanges_.clear();
-        drawParts_.clear();
-        libraries_.clear();
-        lateBindings_.clear();
-        toggledBindings_.clear();
-        thisOverrides_.clear();
-        thisBound_.clear();
-        replacesByHash_ = false;
-        resourceFiles_.clear();
-        textureResources_.clear();
-        fileResources_.clear();
-        roles_.reset();
-        candidates_.clear();
-        roleFiles_.clear();
-        rejections_.clear();
-        thisToggles_.clear();
-        registerToggles_.clear();
         variables_ = GraphEditVariables();
         sectionIndexes_.clear();
         fill_ = nullptr;
@@ -466,118 +498,113 @@ namespace AGRemapCore {
     }
 
     bool IniParseData::isUndrawn(const ModObj& modObj) const {
-        fill();
-        return undrawn_.count(modObj) > 0;
+        return resources().undrawn.count(modObj) > 0;
     }
 
     void IniParseData::addUndrawn(const ModObj& modObj) {
-        undrawn_.insert(modObj);
+        resourcesToWrite().undrawn.insert(modObj);
     }
 
     void IniParseData::clearUndrawn() {
-        undrawn_.clear();
+        resourcesToWrite().undrawn.clear();
     }
 
     const std::set<IniParseData::ModObj>& IniParseData::undrawnObjs() const {
-        fill();
-        return undrawn_;
+        return resources().undrawn;
     }
 
     const std::vector<IniParseData::DrawRange>& IniParseData::drawRanges(const ModObj& modObj) const {
         static const std::vector<DrawRange> none;
-        fill();
-        const auto found = drawRanges_.find(modObj);
-        return found == drawRanges_.end() ? none : found->second;
+        const auto& all = resources().drawRanges;
+        const auto found = all.find(modObj);
+        return found == all.end() ? none : found->second;
     }
 
     void IniParseData::addDrawRange(const ModObj& modObj, DrawRange range) {
-        drawRanges_[modObj].push_back(range);
+        resourcesToWrite().drawRanges[modObj].push_back(range);
     }
 
     const std::set<std::size_t>& IniParseData::drawParts(const ModObj& modObj) const {
         static const std::set<std::size_t> none;
-        fill();
-        const auto found = drawParts_.find(modObj);
-        return found == drawParts_.end() ? none : found->second;
+        const auto& all = resources().drawParts;
+        const auto found = all.find(modObj);
+        return found == all.end() ? none : found->second;
     }
 
     void IniParseData::addDrawPart(const ModObj& modObj, std::size_t part) {
-        drawParts_[modObj].insert(part);
+        resourcesToWrite().drawParts[modObj].insert(part);
     }
 
     const std::set<std::string>& IniParseData::libraries(const ModObj& modObj) const {
         static const std::set<std::string> none;
-        fill();
-        const auto found = libraries_.find(modObj);
-        return found == libraries_.end() ? none : found->second;
+        const auto& all = resources().libraries;
+        const auto found = all.find(modObj);
+        return found == all.end() ? none : found->second;
     }
 
     void IniParseData::addLibrary(const ModObj& modObj, std::string library) {
-        libraries_[modObj].insert(std::move(library));
+        resourcesToWrite().libraries[modObj].insert(std::move(library));
     }
 
     const std::vector<std::string>& IniParseData::lateBindings(const ModObj& modObj) const {
         static const std::vector<std::string> none;
-        fill();
-        const auto found = lateBindings_.find(modObj);
-        return found == lateBindings_.end() ? none : found->second;
+        const auto& all = resources().lateBindings;
+        const auto found = all.find(modObj);
+        return found == all.end() ? none : found->second;
     }
 
     void IniParseData::setLateBindings(const ModObj& modObj, std::vector<std::string> regs) {
-        lateBindings_[modObj] = std::move(regs);
+        resourcesToWrite().lateBindings[modObj] = std::move(regs);
     }
 
     const std::set<std::string>& IniParseData::toggledBindings(const ModObj& modObj) const {
         static const std::set<std::string> none;
-        fill();
-        const auto found = toggledBindings_.find(modObj);
-        return found == toggledBindings_.end() ? none : found->second;
+        const auto& all = resources().toggledBindings;
+        const auto found = all.find(modObj);
+        return found == all.end() ? none : found->second;
     }
 
     void IniParseData::setToggledBindings(const ModObj& modObj, std::set<std::string> resources) {
-        toggledBindings_[modObj] = std::move(resources);
+        resourcesToWrite().toggledBindings[modObj] = std::move(resources);
     }
 
     std::optional<std::string> IniParseData::thisOverrideOf(const std::string& hash) const {
-        fill();
-        const auto found = thisOverrides_.find(StringTools::toLower(hash));
-        return found == thisOverrides_.end() ? std::nullopt : std::optional<std::string>(found->second);
+        const auto& all = resources().thisOverrides;
+        const auto found = all.find(StringTools::toLower(hash));
+        return found == all.end() ? std::nullopt : std::optional<std::string>(found->second);
     }
 
     void IniParseData::setThisOverride(const std::string& hash, std::string resource) {
-        thisOverrides_.emplace(StringTools::toLower(hash), std::move(resource));
+        resourcesToWrite().thisOverrides.emplace(StringTools::toLower(hash), std::move(resource));
     }
 
     bool IniParseData::isThisBound(const std::string& resource) const {
-        fill();
-        return thisBound_.count(StringTools::toLower(resource)) > 0;
+        return resources().thisBound.count(StringTools::toLower(resource)) > 0;
     }
 
     void IniParseData::addThisBound(const std::string& resource) {
-        thisBound_.insert(StringTools::toLower(resource));
+        resourcesToWrite().thisBound.insert(StringTools::toLower(resource));
     }
 
     bool IniParseData::replacesTexturesByHash() const {
-        fill();
-        return replacesByHash_;
+        return resources().replacesTexturesByHash;
     }
 
     void IniParseData::setReplacesTexturesByHash(bool replaces) {
-        replacesByHash_ = replaces;
+        resourcesToWrite().replacesTexturesByHash = replaces;
     }
 
     std::optional<std::string> IniParseData::resourceFile(const std::string& section) const {
-        fill();
-        const auto found = resourceFiles_.find(StringTools::toLower(section));
-        if (found == resourceFiles_.end()) {
+        const auto& all = resources().resourceFiles;
+        const auto found = all.find(StringTools::toLower(section));
+        if (found == all.end()) {
             return std::nullopt;
         }
         return found->second;
     }
 
     const std::map<std::string, std::string>& IniParseData::resourceFiles() const {
-        fill();
-        return resourceFiles_;
+        return resources().resourceFiles;
     }
 
     std::map<std::string, std::string> IniParseData::resourceFilesOf(const std::vector<GraphCollectRow<>>& rows) {
@@ -607,28 +634,28 @@ namespace AGRemapCore {
     }
 
     void IniParseData::setTextureResource(const std::string& resource, std::string file) {
-        textureResources_[StringTools::toLower(resource)] = std::move(file);
+        rolesToWrite().textureResources[StringTools::toLower(resource)] = std::move(file);
     }
 
     std::optional<std::string> IniParseData::resourceOfFile(const std::string& file) const {
-        fill();
-        const auto found = fileResources_.find(file);
-        return found == fileResources_.end() ? std::nullopt : std::optional<std::string>(found->second);
+        const auto& all = roles().fileResources;
+        const auto found = all.find(file);
+        return found == all.end() ? std::nullopt : std::optional<std::string>(found->second);
     }
 
     void IniParseData::setFileResource(const std::string& file, std::string resource) {
-        fileResources_[file] = std::move(resource);
+        rolesToWrite().fileResources[file] = std::move(resource);
     }
 
     std::vector<IniParseData::ResourceRole> IniParseData::rolesOfResource(const std::string& resource) const {
-        fill();
         std::vector<ResourceRole> result;
-        const auto file = textureResources_.find(StringTools::toLower(resource));
-        if (file == textureResources_.end()) {
+        const RoleFileData& data = roles();
+        const auto file = data.textureResources.find(StringTools::toLower(resource));
+        if (file == data.textureResources.end()) {
             return result;
         }
 
-        for (const auto& [key, chosen] : roleFiles_) {
+        for (const auto& [key, chosen] : data.roleFiles) {
             if (chosen.file == file->second
                     || std::find(chosen.variants.begin(), chosen.variants.end(), file->second) != chosen.variants.end()) {
                 result.push_back(ResourceRole{key.first, key.second});
@@ -638,13 +665,13 @@ namespace AGRemapCore {
     }
 
     std::optional<std::string> IniParseData::refusedRoleOf(const std::string& resource) const {
-        fill();
-        const auto file = textureResources_.find(StringTools::toLower(resource));
-        if (file == textureResources_.end()) {
+        const RoleFileData& data = roles();
+        const auto file = data.textureResources.find(StringTools::toLower(resource));
+        if (file == data.textureResources.end()) {
             return std::nullopt;
         }
 
-        for (const Rejection& rejection : rejections_) {
+        for (const Rejection& rejection : data.rejections) {
             if (rejection.file == file->second) {
                 return rejection.role;
             }
@@ -673,7 +700,7 @@ namespace AGRemapCore {
     }
 
     void IniParseData::setResourceFile(const std::string& section, std::string file) {
-        resourceFiles_.emplace(StringTools::toLower(section), std::move(file));
+        resourcesToWrite().resourceFiles.emplace(StringTools::toLower(section), std::move(file));
     }
 
     // Taken out before it runs: what it fills is set through the same setters a caller would use,
@@ -687,12 +714,12 @@ namespace AGRemapCore {
     }
 
     const TextureRoles* IniParseData::textureRoles() const {
-        fill();
-        return roles_.get();
+        const std::optional<TextureRoles>& found = roles().roles;
+        return found.has_value() ? &*found : nullptr;
     }
 
     void IniParseData::setTextureRoles(TextureRoles roles) {
-        roles_ = std::make_unique<TextureRoles>(std::move(roles));
+        rolesToWrite().roles = std::move(roles);
     }
 
     const std::vector<IniParseData::CollectedRow>& IniParseData::collected(const std::string& name) const {
@@ -774,52 +801,57 @@ namespace AGRemapCore {
 
     const std::vector<std::pair<std::string, std::string>>& IniParseData::roleCandidates(const std::string& role) const {
         static const std::vector<std::pair<std::string, std::string>> none;
-        fill();
-        const auto found = candidates_.find(role);
-        return found == candidates_.end() ? none : found->second;
+        const auto& all = roles().candidates;
+        const auto found = all.find(role);
+        return found == all.end() ? none : found->second;
     }
 
     void IniParseData::setRoleCandidates(const std::string& role, std::vector<std::pair<std::string, std::string>> candidates) {
-        candidates_[role] = std::move(candidates);
+        rolesToWrite().candidates[role] = std::move(candidates);
     }
 
     const IniParseData::RoleFile* IniParseData::roleFile(const std::string& role, const ModObj& modObj) const {
-        fill();
-        const auto found = roleFiles_.find({role, modObj});
-        return found == roleFiles_.end() ? nullptr : &found->second;
+        const auto& all = roles().roleFiles;
+        const auto found = all.find({role, modObj});
+        return found == all.end() ? nullptr : &found->second;
     }
 
     void IniParseData::setRoleFile(const std::string& role, const ModObj& modObj, RoleFile file) {
-        roleFiles_[{role, modObj}] = std::move(file);
+        rolesToWrite().roleFiles[{role, modObj}] = std::move(file);
     }
 
     const std::vector<IniParseData::Rejection>& IniParseData::rejections() const {
-        fill();
-        return rejections_;
+        return roles().rejections;
     }
 
     void IniParseData::reject(const std::string& file, const std::string& role, const std::string& why) {
-        rejections_.push_back(Rejection{file, role, why});
+        rolesToWrite().rejections.push_back(Rejection{file, role, why});
     }
 
     const IniParseData::TextureToggle* IniParseData::thisToggleOf(const std::string& resource) const {
-        fill();
-        const auto found = thisToggles_.find(resource);
-        return found == thisToggles_.end() ? nullptr : &found->second;
+        const auto& all = resources().thisToggles;
+        const auto found = all.find(resource);
+        return found == all.end() ? nullptr : &found->second;
     }
 
     void IniParseData::setThisToggle(const std::string& resource, TextureToggle toggle) {
-        thisToggles_[resource] = std::move(toggle);
+        resourcesToWrite().thisToggles[resource] = std::move(toggle);
     }
 
+    // the resource data's first, then the ones only role files found through `run =`
     const IniParseData::TextureToggle* IniParseData::registerToggleOf(const std::string& resource) const {
-        fill();
-        const auto found = registerToggles_.find(resource);
-        return found == registerToggles_.end() ? nullptr : &found->second;
+        const auto& all = resources().registerToggles;
+        const auto found = all.find(resource);
+        if (found != all.end()) {
+            return &found->second;
+        }
+        const auto& more = roles().registerToggles;
+        const auto also = more.find(resource);
+        return also == more.end() ? nullptr : &also->second;
     }
 
     void IniParseData::setRegisterToggle(const std::string& resource, TextureToggle toggle) {
-        registerToggles_[resource] = std::move(toggle);
+        resourcesToWrite().registerToggles[resource] = std::move(toggle);
     }
 
     std::vector<std::string> IniParseData::buffersBoundBy(const std::string& sections, const std::string& section) const {

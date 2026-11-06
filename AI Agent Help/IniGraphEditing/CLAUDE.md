@@ -6,11 +6,11 @@
 became GI-only.** `SkeletonNumberingRead` (a parse step that probes which skeleton numbering a WuWa blend uses) and a
 proposed `DrawTexelSplit` (which draws of a component carry a material-code flag) were both edits that added nothing
 to the graph side: the keys and resource filenames they look for are already `GraphCollect` rows, and the rest is
-buffer math (`SkeletonNumberingProbe`, `DrawUVCoverage`). Both are plain functions in `WWMIParser`'s `deferredParseReaders` now (the first
+buffer math (`SkeletonNumberingProbe`, `DrawUVCoverage`). Both are `GraphVarApply` steps of `WWMIParser` now (the first
 retired, the second never built), with the one general piece -- the value a shader reads off a texture channel -- as
-`TextureFile::shaderChannel`. The right shape for such a read is now a `GraphVarApply` over the variables the collects
+`TextureFile::shaderChannel`. That is the shape for such a read: a `GraphVarApply` over the variables the collects
 filed (see "Edits pass data to each other through VARIABLES" below; until 2026-11-06 it was a function in the parser's
-`parseReaders` / `deferredParseReaders`, which are being retired reader by reader). `ParseDataStep` was not wrong
+`parseReaders` / `deferredParseReaders`, which are gone). `ParseDataStep` was not wrong
 for carrying a function: the maintainer's objection was that the parser was built of them INSTEAD of edits, doing by
 hand what collects do. A `GraphVarApply` reads only variables, so the graph reading stays in the collects. Or a
 fixer step) over the rows, calling a bound capability of the buffer / texture class, with the game's choices in the
@@ -22,11 +22,11 @@ game's config. Before proposing an edit, write down what it does to the graphs t
 (`IniParseRows`: every bound resource's file, every declaration, every key of every section, every key of chosen
 objects) as edits and RETURNS them -- until 2026-11-05 it was `addRowSteps` and appended them out of sight, which
 left a parser with no one list to read (the maintainer asked where "the list of edits" was). A parser writes its
-steps as ONE explicit list, `deferredParseSteps = [*rowSteps(rows), ...its own collects]`, beside its
-`deferredParseReaders`; and `IniParseData::resourceData` reads draws, draw parts (`GraphCollectRow::position`), late bindings,
+steps as ONE explicit list, `deferredParseSteps = [*rowSteps(rows), ...its own collects, ...its GraphVarApply
+steps]`; and `IniParseData::resourceDataOf` reads draws, draw parts (`GraphCollectRow::position`), late bindings,
 libraries and hidden objects off those rows, with the game's choices in `IniParseData::ResourceDataRules`. WWMIParser is
 built on both; the GI parsers are next. Reach for these before writing a reader of your own.
-**Which file each object takes per texture role is `IniParseData::roleFiles` (2026-11-04)**, the same kind of reader
+**Which file each object takes per texture role is `IniParseData::roleFilesOf` (2026-11-04; `roleFiles` until 2026-11-06)**, the same kind of reader
 over collected rows: `TextureRoleChooser` and `WWMIParser`'s gathering went into it, and the Python mirror hands it the
 same `RoleFileRules` (see Creating Remaps' "WHICH FILE A ROLE TAKES"). **It was `fileAnatomy` / `AnatomyRules` until 2026-11-03** (the maintainer found the name misleading -- it reads
 nothing of another file). The same day it took over the texture TOGGLES WWMIParser had read by hand
@@ -57,13 +57,23 @@ others); `set` / `find<T>` / `get<T>` / `has` / `erase` / `names`, and `sections
 in, value out, `into` REPLACED (a write of sections adds; a function's output is a new value), nothing returned
 leaves it -- and **`GraphVarApply`** is the edit that runs it in a parser's step list, the scheduling wrapper as
 `GraphVarTake` is for taking sections: all the logic is in the store. It reads ONLY variables, so whatever a graph
-says is collected into one first. **It replaces the parser's readers one at a time**: `readSkeletonNumbering` was
-the first (slot rows + resource rows -> `BlendVersion`; `IniParseData::resourceFilesOf` reads the resource rows the
-way `resourceData` files them). `applyResourceData`, `readTextures` and `readDrawSplits` are next, each needing its
-conclusions moved into variables (the getters stay, so the fixers do not move), after which `parseReaders` goes.
+says is collected into one first. **It replaced the parser's readers, and `parseReaders` / `deferredParseReaders`
+are gone (2026-11-06)**: a parser is ONE list of edits. `WWMIParser`'s four are the skeleton numbering (slot rows +
+resource rows -> `BlendVersion`), the resource data (rows -> `IniParseData::ResourceDataVar`, an
+`IniParseData::ResourceData`), the role files (rows + the resource data -> `RoleFilesVar`, an
+`IniParseData::RoleFileData`) and the draw splits (resource data + role files -> the resource data, its draw ranges
+added). The two result types are plain values holding what the 18 private fields of `IniParseData` used to; every
+getter and setter stayed and reads or writes them through the variable, so no fixer moved. `resourceDataOf(rules, rows,
+start)` and `roleFilesOf(rules, rows)` are STATIC: handed the rows as a `GraphEditVariables` (`GraphEditVariables::of(names,
+inputs)` names an apply's inputs), they run the algorithm over a scratch `IniParseData` and return the value. A
+register toggle the role files find through `run =` lives in `RoleFileData::registerToggles`, which `registerToggleOf`
+reads after the resource data's. **A setter writes into the variable without running the deferred steps, and a
+`GraphVarApply` REPLACES the variable** -- a parser that called setters before its deferred steps would lose those
+writes when the step runs (none does: `GIMIComponentParser`'s `addUndrawn` is the only setter outside the readers).
 Python: `variables[name]`; a value crosses as the first type both sides know (`str` / `bool` / `int` / `float`, a
-list of `GraphCollect.Row`, a `Sections`), anything else stays a Python object -- so a Python function returning a
-`str` into `BlendVersion` is what C++ reads.
+list of `GraphCollect.Row`, an `IniParseData.ResourceData` / `RoleFileData` as a COPY, a `Sections`), anything else
+stays a Python object -- so a Python function returning a `str` into `BlendVersion` is what C++ reads. A copy means a
+Python apply edits the value it is handed and returns it, as the mirror's draw splits do.
 
 The older rule that a variable is about ONE graph, and a `GraphGroupEditVariables` waits for a use case, is
 superseded by the above: the parse data's variables span every graph of the `.ini`. A per-group piece of data is still

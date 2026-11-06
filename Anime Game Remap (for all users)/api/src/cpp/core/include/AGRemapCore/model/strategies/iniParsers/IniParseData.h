@@ -755,7 +755,126 @@ namespace AGRemapCore {
             void setCollected(const std::string& name, std::vector<CollectedRow> rows);
 
             /**
-             * @brief What #resourceData reads, and the rules a game reads it by
+             * @brief
+             @rst
+             The mod's resource data, as #resourceDataOf reads it off collected rows: one value, held in the variable
+             #ResourceDataVar, which #isUndrawn, #drawRanges, #resourceFile and the other getters of it read. Keys a getter
+             matches regardless of case are kept lowercased
+             @endrst
+             */
+            struct ResourceData {
+                /**
+                 * @brief The mod objects the mod leaves undrawn -- see #isUndrawn
+                 */
+                std::set<ModObj> undrawn;
+
+                /**
+                 * @brief Each mod object's numbered draws -- see #drawRanges
+                 */
+                std::map<ModObj, std::vector<DrawRange>> drawRanges;
+
+                /**
+                 * @brief The parts each mod object's draws sit in -- see #drawParts
+                 */
+                std::map<ModObj, std::set<std::size_t>> drawParts;
+
+                /**
+                 * @brief The libraries each mod object names -- see #libraries
+                 */
+                std::map<ModObj, std::set<std::string>> libraries;
+
+                /**
+                 * @brief The texture registers each mod object binds only after it has drawn -- see #lateBindings
+                 */
+                std::map<ModObj, std::vector<std::string>> lateBindings;
+
+                /**
+                 * @brief The texture resources each mod object binds only under a toggle, lowercased -- see #toggledBindings
+                 */
+                std::map<ModObj, std::set<std::string>> toggledBindings;
+
+                /**
+                 * @brief ``lowercased hash -> resource``, each texture override's ``this =`` -- see #thisOverrideOf
+                 */
+                std::map<std::string, std::string> thisOverrides;
+
+                /**
+                 * @brief Every resource a ``this =`` binds, lowercased -- see #isThisBound
+                 */
+                std::set<std::string> thisBound;
+
+                /**
+                 * @brief Whether the mod replaces a game texture by hash -- see #replacesTexturesByHash
+                 */
+                bool replacesTexturesByHash = false;
+
+                /**
+                 * @brief ``lowercased resource section -> filename`` -- see #resourceFiles
+                 */
+                std::map<std::string, std::string> resourceFiles;
+
+                /**
+                 * @brief ``lowercased resource -> toggle`` -- see #thisToggleOf
+                 */
+                std::map<std::string, TextureToggle> thisToggles;
+
+                /**
+                 * @brief ``lowercased resource -> toggle`` -- see #registerToggleOf
+                 */
+                std::map<std::string, TextureToggle> registerToggles;
+            };
+
+            /**
+             * @brief
+             @rst
+             Which file each mod object takes for each texture role, as #roleFilesOf chooses it: one value, held in the
+             variable #RoleFilesVar, which #textureRoles, #roleCandidates, #roleFile, #rejections and the other getters
+             of it read
+             @endrst
+             */
+            struct RoleFileData {
+                /**
+                 * @brief What role each texture plays, or ``std::nullopt`` for none recorded -- see #textureRoles
+                 */
+                std::optional<TextureRoles> roles;
+
+                /**
+                 * @brief ``role -> (file, how)`` -- see #roleCandidates
+                 */
+                std::map<std::string, std::vector<std::pair<std::string, std::string>>> candidates;
+
+                /**
+                 * @brief ``(role, mod object) -> the file it takes`` -- see #roleFile
+                 */
+                std::map<std::pair<std::string, ModObj>, RoleFile> roleFiles;
+
+                /**
+                 * @brief Every file refused for a role, in the order refused -- see #rejections
+                 */
+                std::vector<Rejection> rejections;
+
+                /**
+                 * @brief ``lowercased resource -> the texture file it names`` -- see #rolesOfResource
+                 */
+                std::map<std::string, std::string> textureResources;
+
+                /**
+                 * @brief ``file -> the resource the mod uses for it`` -- see #resourceOfFile
+                 */
+                std::map<std::string, std::string> fileResources;
+
+                /**
+                 * @brief
+                 @rst
+                 ``lowercased resource -> toggle``: the register toggles found only through ``run =``, which
+                 #registerToggleOf reads after :cpp:member:`ResourceData::registerToggles`
+                 @endrst
+                 */
+                std::map<std::string, TextureToggle> registerToggles;
+            };
+
+            /**
+             * @brief What #resourceDataOf reads, and the rules a game reads it by
              */
             struct ResourceDataRules {
                 /**
@@ -854,7 +973,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Reads the mod's resource data off collected rows and records it: each resource's file (#resourceFiles), and for
+             Reads the mod's resource data off collected rows: each resource's file (#resourceFiles), and for
              each object its numbered draws (#drawRanges) and the parts they sit in (#drawParts), the texture registers it
              binds only after it has drawn (#lateBindings, unless #replacesTexturesByHash), the libraries it names
              (#libraries), the texture resources it binds only under a toggle (#toggledBindings), and whether it is
@@ -874,11 +993,20 @@ namespace AGRemapCore {
              @endrst
              *
              * @param rules What to read, and how
+             * @param rows The variables it reads: the rows of each collect 'rules' names, by its name (see #variables)
+             * @param start What it adds to -- eg. #replacesTexturesByHash, which decides #lateBindings
+             *
+             * @return The resource data, which the getters above read from the variable #ResourceDataVar
              */
-            void resourceData(const ResourceDataRules& rules);
+            static ResourceData resourceDataOf(const ResourceDataRules& rules, const GraphEditVariables& rows, ResourceData start = ResourceData());
 
             /**
-             * @brief How #roleFiles reads which file each mod object takes for each role -- see #roleFiles
+             * @brief The name of the variable holding the #ResourceData every getter of it reads
+             */
+            static inline const std::string ResourceDataVar = "ResourceData";
+
+            /**
+             * @brief How #roleFilesOf reads which file each mod object takes for each role -- see #roleFilesOf
              */
             struct RoleFileRules {
                 /**
@@ -1008,7 +1136,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Reads which file each mod object takes for each texture role, and records it: #textureRoles, #roleCandidates,
+             Reads which file each mod object takes for each texture role: #textureRoles, #roleCandidates,
              #rejections, #roleFile, and each texture resource's file (#rolesOfResource, #resourceOfFile)
              :raw-html:`<br />` :raw-html:`<br />`
 
@@ -1037,8 +1165,20 @@ namespace AGRemapCore {
              @endrst
              *
              * @param rules What to read, and how
+             * @param rows
+             @rst
+             The variables it reads: the rows of each collect 'rules' names, by its name, and the #ResourceData under
+             #ResourceDataVar (its toggles and resource files)
+             @endrst
+             *
+             * @return What it chose, which the getters above read from the variable #RoleFilesVar
              */
-            void roleFiles(const RoleFileRules& rules);
+            static RoleFileData roleFilesOf(const RoleFileRules& rules, const GraphEditVariables& rows);
+
+            /**
+             * @brief The name of the variable holding the #RoleFileData every getter of it reads
+             */
+            static inline const std::string RoleFilesVar = "RoleFiles";
 
             /**
              * @brief
@@ -1074,29 +1214,24 @@ namespace AGRemapCore {
 
         private:
             void fill() const;
+
+            // The two results #resourceDataOf and #roleFilesOf compute, run as the algorithm over a scratch
+            // IniParseData whose variables are the rows they are handed: the getters and setters below are what
+            // they read and write through
+            void fillResourceData(const ResourceDataRules& rules);
             void fileToggles(const ResourceDataRules& rules);
+            void fillRoleFiles(const RoleFileRules& rules);
+
+            // The values the getters read (after the deferred steps run), and the ones the setters write into,
+            // made when first written. Writing does not run the deferred steps
+            const ResourceData& resources() const;
+            ResourceData& resourcesToWrite();
+            const RoleFileData& roles() const;
+            RoleFileData& rolesToWrite();
 
             bool remappable_ = true;
             bool recolourOnly_ = false;
             std::string carriedSections_;
-            std::set<ModObj> undrawn_;
-            std::map<ModObj, std::vector<DrawRange>> drawRanges_;
-            std::map<ModObj, std::set<std::size_t>> drawParts_;
-            std::map<ModObj, std::set<std::string>> libraries_;
-            std::map<ModObj, std::vector<std::string>> lateBindings_;
-            std::map<ModObj, std::set<std::string>> toggledBindings_;
-            std::map<std::string, std::string> thisOverrides_;
-            std::set<std::string> thisBound_;
-            bool replacesByHash_ = false;
-            std::map<std::string, std::string> resourceFiles_;
-            std::map<std::string, std::string> textureResources_;
-            std::map<std::string, std::string> fileResources_;     // file -> the resource the mod uses for it
-            std::unique_ptr<TextureRoles> roles_;
-            std::map<std::string, std::vector<std::pair<std::string, std::string>>> candidates_;
-            std::map<std::pair<std::string, ModObj>, RoleFile> roleFiles_;
-            std::vector<Rejection> rejections_;
-            std::map<std::string, TextureToggle> thisToggles_;
-            std::map<std::string, TextureToggle> registerToggles_;
             GraphEditVariables variables_;
 
             // A collect's rows by section, in written order -- built on the first ask, rebuilt when the variable holds

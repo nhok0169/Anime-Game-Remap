@@ -112,6 +112,16 @@ namespace AGRemapCore {
         }
     }
 
+    GraphEditVariables GraphEditVariables::of(const std::vector<std::string>& names, const std::vector<const Value*>& values) {
+        GraphEditVariables result;
+        for (std::size_t i = 0; i < names.size() && i < values.size(); ++i) {
+            if (values[i] != nullptr) {
+                result.set(names[i], *values[i]);
+            }
+        }
+        return result;
+    }
+
     GraphEditVariables::Sections& GraphEditVariables::sections(const std::string& name) {
         auto found = values_.find(name);
         if (found == values_.end()) {

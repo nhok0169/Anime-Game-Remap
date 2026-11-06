@@ -11,7 +11,7 @@
 
 // ##### EndCredits
 
-// IniParseData::roleFiles: which file each mod object takes for each texture role, read off what the .ini states.
+// IniParseData::roleFilesOf: which file each mod object takes for each texture role, read off what the .ini states.
 
 #include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
 
@@ -166,7 +166,7 @@ namespace AGRemapCore {
     }
 
 
-    void IniParseData::roleFiles(const RoleFileRules& rules) {
+    void IniParseData::fillRoleFiles(const RoleFileRules& rules) {
         const auto log = [&rules](const std::string& message) {
             if (rules.log) {
                 rules.log(message);
@@ -407,7 +407,7 @@ namespace AGRemapCore {
         for (const auto& [section, resources] : ownToggles) {
             for (const std::string& resource : resources) {
                 if (registerToggleOf(lowered(resource)) == nullptr) {
-                    setRegisterToggle(lowered(resource), TextureToggle{section, resources, false});
+                    rolesToWrite().registerToggles[lowered(resource)] = TextureToggle{section, resources, false};
                 }
             }
         }

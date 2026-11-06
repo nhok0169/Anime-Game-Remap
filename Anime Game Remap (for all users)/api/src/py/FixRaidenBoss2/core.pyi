@@ -9714,18 +9714,6 @@ class GIMIParser(BaseIniParser):
     
         **Default**: ``None``
     
-    parseReaders: Optional[List[Callable[[:class:`IniParseData`], None]]]
-        Functions run on :attr:`parseData` after :attr:`parseSteps` -- see :attr:`parseReaders` :raw-html:`<br />`
-        :raw-html:`<br />`
-    
-        **Default**: ``None``
-    
-    deferredParseReaders: Optional[List[Callable[[:class:`IniParseData`], None]]]
-        More such functions, run after :attr:`deferredParseSteps` -- see :attr:`deferredParseReaders`
-        :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``
-    
     makeGlobalGraph: :class:`bool`
         Whether to make the graph for the entire .ini file :raw-html:`<br />` :raw-html:`<br />`
     
@@ -9844,7 +9832,7 @@ class GIMIParser(BaseIniParser):
         list[tuple[:class:`str`, :class:`GraphCollect.Row`]]
             The overrides, in the order of the `sections`_
         """
-    def __init__(self, iniFile: typing.Any, modObjs: typing.Any = None, objTargetFuncs: typing.Any = None, downloads: typing.Any = None, commandEdits: typing.Any = None, makeGlobalGraph: bool = True, disjointModObjs: bool = True, trackKeys: bool = True, keysToTrack: typing.Any = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None, parseSteps: typing.Any = None, deferredParseSteps: typing.Any = None, parseReaders: typing.Any = None, deferredParseReaders: typing.Any = None) -> None:
+    def __init__(self, iniFile: typing.Any, modObjs: typing.Any = None, objTargetFuncs: typing.Any = None, downloads: typing.Any = None, commandEdits: typing.Any = None, makeGlobalGraph: bool = True, disjointModObjs: bool = True, trackKeys: bool = True, keysToTrack: typing.Any = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None, parseSteps: typing.Any = None, deferredParseSteps: typing.Any = None) -> None:
         ...
     def _getSectionTargets(self) -> None:
         """
@@ -10032,14 +10020,6 @@ class GIMIParser(BaseIniParser):
         Set[:class:`str`]: The different components to parse
         """
     @property
-    def deferredParseReaders(self) -> typing.Any:
-        """
-        List[Callable[[:class:`IniParseData`], None]]: More such functions, run with :attr:`deferredParseSteps` on the first ask of :attr:`parseData`, after them and in order
-        """
-    @deferredParseReaders.setter
-    def deferredParseReaders(self, arg1: typing.Any) -> None:
-        ...
-    @property
     def deferredParseSteps(self) -> typing.Any:
         """
         List[:class:`BaseIniGraphGroupEdit`]: More reading edits, run on the first ask of :attr:`parseData` rather than during the parse :raw-html:`<br />` :raw-html:`<br />`
@@ -10123,17 +10103,6 @@ class GIMIParser(BaseIniParser):
         """
     @objTargetFuncs.setter
     def objTargetFuncs(self, arg0: typing.Any) -> None:
-        ...
-    @property
-    def parseReaders(self) -> typing.Any:
-        """
-        List[Callable[[:class:`IniParseData`], None]]: Functions run on :attr:`parseData` after :attr:`parseSteps`, in order :raw-html:`<br />` :raw-html:`<br />`
-        
-        For reading that is not an edit of the graphs: buffer or texture math over the files the rows name, or a conclusion
-        drawn from what the steps filed. A later reader sees what an earlier one filed
-        """
-    @parseReaders.setter
-    def parseReaders(self, arg1: typing.Any) -> None:
         ...
     @property
     def parseSteps(self) -> typing.Any:
@@ -11290,7 +11259,8 @@ class GraphEditVariables:
     edit to another. A variable holds a value of any type, read and written like a dictionary's (``variables[name]``)
     
     A value crosses between Python and C++ as the first type both know: a :class:`str`, :class:`bool`, :class:`int` or
-    :class:`float`, a list of :class:`GraphCollect.Row` (what a :class:`GraphCollect` files), or a
+    :class:`float`, a list of :class:`GraphCollect.Row` (what a :class:`GraphCollect` files), an
+    :class:`IniParseData.ResourceData` or :class:`IniParseData.RoleFileData` (each a copy), or a
     :class:`GraphEditVariables.Sections`. Any other Python object is held as itself, readable from Python only
     
     A fixer keeps the `sections`_ it writes in one (:class:`GraphEditVariables.Sections`): an edit copies sections of a
@@ -11388,6 +11358,25 @@ class GraphEditVariables:
             Tuple[:class:`int`, :class:`int`]
                 The place: its index, and how many times the variable was cleared when it was held
             """
+    @staticmethod
+    def of(names: collections.abc.Sequence[str], values: collections.abc.Sequence[typing.Any]) -> GraphEditVariables:
+        """
+        Variables of the given names holding the given values -- eg. the inputs an :meth:`apply` function is called with, under
+        their names, for a function that reads its variables by name. A ``None`` value makes no variable
+        
+        Parameters
+        ----------
+        names: List[:class:`str`]
+            The names
+        
+        values: List[Any]
+            The values, one per name
+        
+        Returns
+        -------
+        :class:`GraphEditVariables`
+            The variables
+        """
     def __contains__(self, name: str) -> bool:
         """
         Whether there is a variable named 'name'
@@ -12786,10 +12775,119 @@ class IniParseData:
             """
             :class:`str`: Why, as a sentence about the file
             """
+    class ResourceData:
+        """
+        
+        The mod's resource data, as :meth:`IniParseData.resourceDataOf` reads it off collected rows: one value, held in the
+        variable :attr:`IniParseData.ResourceDataVar`, which :meth:`IniParseData.isUndrawn`, :meth:`IniParseData.drawRanges`,
+        :meth:`IniParseData.resourceFile` and the other getters of it read. Keys a getter matches regardless of case are kept
+        lowercased
+        
+        Each attribute is a copy: change one by assigning it whole
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def drawParts(self) -> dict[tuple[str, str], set[int]]:
+            """
+            Dict[Tuple[:class:`str`, :class:`str`], Set[:class:`int`]]: The parts each mod object's draws sit in -- see :meth:`IniParseData.drawParts`
+            """
+        @drawParts.setter
+        def drawParts(self, arg0: collections.abc.Mapping[tuple[str, str], collections.abc.Set[typing.SupportsInt | typing.SupportsIndex]]) -> None:
+            ...
+        @property
+        def drawRanges(self) -> dict[tuple[str, str], list[tuple[int, int]]]:
+            """
+            Dict[Tuple[:class:`str`, :class:`str`], List[Tuple[:class:`int`, :class:`int`]]]: Each mod object's numbered draws -- see :meth:`IniParseData.drawRanges`
+            """
+        @drawRanges.setter
+        def drawRanges(self, arg0: collections.abc.Mapping[tuple[str, str], collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]]]) -> None:
+            ...
+        @property
+        def lateBindings(self) -> dict[tuple[str, str], list[str]]:
+            """
+            Dict[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]: The texture registers each mod object binds only after it has drawn -- see :meth:`IniParseData.lateBindings`
+            """
+        @lateBindings.setter
+        def lateBindings(self, arg0: collections.abc.Mapping[tuple[str, str], collections.abc.Sequence[str]]) -> None:
+            ...
+        @property
+        def libraries(self) -> dict[tuple[str, str], set[str]]:
+            """
+            Dict[Tuple[:class:`str`, :class:`str`], Set[:class:`str`]]: The libraries each mod object names -- see :meth:`IniParseData.libraries`
+            """
+        @libraries.setter
+        def libraries(self, arg0: collections.abc.Mapping[tuple[str, str], collections.abc.Set[str]]) -> None:
+            ...
+        @property
+        def registerToggles(self) -> dict[str, ...]:
+            """
+            Dict[:class:`str`, :class:`IniParseData.TextureToggle`]: ``lowercased resource -> toggle`` -- see :meth:`IniParseData.registerToggleOf`
+            """
+        @registerToggles.setter
+        def registerToggles(self, arg0: collections.abc.Mapping[str, ...]) -> None:
+            ...
+        @property
+        def replacesTexturesByHash(self) -> bool:
+            """
+            :class:`bool`: Whether the mod replaces a game texture by hash -- see :meth:`IniParseData.replacesTexturesByHash`
+            """
+        @replacesTexturesByHash.setter
+        def replacesTexturesByHash(self, arg0: bool) -> None:
+            ...
+        @property
+        def resourceFiles(self) -> dict[str, str]:
+            """
+            Dict[:class:`str`, :class:`str`]: ``lowercased resource section -> filename`` -- see :meth:`IniParseData.resourceFiles`
+            """
+        @resourceFiles.setter
+        def resourceFiles(self, arg0: collections.abc.Mapping[str, str]) -> None:
+            ...
+        @property
+        def thisBound(self) -> set[str]:
+            """
+            Set[:class:`str`]: Every resource a ``this =`` binds, lowercased -- see :meth:`IniParseData.isThisBound`
+            """
+        @thisBound.setter
+        def thisBound(self, arg0: collections.abc.Set[str]) -> None:
+            ...
+        @property
+        def thisOverrides(self) -> dict[str, str]:
+            """
+            Dict[:class:`str`, :class:`str`]: ``lowercased hash -> resource``, each texture override's ``this =`` -- see :meth:`IniParseData.thisOverrideOf`
+            """
+        @thisOverrides.setter
+        def thisOverrides(self, arg0: collections.abc.Mapping[str, str]) -> None:
+            ...
+        @property
+        def thisToggles(self) -> dict[str, ...]:
+            """
+            Dict[:class:`str`, :class:`IniParseData.TextureToggle`]: ``lowercased resource -> toggle`` -- see :meth:`IniParseData.thisToggleOf`
+            """
+        @thisToggles.setter
+        def thisToggles(self, arg0: collections.abc.Mapping[str, ...]) -> None:
+            ...
+        @property
+        def toggledBindings(self) -> dict[tuple[str, str], set[str]]:
+            """
+            Dict[Tuple[:class:`str`, :class:`str`], Set[:class:`str`]]: The texture resources each mod object binds only under a toggle, lowercased -- see :meth:`IniParseData.toggledBindings`
+            """
+        @toggledBindings.setter
+        def toggledBindings(self, arg0: collections.abc.Mapping[tuple[str, str], collections.abc.Set[str]]) -> None:
+            ...
+        @property
+        def undrawn(self) -> set[tuple[str, str]]:
+            """
+            Set[Tuple[:class:`str`, :class:`str`]]: The mod objects the mod leaves undrawn -- see :meth:`IniParseData.isUndrawn`
+            """
+        @undrawn.setter
+        def undrawn(self, arg0: collections.abc.Set[tuple[str, str]]) -> None:
+            ...
     class ResourceDataRules:
         """
         
-        What :meth:`IniParseData.resourceData` reads, and the rules a game reads it by
+        What :meth:`IniParseData.resourceDataOf` reads, and the rules a game reads it by
             
         """
         def __init__(self) -> None:
@@ -12990,10 +13088,80 @@ class IniParseData:
         @variants.setter
         def variants(self, arg0: collections.abc.Sequence[str]) -> None:
             ...
+    class RoleFileData:
+        """
+        
+        Which file each mod object takes for each texture role, as :meth:`IniParseData.roleFilesOf` chooses it: one value, held
+        in the variable :attr:`IniParseData.RoleFilesVar`, which :meth:`IniParseData.textureRoles`,
+        :meth:`IniParseData.roleCandidates`, :meth:`IniParseData.roleFile`, :meth:`IniParseData.rejections` and the other
+        getters of it read
+        
+        Each attribute is a copy: change one by assigning it whole
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def candidates(self) -> dict[str, list[tuple[str, str]]]:
+            """
+            Dict[:class:`str`, List[Tuple[:class:`str`, :class:`str`]]]: ``role -> (file, how)`` -- see :meth:`IniParseData.roleCandidates`
+            """
+        @candidates.setter
+        def candidates(self, arg0: collections.abc.Mapping[str, collections.abc.Sequence[tuple[str, str]]]) -> None:
+            ...
+        @property
+        def fileResources(self) -> dict[str, str]:
+            """
+            Dict[:class:`str`, :class:`str`]: ``file -> the resource the mod uses for it`` -- see :meth:`IniParseData.resourceOfFile`
+            """
+        @fileResources.setter
+        def fileResources(self, arg0: collections.abc.Mapping[str, str]) -> None:
+            ...
+        @property
+        def registerToggles(self) -> dict[str, ...]:
+            """
+            Dict[:class:`str`, :class:`IniParseData.TextureToggle`]: ``lowercased resource -> toggle``: the register toggles found
+            only through ``run =``, which :meth:`IniParseData.registerToggleOf` reads after :attr:`ResourceData.registerToggles`
+            """
+        @registerToggles.setter
+        def registerToggles(self, arg0: collections.abc.Mapping[str, ...]) -> None:
+            ...
+        @property
+        def rejections(self) -> list[...]:
+            """
+            List[:class:`IniParseData.Rejection`]: Every file refused for a role, in the order refused -- see :meth:`IniParseData.rejections`
+            """
+        @rejections.setter
+        def rejections(self, arg0: collections.abc.Sequence[...]) -> None:
+            ...
+        @property
+        def roleFiles(self) -> dict[tuple[str, tuple[str, str]], ...]:
+            """
+            Dict[Tuple[:class:`str`, Tuple[:class:`str`, :class:`str`]], :class:`IniParseData.RoleFile`]: ``(role, mod object) -> the file it takes`` -- see :meth:`IniParseData.roleFile`
+            """
+        @roleFiles.setter
+        def roleFiles(self, arg0: collections.abc.Mapping[tuple[str, tuple[str, str]], ...]) -> None:
+            ...
+        @property
+        def roles(self) -> FixRaidenBoss2.core.TextureRoles | None:
+            """
+            Optional[:class:`TextureRoles`]: What role each texture plays, or ``None`` for none recorded -- see :meth:`IniParseData.textureRoles`
+            """
+        @roles.setter
+        def roles(self, arg0: FixRaidenBoss2.core.TextureRoles | None) -> None:
+            ...
+        @property
+        def textureResources(self) -> dict[str, str]:
+            """
+            Dict[:class:`str`, :class:`str`]: ``lowercased resource -> the texture file it names`` -- see :meth:`IniParseData.rolesOfResource`
+            """
+        @textureResources.setter
+        def textureResources(self, arg0: collections.abc.Mapping[str, str]) -> None:
+            ...
     class RoleFileRules:
         """
         
-        How :meth:`IniParseData.roleFiles` reads which file each mod object takes for each role
+        How :meth:`IniParseData.roleFilesOf` reads which file each mod object takes for each role
             
         """
         class Linked:
@@ -13227,6 +13395,46 @@ class IniParseData:
         def variants(self, arg0: collections.abc.Sequence[str]) -> None:
             ...
     BlendVersion: typing.ClassVar[str] = 'BlendVersion'
+    ResourceDataVar: typing.ClassVar[str] = 'ResourceData'
+    RoleFilesVar: typing.ClassVar[str] = 'RoleFiles'
+    @staticmethod
+    def resourceDataOf(rules: ..., rows: GraphEditVariables, start: FixRaidenBoss2.core.IniParseData.ResourceData | None = None) -> IniParseData.ResourceData:
+        """
+        Reads the mod's resource data off collected rows: each resource's file (:meth:`resourceFiles`), and for each
+        object its numbered draws (:meth:`drawRanges`) and the parts they sit in (:meth:`drawParts`), the texture registers it
+        binds only after it has drawn (:meth:`lateBindings`, unless :meth:`replacesTexturesByHash`), the libraries it names
+        (:meth:`libraries`), and whether it is hidden -- its `sections`_ draw nothing and skip the game's draw
+        (:meth:`isUndrawn`). Only the rows in an object's own root `sections`_ count, except that a draw or a ``run =``
+        anywhere it reaches counts as drawing
+        
+        Given :attr:`ResourceDataRules.toggles`, also the toggles that choose among the mod's textures:
+        
+        * **a ``this =`` toggle** (:meth:`thisToggleOf`): a texture override binding several resources on its branches, or
+          ONE under a condition that is not in :attr:`ResourceDataRules.notToggles` (off, the original draws with the game's
+          texture). When two `sections`_ bind one resource, the one that declares more of its own variants as `sections`_
+          keeps it
+        * **a register toggle** (:meth:`registerToggleOf`): a texture override binding one texture register to several
+          resources on its branches, per `section`_ and register
+        
+        Parameters
+        ----------
+        rules: :class:`IniParseData.ResourceDataRules`
+            What to read, and how
+        
+        rows: :class:`GraphEditVariables`
+            The variables it reads: the rows of each collect 'rules' names, by its name (see :meth:`variables`)
+        
+        start: Optional[:class:`IniParseData.ResourceData`]
+            What it adds to -- eg. :attr:`ResourceData.replacesTexturesByHash`, which decides :meth:`lateBindings`.
+            ``None`` starts from nothing :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IniParseData.ResourceData`
+            The resource data, which the getters read from the variable :attr:`ResourceDataVar`
+        """
     @staticmethod
     def resourceFilesOf(rows: collections.abc.Sequence[GraphCollect.Row]) -> dict[str, str]:
         """
@@ -13242,6 +13450,47 @@ class IniParseData:
         -------
         Dict[:class:`str`, :class:`str`]
             lowercased `section`_ name -> its ``filename =``
+        """
+    @staticmethod
+    def roleFilesOf(rules: ..., rows: GraphEditVariables) -> IniParseData.RoleFileData:
+        """
+        Reads which file each mod object takes for each texture role: :meth:`textureRoles`, :meth:`roleCandidates`,
+        :meth:`rejections`, :meth:`roleFile`, and each texture resource's file (:meth:`rolesOfResource`, :meth:`resourceOfFile`)
+        
+        A file is a candidate for a role when the .ini states it: a texture override's own ``hash =`` names a game texture of the
+        role, an object's `section`_ binds it at a register of the role, a linked .ini recolours that texture or binds it on the
+        same draw, or -- for a ``.dds`` nothing states -- its pixels are the game texture's (:attr:`RoleFileRules.identify`). A
+        file the folder does not hold, or one a previous fix wrote (``RemapDL`` / ``RemapTex``), is none. A flat file, or one an
+        object binds for a second role too, is refused for a region role (:attr:`RoleFileRules.regionRoles`)
+        
+        Each object then takes, in this order:
+        
+        #. a file not declared by its hash as ANOTHER role
+        #. the file bound only on this object, then on it and others, then on none, then only on others
+        #. a file declared by its hash, then one bound at a register, then one known by its pixels
+        #. of two hashes of one role, the newest (:attr:`RoleFileRules.hashAge`)
+        #. of two `sections`_ of one hash, the one 3DMigoto applies last: the higher ``match_priority``, then the `section`_
+           name later in order
+        #. the file whose resource is declared first -- reported as a tie (:attr:`RoleFile.tiedFile`)
+        
+        The variants of one toggle are not ranked against each other: the toggle's first-named variant among the candidates is
+        chosen, and all of them recorded (:attr:`RoleFile.variants`). A toggle is a ``this =`` or register toggle
+        (:meth:`thisToggleOf`, :meth:`registerToggleOf`), or one register an object's graph -- through ``run =``, or in a linked
+        .ini -- binds to several resources under conditions
+        
+        Parameters
+        ----------
+        rules: :class:`IniParseData.RoleFileRules`
+            What to read, and how
+        
+        rows: :class:`GraphEditVariables`
+            The variables it reads: the rows of each collect 'rules' names, by its name, and the
+            :class:`IniParseData.ResourceData` under :attr:`ResourceDataVar` (its toggles and resource files)
+        
+        Returns
+        -------
+        :class:`IniParseData.RoleFileData`
+            What it chose, which the getters read from the variable :attr:`RoleFilesVar`
         """
     def __init__(self) -> None:
         ...
@@ -13596,29 +13845,6 @@ class IniParseData:
         :class:`bool`
             Whether it does
         """
-    def resourceData(self, rules: ...) -> None:
-        """
-        Reads the mod's resource data off collected rows and records it: each resource's file (:meth:`resourceFiles`), and for each
-        object its numbered draws (:meth:`drawRanges`) and the parts they sit in (:meth:`drawParts`), the texture registers it
-        binds only after it has drawn (:meth:`lateBindings`, unless :meth:`replacesTexturesByHash`), the libraries it names
-        (:meth:`libraries`), and whether it is hidden -- its `sections`_ draw nothing and skip the game's draw
-        (:meth:`isUndrawn`). Only the rows in an object's own root `sections`_ count, except that a draw or a ``run =``
-        anywhere it reaches counts as drawing
-        
-        Given :attr:`ResourceDataRules.toggles`, also the toggles that choose among the mod's textures:
-        
-        * **a ``this =`` toggle** (:meth:`thisToggleOf`): a texture override binding several resources on its branches, or
-          ONE under a condition that is not in :attr:`ResourceDataRules.notToggles` (off, the original draws with the game's
-          texture). When two `sections`_ bind one resource, the one that declares more of its own variants as `sections`_
-          keeps it
-        * **a register toggle** (:meth:`registerToggleOf`): a texture override binding one texture register to several
-          resources on its branches, per `section`_ and register
-        
-        Parameters
-        ----------
-        rules: :class:`IniParseData.ResourceDataRules`
-            What to read, and how
-        """
     def resourceFile(self, section: str) -> str | None:
         """
         The ``filename =`` of one of the mod's resource `sections`_, found without regard to the case of its name,
@@ -13691,37 +13917,6 @@ class IniParseData:
         -------
         Optional[:class:`IniParseData.RoleFile`]
             The file it takes
-        """
-    def roleFiles(self, rules: ...) -> None:
-        """
-        Reads which file each mod object takes for each texture role, and records it: :meth:`textureRoles`, :meth:`roleCandidates`,
-        :meth:`rejections`, :meth:`roleFile`, and each texture resource's file (:meth:`rolesOfResource`, :meth:`resourceOfFile`)
-        
-        A file is a candidate for a role when the .ini states it: a texture override's own ``hash =`` names a game texture of the
-        role, an object's `section`_ binds it at a register of the role, a linked .ini recolours that texture or binds it on the
-        same draw, or -- for a ``.dds`` nothing states -- its pixels are the game texture's (:attr:`RoleFileRules.identify`). A
-        file the folder does not hold, or one a previous fix wrote (``RemapDL`` / ``RemapTex``), is none. A flat file, or one an
-        object binds for a second role too, is refused for a region role (:attr:`RoleFileRules.regionRoles`)
-        
-        Each object then takes, in this order:
-        
-        #. a file not declared by its hash as ANOTHER role
-        #. the file bound only on this object, then on it and others, then on none, then only on others
-        #. a file declared by its hash, then one bound at a register, then one known by its pixels
-        #. of two hashes of one role, the newest (:attr:`RoleFileRules.hashAge`)
-        #. of two `sections`_ of one hash, the one 3DMigoto applies last: the higher ``match_priority``, then the `section`_
-           name later in order
-        #. the file whose resource is declared first -- reported as a tie (:attr:`RoleFile.tiedFile`)
-        
-        The variants of one toggle are not ranked against each other: the toggle's first-named variant among the candidates is
-        chosen, and all of them recorded (:attr:`RoleFile.variants`). A toggle is a ``this =`` or register toggle
-        (:meth:`thisToggleOf`, :meth:`registerToggleOf`), or one register an object's graph -- through ``run =``, or in a linked
-        .ini -- binds to several resources under conditions
-        
-        Parameters
-        ----------
-        rules: :class:`IniParseData.RoleFileRules`
-            What to read, and how
         """
     def roleOfResource(self, resource: str, own: tuple[str, str], accepts: collections.abc.Callable[[...], bool]) -> str | None:
         """

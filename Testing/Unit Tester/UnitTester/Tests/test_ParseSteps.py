@@ -216,7 +216,7 @@ filename = Textures\Unbound.dds
         self.assertEqual(data.collected(FRB.IniParseRows.Objs), [])
         self.assertNotEqual(data.collected(FRB.IniParseRows.Declared), [])
 
-    # ====================== IniParseData.resourceData ===========================
+    # ====================== IniParseData.resourceDataOf ===========================
 
     def readResourceData(self, iniTxt = None, **rules):
         if (iniTxt is not None):
@@ -226,10 +226,12 @@ filename = Textures\Unbound.dds
         dataRules = FRB.IniParseData.ResourceDataRules()
         dataRules.rows = FRB.IniParseRows.Objs
         dataRules.roots = [(self.Body, ["TextureOverrideBody"])]
+        start = rules.pop("start", None)
         for name, value in rules.items():
             setattr(dataRules, name, value)
-        parser.parseData.resourceData(dataRules)
-        return parser.parseData
+        data = parser.parseData
+        data.variables()[FRB.IniParseData.ResourceDataVar] = FRB.IniParseData.resourceDataOf(dataRules, data.variables(), start)
+        return data
 
     # the body's own rows as the toggle rows, and its section as a texture root
     def readToggles(self, iniTxt, **rules):
@@ -318,6 +320,36 @@ endif
         self.assertEqual(data.lateBindings(self.Body), ["ps-t1"])
         self.assertFalse(data.isUndrawn(self.Body))
 
+    def test_resourceDataOf_isWhatTheGettersRead_fromItsVariable(self):
+        data = self.readResourceData()
+        held = data.variables()[FRB.IniParseData.ResourceDataVar]
+        self.assertIsInstance(held, FRB.IniParseData.ResourceData)
+        self.assertEqual(held.drawRanges, {self.Body: [(300, 0)]})
+        self.assertEqual(held.lateBindings, {self.Body: ["ps-t1"]})
+
+        # a new value in the variable is what the getters read from then on
+        held.drawRanges = {self.Body: [(7, 3)]}
+        data.variables()[FRB.IniParseData.ResourceDataVar] = held
+        self.assertEqual(data.drawRanges(self.Body), [(7, 3)])
+
+    def test_resourceDataOf_addsToItsStart_aModReplacingTexturesByHashBindsNothingLate(self):
+        start = FRB.IniParseData.ResourceData()
+        start.replacesTexturesByHash = True
+        data = self.readResourceData(start = start)
+        self.assertTrue(data.replacesTexturesByHash())
+        self.assertEqual(data.lateBindings(self.Body), [])
+        self.assertEqual(data.drawRanges(self.Body), [(300, 0)])
+
+    def test_aSetter_makesTheVariableItWritesInto(self):
+        data = FRB.IniParseData()
+        self.assertNotIn(FRB.IniParseData.ResourceDataVar, data.variables())
+        data.addUndrawn(self.Body)
+        data.setRoleCandidates("bodyDiffuse", [("a.dds", "how")])
+        self.assertEqual(data.variables()[FRB.IniParseData.ResourceDataVar].undrawn, {self.Body})
+        self.assertEqual(data.variables()[FRB.IniParseData.RoleFilesVar].candidates, {"bodyDiffuse": [("a.dds", "how")]})
+        data.clear()
+        self.assertFalse(data.isUndrawn(self.Body))
+
     def test_resourceData_aDrawUnderAnIf_sitsInThePartAfterTheIfLine(self):
         data = self.readResourceData(r"""
 [TextureOverrideBody]
@@ -387,7 +419,7 @@ drawindexed = 300, 0, 0
         self.assertTrue(data.isThisBound("resourcefirst"))
         self.assertFalse(data.isThisBound("ResourceSecond"))
 
-    # ====================== IniParseData.roleFiles ===========================
+    # ====================== IniParseData.roleFilesOf ===========================
 
     Diffuse = ("texture", "bodyDiffuse")
     Normal = ("texture", "bodyNormal")
@@ -442,7 +474,7 @@ drawindexed = 300, 0, 0
         roleRules.isFlat = lambda file: False
         for name, value in rules.items():
             setattr(roleRules, name, value)
-        data.roleFiles(roleRules)
+        data.variables()[FRB.IniParseData.RoleFilesVar] = FRB.IniParseData.roleFilesOf(roleRules, data.variables())
         return data, folder
 
     @classmethod

@@ -25,6 +25,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.h"
 #include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
 
 #include "graphGroupEdits/PyBaseIniGraphGroupEdit.h"
@@ -108,6 +109,12 @@ List[:class:`IniGraphGroup`]
         if (auto* real = value.as<double>()) {
             return py::float_(*real);
         }
+        if (auto* resources = value.as<AGRC::IniParseData::ResourceData>()) {
+            return py::cast(*resources);
+        }
+        if (auto* roles = value.as<AGRC::IniParseData::RoleFileData>()) {
+            return py::cast(*roles);
+        }
         throw py::type_error("the variable '" + name + "' holds a C++ value Python cannot read");
     }
 
@@ -125,6 +132,12 @@ List[:class:`IniGraphGroup`]
         }
         if (py::isinstance<py::str>(object)) {
             return Value::of<std::string>(object.cast<std::string>());
+        }
+        if (py::isinstance<AGRC::IniParseData::ResourceData>(object)) {
+            return Value::of<AGRC::IniParseData::ResourceData>(object.cast<AGRC::IniParseData::ResourceData>());
+        }
+        if (py::isinstance<AGRC::IniParseData::RoleFileData>(object)) {
+            return Value::of<AGRC::IniParseData::RoleFileData>(object.cast<AGRC::IniParseData::RoleFileData>());
         }
         if (py::isinstance<py::list>(object) && py::len(object) > 0) {
             bool allRows = true;
@@ -189,7 +202,8 @@ Named variables that edits save data into, and read or write back out later -- t
 edit to another. A variable holds a value of any type, read and written like a dictionary's (``variables[name]``)
 
 A value crosses between Python and C++ as the first type both know: a :class:`str`, :class:`bool`, :class:`int` or
-:class:`float`, a list of :class:`GraphCollect.Row` (what a :class:`GraphCollect` files), or a
+:class:`float`, a list of :class:`GraphCollect.Row` (what a :class:`GraphCollect` files), an
+:class:`IniParseData.ResourceData` or :class:`IniParseData.RoleFileData` (each a copy), or a
 :class:`GraphEditVariables.Sections`. Any other Python object is held as itself, readable from Python only
 
 A fixer keeps the `sections`_ it writes in one (:class:`GraphEditVariables.Sections`): an edit copies sections of a
@@ -361,6 +375,32 @@ Returns
 -------
 List[:class:`str`]
     The names
+            )doc"))
+        .def_static("of", [](const std::vector<std::string>& names, const std::vector<py::object>& values) {
+                std::vector<Value> held;
+                held.reserve(values.size());
+                std::vector<const Value*> pointers;
+                for (const py::object& value : values) {
+                    held.push_back(value.is_none() ? Value() : valueFromPy(value));
+                    pointers.push_back(value.is_none() ? nullptr : &held.back());
+                }
+                return Vars::of(names, pointers);
+            }, py::arg("names"), py::arg("values"), py::doc(R"doc(
+Variables of the given names holding the given values -- eg. the inputs an :meth:`apply` function is called with, under
+their names, for a function that reads its variables by name. A ``None`` value makes no variable
+
+Parameters
+----------
+names: List[:class:`str`]
+    The names
+
+values: List[Any]
+    The values, one per name
+
+Returns
+-------
+:class:`GraphEditVariables`
+    The variables
             )doc"))
         .def("apply", [](Vars& self, const std::vector<std::string>& inputs, py::object fn, const std::string& into) {
                 self.apply(inputs, applyFromPy(std::move(fn)), into);

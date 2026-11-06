@@ -490,8 +490,9 @@ new holder class. **Since 2026-11-06 a variable holds ANY value (`GraphEditVaria
 variables too** (`IniParseData::variables()`: every `GraphCollect` files its rows there, `collected(name)` reads them),
 both at the maintainer's question of why it was restricted to sections and to the fixer. `GraphEditVariables::apply`
 makes a variable from others (value in, value out, `into` replaced) and **`GraphVarApply`** runs it in a parser's step
-list -- it is replacing the parser's `parseReaders` one at a time (`readSkeletonNumbering` first -> the
-`IniParseData::BlendVersion` variable), so a parser becomes ONE list of edits. See
+list -- it replaced the parser's `parseReaders`, which are gone (2026-11-06): WWMIParser's skeleton numbering, resource
+data (`IniParseData::ResourceData` in `ResourceDataVar`), role files (`RoleFileData` in `RoleFilesVar`) and draw splits
+are four `GraphVarApply` steps, and the getters read those variables, so a parser is ONE list of edits. See
 [Ini Graph Editing](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md)'s variables section.
 **THE PYTHON ACCEPTANCE TEST MIRRORS THE C++ (the maintainer, 2026-11-02; and 2026-11-04: it is a test OF THE REFACTOR,
 not kept after it -- so never make the Python shorter or cleverer than the C++, simplify the C++ and mirror it):** the explicit Python parser and fixer
@@ -500,7 +501,7 @@ it step for step -- so a step is simplified IN C++ first, onto API both sides sh
 Step 5 (the texture lists) is split into four layers: the parser's reading (`IniParseData::resourceOfFile`, the
 resource the mod USES for a file), the character's data, one stand-in rule in `WWMIFixer` (`standIn`: the invented
 texture, else the source's game texture downloaded; `planGameDefaults`: the source's game texture as the default where
-the mod's file reaches only some draws), and existing edits that write it. **Which file a texture role takes is `IniParseData::roleFiles` (2026-11-04)**, read
+the mod's file reaches only some draws), and existing edits that write it. **Which file a texture role takes is `IniParseData::roleFilesOf` (2026-11-04)**, read
 off what the `.ini` states -- `TextureRoleChooser` ranked its last ties by file-name length and spelling, which
 decided 19 choices in 8 WuWa mods (one a hair diffuse repacked as the normal map); one hash in two sections now takes
 the one 3DMigoto applies last (`match_priority`, then section name). See Creating Remaps' "WHICH FILE A ROLE TAKES".
@@ -554,8 +555,8 @@ for both was NOTHING: each reads rows `GraphCollect` already files (resource fil
 does BUFFER math. "You are making way too many design mistakes by putting modules that are too specific as new
 edits, when they are more game specific functionalities ... we don't want to fall into the same mistake of the old
 API where modules were too specific to GI." So before proposing an edit, say what it does to the GRAPH that no
-composition of existing edits can. Reading the files a `.ini` names is `GraphCollect` rows plus a plain function in the parser's `parseReaders`
-(not an edit: `ParseDataStep` was the same mistake, and is gone) calling a bound capability of the buffer or texture class (`BlendFile`, `TextureFile`, `DrawUVCoverage`, ...); the
+composition of existing edits can. Reading the files a `.ini` names is `GraphCollect` rows plus a `GraphVarApply` over them
+(`ParseDataStep` -- functions INSTEAD of edits -- was the mistake, and is gone) calling a bound capability of the buffer or texture class (`BlendFile`, `TextureFile`, `DrawUVCoverage`, ...); the
 game's policy -- which component, which flag -- stays in that game's parser or fixer config. See
 [Ini Graph Editing](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md)'s first section.
 

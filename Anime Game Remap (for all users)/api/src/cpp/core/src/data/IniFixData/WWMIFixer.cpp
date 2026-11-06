@@ -1360,7 +1360,7 @@ namespace AGRemapCore {
 
                 }
 
-                // The files the parser refused for a role (IniParseData::roleFiles): each is said (a carried
+                // The files the parser refused for a role (IniParseData::roleFilesOf): each is said (a carried
                 // line naming one asks IniParseData::refusedRoleOf). A role in
                 // WWMIFixerConfig::flatLeftToGame with nothing of the mod's left is left to the game:
                 // no fallback download either.

@@ -312,6 +312,21 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Variables of the given names holding the given values, each SHARING its value's object -- eg. the inputs an
+             #apply function is given, under their names, for a function that reads its variables by name. A ``nullptr``
+             value makes no variable
+             @endrst
+             *
+             * @param names The names
+             * @param values The values, one per name
+             *
+             * @return The variables
+             */
+            static GraphEditVariables of(const std::vector<std::string>& names, const std::vector<const Value*>& values);
+
+            /**
+             * @brief
+             @rst
              The sections variable named 'name', made empty if there is none :raw-html:`<br />` :raw-html:`<br />`
 
              Raises ``std::invalid_argument`` when the variable holds a value of another type

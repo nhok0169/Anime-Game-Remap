@@ -173,7 +173,7 @@ namespace AGRemapCore {
          The roles whose texture marks REGIONS -- a material mask says which material each texel is
          :raw-html:`<br />` :raw-html:`<br />`
 
-         A file the mod ships for one of these is refused (:cpp:func:`IniParseData::roleFiles`) when it is
+         A file the mod ships for one of these is refused (:cpp:func:`IniParseData::roleFilesOf`) when it is
          flat -- ``R = 255`` everywhere says "all of this is bare skin", which carried across shades a
          jacket as skin -- or when one slot binds it for this role and another too, which is a mask
          pointed at the slot's normal map. A refused role is one the mod has no file for, so it takes

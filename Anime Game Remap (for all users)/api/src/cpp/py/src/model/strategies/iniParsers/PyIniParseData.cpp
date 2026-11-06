@@ -126,6 +126,48 @@ A mod object is ``(component, object)``, as the parser's graphs are keyed -- eg.
 slot of a GI component, ``("", "component3")`` for a Wuthering Waves draw slot
     )doc");
 
+    py::class_<AGRC::IniParseData::ResourceData>(cls, "ResourceData", R"doc(
+The mod's resource data, as :meth:`IniParseData.resourceDataOf` reads it off collected rows: one value, held in the
+variable :attr:`IniParseData.ResourceDataVar`, which :meth:`IniParseData.isUndrawn`, :meth:`IniParseData.drawRanges`,
+:meth:`IniParseData.resourceFile` and the other getters of it read. Keys a getter matches regardless of case are kept
+lowercased
+
+Each attribute is a copy: change one by assigning it whole
+    )doc")
+        .def(py::init<>())
+        .def_readwrite("undrawn", &AGRC::IniParseData::ResourceData::undrawn, py::doc("Set[Tuple[:class:`str`, :class:`str`]]: The mod objects the mod leaves undrawn -- see :meth:`IniParseData.isUndrawn`"))
+        .def_readwrite("drawRanges", &AGRC::IniParseData::ResourceData::drawRanges, py::doc("Dict[Tuple[:class:`str`, :class:`str`], List[Tuple[:class:`int`, :class:`int`]]]: Each mod object's numbered draws -- see :meth:`IniParseData.drawRanges`"))
+        .def_readwrite("drawParts", &AGRC::IniParseData::ResourceData::drawParts, py::doc("Dict[Tuple[:class:`str`, :class:`str`], Set[:class:`int`]]: The parts each mod object's draws sit in -- see :meth:`IniParseData.drawParts`"))
+        .def_readwrite("libraries", &AGRC::IniParseData::ResourceData::libraries, py::doc("Dict[Tuple[:class:`str`, :class:`str`], Set[:class:`str`]]: The libraries each mod object names -- see :meth:`IniParseData.libraries`"))
+        .def_readwrite("lateBindings", &AGRC::IniParseData::ResourceData::lateBindings, py::doc("Dict[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]: The texture registers each mod object binds only after it has drawn -- see :meth:`IniParseData.lateBindings`"))
+        .def_readwrite("toggledBindings", &AGRC::IniParseData::ResourceData::toggledBindings, py::doc("Dict[Tuple[:class:`str`, :class:`str`], Set[:class:`str`]]: The texture resources each mod object binds only under a toggle, lowercased -- see :meth:`IniParseData.toggledBindings`"))
+        .def_readwrite("thisOverrides", &AGRC::IniParseData::ResourceData::thisOverrides, py::doc("Dict[:class:`str`, :class:`str`]: ``lowercased hash -> resource``, each texture override's ``this =`` -- see :meth:`IniParseData.thisOverrideOf`"))
+        .def_readwrite("thisBound", &AGRC::IniParseData::ResourceData::thisBound, py::doc("Set[:class:`str`]: Every resource a ``this =`` binds, lowercased -- see :meth:`IniParseData.isThisBound`"))
+        .def_readwrite("replacesTexturesByHash", &AGRC::IniParseData::ResourceData::replacesTexturesByHash, py::doc(":class:`bool`: Whether the mod replaces a game texture by hash -- see :meth:`IniParseData.replacesTexturesByHash`"))
+        .def_readwrite("resourceFiles", &AGRC::IniParseData::ResourceData::resourceFiles, py::doc("Dict[:class:`str`, :class:`str`]: ``lowercased resource section -> filename`` -- see :meth:`IniParseData.resourceFiles`"))
+        .def_readwrite("thisToggles", &AGRC::IniParseData::ResourceData::thisToggles, py::doc("Dict[:class:`str`, :class:`IniParseData.TextureToggle`]: ``lowercased resource -> toggle`` -- see :meth:`IniParseData.thisToggleOf`"))
+        .def_readwrite("registerToggles", &AGRC::IniParseData::ResourceData::registerToggles, py::doc("Dict[:class:`str`, :class:`IniParseData.TextureToggle`]: ``lowercased resource -> toggle`` -- see :meth:`IniParseData.registerToggleOf`"));
+
+    py::class_<AGRC::IniParseData::RoleFileData>(cls, "RoleFileData", R"doc(
+Which file each mod object takes for each texture role, as :meth:`IniParseData.roleFilesOf` chooses it: one value, held
+in the variable :attr:`IniParseData.RoleFilesVar`, which :meth:`IniParseData.textureRoles`,
+:meth:`IniParseData.roleCandidates`, :meth:`IniParseData.roleFile`, :meth:`IniParseData.rejections` and the other
+getters of it read
+
+Each attribute is a copy: change one by assigning it whole
+    )doc")
+        .def(py::init<>())
+        .def_readwrite("roles", &AGRC::IniParseData::RoleFileData::roles, py::doc("Optional[:class:`TextureRoles`]: What role each texture plays, or ``None`` for none recorded -- see :meth:`IniParseData.textureRoles`"))
+        .def_readwrite("candidates", &AGRC::IniParseData::RoleFileData::candidates, py::doc("Dict[:class:`str`, List[Tuple[:class:`str`, :class:`str`]]]: ``role -> (file, how)`` -- see :meth:`IniParseData.roleCandidates`"))
+        .def_readwrite("roleFiles", &AGRC::IniParseData::RoleFileData::roleFiles, py::doc("Dict[Tuple[:class:`str`, Tuple[:class:`str`, :class:`str`]], :class:`IniParseData.RoleFile`]: ``(role, mod object) -> the file it takes`` -- see :meth:`IniParseData.roleFile`"))
+        .def_readwrite("rejections", &AGRC::IniParseData::RoleFileData::rejections, py::doc("List[:class:`IniParseData.Rejection`]: Every file refused for a role, in the order refused -- see :meth:`IniParseData.rejections`"))
+        .def_readwrite("textureResources", &AGRC::IniParseData::RoleFileData::textureResources, py::doc("Dict[:class:`str`, :class:`str`]: ``lowercased resource -> the texture file it names`` -- see :meth:`IniParseData.rolesOfResource`"))
+        .def_readwrite("fileResources", &AGRC::IniParseData::RoleFileData::fileResources, py::doc("Dict[:class:`str`, :class:`str`]: ``file -> the resource the mod uses for it`` -- see :meth:`IniParseData.resourceOfFile`"))
+        .def_readwrite("registerToggles", &AGRC::IniParseData::RoleFileData::registerToggles, py::doc(R"doc(
+Dict[:class:`str`, :class:`IniParseData.TextureToggle`]: ``lowercased resource -> toggle``: the register toggles found
+only through ``run =``, which :meth:`IniParseData.registerToggleOf` reads after :attr:`ResourceData.registerToggles`
+        )doc"));
+
     cls.def(py::init<>())
        .def("clear", &AGRC::IniParseData::clear, "Resets everything to the defaults")
        .def("hasRemappableContent", &AGRC::IniParseData::hasRemappableContent, R"doc(
@@ -548,8 +590,11 @@ name: :class:`str`
 rows: List[:class:`GraphCollect.Row`]
     The rows
        )doc")
-       .def("resourceData", &AGRC::IniParseData::resourceData, py::arg("rules"), R"doc(
-Reads the mod's resource data off collected rows and records it: each resource's file (:meth:`resourceFiles`), and for each
+       .def_static("resourceDataOf", [](const AGRC::IniParseData::ResourceDataRules& rules, const AGRC::GraphEditVariables& rows,
+                                         std::optional<AGRC::IniParseData::ResourceData> start) {
+            return AGRC::IniParseData::resourceDataOf(rules, rows, start.value_or(AGRC::IniParseData::ResourceData()));
+        }, py::arg("rules"), py::arg("rows"), py::arg("start") = py::none(), R"doc(
+Reads the mod's resource data off collected rows: each resource's file (:meth:`resourceFiles`), and for each
 object its numbered draws (:meth:`drawRanges`) and the parts they sit in (:meth:`drawParts`), the texture registers it
 binds only after it has drawn (:meth:`lateBindings`, unless :meth:`replacesTexturesByHash`), the libraries it names
 (:meth:`libraries`), and whether it is hidden -- its `sections`_ draw nothing and skip the game's draw
@@ -569,9 +614,26 @@ Parameters
 ----------
 rules: :class:`IniParseData.ResourceDataRules`
     What to read, and how
+
+rows: :class:`GraphEditVariables`
+    The variables it reads: the rows of each collect 'rules' names, by its name (see :meth:`variables`)
+
+start: Optional[:class:`IniParseData.ResourceData`]
+    What it adds to -- eg. :attr:`ResourceData.replacesTexturesByHash`, which decides :meth:`lateBindings`.
+    ``None`` starts from nothing :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
+Returns
+-------
+:class:`IniParseData.ResourceData`
+    The resource data, which the getters read from the variable :attr:`ResourceDataVar`
        )doc")
-       .def("roleFiles", &AGRC::IniParseData::roleFiles, py::arg("rules"), R"doc(
-Reads which file each mod object takes for each texture role, and records it: :meth:`textureRoles`, :meth:`roleCandidates`,
+       .def_property_readonly_static("ResourceDataVar", [](py::object) { return AGRC::IniParseData::ResourceDataVar; }, R"doc(
+:class:`str`: The name of the variable holding the :class:`IniParseData.ResourceData` every getter of it reads
+       )doc")
+       .def_static("roleFilesOf", &AGRC::IniParseData::roleFilesOf, py::arg("rules"), py::arg("rows"), R"doc(
+Reads which file each mod object takes for each texture role: :meth:`textureRoles`, :meth:`roleCandidates`,
 :meth:`rejections`, :meth:`roleFile`, and each texture resource's file (:meth:`rolesOfResource`, :meth:`resourceOfFile`)
 
 A file is a candidate for a role when the .ini states it: a texture override's own ``hash =`` names a game texture of the
@@ -599,6 +661,18 @@ Parameters
 ----------
 rules: :class:`IniParseData.RoleFileRules`
     What to read, and how
+
+rows: :class:`GraphEditVariables`
+    The variables it reads: the rows of each collect 'rules' names, by its name, and the
+    :class:`IniParseData.ResourceData` under :attr:`ResourceDataVar` (its toggles and resource files)
+
+Returns
+-------
+:class:`IniParseData.RoleFileData`
+    What it chose, which the getters read from the variable :attr:`RoleFilesVar`
+       )doc")
+       .def_property_readonly_static("RoleFilesVar", [](py::object) { return AGRC::IniParseData::RoleFilesVar; }, R"doc(
+:class:`str`: The name of the variable holding the :class:`IniParseData.RoleFileData` every getter of it reads
        )doc")
        .def("startingValues", &AGRC::IniParseData::startingValues, py::arg("sections"), py::arg("z3Ctx"), R"doc(
 The values the .ini's variables start at, as one condition: ``$x == <value>`` for every variable its ``[Constants]``
@@ -914,7 +988,7 @@ why: :class:`str`
        )doc");
 
     py::class_<AGRC::IniParseData::RoleFileRules> roleFileRules(cls, "RoleFileRules", R"doc(
-How :meth:`IniParseData.roleFiles` reads which file each mod object takes for each role
+How :meth:`IniParseData.roleFilesOf` reads which file each mod object takes for each role
     )doc");
     py::class_<AGRC::IniParseData::RoleFileRules::Linked>(roleFileRules, "Linked", R"doc(
 Another .ini of the mod, linked to this one, whose parse is read too -- see :attr:`IniParseData.RoleFileRules.linked`
@@ -982,7 +1056,7 @@ List[:class:`IniParseData.RoleFileRules.Linked`]: The other .ini files of the mo
                        py::doc("Optional[Callable[[:class:`str`], None]]: Where what was found is reported, or ``None``"));
 
     py::class_<AGRC::IniParseData::ResourceDataRules>(cls, "ResourceDataRules", R"doc(
-What :meth:`IniParseData.resourceData` reads, and the rules a game reads it by
+What :meth:`IniParseData.resourceDataOf` reads, and the rules a game reads it by
     )doc")
         .def(py::init<>())
         .def_readwrite("rows", &AGRC::IniParseData::ResourceDataRules::rows, py::doc(R"doc(

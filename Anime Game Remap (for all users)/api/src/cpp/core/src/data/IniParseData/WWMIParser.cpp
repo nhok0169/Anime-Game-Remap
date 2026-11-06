@@ -288,9 +288,9 @@ namespace AGRemapCore {
                  * (1) the standard rows (GIMIParser::rowSteps): the files of the resources the mod binds,
                  * every section's declaration and every key of every section, and every key of every slot graph;
                  * (2) the hash and the `this` of every texture override; (3) the textures' roles and toggles;
-                 * (4) the skeleton numbering, a variable made from the slot and resource rows (GraphVarApply); then
-                 * the functions reading the rows: (5) the resource data (IniParseData::resourceData, by WWMI's
-                 * rules); (6) the textures; (7) the draw splits.
+                 * then the variables made from those rows (GraphVarApply): (4) the skeleton numbering; (5) the
+                 * resource data (IniParseData::resourceDataOf, by WWMI's rules); (6) the textures' role files
+                 * (IniParseData::roleFilesOf); (7) the draw splits, added to the resource data.
                  */
                 void buildSteps() {
                     auto overrides = std::make_unique<Collect>();
@@ -352,7 +352,29 @@ namespace AGRemapCore {
                         [this](const std::vector<const GraphEditVariables::Value*>& inputs) { return skeletonNumbering(inputs); },
                         IniParseData::BlendVersion);
 
-                    // THE STEPS: the edits that read the mod, then the functions that read their rows
+                    // the resource data, made from the rows
+                    const std::vector<std::string> resourceInputs{SlotsCollect, IniParseRows::Resources, IniParseRows::Sections,
+                                                                  TextureTogglesCollect, TextureOverridesCollect};
+                    auto resources = std::make_unique<GraphVarApply>(resourceInputs,
+                        [this, resourceInputs](const std::vector<const GraphEditVariables::Value*>& inputs) {
+                            return resourceData(GraphEditVariables::of(resourceInputs, inputs));
+                        }, IniParseData::ResourceDataVar);
+
+                    // the file each slot takes for each texture role, made from the rows and the resource data
+                    const std::vector<std::string> roleInputs{IniParseRows::Sections, DeclaredCollect, TextureOverridesCollect,
+                                                              TextureRolesCollect, SlotsCollect, IniParseData::ResourceDataVar};
+                    auto roleFiles = std::make_unique<GraphVarApply>(roleInputs,
+                        [this, roleInputs](const std::vector<const GraphEditVariables::Value*>& inputs) {
+                            return textureRoleFiles(GraphEditVariables::of(roleInputs, inputs));
+                        }, IniParseData::RoleFilesVar);
+
+                    // the draw splits, added to the resource data
+                    auto splits = std::make_unique<GraphVarApply>(
+                        std::vector<std::string>{IniParseData::ResourceDataVar, IniParseData::RoleFilesVar},
+                        [this](const std::vector<const GraphEditVariables::Value*>& inputs) { return drawSplits(inputs); },
+                        IniParseData::ResourceDataVar);
+
+                    // THE STEPS: the edits that read the mod, then the variables made from their rows
                     this->deferredParseSteps = this->rowSteps(rows);
                     for (GroupEdit* step : {&this->ownStep(std::move(overrides)), &this->ownStep(std::move(roles)),
                                             &this->ownStep(std::move(toggles))}) {
@@ -361,11 +383,10 @@ namespace AGRemapCore {
                     if (!onlyThisFile_) {
                         this->deferredParseSteps.push_back(&this->ownStep(std::move(skeleton)));
                     }
-
-                    this->deferredParseReaders = {[this](IniParseData& data) { applyResourceData(data); }};
+                    this->deferredParseSteps.push_back(&this->ownStep(std::move(resources)));
                     if (!onlyThisFile_) {
-                        this->deferredParseReaders.push_back([this](IniParseData& data) { readTextures(data); });
-                        this->deferredParseReaders.push_back([this](IniParseData& data) { readDrawSplits(data); });
+                        this->deferredParseSteps.push_back(&this->ownStep(std::move(roleFiles)));
+                        this->deferredParseSteps.push_back(&this->ownStep(std::move(splits)));
                     }
                 }
 
@@ -375,7 +396,7 @@ namespace AGRemapCore {
                 // game's draw (unless every slot is, a mod this reading does not understand); a texture register
                 // bound after a draw is late, unless the mod replaces textures by hash (its art reaches those
                 // draws anyway); a `run =` this file cannot resolve draws, unless it is WWMI's own library.
-                void applyResourceData(IniParseData& data) {
+                std::optional<GraphEditVariables::Value> resourceData(const GraphEditVariables& rows) {
                     std::unordered_set<std::string> slotRoots;
                     IniParseData::ResourceDataRules rules;
                     rules.rows = SlotsCollect;
@@ -416,8 +437,10 @@ namespace AGRemapCore {
                     // DOES THE MOD REPLACE TEXTURES BY HASH? A texture override (not a slot's) with a hash and a
                     // `this =`: its art then reaches every draw binding that texture, whatever the draw's own
                     // section binds.
+                    IniParseData::ResourceData start;
                     std::map<std::string, std::pair<bool, bool>> hashAndThis;
-                    for (const auto& row : data.collected(TextureOverridesCollect)) {
+                    const std::vector<Row>* overrideRows = rows.find<std::vector<Row>>(TextureOverridesCollect);
+                    for (const auto& row : overrideRows == nullptr ? std::vector<Row>{} : *overrideRows) {
                         if (!StringTools::startsWith(row.section, IniKeywords::TextureOverride) || slotRoots.count(row.section) > 0) {
                             continue;
                         }
@@ -426,25 +449,25 @@ namespace AGRemapCore {
                         has.first = has.first || row.key == IniKeywords::Hash;
                         has.second = has.second || row.key == IniKeywords::This;
                         if (has.first && has.second) {
-                            data.setReplacesTexturesByHash(true);
+                            start.replacesTexturesByHash = true;
                         }
                     }
 
-                    data.resourceData(rules);
+                    return GraphEditVariables::Value::of(IniParseData::resourceDataOf(rules, rows, std::move(start)));
                 }
 
-                // THE TEXTURE ROLES (IniParseData::roleFiles), when the character's config carries textures to sort
+                // THE TEXTURE ROLES (IniParseData::roleFilesOf), when the character's config carries textures to sort
                 // by. WWMI's policy is what the rules hold: the drawn slots and the registers each binds a role at
                 // (WWMITextureFacts::registerRoles), a hash's role and age from HashData, a file's game texture by
                 // its thumbprint, and the linked .ini files, each read by this parser in its only-this-file mode
-                void readTextures(IniParseData& data) {
+                std::optional<GraphEditVariables::Value> textureRoleFiles(const GraphEditVariables& rows) {
                     if (config_.textures.roles.empty() && config_.textures.registerRoles.empty()) {
-                        return;
+                        return std::nullopt;
                     }
 
                     IniFile* ini = ctx_.getIniFile();
                     if (ini == nullptr) {
-                        return;
+                        return std::nullopt;
                     }
 
                     IniParseData::RoleFileRules rules;
@@ -562,7 +585,7 @@ namespace AGRemapCore {
                                                 FileService::pathToStr(FileService::strToPath(linked->getFile().value_or("")).filename())});
                     }
 
-                    data.roleFiles(rules);
+                    return GraphEditVariables::Value::of(IniParseData::roleFilesOf(rules, rows));
                 }
 
                 // ---- WWMIParserConfig::skeletonNumberings ----
@@ -636,33 +659,51 @@ namespace AGRemapCore {
 
                 // ---- WWMIParserConfig::drawSplits ----
                 // Which draws of a slot carry a split's flags, read off the code map the mod draws the slot with
-                // at the draws' vertices (DrawUVCoverage), filed as the draw ranges of `(split name, slot)`
-                void readDrawSplits(IniParseData& data) {
+                // at the draws' vertices (DrawUVCoverage): the resource data (inputs[0]) with them added as the draw
+                // ranges of `(split name, slot)`, read with the role files (inputs[1])
+                std::optional<GraphEditVariables::Value> drawSplits(const std::vector<const GraphEditVariables::Value*>& inputs) {
+                    const IniParseData::ResourceData* data = inputs[0] == nullptr ? nullptr : inputs[0]->as<IniParseData::ResourceData>();
+                    const IniParseData::RoleFileData* roleData = inputs[1] == nullptr ? nullptr : inputs[1]->as<IniParseData::RoleFileData>();
+                    const auto fileOf = [data](const std::string& section) -> std::optional<std::string> {
+                        const auto found = data->resourceFiles.find(StringTools::toLower(section));
+                        return found == data->resourceFiles.end() ? std::nullopt : std::optional<std::string>(found->second);
+                    };
+
                     IniFile* ini = ctx_.getIniFile();
-                    const std::optional<std::string> index = data.resourceFile(IniKeywords::WWMIIndexBuffer);
-                    const std::optional<std::string> texcoord = data.resourceFile(IniKeywords::WWMITexcoordBuffer);
-                    const std::optional<std::string> position = data.resourceFile(IniKeywords::WWMIPositionBuffer);
-                    if (config_.drawSplits.empty() || ini == nullptr || !index.has_value() || !texcoord.has_value() || !position.has_value()) {
-                        return;
+                    if (config_.drawSplits.empty() || ini == nullptr || data == nullptr) {
+                        return std::nullopt;
+                    }
+                    const std::optional<std::string> index = fileOf(IniKeywords::WWMIIndexBuffer);
+                    const std::optional<std::string> texcoord = fileOf(IniKeywords::WWMITexcoordBuffer);
+                    const std::optional<std::string> position = fileOf(IniKeywords::WWMIPositionBuffer);
+                    if (!index.has_value() || !texcoord.has_value() || !position.has_value()) {
+                        return std::nullopt;
                     }
 
+                    IniParseData::ResourceData result = *data;
                     const std::string folder = ini->getFolder();
                     const std::string iniPath = ini->getFile().value_or(std::string());
                     const std::map<int, std::vector<std::string>> drawn = drawnSlots();
                     for (const WWMIParserConfig::DrawSplit& split : config_.drawSplits) {
                         const ModObj obj = slotObj(split.component);
-                        const std::vector<IniParseData::DrawRange>& ranges = data.drawRanges(obj);
+                        const auto drawRanges = data->drawRanges.find(obj);
                         const auto sections = drawn.find(split.component);
-                        if (ranges.empty() || data.isUndrawn(obj) || sections == drawn.end() || sections->second.empty()) {
+                        if (drawRanges == data->drawRanges.end() || drawRanges->second.empty() || data->undrawn.count(obj) > 0
+                                || sections == drawn.end() || sections->second.empty()) {
                             continue;
                         }
+                        const std::vector<IniParseData::DrawRange>& ranges = drawRanges->second;
 
                         // the MOD's own map, when a resource of this .ini names the file chosen for the role (one a
                         // previous fix declared is no evidence about the mod) -- else the character's own game map,
                         // which DrawSplit::sourceFlags stands in for
                         std::optional<std::string> codesPath;
-                        const IniParseData::RoleFile* chosen = data.roleFile(split.codeRole, obj);
-                        const TextureRoles* roles = data.textureRoles();
+                        const IniParseData::RoleFile* chosen = nullptr;
+                        if (roleData != nullptr) {
+                            const auto chosenAt = roleData->roleFiles.find({split.codeRole, obj});
+                            chosen = chosenAt == roleData->roleFiles.end() ? nullptr : &chosenAt->second;
+                        }
+                        const TextureRoles* roles = roleData == nullptr || !roleData->roles.has_value() ? nullptr : &*roleData->roles;
                         if (chosen != nullptr && roles != nullptr) {
                             for (const auto& [resource, file] : roles->resourcesOf(iniPath)) {
                                 if (file == chosen->file) {
@@ -718,9 +759,10 @@ namespace AGRemapCore {
                         }
 
                         for (const IniParseData::DrawRange& range : taken) {
-                            data.addDrawRange(ModObj(split.name, obj.second), range);
+                            result.drawRanges[ModObj(split.name, obj.second)].push_back(range);
                         }
                     }
+                    return GraphEditVariables::Value::of(std::move(result));
                 }
 
                 // A section a previous fix wrote: its name ends `<target>RemapFix`
@@ -825,7 +867,7 @@ namespace AGRemapCore {
                 }
 
                 // Parses 'other' with this character's parser in its only-this-file mode; its rows are read
-                // through IniParseData::roleFiles (RoleFileRules::linked), while 'other' lives
+                // through IniParseData::roleFilesOf (RoleFileRules::linked), while 'other' lives
                 std::unique_ptr<WWMIParser> readOther(IniFile& other) const {
                     auto reader = std::make_unique<WWMIParser>(&other, modTypeId_, config_, version_, true);
                     reader->parse();

@@ -44,7 +44,7 @@ namespace AGRemapCore {
        :cpp:class:`GIMIParser` itself only borrows
 
      The steps worth sharing between parsers are edits of their own -- a :cpp:class:`GraphCollect`, the standard rows of
-     :cpp:func:`GIMIParser::rowSteps` -- with plain functions after them (:cpp:member:`GIMIParser::parseReaders`), and
+     :cpp:func:`GIMIParser::rowSteps`, a :cpp:class:`GraphVarApply` making a variable from their rows -- and
      another ``.ini`` of the mod is read through :cpp:func:`IniFile::linkedInis`. All of them live on
      :cpp:class:`GIMIParser`, so a parser built from `Python`_ on the bound ``GIMIParser`` has the same pieces; what is
      here is only the C++ ownership a `Python`_ list gives for free

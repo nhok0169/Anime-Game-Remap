@@ -235,8 +235,7 @@ class PyGIMIParser: public PyGIMIParserCore {
         PyGIMIParser(py::object iniFile, py::object modObjs, py::object objTargetFuncs, py::object downloads,
                       py::object commandEdits, bool makeGlobalGraph, bool disjointModObjs, bool trackKeys,
                       py::object keysToTrack, std::optional<int> modTypeId = std::nullopt,
-                      py::object parseSteps = py::none(), py::object deferredParseSteps = py::none(),
-                      py::object parseReaders = py::none(), py::object deferredParseReaders = py::none());
+                      py::object parseSteps = py::none(), py::object deferredParseSteps = py::none());
 
         /**
          * @brief The .ini file being parsed, and the graphs built from it
@@ -288,20 +287,6 @@ class PyGIMIParser: public PyGIMIParserCore {
          */
         py::list deferredStepsObj;
 
-        /**
-         * @brief The exact Python object given for ``parseReaders`` -- the core's :cpp:member:`AGRemapCore::GIMIParser::parseReaders`
-         */
-        py::object parseReadersObj;
-
-        /**
-         * @brief The exact Python object given for ``deferredParseReaders`` -- the core's :cpp:member:`AGRemapCore::GIMIParser::deferredParseReaders`
-         */
-        py::object deferredParseReadersObj;
-
-        /**
-         * @brief The deferred readers of the last parse, kept alive until the parse data is filled
-         */
-        py::list deferredReadersObj;
 
         /**
          * @brief The graphs this parser's edits took over and left in no group, kept until :meth:`clear` -- see
@@ -411,8 +396,6 @@ class PyGIMIParser: public PyGIMIParserCore {
          */
         void runStepsFromPy(const py::object& steps, AGRC::IniParseData& data);
 
-        // Each of 'readers' called on 'data' -- the core's parseReaders, through Python
-        void runReadersFromPy(const pybind11::object& readers, AGRemapCore::IniParseData& data);
         void clear() override;
 };
 

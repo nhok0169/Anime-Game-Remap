@@ -162,6 +162,29 @@ class GraphEditVariablesTest(BaseUnitTest):
 
         self.assertTrue(variables.sections("a").empty() and variables.sections("b").empty())
 
+    def test_of_eachNameHoldsItsValue_aNoneMakesNoVariable(self):
+        variables = FRB.GraphEditVariables.of(["a", "b", "c"], ["text", None, 3])
+        self.assertEqual(variables.names(), ["a", "c"])
+        self.assertEqual((variables["a"], variables["c"]), ("text", 3))
+
+    def test_aParsersResourceData_crossesAsACopy(self):
+        variables = FRB.GraphEditVariables()
+        data = FRB.IniParseData.ResourceData()
+        data.undrawn = {("", "body")}
+        variables["res"] = data
+        data.undrawn = set()
+
+        held = variables["res"]
+        self.assertIsInstance(held, FRB.IniParseData.ResourceData)
+        self.assertEqual(held.undrawn, {("", "body")})
+        held.undrawn = set()
+        self.assertEqual(variables["res"].undrawn, {("", "body")})
+
+        roles = FRB.IniParseData.RoleFileData()
+        roles.fileResources = {"a.dds": "ResourceA"}
+        variables["roles"] = roles
+        self.assertEqual(variables["roles"].fileResources, {"a.dds": "ResourceA"})
+
     # ====================== GraphCreate.sectionsOf =============================
 
     def test_create_eachGroupFromItsVariables_inOrder(self):

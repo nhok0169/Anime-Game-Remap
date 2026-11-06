@@ -70,7 +70,7 @@
       </memberdef>
     </sectiondef>
     <briefdescription>
-<para>Which of the standard row sets <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac93626f54b885c45a7487feae340490d" kindref="member">addRowSteps</ref> adds <ndash/> see :cpp:struct:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_rows" kindref="compound">IniParseRows</ref></computeroutput>. </para>
+<para>Which of the standard row sets <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2f3f6ea6dbbf0d78cd6e4eac4eab835e" kindref="member">rowSteps</ref> builds <ndash/> see :cpp:struct:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_rows" kindref="compound">IniParseRows</ref></computeroutput>. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>

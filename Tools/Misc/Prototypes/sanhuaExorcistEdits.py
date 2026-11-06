@@ -204,11 +204,10 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
                             keysToTrack = {FRB.IniKeywords.Hash, FRB.IniKeywords.MatchFirstIndex, "match_index_count"},
                             modTypeId = modTypeId)
 
-    # ---- step 2: the standard rows ----
+    # ---- step 2: the standard rows -- with [Constants]' mesh vertex count among the declarations ----
     rows = FRB.GIMIParser.RowSteps()
     rows.declaredKeys = [FRB.IniKeywords.Global + " " + FRB.IniKeywords.WWMIMeshVertexCount]
     rows.objs = lambda obj: slotOf(obj) is not None
-    parser.addRowSteps(rows)
 
     # ---- step 3: each texture override's hash, `this` and `match_priority`; the roles the .ini states; and the toggles ----
     overrides = FRB.GraphCollect({graphId(obj): [FRB.IniKeywords.Hash, FRB.IniKeywords.This, FRB.IniKeywords.MatchPriority]
@@ -224,8 +223,8 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
             # a slot's registers, as an author spells them
             roleKeys[graphId(obj)] = lambda key, regs = list(REGISTER_ROLES[slotOf(obj)]): any(
                 FRB.IniNamingTools.sameKey(key, reg) for reg in regs)
-    parser.deferredParseSteps += [overrides, FRB.GraphCollect(roleKeys, name = ROLE_ROWS, withConditions = True),
-                                  FRB.GraphCollect(toggleKeys, name = TOGGLE_ROWS)]
+    roles = FRB.GraphCollect(roleKeys, name = ROLE_ROWS, withConditions = True)
+    toggles = FRB.GraphCollect(toggleKeys, name = TOGGLE_ROWS)
 
     # ---- the readers that run on the rows ----
     def roots(keep):
@@ -405,8 +404,11 @@ def makeParser(iniFile, modTypeId, onlyThisFile = False):
             for drawRange in taken:
                 data.addDrawRange((split.name, obj[1]), drawRange)
 
-    parser.deferredParseReaders += [readResourceData] if onlyThisFile else [readResourceData, readSkeletonNumbering, readTextures,
-                                                                             readDrawSplits]
+    # ==== THE STEPS: the edits that read the mod, then the functions that read their rows -- all run on the first ask
+    # of the parse data ====
+    parser.deferredParseSteps = [*parser.rowSteps(rows), overrides, roles, toggles]
+    parser.deferredParseReaders = [readResourceData] if onlyThisFile else [readResourceData, readSkeletonNumbering, readTextures,
+                                                                           readDrawSplits]
     return parser
 
 

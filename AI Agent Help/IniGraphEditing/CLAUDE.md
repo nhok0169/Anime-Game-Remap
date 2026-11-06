@@ -14,10 +14,13 @@ fixer step) over the rows, calling a bound capability of the buffer / texture cl
 game's config. Before proposing an edit, write down what it does to the graphs that `GraphCollect`, `ResRegCollect`,
 `GraphCopy`, `RegNewVals` and the rest cannot -- if that sentence is empty, it is not an edit.
 
-**The shared readers a parser starts from (2026-10-31):** `GIMIParser::addRowSteps` (on `TemplateParser` until
-2026-11-02, when it moved down so the Python `GIMIParser` has it too) adds the standard row sets
+**The shared readers a parser starts from (2026-10-31):** `GIMIParser::rowSteps` (on `TemplateParser` until
+2026-11-02, when it moved down so the Python `GIMIParser` has it too) builds the standard row sets
 (`IniParseRows`: every bound resource's file, every declaration, every key of every section, every key of chosen
-objects), and `IniParseData::resourceData` reads draws, draw parts (`GraphCollectRow::position`), late bindings,
+objects) as edits and RETURNS them -- until 2026-11-05 it was `addRowSteps` and appended them out of sight, which
+left a parser with no one list to read (the maintainer asked where "the list of edits" was). A parser writes its
+steps as ONE explicit list, `deferredParseSteps = [*rowSteps(rows), ...its own collects]`, beside its
+`deferredParseReaders`; and `IniParseData::resourceData` reads draws, draw parts (`GraphCollectRow::position`), late bindings,
 libraries and hidden objects off those rows, with the game's choices in `IniParseData::ResourceDataRules`. WWMIParser is
 built on both; the GI parsers are next. Reach for these before writing a reader of your own.
 **Which file each object takes per texture role is `IniParseData::roleFiles` (2026-11-04)**, the same kind of reader

@@ -57,8 +57,8 @@ filename = Textures\BodyLM.dds
         self.setupIniTxt(self._stepsIniTxt)
         self.createIniFile()
         parser = FRB.GIMIParser(self._iniFile)
-        self.assertEqual(list(parser.parseSteps), [])
-        self.assertEqual(list(parser.deferredParseSteps), [])
+        self.assertFalse(parser.parseSteps)
+        self.assertFalse(parser.deferredParseSteps)
 
     def test_bothLists_areTheCallersOwnLists(self):
         steps, deferred = [self.registers()], [self.registers("later")]
@@ -93,7 +93,7 @@ filename = Textures\BodyLM.dds
         self.assertEqual(len(collect.rows), 2)
 
 
-    # ====================== addRowSteps ======================================
+    # ====================== rowSteps ======================================
 
     _rowsIniTxt = r"""
 [TextureOverrideBody]
@@ -124,36 +124,34 @@ filename = Textures\Unbound.dds
         rows.objs = lambda obj: obj == self.Body
         for name, value in fields.items():
             setattr(rows, name, value)
-        self._parser.addRowSteps(rows)
+        self._parser.deferredParseSteps = self._parser.rowSteps(rows)
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
         return self._parser.parseData
 
-    def test_addRowSteps_addsTheEditsInOrder(self):
+    def test_rowSteps_returnsTheEditsInOrder_andAddsThemNowhere(self):
         self.setupIniTxt(self._rowsIniTxt)
         self.createIniFile()
         parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([self.Body]))
-        later = self.registers("later")
-        parser.addRowSteps(FRB.GIMIParser.RowSteps())
-        parser.deferredParseSteps.append(later)
+        steps = parser.rowSteps(FRB.GIMIParser.RowSteps())
         # the global graph, the resource collect, files, declarations, sections, the removal and the objects
-        steps = list(parser.deferredParseSteps)
-        self.assertEqual(len(steps), 8)
-        self.assertTrue(all(isinstance(step, FRB.BaseIniGraphGroupEdit) for step in steps[:-1]))
-        self.assertIs(steps[-1], later)
+        self.assertEqual(len(steps), 7)
+        self.assertTrue(all(isinstance(step, FRB.BaseIniGraphGroupEdit) for step in steps))
+        self.assertFalse(parser.deferredParseSteps)
+        self.assertFalse(parser.parseSteps)
 
-    def test_addRowSteps_resourcesAreTheFilesBoundAnywhere(self):
+    def test_rowSteps_resourcesAreTheFilesBoundAnywhere(self):
         # the light map is bound only from [Present], by a lower-cased reference
         rows = self.parseRows().collected(FRB.IniParseRows.Resources)
         self.assertEqual([(row.section, row.value) for row in rows],
                          [("ResourceBodyDiffuse", r"Textures\Body.dds"), ("ResourceBodyLightMap", r"Textures\BodyLM.dds")])
 
-    def test_addRowSteps_resourceNamed_ignoresCaseAndRef(self):
+    def test_rowSteps_resourceNamed_ignoresCaseAndRef(self):
         self.parseRows().collected(FRB.IniParseRows.Resources)
         self.assertEqual(self._parser.resourceNamed("ref resourcebodylightmap"), "ResourceBodyLightMap")
         self.assertEqual(self._parser.resourceNamed("ResourceNothing"), "")
 
-    def test_addRowSteps_declarationsSectionsAndObjs(self):
+    def test_rowSteps_declarationsSectionsAndObjs(self):
         data = self.parseRows(declaredKeys = ["hash"])
         declared = {(row.section, row.key): row.value for row in data.collected(FRB.IniParseRows.Declared)}
         self.assertEqual(declared[("ResourceBodyLightMap", "format")], "R8")
@@ -162,7 +160,7 @@ filename = Textures\Unbound.dds
         self.assertIn("Present", data.collectedSections(FRB.IniParseRows.Sections))
         self.assertIn("drawindexed", [row.key for row in data.collected(FRB.IniParseRows.Objs)])
 
-    def test_addRowSteps_eachSetCanBeLeftOut(self):
+    def test_rowSteps_eachSetCanBeLeftOut(self):
         data = self.parseRows(resources = False, sections = False, objs = None)
         self.assertEqual(data.collected(FRB.IniParseRows.Resources), [])
         self.assertEqual(data.collected(FRB.IniParseRows.Sections), [])
@@ -380,8 +378,7 @@ drawindexed = 300, 0, 0
                                       keysToTrack = {FRB.IniKeywords.Hash, FRB.IniKeywords.MatchFirstIndex})
         steps = FRB.GIMIParser.RowSteps()
         steps.objs = lambda obj: obj == self.Body
-        self._parser.addRowSteps(steps)
-        self._parser.deferredParseSteps += [overrides, roleRows]
+        self._parser.deferredParseSteps = [*self._parser.rowSteps(steps), overrides, roleRows]
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
 

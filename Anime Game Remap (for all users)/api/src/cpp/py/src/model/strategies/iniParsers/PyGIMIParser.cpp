@@ -949,7 +949,7 @@ keysToTrack: Optional[Set[:class:`str`]]
     )doc");
 
     using RowSteps = PyGIMIParser::Core::RowSteps;
-    py::class_<RowSteps>(cls, "RowSteps", R"doc(Which of the standard row sets :meth:`GIMIParser.addRowSteps` adds -- see :class:`IniParseRows`)doc")
+    py::class_<RowSteps>(cls, "RowSteps", R"doc(Which of the standard row sets :meth:`GIMIParser.rowSteps` builds -- see :class:`IniParseRows`)doc")
         .def(py::init<>())
         .def_readwrite("resources", &RowSteps::resources,
             py::doc(R"doc(:class:`bool`: Whether to collect :attr:`IniParseRows.Resources`. **Default**: ``True``)doc"))
@@ -1069,28 +1069,23 @@ drawn from what the steps filed. A later reader sees what an earlier one filed)d
             self.deferredParseReadersObj = readers.is_none() ? py::object(py::list()) : std::move(readers);
         }, py::doc(R"doc(List[Callable[[:class:`IniParseData`], None]]: More such functions, run with :attr:`deferredParseSteps` on the first ask of :attr:`parseData`, after them and in order)doc"))
 
-       .def("addRowSteps", [](PyGIMIParser &self, const PyGIMIParser::Core::RowSteps &rows) {
-            // the core builds and owns the edits and appends them to its own list; they run from the Python
-            // list, so they are appended there too, each kept alive by this parser
+       .def("rowSteps", [](PyGIMIParser &self, const PyGIMIParser::Core::RowSteps &rows) {
+            // the core builds and owns the edits; each is handed out kept alive by this parser, for a step list
             self.refresh();
-            const std::size_t before = self.deferredParseSteps.size();
-            self.addRowSteps(rows);
-            if (self.deferredParseStepsObj.is_none()) {
-                self.deferredParseStepsObj = py::list();
-            }
             py::object owner = py::cast(&self, py::return_value_policy::reference);
-            for (std::size_t i = before; i < self.deferredParseSteps.size(); ++i) {
-                self.deferredParseStepsObj.attr("append")(
-                    py::cast(self.deferredParseSteps[i], py::return_value_policy::reference_internal, owner));
+            py::list steps;
+            for (auto* step : self.rowSteps(rows)) {
+                steps.append(py::cast(step, py::return_value_policy::reference_internal, owner));
             }
-        }, py::arg("rows"), py::doc(R"doc(Adds the standard row sets to the end of :attr:`deferredParseSteps` -- see :class:`IniParseRows` :raw-html:`<br />` :raw-html:`<br />`
+            return steps;
+        }, py::arg("rows"), py::doc(R"doc(The standard row sets, as edits to put in :attr:`deferredParseSteps` (or :attr:`parseSteps`) -- see :class:`IniParseRows` :raw-html:`<br />` :raw-html:`<br />`
 
 In this order: a copy of the parser's global graph is put in the groups (:class:`GraphCreate`); a
 :class:`ResRegCollect` over the keys that ever name a resource builds a graph of the resource `sections`_ bound
 anywhere (:class:`ResIdentity`: nothing renamed, no models) and a :class:`GraphCollect` reads their ``filename``;
 the declarations and every key of every `section`_ are collected off the global graph; both graphs are taken out
-again (:class:`GraphRemove`); and every key of the chosen objects is collected. A step added afterwards runs after
-these. The edits are owned by this parser :raw-html:`<br />` :raw-html:`<br />`
+again (:class:`GraphRemove`); and every key of the chosen objects is collected. The edits are owned by this parser;
+nothing is added to a step list :raw-html:`<br />` :raw-html:`<br />`
 
 The global graph is the parser's own, so the parser must make one (:attr:`makeGlobalGraph`). Call this once
 :attr:`modObjs` is set: :attr:`GIMIParser.RowSteps.objs` is asked of each mod object here
@@ -1098,7 +1093,12 @@ The global graph is the parser's own, so the parser must make one (:attr:`makeGl
 Parameters
 ----------
 rows: :class:`GIMIParser.RowSteps`
-    Which row sets to add)doc"))
+    Which row sets to build
+
+Returns
+-------
+List[:class:`BaseIniGraphGroupEdit`]
+    The edits, in the order they run)doc"))
 
        .def_static("textureOverrides", [](AGRC::IniFile &ini) { return AGRC::GIMITemplateParser::textureOverrides(ini); },
             py::arg("ini"), py::doc(R"doc(The texture overrides of 'ini' (``hash = <a game texture>`` / ``this = Resource...``): per `section`_
@@ -1122,7 +1122,7 @@ list[tuple[:class:`str`, :class:`GraphCollect.Row`]]
             py::doc(R"doc(The resource `section`_ 'value' names, as a binding names one, under the name it is declared by -- or empty :raw-html:`<br />` :raw-html:`<br />`
 
 Without regard to case, as 3DMigoto reads a section name: a mod may declare ``[ResourceTexCoordBuffer]`` and bind
-``vb2 = ResourceTexcoordBuffer``. Known once :meth:`addRowSteps`' global graph has been put in the groups
+``vb2 = ResourceTexcoordBuffer``. Known once :meth:`rowSteps`' global graph has been put in the groups
 
 Parameters
 ----------

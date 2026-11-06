@@ -77,7 +77,7 @@ caller, so a reader of one section&apos;s own lines keeps each line once
     <detaileddescription>
 <para><verbatim>embed:rst 
 The names the standard row sets of a parser are filed under (:cpp:func:`IniParseData::collected`) -- the
-:cpp:class:`GraphCollect`\s :cpp:func:`GIMIParser::addRowSteps` adds
+:cpp:class:`GraphCollect`\s :cpp:func:`GIMIParser::rowSteps` builds
 </verbatim> </para>
     </detaileddescription>
     <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseRows.h" line="28" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseRows.h" bodystart="28" bodyend="52"/>

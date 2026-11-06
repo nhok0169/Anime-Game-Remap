@@ -238,13 +238,15 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
-    void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::addRowSteps(const RowSteps& rows) {
+    std::vector<typename GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::GroupEdit*>
+    GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::rowSteps(const RowSteps& rows) {
         using Collect = GraphCollect<K, V, KeyHash, KeyEqual>;
         using Collector = ResRegCollect<K, V, KeyHash, KeyEqual>;
         using GraphId = typename GroupEdit::GraphId;
-        const auto add = [this](std::unique_ptr<GroupEdit> step) {
+        std::vector<GroupEdit*> steps;
+        const auto add = [this, &steps](std::unique_ptr<GroupEdit> step) {
             rowSteps_.push_back(std::move(step));
-            deferredParseSteps.push_back(rowSteps_.back().get());
+            steps.push_back(rowSteps_.back().get());
         };
 
         // the graph the resource collect builds of the resource sections the mod binds, and the copy of the parser's
@@ -304,6 +306,7 @@ namespace AGRemapCore {
         }
         add(std::make_unique<GraphRemove<K, V, KeyHash, KeyEqual>>(std::vector<GraphId>{ResourceGraph, GlobalGraph}));
         add(std::move(objs));
+        return steps;
     }
 
 

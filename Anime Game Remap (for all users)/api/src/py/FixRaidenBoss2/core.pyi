@@ -9753,7 +9753,7 @@ class GIMIParser(BaseIniParser):
     """
     class RowSteps:
         """
-        Which of the standard row sets :meth:`GIMIParser.addRowSteps` adds -- see :class:`IniParseRows`
+        Which of the standard row sets :meth:`GIMIParser.rowSteps` builds -- see :class:`IniParseRows`
         """
         def __init__(self) -> None:
             ...
@@ -9860,25 +9860,6 @@ class GIMIParser(BaseIniParser):
         partsNeedDownload: Dict[Tuple[:class:`str`, :class:`str`], Dict[:class:`str`, Union[Set[:class:`IfContentPart`], Set[:class:`IfTemplate`]]]]
             What :meth:`getDownloads` returned
         """
-    def addRowSteps(self, rows: GIMIParser.RowSteps) -> None:
-        """
-        Adds the standard row sets to the end of :attr:`deferredParseSteps` -- see :class:`IniParseRows` :raw-html:`<br />` :raw-html:`<br />`
-        
-        In this order: a copy of the parser's global graph is put in the groups (:class:`GraphCreate`); a
-        :class:`ResRegCollect` over the keys that ever name a resource builds a graph of the resource `sections`_ bound
-        anywhere (:class:`ResIdentity`: nothing renamed, no models) and a :class:`GraphCollect` reads their ``filename``;
-        the declarations and every key of every `section`_ are collected off the global graph; both graphs are taken out
-        again (:class:`GraphRemove`); and every key of the chosen objects is collected. A step added afterwards runs after
-        these. The edits are owned by this parser :raw-html:`<br />` :raw-html:`<br />`
-        
-        The global graph is the parser's own, so the parser must make one (:attr:`makeGlobalGraph`). Call this once
-        :attr:`modObjs` is set: :attr:`GIMIParser.RowSteps.objs` is asked of each mod object here
-        
-        Parameters
-        ----------
-        rows: :class:`GIMIParser.RowSteps`
-            Which row sets to add
-        """
     def buildGlobalGraph(self) -> typing.Any:
         """
         Builds the graph for the entire .ini file
@@ -9957,7 +9938,7 @@ class GIMIParser(BaseIniParser):
         The resource `section`_ 'value' names, as a binding names one, under the name it is declared by -- or empty :raw-html:`<br />` :raw-html:`<br />`
         
         Without regard to case, as 3DMigoto reads a section name: a mod may declare ``[ResourceTexCoordBuffer]`` and bind
-        ``vb2 = ResourceTexcoordBuffer``. Known once :meth:`addRowSteps`' global graph has been put in the groups
+        ``vb2 = ResourceTexcoordBuffer``. Known once :meth:`rowSteps`' global graph has been put in the groups
         
         Parameters
         ----------
@@ -9968,6 +9949,30 @@ class GIMIParser(BaseIniParser):
         -------
         :class:`str`
             The resource section's name as declared, or empty
+        """
+    def rowSteps(self, rows: GIMIParser.RowSteps) -> list:
+        """
+        The standard row sets, as edits to put in :attr:`deferredParseSteps` (or :attr:`parseSteps`) -- see :class:`IniParseRows` :raw-html:`<br />` :raw-html:`<br />`
+        
+        In this order: a copy of the parser's global graph is put in the groups (:class:`GraphCreate`); a
+        :class:`ResRegCollect` over the keys that ever name a resource builds a graph of the resource `sections`_ bound
+        anywhere (:class:`ResIdentity`: nothing renamed, no models) and a :class:`GraphCollect` reads their ``filename``;
+        the declarations and every key of every `section`_ are collected off the global graph; both graphs are taken out
+        again (:class:`GraphRemove`); and every key of the chosen objects is collected. The edits are owned by this parser;
+        nothing is added to a step list :raw-html:`<br />` :raw-html:`<br />`
+        
+        The global graph is the parser's own, so the parser must make one (:attr:`makeGlobalGraph`). Call this once
+        :attr:`modObjs` is set: :attr:`GIMIParser.RowSteps.objs` is asked of each mod object here
+        
+        Parameters
+        ----------
+        rows: :class:`GIMIParser.RowSteps`
+            Which row sets to build
+        
+        Returns
+        -------
+        List[:class:`BaseIniGraphGroupEdit`]
+            The edits, in the order they run
         """
     def setupDownloads(self) -> None:
         """

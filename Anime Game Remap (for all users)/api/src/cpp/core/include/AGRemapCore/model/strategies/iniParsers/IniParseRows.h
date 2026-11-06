@@ -22,7 +22,7 @@ namespace AGRemapCore {
      * @brief
      @rst
      The names the standard row sets of a parser are filed under (:cpp:func:`IniParseData::collected`) -- the
-     :cpp:class:`GraphCollect`\s :cpp:func:`GIMIParser::addRowSteps` adds
+     :cpp:class:`GraphCollect`\s :cpp:func:`GIMIParser::rowSteps` builds
      @endrst
      */
     struct IniParseRows {

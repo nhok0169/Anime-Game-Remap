@@ -1976,7 +1976,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab58845342b6264ddb068766b5205a509" kind="function"><name>classifyByTextureOverrideName</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a46c31c873379fc81e47939cb61d58be4" kind="function"><name>fileResult</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1acbfa91b5398204141ffdd3158b4e7470" kind="function"><name>GIMIParser</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac93626f54b885c45a7487feae340490d" kind="function"><name>addRowSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2f3f6ea6dbbf0d78cd6e4eac4eab835e" kind="function"><name>rowSteps</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0785ce8b232e98af49e87b00552310c6" kind="function"><name>resourceNamed</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a10cc2ae684b6aee36b4d4a9e61215b08" kind="function"><name>ctx</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a3c71864c8c229192681fba356e5249a8" kind="function"><name>setCtx</name></member>
@@ -2084,7 +2084,7 @@
     <member refid="class_a_g_remap_core_1_1_template_parser_1aba675213e344efcb70ab4656c3212fb6" kind="function"><name>addDeferredParseStep</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1a58c9f5a2b19d86b25158a40fefda6578" kind="function"><name>TemplateParser</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1aafd0c7ad2d07f52953ef48725eca4027" kind="function"><name>TemplateParser</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac93626f54b885c45a7487feae340490d" kind="function"><name>addRowSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2f3f6ea6dbbf0d78cd6e4eac4eab835e" kind="function"><name>rowSteps</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0785ce8b232e98af49e87b00552310c6" kind="function"><name>resourceNamed</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a10cc2ae684b6aee36b4d4a9e61215b08" kind="function"><name>ctx</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a3c71864c8c229192681fba356e5249a8" kind="function"><name>setCtx</name></member>
@@ -6982,7 +6982,7 @@
     <member refid="class_a_g_remap_core_1_1_template_parser_1a58c9f5a2b19d86b25158a40fefda6578" kind="function"><name>TemplateParser</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1aafd0c7ad2d07f52953ef48725eca4027" kind="function"><name>TemplateParser</name></member>
     <member refid="class_a_g_remap_core_1_1_template_parser_1a87d2c57f9568828ab445c1e9e1be6925" kind="function"><name>operator=</name></member>
-    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac93626f54b885c45a7487feae340490d" kind="function"><name>addRowSteps</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2f3f6ea6dbbf0d78cd6e4eac4eab835e" kind="function"><name>rowSteps</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0785ce8b232e98af49e87b00552310c6" kind="function"><name>resourceNamed</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a10cc2ae684b6aee36b4d4a9e61215b08" kind="function"><name>ctx</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a3c71864c8c229192681fba356e5249a8" kind="function"><name>setCtx</name></member>

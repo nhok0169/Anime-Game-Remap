@@ -114,7 +114,7 @@ namespace AGRemapCore {
                     // the mod's own lines, which the fixer reads (IniParseRows::Sections): every key of every section
                     RowSteps rows;
                     rows.resources = false;
-                    this->addRowSteps(rows);
+                    this->deferredParseSteps = this->rowSteps(rows);
                 }
 
             private:

@@ -284,15 +284,13 @@ namespace AGRemapCore {
                  * sorting the textures opens every candidate, and a parser is built for every `.ini` a run
                  * classifies -- most of which no WuWa fixer will ever ask about.
                  *
-                 * (1) the standard rows (GIMIParser::addRowSteps): the files of the resources the mod binds,
+                 * (1) the standard rows (GIMIParser::rowSteps): the files of the resources the mod binds,
                  * every section's declaration and every key of every section, and every key of every slot graph;
                  * (2) the hash and the `this` of every texture override; (3) the textures' roles and toggles;
                  * (4) the resource data (IniParseData::resourceData, by WWMI's rules); (5) the skeleton numbering;
                  * (6) the textures; (7) the draw splits.
                  */
                 void buildSteps() {
-                    std::vector<std::unique_ptr<GroupEdit>> steps;
-
                     auto overrides = std::make_unique<Collect>();
                     overrides->name = TextureOverridesCollect;
                     for (const ModObj& obj : this->modObjs()) {
@@ -341,24 +339,23 @@ namespace AGRemapCore {
                         }
                     }
 
-                    steps.push_back(std::move(overrides));
-                    steps.push_back(std::move(roles));
-                    steps.push_back(std::move(toggles));
+                    // the standard rows -- with [Constants]' mesh vertex count among the declarations
+                    RowSteps rows;
+                    rows.declaredKeys = {IniKeywords::Global + " " + IniKeywords::WWMIMeshVertexCount};
+                    rows.objs = [this](const ModObj& obj) { return isSlotObj(obj); };
+
+                    // THE STEPS: the edits that read the mod, then the functions that read their rows
+                    this->deferredParseSteps = this->rowSteps(rows);
+                    for (GroupEdit* step : {&this->ownStep(std::move(overrides)), &this->ownStep(std::move(roles)),
+                                            &this->ownStep(std::move(toggles))}) {
+                        this->deferredParseSteps.push_back(step);
+                    }
+
                     this->deferredParseReaders = {[this](IniParseData& data) { applyResourceData(data); }};
                     if (!onlyThisFile_) {
                         this->deferredParseReaders.push_back([this](IniParseData& data) { readSkeletonNumbering(data); });
                         this->deferredParseReaders.push_back([this](IniParseData& data) { readTextures(data); });
                         this->deferredParseReaders.push_back([this](IniParseData& data) { readDrawSplits(data); });
-                    }
-
-                    // the standard rows first -- with [Constants]' mesh vertex count among the declarations -- then
-                    // the steps in the order built
-                    RowSteps rows;
-                    rows.declaredKeys = {IniKeywords::Global + " " + IniKeywords::WWMIMeshVertexCount};
-                    rows.objs = [this](const ModObj& obj) { return isSlotObj(obj); };
-                    this->addRowSteps(rows);
-                    for (auto& step : steps) {
-                        this->addDeferredParseStep(std::move(step));
                     }
                 }
 

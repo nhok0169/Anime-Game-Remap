@@ -415,7 +415,7 @@ namespace AGRemapCore {
             std::vector<Reader> deferredParseReaders;
 
             /**
-             * @brief Which of the standard row sets #addRowSteps adds -- see :cpp:struct:`IniParseRows`
+             * @brief Which of the standard row sets #rowSteps builds -- see :cpp:struct:`IniParseRows`
              */
             struct RowSteps {
                 /**
@@ -442,29 +442,30 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Adds the standard row sets to the end of #deferredParseSteps, in this order: a copy of the parser's
+             The standard row sets, as edits to put in #deferredParseSteps (or #parseSteps), in this order: a copy of the parser's
              global graph is put in the groups (:cpp:class:`GraphCreate`); a :cpp:class:`ResRegCollect` over the
              keys that ever name a resource builds a graph of the resource `sections`_ bound anywhere
              (:cpp:class:`ResIdentity`: nothing renamed, no models) and a :cpp:class:`GraphCollect` reads their
              ``filename``; the declarations and every key of every `section`_ are collected off the global graph;
              both graphs are taken out again (:cpp:class:`GraphRemove`); and every key of the chosen objects is
-             collected. A step added afterwards runs after these. The edits are owned by this parser
+             collected. The edits are owned by this parser; nothing is added to a step list
              :raw-html:`<br />` :raw-html:`<br />`
 
              The global graph is #globalGraph, so the parser must make one (#makeGlobalGraph). Call this once
              #modObjs is set: :cpp:member:`RowSteps::objs` is asked of each mod object here
              @endrst
              *
-             * @param rows Which row sets to add
+             * @param rows Which row sets to build
+             * @return The edits, in the order they run
              */
-            void addRowSteps(const RowSteps& rows);
+            std::vector<GroupEdit*> rowSteps(const RowSteps& rows);
 
             /**
              * @brief
              @rst
              The resource `section`_ 'value' names, as a binding names one, under the name it is declared by -- or
              empty. Without regard to case, as 3DMigoto reads a section name: a mod may declare
-             ``[ResourceTexCoordBuffer]`` and bind ``vb2 = ResourceTexcoordBuffer``. Known once #addRowSteps' global
+             ``[ResourceTexCoordBuffer]`` and bind ``vb2 = ResourceTexcoordBuffer``. Known once #rowSteps' global
              graph has been put in the groups
              @endrst
              *
@@ -834,10 +835,10 @@ namespace AGRemapCore {
             bool downloadsAdded_;
 
             // The global graph -- and, found as it is handed over, the resource sections the .ini declares and the
-            // keys of the graph that ever name one -- for #addRowSteps
+            // keys of the graph that ever name one -- for #rowSteps
             Graph* globalGraphForResources();
 
-            // the edits #addRowSteps built, which #deferredParseSteps borrows, and what its global graph found
+            // the edits #rowSteps built, which a step list borrows, and what its global graph found
             std::vector<std::unique_ptr<GroupEdit>> rowSteps_;
             std::unordered_set<K, KeyHash, KeyEqual> resourceKeys_;
             std::unordered_map<std::string, std::string> declaredResources_;     // lowercased -> as declared

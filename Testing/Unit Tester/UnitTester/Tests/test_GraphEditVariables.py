@@ -108,6 +108,20 @@ class GraphEditVariablesTest(BaseUnitTest):
         apply.fileInto(data)
         self.assertEqual(data.variables()["b"], 20)
 
+    def test_varApply_inAFixersList_appliesOverItsVariablesWhenItRuns_inOrder(self):
+        variables = FRB.GraphEditVariables()
+        variables["a"] = 2
+        first = FRB.GraphVarApply(["a"], lambda a: a * 10, "b", variables = variables)
+        second = FRB.GraphVarApply(["a", "b"], lambda a, b: {"sum": a + b}, "c", variables = variables)
+        group = FRB.IniGraphGroup({("", "src"): self.graph("One")})
+        self.assertNotIn("b", variables)
+
+        first.edit([group], None)
+        second.edit([group], None)
+        self.assertEqual(variables["b"], 20)
+        self.assertEqual(variables["c"], {"sum": 22})
+        self.assertEqual(list(group.graphs[("", "src")].targetSectionNames), ["One"])
+
     def test_varApply_fieldsReadAndWrite(self):
         apply = FRB.GraphVarApply(["a"], lambda a: a, "b")
         apply.inputs, apply.into = ["x", "y"], "z"

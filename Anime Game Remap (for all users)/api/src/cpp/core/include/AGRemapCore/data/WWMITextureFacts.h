@@ -200,6 +200,20 @@ namespace AGRemapCore {
          * @param id The character
          */
         static std::optional<WWMITextureFacts> of(ModTypeId id);
+
+        /**
+         * @brief
+         @rst
+         The role a HashData hash type of the character names: the role itself, or the role followed by
+         :cpp:member:`WWMINames::LiveSuffix`, or by :cpp:member:`WWMINames::OldSuffix` and an optional count (``Old2``)
+         @endrst
+         *
+         * @param type The hash type
+         * @param roles The character's roles
+         *
+         * @return The role, or ``std::nullopt``
+         */
+        static std::optional<std::string> roleOfHashType(const std::string& type, const std::unordered_set<std::string>& roles);
     };
 
 }

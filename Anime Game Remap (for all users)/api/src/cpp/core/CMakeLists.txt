@@ -384,6 +384,8 @@ add_library(AGRemapCore STATIC
     src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp
     src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp
     src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp
+    src/model/strategies/texEditors/texFilters/ChannelMapFilter.cpp
+    src/model/strategies/texEditors/texFilters/GuidedScaleFilter.cpp
     src/model/strategies/texEditors/texFilters/HueAdjust.cpp
     src/model/strategies/texEditors/texFilters/PixelFilter.cpp
     src/model/strategies/texEditors/BaseTexEditor.cpp

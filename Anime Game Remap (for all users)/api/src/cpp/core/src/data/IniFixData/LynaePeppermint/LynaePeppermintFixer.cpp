@@ -31,6 +31,7 @@
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/files/TextureFile.h"
+#include "AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h"
 
 
 namespace AGRemapCore {
@@ -46,18 +47,15 @@ namespace AGRemapCore {
          * surface is, the author's to choose) and B stay.
          */
         TexEditor::Filter maskRepackFilter() {
-            return [](TextureFile& tex) {
-                tex.setGamma(std::nullopt);          // these bytes are data, not colour
-                std::vector<std::uint8_t> px = tex.getPixels();
-                for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
-                    if (px[i] == 0) {
-                        px[i] = 255;
-                    }
-                    px[i + 3] = 0;
-                }
-
-                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
-            };
+            ChannelMapFilter filter;
+            filter.data = true;                      // these bytes are data, not colour
+            std::vector<std::uint8_t> red(256);
+            for (int v = 0; v < 256; ++v) {
+                red[v] = v == 0 ? 255 : static_cast<std::uint8_t>(v);
+            }
+            filter.channels[0] = {0, std::move(red)};
+            filter.channels[3] = {3, ChannelMapFilter::constant(0)};
+            return TexEditor::filterOf(std::move(filter));
         }
     }
 
@@ -355,7 +353,9 @@ namespace AGRemapCore {
             // a map carried across unchanged shaded her body's skin as cloth -- whiter, with lavender
             // shadows, under a warm face: see lynaeSkinCodeSwap. Not the lower body's: her own shader reads
             // that one, in her codes ----
-            {"upperDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) { return lynaeSkinCodeSwap(); }},
+            {"upperDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) {
+                return TexEditor::filterOf(ChannelMapFilter::codeMap(lynaeSkinCodeTable()));
+            }},
         };
 
         // Masks mark regions: a flat one from a mod is replaced by HER game texture

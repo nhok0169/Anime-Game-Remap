@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_linked_lines" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::LinkedLines</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_linked_lines_1a37ce4bb179834f0d39618e4d51b1f9fe" prot="public" static="no" mutable="no">
+        <type>std::map&lt; int, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_carried_line" kindref="compound">CarriedLine</ref> &gt; &gt;</type>
+        <definition>std::map&lt;int, std::vector&lt;CarriedLine&gt; &gt; AGRemapCore::WWMIFixerConfig::LinkedLines::lines</definition>
+        <argsstring></argsstring>
+        <name>lines</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::LinkedLines::lines</qualifiedname>
+        <briefdescription>
+<para>Source component -&gt; the lines carried onto its draws, in the order the parser read them. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1858" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1858" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_linked_lines_1a9f7c14f4326f50bf5afbebcb570ed6eb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_linked_state" kindref="compound">LinkedState</ref> &gt;</type>
+        <definition>std::vector&lt;LinkedState&gt; AGRemapCore::WWMIFixerConfig::LinkedLines::states</definition>
+        <argsstring></argsstring>
+        <name>states</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::LinkedLines::states</qualifiedname>
+        <briefdescription>
+<para>The linked files whose state the fix copies, in the order their first line was read. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1863" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1863" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_linked_lines_1a0fb10fa1907aaeba85d34e25945f9972" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_declared_file" kindref="compound">DeclaredFile</ref> &gt;</type>
+        <definition>std::vector&lt;DeclaredFile&gt; AGRemapCore::WWMIFixerConfig::LinkedLines::declared</definition>
+        <argsstring></argsstring>
+        <name>declared</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::LinkedLines::declared</qualifiedname>
+        <briefdescription>
+<para>The resources the fix declares for the linked files no resource of this <computeroutput>.ini</computeroutput> names, after :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1adbeac3bd6622134054b105db0f42a0e1" kindref="member">RoleResources::declared</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1869" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1869" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_linked_lines_1a261a72b992bfe7f0408faa4cf372c32a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::LinkedLines::notes</definition>
+        <argsstring></argsstring>
+        <name>notes</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::LinkedLines::notes</qualifiedname>
+        <briefdescription>
+<para>What the decision has to say, for the log, in order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1874" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1874" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What linked ``.ini`` files set on this file&apos;s draws, and how the fix carries it -- see #linkedLines
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1854" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1854" bodyend="1875"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_linked_lines_1a0fb10fa1907aaeba85d34e25945f9972" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::LinkedLines</scope><name>declared</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_linked_lines_1a37ce4bb179834f0d39618e4d51b1f9fe" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::LinkedLines</scope><name>lines</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_linked_lines_1a261a72b992bfe7f0408faa4cf372c32a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::LinkedLines</scope><name>notes</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_linked_lines_1a9f7c14f4326f50bf5afbebcb570ed6eb" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::LinkedLines</scope><name>states</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

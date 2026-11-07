@@ -27,6 +27,10 @@
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
 #include "AGRemapCore/data/IniParseData/TemplateParser.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseRows.h"
 #include "AGRemapCore/tools/StringTools.h"
 
 
@@ -111,11 +115,19 @@ namespace AGRemapCore {
                             return result;
                         });
 
-                    // the mod's own lines, which the fixer reads (IniParseRows::Sections): every key of every section
-                    RowSteps rows;
-                    rows.resources = false;
+                    // the mod's own lines, which the fixer reads (IniParseRows::Sections): every key of every
+                    // section, off a copy of the parser's global graph -- run on the first ask of the parse data
+                    const BaseIniGraphGroupEdit<>::GraphId globalGraph{0, "global", ""};
+                    auto global = std::make_unique<GraphCreate<>>(globalGraph, nullptr);
+                    global->graphOf = [this]() { return this->globalGraph(); };
+                    auto sections = std::make_unique<GraphCollect<>>();
+                    sections->name = IniParseRows::Sections;
+                    sections->keyMatches.insert_or_assign(globalGraph, [](const std::string&) { return true; });
+
                     this->deferCommandEdits = true;
-                    this->commandEdits = this->rowSteps(rows);
+                    this->addCommandEdit(std::move(global));
+                    this->addCommandEdit(std::move(sections));
+                    this->addCommandEdit(std::make_unique<GraphRemove<>>(std::vector<BaseIniGraphGroupEdit<>::GraphId>{globalGraph}));
                 }
 
             private:

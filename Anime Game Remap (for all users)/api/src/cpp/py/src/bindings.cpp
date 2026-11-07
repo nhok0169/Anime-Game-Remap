@@ -61,6 +61,7 @@ void initCppGlobalModTypes(pybind11::module_ &m);
 void initCppGIMICharBuilders(pybind11::module_ &m);
 void initCppGIMIComponentBuilders(pybind11::module_ &m);
 void initCppWWMIBuilders(pybind11::module_ &m);
+void initCppLynaeData(pybind11::module_ &m);
 void initCppStrategyOverrides(pybind11::module_ &m);
 void initCppGIBuilder(pybind11::module_ &m);
 void initCppWWMIBuilder(pybind11::module_ &m);
@@ -172,6 +173,8 @@ void initCppColourReplaceFilter(pybind11::module_ &m);
 void initCppTransparencyAdjustFilter(pybind11::module_ &m);
 void initCppInvertAlphaFilter(pybind11::module_ &m);
 void initCppMaterialBandRemapFilter(pybind11::module_ &m);
+void initCppChannelMapFilter(pybind11::module_ &m);
+void initCppGuidedScaleFilter(pybind11::module_ &m);
 void initCppHueAdjust(pybind11::module_ &m);
 void initCppPixelFilter(pybind11::module_ &m);
 void initCppBaseTexEditor(pybind11::module_ &m);
@@ -287,6 +290,7 @@ PYBIND11_MODULE(core, m) {
     initCppGIMICharBuilders(m); // must come after initCppTexEditor (a TexEdit filter) and before initCppStrategyOverrides (which recognises its factories)
     initCppGIMIComponentBuilders(m); // must come after initCppGIMICharBuilders (shares its PyIniParseFactory/PyIniFixFactory wrappers)
     initCppWWMIBuilders(m); // same wrappers, same ordering; must come after initCppModTypeId and initCppColour (its configs hold a ModTypeId and a Colour)
+    initCppLynaeData(m); // must come after initCppWWMIBuilders (hands its configs' types across)
     initCppStrategyOverrides(m); // takes Python factories; no ordering constraint of its own
     initCppGIBuilder(m); // must come after initCppModType (its methods return ModType) and initCppModTypeId (uses the ModTypeId enum)
     initCppWWMIBuilder(m); // same constraints as initCppGIBuilder
@@ -409,6 +413,8 @@ PYBIND11_MODULE(core, m) {
     initCppTransparencyAdjustFilter(m); // must come after initCppBaseTexFilter/initCppColourRange
     initCppInvertAlphaFilter(m); // must come after initCppBaseTexFilter (registers its base)
     initCppMaterialBandRemapFilter(m); // must come after initCppBaseTexFilter (registers its base)
+    initCppChannelMapFilter(m);        // must come after initCppBaseTexFilter (registers its base)
+    initCppGuidedScaleFilter(m);       // after initCppChannelMapFilter (uses its Read)
     initCppHueAdjust(m); // must come after initCppBaseTexFilter (registers its base)
     initCppPixelFilter(m); // must come after initCppBaseTexFilter/initCppBasePixelTransform
     initCppBaseTexEditor(m); // must come after initCppTextureFile (its 'fix' method signature references it)

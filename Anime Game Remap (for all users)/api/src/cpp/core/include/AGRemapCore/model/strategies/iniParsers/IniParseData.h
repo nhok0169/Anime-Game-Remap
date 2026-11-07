@@ -265,6 +265,21 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The (count, first) of a ``drawindexed = <count>, <first>, <base>[, ...]`` value, every field a whole number
+             (:cpp:func:`ListValue::numbers`) -- or ``std::nullopt`` for ``auto``, a field that is not a number, or a
+             negative count or first
+             @endrst
+             *
+             * @param value The value
+             * @param zeroBase Whether only a value of exactly those three fields with a base of 0 is a range. **Default**: ``false``
+             *
+             * @return The range, or ``std::nullopt``
+             */
+            static std::optional<DrawRange> drawRangeOf(const std::string& value, bool zeroBase = false);
+
+            /**
+             * @brief
+             @rst
              The draws the mod's own `sections`_ of a mod object make with numbers, in the order they
              are written -- not ``drawindexed = auto``, which draws the whole of whatever is bound
              @endrst

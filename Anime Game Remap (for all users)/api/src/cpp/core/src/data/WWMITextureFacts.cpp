@@ -12,6 +12,9 @@
 // ##### EndCredits
 
 #include "AGRemapCore/data/WWMITextureFacts.h"
+#include "AGRemapCore/constants/WWMINames.h"
+
+#include <algorithm>
 
 #include "AGRemapCore/data/IniFixData/Changli/ChangliTextures.h"
 #include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphTextures.h"
@@ -36,5 +39,27 @@ namespace AGRemapCore {
             case ModTypeId::SanhuaExorcist: return sanhuaExorcistTextureFacts();
             default: return std::nullopt;
         }
+    }
+
+    std::optional<std::string> WWMITextureFacts::roleOfHashType(const std::string& type, const std::unordered_set<std::string>& roles) {
+        if (roles.count(type) > 0) {
+            return type;
+        }
+
+        for (const std::string& suffix : {WWMINames::LiveSuffix, WWMINames::OldSuffix}) {
+            const std::size_t at = type.rfind(suffix);
+            if (at == std::string::npos || at == 0) {
+                continue;
+            }
+
+            const std::string rest = type.substr(at + suffix.size());
+            const bool counted = std::all_of(rest.begin(), rest.end(), [](char c) { return c >= '0' && c <= '9'; });
+            const std::string role = type.substr(0, at);
+            if (counted && (suffix == WWMINames::OldSuffix || rest.empty()) && roles.count(role) > 0) {
+                return role;
+            }
+        }
+
+        return std::nullopt;
     }
 }

@@ -20,6 +20,7 @@
 #include "AGRemapCore/data/IniFixData/Changli/ChangliUpperShader.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/files/TextureFile.h"
+#include "AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h"
 
 #include <algorithm>
 #include <array>
@@ -45,16 +46,11 @@ namespace AGRemapCore {
                 lut[v] = static_cast<std::uint8_t>(std::nearbyint(255.0 * std::pow(lin, 1.0 / 2.2)));
             }
 
-            return [lut](TextureFile& tex) {
-                std::vector<std::uint8_t> px = tex.getPixels();
-                for (std::size_t i = 0; i < px.size(); i += 4) {
-                    px[i] = lut[px[i]];
-                    px[i + 1] = lut[px[i + 1]];
-                    px[i + 2] = lut[px[i + 2]];
-                }
-
-                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
-            };
+            ChannelMapFilter filter;
+            for (std::size_t c = 0; c < 3; ++c) {
+                filter.channels[c] = {static_cast<int>(c), std::vector<std::uint8_t>(lut.begin(), lut.end())};
+            }
+            return TexEditor::filterOf(std::move(filter));
         }
     }
 

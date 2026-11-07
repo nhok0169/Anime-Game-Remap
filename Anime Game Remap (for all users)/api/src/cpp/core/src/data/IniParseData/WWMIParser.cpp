@@ -52,6 +52,7 @@
 
 #include "AGRemapCore/constants/IniGraphModObjKeywords.h"
 #include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/constants/WWMINames.h"
 #include "AGRemapCore/data/HashData.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/model/IniNamingTools.h"
@@ -70,7 +71,7 @@ namespace AGRemapCore {
         using ModObj = Parser::ModObj;
 
         // The keys the fixer reads back off a slot section: its identity, and the window it draws.
-        const std::string MatchIndexCountKey = "match_index_count";
+        const std::string MatchIndexCountKey = IniKeywords::MatchIndexCount;
 
 
         /**
@@ -135,7 +136,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            const std::optional<std::string> role = roleOfHashType(row.first[2], roles);
+                            const std::optional<std::string> role = WWMITextureFacts::roleOfHashType(row.first[2], roles);
                             if (!role.has_value()) {
                                 continue;
                             }
@@ -205,11 +206,11 @@ namespace AGRemapCore {
 
                 // The names the collects file their rows under (IniParseData::collected)
                 inline static const std::string SlotsCollect = IniParseRows::Objs;
-                inline static const std::string TextureOverridesCollect = "WWMIParser.textureOverrides";
+                inline static const std::string TextureOverridesCollect = WWMINames::TextureOverridesRows;
                 inline static const std::string DeclaredCollect = IniParseRows::Declared;
-                inline static const std::string TextureRolesCollect = "WWMIParser.textureRoles";
-                inline static const std::string TextureTogglesCollect = "WWMIParser.textureToggles";
-                inline static const std::string CarriedCollect = "WWMIParser.carried";
+                inline static const std::string TextureRolesCollect = WWMINames::TextureRolesRows;
+                inline static const std::string TextureTogglesCollect = WWMINames::TextureTogglesRows;
+                inline static const std::string CarriedCollect = WWMINames::CarriedRows;
 
                 using Row = IniParseData::CollectedRow;
 
@@ -220,15 +221,7 @@ namespace AGRemapCore {
 
                 // the slot a slot's mod object names
                 std::optional<int> slotOf(const ModObj& obj) const {
-                    if (!isSlotObj(obj)) {
-                        return std::nullopt;
-                    }
-
-                    try {
-                        return std::stoi(obj.second.substr(config_.slotPrefix.size()));
-                    } catch (const std::exception&) {
-                        return std::nullopt;
-                    }
+                    return config_.slotOf(obj);
                 }
 
                 // Where each section sits in the file: the order the .ini is written in, for rows found in another order
@@ -286,8 +279,9 @@ namespace AGRemapCore {
                  * sorting the textures opens every candidate, and a parser is built for every `.ini` a run
                  * classifies -- most of which no WuWa fixer will ever ask about.
                  *
-                 * (1) the standard rows (GIMIParser::rowSteps): the files of the resources the mod binds,
-                 * every section's declaration and every key of every section, and every key of every slot graph;
+                 * (1) the standard rows (IniParseRows), off the parser's global graph: the files of the resources
+                 * the mod binds, every section's declaration and every key of every section, and every key of every
+                 * slot graph;
                  * (2) the hash and the `this` of every texture override; (3) the textures' roles and toggles;
                  * then the variables made from those rows (GraphVarApply): (4) the skeleton numbering; (5) the
                  * resource data (IniParseData::resourceDataOf, by WWMI's rules); (6) the textures' role files
@@ -342,10 +336,47 @@ namespace AGRemapCore {
                         }
                     }
 
-                    // the standard rows -- with [Constants]' mesh vertex count among the declarations
-                    RowSteps rows;
-                    rows.declaredKeys = {IniKeywords::Global + " " + IniKeywords::WWMIMeshVertexCount};
-                    rows.objs = [this](const ModObj& obj) { return isSlotObj(obj); };
+                    // THE STANDARD ROWS (IniParseRows), off the parser's global graph: a copy of it put in the
+                    // groups; the resource sections a line binds anywhere built as a graph (ResIdentity: nothing renamed,
+                    // no models) and their `filename`; every section's declarations, with [Constants]' mesh vertex
+                    // count; every key of every section; both graphs taken out again; and every key of each slot
+                    const GraphId globalGraph{0, "global", ""};
+                    const GraphId resourceGraph{0, "resource", ""};
+                    const auto anyKey = [](const std::string&) { return true; };
+
+                    auto global = std::make_unique<GraphCreate<>>(globalGraph, nullptr);
+                    global->graphOf = [this]() { return this->globalGraph(); };
+
+                    BaseResEdit<>::ResEditConfig resourceNames{IniKeywords::Filename,
+                        [this](const std::string& value) { return this->resourceNamed(value); },
+                        [](const std::string& file) { return file; }};
+                    auto resourceSections = std::make_unique<ResRegCollect<>>();
+                    resourceSections->srcRegMatches.insert_or_assign(globalGraph, anyKey);
+                    resourceSections->resPredicates.insert_or_assign(globalGraph,
+                        [this](const std::string&, const std::string& value, const ResRegCollect<>::IterData&) {
+                            return !this->resourceNamed(value).empty();
+                        });
+                    resourceSections->resEdits.insert_or_assign("", &this->ownResEdit(
+                        std::make_unique<ResIdentity<>>(resourceGraph, std::move(resourceNames), false)));
+
+                    auto files = std::make_unique<Collect>(Collect::ByGraph<std::vector<std::string>>{
+                        {resourceGraph, {IniKeywords::Filename}}});
+                    files->name = IniParseRows::Resources;
+                    auto declared = std::make_unique<Collect>(Collect::ByGraph<std::vector<std::string>>{
+                        {globalGraph, {IniKeywords::Filename, IniKeywords::Type, IniKeywords::Format, IniKeywords::Stride,
+                                       IniKeywords::Global + " " + IniKeywords::WWMIMeshVertexCount}}});
+                    declared->name = IniParseRows::Declared;
+                    auto sections = std::make_unique<Collect>();
+                    sections->name = IniParseRows::Sections;
+                    sections->keyMatches.insert_or_assign(globalGraph, anyKey);
+                    auto removeGraphs = std::make_unique<GraphRemove<>>(std::vector<GraphId>{resourceGraph, globalGraph});
+                    auto slots = std::make_unique<Collect>();
+                    slots->name = SlotsCollect;
+                    for (const ModObj& obj : this->modObjs()) {
+                        if (isSlotObj(obj)) {
+                            slots->keyMatches.insert_or_assign(GraphId(0, obj.first, obj.second), anyKey);
+                        }
+                    }
 
                     // the skeleton numbering, made from the slot rows and the resource rows
                     auto skeleton = std::make_unique<GraphVarApply>(
@@ -388,20 +419,27 @@ namespace AGRemapCore {
                         }
                     }
 
-                    // THE STEPS: the edits that read the mod, then the variables made from their rows
+                    // THE EDITS: the ones that read the mod, then the variables made from their rows -- run on the
+                    // first ask of the parse data
                     this->deferCommandEdits = true;
-                    this->commandEdits = this->rowSteps(rows);
-                    for (GroupEdit* step : {&this->ownStep(std::move(overrides)), &this->ownStep(std::move(roles)),
-                                            &this->ownStep(std::move(toggles)), &this->ownStep(std::move(carried))}) {
-                        this->commandEdits.push_back(step);
-                    }
+                    this->addCommandEdit(std::move(global));
+                    this->addCommandEdit(std::move(resourceSections));
+                    this->addCommandEdit(std::move(files));
+                    this->addCommandEdit(std::move(declared));
+                    this->addCommandEdit(std::move(sections));
+                    this->addCommandEdit(std::move(removeGraphs));
+                    this->addCommandEdit(std::move(slots));
+                    this->addCommandEdit(std::move(overrides));
+                    this->addCommandEdit(std::move(roles));
+                    this->addCommandEdit(std::move(toggles));
+                    this->addCommandEdit(std::move(carried));
                     if (!onlyThisFile_) {
-                        this->commandEdits.push_back(&this->ownStep(std::move(skeleton)));
+                        this->addCommandEdit(std::move(skeleton));
                     }
-                    this->commandEdits.push_back(&this->ownStep(std::move(resources)));
+                    this->addCommandEdit(std::move(resources));
                     if (!onlyThisFile_) {
-                        this->commandEdits.push_back(&this->ownStep(std::move(roleFiles)));
-                        this->commandEdits.push_back(&this->ownStep(std::move(splits)));
+                        this->addCommandEdit(std::move(roleFiles));
+                        this->addCommandEdit(std::move(splits));
                     }
                 }
 
@@ -566,7 +604,7 @@ namespace AGRemapCore {
                                 : static_cast<int>(versions.size());
                             const std::string& type = row.first[2];
                             int generation = 0;
-                            for (const auto& [suffix, base] : {std::make_pair(std::string("Live"), 1), std::make_pair(std::string("Old"), 2)}) {
+                            for (const auto& [suffix, base] : {std::make_pair(WWMINames::LiveSuffix, 1), std::make_pair(WWMINames::OldSuffix, 2)}) {
                                 const std::size_t at = type.rfind(suffix);
                                 if (at != std::string::npos && at > 0) {
                                     const std::string rest = type.substr(at + suffix.size());
@@ -785,30 +823,6 @@ namespace AGRemapCore {
                 // A section a previous fix wrote: its name ends `<target>RemapFix`
                 static bool isFixSection(const std::string& name) {
                     return StringTools::endsWithIgnoreCase(name, IniKeywords::RemapFix);
-                }
-
-                // The role a HashData hash type of the character names: the role itself, or the role
-                // followed by `Live` or `Old`, `Old2`, ... (see HashData's WuWa texture rows)
-                static std::optional<std::string> roleOfHashType(const std::string& type, const std::unordered_set<std::string>& roles) {
-                    if (roles.count(type) > 0) {
-                        return type;
-                    }
-
-                    for (const std::string suffix : {std::string("Live"), std::string("Old")}) {
-                        const std::size_t at = type.rfind(suffix);
-                        if (at == std::string::npos || at == 0) {
-                            continue;
-                        }
-
-                        const std::string rest = type.substr(at + suffix.size());
-                        const bool counted = std::all_of(rest.begin(), rest.end(), [](char c) { return c >= '0' && c <= '9'; });
-                        const std::string role = type.substr(0, at);
-                        if (counted && (suffix == "Old" || rest.empty()) && roles.count(role) > 0) {
-                            return role;
-                        }
-                    }
-
-                    return std::nullopt;
                 }
 
                 // The part of a section that only watches her (WWMIParseObjs::Watch) naming her hash: it has

@@ -59,7 +59,11 @@ others); `set` / `find<T>` / `get<T>` / `has` / `erase` / `names`, and `sections
 `IniParseData::BlendVersion`. **`GraphEditVariables::apply(inputs, fn, into)`** makes a variable from others -- value
 in, value out, `into` REPLACED (a write of sections adds; a function's output is a new value), nothing returned
 leaves it -- and **`GraphVarApply`** is the edit that runs it in a parser's step list, the scheduling wrapper as
-`GraphVarTake` is for taking sections: all the logic is in the store. It reads ONLY variables, so whatever a graph
+`GraphVarTake` is for taking sections: all the logic is in the store. **In a FIXER's list it takes the fixer's own
+variables (`variables =`, 2026-11-06) and applies when the edit runs**, so a fix's decision is a visible step and the
+stages after it read its variable -- an `IterGraphGroupEdit` builds a stage's edits when the list reaches it (a stage
+that runs once returns its edits for group 0 only). That is how a user tweaks a fix: change what a step reads, replace
+its function, or add a step that edits its variable (see the root guide's transparency paragraph). It reads ONLY variables, so whatever a graph
 says is collected into one first. **It replaced the parser's readers, and `parseReaders` / `deferredParseReaders`
 are gone (2026-11-06)**: a parser is ONE list of edits. `WWMIParser`'s four are the skeleton numbering (slot rows +
 resource rows -> `BlendVersion`), the resource data (rows -> `IniParseData::ResourceDataVar`, an

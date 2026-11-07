@@ -24,6 +24,9 @@
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeUpperShader.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
+#include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
+#include "AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h"
+#include "AGRemapCore/model/strategies/texEditors/texFilters/GuidedScaleFilter.h"
 
 
 namespace AGRemapCore {
@@ -263,40 +266,63 @@ namespace AGRemapCore {
 
         config.sourceTextures = lynaeTextureFacts();
 
+        // THE TEXTURE EDITS: the general filters with Lynae's tables (LynaeSkinCodes)
+        const auto codeMap = [](std::vector<std::uint8_t> table) {
+            return [table](const WWMIFixerConfig::TexEditContext&) { return TexEditor::filterOf(ChannelMapFilter::codeMap(table)); };
+        };
+        const auto redFull = [](const WWMIFixerConfig::TexEditContext&) {
+            ChannelMapFilter filter;                 // a mask is codes: its G and B as the shader reads them
+            filter.read = ChannelMapFilter::Read::ShaderValue;
+            filter.data = true;
+            filter.channels[0] = {0, ChannelMapFilter::constant(255)};
+            filter.channels[1] = {1, {}};
+            filter.channels[2] = {2, {}};
+            return TexEditor::filterOf(std::move(filter));
+        };
+
         // ---- the body's material-code maps (ps-t2) mark skin with 0 on Lynae and 4 on the skin, so
         // a map carried across unchanged shaded her body's skin as cloth -- whiter, with lavender
-        // shadows, under a warm face: see lynaeSkinCodeSwap ----
+        // shadows, under a warm face: see lynaeSkinCodeTable ----
         config.texEdits = {
-            {"upperDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) { return lynaeSkinCodeSwap(); }},
-            {"lowerDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) { return lynaeSkinCodeSwap(); }},
+            {"upperDetail", "SkinCode", codeMap(lynaeSkinCodeTable())},
+            {"lowerDetail", "SkinCode", codeMap(lynaeSkinCodeTable())},
             // ...and her lower-body / jacket masks' red channel, which her shaders ignore and the skin's
-            // reads as a dark material (Lynae10's suit, R = 0, came out navy): see lynaeMaskRedFill
-            {"lowerMask", "Red", [](const WWMIFixerConfig::TexEditContext&) { return lynaeMaskRedFill(); }},
-            {"jacketMask", "Red", [](const WWMIFixerConfig::TexEditContext&) { return lynaeMaskRedFill(); }},
+            // reads as a dark material (Lynae10's suit, R = 0, came out navy): R full
+            {"lowerMask", "Red", redFull},
+            {"jacketMask", "Red", redFull},
         };
 
         // ---- her lower-body shader shades by the normal map's alpha, the skin's does not: the bands are
-        // baked into the diffuse, see lynaeSheerBake ----
+        // baked into the diffuse, guided by the mod's normal map (else hers), see lynaeShadeBandFactors ----
         WWMIFixerConfig::TexEdit sheer{"lowerDiffuse", "Sheer", [](const WWMIFixerConfig::TexEditContext& ctx) {
-            return lynaeSheerBake(ctx);
+            GuidedScaleFilter filter;
+            filter.guide = ctx.fileOrGame("lowerNormal");
+            filter.channel = 3;
+            filter.factors = lynaeShadeBandFactors();
+            filter.linear = true;
+            return TexEditor::filterOf(std::move(filter));
         }};
         sheer.sourceGameRoles = {"lowerNormal"};
         config.texEdits.push_back(std::move(sheer));
 
         // ---- her coat lining is a film (code 4 of the jacket's code map) the skin draws as plain cyan
         // diffuse: the code moves to the skin's film code and the texels under it take the measured tint
-        // (see lynaeFilmCode / lynaeFilmBake) ----
-        config.texEdits.push_back({"jacketDetail", "Film", [](const WWMIFixerConfig::TexEditContext&) { return lynaeFilmCode(); }});
+        // (see lynaeFilmCodeTable / lynaeFilmFactors) ----
+        config.texEdits.push_back({"jacketDetail", "Film", codeMap(lynaeFilmCodeTable())});
         WWMIFixerConfig::TexEdit film{"jacketDiffuse", "Film", [](const WWMIFixerConfig::TexEditContext& ctx) {
-            return lynaeFilmBake(ctx);
+            GuidedScaleFilter filter;
+            filter.guide = ctx.fileOrGame("jacketDetail");
+            filter.read = ChannelMapFilter::Read::ShaderCode;
+            filter.factors = lynaeFilmFactors();
+            return TexEditor::filterOf(std::move(filter));
         }};
         film.sourceGameRoles = {"jacketDetail"};
         config.texEdits.push_back(std::move(film));
 
         // ---- her props land on the skin's hip pouch, whose shader draws every material her props maps
         // use as its holographic foil (Lynae14's red dress: blue-violet rims): all but her film (flag
-        // 0x10) become its plain material 15, see lynaePropsPlainCode. The mod's diffuse is left as it is ----
-        config.texEdits.push_back({"propsDetail", "Plain", [](const WWMIFixerConfig::TexEditContext&) { return lynaePropsPlainCode(); }});
+        // 0x10) become its plain material 15, see lynaePropsPlainCodeTable. The mod's diffuse is left as it is ----
+        config.texEdits.push_back({"propsDetail", "Plain", codeMap(lynaePropsPlainCodeTable())});
 
         // Masks mark regions, and her own are flat in places on purpose (her hair mask is one value
         // over the whole texture, her lower-body and jacket masks R = 255 throughout), so a flat mask

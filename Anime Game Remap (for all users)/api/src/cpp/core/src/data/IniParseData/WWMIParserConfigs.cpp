@@ -11,6 +11,10 @@
 
 // ##### EndCredits
 
+#include "AGRemapCore/tools/StringTools.h"
+
+#include <algorithm>
+#include <exception>
 #include "AGRemapCore/data/IniParseData/WWMIParser.h"
 
 #include "AGRemapCore/data/IniParseData/Changli/ChangliParser.h"
@@ -24,6 +28,18 @@
 
 
 namespace AGRemapCore {
+    std::optional<int> WWMIParserConfig::slotOf(const std::pair<std::string, std::string>& obj) const {
+        if (!obj.first.empty() || !StringTools::startsWith(obj.second, slotPrefix)) {
+            return std::nullopt;
+        }
+
+        try {
+            return std::stoi(obj.second.substr(slotPrefix.size()));
+        } catch (const std::exception&) {
+            return std::nullopt;
+        }
+    }
+
     std::optional<WWMIParserConfig> WWMIParserConfig::of(ModTypeId id) {
         switch (id) {
             case ModTypeId::Changli: return ChangliParser::v1_1Config();

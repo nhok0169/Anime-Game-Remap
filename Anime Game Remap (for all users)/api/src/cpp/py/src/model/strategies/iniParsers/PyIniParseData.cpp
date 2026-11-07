@@ -505,6 +505,25 @@ Returns
 Dict[:class:`str`, :class:`str`]
     lowercased `section`_ name -> its ``filename =``
        )doc")
+       .def_static("drawRangeOf", &AGRC::IniParseData::drawRangeOf, py::arg("value"), py::arg("zeroBase") = false, R"doc(
+The (count, first) of a ``drawindexed = <count>, <first>, <base>[, ...]`` value, every field a whole number
+(:meth:`ListValue.numbers`) -- or ``None`` for ``auto``, a field that is not a number, or a negative count or first
+
+Parameters
+----------
+value: :class:`str`
+    The value
+
+zeroBase: :class:`bool`
+    Whether only a value of exactly those three fields with a base of 0 is a range :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``False``
+
+Returns
+-------
+Optional[Tuple[:class:`int`, :class:`int`]]
+    The range, or ``None``
+       )doc")
        .def_static("resourceFilesOf", &AGRC::IniParseData::resourceFilesOf, py::arg("rows"), R"doc(
 The resource files that rows of ``filename`` keys name (the rows of :attr:`IniParseRows.Resources`), as
 :meth:`resourceFiles` holds them: each `section`_'s first, its value stripped

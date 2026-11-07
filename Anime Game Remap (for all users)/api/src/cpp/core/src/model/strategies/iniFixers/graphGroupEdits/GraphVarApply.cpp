@@ -20,7 +20,14 @@ namespace AGRemapCore {
     GraphVarApply::GraphVarApply(std::vector<std::string> inputs, GraphEditVariables::Apply fn, std::string into):
         inputs(std::move(inputs)), fn(std::move(fn)), into(std::move(into)) {}
 
+    GraphVarApply::GraphVarApply(GraphEditVariables& variables, std::vector<std::string> inputs, GraphEditVariables::Apply fn,
+                                 std::string into):
+        inputs(std::move(inputs)), fn(std::move(fn)), into(std::move(into)), variables(&variables) {}
+
     GraphVarApply::GraphGroups& GraphVarApply::edit(GraphGroups& graphGroups, const ModType*, const std::string&) {
+        if (variables != nullptr) {
+            variables->apply(inputs, fn, into);
+        }
         return graphGroups;
     }
 

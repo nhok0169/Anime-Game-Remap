@@ -27,6 +27,7 @@
 #include "AGRemapCore/data/IniFixData/Chisa/ChisaThumbprints.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/files/TextureFile.h"
+#include "AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h"
 #include "AGRemapCore/tools/files/FileService.h"
 
 
@@ -71,18 +72,12 @@ namespace AGRemapCore {
         // Translated: every channel is her FIRST profile, the one a low normal-map alpha selects, so
         // the intensity survives and there is no rainbow.
         TexEditor::Filter sheenFilter() {
-            return [](TextureFile& tex) {
-                tex.setGamma(std::nullopt);          // these bytes are data, not colour
-                std::vector<std::uint8_t> px = tex.getPixels();
-                for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
-                    const std::uint8_t profile = px[i];
-                    px[i + 1] = profile;
-                    px[i + 2] = profile;
-                    px[i + 3] = profile;
-                }
-
-                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
-            };
+            ChannelMapFilter filter;
+            filter.data = true;                      // these bytes are data, not colour
+            for (std::size_t c = 1; c < 4; ++c) {
+                filter.channels[c] = {0, {}};        // the profile, R, into G, B and A
+            }
+            return TexEditor::filterOf(std::move(filter));
         }
 
         // The hair's ps-t5 is a 2048 x 2048 UV-MAPPED map, so it cannot be left to the game: the
@@ -100,17 +95,12 @@ namespace AGRemapCore {
         // are indistinguishable from this in game (the maintainer, 2026-09-26) -- this one is
         // chosen because it is the only one of the three that keeps the mod's own strand detail.
         TexEditor::Filter hairNormalFilter() {
-            return [](TextureFile& tex) {
-                tex.setGamma(std::nullopt);          // these bytes are data, not colour
-                std::vector<std::uint8_t> px = tex.getPixels();
-                for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
-                    px[i] = 0;                       // R: the target's is 0 over 99.4%
-                    px[i + 2] = 0;                   // B: ...and its B over 93.7%
-                    px[i + 3] = 255;                 // A: ...and its A is 255 over 98.3%
-                }
-
-                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
-            };
+            ChannelMapFilter filter;
+            filter.data = true;                      // these bytes are data, not colour
+            filter.channels[0] = {0, ChannelMapFilter::constant(0)};     // R: the target's is 0 over 99.4%
+            filter.channels[2] = {2, ChannelMapFilter::constant(0)};     // B: ...and its B over 93.7%
+            filter.channels[3] = {3, ChannelMapFilter::constant(255)};   // A: ...and its A is 255 over 98.3%
+            return TexEditor::filterOf(std::move(filter));
         }
 
         // Repack a material mask from the SOURCE's layout into the TARGET's. Every non-skin texel

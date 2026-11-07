@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::GameDefaults</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1a7016200446fa8faf896ec6a2d80ac358" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; AGRemapCore::WWMIFixerConfig::GameDefaults::ofRole</definition>
+        <argsstring></argsstring>
+        <name>ofRole</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::GameDefaults::ofRole</qualifiedname>
+        <briefdescription>
+<para>Role -&gt; what the draws a section makes before it binds anything bind: the source&apos;s own game texture <ndash/> the role&apos;s stand-in when the mod has no file for it, else a download of its own. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1655" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1655" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1a952cac543bcaec0041cc5a3d5a108afb" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_download" kindref="compound">Download</ref> &gt;</type>
+        <definition>std::map&lt;std::string, Download&gt; AGRemapCore::WWMIFixerConfig::GameDefaults::downloads</definition>
+        <argsstring></argsstring>
+        <name>downloads</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::GameDefaults::downloads</qualifiedname>
+        <briefdescription>
+<para>Role -&gt; the source&apos;s game texture, downloaded as <computeroutput>&lt;prefix&gt;&lt;Role&gt;GameRemapDL.dds</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1660" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1660" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1a6c1ff79d2dc82a4166789473e88cce7c" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::pair&lt; std::string, int &gt;, std::string &gt;</type>
+        <definition>std::map&lt;std::pair&lt;std::string, int&gt;, std::string&gt; AGRemapCore::WWMIFixerConfig::GameDefaults::toggled</definition>
+        <argsstring></argsstring>
+        <name>toggled</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::GameDefaults::toggled</qualifiedname>
+        <briefdescription>
+<para>(role, component) -&gt; what binds the role outside the toggle the mod binds its own file under </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1665" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1665" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1aded46b06514fbde6363210115f4cef56" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::GameDefaults::edited</definition>
+        <argsstring></argsstring>
+        <name>edited</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::GameDefaults::edited</qualifiedname>
+        <briefdescription>
+<para>The roles whose download is the default, and so is edited as the mod&apos;s own file of the role would be (:cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a62d26bafb7e13dbe52bb960ee5d03d34" kindref="member">texEdits</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1671" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1671" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1af2a77f791cea562744248dd4480464ca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::GameDefaults::notes</definition>
+        <argsstring></argsstring>
+        <name>notes</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::GameDefaults::notes</qualifiedname>
+        <briefdescription>
+<para>What the decision has to say, for the log, in order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1676" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1676" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1a8933625c626ba58e9fefa8f924a95322" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::GameDefaults::of</definition>
+        <argsstring>(const std::string &amp;role, int component, bool ownShader) const</argsstring>
+        <name>of</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::GameDefaults::of</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ownShader</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The source&apos;s game texture of &apos;role&apos; as &apos;component&apos; binds it: the download itself for a component its
+own shader draws, else #ofRole&apos;s
+</verbatim> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The role </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source component </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ownShader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the component&apos;s own shader draws it </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resource </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1689" column="25" bodyfile="src/data/IniFixData/WWMIFixerConfigs.cpp" bodystart="349" bodyend="357"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Where the source&apos;s own game texture is the default for a role -- see #gameDefaults
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1650" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1650" bodyend="1690"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1a952cac543bcaec0041cc5a3d5a108afb" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::GameDefaults</scope><name>downloads</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1aded46b06514fbde6363210115f4cef56" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::GameDefaults</scope><name>edited</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1af2a77f791cea562744248dd4480464ca" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::GameDefaults</scope><name>notes</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1a8933625c626ba58e9fefa8f924a95322" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::GameDefaults</scope><name>of</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1a7016200446fa8faf896ec6a2d80ac358" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::GameDefaults</scope><name>ofRole</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1a6c1ff79d2dc82a4166789473e88cce7c" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::GameDefaults</scope><name>toggled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

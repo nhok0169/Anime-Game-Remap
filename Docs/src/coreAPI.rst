@@ -1853,6 +1853,17 @@ WWMIFixerConfig
 
 :raw-html:`<br />`
 
+WWMINames
+---------
+
+.. cppattributetable:: AGRemapCore::WWMINames
+
+.. doxygenstruct:: AGRemapCore::WWMINames
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 WWMISections
 ------------
 
@@ -2838,6 +2849,28 @@ MaterialBandRemapFilter
 .. cppattributetable:: AGRemapCore::MaterialBandRemapFilter
 
 .. doxygenclass:: AGRemapCore::MaterialBandRemapFilter
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ChannelMapFilter
+----------------
+
+.. cppattributetable:: AGRemapCore::ChannelMapFilter
+
+.. doxygenclass:: AGRemapCore::ChannelMapFilter
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GuidedScaleFilter
+-----------------
+
+.. cppattributetable:: AGRemapCore::GuidedScaleFilter
+
+.. doxygenclass:: AGRemapCore::GuidedScaleFilter
     :members:
     :protected-members:
 

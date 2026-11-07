@@ -169,6 +169,8 @@ from .test_CppTransparencyAdjustFilter import CppTransparencyAdjustFilterTest
 from .test_CppTexFilterOnCppTextureFile import CppTexFilterOnCppTextureFileTest
 from .test_CppInvertAlphaFilter import CppInvertAlphaFilterTest
 from .test_CppMaterialBandRemapFilter import CppMaterialBandRemapFilterTest
+from .test_ChannelFilters import ChannelMapFilterTest, GuidedScaleFilterTest
+from .test_WWMIHelpers import WWMIHelpersTest
 from .test_NeuvilletteTemplateOptions import NeuvilletteTemplateOptionsTest
 from .test_InnerLayerOutline import InnerLayerOutlineTest, VGSplitGroupInnerOutlineTest
 from .test_CppHueAdjust import CppHueAdjustTest
@@ -218,4 +220,5 @@ __all__ += ["GraphCreateTest", "GraphFilterTest", "GraphCopyTest", "RegIfTemplat
 __all__ += ["GraphEditVariablesTest"]
 __all__ += ["ShaderFilterTagsTest", "CustomShaderBackupsTest"]
 __all__ += ["PythonParityTest"]
+__all__ += ["ChannelMapFilterTest", "GuidedScaleFilterTest", "WWMIHelpersTest"]
 __all__ += ["ObjectLifetimeTest", "IniFileLifetimeTest", "GraphKeeperTest"]

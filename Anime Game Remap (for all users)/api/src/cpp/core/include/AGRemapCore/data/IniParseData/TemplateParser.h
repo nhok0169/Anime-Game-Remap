@@ -40,11 +40,11 @@ namespace AGRemapCore {
      * the parse context: an :cpp:class:`IniFileParseContext` over the ``.ini`` file, owned here and installed as the
        parser's context
      * owning what the parser is built from: its :cpp:class:`GIMISectionClassifier`\\ s (:cpp:func:`ownClassifier`)
-       and its edits (:cpp:func:`addCommandEdit`, :cpp:func:`ownStep`), which
+       and its edits (:cpp:func:`addCommandEdit`, :cpp:func:`ownStep`, :cpp:func:`ownResEdit`), which
        :cpp:class:`GIMIParser` itself only borrows
 
-     The steps worth sharing between parsers are edits of their own -- a :cpp:class:`GraphCollect`, the standard rows of
-     :cpp:func:`GIMIParser::rowSteps`, a :cpp:class:`GraphVarApply` making a variable from their rows -- and
+     The steps worth sharing between parsers are edits of their own -- a :cpp:class:`GraphCollect` of the standard rows
+     (:cpp:struct:`IniParseRows`), a :cpp:class:`GraphVarApply` making a variable from them -- and
      another ``.ini`` of the mod is read through :cpp:func:`IniFile::linkedInis`. All of them live on
      :cpp:class:`GIMIParser`, so a parser built from `Python`_ on the bound ``GIMIParser`` has the same pieces; what is
      here is only the C++ ownership a `Python`_ list gives for free
@@ -89,6 +89,15 @@ namespace AGRemapCore {
             GroupEdit& ownStep(std::unique_ptr<GroupEdit> step);
 
             /**
+             * @brief Keeps 'edit' alive as long as the parser -- for a resource edit a collect borrows
+             *
+             * @param edit The resource edit
+             *
+             * @return The edit, now owned here
+             */
+            BaseResEdit<>& ownResEdit(std::unique_ptr<BaseResEdit<>> edit);
+
+            /**
              * @brief Owns 'step' and adds it to the end of :cpp:member:`GIMIParser::commandEdits`
              *
              * @param step The step
@@ -106,6 +115,7 @@ namespace AGRemapCore {
 
             std::vector<std::unique_ptr<Classifier>> classifiers_;
             std::vector<std::unique_ptr<GroupEdit>> steps_;
+            std::vector<std::unique_ptr<BaseResEdit<>>> resEdits_;
     };
 }
 

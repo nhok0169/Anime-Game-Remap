@@ -248,9 +248,8 @@ namespace AGRemapCore {
                     addDrawPart(obj, partAt);
                     const std::string& draw = row->value;
                     if (std::count(draw.begin(), draw.end(), ',') >= 2) {
-                        const std::optional<std::vector<long long>> numbers = ListValue(draw).numbers();
-                        if (numbers.has_value() && numbers->size() >= 3 && (*numbers)[0] >= 0 && (*numbers)[1] >= 0) {
-                            addDrawRange(obj, {(*numbers)[0], (*numbers)[1]});
+                        if (const std::optional<DrawRange> range = drawRangeOf(draw)) {
+                            addDrawRange(obj, *range);
                         } else if (rules.log) {
                             // a dropped draw range is a piece of the mesh that stops being remapped
                             rules.log("could not read the draw range `" + std::string(StringTools::strip(draw)) + "` in ["
@@ -511,6 +510,15 @@ namespace AGRemapCore {
 
     const std::set<IniParseData::ModObj>& IniParseData::undrawnObjs() const {
         return resources().undrawn;
+    }
+
+    std::optional<IniParseData::DrawRange> IniParseData::drawRangeOf(const std::string& value, bool zeroBase) {
+        const std::optional<std::vector<long long>> numbers = ListValue(value).numbers();
+        if (!numbers.has_value() || numbers->size() < 3 || (*numbers)[0] < 0 || (*numbers)[1] < 0
+                || (zeroBase && (numbers->size() != 3 || (*numbers)[2] != 0))) {
+            return std::nullopt;
+        }
+        return DrawRange((*numbers)[0], (*numbers)[1]);
     }
 
     const std::vector<IniParseData::DrawRange>& IniParseData::drawRanges(const ModObj& modObj) const {

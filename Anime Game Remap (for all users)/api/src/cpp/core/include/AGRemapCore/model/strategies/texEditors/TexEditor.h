@@ -16,6 +16,7 @@
 
 #include <functional>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "AGRemapCore/model/strategies/texEditors/BaseTexEditor.h"
@@ -39,6 +40,22 @@ namespace AGRemapCore {
              * @brief A single edit applied to a :cpp:class:`TextureFile` by #fix
              */
             using Filter = std::function<void(TextureFile&)>;
+
+            /**
+             * @brief
+             @rst
+             A filter object (a :cpp:class:`BaseTexFilter`, or anything with ``transform(TextureFile&)``) as a
+             #Filter, holding its own copy
+             @endrst
+             *
+             * @param filter The filter
+             *
+             * @return The edit
+             */
+            template <typename TexFilter>
+            static Filter filterOf(TexFilter filter) {
+                return [filter = std::move(filter)](TextureFile& texFile) mutable { filter.transform(texFile); };
+            }
 
             /**
              * @brief

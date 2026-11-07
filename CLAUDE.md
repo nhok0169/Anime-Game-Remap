@@ -536,7 +536,12 @@ list -- it replaced the parser's `parseReaders`, which are gone (2026-11-06): WW
 data (`IniParseData::ResourceData` in `ResourceDataVar`), role files (`RoleFileData` in `RoleFilesVar`) and draw splits
 are four `GraphVarApply` steps, and the getters read those variables, so a parser is ONE list of edits --
 `GIMIParser::commandEdits` (with `deferCommandEdits` to run it on the first ask of the parse data), which replaced
-the old single `commandEdits` edit AND the `parseSteps` / `deferredParseSteps` lists the same day. See
+the old single `commandEdits` edit AND the `parseSteps` / `deferredParseSteps` lists the same day. **A character's
+texture edit is a general filter with its table** (`ChannelMapFilter`, `GuidedScaleFilter`, 2026-11-06; Texture
+Editing's first section): sixteen pixel loops in character files had kept a Python fixer from making the same edits.
+And the names a WWMI fix writes (`WWMINames`) and the readings it shares (`IniParseData::drawRangeOf`,
+`WWMITextureFacts::roleOfHashType`, `WWMIFixerConfig::Shader::lineRole`, `WWMIParserConfig::slotOf`) are bound, so a
+Python parser or fixer spells and reads them as the compiled ones do. See
 [Ini Graph Editing](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md)'s variables section.
 **THE PYTHON ACCEPTANCE TEST MIRRORS THE C++ (the maintainer, 2026-11-02; and 2026-11-04: it is a test OF THE REFACTOR,
 not kept after it -- so never make the Python shorter or cleverer than the C++, simplify the C++ and mirror it):** the explicit Python parser and fixer
@@ -592,6 +597,16 @@ new fixer code: name the edit each step is, grep the edit families for it (Overv
 missing, the work item is the EDIT, not the fixer. **And the refactor is not moving code (the maintainer,
 2026-10-31):** a slice is judged by how much of the fixer's logic BECOMES configured edits plus data -- a loop
 relocated into a data module or a helper, doing the same thing, is no progress.
+
+**THE LIST IS FOR TRANSPARENCY: AN API USER TWEAKS A FIX BY READING ITS LIST (the maintainer, 2026-11-06).** Their test:
+take the Lynae fix and send component 0 through another slot. A hidden class or an implicit rule makes them read all the
+internals and hack the API; a list of generic edits shows what to change. So a fix's DECISION is a visible step --
+`GraphVarApply(inputs, fn, into, variables = fixVars)` over the fixer's own variables (new 2026-11-06) -- and each writing
+stage an `IterGraphGroupEdit` that reads those variables when the list reaches it. The WWMI decisions are
+`WWMIFixerConfig.roleResources` / `gameDefaults` / `texEditTargets` / `rabbitFXFlags` / `linkedLines`, and the mirror
+(`sanhuaExorcistEdits.py`) lists them as steps. The tweak found a coupling no rule should paper over: `extraPassRegs` is
+keyed by TARGET slot but names SOURCE roles, so moving a component means editing it (`Tools/Misc/Prototypes/lynaeBangsOnHair.py`);
+a kind-swapping `passBindingsOf` was built and reverted the same day.
 
 **BUT A NEW EDIT MUST EDIT THE GRAPH (the maintainer, 2026-10-31).** Asked what a proposed `DrawTexelSplit` parse
 step, and the then-existing `SkeletonNumberingRead` (retired the same day), offered that the other edits could not express, the honest answer

@@ -1,0 +1,281 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_channel_map_filter" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ChannelMapFilter</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_tex_filter" prot="public" virt="non-virtual">AGRemapCore::BaseTexFilter</basecompoundref>
+    <includes refid="_channel_map_filter_8h" local="no">ChannelMapFilter.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_channel_map_filter_1_1_channel" prot="public">AGRemapCore::ChannelMapFilter::Channel</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_a_g_remap_core_1_1_channel_map_filter_1a0f0e53404b39f31d310f9d5e4454f979" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Read</name>
+        <qualifiedname>AGRemapCore::ChannelMapFilter::Read</qualifiedname>
+        <enumvalue id="class_a_g_remap_core_1_1_channel_map_filter_1a0f0e53404b39f31d310f9d5e4454f979a65e65c8ab0d8609ce12fc68a03cb8e00" prot="public">
+          <name>Raw</name>
+          <briefdescription>
+<para>The stored bytes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_channel_map_filter_1a0f0e53404b39f31d310f9d5e4454f979a0e4c6d803e71001cb6d2ef095527538b" prot="public">
+          <name>ShaderCode</name>
+          <briefdescription>
+<para>As a shader reads a code: decoded, truncated (:cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_texture_file_1af211daa9883de11b7cf9ce9319abd338" kindref="member">TextureFile::shaderChannel</ref></computeroutput>). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_channel_map_filter_1a0f0e53404b39f31d310f9d5e4454f979a4e18c5dd9f3464a4f415c9a407ec1120" prot="public">
+          <name>ShaderValue</name>
+          <briefdescription>
+<para>As a shader reads a value: decoded, rounded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>How a source channel is read. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" line="45" column="13" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" bodystart="45" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_channel_map_filter_1aad3230a92e7a59f1b748da61010b1341" prot="public" static="no" mutable="no">
+        <type>std::array&lt; <ref refid="struct_a_g_remap_core_1_1_channel_map_filter_1_1_channel" kindref="compound">Channel</ref>, 4 &gt;</type>
+        <definition>std::array&lt;Channel, 4&gt; AGRemapCore::ChannelMapFilter::channels</definition>
+        <argsstring></argsstring>
+        <name>channels</name>
+        <qualifiedname>AGRemapCore::ChannelMapFilter::channels</qualifiedname>
+        <briefdescription>
+<para>The output channels R, G, B and A, in that order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" line="84" column="24" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_channel_map_filter_1a25f0c4115fceb10101767129230bb429" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_channel_map_filter_1a0f0e53404b39f31d310f9d5e4454f979" kindref="member">Read</ref></type>
+        <definition>Read AGRemapCore::ChannelMapFilter::read</definition>
+        <argsstring></argsstring>
+        <name>read</name>
+        <qualifiedname>AGRemapCore::ChannelMapFilter::read</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_channel_map_filter_1a0f0e53404b39f31d310f9d5e4454f979a65e65c8ab0d8609ce12fc68a03cb8e00" kindref="member">Read::Raw</ref></initializer>
+        <briefdescription>
+<para>How every source channel is read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: :cpp:enumerator:<computeroutput><ref refid="class_a_g_remap_core_1_1_channel_map_filter_1a0f0e53404b39f31d310f9d5e4454f979a65e65c8ab0d8609ce12fc68a03cb8e00" kindref="member">Read::Raw</ref></computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" line="89" column="18" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_channel_map_filter_1a6cfe13f90da2e3fa4150df59bcb131d3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ChannelMapFilter::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>AGRemapCore::ChannelMapFilter::data</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the written bytes are data (codes, flags) rather than colour: the gamma is cleared. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" line="94" column="18" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_channel_map_filter_1a2fb844d2b4865780cd128b67a4134d29" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::uint8_t &gt;</type>
+        <definition>std::vector&lt; std::uint8_t &gt; AGRemapCore::ChannelMapFilter::constant</definition>
+        <argsstring>(std::uint8_t value)</argsstring>
+        <name>constant</name>
+        <qualifiedname>AGRemapCore::ChannelMapFilter::constant</qualifiedname>
+        <param>
+          <type>std::uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>A table that writes &apos;value&apos; for every value read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The table </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" line="103" column="32" bodyfile="src/model/strategies/texEditors/texFilters/ChannelMapFilter.cpp" bodystart="24" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_channel_map_filter_1aade91ab11f1f2a77ba29dcf8ba7078aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_channel_map_filter" kindref="compound">ChannelMapFilter</ref></type>
+        <definition>ChannelMapFilter AGRemapCore::ChannelMapFilter::codeMap</definition>
+        <argsstring>(std::vector&lt; std::uint8_t &gt; table)</argsstring>
+        <name>codeMap</name>
+        <qualifiedname>AGRemapCore::ChannelMapFilter::codeMap</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::uint8_t &gt;</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A filter for a material-code map: each texel&apos;s code -- the red channel as a shader reads it
+(:cpp:enumerator:`Read::ShaderCode`) -- through &apos;table&apos;, written to R, G and B as data. A single-channel
+map comes in as ``(v, v, v, 255)`` and is written the same way
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The code written for each code read: 256 entries</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The filter </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" line="117" column="37" bodyfile="src/model/strategies/texEditors/texFilters/ChannelMapFilter.cpp" bodystart="28" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_channel_map_filter_1a293accbeed1e218e4b584b6da2418ad7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ChannelMapFilter::transform</definition>
+        <argsstring>(TextureFile &amp;texFile) override</argsstring>
+        <name>transform</name>
+        <qualifiedname>AGRemapCore::ChannelMapFilter::transform</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_tex_filter_1a93d99b0e0a407d94d8b77dd7f4400cad">transform</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <briefdescription>
+<para>Applies a transformation to &apos;texFile&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture to be edited </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" line="119" column="18" bodyfile="src/model/strategies/texEditors/texFilters/ChannelMapFilter.cpp" bodystart="38" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tex_filter_1a7380f6c35e0b7641018c1b8e9b82ed1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseTexFilter::operator()</definition>
+        <argsstring>(TextureFile &amp;texFile)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::BaseTexFilter::operator()</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <briefdescription>
+<para>Calls <ref refid="class_a_g_remap_core_1_1_base_tex_filter_1a93d99b0e0a407d94d8b77dd7f4400cad" kindref="member">transform</ref> for this filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture to be edited </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/BaseTexFilter.h" line="36" column="18" bodyfile="src/model/strategies/texEditors/texFilters/BaseTexFilter.cpp" bodystart="18" bodyend="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseTexFilter`
+
+Writes each channel of every pixel from a channel of the same pixel through a 256-entry table: a
+material-code map swapped between two characters&apos; codes, a channel set to a constant, a channel copied from
+another, alpha clamped, a colour gain. Every channel is read before any is written :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+How a channel is read is #read: the stored bytes, or the values a shader reads
+(:cpp:func:`TextureFile::shaderChannel`) -- a code map stored sRGB reaches its shader decoded. With #data the
+written bytes are data rather than colour, and the texture&apos;s gamma is cleared so they are saved as they are
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::ChannelMapFilter</label>
+        <link refid="class_a_g_remap_core_1_1_channel_map_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::ChannelMapFilter</label>
+        <link refid="class_a_g_remap_core_1_1_channel_map_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" line="40" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" bodystart="40" bodyend="120"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_channel_map_filter_1aad3230a92e7a59f1b748da61010b1341" prot="public" virt="non-virtual"><scope>AGRemapCore::ChannelMapFilter</scope><name>channels</name></member>
+      <member refid="class_a_g_remap_core_1_1_channel_map_filter_1aade91ab11f1f2a77ba29dcf8ba7078aa" prot="public" virt="non-virtual"><scope>AGRemapCore::ChannelMapFilter</scope><name>codeMap</name></member>
+      <member refid="class_a_g_remap_core_1_1_channel_map_filter_1a2fb844d2b4865780cd128b67a4134d29" prot="public" virt="non-virtual"><scope>AGRemapCore::ChannelMapFilter</scope><name>constant</name></member>
+      <member refid="class_a_g_remap_core_1_1_channel_map_filter_1a6cfe13f90da2e3fa4150df59bcb131d3" prot="public" virt="non-virtual"><scope>AGRemapCore::ChannelMapFilter</scope><name>data</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a7380f6c35e0b7641018c1b8e9b82ed1f" prot="public" virt="non-virtual"><scope>AGRemapCore::ChannelMapFilter</scope><name>operator()</name></member>
+      <member refid="class_a_g_remap_core_1_1_channel_map_filter_1a0f0e53404b39f31d310f9d5e4454f979" prot="public" virt="non-virtual"><scope>AGRemapCore::ChannelMapFilter</scope><name>Read</name></member>
+      <member refid="class_a_g_remap_core_1_1_channel_map_filter_1a25f0c4115fceb10101767129230bb429" prot="public" virt="non-virtual"><scope>AGRemapCore::ChannelMapFilter</scope><name>read</name></member>
+      <member refid="class_a_g_remap_core_1_1_channel_map_filter_1a293accbeed1e218e4b584b6da2418ad7" prot="public" virt="virtual"><scope>AGRemapCore::ChannelMapFilter</scope><name>transform</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a3c6cf0921cb9288dbffedfd8239187bf" prot="public" virt="virtual"><scope>AGRemapCore::ChannelMapFilter</scope><name>~BaseTexFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

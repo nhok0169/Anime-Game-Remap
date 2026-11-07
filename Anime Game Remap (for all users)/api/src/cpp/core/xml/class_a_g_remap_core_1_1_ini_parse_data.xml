@@ -72,7 +72,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="682" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="682" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="697" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="697" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-attrib">
@@ -90,7 +90,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="588" column="45" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="588" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="603" column="45" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="603" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_parse_data_1a03f1ef7b0a2a1839c83abd3f3d654de2" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -106,7 +106,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1068" column="45" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1068" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1083" column="45" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1083" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_parse_data_1a3982dd39891da86e7213fe89efe143a4" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -122,7 +122,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1257" column="45" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1257" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1272" column="45" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1272" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -139,7 +139,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1308" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1308" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1323" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1323" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_parse_data_1adc42a26685a724ed8436a61e90381081" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -154,7 +154,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1309" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1309" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1324" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1324" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_parse_data_1a40cb27c86782895fc918dae6bf760f6e" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -168,7 +168,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1310" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1310" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1325" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1325" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_parse_data_1a6003116dd5b693bc5482a892077d5638" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_graph_edit_variables" kindref="compound">GraphEditVariables</ref></type>
@@ -182,7 +182,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1311" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1311" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1326" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1326" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_parse_data_1a24679d3bf9f20e876f02f6d9819ba60b" prot="private" static="no" mutable="yes">
         <type>std::map&lt; std::string, <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_section_index" kindref="compound">SectionIndex</ref> &gt;</type>
@@ -196,7 +196,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1322" column="30" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1322" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1337" column="30" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1337" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_parse_data_1a294729fcc1747659e76197c99f07549e" prot="private" static="no" mutable="yes">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a0fbf0cbf2a46959b52a43a02e51ba760" kindref="member">Filler</ref></type>
@@ -210,7 +210,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1323" column="28" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1323" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1338" column="28" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="1338" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -227,7 +227,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="167" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="467" bodyend="474"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="167" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="466" bodyend="473"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1ae86bd07375404f47ba551dd67cb55d73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -248,7 +248,7 @@ to know she is on screen, which remapped like a mod would draw a second copy of 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="179" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="476" bodyend="478"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="179" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="475" bodyend="477"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1ad62afc54f3cca7c6edfeb5a0819aa4bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -277,7 +277,7 @@ to know she is on screen, which remapped like a mod would draw a second copy of 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="186" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="480" bodyend="482"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="186" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="479" bodyend="481"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1af0ba0efaf3ee0c39da32242f32e7185b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -300,7 +300,7 @@ mod&apos;s buffers while it is being built has to fetch those downloads first
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="200" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="484" bodyend="486"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="200" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="483" bodyend="485"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1adb84ff75d9fd9b6fdb2be2d9e5281ba5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -329,7 +329,7 @@ mod&apos;s buffers while it is being built has to fetch those downloads first
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="207" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="488" bodyend="490"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="207" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="487" bodyend="489"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1ac7adfa8e8e3e021669074a4184330957" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -354,7 +354,7 @@ condition, so the two keep in step :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="223" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="492" bodyend="494"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="223" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="491" bodyend="493"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a30467938b79e0e13bac0bb4b5b37853f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -383,7 +383,7 @@ condition, so the two keep in step :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="230" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="496" bodyend="498"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="230" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="495" bodyend="497"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1af3de6823e0065d8cc7b3f1603a65e14e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -415,7 +415,7 @@ it, so a fix must not draw a download of it over the mod&apos;s own buffers
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="241" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="500" bodyend="502"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="241" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="499" bodyend="501"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1af6578b896bb6b1cf3e793478aef8a959" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -444,7 +444,7 @@ it, so a fix must not draw a download of it over the mod&apos;s own buffers
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="248" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="504" bodyend="506"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="248" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="503" bodyend="505"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a1438120f80f8e769334496e2b6c636c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -459,7 +459,7 @@ it, so a fix must not draw a download of it over the mod&apos;s own buffers
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="253" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="508" bodyend="510"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="253" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="507" bodyend="509"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a43fca495e443264d4e27b8c71ed2f262" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::set&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a6cb548cc937d71c3706ea1ad617351aa" kindref="member">ModObj</ref> &gt; &amp;</type>
@@ -474,7 +474,7 @@ it, so a fix must not draw a download of it over the mod&apos;s own buffers
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="258" column="28" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="512" bodyend="514"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="258" column="28" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="511" bodyend="513"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1af066b97818c4d6bd749619f238815107" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a87702ee8353e4dda137a5cee50d9dced" kindref="member">DrawRange</ref> &gt; &amp;</type>
@@ -506,7 +506,7 @@ are written -- not ``drawindexed = auto``, which draws the whole of whatever is 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="274" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="516" bodyend="521"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="289" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="524" bodyend="529"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a01a3e1bf3c7bc97384d83664922a2da0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -547,7 +547,7 @@ are written -- not ``drawindexed = auto``, which draws the whole of whatever is 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="282" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="523" bodyend="525"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="297" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="531" bodyend="533"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a93766ecba55731ece4ea0d2e9a0f643e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::set&lt; std::size_t &gt; &amp;</type>
@@ -580,7 +580,7 @@ under one condition
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="294" column="28" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="527" bodyend="532"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="309" column="28" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="535" bodyend="540"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a424f638f61352bcbf3e276376376c76e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -621,7 +621,7 @@ under one condition
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="302" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="534" bodyend="536"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="317" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="542" bodyend="544"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1afba5daead2b199ce9b2121ad76f3d28d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::set&lt; std::string &gt; &amp;</type>
@@ -653,7 +653,7 @@ The external libraries a mod object&apos;s `sections`_ name on any of their line
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="313" column="28" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="538" bodyend="543"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="328" column="28" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="546" bodyend="551"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1af9b7c7837a4fb82b5133216e6f9a1750" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -694,7 +694,7 @@ The external libraries a mod object&apos;s `sections`_ name on any of their line
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="321" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="545" bodyend="547"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="336" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="553" bodyend="555"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1afdae76ba804ad4046d207a98ece47fbc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -727,7 +727,7 @@ whose section draws, then binds, then draws again has two binding generations
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="333" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="549" bodyend="554"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="348" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="557" bodyend="562"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1ad22e0d7860eb5e804f1ace802a3ac734" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -768,7 +768,7 @@ whose section draws, then binds, then draws again has two binding generations
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="341" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="556" bodyend="558"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="356" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="564" bodyend="566"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a7151c9cea8fb0b1749f4fd9e1c49e5be" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::set&lt; std::string &gt; &amp;</type>
@@ -801,7 +801,7 @@ game&apos;s own texture is what those draws render with whenever the toggle is o
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="353" column="28" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="560" bodyend="565"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="368" column="28" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="568" bodyend="573"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1ad0425619f8d951b2c8c275c6cbc1006b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -842,7 +842,7 @@ game&apos;s own texture is what those draws render with whenever the toggle is o
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="361" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="567" bodyend="569"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="376" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="575" bodyend="577"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1aaccf5b0adde215f5a8b4db970d349144" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -874,7 +874,7 @@ The resource a ``TextureOverride`` `section`_ with ``hash`` &apos;hash&apos; put
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="372" column="27" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="571" bodyend="575"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="387" column="27" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="579" bodyend="583"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1aa96beba5374df3b1644c21258a52cbfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -915,7 +915,7 @@ The resource a ``TextureOverride`` `section`_ with ``hash`` &apos;hash&apos; put
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="380" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="577" bodyend="579"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="395" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="585" bodyend="587"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1af71f163d0c3171346894d1aff2d45e7b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -944,7 +944,7 @@ The resource a ``TextureOverride`` `section`_ with ``hash`` &apos;hash&apos; put
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="387" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="581" bodyend="583"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="402" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="589" bodyend="591"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1acac52b39a1f4daa2fefabcda9df5dcee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -973,7 +973,7 @@ The resource a ``TextureOverride`` `section`_ with ``hash`` &apos;hash&apos; put
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="394" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="585" bodyend="587"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="409" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="593" bodyend="595"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a4b96f1f6ea19bc020fc8a70e6fffb497" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -992,7 +992,7 @@ whatever the draw&apos;s own `section`_ binds
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="404" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="589" bodyend="591"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="419" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="597" bodyend="599"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1aae930b76d835f4f7a4400e5e49abaaed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1021,7 +1021,7 @@ whatever the draw&apos;s own `section`_ binds
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="411" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="593" bodyend="595"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="426" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="601" bodyend="603"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1abed7b05e0650a535242bd72110bf4f22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -1054,7 +1054,7 @@ relative to the ``.ini``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="423" column="27" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="597" bodyend="604"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="438" column="27" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="605" bodyend="612"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1ab01348da4f80fcfb2bc51d11afcecb08" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
@@ -1069,7 +1069,7 @@ relative to the ``.ini``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="428" column="28" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="606" bodyend="608"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="443" column="28" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="614" bodyend="616"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a87994b8122eb9a121b57998083da68b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1110,7 +1110,7 @@ relative to the ``.ini``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="450" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="702" bodyend="704"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="465" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="710" bodyend="712"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a32dfeb1ba85f17401612eb9d94e51ddf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_texture_roles" kindref="compound">TextureRoles</ref> *</type>
@@ -1128,7 +1128,7 @@ none -- every role the ``.ini`` binds a file for, since one atlas can serve two 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="459" column="32" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="716" bodyend="719"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="474" column="32" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="724" bodyend="727"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a6d56ed9db745cf41cf4bf457b6541f68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1157,7 +1157,7 @@ none -- every role the ``.ini`` binds a file for, since one atlas can serve two 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="466" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="721" bodyend="723"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="481" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="729" bodyend="731"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1add6a349ef96215fc4aaebee3fd93e1c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1192,7 +1192,7 @@ Sorting a mod&apos;s textures may open every one of them, and a parser is built 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="480" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="798" bodyend="800"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="495" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="806" bodyend="808"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a75582e64b30beb27af957dab2aa65d20" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
@@ -1224,7 +1224,7 @@ The files left for a role once the ones that cannot serve it are refused, as
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="491" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="802" bodyend="807"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="506" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="810" bodyend="815"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a537e5cf70ce2531276723b5a80f86ba9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1265,7 +1265,7 @@ The files left for a role once the ones that cannot serve it are refused, as
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="499" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="809" bodyend="811"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="514" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="817" bodyend="819"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a30ba00626f2bd409c7759c4bc4b884fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file" kindref="compound">RoleFile</ref> *</type>
@@ -1310,7 +1310,7 @@ one object is the better answer for that object
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="512" column="28" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="813" bodyend="817"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="527" column="28" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="821" bodyend="825"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1abd6a92f644f49eda5efd23e9df5c9942" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1363,7 +1363,7 @@ one object is the better answer for that object
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="521" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="819" bodyend="821"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="536" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="827" bodyend="829"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1ac3b0d50a907c928370b88e9721bcf084" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle" kindref="compound">TextureToggle</ref> *</type>
@@ -1396,7 +1396,7 @@ for another
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="533" column="33" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="831" bodyend="835"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="548" column="33" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="839" bodyend="843"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1af68bff663daa9b374ae6bda3baadb3f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1437,7 +1437,7 @@ for another
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="541" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="837" bodyend="839"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="556" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="845" bodyend="847"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a505b42a2e1bd24c1140dea987b72bb42" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle" kindref="compound">TextureToggle</ref> *</type>
@@ -1469,7 +1469,7 @@ register to several resources on its branches (``if $x == 1 / ps-t3 = A / else /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="552" column="33" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="846" bodyend="855"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="567" column="33" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="854" bodyend="863"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a0c56eb5cb18dabc4539cbeb046fea6e3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line" kindref="compound">LinkedLine</ref> &gt; &amp;</type>
@@ -1484,7 +1484,7 @@ register to several resources on its branches (``if $x == 1 / ps-t3 = A / else /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="559" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="842" bodyend="844"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="574" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="850" bodyend="852"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a910ada70ee9c385f24f9742cecbd12d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1525,7 +1525,7 @@ register to several resources on its branches (``if $x == 1 / ps-t3 = A / else /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="567" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="857" bodyend="859"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="582" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="865" bodyend="867"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a19f6a76b48323e5d1de28ed2b79558b7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_rejection" kindref="compound">Rejection</ref> &gt; &amp;</type>
@@ -1540,7 +1540,7 @@ register to several resources on its branches (``if $x == 1 / ps-t3 = A / else /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="572" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="823" bodyend="825"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="587" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="831" bodyend="833"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1ac1fa2d86bc64d43959bc59062d6e8a94" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -1560,7 +1560,7 @@ parser did not ask or could not tell
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="583" column="27" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="621" bodyend="624"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="598" column="27" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="629" bodyend="632"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a0cffabeb9c06bf793525c08191e7c6ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1601,7 +1601,7 @@ parser did not ask or could not tell
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="611" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="636" bodyend="638"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="626" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="644" bodyend="646"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a2fabe2d8597007de8ad59d7fe9f331c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -1634,7 +1634,7 @@ draws. Recorded by the parser with #setFileResource
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="623" column="27" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="640" bodyend="644"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="638" column="27" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="648" bodyend="652"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a5319d267c1be24cee9918c44e227a8a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1675,7 +1675,7 @@ draws. Recorded by the parser with #setFileResource
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="631" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="646" bodyend="648"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="646" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="654" bodyend="656"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a141a1658c04b597b78fb07502222d87e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_role" kindref="compound">ResourceRole</ref> &gt;</type>
@@ -1709,7 +1709,7 @@ naming no texture, or one chosen for nothing
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="644" column="25" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="650" bodyend="665"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="659" column="25" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="658" bodyend="673"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a99389479dfe8029268175554ef5cc477" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -1738,7 +1738,7 @@ naming no texture, or one chosen for nothing
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="651" column="27" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="667" bodyend="680"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="666" column="27" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="675" bodyend="688"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1ace192b5019d36aeb8f8b2ea0b6d9daeb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -1797,7 +1797,7 @@ The one role a texture line binding &apos;resource&apos; is for: among #rolesOfR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="667" column="27" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="682" bodyend="700"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="682" column="27" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="690" bodyend="708"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a6364b89f0d3d967da5352efa86899ada" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1850,7 +1850,7 @@ The one role a texture line binding &apos;resource&apos; is for: among #rolesOfR
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="677" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="827" bodyend="829"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="692" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="835" bodyend="837"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a6cea33e39fc174a130cdc585252158ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_graph_edit_variables" kindref="compound">GraphEditVariables</ref> &amp;</type>
@@ -1870,7 +1870,7 @@ others. Asking for them runs the steps deferred to the first ask, like every oth
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="693" column="32" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="626" bodyend="629"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="708" column="32" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="634" bodyend="637"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a28bd3b5a4581cf537cf28a36f6e5173e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_graph_edit_variables" kindref="compound">GraphEditVariables</ref> &amp;</type>
@@ -1890,7 +1890,7 @@ others. Asking for them runs the steps deferred to the first ask, like every oth
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="698" column="38" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="631" bodyend="634"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="713" column="38" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="639" bodyend="642"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a77d55fe1d6666a9e459a92c70a56bfd4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a02bb99ec0af7341da75c88756c346886" kindref="member">CollectedRow</ref> &gt; &amp;</type>
@@ -1929,7 +1929,7 @@ The rows of the :cpp:class:`GraphCollect` named &apos;name&apos; among the parse
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="716" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="725" bodyend="729"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="731" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="733" bodyend="737"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a31ce256750ee899f45f4c52b6e88540a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a02bb99ec0af7341da75c88756c346886" kindref="member">CollectedRow</ref> *</type>
@@ -1986,7 +1986,7 @@ as 3DMigoto matches a section&apos;s name; &apos;key&apos; exactly. ``nullptr`` 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="730" column="32" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="731" bodyend="739"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="745" column="32" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="739" bodyend="747"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a2282a0f5496a67b437da7cec302afdbe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -2018,7 +2018,7 @@ The `sections`_ the :cpp:class:`GraphCollect` named &apos;name&apos; has rows in
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="741" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="786" bodyend="788"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="756" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="794" bodyend="796"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1aabdfbd633d7e7d03c8570b137c5a4bd6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; const <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a02bb99ec0af7341da75c88756c346886" kindref="member">CollectedRow</ref> * &gt; &amp;</type>
@@ -2063,7 +2063,7 @@ as a collect files them. Empty for a section with none
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="754" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="790" bodyend="796"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="769" column="31" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="798" bodyend="804"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1acb144ec1f0399e6c5f52663da3c9d070" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2104,7 +2104,7 @@ as a collect files them. Empty for a section with none
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="762" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="741" bodyend="744"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="777" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="749" bodyend="752"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a16e8ad3b7a4108dd3a8a32b253f32a3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
@@ -2154,7 +2154,7 @@ together with this (:cpp:func:`GraphCollect::valueUnder`). A variable another fi
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1275" column="27" bodyfile="src/model/strategies/iniParsers/IniParseDataRoleFiles.cpp" bodystart="816" bodyend="858"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1290" column="27" bodyfile="src/model/strategies/iniParsers/IniParseDataRoleFiles.cpp" bodystart="816" bodyend="858"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a577a85f24a9ed707bff774737a79d355" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -2200,10 +2200,58 @@ line that binds a RESOURCE to one of them (``ResourceBypassVB0 = ref vb0``) bind
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1289" column="25" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="861" bodyend="874"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1304" column="25" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="869" bodyend="882"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a4fe65b62fa9211d72d28a90bf4135719" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a87702ee8353e4dda137a5cee50d9dced" kindref="member">DrawRange</ref> &gt;</type>
+        <definition>std::optional&lt; IniParseData::DrawRange &gt; AGRemapCore::IniParseData::drawRangeOf</definition>
+        <argsstring>(const std::string &amp;value, bool zeroBase=false)</argsstring>
+        <name>drawRangeOf</name>
+        <qualifiedname>AGRemapCore::IniParseData::drawRangeOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>zeroBase</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The (count, first) of a ``drawindexed = &lt;count&gt;, &lt;first&gt;, &lt;base&gt;[, ...]`` value, every field a whole number
+(:cpp:func:`ListValue::numbers`) -- or ``std::nullopt`` for ``auto``, a field that is not a number, or a
+negative count or first
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>zeroBase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether only a value of exactly those three fields with a base of 0 is a range. <bold>Default</bold>: <computeroutput>false</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The range, or <computeroutput>std::nullopt</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="278" column="34" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="515" bodyend="522"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a50e76f80b56bc84a59fc17ec5f1736b7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::map&lt; std::string, std::string &gt;</type>
         <definition>std::map&lt; std::string, std::string &gt; AGRemapCore::IniParseData::resourceFilesOf</definition>
@@ -2237,7 +2285,7 @@ each `section`_&apos;s first, its value stripped
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="442" column="29" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="610" bodyend="619"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="457" column="29" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="618" bodyend="627"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a2b4783651508841bf99a368161e0ca17" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data" kindref="compound">ResourceData</ref></type>
@@ -2311,7 +2359,7 @@ Given :cpp:member:`ResourceDataRules::toggles`, also the toggles that choose amo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1063" column="33" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="28" bodyend="36"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1078" column="33" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="28" bodyend="36"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a01d4c4f8564e53a211fd2009c14ddcbe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data" kindref="compound">RoleFileData</ref></type>
@@ -2384,7 +2432,7 @@ The variables it reads: the rows of each collect &apos;rules&apos; names, by its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1252" column="33" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="38" bodyend="46"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1267" column="33" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="38" bodyend="46"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -2400,7 +2448,7 @@ The variables it reads: the rows of each collect &apos;rules&apos; names, by its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1292" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="708" bodyend="714"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1307" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="716" bodyend="722"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1ac487700af37e98e9d5f71193f891547a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2418,7 +2466,7 @@ The variables it reads: the rows of each collect &apos;rules&apos; names, by its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1297" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="78" bodyend="302"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1312" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="78" bodyend="301"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1aebec684e278971656465636cf9640dc1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2436,7 +2484,7 @@ The variables it reads: the rows of each collect &apos;rules&apos; names, by its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1298" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="304" bodyend="465"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1313" column="18" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="303" bodyend="464"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a5cc875c80cf12fbb25a6643f5614e065" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2454,7 +2502,7 @@ The variables it reads: the rows of each collect &apos;rules&apos; names, by its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1299" column="18" bodyfile="src/model/strategies/iniParsers/IniParseDataRoleFiles.cpp" bodystart="169" bodyend="814"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1314" column="18" bodyfile="src/model/strategies/iniParsers/IniParseDataRoleFiles.cpp" bodystart="169" bodyend="814"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a7579144e8fc3cdcce160946ac075703b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data" kindref="compound">ResourceData</ref> &amp;</type>
@@ -2468,7 +2516,7 @@ The variables it reads: the rows of each collect &apos;rules&apos; names, by its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1303" column="32" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="48" bodyend="52"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1318" column="32" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="48" bodyend="52"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a2d2bfababea1e65f7fe07f1fc785eea6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data" kindref="compound">ResourceData</ref> &amp;</type>
@@ -2482,7 +2530,7 @@ The variables it reads: the rows of each collect &apos;rules&apos; names, by its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1304" column="26" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="54" bodyend="61"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1319" column="26" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="54" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a6f66ca551940f0bcb01fc6053d9957d2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data" kindref="compound">RoleFileData</ref> &amp;</type>
@@ -2496,7 +2544,7 @@ The variables it reads: the rows of each collect &apos;rules&apos; names, by its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1305" column="32" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="63" bodyend="67"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1320" column="32" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="63" bodyend="67"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a9cfe250db414e681fd21ff158e4438b0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data" kindref="compound">RoleFileData</ref> &amp;</type>
@@ -2510,7 +2558,7 @@ The variables it reads: the rows of each collect &apos;rules&apos; names, by its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1306" column="26" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="69" bodyend="76"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1321" column="26" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="69" bodyend="76"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_data_1a3013176a919ed8666c84bc0d8a2bfa9f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_section_index" kindref="compound">SectionIndex</ref> &amp;</type>
@@ -2528,7 +2576,7 @@ The variables it reads: the rows of each collect &apos;rules&apos; names, by its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1321" column="32" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="746" bodyend="784"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="1336" column="32" bodyfile="src/model/strategies/iniParsers/IniParseData.cpp" bodystart="754" bodyend="792"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -2568,7 +2616,7 @@ are refused (#roleCandidates, #rejections), and the one file each mod object tak
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="57" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="57" bodyend="1324"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="57" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="57" bodyend="1339"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a424f638f61352bcbf3e276376376c76e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData</scope><name>addDrawPart</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a01a3e1bf3c7bc97384d83664922a2da0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData</scope><name>addDrawRange</name></member>
@@ -2588,6 +2636,7 @@ are refused (#roleCandidates, #rejections), and the one file each mod object tak
       <member refid="class_a_g_remap_core_1_1_ini_parse_data_1add6a349ef96215fc4aaebee3fd93e1c3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData</scope><name>defer</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a93766ecba55731ece4ea0d2e9a0f643e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData</scope><name>drawParts</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a87702ee8353e4dda137a5cee50d9dced" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData</scope><name>DrawRange</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a4fe65b62fa9211d72d28a90bf4135719" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData</scope><name>drawRangeOf</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af066b97818c4d6bd749619f238815107" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData</scope><name>drawRanges</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aebec684e278971656465636cf9640dc1" prot="private" virt="non-virtual"><scope>AGRemapCore::IniParseData</scope><name>fileToggles</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a87bc4e1b90972b260c6a9baf964a0da2" prot="private" virt="non-virtual"><scope>AGRemapCore::IniParseData</scope><name>fill</name></member>

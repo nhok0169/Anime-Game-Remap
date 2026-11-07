@@ -6,6 +6,25 @@
     <basecompoundref refid="class_a_g_remap_core_1_1_i_parse_result" prot="public" virt="non-virtual">AGRemapCore::IParseResult</basecompoundref>
     <includes refid="_graph_var_apply_8h" local="no">GraphVarApply.h</includes>
     <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_var_apply_1aef199a34079b4cfd5f0a44af4c68e4bb" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_edit_variables" kindref="compound">GraphEditVariables</ref> *</type>
+        <definition>GraphEditVariables* AGRemapCore::GraphVarApply::variables</definition>
+        <argsstring></argsstring>
+        <name>variables</name>
+        <qualifiedname>AGRemapCore::GraphVarApply::variables</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The variables a fixer&apos;s list keeps, which the edit applies #fn over when it runs; ``nullptr`` (the
+default) for a parser&apos;s, where the parser files it (:cpp:func:`fileInto`)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="69" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_var_apply_1a45912d1cea67d2cd278dd3f3ef4c56c2" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
         <definition>std::vector&lt;std::string&gt; AGRemapCore::GraphVarApply::inputs</definition>
@@ -19,7 +38,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="51" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" bodystart="51" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="74" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" bodystart="74" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_var_apply_1a83cd0e4532a492d892a0783989ce52c4" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_graph_edit_variables_1a24b858d0a1842fed8be8a5c5593af962" kindref="member">GraphEditVariables::Apply</ref></type>
@@ -34,7 +53,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="56" column="39" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" bodystart="56" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="79" column="39" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" bodystart="79" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_var_apply_1a100e2f875b886e3f4a0900b9911bf963" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -49,7 +68,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="61" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" bodystart="61" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="84" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" bodystart="84" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -104,7 +123,72 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="46" column="13" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.cpp" bodystart="20" bodyend="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="50" column="13" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.cpp" bodystart="20" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_var_apply_1a4fd03cff028a01dc71c4f5378eaae331" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GraphVarApply::GraphVarApply</definition>
+        <argsstring>(GraphEditVariables &amp;variables, std::vector&lt; std::string &gt; inputs, GraphEditVariables::Apply fn, std::string into)</argsstring>
+        <name>GraphVarApply</name>
+        <qualifiedname>AGRemapCore::GraphVarApply::GraphVarApply</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_edit_variables" kindref="compound">GraphEditVariables</ref> &amp;</type>
+          <declname>variables</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>inputs</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_edit_variables_1a24b858d0a1842fed8be8a5c5593af962" kindref="member">GraphEditVariables::Apply</ref></type>
+          <declname>fn</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>into</declname>
+        </param>
+        <briefdescription>
+<para>Constructs the edit for a fixer&apos;s list, over &apos;variables&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>variables</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="class_a_g_remap_core_1_1_graph_var_apply_1aef199a34079b4cfd5f0a44af4c68e4bb" kindref="member">variables</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>inputs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="class_a_g_remap_core_1_1_graph_var_apply_1a45912d1cea67d2cd278dd3f3ef4c56c2" kindref="member">inputs</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="class_a_g_remap_core_1_1_graph_var_apply_1a83cd0e4532a492d892a0783989ce52c4" kindref="member">fn</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>into</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="class_a_g_remap_core_1_1_graph_var_apply_1a100e2f875b886e3f4a0900b9911bf963" kindref="member">into</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="59" column="13" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.cpp" bodystart="23" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_var_apply_1a30f0a93ee7e1c8cda617da0f88fda11e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> &amp;</type>
@@ -127,7 +211,7 @@
           <defval>&quot;&quot;</defval>
         </param>
         <briefdescription>
-<para>Changes no graph. </para>
+<para>Changes no graph: applies <ref refid="class_a_g_remap_core_1_1_graph_var_apply_1a83cd0e4532a492d892a0783989ce52c4" kindref="member">fn</ref> over <ref refid="class_a_g_remap_core_1_1_graph_var_apply_1aef199a34079b4cfd5f0a44af4c68e4bb" kindref="member">variables</ref>, when there are any. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -161,7 +245,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="72" column="25" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.cpp" bodystart="23" bodyend="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="95" column="25" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.cpp" bodystart="27" bodyend="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_var_apply_1afdd70491bb170b754c7a21a6980442c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -191,7 +275,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="79" column="18" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.cpp" bodystart="27" bodyend="29"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="102" column="18" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.cpp" bodystart="34" bodyend="36"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> &amp;</type>
@@ -496,7 +580,11 @@ Makes a variable of the parse from others: when the parser files it, the variabl
 
 Put it in :cpp:member:`GIMIParser::commandEdits` after the edits
 that file its inputs (a :cpp:class:`GraphCollect` files its rows in the variable named after it). It changes no
-graph; it reads only variables, so anything a graph says is collected into one first
+graph; it reads only variables, so anything a graph says is collected into one first.
+
+In a FIXER&apos;s list, give it the fixer&apos;s own :cpp:class:`GraphEditVariables` (#variables): the function then runs
+when the edit does, over those variables, so a decision of the fix is a step of its list that the edits after it
+read
 </verbatim> </para>
     </detaileddescription>
     <inheritancegraph>
@@ -534,6 +622,10 @@ graph; it reads only variables, so anything a graph says is collected into one f
         <label>AGRemapCore::BaseIniPartEdit</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
       </node>
+      <node id="5">
+        <label>AGRemapCore::GraphEditVariables</label>
+        <link refid="class_a_g_remap_core_1_1_graph_edit_variables"/>
+      </node>
       <node id="1">
         <label>AGRemapCore::GraphVarApply</label>
         <link refid="class_a_g_remap_core_1_1_graph_var_apply"/>
@@ -541,13 +633,16 @@ graph; it reads only variables, so anything a graph says is collected into one f
         </childnode>
         <childnode refid="4" relation="public-inheritance">
         </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>variables</edgelabel>
+        </childnode>
       </node>
       <node id="4">
         <label>AGRemapCore::IParseResult</label>
         <link refid="class_a_g_remap_core_1_1_i_parse_result"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="37" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" bodystart="37" bodyend="80"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" line="41" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h" bodystart="41" bodyend="103"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphVarApply</scope><name>addGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::GraphVarApply</scope><name>clear</name></member>
@@ -559,9 +654,11 @@ graph; it reads only variables, so anything a graph says is collected into one f
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphVarApply</scope><name>Graph</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphVarApply</scope><name>GraphGroups</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_var_apply_1ac98b3b762b7c216e96d0136e0b5057be" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphVarApply</scope><name>GraphVarApply</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_var_apply_1a4fd03cff028a01dc71c4f5378eaae331" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphVarApply</scope><name>GraphVarApply</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_var_apply_1a45912d1cea67d2cd278dd3f3ef4c56c2" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphVarApply</scope><name>inputs</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_var_apply_1a100e2f875b886e3f4a0900b9911bf963" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphVarApply</scope><name>into</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphVarApply</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_var_apply_1aef199a34079b4cfd5f0a44af4c68e4bb" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphVarApply</scope><name>variables</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::GraphVarApply</scope><name>~BaseIniPartEdit</name></member>
       <member refid="class_a_g_remap_core_1_1_i_parse_result_1ace3009fcb292407a9acc5153830ec147" prot="public" virt="virtual"><scope>AGRemapCore::GraphVarApply</scope><name>~IParseResult</name></member>
     </listofallmembers>

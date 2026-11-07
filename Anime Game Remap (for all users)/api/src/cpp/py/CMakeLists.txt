@@ -114,6 +114,7 @@ pybind11_add_module(core
     src/data/PyGIMICharBuilders.cpp
     src/data/PyGIMIComponentBuilders.cpp
     src/data/PyWWMIBuilders.cpp
+    src/data/PyLynaeData.cpp
     src/data/PyWWMISections.cpp
     src/model/PyIniNamingTools.cpp
     src/model/strategies/iniFixers/PyGIMIObjPartFilter.cpp
@@ -215,6 +216,7 @@ pybind11_add_module(core
     src/model/strategies/texEditors/texFilters/PyTransparencyAdjustFilter.cpp
     src/model/strategies/texEditors/texFilters/PyInvertAlphaFilter.cpp
     src/model/strategies/texEditors/texFilters/PyMaterialBandRemapFilter.cpp
+    src/model/strategies/texEditors/texFilters/PyChannelMapFilter.cpp
     src/model/strategies/texEditors/texFilters/PyHueAdjust.cpp
     src/model/strategies/texEditors/texFilters/PyPixelFilter.cpp
     src/model/strategies/texEditors/PyBaseTexEditor.cpp

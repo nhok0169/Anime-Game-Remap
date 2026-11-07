@@ -322,9 +322,13 @@ void PyBaseResEdit::buildResModel(const std::string &resType, const std::string 
 // PyResIdentity
 // ---------------------------------------------------------------------------------------
 
-PyResIdentity::PyResIdentity(py::object resModObj, bool createResModel):
+PyResIdentity::PyResIdentity(py::object resModObj, bool createResModel, py::object fileOf):
     PyResEditMixin<AGRC::ResIdentity<std::string, std::string>>(
         PyBaseResEditCore::GraphId(), makeResEditConfig(), createResModel) {
+    // ResEditConfig::fileOf: the resource section a register's value names, when it is not the value itself
+    if (!fileOf.is_none()) {
+        this->config.fileOf = [fileOf](const std::string& value) { return fileOf(value).cast<std::string>(); };
+    }
     resModObjObj = std::move(resModObj);
     graphReplaceModeObj = py::none();
     refresh();
@@ -478,11 +482,17 @@ createResModel: :class:`bool`
     Whether to build the models for the resources :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``True``
+
+fileOf: Optional[Callable[[:class:`str`], :class:`str`]]
+    The resource `section`_ a register's value names -- eg. :meth:`GIMIParser.resourceNamed`, which finds it
+    without regard to case -- or ``None`` for the value itself :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
     )doc");
 
-    identityCls.def(py::init([](py::object resModObj, bool createResModel) {
-        return std::make_unique<PyResIdentity>(std::move(resModObj), createResModel);
-    }), py::arg("resModObj"), py::arg("createResModel") = true);
+    identityCls.def(py::init([](py::object resModObj, bool createResModel, py::object fileOf) {
+        return std::make_unique<PyResIdentity>(std::move(resModObj), createResModel, std::move(fileOf));
+    }), py::arg("resModObj"), py::arg("createResModel") = true, py::arg("fileOf") = py::none());
 
     identityCls.def_readwrite("createResModel", &PyResIdentity::createResModel, py::doc(R"doc(
 :class:`bool`: Whether to build the models for the resources

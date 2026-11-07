@@ -391,58 +391,12 @@ namespace AGRemapCore {
             bool deferCommandEdits = false;
 
             /**
-             * @brief Which of the standard row sets #rowSteps builds -- see :cpp:struct:`IniParseRows`
-             */
-            struct RowSteps {
-                /**
-                 * @brief Whether to collect :cpp:member:`IniParseRows::Resources`. **Default**: ``true``
-                 */
-                bool resources = true;
-
-                /**
-                 * @brief The keys :cpp:member:`IniParseRows::Declared` collects besides ``filename``, ``type``, ``format`` and ``stride``
-                 */
-                std::vector<K> declaredKeys;
-
-                /**
-                 * @brief Whether to collect :cpp:member:`IniParseRows::Sections`. **Default**: ``true``
-                 */
-                bool sections = true;
-
-                /**
-                 * @brief The mod objects :cpp:member:`IniParseRows::Objs` collects every key of; empty takes none
-                 */
-                std::function<bool(const ModObj&)> objs;
-            };
-
-            /**
-             * @brief
-             @rst
-             The standard row sets, as edits to put in #commandEdits, in this order: a copy of the parser's
-             global graph is put in the groups (:cpp:class:`GraphCreate`); a :cpp:class:`ResRegCollect` over the
-             keys that ever name a resource builds a graph of the resource `sections`_ bound anywhere
-             (:cpp:class:`ResIdentity`: nothing renamed, no models) and a :cpp:class:`GraphCollect` reads their
-             ``filename``; the declarations and every key of every `section`_ are collected off the global graph;
-             both graphs are taken out again (:cpp:class:`GraphRemove`); and every key of the chosen objects is
-             collected. The edits are owned by this parser; nothing is added to a step list
-             :raw-html:`<br />` :raw-html:`<br />`
-
-             The global graph is #globalGraph, so the parser must make one (#makeGlobalGraph). Call this once
-             #modObjs is set: :cpp:member:`RowSteps::objs` is asked of each mod object here
-             @endrst
-             *
-             * @param rows Which row sets to build
-             * @return The edits, in the order they run
-             */
-            std::vector<GroupEdit*> rowSteps(const RowSteps& rows);
-
-            /**
              * @brief
              @rst
              The resource `section`_ 'value' names, as a binding names one, under the name it is declared by -- or
              empty. Without regard to case, as 3DMigoto reads a section name: a mod may declare
-             ``[ResourceTexCoordBuffer]`` and bind ``vb2 = ResourceTexcoordBuffer``. Known once #rowSteps' global
-             graph has been put in the groups
+             ``[ResourceTexCoordBuffer]`` and bind ``vb2 = ResourceTexcoordBuffer``. Known once #commandEdits start
+             running
              @endrst
              *
              * @param value The value
@@ -713,6 +667,15 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Reads the resource `sections`_ the ``.ini`` declares, for #resourceNamed -- what #runCommandEdits does
+             before the first edit runs, so a section a download added is among them
+             @endrst
+             */
+            void readDeclaredResources();
+
+            /**
+             * @brief
+             @rst
              Files the result of 'edit' in 'data' when it implements :cpp:class:`IParseResult` -- what
              #runCommandEdits does after each edit
              @endrst
@@ -795,15 +758,8 @@ namespace AGRemapCore {
             Graph* globalGraph_;
             bool downloadsAdded_;
 
-            // The global graph -- and, found as it is handed over, the resource sections the .ini declares and the
-            // keys of the graph that ever name one -- for #rowSteps
-            Graph* globalGraphForResources();
-
-            // the edits #rowSteps built, which a step list borrows, and what its global graph found
-            std::vector<std::unique_ptr<GroupEdit>> rowSteps_;
-            std::unordered_set<K, KeyHash, KeyEqual> resourceKeys_;
-            std::unordered_map<std::string, std::string> declaredResources_;     // lowercased -> as declared
-            std::unique_ptr<BaseResEdit<K, V, KeyHash, KeyEqual>> resourceIdentity_;
+            // the resource sections the .ini declares, for #resourceNamed: lowercased -> as declared
+            std::unordered_map<std::string, std::string> declaredResources_;
 
             // Every download resource `section`_ name built by this parse. A resource is identified
             // by its `section`_ name (which is what a .ini file can only have one of), not by the

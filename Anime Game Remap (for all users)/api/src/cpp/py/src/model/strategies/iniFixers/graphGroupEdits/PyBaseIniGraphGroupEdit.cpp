@@ -63,8 +63,8 @@ Base class for a filter that edits a group of caller/callee graphs across many .
         // run the no-op base implementation. See PyBaseRegEdit.cpp's identical comment.
         .def("editFromIni", [](py::object self, py::list graphGroups, const py::object &ini,
                                const py::object &modType, const std::string &modName) {
-            // An edit built in C++ whose class has no Python class of its own (the standard rows
-            // GIMIParser::rowSteps builds) reaches Python as this base: it runs its own C++ editFromIni,
+            // An edit built in C++ whose class has no Python class of its own reaches Python as this
+            // base: it runs its own C++ editFromIni,
             // handed the core IniFile, as it would from C++
             if (py::type::of(self).is(py::type::of<PyBaseIniGraphGroupEdit>())) {
                 AGRC::IniFile* coreIni = py::isinstance<AGRC::IniFile>(ini) ? ini.cast<AGRC::IniFile*>() : nullptr;

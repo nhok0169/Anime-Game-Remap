@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_channel_map_filter_1_1_channel" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::ChannelMapFilter::Channel</compoundname>
+    <includes refid="_channel_map_filter_8h" local="no">ChannelMapFilter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_channel_map_filter_1_1_channel_1aaf9b04178d3807249ec0628f0195b78c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::ChannelMapFilter::Channel::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>AGRemapCore::ChannelMapFilter::Channel::source</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>The channel read (0 to 3), or -1 to leave this channel as it is. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: -1 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" line="69" column="21" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_channel_map_filter_1_1_channel_1a848c91e00e8a590aa84c46388856ed05" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::uint8_t &gt;</type>
+        <definition>std::vector&lt;std::uint8_t&gt; AGRemapCore::ChannelMapFilter::Channel::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>AGRemapCore::ChannelMapFilter::Channel::table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The value written for each value read: 256 entries, or empty to write the value read.
+**Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" line="78" column="29" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What one output channel is written from. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" line="65" column="13" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h" bodystart="65" bodyend="79"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_channel_map_filter_1_1_channel_1aaf9b04178d3807249ec0628f0195b78c" prot="public" virt="non-virtual"><scope>AGRemapCore::ChannelMapFilter::Channel</scope><name>source</name></member>
+      <member refid="struct_a_g_remap_core_1_1_channel_map_filter_1_1_channel_1a848c91e00e8a590aa84c46388856ed05" prot="public" virt="non-virtual"><scope>AGRemapCore::ChannelMapFilter::Channel</scope><name>table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

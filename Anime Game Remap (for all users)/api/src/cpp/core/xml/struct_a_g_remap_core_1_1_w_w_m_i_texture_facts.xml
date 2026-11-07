@@ -317,7 +317,53 @@ compiled parser reads, so a parser written elsewhere identifies the character&ap
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureFacts.h" line="202" column="30" bodyfile="src/data/WWMITextureFacts.cpp" bodystart="27" bodyend="39"/>
+        <location file="include/AGRemapCore/data/WWMITextureFacts.h" line="202" column="30" bodyfile="src/data/WWMITextureFacts.cpp" bodystart="30" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a0630be03484216a4c735ddecf94700aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::WWMITextureFacts::roleOfHashType</definition>
+        <argsstring>(const std::string &amp;type, const std::unordered_set&lt; std::string &gt; &amp;roles)</argsstring>
+        <name>roleOfHashType</name>
+        <qualifiedname>AGRemapCore::WWMITextureFacts::roleOfHashType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>roles</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The role a HashData hash type of the character names: the role itself, or the role followed by
+:cpp:member:`WWMINames::LiveSuffix`, or by :cpp:member:`WWMINames::OldSuffix` and an optional count (``Old2``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The character&apos;s roles</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The role, or <computeroutput>std::nullopt</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/WWMITextureFacts.h" line="216" column="30" bodyfile="src/data/WWMITextureFacts.cpp" bodystart="44" bodyend="64"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -333,7 +379,7 @@ own rather than part of :cpp:struct:`WWMIFixerConfig`: sorting a mod&apos;s file
 CLASSIFICATION, which is the parser&apos;s job, and the fixer only needs the answer
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/WWMITextureFacts.h" line="53" column="5" bodyfile="include/AGRemapCore/data/WWMITextureFacts.h" bodystart="53" bodyend="203"/>
+    <location file="include/AGRemapCore/data/WWMITextureFacts.h" line="53" column="5" bodyfile="include/AGRemapCore/data/WWMITextureFacts.h" bodystart="53" bodyend="217"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a7a87edac7e228b46b9cf64b31cd7697a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>downloadCharFolder</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a1676a328121ad3c9fdc23fd13872222a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>downloadGameFolder</name></member>
@@ -346,6 +392,7 @@ CLASSIFICATION, which is the parser&apos;s job, and the fixer only needs the ans
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a8cce6d3b65489057e61669304dec5c34" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>of</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a32e99b6edc94561728961fb0e4188892" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>regionRoles</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a6aa77f6ee0b48602e777e491f13f9fd0" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>registerRoles</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a0630be03484216a4c735ddecf94700aa" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>roleOfHashType</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a46d11b5fe1edabb8f270615fe6d206ad" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>roles</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1ac1d6d08af9bf7d2419b68471f1df7754" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>textureThumbprints</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a87b1d2d0fa7c94bf776e404f003185a5" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureFacts</scope><name>thumbprintSize</name></member>

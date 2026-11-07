@@ -558,6 +558,7 @@ void PyGIMIParser::editCommands() {
     // The core's runCommandEdits, with every edit going back through Python
     if (!this->deferCommandEdits) {
         PyIniGraphGroups::KeepScope keep(graphKeeper);
+        this->readDeclaredResources();
         runStepsFromPy(commandEditsObj, this->parseData());
         return;
     }
@@ -568,6 +569,7 @@ void PyGIMIParser::editCommands() {
         this->parseData().defer([this](AGRC::IniParseData& data) {
             py::gil_scoped_acquire gil;
             PyIniGraphGroups::KeepScope keep(graphKeeper);
+            this->readDeclaredResources();
             runStepsFromPy(deferredStepsObj, data);
         });
     }
@@ -904,18 +906,6 @@ keysToTrack: Optional[Set[:class:`str`]]
     **Default**: ``None``
     )doc");
 
-    using RowSteps = PyGIMIParser::Core::RowSteps;
-    py::class_<RowSteps>(cls, "RowSteps", R"doc(Which of the standard row sets :meth:`GIMIParser.rowSteps` builds -- see :class:`IniParseRows`)doc")
-        .def(py::init<>())
-        .def_readwrite("resources", &RowSteps::resources,
-            py::doc(R"doc(:class:`bool`: Whether to collect :attr:`IniParseRows.Resources`. **Default**: ``True``)doc"))
-        .def_readwrite("declaredKeys", &RowSteps::declaredKeys,
-            py::doc(R"doc(List[:class:`str`]: The keys :attr:`IniParseRows.Declared` collects besides ``filename``, ``type``, ``format`` and ``stride``)doc"))
-        .def_readwrite("sections", &RowSteps::sections,
-            py::doc(R"doc(:class:`bool`: Whether to collect :attr:`IniParseRows.Sections`. **Default**: ``True``)doc"))
-        .def_readwrite("objs", &RowSteps::objs,
-            py::doc(R"doc(Optional[Callable[[Tuple[:class:`str`, :class:`str`]], :class:`bool`]]: The mod objects :attr:`IniParseRows.Objs` collects every key of; ``None`` takes none)doc"));
-
     cls.def(py::init([](py::object iniFile, py::object modObjs, py::object objTargetFuncs, py::object downloads,
                          py::object commandEdits, bool makeGlobalGraph, bool disjointModObjs, bool trackKeys,
                          py::object keysToTrack, std::optional<int> modTypeId, bool deferCommandEdits) {
@@ -1002,37 +992,6 @@ For edits that only READ and may open many files, when most parsed .ini files ar
 run after :meth:`parse` has returned its graphs, so an edit that changes them has no effect on that result.
 **Default**: ``False``)doc"))
 
-       .def("rowSteps", [](PyGIMIParser &self, const PyGIMIParser::Core::RowSteps &rows) {
-            // the core builds and owns the edits; each is handed out kept alive by this parser, for a step list
-            self.refresh();
-            py::object owner = py::cast(&self, py::return_value_policy::reference);
-            py::list steps;
-            for (auto* step : self.rowSteps(rows)) {
-                steps.append(py::cast(step, py::return_value_policy::reference_internal, owner));
-            }
-            return steps;
-        }, py::arg("rows"), py::doc(R"doc(The standard row sets, as edits to put in :attr:`commandEdits` -- see :class:`IniParseRows` :raw-html:`<br />` :raw-html:`<br />`
-
-In this order: a copy of the parser's global graph is put in the groups (:class:`GraphCreate`); a
-:class:`ResRegCollect` over the keys that ever name a resource builds a graph of the resource `sections`_ bound
-anywhere (:class:`ResIdentity`: nothing renamed, no models) and a :class:`GraphCollect` reads their ``filename``;
-the declarations and every key of every `section`_ are collected off the global graph; both graphs are taken out
-again (:class:`GraphRemove`); and every key of the chosen objects is collected. The edits are owned by this parser;
-nothing is added to a step list :raw-html:`<br />` :raw-html:`<br />`
-
-The global graph is the parser's own, so the parser must make one (:attr:`makeGlobalGraph`). Call this once
-:attr:`modObjs` is set: :attr:`GIMIParser.RowSteps.objs` is asked of each mod object here
-
-Parameters
-----------
-rows: :class:`GIMIParser.RowSteps`
-    Which row sets to build
-
-Returns
--------
-List[:class:`BaseIniGraphGroupEdit`]
-    The edits, in the order they run)doc"))
-
        .def_static("textureOverrides", [](AGRC::IniFile &ini) { return AGRC::GIMITemplateParser::textureOverrides(ini); },
             py::arg("ini"), py::doc(R"doc(The texture overrides of 'ini' (``hash = <a game texture>`` / ``this = Resource...``): per `section`_
 with a ``hash``, its first ``this =`` in the `section`_ itself :raw-html:`<br />` :raw-html:`<br />`
@@ -1055,7 +1014,7 @@ list[tuple[:class:`str`, :class:`GraphCollect.Row`]]
             py::doc(R"doc(The resource `section`_ 'value' names, as a binding names one, under the name it is declared by -- or empty :raw-html:`<br />` :raw-html:`<br />`
 
 Without regard to case, as 3DMigoto reads a section name: a mod may declare ``[ResourceTexCoordBuffer]`` and bind
-``vb2 = ResourceTexcoordBuffer``. Known once :meth:`rowSteps`' global graph has been put in the groups
+``vb2 = ResourceTexcoordBuffer``. Known once :attr:`commandEdits` start running
 
 Parameters
 ----------

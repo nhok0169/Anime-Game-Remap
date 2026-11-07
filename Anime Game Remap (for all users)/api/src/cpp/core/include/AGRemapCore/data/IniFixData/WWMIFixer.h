@@ -34,6 +34,9 @@
 
 
 namespace AGRemapCore {
+    class IniParseData;
+    class IniFile;
+
     /**
      * @brief
      @rst
@@ -192,6 +195,19 @@ namespace AGRemapCore {
          @endrst
          */
         struct Shader {
+            /**
+             * @brief
+             @rst
+             The role a line ``X = role <name>`` of #lines names (:cpp:member:`WWMINames::RoleLine`), or ``std::nullopt``
+             for any other line
+             @endrst
+             *
+             * @param line The line
+             *
+             * @return The role, or ``std::nullopt``
+             */
+            static std::optional<std::string> lineRole(const std::pair<std::string, std::string>& line);
+
             /**
              * @brief The name its files and sections are given, eg. ``LynaeFilm``
              */
@@ -1112,6 +1128,26 @@ namespace AGRemapCore {
              @endrst
              */
             std::map<std::string, std::string> gameFileOfRole;
+
+            /**
+             * @brief
+             @rst
+             The file 'role' reads: the mod's own (#fileOfRole), else the source's game texture (#gameFileOfRole),
+             else empty -- eg. the code map a bake of another role's texture is guided by
+             @endrst
+             *
+             * @param role The role
+             *
+             * @return The file, or empty
+             */
+            std::string fileOrGame(const std::string& role) const {
+                const auto own = fileOfRole.find(role);
+                if (own != fileOfRole.end()) {
+                    return own->second;
+                }
+                const auto game = gameFileOfRole.find(role);
+                return game == gameFileOfRole.end() ? std::string() : game->second;
+            }
         };
         /**
          * @brief An edit the fix makes to one role's texture before binding it
@@ -1383,6 +1419,490 @@ namespace AGRemapCore {
          * @brief What every generated ``.ini`` copy opens with -- see :cpp:member:`GIMIFixer::copyPreamble`
          */
         std::string copyPreamble;
+
+        // ---- WHAT A FIX DECIDES FROM THE MOD: functions of this config and the parser's data, shared by the compiled
+        // fixer and a fixer written from the bound API (each a value a GraphEditVariables can hold) ----
+
+        /**
+         * @brief
+         @rst
+         Whether a component's :cpp:member:`SourceComponent::shader` draws it: it has one, and does not yield to a
+         mod that hands the component's maps to RabbitFX (:cpp:member:`Shader::yieldToRabbitFX`)
+         @endrst
+         *
+         * @param component The source component
+         * @param usesRabbitFX Whether the mod's sections of the component name RabbitFX
+         *
+         * @return Whether the shader draws it
+         */
+        bool shaderDraws(int component, bool usesRabbitFX) const;
+
+        /**
+         * @brief
+         @rst
+         A component's bindings: its :cpp:member:`plan` entry's, with its shader's :cpp:member:`Shader::registers`
+         in place of the ones at the same register while the shader draws it (#shaderDraws)
+         @endrst
+         *
+         * @param component The source component
+         * @param shaderDrawn Whether its shader draws it
+         *
+         * @return The bindings
+         */
+        std::vector<Binding> bindingsOf(int component, bool shaderDrawn) const;
+
+        /**
+         * @brief
+         @rst
+         The roles a component's :cpp:member:`SourceComponent::shader` names in a ``role <name>`` line, of its own
+         lines and its passes'
+         @endrst
+         *
+         * @param component The source component
+         *
+         * @return The roles, in the order the lines are written
+         */
+        std::vector<std::string> shaderLineRoles(int component) const;
+
+        /**
+         * @brief
+         @rst
+         The roles only a slot's OTHER passes (:cpp:member:`extraPassRegs`, of a slot a drawn component goes
+         through), a :cpp:member:`sharedMeshes` mesh or a drawn component's :cpp:member:`SourceComponent::overlay`
+         bind -- each once, in that order
+         @endrst
+         *
+         * @param drawn The source components the mod draws
+         *
+         * @return The roles
+         */
+        std::vector<std::string> passOnlyRoles(const std::set<int>& drawn) const;
+
+        /**
+         * @brief
+         @rst
+         A texture of the source's own game the fix downloads: from its :cpp:member:`sourceTextures` folders, as
+         ``<prefix><kind>RemapDL.dds``, declared under the resource :cpp:func:`IniNamingTools::getRemapDLResourceName`
+         names
+         @endrst
+         */
+        struct Download {
+            /**
+             * @brief Where it is downloaded from
+             */
+            std::string url;
+
+            /**
+             * @brief The file it is saved as, beside the ``.ini``
+             */
+            std::string file;
+
+            /**
+             * @brief The resource section that declares it
+             */
+            std::string resource;
+        };
+
+        /**
+         * @brief
+         @rst
+         The source's game texture of 'hash' as a :cpp:struct:`Download` of the kind 'kind' (``<Role>``, or
+         ``<Role>Game`` for a default)
+         @endrst
+         *
+         * @param kind The kind, eg. ``"UpperDiffuse"``
+         * @param hash The texture's hash in the source's download folder
+         *
+         * @return The download
+         */
+        Download downloadOf(const std::string& kind, const std::string& hash) const;
+
+        /**
+         * @brief
+         @rst
+         A resource the fix declares for one of the mod's files that no resource of the ``.ini`` names (or that
+         only a previous fix named): ``[Resource<Role><Target>RemapRef]`` -- RemapRef, since an undo deletes the
+         files a RemapFix section names
+         @endrst
+         */
+        struct DeclaredFile {
+            /**
+             * @brief The file, as the parser names it
+             */
+            std::string file;
+
+            /**
+             * @brief The file relative to the ``.ini``'s folder, as the ``filename =`` line writes it
+             */
+            std::string rel;
+
+            /**
+             * @brief The resource section's name
+             */
+            std::string resource;
+        };
+
+        /**
+         * @brief
+         @rst
+         What each texture role a mod's components bind resolves to -- see #roleResources
+         @endrst
+         */
+        struct RoleResources {
+            /**
+             * @brief (role, source component) -> the resource that binds the mod's own file for it
+             */
+            std::map<std::pair<std::string, int>, std::string> ofSlotRole;
+
+            /**
+             * @brief Role -> what stands in for it where no file of the mod's serves: a texture the fix invents
+             *        (:cpp:member:`createdTextures`), else the source's own game texture, downloaded
+             */
+            std::map<std::string, std::string> ofRole;
+
+            /**
+             * @brief Role -> the mod's file chosen for it
+             */
+            std::map<std::string, std::string> fileOfRole;
+
+            /**
+             * @brief The resources the fix declares for the mod's files, in the order they were named
+             */
+            std::vector<DeclaredFile> declared;
+
+            /**
+             * @brief Role -> the download standing in for it
+             */
+            std::map<std::string, Download> downloads;
+
+            /**
+             * @brief The roles left to the game: a flat texture the parser refused, in
+             *        :cpp:member:`flatLeftToGame`, with nothing else of the mod's
+             */
+            std::set<std::string> leftToGame;
+
+            /**
+             * @brief What the decision has to say, for the log, in order
+             */
+            std::vector<std::string> notes;
+
+            /**
+             * @brief
+             @rst
+             The resource bound for 'role' on 'component': its own, else -- on a component its own shader draws -- the
+             download itself, else the stand-in
+             @endrst
+             * @param role The role
+             * @param component The source component
+             * @param ownShader Whether the component's own :cpp:member:`SourceComponent::shader` draws it, which reads
+             *      a download raw rather than a texture edit of it
+             * @return The resource, or ``std::nullopt`` for a role nothing binds
+             */
+            std::optional<std::string> of(const std::string& role, int component, bool ownShader = false) const;
+
+            /**
+             * @brief
+             @rst
+             The resource the first of 'drawn' to bind 'role' binds (#of)
+             @endrst
+             * @param role The role
+             * @param drawn The source components the mod draws
+             * @param ownShader The drawn components their own shader draws
+             * @return The resource, or ``std::nullopt`` for a role none binds
+             */
+            std::optional<std::string> shared(const std::string& role, const std::set<int>& drawn,
+                                              const std::set<int>& ownShader = {}) const;
+        };
+
+        /**
+         * @brief
+         @rst
+         What each role resolves to on each component the mod draws.
+
+         Every role a drawn component's bindings name, then every #passOnlyRoles role on every drawn component, is
+         offered the mod's file the parser chose for it on that component (:cpp:func:`IniParseData::roleFile`). The
+         file binds through the resource the mod uses for it (:cpp:func:`IniParseData::resourceOfFile`), or through one
+         the fix declares (:cpp:struct:`DeclaredFile`) when the mod names it nowhere -- or only in a previous fix,
+         which the run's undo removes. Then the roles the fix invents (:cpp:member:`createdTextures`), and a stand-in
+         download for every role of a drawn component no file serves, every role a drawn component's shader names, and
+         every pass-only role no component owns -- unless the role is left to the game
+         @endrst
+         *
+         * @param data The parser's data of the mod's ``.ini``
+         * @param drawn The source components the mod draws
+         * @param rabbitFX The drawn components whose sections name RabbitFX
+         * @param sourceName The source character's name
+         * @param toModName The target's name
+         * @param iniFolder The ``.ini``'s folder
+         *
+         * @return The roles' resources
+         */
+        RoleResources roleResources(const IniParseData& data, const std::set<int>& drawn, const std::set<int>& rabbitFX,
+                                    const std::string& sourceName, const std::string& toModName,
+                                    const std::string& iniFolder) const;
+
+        /**
+         * @brief
+         @rst
+         Where the source's own game texture is the default for a role -- see #gameDefaults
+         @endrst
+         */
+        struct GameDefaults {
+            /**
+             * @brief Role -> what the draws a section makes before it binds anything bind: the source's own game
+             *        texture -- the role's stand-in when the mod has no file for it, else a download of its own
+             */
+            std::map<std::string, std::string> ofRole;
+
+            /**
+             * @brief Role -> the source's game texture, downloaded as ``<prefix><Role>GameRemapDL.dds``
+             */
+            std::map<std::string, Download> downloads;
+
+            /**
+             * @brief (role, component) -> what binds the role outside the toggle the mod binds its own file under
+             */
+            std::map<std::pair<std::string, int>, std::string> toggled;
+
+            /**
+             * @brief The roles whose download is the default, and so is edited as the mod's own file of the role
+             *        would be (:cpp:member:`texEdits`)
+             */
+            std::set<std::string> edited;
+
+            /**
+             * @brief What the decision has to say, for the log, in order
+             */
+            std::vector<std::string> notes;
+
+            /**
+             * @brief
+             @rst
+             The source's game texture of 'role' as 'component' binds it: the download itself for a component its
+             own shader draws, else #ofRole's
+             @endrst
+             * @param role The role
+             * @param component The source component
+             * @param ownShader Whether the component's own shader draws it
+             * @return The resource
+             */
+            std::string of(const std::string& role, int component, bool ownShader) const;
+        };
+
+        /**
+         * @brief
+         @rst
+         THE SOURCE'S OWN GAME TEXTURE AS THE DEFAULT, where the mod's file reaches only some of a component's draws
+         -- each a place the original drew with the game's texture:
+
+         #. the draws a section makes BEFORE it binds anything (:cpp:func:`IniParseData::lateBindings`): a role
+            the mod has no file for is already the source's game texture (its stand-in), and a role it does serve
+            takes a download of its own
+         #. a role bound only under a toggle that reaches none of the section's draws
+            (:cpp:func:`IniParseData::toggledBindings`) -- unless a ``this`` binds it for every draw anyway
+         #. a role bound with one ``this`` under a toggle (:cpp:member:`IniParseData::TextureToggle::single`): off,
+            the original draws with the game's texture
+
+         Nothing when the source has no download folder
+         @endrst
+         *
+         * @param data The parser's data of the mod's ``.ini``
+         * @param roles What the roles resolve to (#roleResources), with a reroute's entries copied from its source
+         *      component
+         * @param drawn The source components the mod draws, reroutes included
+         * @param rerouteFrom A reroute that took draws -> the component it took them from
+         *      (:cpp:struct:`DrawReroute`)
+         * @param ownShader The drawn components their own :cpp:member:`SourceComponent::shader` draws
+         * @param sourceName The source character's name
+         *
+         * @return The defaults
+         */
+        GameDefaults gameDefaults(const IniParseData& data, const RoleResources& roles, const std::set<int>& drawn,
+                                  const std::map<int, int>& rerouteFrom, const std::set<int>& ownShader,
+                                  const std::string& sourceName) const;
+
+        /**
+         * @brief
+         @rst
+         Which resources each :cpp:member:`texEdits` edit applies to -- see #texEditTargets
+         @endrst
+         */
+        struct TexEditTargets {
+            /**
+             * @brief Role -> the resources (lower case) its edits apply to
+             */
+            std::map<std::string, std::set<std::string>> targets;
+
+            /**
+             * @brief A resource (lower case) -> the roles edited from it, in the order they claimed it
+             */
+            std::map<std::string, std::vector<std::string>> rolesOf;
+
+            /**
+             * @brief Role -> a source game texture an edit compares against (:cpp:member:`TexEdit::sourceGameRoles`):
+             *        downloaded, never bound
+             */
+            std::map<std::string, Download> references;
+
+            /**
+             * @brief What the decision has to say, for the log, in order
+             */
+            std::vector<std::string> notes;
+        };
+
+        /**
+         * @brief
+         @rst
+         Which resources each of :cpp:member:`texEdits` applies to: the one its role resolves to (#RoleResources::shared)
+         and every other variant the mod's toggles bind the role as (:cpp:func:`IniParseData::thisToggleOf`,
+         :cpp:func:`IniParseData::registerToggleOf`) -- unless another role's edit of another kind (#roleKind)
+         claimed that file first, since a second claim would run that role's filter over it. An edit of a role with
+         neither a file of the mod's nor a stand-in download applies to nothing
+         @endrst
+         *
+         * @param data The parser's data of the mod's ``.ini``
+         * @param roles What the roles resolve to (#roleResources), a reroute's entries included
+         * @param drawn The source components the mod draws
+         * @param ownShader The drawn components their own shader draws
+         * @param iniPath The mod's ``.ini``
+         * @param sourceName The source character's name
+         *
+         * @return The targets
+         */
+        TexEditTargets texEditTargets(const IniParseData& data, const RoleResources& roles, const std::set<int>& drawn,
+                                      const std::set<int>& ownShader, const std::string& iniPath,
+                                      const std::string& sourceName) const;
+
+        /**
+         * @brief
+         @rst
+         The routing flags RabbitFX's ``SetTextures`` sets on the SOURCE's own draw of each drawn component that keeps
+         RabbitFX (:cpp:member:`SourceComponent::rabbitFX`) and whose sections run ``SetTextures`` -- from what that
+         draw has BOUND at ``ps-t0`` .. ``ps-t3``, not from the maps the mod hands RabbitFX. Per register: the mod's own
+         line (unless only a toggle sets it), else the mod's ``this`` override of the game texture there, else the game
+         texture itself (:cpp:member:`SourceComponent::RabbitFX::gameTags`)
+         @endrst
+         *
+         * @param data The parser's data of the mod's ``.ini``
+         * @param roles What the roles resolve to (#roleResources)
+         * @param toggled (role, component) -> what binds the role outside a toggle (:cpp:member:`GameDefaults::toggled`)
+         * @param drawn Each source component the mod draws (reroutes included) -> its sections
+         * @param rerouteFrom A reroute that took draws -> the component it took them from
+         * @param iniPath The mod's ``.ini``
+         * @param iniFolder The ``.ini``'s folder
+         *
+         * @return Component -> its four flags (:cpp:func:`RabbitFX::routingFlags`)
+         */
+        /**
+         * @brief
+         @rst
+         One line a linked ``.ini`` sets on this file's draws, as the fix carries it -- see #linkedLines
+         @endrst
+         */
+        struct CarriedLine {
+            /**
+             * @brief The condition it is set under, reading the fix's copies of the linked file's variables; empty for none
+             */
+            std::string condition;
+
+            /**
+             * @brief The key it sets (eg. RabbitFX's glow map); empty for a texture set at the register of #role
+             */
+            std::string key;
+
+            /**
+             * @brief The texture role the parser gave the line's file, for a line with no #key
+             */
+            std::string role;
+
+            /**
+             * @brief The value: ``ref <resource>``, the resource naming the file in this ``.ini``
+             */
+            std::string value;
+        };
+
+        /**
+         * @brief
+         @rst
+         A linked file whose state the fix copies, so the carried lines' conditions read it -- see #linkedLines
+         @endrst
+         */
+        struct LinkedState {
+            /**
+             * @brief The linked ``.ini``
+             */
+            std::string ini;
+
+            /**
+             * @brief The variables of its state the fix copies: the conditions' and every one they depend on
+             *        (:cpp:func:`IniFile::varState`)
+             */
+            std::set<std::string> vars;
+
+            /**
+             * @brief What each copied variable's name takes on in the fix
+             */
+            std::string suffix;
+        };
+
+        /**
+         * @brief
+         @rst
+         What linked ``.ini`` files set on this file's draws, and how the fix carries it -- see #linkedLines
+         @endrst
+         */
+        struct LinkedLines {
+            /**
+             * @brief Source component -> the lines carried onto its draws, in the order the parser read them
+             */
+            std::map<int, std::vector<CarriedLine>> lines;
+
+            /**
+             * @brief The linked files whose state the fix copies, in the order their first line was read
+             */
+            std::vector<LinkedState> states;
+
+            /**
+             * @brief The resources the fix declares for the linked files no resource of this ``.ini`` names, after
+             *        :cpp:member:`RoleResources::declared`
+             */
+            std::vector<DeclaredFile> declared;
+
+            /**
+             * @brief What the decision has to say, for the log, in order
+             */
+            std::vector<std::string> notes;
+        };
+
+        /**
+         * @brief
+         @rst
+         What linked ``.ini`` files set on this file's draws (:cpp:func:`IniParseData::linkedLines`), on the components
+         the mod draws: each line's value names its file through the resource this ``.ini`` uses for it, or one the fix
+         declares (``Resource<Carried|Glow><File><Target>RemapRef``); its condition reads the fix's copies of the linked
+         file's variables (suffixed ``<Target>RemapRef``, then ``...RemapRef2``, per file), whose state the fix copies
+         (:cpp:struct:`LinkedState`)
+         @endrst
+         *
+         * @param data The parser's data of the mod's ``.ini``
+         * @param roles What the roles resolve to (#roleResources): the names it declares are taken
+         * @param drawn The source components the mod draws, reroutes included
+         * @param linkedInis The run's ``.ini`` files linked to this one (:cpp:func:`IniFile::linkedInis`)
+         * @param sourceName The source character's name
+         * @param toModName The target's name
+         * @param iniFolder The ``.ini``'s folder
+         *
+         * @return The lines
+         */
+        LinkedLines linkedLines(const IniParseData& data, const RoleResources& roles, const std::set<int>& drawn,
+                                const std::vector<IniFile*>& linkedInis, const std::string& sourceName,
+                                const std::string& toModName, const std::string& iniFolder) const;
+
+        std::map<int, std::array<int, 4>> rabbitFXFlags(const IniParseData& data, const RoleResources& roles,
+                                                        const std::map<std::pair<std::string, int>, std::string>& toggled,
+                                                        const std::map<int, std::vector<std::string>>& drawn,
+                                                        const std::map<int, int>& rerouteFrom, const std::string& iniPath,
+                                                        const std::string& iniFolder) const;
     };
 
 

@@ -83,6 +83,18 @@ namespace AGRemapCore {
         std::string slotPrefix = "component";
 
         /**
+         * @brief
+         @rst
+         The draw slot a slot's mod object names: ``("", <slotPrefix><n>)`` is slot ``n``
+         @endrst
+         *
+         * @param obj The mod object
+         *
+         * @return The slot, or ``std::nullopt`` for any other mod object
+         */
+        std::optional<int> slotOf(const std::pair<std::string, std::string>& obj) const;
+
+        /**
          * @brief The register family a mod binds its textures with. **Default**: ``"ps-t"``
          */
         std::string texRegPrefix = "ps-t";

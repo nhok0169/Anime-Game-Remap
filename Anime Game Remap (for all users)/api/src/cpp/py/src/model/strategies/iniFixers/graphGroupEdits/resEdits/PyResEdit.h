@@ -518,8 +518,9 @@ class PyResIdentity: public PyResEditMixin<AGRC::ResIdentity<std::string, std::s
          *
          * @param resModObj The Python tuple id of the mod object holding the resource's graph
          * @param createResModel Whether to build the models for the resources
+         * @param fileOf The resource section a register's value names, or ``None`` for the value itself
          */
-        PyResIdentity(py::object resModObj, bool createResModel);
+        PyResIdentity(py::object resModObj, bool createResModel, py::object fileOf = py::none());
 
         py::object pySelf() const override;
         void buildResModel(const std::string &resType, const std::string &srcPath, const std::string &fixedPath,

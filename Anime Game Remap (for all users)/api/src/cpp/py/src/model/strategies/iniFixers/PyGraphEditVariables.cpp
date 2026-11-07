@@ -496,7 +496,10 @@ Makes a variable of the parse from others: when the parser files it, the variabl
 
 Put it in :attr:`GIMIParser.commandEdits` after the edits that file its inputs
 (a :class:`GraphCollect` files its rows in the variable named after it). It changes no graph; it reads only variables,
-so anything a graph says is collected into one first
+so anything a graph says is collected into one first.
+
+In a FIXER's list, give it the fixer's own :class:`GraphEditVariables` (``variables``): the function then runs when the
+edit does, over those variables, so a decision of the fix is a step of its list that the edits after it read
 
 :example:
 
@@ -520,10 +523,16 @@ fn: Callable[..., Any]
 
 into: :class:`str`
     The name of the variable written
+
+variables: Optional[:class:`GraphEditVariables`]
+    A fixer's variables, which the function is applied over when the edit runs; ``None`` (the default) for a parser's,
+    where the parser files it
     )doc");
-    apply.def(py::init([](std::vector<std::string> inputs, py::object fn, std::string into) {
-                  return std::make_unique<AGRC::GraphVarApply>(std::move(inputs), applyFromPy(std::move(fn)), std::move(into));
-              }), py::arg("inputs"), py::arg("fn"), py::arg("into"))
+    apply.def(py::init([](std::vector<std::string> inputs, py::object fn, std::string into, AGRC::GraphEditVariables* variables) {
+                  auto edit = std::make_unique<AGRC::GraphVarApply>(std::move(inputs), applyFromPy(std::move(fn)), std::move(into));
+                  edit->variables = variables;
+                  return edit;
+              }), py::arg("inputs"), py::arg("fn"), py::arg("into"), py::arg("variables") = nullptr, py::keep_alive<1, 5>())
         .def_readwrite("inputs", &AGRC::GraphVarApply::inputs, R"doc(
 The names of the variables read, in the order :attr:`fn` is given them
 

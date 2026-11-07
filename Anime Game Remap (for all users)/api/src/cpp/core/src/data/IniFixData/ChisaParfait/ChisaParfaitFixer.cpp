@@ -26,6 +26,7 @@
 #include "AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/files/TextureFile.h"
+#include "AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h"
 
 
 namespace AGRemapCore {
@@ -103,16 +104,11 @@ namespace AGRemapCore {
          * nothing in it to preserve.)
          */
         TexEditor::Filter maskRepackFilter() {
-            return [](TextureFile& tex) {
-                tex.setGamma(std::nullopt);          // these bytes are data, not colour
-                std::vector<std::uint8_t> px = tex.getPixels();
-                for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
-                    px[i + 2] = TargetMaskB;
-                    px[i + 3] = TargetMaskA;
-                }
-
-                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
-            };
+            ChannelMapFilter filter;
+            filter.data = true;                      // these bytes are data, not colour
+            filter.channels[2] = {2, ChannelMapFilter::constant(TargetMaskB)};
+            filter.channels[3] = {3, ChannelMapFilter::constant(TargetMaskA)};
+            return TexEditor::filterOf(std::move(filter));
         }
 
 
@@ -142,37 +138,31 @@ namespace AGRemapCore {
          * RGB is untouched. The mod's colours were never the problem.
          */
         TexEditor::Filter diffuseAlphaClampFilter() {
-            return [](TextureFile& tex) {
-                // THE GAMMA STAYS ON, unlike maskRepackFilter and hairNormalFilter above. Those
-                // two edit DATA and turn it off so the bytes pass through; this one edits a
-                // COLOUR texture, and an edit is written out UNCOMPRESSED and without the source's
-                // sRGB flag -- so the game samples it linearly, and `save`'s gamma is exactly the
-                // compensation that keeps it looking like the file it replaced. Turned off here,
-                // the written copy is byte-identical in RGB to the source and the character renders
-                // visibly washed out: paler skin, and the red bikini pink. Measured in game both
-                // ways on 2026-10-03.
-                std::vector<std::uint8_t> px = tex.getPixels();
-                for (std::size_t i = 3; i < px.size(); i += 4) {
-                    px[i] = std::min(px[i], TargetDiffuseAlphaMax);
-                }
-
-                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
-            };
+            // THE GAMMA STAYS ON, unlike maskRepackFilter and hairNormalFilter above. Those
+            // two edit DATA and turn it off so the bytes pass through; this one edits a
+            // COLOUR texture, and an edit is written out UNCOMPRESSED and without the source's
+            // sRGB flag -- so the game samples it linearly, and `save`'s gamma is exactly the
+            // compensation that keeps it looking like the file it replaced. Turned off here,
+            // the written copy is byte-identical in RGB to the source and the character renders
+            // visibly washed out: paler skin, and the red bikini pink. Measured in game both
+            // ways on 2026-10-03.
+            ChannelMapFilter filter;
+            std::vector<std::uint8_t> alpha(256);
+            for (int v = 0; v < 256; ++v) {
+                alpha[v] = std::min(static_cast<std::uint8_t>(v), TargetDiffuseAlphaMax);
+            }
+            filter.channels[3] = {3, std::move(alpha)};
+            return TexEditor::filterOf(std::move(filter));
         }
 
 
         TexEditor::Filter hairNormalFilter() {
-            return [](TextureFile& tex) {
-                tex.setGamma(std::nullopt);          // these bytes are data, not colour
-                std::vector<std::uint8_t> px = tex.getPixels();
-                for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
-                    px[i] = 0;                       // R: Chisa's is 0 over 83.8% of her islands
-                    px[i + 2] = 0;                   // B: no counterpart -- her modal, see above
-                    px[i + 3] = 0;                   // A: hers is 0 over 99.4%, the skin's is 255
-                }
-
-                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
-            };
+            ChannelMapFilter filter;
+            filter.data = true;                      // these bytes are data, not colour
+            filter.channels[0] = {0, ChannelMapFilter::constant(0)};     // R: Chisa's is 0 over 83.8% of her islands
+            filter.channels[2] = {2, ChannelMapFilter::constant(0)};     // B: no counterpart -- her modal, see above
+            filter.channels[3] = {3, ChannelMapFilter::constant(0)};     // A: hers is 0 over 99.4%, the skin's is 255
+            return TexEditor::filterOf(std::move(filter));
         }
     }
 

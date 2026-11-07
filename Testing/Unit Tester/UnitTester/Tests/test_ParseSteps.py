@@ -94,7 +94,7 @@ filename = Textures\BodyLM.dds
         self.assertEqual(len(collect.rows), 2)
 
 
-    # ====================== rowSteps ======================================
+    # ====================== the standard rows (IniParseRows) ======================================
 
     _rowsIniTxt = r"""
 [TextureOverrideBody]
@@ -117,36 +117,47 @@ format = R8
 filename = Textures\Unbound.dds
 """
 
-    def parseRows(self, **fields):
+    GlobalGraph, ResourceGraph = (0, "global", ""), (0, "resource", "")
+
+    @classmethod
+    def standardRows(cls, parser, objs = (), declaredKeys = (), resources = True, sections = True):
+        """The edits a parser lists to read the standard rows, as WWMIParser writes them: a copy of the parser's global
+        graph put in the groups; the resource sections bound anywhere built as a graph (ResIdentity, named as the .ini
+        declares them) and their filenames; the declarations; every key of every section; both graphs taken out
+        again; and every key of 'objs'"""
+        anyKey = lambda key: True
+        edits = [FRB.GraphCreate(cls.GlobalGraph, graph = lambda: parser.globalGraph)]
+        if resources:
+            edits.append(FRB.ResRegCollect({cls.GlobalGraph: anyKey},
+                                           {"": FRB.ResIdentity(cls.ResourceGraph, createResModel = False, fileOf = parser.resourceNamed)},
+                                           resPredicates = {cls.GlobalGraph: lambda reg, value, iterData: parser.resourceNamed(value) != ""}))
+            edits.append(FRB.GraphCollect({cls.ResourceGraph: [FRB.IniKeywords.Filename]}, name = FRB.IniParseRows.Resources))
+        edits.append(FRB.GraphCollect({cls.GlobalGraph: [FRB.IniKeywords.Filename, FRB.IniKeywords.Type, FRB.IniKeywords.Format,
+                                                         FRB.IniKeywords.Stride, *declaredKeys]},
+                                      name = FRB.IniParseRows.Declared))
+        if sections:
+            edits.append(FRB.GraphCollect({cls.GlobalGraph: anyKey}, name = FRB.IniParseRows.Sections))
+        edits.append(FRB.GraphRemove([cls.ResourceGraph, cls.GlobalGraph]))
+        if objs:
+            edits.append(FRB.GraphCollect({(0, obj[0], obj[1]): anyKey for obj in objs}, name = FRB.IniParseRows.Objs))
+        return edits
+
+    def parseRows(self, objs = None, **rows):
         self.setupIniTxt(self._rowsIniTxt)
         self.createIniFile()
         self._parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([self.Body]), trackKeys = False)
-        rows = FRB.GIMIParser.RowSteps()
-        rows.objs = lambda obj: obj == self.Body
-        for name, value in fields.items():
-            setattr(rows, name, value)
         self._parser.deferCommandEdits = True
-        self._parser.commandEdits = self._parser.rowSteps(rows)
+        self._parser.commandEdits = self.standardRows(self._parser, objs = [self.Body] if objs is None else objs, **rows)
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
         return self._parser.parseData
-
-    def test_rowSteps_returnsTheEditsInOrder_andAddsThemNowhere(self):
-        self.setupIniTxt(self._rowsIniTxt)
-        self.createIniFile()
-        parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([self.Body]))
-        steps = parser.rowSteps(FRB.GIMIParser.RowSteps())
-        # the global graph, the resource collect, files, declarations, sections, the removal and the objects
-        self.assertEqual(len(steps), 7)
-        self.assertTrue(all(isinstance(step, FRB.BaseIniGraphGroupEdit) for step in steps))
-        self.assertEqual(parser.commandEdits, [])
 
     def parseRowsThen(self, *after):
         self.setupIniTxt(self._rowsIniTxt)
         self.createIniFile()
         self._parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([self.Body]), trackKeys = False)
         self._parser.deferCommandEdits = True
-        self._parser.commandEdits = [*self._parser.rowSteps(FRB.GIMIParser.RowSteps()), *after]
+        self._parser.commandEdits = [*self.standardRows(self._parser), *after]
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
         return self._parser.parseData
@@ -191,18 +202,18 @@ filename = Textures\Unbound.dds
         self.assertEqual(FRB.IniParseData.resourceFilesOf(rows),
                          {"resourcebodydiffuse": r"Textures\Body.dds", "resourcebodylightmap": r"Textures\BodyLM.dds"})
 
-    def test_rowSteps_resourcesAreTheFilesBoundAnywhere(self):
+    def test_standardRows_resourcesAreTheFilesBoundAnywhere(self):
         # the light map is bound only from [Present], by a lower-cased reference
         rows = self.parseRows().collected(FRB.IniParseRows.Resources)
         self.assertEqual([(row.section, row.value) for row in rows],
                          [("ResourceBodyDiffuse", r"Textures\Body.dds"), ("ResourceBodyLightMap", r"Textures\BodyLM.dds")])
 
-    def test_rowSteps_resourceNamed_ignoresCaseAndRef(self):
+    def test_standardRows_resourceNamed_ignoresCaseAndRef(self):
         self.parseRows().collected(FRB.IniParseRows.Resources)
         self.assertEqual(self._parser.resourceNamed("ref resourcebodylightmap"), "ResourceBodyLightMap")
         self.assertEqual(self._parser.resourceNamed("ResourceNothing"), "")
 
-    def test_rowSteps_declarationsSectionsAndObjs(self):
+    def test_standardRows_declarationsSectionsAndObjs(self):
         data = self.parseRows(declaredKeys = ["hash"])
         declared = {(row.section, row.key): row.value for row in data.collected(FRB.IniParseRows.Declared)}
         self.assertEqual(declared[("ResourceBodyLightMap", "format")], "R8")
@@ -211,8 +222,8 @@ filename = Textures\Unbound.dds
         self.assertIn("Present", data.collectedSections(FRB.IniParseRows.Sections))
         self.assertIn("drawindexed", [row.key for row in data.collected(FRB.IniParseRows.Objs)])
 
-    def test_rowSteps_eachSetCanBeLeftOut(self):
-        data = self.parseRows(resources = False, sections = False, objs = None)
+    def test_standardRows_aSetLeftOutOfTheList_hasNoRows(self):
+        data = self.parseRows(resources = False, sections = False, objs = [])
         self.assertEqual(data.collected(FRB.IniParseRows.Resources), [])
         self.assertEqual(data.collected(FRB.IniParseRows.Sections), [])
         self.assertEqual(data.collected(FRB.IniParseRows.Objs), [])
@@ -459,10 +470,8 @@ drawindexed = 300, 0, 0
         self._parser = FRB.GIMIParser(self._iniFile, modObjs = [self.Body, self.Diffuse, self.Normal], objTargetFuncs = [target],
                                       disjointModObjs = False,
                                       keysToTrack = {FRB.IniKeywords.Hash, FRB.IniKeywords.MatchFirstIndex})
-        steps = FRB.GIMIParser.RowSteps()
-        steps.objs = lambda obj: obj == self.Body
         self._parser.deferCommandEdits = True
-        self._parser.commandEdits = [*self._parser.rowSteps(steps), overrides, roleRows]
+        self._parser.commandEdits = [*self.standardRows(self._parser, objs = [self.Body]), overrides, roleRows]
         self.useStrategies(parser = self._parser)
         self._iniFile.parse()
 
@@ -542,10 +551,8 @@ filename = G.dds
                                      name = "test.roles", withConditions = True)
             carried = FRB.GraphCollect({self.BodyGraph: lambda key: FRB.IniNamingTools.sameKey(key, FRB.RabbitFX.GlowMapKey)},
                                        name = "test.carried", withConditions = True)
-            steps = FRB.GIMIParser.RowSteps()
-            steps.objs = lambda obj: obj == self.Body
             parser.deferCommandEdits = True
-            parser.commandEdits = [*parser.rowSteps(steps), roles, carried]
+            parser.commandEdits = [*self.standardRows(parser, objs = [self.Body]), roles, carried]
             parser.parse()
             # the files its resources name, as the resource data an only-this-file parse reads them
             resources = FRB.IniParseData.ResourceData()

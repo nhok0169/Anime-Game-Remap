@@ -31,7 +31,11 @@ namespace AGRemapCore {
 
      Put it in :cpp:member:`GIMIParser::commandEdits` after the edits
      that file its inputs (a :cpp:class:`GraphCollect` files its rows in the variable named after it). It changes no
-     graph; it reads only variables, so anything a graph says is collected into one first
+     graph; it reads only variables, so anything a graph says is collected into one first.
+
+     In a FIXER's list, give it the fixer's own :cpp:class:`GraphEditVariables` (#variables): the function then runs
+     when the edit does, over those variables, so a decision of the fix is a step of its list that the edits after it
+     read
      @endrst
      */
     class GraphVarApply: public BaseIniGraphGroupEdit<>, public IParseResult {
@@ -44,6 +48,25 @@ namespace AGRemapCore {
              * @param into See #into
              */
             GraphVarApply(std::vector<std::string> inputs, GraphEditVariables::Apply fn, std::string into);
+
+            /**
+             * @brief Constructs the edit for a fixer's list, over 'variables'
+             * @param variables See #variables
+             * @param inputs See #inputs
+             * @param fn See #fn
+             * @param into See #into
+             */
+            GraphVarApply(GraphEditVariables& variables, std::vector<std::string> inputs, GraphEditVariables::Apply fn,
+                          std::string into);
+
+            /**
+             * @brief
+             @rst
+             The variables a fixer's list keeps, which the edit applies #fn over when it runs; ``nullptr`` (the
+             default) for a parser's, where the parser files it (:cpp:func:`fileInto`)
+             @endrst
+             */
+            GraphEditVariables* variables = nullptr;
 
             /**
              * @brief The names of the variables read, in the order #fn is given them
@@ -61,7 +84,7 @@ namespace AGRemapCore {
             std::string into;
 
             /**
-             * @brief Changes no graph
+             * @brief Changes no graph: applies #fn over #variables, when there are any
              *
              * @param graphGroups The groups of graphs
              * @param modType Unused

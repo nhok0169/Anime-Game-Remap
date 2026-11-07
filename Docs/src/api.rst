@@ -723,6 +723,28 @@ CppMaterialBandRemapFilter
 
 :raw-html:`<br />`
 
+ChannelMapFilter
+================
+
+.. attributetable:: FixRaidenBoss2.ChannelMapFilter
+
+.. autoclass:: FixRaidenBoss2.ChannelMapFilter
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GuidedScaleFilter
+=================
+
+.. attributetable:: FixRaidenBoss2.GuidedScaleFilter
+
+.. autoclass:: FixRaidenBoss2.GuidedScaleFilter
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CppPixelFilter
 ==============
 
@@ -2911,6 +2933,28 @@ SkeletonNumberingProbe
 .. attributetable:: FixRaidenBoss2.SkeletonNumberingProbe
 
 .. autoclass:: FixRaidenBoss2.SkeletonNumberingProbe
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+LynaeData
+=========
+
+.. attributetable:: FixRaidenBoss2.LynaeData
+
+.. autoclass:: FixRaidenBoss2.LynaeData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+WWMINames
+=========
+
+.. attributetable:: FixRaidenBoss2.WWMINames
+
+.. autoclass:: FixRaidenBoss2.WWMINames
     :members:
     :private-members:
 

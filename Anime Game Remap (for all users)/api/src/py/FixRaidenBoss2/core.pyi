@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'DownloadTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalIniClassifiers', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'GraphVarApply', 'GraphVarTake', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniComments', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSharedState', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegPartEdit', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexThumbprint', 'TexcoordFile', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMISections', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'ChannelMapFilter', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'DownloadTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalIniClassifiers', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'GraphVarApply', 'GraphVarTake', 'GuidedScaleFilter', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniComments', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSharedState', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'LynaeData', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegPartEdit', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexThumbprint', 'TexcoordFile', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMINames', 'WWMIParserConfig', 'WWMISections', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -2509,6 +2509,184 @@ class CallGraph:
         """
         Set[:class:`int`]: The ``id()`` of every part that's a genuine entry point of one of the graph's own target `section`_\\s
         """
+class ChannelMapFilter(CppBaseTexFilter):
+    """
+    
+    This class inherits from :class:`CppBaseTexFilter`
+    
+    Writes each channel of every pixel from a channel of the same pixel through a 256-entry table: a material-code map
+    swapped between two characters' codes, a channel set to a constant, a channel copied from another, alpha clamped, a
+    colour gain. Every channel is read before any is written :raw-html:`<br />` :raw-html:`<br />`
+    
+    How a channel is read is :attr:`read`: the stored bytes, or the values a shader reads
+    (:meth:`CppTextureFile.shaderChannel`) -- a code map stored sRGB reaches its shader decoded. With :attr:`data` the
+    written bytes are data rather than colour, and the texture's gamma is cleared so they are saved as they are
+    
+    Parameters
+    ----------
+    read: :class:`ChannelMapFilter.Read`
+        How every source channel is read :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: :attr:`ChannelMapFilter.Read.Raw`
+    
+    data: :class:`bool`
+        Whether the written bytes are data rather than colour :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+        
+    """
+    class Channel:
+        """
+        What one output channel is written from
+        """
+        @typing.overload
+        def __init__(self) -> None:
+            ...
+        @typing.overload
+        def __init__(self, source: typing.SupportsInt | typing.SupportsIndex, table: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex] = []) -> None:
+            ...
+        @property
+        def source(self) -> int:
+            """
+            :class:`int`: The channel read (0 to 3), or -1 to leave this channel as it is. **Default**: -1
+            """
+        @source.setter
+        def source(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def table(self) -> list[int]:
+            """
+            List[:class:`int`]: The value written for each value read: 256 entries, or empty to write the value read. **Default**: empty
+            """
+        @table.setter
+        def table(self, arg0: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
+            ...
+    class Read:
+        """
+        How a source channel is read
+        
+        Members:
+        
+          Raw : The stored bytes
+        
+          ShaderCode : As a shader reads a code: decoded, truncated (:meth:`CppTextureFile.shaderChannel`)
+        
+          ShaderValue : As a shader reads a value: decoded, rounded
+        """
+        Raw: typing.ClassVar[ChannelMapFilter.Read]  # value = <Read.Raw: 0>
+        ShaderCode: typing.ClassVar[ChannelMapFilter.Read]  # value = <Read.ShaderCode: 1>
+        ShaderValue: typing.ClassVar[ChannelMapFilter.Read]  # value = <Read.ShaderValue: 2>
+        __members__: typing.ClassVar[dict[str, ChannelMapFilter.Read]]  # value = {'Raw': <Read.Raw: 0>, 'ShaderCode': <Read.ShaderCode: 1>, 'ShaderValue': <Read.ShaderValue: 2>}
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    @staticmethod
+    def codeMap(table: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> ChannelMapFilter:
+        """
+        A filter for a material-code map: each texel's code -- the red channel as a shader reads it
+        (:attr:`ChannelMapFilter.Read.ShaderCode`) -- through 'table', written to R, G and B as data. A single-channel map
+        comes in as ``(v, v, v, 255)`` and is written the same way
+        
+        Parameters
+        ----------
+        table: List[:class:`int`]
+            The code written for each code read: 256 entries
+        
+        Returns
+        -------
+        :class:`ChannelMapFilter`
+            The filter
+        """
+    @staticmethod
+    def constant(value: typing.SupportsInt | typing.SupportsIndex) -> list[int]:
+        """
+        A table that writes 'value' for every value read
+        
+        Parameters
+        ----------
+        value: :class:`int`
+            The value
+        
+        Returns
+        -------
+        List[:class:`int`]
+            The table
+        """
+    def __init__(self, read: ChannelMapFilter.Read = ..., data: bool = False) -> None:
+        ...
+    def setChannel(self, channel: typing.SupportsInt | typing.SupportsIndex, source: typing.SupportsInt | typing.SupportsIndex, table: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex] = []) -> None:
+        """
+        Writes output 'channel' from 'source' through 'table'
+        
+        Parameters
+        ----------
+        channel: :class:`int`
+            The output channel, 0 (R) to 3 (A)
+        
+        source: :class:`int`
+            The channel read, or -1 to leave the output channel as it is
+        
+        table: List[:class:`int`]
+            The value written for each value read: 256 entries, or empty to write the value read :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: empty
+        """
+    def transform(self, texFile: typing.Any) -> None:
+        """
+        Writes the channels of 'texFile'
+        
+        Parameters
+        ----------
+        texFile: :class:`CppTextureFile`
+            The texture to be edited
+        """
+    @property
+    def channels(self) -> typing.Annotated[list[ChannelMapFilter.Channel], "FixedSize(4)"]:
+        """
+        List[:class:`ChannelMapFilter.Channel`]: The output channels R, G, B and A, in that order -- assign the whole list, or use :meth:`setChannel`
+        """
+    @channels.setter
+    def channels(self, arg0: typing.Annotated[collections.abc.Sequence[ChannelMapFilter.Channel], "FixedSize(4)"]) -> None:
+        ...
+    @property
+    def data(self) -> bool:
+        """
+        :class:`bool`: Whether the written bytes are data (codes, flags) rather than colour: the gamma is cleared. **Default**: ``False``
+        """
+    @data.setter
+    def data(self, arg0: bool) -> None:
+        ...
+    @property
+    def read(self) -> ChannelMapFilter.Read:
+        """
+        :class:`ChannelMapFilter.Read`: How every source channel is read. **Default**: :attr:`ChannelMapFilter.Read.Raw`
+        """
+    @read.setter
+    def read(self, arg0: ChannelMapFilter.Read) -> None:
+        ...
 class CppAhoCorasickDFA:
     """
     
@@ -9728,44 +9906,6 @@ class GIMIParser(BaseIniParser):
         **Default**: ``None``
         
     """
-    class RowSteps:
-        """
-        Which of the standard row sets :meth:`GIMIParser.rowSteps` builds -- see :class:`IniParseRows`
-        """
-        def __init__(self) -> None:
-            ...
-        @property
-        def declaredKeys(self) -> list[str]:
-            """
-            List[:class:`str`]: The keys :attr:`IniParseRows.Declared` collects besides ``filename``, ``type``, ``format`` and ``stride``
-            """
-        @declaredKeys.setter
-        def declaredKeys(self, arg0: collections.abc.Sequence[str]) -> None:
-            ...
-        @property
-        def objs(self) -> collections.abc.Callable[[tuple[str, str]], bool]:
-            """
-            Optional[Callable[[Tuple[:class:`str`, :class:`str`]], :class:`bool`]]: The mod objects :attr:`IniParseRows.Objs` collects every key of; ``None`` takes none
-            """
-        @objs.setter
-        def objs(self, arg0: collections.abc.Callable[[tuple[str, str]], bool]) -> None:
-            ...
-        @property
-        def resources(self) -> bool:
-            """
-            :class:`bool`: Whether to collect :attr:`IniParseRows.Resources`. **Default**: ``True``
-            """
-        @resources.setter
-        def resources(self, arg0: bool) -> None:
-            ...
-        @property
-        def sections(self) -> bool:
-            """
-            :class:`bool`: Whether to collect :attr:`IniParseRows.Sections`. **Default**: ``True``
-            """
-        @sections.setter
-        def sections(self, arg0: bool) -> None:
-            ...
     @staticmethod
     def classifyByTextureOverrideName(parser: GIMIParser, sectionName: str, disjoint: bool = True, modObjs: typing.Any = None, fromRoots: bool = True) -> list:
         """
@@ -9915,7 +10055,7 @@ class GIMIParser(BaseIniParser):
         The resource `section`_ 'value' names, as a binding names one, under the name it is declared by -- or empty :raw-html:`<br />` :raw-html:`<br />`
         
         Without regard to case, as 3DMigoto reads a section name: a mod may declare ``[ResourceTexCoordBuffer]`` and bind
-        ``vb2 = ResourceTexcoordBuffer``. Known once :meth:`rowSteps`' global graph has been put in the groups
+        ``vb2 = ResourceTexcoordBuffer``. Known once :attr:`commandEdits` start running
         
         Parameters
         ----------
@@ -9926,30 +10066,6 @@ class GIMIParser(BaseIniParser):
         -------
         :class:`str`
             The resource section's name as declared, or empty
-        """
-    def rowSteps(self, rows: GIMIParser.RowSteps) -> list:
-        """
-        The standard row sets, as edits to put in :attr:`commandEdits` -- see :class:`IniParseRows` :raw-html:`<br />` :raw-html:`<br />`
-        
-        In this order: a copy of the parser's global graph is put in the groups (:class:`GraphCreate`); a
-        :class:`ResRegCollect` over the keys that ever name a resource builds a graph of the resource `sections`_ bound
-        anywhere (:class:`ResIdentity`: nothing renamed, no models) and a :class:`GraphCollect` reads their ``filename``;
-        the declarations and every key of every `section`_ are collected off the global graph; both graphs are taken out
-        again (:class:`GraphRemove`); and every key of the chosen objects is collected. The edits are owned by this parser;
-        nothing is added to a step list :raw-html:`<br />` :raw-html:`<br />`
-        
-        The global graph is the parser's own, so the parser must make one (:attr:`makeGlobalGraph`). Call this once
-        :attr:`modObjs` is set: :attr:`GIMIParser.RowSteps.objs` is asked of each mod object here
-        
-        Parameters
-        ----------
-        rows: :class:`GIMIParser.RowSteps`
-            Which row sets to build
-        
-        Returns
-        -------
-        List[:class:`BaseIniGraphGroupEdit`]
-            The edits, in the order they run
         """
     def setupDownloads(self) -> None:
         """
@@ -12406,7 +12522,10 @@ class GraphVarApply(BaseIniGraphGroupEdit, IParseResult):
     
     Put it in :attr:`GIMIParser.commandEdits` after the edits that file its inputs
     (a :class:`GraphCollect` files its rows in the variable named after it). It changes no graph; it reads only variables,
-    so anything a graph says is collected into one first
+    so anything a graph says is collected into one first.
+    
+    In a FIXER's list, give it the fixer's own :class:`GraphEditVariables` (``variables``): the function then runs when the
+    edit does, over those variables, so a decision of the fix is a step of its list that the edits after it read
     
     :example:
     
@@ -12430,9 +12549,13 @@ class GraphVarApply(BaseIniGraphGroupEdit, IParseResult):
     
     into: :class:`str`
         The name of the variable written
+    
+    variables: Optional[:class:`GraphEditVariables`]
+        A fixer's variables, which the function is applied over when the edit runs; ``None`` (the default) for a parser's,
+        where the parser files it
         
     """
-    def __init__(self, inputs: collections.abc.Sequence[str], fn: typing.Any, into: str) -> None:
+    def __init__(self, inputs: collections.abc.Sequence[str], fn: typing.Any, into: str, variables: GraphEditVariables | None = None) -> None:
         ...
     def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
         """
@@ -12532,6 +12655,99 @@ class GraphVarTake(BaseIniGraphGroupEdit):
         List[:class:`IniGraphGroup`]
             The same list that was passed in
         """
+class GuidedScaleFilter(CppBaseTexFilter):
+    """
+    
+    This class inherits from :class:`CppBaseTexFilter`
+    
+    Scales the colour of every pixel by a factor another texture -- the GUIDE -- chooses: the guide's channel at the same
+    UV (nearest texel, the two textures may differ in size) picks one of 256 RGB factors. What a texel IS comes from the
+    guide, never from its own colour: a material-code map says which material a diffuse texel paints, a normal map's
+    alpha which shading band it sits in :raw-html:`<br />` :raw-html:`<br />`
+    
+    With :attr:`linear` the factor applies to the colour decoded from sRGB (2.2) when the texture is stored sRGB, and
+    the result is encoded back. Results are rounded and clamped to 0-255. Alpha is untouched. A guide that is not there
+    (:attr:`guide` empty, or a file that does not open) leaves the texture as it is
+    
+    Parameters
+    ----------
+    guide: :class:`str`
+        The guide texture's file :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``""``
+    
+    channel: :class:`int`
+        The guide's channel that chooses the factor, 0 (R) to 3 (A) :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``0``
+    
+    factors: List[Tuple[:class:`float`, :class:`float`, :class:`float`]]
+        The RGB factor for each value of the guide's channel: 256 entries, or empty to leave every texel :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: empty
+    
+    read: :class:`ChannelMapFilter.Read`
+        How the guide's channel is read :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: :attr:`ChannelMapFilter.Read.Raw`
+    
+    linear: :class:`bool`
+        Whether to scale the colour decoded from sRGB, for a texture stored sRGB :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+        
+    """
+    def __init__(self, guide: str = '', channel: typing.SupportsInt | typing.SupportsIndex = 0, factors: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]] = [], read: ChannelMapFilter.Read = ..., linear: bool = False) -> None:
+        ...
+    def transform(self, texFile: typing.Any) -> None:
+        """
+        Scales the colour of 'texFile' by the guide
+        
+        Parameters
+        ----------
+        texFile: :class:`CppTextureFile`
+            The texture to be edited
+        """
+    @property
+    def channel(self) -> int:
+        """
+        :class:`int`: The guide's channel that chooses the factor: 0 (R) to 3 (A)
+        """
+    @channel.setter
+    def channel(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def factors(self) -> list[typing.Annotated[list[float], "FixedSize(3)"]]:
+        """
+        List[Tuple[:class:`float`, :class:`float`, :class:`float`]]: The RGB factor for each value of the guide's channel: 256 entries, or empty to leave every texel
+        """
+    @factors.setter
+    def factors(self, arg0: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]]) -> None:
+        ...
+    @property
+    def guide(self) -> str:
+        """
+        :class:`str`: The guide texture's file
+        """
+    @guide.setter
+    def guide(self, arg0: str) -> None:
+        ...
+    @property
+    def linear(self) -> bool:
+        """
+        :class:`bool`: Whether to scale the colour decoded from sRGB, for a texture stored sRGB
+        """
+    @linear.setter
+    def linear(self, arg0: bool) -> None:
+        ...
+    @property
+    def read(self) -> ChannelMapFilter.Read:
+        """
+        :class:`ChannelMapFilter.Read`: How the guide's channel is read
+        """
+    @read.setter
+    def read(self, arg0: ChannelMapFilter.Read) -> None:
+        ...
 class Hash128:
     """
     
@@ -13567,6 +13783,27 @@ class IniParseData:
     BlendVersion: typing.ClassVar[str] = 'BlendVersion'
     ResourceDataVar: typing.ClassVar[str] = 'ResourceData'
     RoleFilesVar: typing.ClassVar[str] = 'RoleFiles'
+    @staticmethod
+    def drawRangeOf(value: str, zeroBase: bool = False) -> tuple[int, int] | None:
+        """
+        The (count, first) of a ``drawindexed = <count>, <first>, <base>[, ...]`` value, every field a whole number
+        (:meth:`ListValue.numbers`) -- or ``None`` for ``auto``, a field that is not a number, or a negative count or first
+        
+        Parameters
+        ----------
+        value: :class:`str`
+            The value
+        
+        zeroBase: :class:`bool`
+            Whether only a value of exactly those three fields with a base of 0 is a range :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        Optional[Tuple[:class:`int`, :class:`int`]]
+            The range, or ``None``
+        """
     @staticmethod
     def resourceDataOf(rules: ..., rows: GraphEditVariables, start: FixRaidenBoss2.core.IniParseData.ResourceData | None = None) -> IniParseData.ResourceData:
         """
@@ -19892,6 +20129,94 @@ class Logger(BaseLogger):
         ----------
         message: :class:`str`
             The rendered message to display
+        """
+class LynaeData:
+    """
+    
+    Lynae's data from WuWa, as her fix and parser are built from it: the game shaders it carries onto her skin, her
+    texture facts, her skeleton's numbering and shape-key order, and the tables of her texture edits. Each is the data a
+    :class:`WWMIFixerConfig` or :class:`WWMIParserConfig` for Lynae is given; nothing here is built
+        
+    """
+    @staticmethod
+    def bangsShader() -> WWMIFixerConfig.Shader:
+        """
+        :class:`WWMIFixerConfig.Shader`: Lynae's bangs pass
+        """
+    @staticmethod
+    def boneCentroids() -> dict[int, typing.Annotated[list[float], "FixedSize(3)"]]:
+        """
+        Dict[:class:`int`, Tuple[:class:`float`, :class:`float`, :class:`float`]]: Where each of Lynae's bones sits, to tell a mod's skeleton numbering
+        """
+    @staticmethod
+    def filmCodeTable() -> list[int]:
+        """
+        List[:class:`int`]: The table that moves Lynae's coat film code to LynaePeppermint's, for :meth:`ChannelMapFilter.codeMap`
+        """
+    @staticmethod
+    def filmFactors() -> list[typing.Annotated[list[float], "FixedSize(3)"]]:
+        """
+        List[Tuple[:class:`float`, :class:`float`, :class:`float`]]: Lynae's coat film colour, as :class:`GuidedScaleFilter` factors guided by a jacket code map's codes
+        """
+    @staticmethod
+    def filmShader() -> WWMIFixerConfig.Shader:
+        """
+        :class:`WWMIFixerConfig.Shader`: Lynae's coat film pass
+        """
+    @staticmethod
+    def hairShader() -> WWMIFixerConfig.Shader:
+        """
+        :class:`WWMIFixerConfig.Shader`: Lynae's hair pass
+        """
+    @staticmethod
+    def lowerShader() -> WWMIFixerConfig.Shader:
+        """
+        :class:`WWMIFixerConfig.Shader`: Lynae's lower-body pass
+        """
+    @staticmethod
+    def propsFilmFlags() -> WWMIParserConfig.DrawSplit.FlagMask:
+        """
+        :class:`WWMIParserConfig.DrawSplit.FlagMask`: Where Lynae's own props code map carries her film flag
+        """
+    @staticmethod
+    def propsPlainCodeTable() -> list[int]:
+        """
+        List[:class:`int`]: The table that moves Lynae's plain props materials to LynaePeppermint's plain hip-pouch material, for :meth:`ChannelMapFilter.codeMap`
+        """
+    @staticmethod
+    def renumbered36To37() -> dict[int, int]:
+        """
+        Dict[:class:`int`, :class:`int`]: Lynae's bones renumbered from 3.6 to 3.7
+        """
+    @staticmethod
+    def shadeBandFactors() -> list[typing.Annotated[list[float], "FixedSize(3)"]]:
+        """
+        List[Tuple[:class:`float`, :class:`float`, :class:`float`]]: Lynae's lower-body shading bands, as :class:`GuidedScaleFilter` factors guided by the normal map's alpha, in linear colour
+        """
+    @staticmethod
+    def skinCodeTable() -> list[int]:
+        """
+        List[:class:`int`]: The table that swaps the skin code between Lynae's and LynaePeppermint's body code maps, for :meth:`ChannelMapFilter.codeMap`
+        """
+    @staticmethod
+    def textureFacts() -> WWMITextureFacts:
+        """
+        :class:`WWMITextureFacts`: Lynae's texture roles, registers and thumbprints
+        """
+    @staticmethod
+    def toPeppermintShapeKeys() -> list[int]:
+        """
+        List[:class:`int`]: Lynae's shape keys in LynaePeppermint's order
+        """
+    @staticmethod
+    def upperShader() -> WWMIFixerConfig.Shader:
+        """
+        :class:`WWMIFixerConfig.Shader`: Lynae's upper-body pass
+        """
+    @staticmethod
+    def vgMaps36() -> dict[int, list[int]]:
+        """
+        Dict[:class:`int`, List[:class:`int`]]: Each of Lynae's components' vertex groups in her merged skeleton, at 3.6
         """
 class ModAssets:
     """
@@ -27743,6 +28068,12 @@ class ResIdentity(BaseResEdit):
         Whether to build the models for the resources :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``True``
+    
+    fileOf: Optional[Callable[[:class:`str`], :class:`str`]]
+        The resource `section`_ a register's value names -- eg. :meth:`GIMIParser.resourceNamed`, which finds it
+        without regard to case -- or ``None`` for the value itself :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
         
     """
     @staticmethod
@@ -27796,7 +28127,7 @@ class ResIdentity(BaseResEdit):
         :class:`str`
             The unique id for the file
         """
-    def __init__(self, resModObj: typing.Any, createResModel: bool = True) -> None:
+    def __init__(self, resModObj: typing.Any, createResModel: bool = True, fileOf: typing.Any = None) -> None:
         ...
     def buildResModels(self: BaseResEdit, graph: typing.Any, ini: typing.Any = None, modType: typing.Any = None, resources: typing.Any = None, resourceFilter: typing.Any = None, modName: str = '', graphId: str = '', resModObj: typing.Any = None) -> None:
         """
@@ -32976,6 +33307,46 @@ class WWMIFixerConfig:
         @srcComponent.setter
         def srcComponent(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
+    class CarriedLine:
+        """
+        
+        One line a linked ``.ini`` sets on this file's draws, as the fix carries it -- see :meth:`WWMIFixerConfig.linkedLines`
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def condition(self) -> str:
+            """
+            :class:`str`: the condition it is set under, reading the fix's copies of the linked file's variables; empty for none
+            """
+        @condition.setter
+        def condition(self, arg0: str) -> None:
+            ...
+        @property
+        def key(self) -> str:
+            """
+            :class:`str`: the key it sets (eg. RabbitFX's glow map); empty for a texture set at the register of :attr:`role`
+            """
+        @key.setter
+        def key(self, arg0: str) -> None:
+            ...
+        @property
+        def role(self) -> str:
+            """
+            :class:`str`: the texture role the parser gave the line's file, for a line with no :attr:`key`
+            """
+        @role.setter
+        def role(self, arg0: str) -> None:
+            ...
+        @property
+        def value(self) -> str:
+            """
+            :class:`str`: the value: ``ref <resource>``, the resource naming the file in this ``.ini``
+            """
+        @value.setter
+        def value(self, arg0: str) -> None:
+            ...
     class CreatedTexture:
         """
         
@@ -33011,6 +33382,72 @@ class WWMIFixerConfig:
             """
         @size.setter
         def size(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+    class DeclaredFile:
+        """
+        
+        A resource the fix declares for one of the mod's files that no resource of the ``.ini`` names (or that only a previous
+        fix named): ``[Resource<Role><Target>RemapRef]`` -- RemapRef, since an undo deletes the files a RemapFix section names
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def file(self) -> str:
+            """
+            :class:`str`: The file, as the parser names it
+            """
+        @file.setter
+        def file(self, arg0: str) -> None:
+            ...
+        @property
+        def rel(self) -> str:
+            """
+            :class:`str`: The file relative to the ``.ini``'s folder, as the ``filename =`` line writes it
+            """
+        @rel.setter
+        def rel(self, arg0: str) -> None:
+            ...
+        @property
+        def resource(self) -> str:
+            """
+            :class:`str`: The resource section's name
+            """
+        @resource.setter
+        def resource(self, arg0: str) -> None:
+            ...
+    class Download:
+        """
+        
+        A texture of the source's own game the fix downloads: from its :attr:`sourceTextures` folders, as
+        ``<prefix><kind>RemapDL.dds``, declared under the resource :meth:`IniNamingTools.getRemapDLResourceName` names
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def file(self) -> str:
+            """
+            :class:`str`: The file it is saved as, beside the ``.ini``
+            """
+        @file.setter
+        def file(self, arg0: str) -> None:
+            ...
+        @property
+        def resource(self) -> str:
+            """
+            :class:`str`: The resource section that declares it
+            """
+        @resource.setter
+        def resource(self, arg0: str) -> None:
+            ...
+        @property
+        def url(self) -> str:
+            """
+            :class:`str`: Where it is downloaded from
+            """
+        @url.setter
+        def url(self, arg0: str) -> None:
             ...
     class DrawReroute:
         """
@@ -33051,6 +33488,136 @@ class WWMIFixerConfig:
         @split.setter
         def split(self, arg0: str) -> None:
             ...
+    class GameDefaults:
+        """
+        
+        Where the source's own game texture is the default for a role -- see :meth:`WWMIFixerConfig.gameDefaults`
+            
+        """
+        def __init__(self) -> None:
+            ...
+        def of(self, role: str, component: typing.SupportsInt | typing.SupportsIndex, ownShader: bool) -> str:
+            """
+            The source's game texture of ``role`` as ``component`` binds it: the download itself for a component its own shader
+            draws, else :attr:`ofRole`'s
+            
+            :param role: The role
+            :param component: The source component
+            :param ownShader: Whether the component's own shader draws it
+            :returns: :class:`str`: the resource
+            """
+        @property
+        def downloads(self) -> dict[str, WWMIFixerConfig.Download]:
+            """
+            Dict[:class:`str`, :class:`WWMIFixerConfig.Download`]: role -> the source's game texture, downloaded as ``<prefix><Role>GameRemapDL.dds``
+            """
+        @downloads.setter
+        def downloads(self, arg0: collections.abc.Mapping[str, WWMIFixerConfig.Download]) -> None:
+            ...
+        @property
+        def edited(self) -> set[str]:
+            """
+            Set[:class:`str`]: the roles whose download is the default, and so is edited as the mod's own file of the role would be
+            """
+        @edited.setter
+        def edited(self, arg0: collections.abc.Set[str]) -> None:
+            ...
+        @property
+        def notes(self) -> list[str]:
+            """
+            List[:class:`str`]: what the decision has to say, for the log, in order
+            """
+        @notes.setter
+        def notes(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
+        def ofRole(self) -> dict[str, str]:
+            """
+            Dict[:class:`str`, :class:`str`]: role -> what the draws a section makes before it binds anything bind: the source's own game texture -- the role's stand-in when the mod has no file for it, else a download of its own
+            """
+        @ofRole.setter
+        def ofRole(self, arg0: collections.abc.Mapping[str, str]) -> None:
+            ...
+        @property
+        def toggled(self) -> dict[tuple[str, int], str]:
+            """
+            Dict[Tuple[:class:`str`, :class:`int`], :class:`str`]: (role, component) -> what binds the role outside the toggle the mod binds its own file under
+            """
+        @toggled.setter
+        def toggled(self, arg0: collections.abc.Mapping[tuple[str, typing.SupportsInt | typing.SupportsIndex], str]) -> None:
+            ...
+    class LinkedLines:
+        """
+        
+        What linked ``.ini`` files set on this file's draws, and how the fix carries it -- see :meth:`WWMIFixerConfig.linkedLines`
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def declared(self) -> list[WWMIFixerConfig.DeclaredFile]:
+            """
+            List[:class:`WWMIFixerConfig.DeclaredFile`]: the resources the fix declares for the linked files no resource of this ``.ini`` names
+            """
+        @declared.setter
+        def declared(self, arg0: collections.abc.Sequence[WWMIFixerConfig.DeclaredFile]) -> None:
+            ...
+        @property
+        def lines(self) -> dict[int, list[WWMIFixerConfig.CarriedLine]]:
+            """
+            Dict[:class:`int`, List[:class:`WWMIFixerConfig.CarriedLine`]]: source component -> the lines carried onto its draws
+            """
+        @lines.setter
+        def lines(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[WWMIFixerConfig.CarriedLine]]) -> None:
+            ...
+        @property
+        def notes(self) -> list[str]:
+            """
+            List[:class:`str`]: what the decision has to say, for the log, in order
+            """
+        @notes.setter
+        def notes(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
+        def states(self) -> list[WWMIFixerConfig.LinkedState]:
+            """
+            List[:class:`WWMIFixerConfig.LinkedState`]: the linked files whose state the fix copies, in the order their first line was read
+            """
+        @states.setter
+        def states(self, arg0: collections.abc.Sequence[WWMIFixerConfig.LinkedState]) -> None:
+            ...
+    class LinkedState:
+        """
+        
+        A linked file whose state the fix copies, so the carried lines' conditions read it -- see :meth:`WWMIFixerConfig.linkedLines`
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def ini(self) -> str:
+            """
+            :class:`str`: the linked ``.ini``
+            """
+        @ini.setter
+        def ini(self, arg0: str) -> None:
+            ...
+        @property
+        def suffix(self) -> str:
+            """
+            :class:`str`: what each copied variable's name takes on in the fix
+            """
+        @suffix.setter
+        def suffix(self, arg0: str) -> None:
+            ...
+        @property
+        def vars(self) -> set[str]:
+            """
+            Set[:class:`str`]: the variables of its state the fix copies: the conditions' and every one they depend on
+            """
+        @vars.setter
+        def vars(self, arg0: collections.abc.Set[str]) -> None:
+            ...
     class RegRemoval:
         """
         
@@ -33079,6 +33646,89 @@ class WWMIFixerConfig:
             """
         @valuePrefix.setter
         def valuePrefix(self, arg0: str) -> None:
+            ...
+    class RoleResources:
+        """
+        
+        What each texture role a mod's components bind resolves to -- see :meth:`WWMIFixerConfig.roleResources`
+            
+        """
+        def __init__(self) -> None:
+            ...
+        def of(self, role: str, component: typing.SupportsInt | typing.SupportsIndex, ownShader: bool = False) -> str | None:
+            """
+            The resource bound for ``role`` on ``component``: its own, else -- on a component its own shader draws -- the download
+            itself, else the stand-in
+            
+            :param role: The role
+            :param component: The source component
+            :param ownShader: Whether the component's own shader draws it, which reads a download raw rather than a texture edit of it
+            :returns: Optional[:class:`str`]: the resource, or ``None`` for a role nothing binds
+            """
+        def shared(self, role: str, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], ownShader: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] = set()) -> str | None:
+            """
+            The resource the first of ``drawn`` to bind ``role`` binds (:meth:`of`)
+            
+            :param role: The role
+            :param drawn: Set[:class:`int`]: the source components the mod draws
+            :param ownShader: Set[:class:`int`]: the drawn components their own shader draws
+            :returns: Optional[:class:`str`]: the resource, or ``None`` for a role none binds
+            """
+        @property
+        def declared(self) -> list[WWMIFixerConfig.DeclaredFile]:
+            """
+            List[:class:`WWMIFixerConfig.DeclaredFile`]: the resources the fix declares for the mod's files, in the order they were named
+            """
+        @declared.setter
+        def declared(self, arg0: collections.abc.Sequence[WWMIFixerConfig.DeclaredFile]) -> None:
+            ...
+        @property
+        def downloads(self) -> dict[str, WWMIFixerConfig.Download]:
+            """
+            Dict[:class:`str`, :class:`WWMIFixerConfig.Download`]: role -> the download standing in for it
+            """
+        @downloads.setter
+        def downloads(self, arg0: collections.abc.Mapping[str, WWMIFixerConfig.Download]) -> None:
+            ...
+        @property
+        def fileOfRole(self) -> dict[str, str]:
+            """
+            Dict[:class:`str`, :class:`str`]: role -> the mod's file chosen for it
+            """
+        @fileOfRole.setter
+        def fileOfRole(self, arg0: collections.abc.Mapping[str, str]) -> None:
+            ...
+        @property
+        def leftToGame(self) -> set[str]:
+            """
+            Set[:class:`str`]: the roles left to the game: a flat texture the parser refused, in :attr:`WWMIFixerConfig.flatLeftToGame`, with nothing else of the mod's
+            """
+        @leftToGame.setter
+        def leftToGame(self, arg0: collections.abc.Set[str]) -> None:
+            ...
+        @property
+        def notes(self) -> list[str]:
+            """
+            List[:class:`str`]: what the decision has to say, for the log, in order
+            """
+        @notes.setter
+        def notes(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
+        def ofRole(self) -> dict[str, str]:
+            """
+            Dict[:class:`str`, :class:`str`]: role -> what stands in for it where no file of the mod's serves: a texture the fix invents, else the source's own game texture, downloaded
+            """
+        @ofRole.setter
+        def ofRole(self, arg0: collections.abc.Mapping[str, str]) -> None:
+            ...
+        @property
+        def ofSlotRole(self) -> dict[tuple[str, int], str]:
+            """
+            Dict[Tuple[:class:`str`, :class:`int`], :class:`str`]: (role, source component) -> the resource that binds the mod's own file for it
+            """
+        @ofSlotRole.setter
+        def ofSlotRole(self, arg0: collections.abc.Mapping[tuple[str, typing.SupportsInt | typing.SupportsIndex], str]) -> None:
             ...
     class Shader:
         """
@@ -33144,6 +33794,21 @@ class WWMIFixerConfig:
             @target.setter
             def target(self, arg0: str) -> None:
                 ...
+        @staticmethod
+        def lineRole(line: tuple[str, str]) -> str | None:
+            """
+            The role a line ``X = role <name>`` of :attr:`lines` names (:attr:`WWMINames.RoleLine`), or ``None`` for any other line
+            
+            Parameters
+            ----------
+            line: Tuple[:class:`str`, :class:`str`]
+                The line
+            
+            Returns
+            -------
+            Optional[:class:`str`]
+                The role, or ``None``
+            """
         def __init__(self) -> None:
             ...
         @property
@@ -33428,6 +34093,21 @@ class WWMIFixerConfig:
         """
         def __init__(self) -> None:
             ...
+        def fileOrGame(self, role: str) -> str:
+            """
+            The file 'role' reads: the mod's own (:attr:`fileOfRole`), else the source's game texture
+            (:attr:`gameFileOfRole`), else empty -- eg. the code map a bake of another role's texture is guided by
+            
+            Parameters
+            ----------
+            role: :class:`str`
+                The role
+            
+            Returns
+            -------
+            :class:`str`
+                The file, or empty
+            """
         @property
         def drawRanges(self) -> dict[int, list[tuple[int, int]]]:
             """
@@ -33486,6 +34166,46 @@ class WWMIFixerConfig:
         @texcoordFile.setter
         def texcoordFile(self, arg0: str) -> None:
             ...
+    class TexEditTargets:
+        """
+        
+        Which resources each :attr:`WWMIFixerConfig.texEdits` edit applies to -- see :meth:`WWMIFixerConfig.texEditTargets`
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def notes(self) -> list[str]:
+            """
+            List[:class:`str`]: what the decision has to say, for the log, in order
+            """
+        @notes.setter
+        def notes(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
+        def references(self) -> dict[str, WWMIFixerConfig.Download]:
+            """
+            Dict[:class:`str`, :class:`WWMIFixerConfig.Download`]: role -> a source game texture an edit compares against: downloaded, never bound
+            """
+        @references.setter
+        def references(self, arg0: collections.abc.Mapping[str, WWMIFixerConfig.Download]) -> None:
+            ...
+        @property
+        def rolesOf(self) -> dict[str, list[str]]:
+            """
+            Dict[:class:`str`, List[:class:`str`]]: a resource (lower case) -> the roles edited from it, in the order they claimed it
+            """
+        @rolesOf.setter
+        def rolesOf(self, arg0: collections.abc.Mapping[str, collections.abc.Sequence[str]]) -> None:
+            ...
+        @property
+        def targets(self) -> dict[str, set[str]]:
+            """
+            Dict[:class:`str`, Set[:class:`str`]]: role -> the resources (lower case) its edits apply to
+            """
+        @targets.setter
+        def targets(self, arg0: collections.abc.Mapping[str, collections.abc.Set[str]]) -> None:
+            ...
     @staticmethod
     def of(source: ModTypeId, target: ModTypeId) -> FixRaidenBoss2.core.WWMIFixerConfig | None:
         """
@@ -33519,6 +34239,138 @@ class WWMIFixerConfig:
         """
     def __init__(self) -> None:
         ...
+    def bindingsOf(self, component: typing.SupportsInt | typing.SupportsIndex, shaderDrawn: bool) -> list[WWMIFixerConfig.Binding]:
+        """
+        A component's bindings: its :attr:`plan` entry's, with its shader's :attr:`Shader.registers` in place of the ones at the
+        same register while the shader draws it (:meth:`shaderDraws`)
+        
+        :param component: The source component
+        :param shaderDrawn: Whether its shader draws it
+        :returns: List[:class:`WWMIFixerConfig.Binding`]
+        """
+    def downloadOf(self, kind: str, hash: str) -> WWMIFixerConfig.Download:
+        """
+        The source's game texture of ``hash`` as a :class:`WWMIFixerConfig.Download` of the kind ``kind`` (``<Role>``, or
+        ``<Role>Game`` for a default)
+        
+        :param kind: The kind, eg. ``"UpperDiffuse"``
+        :param hash: The texture's hash in the source's download folder
+        :returns: :class:`WWMIFixerConfig.Download`
+        """
+    def gameDefaults(self, data: IniParseData, roles: WWMIFixerConfig.RoleResources, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], rerouteFrom: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], ownShader: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], sourceName: str) -> WWMIFixerConfig.GameDefaults:
+        """
+        THE SOURCE'S OWN GAME TEXTURE AS THE DEFAULT, where the mod's file reaches only some of a component's draws -- each a
+        place the original drew with the game's texture:
+        
+        #. the draws a section makes BEFORE it binds anything (:meth:`IniParseData.lateBindings`): a role the mod has no file
+           for is already the source's game texture (its stand-in), and a role it does serve takes a download of its own
+        #. a role bound only under a toggle that reaches none of the section's draws (:meth:`IniParseData.toggledBindings`) --
+           unless a ``this`` binds it for every draw anyway
+        #. a role bound with one ``this`` under a toggle: off, the original draws with the game's texture
+        
+        Nothing when the source has no download folder
+        
+        :param data: :class:`IniParseData`: the parser's data of the mod's ``.ini``
+        :param roles: :class:`WWMIFixerConfig.RoleResources`: what the roles resolve to, with a reroute's entries copied from
+            its source component
+        :param drawn: Set[:class:`int`]: the source components the mod draws, reroutes included
+        :param rerouteFrom: Dict[:class:`int`, :class:`int`]: a reroute that took draws -> the component it took them from
+        :param ownShader: Set[:class:`int`]: the drawn components their own shader draws
+        :param sourceName: The source character's name
+        :returns: :class:`WWMIFixerConfig.GameDefaults`
+        """
+    def linkedLines(self, data: IniParseData, roles: WWMIFixerConfig.RoleResources, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], linkedInis: collections.abc.Sequence[IniFile], sourceName: str, toModName: str, iniFolder: str) -> WWMIFixerConfig.LinkedLines:
+        """
+        What linked ``.ini`` files set on this file's draws (:meth:`IniParseData.linkedLines`), on the components the mod draws:
+        each line's value names its file through the resource this ``.ini`` uses for it, or one the fix declares; its condition
+        reads the fix's copies of the linked file's variables (suffixed ``<Target>RemapRef``, then ``...RemapRef2``, per file),
+        whose state the fix copies
+        
+        :param data: :class:`IniParseData`: the parser's data of the mod's ``.ini``
+        :param roles: :class:`WWMIFixerConfig.RoleResources`: what the roles resolve to; the names it declares are taken
+        :param drawn: Set[:class:`int`]: the source components the mod draws, reroutes included
+        :param linkedInis: List[:class:`IniFile`]: the run's ``.ini`` files linked to this one (:meth:`IniFile.linkedInis`)
+        :param sourceName: The source character's name
+        :param toModName: The target's name
+        :param iniFolder: The ``.ini``'s folder
+        :returns: :class:`WWMIFixerConfig.LinkedLines`
+        """
+    def passOnlyRoles(self, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex]) -> list[str]:
+        """
+        The roles only a slot's OTHER passes (:attr:`extraPassRegs`, of a slot a drawn component goes through), a
+        :attr:`sharedMeshes` mesh or a drawn component's :attr:`SourceComponent.overlay` bind -- each once, in that order
+        
+        :param drawn: Set[:class:`int`]: the source components the mod draws
+        :returns: List[:class:`str`]
+        """
+    def rabbitFXFlags(self, data: IniParseData, roles: WWMIFixerConfig.RoleResources, toggled: collections.abc.Mapping[tuple[str, typing.SupportsInt | typing.SupportsIndex], str], drawn: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[str]], rerouteFrom: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], iniPath: str, iniFolder: str) -> dict[int, typing.Annotated[list[int], "FixedSize(4)"]]:
+        """
+        The routing flags RabbitFX's ``SetTextures`` sets on the SOURCE's own draw of each drawn component that keeps RabbitFX
+        (:attr:`SourceComponent.rabbitFX`) and whose sections run ``SetTextures`` -- from what that draw has BOUND at ``ps-t0``
+        .. ``ps-t3``, not from the maps the mod hands RabbitFX. Per register: the mod's own line (unless only a toggle sets it),
+        else the mod's ``this`` override of the game texture there, else the game texture itself (``RabbitFX.gameTags``)
+        
+        :param data: :class:`IniParseData`: the parser's data of the mod's ``.ini``
+        :param roles: :class:`WWMIFixerConfig.RoleResources`: what the roles resolve to
+        :param toggled: Dict[Tuple[:class:`str`, :class:`int`], :class:`str`]: (role, component) -> what binds the role outside a
+            toggle (:attr:`GameDefaults.toggled`)
+        :param drawn: Dict[:class:`int`, List[:class:`str`]]: each source component the mod draws (reroutes included) -> its sections
+        :param rerouteFrom: Dict[:class:`int`, :class:`int`]: a reroute that took draws -> the component it took them from
+        :param iniPath: The mod's ``.ini``
+        :param iniFolder: The ``.ini``'s folder
+        :returns: Dict[:class:`int`, List[:class:`int`]]: component -> its four flags (:meth:`RabbitFX.routingFlags`)
+        """
+    def roleResources(self, data: IniParseData, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], rabbitFX: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], sourceName: str, toModName: str, iniFolder: str) -> WWMIFixerConfig.RoleResources:
+        """
+        What each role resolves to on each component the mod draws.
+        
+        Every role a drawn component's bindings name, then every :meth:`passOnlyRoles` role on every drawn component, is offered
+        the mod's file the parser chose for it on that component (:meth:`IniParseData.roleFile`). The file binds through the
+        resource the mod uses for it (:meth:`IniParseData.resourceOfFile`), or through one the fix declares
+        (:class:`WWMIFixerConfig.DeclaredFile`) when the mod names it nowhere -- or only in a previous fix, which the run's undo
+        removes. Then the roles the fix invents (:attr:`createdTextures`), and a stand-in download for every role of a drawn
+        component no file serves, every role a drawn component's shader names, and every pass-only role no component owns --
+        unless the role is left to the game
+        
+        :param data: :class:`IniParseData`: the parser's data of the mod's ``.ini``
+        :param drawn: Set[:class:`int`]: the source components the mod draws
+        :param rabbitFX: Set[:class:`int`]: the drawn components whose sections name RabbitFX
+        :param sourceName: The source character's name
+        :param toModName: The target's name
+        :param iniFolder: The ``.ini``'s folder
+        :returns: :class:`WWMIFixerConfig.RoleResources`
+        """
+    def shaderDraws(self, component: typing.SupportsInt | typing.SupportsIndex, usesRabbitFX: bool) -> bool:
+        """
+        Whether a component's :attr:`SourceComponent.shader` draws it: it has one, and does not yield to a mod that hands the
+        component's maps to RabbitFX (:attr:`Shader.yieldToRabbitFX`)
+        
+        :param component: The source component
+        :param usesRabbitFX: Whether the mod's sections of the component name RabbitFX
+        :returns: Whether the shader draws it
+        """
+    def shaderLineRoles(self, component: typing.SupportsInt | typing.SupportsIndex) -> list[str]:
+        """
+        The roles a component's :attr:`SourceComponent.shader` names in a ``role <name>`` line, of its own lines and its passes'
+        
+        :param component: The source component
+        :returns: List[:class:`str`]: the roles, in the order the lines are written
+        """
+    def texEditTargets(self, data: IniParseData, roles: WWMIFixerConfig.RoleResources, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], ownShader: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], iniPath: str, sourceName: str) -> WWMIFixerConfig.TexEditTargets:
+        """
+        Which resources each of :attr:`texEdits` applies to: the one its role resolves to (:meth:`RoleResources.shared`) and
+        every other variant the mod's toggles bind the role as -- unless another role's edit of another kind claimed that file
+        first, since a second claim would run that role's filter over it. An edit of a role with neither a file of the mod's nor
+        a stand-in download applies to nothing
+        
+        :param data: :class:`IniParseData`: the parser's data of the mod's ``.ini``
+        :param roles: :class:`WWMIFixerConfig.RoleResources`: what the roles resolve to, a reroute's entries included
+        :param drawn: Set[:class:`int`]: the source components the mod draws
+        :param ownShader: Set[:class:`int`]: the drawn components their own shader draws
+        :param iniPath: The mod's ``.ini``
+        :param sourceName: The source character's name
+        :returns: :class:`WWMIFixerConfig.TexEditTargets`
+        """
     @property
     def anchorChains(self) -> dict[int, list[int]]:
         """
@@ -33991,6 +34843,38 @@ class WWMIFixerConfig:
     @zeroShapeKeyStream.setter
     def zeroShapeKeyStream(self, arg0: bool) -> None:
         ...
+class WWMINames:
+    """
+    
+    The names a Wuthering Waves fix reads and writes, beside :class:`IniKeywords`: the rows its parser files, the parts
+    of the sections and files its fixer names, and the words of its own small syntaxes. One place, so a parser or fixer
+    built from `Python`_ spells them as the compiled ones do
+        
+    """
+    BlendRemap: typing.ClassVar[str] = 'BlendRemap'
+    Carried: typing.ClassVar[str] = 'Carried'
+    CarriedRows: typing.ClassVar[str] = 'WWMIParser.carried'
+    ChecksumNotFound: typing.ClassVar[str] = 'ChecksumNotFound'
+    Draw: typing.ClassVar[str] = 'Draw'
+    DrawAfter: typing.ClassVar[str] = 'DrawAfter'
+    GameSuffix: typing.ClassVar[str] = 'Game'
+    Glow: typing.ClassVar[str] = 'Glow'
+    Latch: typing.ClassVar[str] = 'Latch'
+    LiveSuffix: typing.ClassVar[str] = 'Live'
+    Mark: typing.ClassVar[str] = 'Mark'
+    MergeWindowList: typing.ClassVar[str] = 'CommandListMergeWindow'
+    OffPass: typing.ClassVar[str] = 'OffPass'
+    OldSuffix: typing.ClassVar[str] = 'Old'
+    Overlay: typing.ClassVar[str] = 'Overlay'
+    Pass: typing.ClassVar[str] = 'Pass'
+    Reroute: typing.ClassVar[str] = 'Reroute'
+    RoleLine: typing.ClassVar[str] = 'role'
+    ShapeKeyZero: typing.ClassVar[str] = 'ShapeKeyZero'
+    StashLine: typing.ClassVar[str] = 'stash'
+    TexcoordNoNaN: typing.ClassVar[str] = 'TexcoordNoNaN'
+    TextureOverridesRows: typing.ClassVar[str] = 'WWMIParser.textureOverrides'
+    TextureRolesRows: typing.ClassVar[str] = 'WWMIParser.textureRoles'
+    TextureTogglesRows: typing.ClassVar[str] = 'WWMIParser.textureToggles'
 class WWMIParserConfig:
     """
     
@@ -34118,6 +35002,20 @@ class WWMIParserConfig:
         """
     def __init__(self) -> None:
         ...
+    def slotOf(self, obj: tuple[str, str]) -> int | None:
+        """
+        The draw slot a slot's mod object names: ``("", <slotPrefix><n>)`` is slot ``n``
+        
+        Parameters
+        ----------
+        obj: Tuple[:class:`str`, :class:`str`]
+            The mod object
+        
+        Returns
+        -------
+        Optional[:class:`int`]
+            The slot, or ``None`` for any other mod object
+        """
     @property
     def drawSplits(self) -> list[WWMIParserConfig.DrawSplit]:
         """
@@ -34992,6 +35890,25 @@ class WWMITextureFacts:
         -------
         Optional[:class:`WWMITextureFacts`]
             Its facts
+        """
+    @staticmethod
+    def roleOfHashType(type: str, roles: collections.abc.Set[str]) -> str | None:
+        """
+        The role a HashData hash type of the character names: the role itself, or the role followed by
+        :attr:`WWMINames.LiveSuffix`, or by :attr:`WWMINames.OldSuffix` and an optional count (``Old2``)
+        
+        Parameters
+        ----------
+        type: :class:`str`
+            The hash type
+        
+        roles: Set[:class:`str`]
+            The character's roles
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The role, or ``None``
         """
     def __init__(self) -> None:
         ...

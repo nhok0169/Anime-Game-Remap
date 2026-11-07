@@ -120,6 +120,92 @@ class WWMIHelpersTest(BaseUnitTest):
         self.assertEqual(roles.shared("hairDiffuse", {2, 0}), "ResourceHair")
         self.assertEqual(roles.shared("bodyDiffuse", {0}, {0}), "ResourceBodyDiffuseRemapDL")
 
+    @staticmethod
+    def _lines(lists, kind, component, passNum = 0):
+        found = lists.find(kind, component, passNum)
+        return None if found is None else [(line.reg, line.value, line.role, line.raw, line.modToggle) for line in found.lines]
+
+    def test_textureLists_eachDrawnComponentsMainList_null_toggledGame_thenTheRolesResource(self):
+        B = FRB.WWMIFixerConfig.Binding
+        config = self._config()
+        plan = config.plan
+        plan[0].bindings = [B("ps-t0", "null"), B("ps-t1", "hairDiffuse"), B("ps-t2", "hairMask"), B("ps-t3", "eyeDiffuse")]
+        config.plan = plan
+        roles = FRB.WWMIFixerConfig.RoleResources()
+        roles.ofSlotRole = {("hairDiffuse", 0): "ResourceHair", ("hairMask", 0): "ResourceMask"}
+        defaults = FRB.WWMIFixerConfig.GameDefaults()
+        defaults.toggled = {("hairMask", 0): "ResourceMaskGame"}
+
+        lists = config.textureLists(FRB.IniParseData(), roles, defaults, {0}, {}, set(), set())
+        self.assertEqual([(entry.kind, entry.component) for entry in lists.lists], [("main", 0)])
+        self.assertEqual(self._lines(lists, "main", 0), [("ps-t0", "null", "", False, False),
+                                                         ("ps-t1", "ResourceHair", "hairDiffuse", False, True),
+                                                         ("ps-t2", "ResourceMaskGame", "hairMask", False, False)])
+        self.assertEqual(lists.toggles, [])
+
+    def test_textureLists_passLists_forTheirSource_sharedMeshes_andOverlays_inOrder(self):
+        B = FRB.WWMIFixerConfig.Binding
+        config = self._config()
+        config.extraPassRegs = {1: {"aaaa": [B("ps-t4", "hairDiffuse"), B("ps-t5", "hairMask", 2)], "bbbb": []}}
+        config.extraPassNoDraw = {1: {"bbbb"}}
+        config.sharedMeshes = {"cccc": {"dddd": [B("ps-t0", "bodyDiffuse"), B("ps-t1", "nothing")]}}
+        plan = config.plan
+        overlay = FRB.WWMIFixerConfig.Shader()
+        overlay.registers = [B("ps-t9", "null"), B("ps-t8", "hairDiffuse")]
+        plan[0].overlay = overlay
+        config.plan = plan
+        roles = FRB.WWMIFixerConfig.RoleResources()
+        roles.ofSlotRole = {("hairDiffuse", 0): "ResourceHair", ("hairMask", 0): "ResourceMask", ("bodyDiffuse", 2): "ResourceBody"}
+
+        lists = config.textureLists(FRB.IniParseData(), roles, FRB.WWMIFixerConfig.GameDefaults(), {0, 2}, {}, {0}, {0})
+        self.assertEqual([(entry.kind, entry.component, entry.onPass, entry.passNum) for entry in lists.lists],
+                         [("main", 0, "", 0), ("pass", 0, "aaaa", 0), ("pass", 0, "bbbb", 1), ("main", 2, "", 0),
+                          ("sharedMesh", 0, "dddd", 0), ("overlay", 0, "", 0)])
+        self.assertEqual(self._lines(lists, "pass", 0), [("ps-t4", "ResourceHair", "hairDiffuse", True, True)])
+        self.assertEqual(self._lines(lists, "pass", 0, 1), [("ib", "null", "", False, False)])
+        self.assertEqual(self._lines(lists, "sharedMesh", 0), [("ps-t0", "ResourceBody", "bodyDiffuse", False, True)])
+        self.assertEqual(self._lines(lists, "overlay", 0), [("ps-t9", "null", "", False, False),
+                                                            ("ps-t8", "ResourceHair", "hairDiffuse", True, True)])
+        self.assertIsNone(lists.find("game", 0))
+
+    def test_toggleLists_aLineWithNoToggleStaysDirect(self):
+        config = self._config()
+        roles = FRB.WWMIFixerConfig.RoleResources()
+        roles.ofSlotRole = {("hairDiffuse", 0): "ResourceHair"}
+        defaults = FRB.WWMIFixerConfig.GameDefaults()
+        data = FRB.IniParseData()
+        lists = config.toggleLists(config.textureLists(data, roles, defaults, {0}, {}, set(), set()), data, defaults,
+                                   "Sanhua", "SanhuaExorcist", "")
+        self.assertEqual([line.run for line in lists.find("main", 0).lines], [""])
+        self.assertEqual(lists.toggles, [])
+
+    def test_fileGroups_theFirstClaimantOfASlotInTheModsFile_theNextInACopy_unlessSameFileSection(self):
+        B = FRB.WWMIFixerConfig.Binding
+        config = self._config()
+        plan = config.plan
+        plan[4] = FRB.WWMIFixerConfig.SourceComponent(1, [B("ps-t0", "hairMask")])
+        plan[6] = FRB.WWMIFixerConfig.SourceComponent(1, [B("ps-t0", "hairMask")])
+        plan[6].sameFileSection = True
+        config.plan = plan
+
+        groups = config.fileGroups({0, 2, 4, 6, 9}, "Sanhua")
+        self.assertEqual(groups.groups, [[0, 2, 6], [4]])
+        self.assertEqual(groups.dropped, [9])
+        self.assertEqual(len(groups.notes), 1)
+        self.assertIn("component9", groups.notes[0])
+        self.assertEqual(config.fileGroups(set(), "Sanhua").groups, [[]])
+
+    def test_modTexLines_onlyTheDrawnComponentsOfThePlan_aModWithNoLinesKeepsNone(self):
+        config = self._config()
+        data = FRB.IniParseData()
+        roles, defaults = FRB.WWMIFixerConfig.RoleResources(), FRB.WWMIFixerConfig.GameDefaults()
+        lists = config.textureLists(data, roles, defaults, {0, 5}, {}, set(), set())
+        self.assertEqual(config.modTexLines(data, roles, lists, {0, 5}, {}, set()), {0: []})
+
+        line = FRB.WWMIFixerConfig.ModTexLine()
+        line.key, line.value, line.dropped = "ps-t1", "ResourceA", True
+        self.assertEqual((line.key, line.value, line.dropped, line.reg, line.newValue), ("ps-t1", "ResourceA", True, "", ""))
+
     def test_names_areTheStringsTheFixWrites(self):
         self.assertEqual(FRB.WWMINames.TextureOverridesRows, "WWMIParser.textureOverrides")
         self.assertEqual(FRB.WWMINames.MergeWindowList, "CommandListMergeWindow")

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_lists" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::TextureLists</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_lists_1a19b9fbf3c2025c7afab87a690b7bf57b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list" kindref="compound">TextureList</ref> &gt;</type>
+        <definition>std::vector&lt;TextureList&gt; AGRemapCore::WWMIFixerConfig::TextureLists::lists</definition>
+        <argsstring></argsstring>
+        <name>lists</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TextureLists::lists</qualifiedname>
+        <briefdescription>
+<para>The lists, in the order the fix writes them. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2036" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2036" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_lists_1aa2da476057bb5fa5e61579869b568137" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list" kindref="compound">ToggleList</ref> &gt;</type>
+        <definition>std::vector&lt;ToggleList&gt; AGRemapCore::WWMIFixerConfig::TextureLists::toggles</definition>
+        <argsstring></argsstring>
+        <name>toggles</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TextureLists::toggles</qualifiedname>
+        <briefdescription>
+<para>The copies of the mod&apos;s toggles the lines run (<ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a9e3d02a6d63ce36f2d6adefb5c0632ea" kindref="member">toggleLists</ref>), in the order first run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2041" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2041" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_lists_1a93eda65214d81d76dcb25faea3a0d38f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list" kindref="compound">TextureList</ref> *</type>
+        <definition>const WWMIFixerConfig::TextureList * AGRemapCore::WWMIFixerConfig::TextureLists::find</definition>
+        <argsstring>(const std::string &amp;kind, int component, int passNum=0) const</argsstring>
+        <name>find</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TextureLists::find</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kind</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>passNum</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>The list of &apos;kind&apos; for &apos;component&apos; (and &apos;passNum&apos;), or <computeroutput>nullptr</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2046" column="31" bodyfile="src/data/IniFixData/WWMIFixerConfigs.cpp" bodystart="570" bodyend="578"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Every texture list the fix writes, and the toggles they run <ndash/> see <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ac459cc6f5d3c25dd7ddf40209d292c45" kindref="member">textureLists</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2032" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2032" bodyend="2047"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_lists_1a93eda65214d81d76dcb25faea3a0d38f" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureLists</scope><name>find</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_lists_1a19b9fbf3c2025c7afab87a690b7bf57b" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureLists</scope><name>lists</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_lists_1aa2da476057bb5fa5e61579869b568137" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureLists</scope><name>toggles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

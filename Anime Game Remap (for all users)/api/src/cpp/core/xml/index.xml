@@ -1508,6 +1508,11 @@
     <member refid="class_a_g_remap_core_1_1_file_ext_1a9a1d79657cbbf64e7e41e203c38098c3" kind="variable"><name>Buf</name></member>
     <member refid="class_a_g_remap_core_1_1_file_ext_1aa2dd669e8886367443b023bb3dd440d5" kind="variable"><name>DDS</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups" kind="struct"><name>AGRemapCore::WWMIFixerConfig::FileGroups</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups_1a915efa30f5bb86e44e346c3476d4d108" kind="variable"><name>groups</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups_1a85d736e06da50abf4e04c19bf88a0397" kind="variable"><name>dropped</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups_1a54d159bb37e38a80dddd050f4e2fc604" kind="variable"><name>notes</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_file_prefixes" kind="class"><name>AGRemapCore::FilePrefixes</name>
     <member refid="class_a_g_remap_core_1_1_file_prefixes_1a4c0d8a4cee932769c60a822cac7e9ea1" kind="variable"><name>BackupFilePrefix</name></member>
     <member refid="class_a_g_remap_core_1_1_file_prefixes_1a7492fac6da0d3d53026f1f4378ee75c7" kind="variable"><name>DisabledPrefix</name></member>
@@ -4827,6 +4832,13 @@
   <compound refid="struct_a_g_remap_core_1_1_ini_graph_group_1_1_mod_obj_hash" kind="struct"><name>AGRemapCore::IniGraphGroup::ModObjHash</name>
     <member refid="struct_a_g_remap_core_1_1_ini_graph_group_1_1_mod_obj_hash_1a7f6e279f2ec2bc1d7058687fd6838f15" kind="function"><name>operator()</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line" kind="struct"><name>AGRemapCore::WWMIFixerConfig::ModTexLine</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1aa183ae5a758c184afd5756765caa8d2c" kind="variable"><name>key</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1a27c21657aa141bc46e6a90b31af669ae" kind="variable"><name>value</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1a95fe3d4c1120a0fdbea055a20c899172" kind="variable"><name>dropped</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1a648b86f85828b2df725eaf02a86efe71" kind="variable"><name>reg</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1a6e3459f24548099e43cbe68ac6d4bad7" kind="variable"><name>newValue</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_mod_type" kind="class"><name>AGRemapCore::ModType</name>
     <member refid="class_a_g_remap_core_1_1_mod_type_1a9f106a518b43fc292d4adcb7919718d1" kind="variable"><name>gameTypeId</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_type_1a1f3e0e3507c7e9c46515e795b817980c" kind="variable"><name>modTypeId</name></member>
@@ -7464,6 +7476,26 @@
     <member refid="class_a_g_remap_core_1_1_texture_file_1a118a425e73837773c0945e3d4e95710c" kind="function"><name>writeUncompressedDds</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_file_1a0f7ac70336284c42b1fecdd06b612fc3" kind="function"><name>writeTo</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line" kind="struct"><name>AGRemapCore::WWMIFixerConfig::TextureLine</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a5fc5d4884c14cb4d260e8230728315e0" kind="variable"><name>reg</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a7188f53b257d25c3655126019fbd2845" kind="variable"><name>value</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a0b9017791bcebbe8510316bcb332f906" kind="variable"><name>role</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1ad75899e7d3a1d43a80bdacda795f8311" kind="variable"><name>raw</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a7730fb5e344a6dbd01c262ab986d5389" kind="variable"><name>modToggle</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a777e126b85e4524c30362aa46bface65" kind="variable"><name>run</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list" kind="struct"><name>AGRemapCore::WWMIFixerConfig::TextureList</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1ac48fad1d823e47476cf3f171a4a9eaad" kind="variable"><name>kind</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a4fb75cf097b6b3380fbaf9f80791fe15" kind="variable"><name>component</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a6d442b7581e7f1dfa4ec8724d6e27ac2" kind="variable"><name>onPass</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a28fcb083fab1588d8a9b19c9374c6faf" kind="variable"><name>passNum</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a12920a9e674462b60b1a54fa8e22cbd8" kind="variable"><name>lines</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_lists" kind="struct"><name>AGRemapCore::WWMIFixerConfig::TextureLists</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_lists_1a19b9fbf3c2025c7afab87a690b7bf57b" kind="variable"><name>lists</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_lists_1aa2da476057bb5fa5e61579869b568137" kind="variable"><name>toggles</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_lists_1a93eda65214d81d76dcb25faea3a0d38f" kind="function"><name>find</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_texture_roles" kind="class"><name>AGRemapCore::TextureRoles</name>
     <member refid="class_a_g_remap_core_1_1_texture_roles_1a07f73b1598aaf0485d3443373b2f578e" kind="variable"><name>DeclaredHash</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_roles_1ab663fbcd08beb1aaa1b6d08d857bb26f" kind="variable"><name>rolesOf_</name></member>
@@ -7485,6 +7517,17 @@
     <member refid="class_a_g_remap_core_1_1_tint_transform_1a8ddce98b08f3b666114e48deb633a37f" kind="function"><name>TintTransform</name></member>
     <member refid="class_a_g_remap_core_1_1_tint_transform_1aa55c4dab829e81b8748e5cdd4264b1e5" kind="function"><name>transform</name></member>
     <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list" kind="struct"><name>AGRemapCore::WWMIFixerConfig::ToggleList</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a48a479eb46a3d8311b32b2c284bee10e" kind="variable"><name>name</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a518d9a426a560e9a2ffdd5c02dbd4850" kind="variable"><name>graph</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a1329adf2346480733aec2f6856c92cc1" kind="variable"><name>section</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1af7dcc541419454a4cc1508fbc2e85b17" kind="variable"><name>role</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a132e5fe4cb88ca8d3dac66b5184e8b48" kind="variable"><name>reg</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1aee8ed8c399b995ab553313a892f677f0" kind="variable"><name>raw</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a9f28f694e8741f3bfee0ab38d170b2fc" kind="variable"><name>thisKeys</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1aff94e82030c92d3734179d2d3c84d2a4" kind="variable"><name>deadValues</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a3c9299a20ec9b369e19be232e96985b7" kind="variable"><name>offBinding</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_token" kind="class"><name>AGRemapCore::Token</name>
     <member refid="class_a_g_remap_core_1_1_token_1aabcc1074f3218e09818d03e43482c53a" kind="variable"><name>type</name></member>
@@ -8080,6 +8123,10 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a99df9be82dbf60987f3fa0bda7a89f16" kind="function"><name>texEditTargets</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1af4fb485663141c3ab438a9f782d118dc" kind="function"><name>linkedLines</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a1fa2e1b18c82ad3882692def566833a8" kind="function"><name>rabbitFXFlags</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ac459cc6f5d3c25dd7ddf40209d292c45" kind="function"><name>textureLists</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a9e3d02a6d63ce36f2d6adefb5c0632ea" kind="function"><name>toggleLists</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1af50bcf7fc1329c1c3fe0980e4060b036" kind="function"><name>fileGroups</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab38faaf6e2839c5c6843ce498ac9ab5b" kind="function"><name>modTexLines</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_names" kind="struct"><name>AGRemapCore::WWMINames</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a2ee032327853890e06b43f064da6eb66" kind="variable"><name>TextureOverridesRows</name></member>

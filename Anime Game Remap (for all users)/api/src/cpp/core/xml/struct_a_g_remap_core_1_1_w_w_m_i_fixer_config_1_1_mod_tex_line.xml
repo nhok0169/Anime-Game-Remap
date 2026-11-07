@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::ModTexLine</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1aa183ae5a758c184afd5756765caa8d2c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::ModTexLine::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::ModTexLine::key</qualifiedname>
+        <briefdescription>
+<para>The register as the mod writes it, lowered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2111" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1a27c21657aa141bc46e6a90b31af669ae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::ModTexLine::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::ModTexLine::value</qualifiedname>
+        <briefdescription>
+<para>The value as the mod writes it, stripped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2116" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1a95fe3d4c1120a0fdbea055a20c899172" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::WWMIFixerConfig::ModTexLine::dropped</definition>
+        <argsstring></argsstring>
+        <name>dropped</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::ModTexLine::dropped</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the line is dropped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2121" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1a648b86f85828b2df725eaf02a86efe71" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::ModTexLine::reg</definition>
+        <argsstring></argsstring>
+        <name>reg</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::ModTexLine::reg</qualifiedname>
+        <briefdescription>
+<para>The register the line moves to, unless <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1a95fe3d4c1120a0fdbea055a20c899172" kindref="member">dropped</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2126" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1a6e3459f24548099e43cbe68ac6d4bad7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::ModTexLine::newValue</definition>
+        <argsstring></argsstring>
+        <name>newValue</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::ModTexLine::newValue</qualifiedname>
+        <briefdescription>
+<para>What it binds there, unless <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1a95fe3d4c1120a0fdbea055a20c899172" kindref="member">dropped</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2131" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One of the mod&apos;s own texture-register lines and what the fix makes of it <ndash/> see <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab38faaf6e2839c5c6843ce498ac9ab5b" kindref="member">modTexLines</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2107" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2107" bodyend="2132"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1a95fe3d4c1120a0fdbea055a20c899172" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::ModTexLine</scope><name>dropped</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1aa183ae5a758c184afd5756765caa8d2c" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::ModTexLine</scope><name>key</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1a6e3459f24548099e43cbe68ac6d4bad7" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::ModTexLine</scope><name>newValue</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1a648b86f85828b2df725eaf02a86efe71" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::ModTexLine</scope><name>reg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_mod_tex_line_1a27c21657aa141bc46e6a90b31af669ae" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::ModTexLine</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

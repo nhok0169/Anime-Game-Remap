@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::TextureLine</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a5fc5d4884c14cb4d260e8230728315e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::TextureLine::reg</definition>
+        <argsstring></argsstring>
+        <name>reg</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TextureLine::reg</qualifiedname>
+        <briefdescription>
+<para>The register the line binds (<computeroutput>ib</computeroutput> for a pass list&apos;s <computeroutput>ib = null</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1914" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1914" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a7188f53b257d25c3655126019fbd2845" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::TextureLine::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TextureLine::value</qualifiedname>
+        <briefdescription>
+<para>What it binds: a resource, or <computeroutput>null</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1919" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1919" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a0b9017791bcebbe8510316bcb332f906" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::TextureLine::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TextureLine::role</qualifiedname>
+        <briefdescription>
+<para>The role it binds, or empty for a line that binds none (<computeroutput>null</computeroutput>, <computeroutput>ib = null</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1924" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1924" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1ad75899e7d3a1d43a80bdacda795f8311" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::WWMIFixerConfig::TextureLine::raw</definition>
+        <argsstring></argsstring>
+        <name>raw</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TextureLine::raw</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the list keeps the mod&apos;s own art unedited: a component its own shader draws, or an overlay. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1930" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1930" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a7730fb5e344a6dbd01c262ab986d5389" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::WWMIFixerConfig::TextureLine::modToggle</definition>
+        <argsstring></argsstring>
+        <name>modToggle</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TextureLine::modToggle</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a9e3d02a6d63ce36f2d6adefb5c0632ea" kindref="member">toggleLists</ref> may put the mod&apos;s own toggle of <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a7188f53b257d25c3655126019fbd2845" kindref="member">value</ref> in the line&apos;s place; false for a line that is already what binds a role outside its toggle (:cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1a6c1ff79d2dc82a4166789473e88cce7c" kindref="member">GameDefaults::toggled</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1936" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1936" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a777e126b85e4524c30362aa46bface65" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::TextureLine::run</definition>
+        <argsstring></argsstring>
+        <name>run</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TextureLine::run</qualifiedname>
+        <briefdescription>
+<para>Set by <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a9e3d02a6d63ce36f2d6adefb5c0632ea" kindref="member">toggleLists</ref>: the copy of the mod&apos;s toggle run in the line&apos;s place, as <computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a777e126b85e4524c30362aa46bface65" kindref="member">run</ref> = &lt;<ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a777e126b85e4524c30362aa46bface65" kindref="member">run</ref>&gt;</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1941" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1941" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One line of a texture list the fix writes <ndash/> see <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ac459cc6f5d3c25dd7ddf40209d292c45" kindref="member">textureLists</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1910" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1910" bodyend="1942"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a7730fb5e344a6dbd01c262ab986d5389" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureLine</scope><name>modToggle</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1ad75899e7d3a1d43a80bdacda795f8311" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureLine</scope><name>raw</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a5fc5d4884c14cb4d260e8230728315e0" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureLine</scope><name>reg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a0b9017791bcebbe8510316bcb332f906" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureLine</scope><name>role</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a777e126b85e4524c30362aa46bface65" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureLine</scope><name>run</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1a7188f53b257d25c3655126019fbd2845" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureLine</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

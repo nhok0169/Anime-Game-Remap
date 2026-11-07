@@ -567,6 +567,351 @@ namespace AGRemapCore {
         return result;
     }
 
+    const WWMIFixerConfig::TextureList* WWMIFixerConfig::TextureLists::find(const std::string& kind, int component,
+                                                                           int passNum) const {
+        for (const TextureList& list : lists) {
+            if (list.kind == kind && list.component == component && list.passNum == passNum) {
+                return &list;
+            }
+        }
+        return nullptr;
+    }
+
+    WWMIFixerConfig::TextureLists WWMIFixerConfig::textureLists(const IniParseData& data, const RoleResources& roles,
+                                                                const GameDefaults& defaults, const std::set<int>& drawn,
+                                                                const std::map<int, int>& rerouteFrom,
+                                                                const std::set<int>& ownShader,
+                                                                const std::set<int>& overlaid) const {
+        TextureLists result;
+        const auto line = [](const Binding& binding, const std::string& value, bool raw, bool modToggle = true) {
+            return TextureLine{binding.reg, value, binding.role, raw, modToggle, ""};
+        };
+
+        for (const auto& [component, planned] : plan) {
+            if (drawn.count(component) == 0) {
+                continue;
+            }
+            const bool raw = ownShader.count(component) > 0;
+            const std::vector<Binding> bindings = bindingsOf(component, raw);
+
+            TextureList main{"main", component, "", 0, {}};
+            for (const Binding& binding : bindings) {
+                if (binding.role == IniKeywords::Null) {
+                    main.lines.push_back(TextureLine{binding.reg, std::string(IniKeywords::Null), "", false, false, ""});
+                } else if (const auto toggled = defaults.toggled.find({binding.role, component}); toggled != defaults.toggled.end()) {
+                    main.lines.push_back(line(binding, toggled->second, raw, false));
+                } else if (const std::optional<std::string> resource = roles.of(binding.role, component, raw)) {
+                    main.lines.push_back(line(binding, *resource, raw));
+                }
+            }
+            result.lists.push_back(std::move(main));
+
+            // the draws its section makes before it binds anything (a reroute reads its source component's)
+            const auto alias = rerouteFrom.find(component);
+            const int own = alias != rerouteFrom.end() ? alias->second : component;
+            if (!data.lateBindings(std::pair<std::string, std::string>("", slotPrefix + std::to_string(own))).empty() && !defaults.ofRole.empty()) {
+                TextureList game{"game", component, "", 0, {}};
+                for (const Binding& binding : bindings) {
+                    if (binding.role != IniKeywords::Null && defaults.ofRole.count(binding.role) > 0) {
+                        game.lines.push_back(line(binding, defaults.of(binding.role, component, raw), raw));
+                    }
+                }
+                result.lists.push_back(std::move(game));
+            }
+
+            const auto extra = extraPassRegs.find(planned.slot);
+            if (extra != extraPassRegs.end()) {
+                int n = 0;
+                for (const auto& [pass, regs] : extra->second) {
+                    TextureList passList{"pass", component, pass, n, {}};
+                    for (const Binding& binding : regs) {
+                        if (binding.srcComponent >= 0 && binding.srcComponent != component) {
+                            continue;
+                        }
+                        if (const std::optional<std::string> resource = roles.of(binding.role, component, raw)) {
+                            passList.lines.push_back(line(binding, *resource, raw));
+                        }
+                    }
+
+                    const auto noDraw = extraPassNoDraw.find(planned.slot);
+                    if (noDraw != extraPassNoDraw.end() && noDraw->second.count(pass) > 0) {
+                        passList.lines.push_back(TextureLine{std::string(IniKeywords::Ib), std::string(IniKeywords::Null), "", false, false, ""});
+                    }
+                    result.lists.push_back(std::move(passList));
+                    ++n;
+                }
+            }
+        }
+
+        int meshNum = 0;
+        for (const auto& [meshHash, byPass] : sharedMeshes) {
+            (void)meshHash;
+            int n = 0;
+            for (const auto& [pass, bindings] : byPass) {
+                TextureList mesh{"sharedMesh", meshNum, pass, n++, {}};
+                for (const Binding& binding : bindings) {
+                    if (const std::optional<std::string> resource = roles.shared(binding.role, drawn, ownShader)) {
+                        mesh.lines.push_back(line(binding, *resource, false));
+                    }
+                }
+                result.lists.push_back(std::move(mesh));
+            }
+            ++meshNum;
+        }
+
+        for (const int component : overlaid) {
+            TextureList overlay{"overlay", component, "", 0, {}};
+            for (const Binding& binding : plan.at(component).overlay->registers) {
+                if (binding.role == IniKeywords::Null) {
+                    overlay.lines.push_back(TextureLine{binding.reg, std::string(IniKeywords::Null), "", false, false, ""});
+                } else if (const std::optional<std::string> resource = roles.of(binding.role, component, ownShader.count(component) > 0)) {
+                    overlay.lines.push_back(line(binding, *resource, true));
+                }
+            }
+            result.lists.push_back(std::move(overlay));
+        }
+        return result;
+    }
+
+    WWMIFixerConfig::TextureLists WWMIFixerConfig::toggleLists(TextureLists lists, const IniParseData& data,
+                                                               const GameDefaults& defaults, const std::string& sourceName,
+                                                               const std::string& toModName, const std::string& iniPath) const {
+        std::set<std::string> fileResources;
+        if (const TextureRoles* textureRoles = data.textureRoles()) {
+            for (const auto& entry : textureRoles->resourcesOf(iniPath)) {
+                fileResources.insert(StringTools::toLower(entry.first));
+            }
+        }
+        const auto rowsOf = [&data](const std::string& section) -> const std::vector<const IniParseData::CollectedRow*>& {
+            return data.sectionRows(IniParseRows::Sections, section);
+        };
+
+        std::map<std::tuple<std::string, std::string, bool>, std::string> made;     // (role, register, raw) -> list
+        for (TextureList& list : lists.lists) {
+            for (TextureLine& line : list.lines) {
+                if (line.role.empty() || !line.modToggle) {
+                    continue;
+                }
+                const IniParseData::TextureToggle* toggle = data.thisToggleOf(StringTools::toLower(line.value));
+                if (toggle == nullptr) {
+                    continue;
+                }
+                if (const auto found = made.find({line.role, line.reg, line.raw}); found != made.end()) {
+                    line.run = found->second;
+                    continue;
+                }
+                if (rowsOf(toggle->section).empty() || toggle->graph.first.empty()) {
+                    continue;
+                }
+
+                // a `this` naming a resource the mod neither files nor declares is the author's typo: copying it can
+                // only replace a good binding of the mod's own with nothing
+                ToggleList toggled;
+                std::size_t live = 0;
+                for (const IniParseData::CollectedRow* row : rowsOf(toggle->section)) {
+                    if (StringTools::toLower(row->key) != IniKeywords::This) {
+                        continue;
+                    }
+                    ListTools::pushDistinct(toggled.thisKeys, row->key);
+                    if (fileResources.count(StringTools::toLower(row->value)) == 0 && rowsOf(row->value).empty()) {
+                        toggled.deadValues.insert(row->value);
+                    } else {
+                        ++live;
+                    }
+                }
+                if (live == 0) {
+                    continue;
+                }
+
+                toggled.name = IniNamingTools::getRemapFixName(IniKeywords::CommandList + sourceName + TextTools::capitalize(line.role)
+                                                               + IniNamingTools::getRegTag(line.reg) + (line.raw ? "Raw" : ""), toModName);
+                toggled.graph = toggle->graph;
+                toggled.section = toggle->section;
+                toggled.role = line.role;
+                toggled.reg = line.reg;
+                toggled.raw = line.raw;
+                if (toggle->single) {
+                    const auto game = defaults.ofRole.find(line.role);
+                    if (game != defaults.ofRole.end()) {
+                        toggled.offBinding = game->second;
+                    }
+                }
+
+                made.emplace(std::make_tuple(line.role, line.reg, line.raw), toggled.name);
+                line.run = toggled.name;
+                lists.toggles.push_back(std::move(toggled));
+            }
+        }
+        return lists;
+    }
+
+    WWMIFixerConfig::FileGroups WWMIFixerConfig::fileGroups(const std::set<int>& drawn, const std::string& sourceName) const {
+        FileGroups result;
+        std::map<int, std::size_t> claimants;
+        for (const int component : drawn) {
+            const auto planned = plan.find(component);
+            if (planned == plan.end()) {
+                result.dropped.push_back(component);
+                continue;
+            }
+
+            const std::size_t group = planned->second.sameFileSection ? 0 : claimants[planned->second.slot]++;
+            if (result.groups.size() <= group) {
+                result.groups.resize(group + 1);
+            }
+            result.groups[group].push_back(component);
+        }
+        if (result.groups.empty()) {
+            result.groups.resize(1);
+        }
+
+        if (!result.dropped.empty()) {
+            std::string names;
+            for (const int component : result.dropped) {
+                names += (names.empty() ? "" : ", ") + slotPrefix + std::to_string(component);
+                const auto label = sourceLabels.find(component);
+                if (label != sourceLabels.end() && !label->second.empty()) {
+                    names += " (" + label->second + ")";
+                }
+            }
+            const bool one = result.dropped.size() == 1;
+            result.notes.push_back("this mod draws " + std::to_string(result.dropped.size()) + (one ? " component " : " components ")
+                                   + names + " that " + sourceName + "'s plan has no target slot for -- "
+                                   + (one ? "it is" : "they are") + " not remapped");
+        }
+        return result;
+    }
+
+    std::map<int, std::vector<WWMIFixerConfig::ModTexLine>> WWMIFixerConfig::modTexLines(
+            const IniParseData& data, const RoleResources& roles, const TextureLists& lists, const std::set<int>& drawn,
+            const std::map<int, int>& rerouteFrom, const std::set<int>& ownShader) const {
+        std::map<int, std::vector<ModTexLine>> result;
+
+        // the source component of one of the parser's slot objects
+        const auto componentOf = [this](const std::pair<std::string, std::string>& obj) -> std::optional<int> {
+            if (!obj.first.empty() || !StringTools::startsWith(obj.second, slotPrefix)) {
+                return std::nullopt;
+            }
+            try {
+                const int component = std::stoi(obj.second.substr(slotPrefix.size()));
+                return component >= 0 ? std::optional<int>(component) : std::nullopt;
+            } catch (const std::exception&) {
+                return std::nullopt;
+            }
+        };
+        const std::vector<std::string> passOnly = passOnlyRoles(drawn);
+        const auto bindsRole = [&](int component, const std::string& role) {
+            for (const Binding& binding : bindingsOf(component, ownShader.count(component) > 0)) {
+                if (binding.role == role) {
+                    return true;
+                }
+            }
+            return std::find(passOnly.begin(), passOnly.end(), role) != passOnly.end();
+        };
+        const std::string refPrefix = StringTools::toLower(IniKeywords::Ref) + " ";
+        const std::string prefix = StringTools::toLower(texRegPrefix);
+
+        for (const auto& [component, planned] : plan) {
+            (void)planned;
+            if (drawn.count(component) == 0) {
+                continue;
+            }
+            const bool raw = ownShader.count(component) > 0;
+            const std::vector<Binding> rowBindings = bindingsOf(component, raw);
+            const auto alias = rerouteFrom.find(component);
+            const int ownSource = alias != rerouteFrom.end() ? alias->second : component;
+
+            // the role the SOURCE reads at each register of its own layout, and the one the TARGET's row binds there
+            std::map<std::string, std::string> sourceRoleAt, targetRoleAt;
+            if (const auto own = sourceTextures.registerRoles.find(ownSource); own != sourceTextures.registerRoles.end()) {
+                for (const auto& [reg, role] : own->second) {
+                    sourceRoleAt.emplace(StringTools::toLower(reg), role);
+                }
+            }
+            for (const Binding& binding : rowBindings) {
+                targetRoleAt.emplace(StringTools::toLower(binding.reg), binding.role);
+            }
+            const auto sameKindAt = [&](const std::string& reg) {
+                const auto source = sourceRoleAt.find(reg);
+                const auto target = targetRoleAt.find(reg);
+                return source != sourceRoleAt.end() && target != targetRoleAt.end()
+                    && roleKind(source->second) == roleKind(target->second);
+            };
+
+            // the registers the component's own list binds (a line running a toggle binds its register too)
+            std::set<std::string> listRegs;
+            if (const TextureList* main = lists.find("main", component)) {
+                for (const TextureLine& line : main->lines) {
+                    listRegs.insert(StringTools::toLower(line.reg));
+                    if (!line.run.empty()) {
+                        listRegs.insert(std::string(IniKeywords::Run));
+                    }
+                }
+            }
+
+            const std::pair<std::string, std::string> ownObj("", slotPrefix + std::to_string(ownSource));
+            // the line in this one's place: no answer leaves it alone, an empty line drops it
+            const auto fateOf = [&](const std::string& key, const std::string& value) -> std::optional<std::optional<std::pair<std::string, std::string>>> {
+                using Line = std::optional<std::pair<std::string, std::string>>;
+                std::string resource = value;
+                if (StringTools::startsWith(StringTools::toLower(resource), refPrefix)) {
+                    resource = std::string(StringTools::lstrip(resource.substr(refPrefix.size() - 1)));
+                }
+
+                const std::optional<std::string> role = data.roleOfResource(
+                    StringTools::toLower(resource), ownObj, [&](const IniParseData::ResourceRole& chosen) {
+                        const std::optional<int> of = componentOf(chosen.modObj);
+                        return of.has_value() && drawn.count(*of) > 0 && bindsRole(*of, chosen.role);
+                    });
+
+                // a texture put into another kind of slot on purpose goes by the slot
+                if (role.has_value() && carryByRegisterRole) {
+                    const auto slotRole = sourceRoleAt.find(key);
+                    if (slotRole == sourceRoleAt.end() || roleKind(slotRole->second) != roleKind(*role)) {
+                        const std::optional<std::string> slotReg =
+                            slotRole != sourceRoleAt.end() ? registerOf(rowBindings, slotRole->second) : std::nullopt;
+                        if (slotReg.has_value() && !StringTools::equalsIgnoreCase(*slotReg, key)) {
+                            return Line(std::make_pair(*slotReg, value));
+                        }
+                        return std::nullopt;
+                    }
+                }
+
+                const std::optional<std::string> reg = role.has_value() ? registerOf(rowBindings, *role) : std::nullopt;
+                if (!reg.has_value()) {
+                    if (listRegs.count(key) == 0 || (!role.has_value() && sameKindAt(key))) {
+                        return std::nullopt;
+                    }
+                    return Line();
+                }
+
+                if (!raw && data.refusedRoleOf(resource) == role) {
+                    const std::optional<std::string> resolved = roles.of(*role, component, raw);
+                    return resolved.has_value() ? Line(std::make_pair(*reg, *resolved)) : Line();
+                }
+                return Line(std::make_pair(*reg, resource));
+            };
+
+            std::vector<ModTexLine>& lines = result[component];
+            std::set<std::pair<std::string, std::string>> seen;
+            for (const std::string& section : data.collectedSections(IniParseRows::Sections)) {
+                for (const IniParseData::CollectedRow* row : data.sectionRows(IniParseRows::Sections, section)) {
+                    const std::string key = StringTools::toLower(std::string(StringTools::strip(row->key)));
+                    const std::string value(StringTools::strip(row->value));
+                    if (!StringTools::startsWith(key, prefix) || seen.count({key, value}) > 0) {
+                        continue;
+                    }
+                    if (auto fate = fateOf(key, value)) {
+                        seen.insert({key, value});
+                        lines.push_back(fate->has_value() ? ModTexLine{key, value, false, (*fate)->first, (*fate)->second}
+                                                          : ModTexLine{key, value, true, "", ""});
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
     WWMIFixerConfig::LinkedLines WWMIFixerConfig::linkedLines(const IniParseData& data, const RoleResources& roles,
                                                               const std::set<int>& drawn,
                                                               const std::vector<IniFile*>& linkedInis,

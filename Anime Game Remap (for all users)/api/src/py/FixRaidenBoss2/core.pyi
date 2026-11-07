@@ -33488,6 +33488,38 @@ class WWMIFixerConfig:
         @split.setter
         def split(self, arg0: str) -> None:
             ...
+    class FileGroups:
+        """
+        
+        Which file each drawn component's remapped section goes in -- see :meth:`WWMIFixerConfig.fileGroups`
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def dropped(self) -> list[int]:
+            """
+            List[:class:`int`]: the drawn components the plan has no target slot for, which are not remapped
+            """
+        @dropped.setter
+        def dropped(self, arg0: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
+            ...
+        @property
+        def groups(self) -> list[list[int]]:
+            """
+            List[List[:class:`int`]]: per file, in order -- the mod's own ``.ini`` first, then each copy -- the source components it remaps
+            """
+        @groups.setter
+        def groups(self, arg0: collections.abc.Sequence[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
+            ...
+        @property
+        def notes(self) -> list[str]:
+            """
+            List[:class:`str`]: what the decision has to say, for the log, in order
+            """
+        @notes.setter
+        def notes(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
     class GameDefaults:
         """
         
@@ -33617,6 +33649,54 @@ class WWMIFixerConfig:
             """
         @vars.setter
         def vars(self, arg0: collections.abc.Set[str]) -> None:
+            ...
+    class ModTexLine:
+        """
+        
+        One of the mod's own texture-register lines and what the fix makes of it -- see :meth:`WWMIFixerConfig.modTexLines`
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def dropped(self) -> bool:
+            """
+            :class:`bool`: whether the line is dropped
+            """
+        @dropped.setter
+        def dropped(self, arg0: bool) -> None:
+            ...
+        @property
+        def key(self) -> str:
+            """
+            :class:`str`: the register as the mod writes it, lowered
+            """
+        @key.setter
+        def key(self, arg0: str) -> None:
+            ...
+        @property
+        def newValue(self) -> str:
+            """
+            :class:`str`: what it binds there, unless :attr:`dropped`
+            """
+        @newValue.setter
+        def newValue(self, arg0: str) -> None:
+            ...
+        @property
+        def reg(self) -> str:
+            """
+            :class:`str`: the register the line moves to, unless :attr:`dropped`
+            """
+        @reg.setter
+        def reg(self, arg0: str) -> None:
+            ...
+        @property
+        def value(self) -> str:
+            """
+            :class:`str`: the value as the mod writes it, stripped
+            """
+        @value.setter
+        def value(self, arg0: str) -> None:
             ...
     class RegRemoval:
         """
@@ -34206,6 +34286,224 @@ class WWMIFixerConfig:
         @targets.setter
         def targets(self, arg0: collections.abc.Mapping[str, collections.abc.Set[str]]) -> None:
             ...
+    class TextureLine:
+        """
+        
+        One line of a texture list the fix writes -- see :meth:`WWMIFixerConfig.textureLists`
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def modToggle(self) -> bool:
+            """
+            :class:`bool`: whether :meth:`WWMIFixerConfig.toggleLists` may put the mod's own toggle of :attr:`value` in the line's place; false for a line already binding a role outside its toggle (:attr:`GameDefaults.toggled`)
+            """
+        @modToggle.setter
+        def modToggle(self, arg0: bool) -> None:
+            ...
+        @property
+        def raw(self) -> bool:
+            """
+            :class:`bool`: whether the list keeps the mod's own art unedited: a component its own shader draws, or an overlay
+            """
+        @raw.setter
+        def raw(self, arg0: bool) -> None:
+            ...
+        @property
+        def reg(self) -> str:
+            """
+            :class:`str`: the register the line binds (``ib`` for a pass list's ``ib = null``)
+            """
+        @reg.setter
+        def reg(self, arg0: str) -> None:
+            ...
+        @property
+        def role(self) -> str:
+            """
+            :class:`str`: the role it binds, or empty for a line that binds none (``null``, ``ib = null``)
+            """
+        @role.setter
+        def role(self, arg0: str) -> None:
+            ...
+        @property
+        def run(self) -> str:
+            """
+            :class:`str`: set by :meth:`WWMIFixerConfig.toggleLists`: the copy of the mod's toggle run in the line's place, as ``run = <run>``
+            """
+        @run.setter
+        def run(self, arg0: str) -> None:
+            ...
+        @property
+        def value(self) -> str:
+            """
+            :class:`str`: what it binds: a resource, or ``null``
+            """
+        @value.setter
+        def value(self, arg0: str) -> None:
+            ...
+    class TextureList:
+        """
+        
+        One texture list the fix writes, its lines in order -- see :meth:`WWMIFixerConfig.textureLists`
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def component(self) -> int:
+            """
+            :class:`int`: the source component, or for ``"sharedMesh"`` the mesh's place in :attr:`WWMIFixerConfig.sharedMeshes`
+            """
+        @component.setter
+        def component(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def kind(self) -> str:
+            """
+            :class:`str`: ``"main"``, ``"game"`` and ``"pass"`` a drawn component's, ``"sharedMesh"`` one pass of a :attr:`WWMIFixerConfig.sharedMeshes` mesh, ``"overlay"`` a :attr:`SourceComponent.overlay`'s bindings
+            """
+        @kind.setter
+        def kind(self, arg0: str) -> None:
+            ...
+        @property
+        def lines(self) -> list[WWMIFixerConfig.TextureLine]:
+            """
+            List[:class:`WWMIFixerConfig.TextureLine`]: the lines
+            """
+        @lines.setter
+        def lines(self, arg0: collections.abc.Sequence[WWMIFixerConfig.TextureLine]) -> None:
+            ...
+        @property
+        def onPass(self) -> str:
+            """
+            :class:`str`: the pass a ``"pass"`` or ``"sharedMesh"`` list binds on
+            """
+        @onPass.setter
+        def onPass(self, arg0: str) -> None:
+            ...
+        @property
+        def passNum(self) -> int:
+            """
+            :class:`int`: a ``"pass"`` or ``"sharedMesh"`` list's place among its slot's or mesh's passes
+            """
+        @passNum.setter
+        def passNum(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+    class TextureLists:
+        """
+        
+        Every texture list the fix writes, and the toggles they run -- see :meth:`WWMIFixerConfig.textureLists`
+            
+        """
+        def __init__(self) -> None:
+            ...
+        def find(self, kind: str, component: typing.SupportsInt | typing.SupportsIndex, passNum: typing.SupportsInt | typing.SupportsIndex = 0) -> WWMIFixerConfig.TextureList:
+            """
+            The list of ``kind`` for ``component`` (and ``passNum``)
+            
+            :param kind: The kind
+            :param component: The component (a shared mesh's place)
+            :param passNum: The pass's place
+            :returns: Optional[:class:`WWMIFixerConfig.TextureList`]
+            """
+        @property
+        def lists(self) -> list[WWMIFixerConfig.TextureList]:
+            """
+            List[:class:`WWMIFixerConfig.TextureList`]: the lists, in the order the fix writes them
+            """
+        @lists.setter
+        def lists(self, arg0: collections.abc.Sequence[WWMIFixerConfig.TextureList]) -> None:
+            ...
+        @property
+        def toggles(self) -> list[WWMIFixerConfig.ToggleList]:
+            """
+            List[:class:`WWMIFixerConfig.ToggleList`]: the copies of the mod's toggles the lines run, in the order first run
+            """
+        @toggles.setter
+        def toggles(self, arg0: collections.abc.Sequence[WWMIFixerConfig.ToggleList]) -> None:
+            ...
+    class ToggleList:
+        """
+        
+        A copy of the mod's own texture override toggling a role's resources, run in a list's place -- see
+        :meth:`WWMIFixerConfig.toggleLists`
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def deadValues(self) -> set[str]:
+            """
+            Set[:class:`str`]: the values of a ``this`` naming nothing, which the copy drops
+            """
+        @deadValues.setter
+        def deadValues(self, arg0: collections.abc.Set[str]) -> None:
+            ...
+        @property
+        def graph(self) -> tuple[str, str]:
+            """
+            Tuple[:class:`str`, :class:`str`]: the parser's graph holding the mod's override
+            """
+        @graph.setter
+        def graph(self, arg0: tuple[str, str]) -> None:
+            ...
+        @property
+        def name(self) -> str:
+            """
+            :class:`str`: the list's name
+            """
+        @name.setter
+        def name(self, arg0: str) -> None:
+            ...
+        @property
+        def offBinding(self) -> str | None:
+            """
+            Optional[:class:`str`]: a one-variant toggle's binding while off: the source's game texture of the role
+            """
+        @offBinding.setter
+        def offBinding(self, arg0: str | None) -> None:
+            ...
+        @property
+        def raw(self) -> bool:
+            """
+            :class:`bool`: whether it is the copy for a list keeping the mod's art unedited
+            """
+        @raw.setter
+        def raw(self, arg0: bool) -> None:
+            ...
+        @property
+        def reg(self) -> str:
+            """
+            :class:`str`: the register every ``this`` is re-keyed to
+            """
+        @reg.setter
+        def reg(self, arg0: str) -> None:
+            ...
+        @property
+        def role(self) -> str:
+            """
+            :class:`str`: the role it binds
+            """
+        @role.setter
+        def role(self, arg0: str) -> None:
+            ...
+        @property
+        def section(self) -> str:
+            """
+            :class:`str`: the mod's override
+            """
+        @section.setter
+        def section(self, arg0: str) -> None:
+            ...
+        @property
+        def thisKeys(self) -> list[str]:
+            """
+            List[:class:`str`]: the spellings of ``this`` the override writes
+            """
+        @thisKeys.setter
+        def thisKeys(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
     @staticmethod
     def of(source: ModTypeId, target: ModTypeId) -> FixRaidenBoss2.core.WWMIFixerConfig | None:
         """
@@ -34257,6 +34555,17 @@ class WWMIFixerConfig:
         :param hash: The texture's hash in the source's download folder
         :returns: :class:`WWMIFixerConfig.Download`
         """
+    def fileGroups(self, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], sourceName: str) -> WWMIFixerConfig.FileGroups:
+        """
+        ONE REMAPPED SECTION PER TARGET DRAW PER FILE. In source component order, the first drawn component to claim a target slot
+        goes in the mod's own ``.ini`` (group 0), the second in the first copy, and so on -- except one whose
+        :attr:`SourceComponent.sameFileSection` is set, which stays in the mod's own file. A drawn component the plan names no slot
+        for is dropped. There is always at least one group
+        
+        :param drawn: Set[:class:`int`]: the source components the mod draws, reroutes included
+        :param sourceName: The source character's name, for the notes
+        :returns: :class:`WWMIFixerConfig.FileGroups`
+        """
     def gameDefaults(self, data: IniParseData, roles: WWMIFixerConfig.RoleResources, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], rerouteFrom: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], ownShader: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], sourceName: str) -> WWMIFixerConfig.GameDefaults:
         """
         THE SOURCE'S OWN GAME TEXTURE AS THE DEFAULT, where the mod's file reaches only some of a component's draws -- each a
@@ -34294,6 +34603,29 @@ class WWMIFixerConfig:
         :param toModName: The target's name
         :param iniFolder: The ``.ini``'s folder
         :returns: :class:`WWMIFixerConfig.LinkedLines`
+        """
+    def modTexLines(self, data: IniParseData, roles: WWMIFixerConfig.RoleResources, lists: WWMIFixerConfig.TextureLists, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], rerouteFrom: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], ownShader: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex]) -> dict[int, list[WWMIFixerConfig.ModTexLine]]:
+        """
+        THE MOD'S OWN TEXTURE LINES, RE-KEYED BY ROLE. Each ``<texRegPrefix>N`` line of the mod's sections, for each drawn
+        component of the plan, goes to the register that component's bindings read its texture's role at
+        (:meth:`registerOf`). The role is the parser's (:meth:`IniParseData.roleOfResource`).
+        
+        - With :attr:`carryByRegisterRole`, a texture put into another kind of slot on purpose goes by the slot, or is left alone.
+        - A line whose role or register is unknown is left alone, unless the component's ``"main"`` list binds that register:
+          then it is dropped -- except a file of no known role where the source reads the same kind as the target.
+        - A file the parser refused for its role binds what the role resolved to instead, or is dropped where nothing stands
+          in -- except on a component its own shader draws.
+        
+        A line left alone is not listed
+        
+        :param data: :class:`IniParseData`: the parser's data of the mod's ``.ini``
+        :param roles: :class:`WWMIFixerConfig.RoleResources`: what the roles resolve to, a reroute's entries included
+        :param lists: :class:`WWMIFixerConfig.TextureLists`: the texture lists (:meth:`textureLists`, :meth:`toggleLists`)
+        :param drawn: Set[:class:`int`]: the source components the mod draws, reroutes included
+        :param rerouteFrom: Dict[:class:`int`, :class:`int`]: a reroute that took draws -> the component it took them from
+        :param ownShader: Set[:class:`int`]: the drawn components their own shader draws
+        :returns: Dict[:class:`int`, List[:class:`WWMIFixerConfig.ModTexLine`]]: source component -> its lines the fix moves or
+            drops, in the order the mod first writes them
         """
     def passOnlyRoles(self, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex]) -> list[str]:
         """
@@ -34370,6 +34702,42 @@ class WWMIFixerConfig:
         :param iniPath: The mod's ``.ini``
         :param sourceName: The source character's name
         :returns: :class:`WWMIFixerConfig.TexEditTargets`
+        """
+    def textureLists(self, data: IniParseData, roles: WWMIFixerConfig.RoleResources, defaults: WWMIFixerConfig.GameDefaults, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], rerouteFrom: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], ownShader: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], overlaid: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex]) -> WWMIFixerConfig.TextureLists:
+        """
+        THE FIX'S TEXTURE LISTS, LINE BY LINE. For each drawn component of the plan, in order: its ``"main"`` list (each of its
+        bindings at its register: ``null`` as nothing, a role the mod toggles against the game's texture by what binds it
+        outside the toggle, else the role's resource), its ``"game"`` list when its section draws before it binds anything (the
+        source's game textures), and a ``"pass"`` list for each of its slot's :attr:`extraPassRegs` (``ib = null`` where
+        :attr:`extraPassNoDraw` names the pass). Then a ``"sharedMesh"`` list for each pass of each :attr:`sharedMeshes` mesh,
+        and an ``"overlay"`` list for each drawn overlay. Every line binds a resource directly;
+        :meth:`toggleLists` then puts the mod's own toggles in
+        
+        :param data: :class:`IniParseData`: the parser's data of the mod's ``.ini``
+        :param roles: :class:`WWMIFixerConfig.RoleResources`: what the roles resolve to, a reroute's entries included
+        :param defaults: :class:`WWMIFixerConfig.GameDefaults`: where the source's game texture is the default
+        :param drawn: Set[:class:`int`]: the source components the mod draws, reroutes included
+        :param rerouteFrom: Dict[:class:`int`, :class:`int`]: a reroute that took draws -> the component it took them from
+        :param ownShader: Set[:class:`int`]: the drawn components their own shader draws
+        :param overlaid: Set[:class:`int`]: the drawn components whose overlay is drawn
+        :returns: :class:`WWMIFixerConfig.TextureLists`
+        """
+    def toggleLists(self, lists: WWMIFixerConfig.TextureLists, data: IniParseData, defaults: WWMIFixerConfig.GameDefaults, sourceName: str, toModName: str, iniPath: str) -> WWMIFixerConfig.TextureLists:
+        """
+        THE MOD'S OWN TOGGLES IN THE LISTS. A line binding a resource the mod chooses among others under a toggle
+        (:meth:`IniParseData.thisToggleOf`) runs a copy of the mod's texture override instead
+        (``CommandList<Source><Role><Reg>[Raw]``, one per role, register and rawness, made on its first line), so the toggle
+        comes across rather than collapsing to its first variant: its ``this`` lines re-keyed to the line's register, the ones
+        naming nothing dropped, and a one-variant toggle bound to the source's game texture while off. A line stays direct when
+        the override has no lines, sits in no graph, or binds nothing that resolves
+        
+        :param lists: :class:`WWMIFixerConfig.TextureLists`: the lists (:meth:`textureLists`)
+        :param data: :class:`IniParseData`: the parser's data of the mod's ``.ini``
+        :param defaults: :class:`WWMIFixerConfig.GameDefaults`: where the source's game texture is the default
+        :param sourceName: The source character's name
+        :param toModName: The target's name
+        :param iniPath: The ``.ini``'s path
+        :returns: :class:`WWMIFixerConfig.TextureLists`: the lists, with the lines that run a toggle, and the toggles
         """
     @property
     def anchorChains(self) -> dict[int, list[int]]:

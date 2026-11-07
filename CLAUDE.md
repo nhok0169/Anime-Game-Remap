@@ -603,8 +603,12 @@ take the Lynae fix and send component 0 through another slot. A hidden class or 
 internals and hack the API; a list of generic edits shows what to change. So a fix's DECISION is a visible step --
 `GraphVarApply(inputs, fn, into, variables = fixVars)` over the fixer's own variables (new 2026-11-06) -- and each writing
 stage an `IterGraphGroupEdit` that reads those variables when the list reaches it. The WWMI decisions are
-`WWMIFixerConfig.roleResources` / `gameDefaults` / `texEditTargets` / `rabbitFXFlags` / `linkedLines`, and the mirror
-(`sanhuaExorcistEdits.py`) lists them as steps. The tweak found a coupling no rule should paper over: `extraPassRegs` is
+`WWMIFixerConfig.roleResources` / `gameDefaults` / `texEditTargets` / `rabbitFXFlags` / `linkedLines` /
+`textureLists` / `toggleLists` / `modTexLines` / `fileGroups` (which file each component goes in), and the mirror (`sanhuaExorcistEdits.py`) lists them as steps. **Every texture list is
+DATA now (2026-11-07)**: `textureLists` gives each list's lines (`<reg> = <value>` with the role it binds), `toggleLists`
+turns a line binding a mod-toggled texture into a `run =` of a copy of that toggle, and the writers only print lines --
+so a user changes a list's lines in a step of their own. `bindLine` (a memo of toggle copies built while writing) is gone.
+`modTexLines` is the same for the mod's OWN `ps-t` lines: each one the fix moves to another register or drops, listed. The tweak found a coupling no rule should paper over: `extraPassRegs` is
 keyed by TARGET slot but names SOURCE roles, so moving a component means editing it (`Tools/Misc/Prototypes/lynaeBangsOnHair.py`);
 a kind-swapping `passBindingsOf` was built and reverted the same day.
 

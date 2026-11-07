@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::ToggleList</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a48a479eb46a3d8311b32b2c284bee10e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::ToggleList::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::ToggleList::name</qualifiedname>
+        <briefdescription>
+<para>The list&apos;s name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1985" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1985" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a518d9a426a560e9a2ffdd5c02dbd4850" prot="public" static="no" mutable="no">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>std::pair&lt;std::string, std::string&gt; AGRemapCore::WWMIFixerConfig::ToggleList::graph</definition>
+        <argsstring></argsstring>
+        <name>graph</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::ToggleList::graph</qualifiedname>
+        <briefdescription>
+<para>The parser&apos;s graph holding the mod&apos;s override. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1990" column="23" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1990" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a1329adf2346480733aec2f6856c92cc1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::ToggleList::section</definition>
+        <argsstring></argsstring>
+        <name>section</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::ToggleList::section</qualifiedname>
+        <briefdescription>
+<para>The mod&apos;s override. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1995" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1995" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1af7dcc541419454a4cc1508fbc2e85b17" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::ToggleList::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::ToggleList::role</qualifiedname>
+        <briefdescription>
+<para>The role it binds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2000" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2000" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a132e5fe4cb88ca8d3dac66b5184e8b48" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::ToggleList::reg</definition>
+        <argsstring></argsstring>
+        <name>reg</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::ToggleList::reg</qualifiedname>
+        <briefdescription>
+<para>The register the list binds (every <computeroutput>this</computeroutput> is re-keyed to it). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2005" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2005" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1aee8ed8c399b995ab553313a892f677f0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::WWMIFixerConfig::ToggleList::raw</definition>
+        <argsstring></argsstring>
+        <name>raw</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::ToggleList::raw</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether it is the copy for a list that keeps the mod&apos;s art unedited (:cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line_1ad75899e7d3a1d43a80bdacda795f8311" kindref="member">TextureLine::raw</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2010" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2010" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a9f28f694e8741f3bfee0ab38d170b2fc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::ToggleList::thisKeys</definition>
+        <argsstring></argsstring>
+        <name>thisKeys</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::ToggleList::thisKeys</qualifiedname>
+        <briefdescription>
+<para>The spellings of <computeroutput>this</computeroutput> the override writes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2015" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2015" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1aff94e82030c92d3734179d2d3c84d2a4" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::ToggleList::deadValues</definition>
+        <argsstring></argsstring>
+        <name>deadValues</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::ToggleList::deadValues</qualifiedname>
+        <briefdescription>
+<para>The values of a <computeroutput>this</computeroutput> naming nothing <ndash/> a resource the mod neither declares nor files <ndash/> which the copy drops. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2021" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2021" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a3c9299a20ec9b369e19be232e96985b7" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::ToggleList::offBinding</definition>
+        <argsstring></argsstring>
+        <name>offBinding</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::ToggleList::offBinding</qualifiedname>
+        <briefdescription>
+<para>A one-variant toggle&apos;s binding while it is off: the source&apos;s game texture of the role. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2026" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2026" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A copy of the mod&apos;s own texture override toggling a role&apos;s resources, run in a list&apos;s place <ndash/> see <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a9e3d02a6d63ce36f2d6adefb5c0632ea" kindref="member">toggleLists</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1981" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1981" bodyend="2027"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1aff94e82030c92d3734179d2d3c84d2a4" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::ToggleList</scope><name>deadValues</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a518d9a426a560e9a2ffdd5c02dbd4850" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::ToggleList</scope><name>graph</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a48a479eb46a3d8311b32b2c284bee10e" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::ToggleList</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a3c9299a20ec9b369e19be232e96985b7" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::ToggleList</scope><name>offBinding</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1aee8ed8c399b995ab553313a892f677f0" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::ToggleList</scope><name>raw</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a132e5fe4cb88ca8d3dac66b5184e8b48" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::ToggleList</scope><name>reg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1af7dcc541419454a4cc1508fbc2e85b17" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::ToggleList</scope><name>role</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a1329adf2346480733aec2f6856c92cc1" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::ToggleList</scope><name>section</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_toggle_list_1a9f28f694e8741f3bfee0ab38d170b2fc" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::ToggleList</scope><name>thisKeys</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

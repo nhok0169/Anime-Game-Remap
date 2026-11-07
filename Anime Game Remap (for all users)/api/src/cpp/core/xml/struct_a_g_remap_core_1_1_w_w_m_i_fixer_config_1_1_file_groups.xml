@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::FileGroups</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups_1a915efa30f5bb86e44e346c3476d4d108" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; int &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;int&gt; &gt; AGRemapCore::WWMIFixerConfig::FileGroups::groups</definition>
+        <argsstring></argsstring>
+        <name>groups</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::FileGroups::groups</qualifiedname>
+        <briefdescription>
+<para>Per file, in order <ndash/> the mod&apos;s own <computeroutput>.ini</computeroutput> first, then each copy <ndash/> the source components it remaps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2171" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups_1a85d736e06da50abf4e04c19bf88a0397" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; AGRemapCore::WWMIFixerConfig::FileGroups::dropped</definition>
+        <argsstring></argsstring>
+        <name>dropped</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::FileGroups::dropped</qualifiedname>
+        <briefdescription>
+<para>The drawn components the plan has no target slot for, which are not remapped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2176" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups_1a54d159bb37e38a80dddd050f4e2fc604" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::FileGroups::notes</definition>
+        <argsstring></argsstring>
+        <name>notes</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::FileGroups::notes</qualifiedname>
+        <briefdescription>
+<para>What the decision has to say, for the log, in order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2181" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Which file each drawn component&apos;s remapped section goes in <ndash/> see <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1af50bcf7fc1329c1c3fe0980e4060b036" kindref="member">fileGroups</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+THE MOD&apos;S OWN TEXTURE LINES, RE-KEYED BY ROLE. Each ``&lt;texRegPrefix&gt;N`` line of the mod&apos;s sections, for each
+drawn component of the plan, goes to the register that component&apos;s bindings read its texture&apos;s role at
+(:cpp:func:`registerOf`) -- the layout of the fix&apos;s own list, which the lines sit after. The role is the
+parser&apos;s (:cpp:func:`IniParseData::roleOfResource`: one it chose the file for among the roles a drawn component
+binds, this component&apos;s first, or the one it refused the file for).
+
+- With :cpp:member:`carryByRegisterRole`, a texture put into another KIND of slot on purpose goes by the slot:
+  to the register for the role the source reads there, its file unchanged -- or is left alone.
+- A line whose role or register is unknown is left alone, unless the component&apos;s ``&quot;main&quot;`` list binds that
+  register: then it is dropped -- except a file of no known role where the source reads the same kind as the
+  target.
+- A file the parser refused for its role does not go back: the line binds what the role resolved to, or is
+  dropped where nothing stands in -- except on a component its own shader draws, which keeps the mod&apos;s art.
+
+A line left alone is not listed
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The parser&apos;s data of the mod&apos;s <computeroutput>.ini</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What the roles resolve to (<ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a0e426d1d6de387f34992a769db6f1a2a" kindref="member">roleResources</ref>), with a reroute&apos;s entries copied from its source component </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lists</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture lists (<ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ac459cc6f5d3c25dd7ddf40209d292c45" kindref="member">textureLists</ref>, <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a9e3d02a6d63ce36f2d6adefb5c0632ea" kindref="member">toggleLists</ref>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>drawn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source components the mod draws, reroutes included </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rerouteFrom</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A reroute that took draws -&gt; the component it took them from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ownShader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The drawn components their own :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1aa1b6a7a373ca8fc31230b53c3c057f7a" kindref="member">SourceComponent::shader</ref></computeroutput> draws</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Source component -&gt; its lines the fix moves or drops, in the order the mod first writes them </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2167" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2167" bodyend="2182"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups_1a85d736e06da50abf4e04c19bf88a0397" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::FileGroups</scope><name>dropped</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups_1a915efa30f5bb86e44e346c3476d4d108" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::FileGroups</scope><name>groups</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups_1a54d159bb37e38a80dddd050f4e2fc604" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::FileGroups</scope><name>notes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

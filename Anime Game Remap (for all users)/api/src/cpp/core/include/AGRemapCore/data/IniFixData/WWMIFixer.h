@@ -1903,6 +1903,304 @@ namespace AGRemapCore {
                                                         const std::map<int, std::vector<std::string>>& drawn,
                                                         const std::map<int, int>& rerouteFrom, const std::string& iniPath,
                                                         const std::string& iniFolder) const;
+
+        /**
+         * @brief One line of a texture list the fix writes -- see #textureLists
+         */
+        struct TextureLine {
+            /**
+             * @brief The register the line binds (``ib`` for a pass list's ``ib = null``)
+             */
+            std::string reg;
+
+            /**
+             * @brief What it binds: a resource, or ``null``
+             */
+            std::string value;
+
+            /**
+             * @brief The role it binds, or empty for a line that binds none (``null``, ``ib = null``)
+             */
+            std::string role;
+
+            /**
+             * @brief Whether the list keeps the mod's own art unedited: a component its own shader draws, or an
+             *        overlay
+             */
+            bool raw = false;
+
+            /**
+             * @brief Whether #toggleLists may put the mod's own toggle of #value in the line's place; false for a
+             *        line that is already what binds a role outside its toggle (:cpp:member:`GameDefaults::toggled`)
+             */
+            bool modToggle = true;
+
+            /**
+             * @brief Set by #toggleLists: the copy of the mod's toggle run in the line's place, as ``run = <run>``
+             */
+            std::string run;
+        };
+
+        /**
+         * @brief One texture list the fix writes, its lines in order -- see #textureLists
+         */
+        struct TextureList {
+            /**
+             * @brief Which list: ``"main"``, ``"game"`` and ``"pass"`` a drawn component's, ``"sharedMesh"`` one pass
+             *        of a :cpp:member:`sharedMeshes` mesh, ``"overlay"`` a :cpp:member:`SourceComponent::overlay`'s
+             *        bindings
+             */
+            std::string kind;
+
+            /**
+             * @brief The source component, or for ``"sharedMesh"`` the mesh's place in :cpp:member:`sharedMeshes`
+             */
+            int component = -1;
+
+            /**
+             * @brief The pass a ``"pass"`` or ``"sharedMesh"`` list binds on
+             */
+            std::string onPass;
+
+            /**
+             * @brief A ``"pass"`` or ``"sharedMesh"`` list's place among its slot's :cpp:member:`extraPassRegs` or its
+             *        mesh's passes
+             */
+            int passNum = 0;
+
+            /**
+             * @brief The lines
+             */
+            std::vector<TextureLine> lines;
+        };
+
+        /**
+         * @brief A copy of the mod's own texture override toggling a role's resources, run in a list's place -- see
+         *        #toggleLists
+         */
+        struct ToggleList {
+            /**
+             * @brief The list's name
+             */
+            std::string name;
+
+            /**
+             * @brief The parser's graph holding the mod's override
+             */
+            std::pair<std::string, std::string> graph;
+
+            /**
+             * @brief The mod's override
+             */
+            std::string section;
+
+            /**
+             * @brief The role it binds
+             */
+            std::string role;
+
+            /**
+             * @brief The register the list binds (every ``this`` is re-keyed to it)
+             */
+            std::string reg;
+
+            /**
+             * @brief Whether it is the copy for a list that keeps the mod's art unedited (:cpp:member:`TextureLine::raw`)
+             */
+            bool raw = false;
+
+            /**
+             * @brief The spellings of ``this`` the override writes
+             */
+            std::vector<std::string> thisKeys;
+
+            /**
+             * @brief The values of a ``this`` naming nothing -- a resource the mod neither declares nor files -- which
+             *        the copy drops
+             */
+            std::set<std::string> deadValues;
+
+            /**
+             * @brief A one-variant toggle's binding while it is off: the source's game texture of the role
+             */
+            std::optional<std::string> offBinding;
+        };
+
+        /**
+         * @brief Every texture list the fix writes, and the toggles they run -- see #textureLists
+         */
+        struct TextureLists {
+            /**
+             * @brief The lists, in the order the fix writes them
+             */
+            std::vector<TextureList> lists;
+
+            /**
+             * @brief The copies of the mod's toggles the lines run (#toggleLists), in the order first run
+             */
+            std::vector<ToggleList> toggles;
+
+            /**
+             * @brief The list of 'kind' for 'component' (and 'passNum'), or ``nullptr``
+             */
+            const TextureList* find(const std::string& kind, int component, int passNum = 0) const;
+        };
+
+        /**
+         * @brief
+         @rst
+         THE FIX'S TEXTURE LISTS, LINE BY LINE. For each drawn component of the plan, in order: its ``"main"`` list,
+         each of its bindings (:cpp:func:`bindingsOf`) at its register -- ``null`` as nothing, a role the mod toggles
+         against the game's texture by what binds it outside the toggle (:cpp:member:`GameDefaults::toggled`), else the
+         role's resource (:cpp:func:`RoleResources::of`); its ``"game"`` list when its section draws before it binds
+         anything (:cpp:func:`IniParseData::lateBindings`), each role the source's game texture
+         (:cpp:func:`GameDefaults::of`); and a ``"pass"`` list for each of its slot's :cpp:member:`extraPassRegs`, with
+         ``ib = null`` where :cpp:member:`extraPassNoDraw` names the pass. Then a ``"sharedMesh"`` list for each pass of
+         each :cpp:member:`sharedMeshes` mesh (:cpp:func:`RoleResources::shared`), and an ``"overlay"`` list for each
+         drawn :cpp:member:`SourceComponent::overlay`.
+
+         Every line binds a resource directly; #toggleLists then puts the mod's own toggles in
+         @endrst
+         *
+         * @param data The parser's data of the mod's ``.ini``
+         * @param roles What the roles resolve to (#roleResources), with a reroute's entries copied from its source
+         *      component
+         * @param defaults Where the source's game texture is the default (#gameDefaults)
+         * @param drawn The source components the mod draws, reroutes included
+         * @param rerouteFrom A reroute that took draws -> the component it took them from
+         * @param ownShader The drawn components their own :cpp:member:`SourceComponent::shader` draws
+         * @param overlaid The drawn components whose overlay is drawn
+         *
+         * @return The lists
+         */
+        TextureLists textureLists(const IniParseData& data, const RoleResources& roles, const GameDefaults& defaults,
+                                  const std::set<int>& drawn, const std::map<int, int>& rerouteFrom,
+                                  const std::set<int>& ownShader, const std::set<int>& overlaid) const;
+
+        /**
+         * @brief
+         @rst
+         THE MOD'S OWN TOGGLES IN THE LISTS. A line binding a resource the mod chooses among others under a toggle
+         (:cpp:func:`IniParseData::thisToggleOf`) runs a copy of the mod's texture override instead
+         (``CommandList<Source><Role><Reg>[Raw]``, one per role, register and rawness, made on its first line), so the
+         toggle comes across rather than collapsing to its first variant: its ``this`` lines re-keyed to the line's
+         register, the ones naming nothing dropped, and a one-variant toggle bound to the source's game texture while
+         off. A line stays direct when the override has no lines, sits in no graph, or binds nothing that resolves
+         @endrst
+         *
+         * @param lists The lists (#textureLists)
+         * @param data The parser's data of the mod's ``.ini``
+         * @param defaults Where the source's game texture is the default (#gameDefaults)
+         * @param sourceName The source character's name
+         * @param toModName The target's name
+         * @param iniPath The ``.ini``'s path
+         *
+         * @return The lists, with the lines that run a toggle and the toggles
+         */
+        TextureLists toggleLists(TextureLists lists, const IniParseData& data, const GameDefaults& defaults,
+                                 const std::string& sourceName, const std::string& toModName,
+                                 const std::string& iniPath) const;
+
+        /**
+         * @brief One of the mod's own texture-register lines and what the fix makes of it -- see #modTexLines
+         */
+        struct ModTexLine {
+            /**
+             * @brief The register as the mod writes it, lowered
+             */
+            std::string key;
+
+            /**
+             * @brief The value as the mod writes it, stripped
+             */
+            std::string value;
+
+            /**
+             * @brief Whether the line is dropped
+             */
+            bool dropped = false;
+
+            /**
+             * @brief The register the line moves to, unless #dropped
+             */
+            std::string reg;
+
+            /**
+             * @brief What it binds there, unless #dropped
+             */
+            std::string newValue;
+        };
+
+        /**
+         * @brief
+         @rst
+         THE MOD'S OWN TEXTURE LINES, RE-KEYED BY ROLE. Each ``<texRegPrefix>N`` line of the mod's sections, for each
+         drawn component of the plan, goes to the register that component's bindings read its texture's role at
+         (:cpp:func:`registerOf`) -- the layout of the fix's own list, which the lines sit after. The role is the
+         parser's (:cpp:func:`IniParseData::roleOfResource`: one it chose the file for among the roles a drawn component
+         binds, this component's first, or the one it refused the file for).
+
+         - With :cpp:member:`carryByRegisterRole`, a texture put into another KIND of slot on purpose goes by the slot:
+           to the register for the role the source reads there, its file unchanged -- or is left alone.
+         - A line whose role or register is unknown is left alone, unless the component's ``"main"`` list binds that
+           register: then it is dropped -- except a file of no known role where the source reads the same kind as the
+           target.
+         - A file the parser refused for its role does not go back: the line binds what the role resolved to, or is
+           dropped where nothing stands in -- except on a component its own shader draws, which keeps the mod's art.
+
+         A line left alone is not listed
+         @endrst
+         *
+         * @param data The parser's data of the mod's ``.ini``
+         * @param roles What the roles resolve to (#roleResources), with a reroute's entries copied from its source
+         *      component
+         * @param lists The texture lists (#textureLists, #toggleLists)
+         * @param drawn The source components the mod draws, reroutes included
+         * @param rerouteFrom A reroute that took draws -> the component it took them from
+         * @param ownShader The drawn components their own :cpp:member:`SourceComponent::shader` draws
+         *
+         * @return Source component -> its lines the fix moves or drops, in the order the mod first writes them
+         */
+        /**
+         * @brief Which file each drawn component's remapped section goes in -- see #fileGroups
+         */
+        struct FileGroups {
+            /**
+             * @brief Per file, in order -- the mod's own ``.ini`` first, then each copy -- the source components it remaps
+             */
+            std::vector<std::vector<int>> groups;
+
+            /**
+             * @brief The drawn components the plan has no target slot for, which are not remapped
+             */
+            std::vector<int> dropped;
+
+            /**
+             * @brief What the decision has to say, for the log, in order
+             */
+            std::vector<std::string> notes;
+        };
+
+        /**
+         * @brief
+         @rst
+         ONE REMAPPED SECTION PER TARGET DRAW PER FILE. In source component order, the first drawn component to claim a
+         target slot goes in the mod's own ``.ini`` (group 0), the second in the first copy, and so on -- except one whose
+         :cpp:member:`SourceComponent::sameFileSection` is set, which stays in the mod's own file. A drawn component the
+         plan names no slot for is dropped. There is always at least one group
+         @endrst
+         *
+         * @param drawn The source components the mod draws, reroutes included
+         * @param sourceName The source character's name, for the notes
+         *
+         * @return The groups
+         */
+        FileGroups fileGroups(const std::set<int>& drawn, const std::string& sourceName) const;
+
+        std::map<int, std::vector<ModTexLine>> modTexLines(const IniParseData& data, const RoleResources& roles,
+                                                           const TextureLists& lists, const std::set<int>& drawn,
+                                                           const std::map<int, int>& rerouteFrom,
+                                                           const std::set<int>& ownShader) const;
     };
 
 

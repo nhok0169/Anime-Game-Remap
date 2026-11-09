@@ -22,6 +22,7 @@
 #include "AGRemapCore/data/IniFixData/GIMICharFixer.h"
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
+#include "AGRemapCore/constants/Colours.h"
 #include "AGRemapCore/model/textures/Colour.h"
 
 
@@ -34,7 +35,6 @@ namespace AGRemapCore {
         // in the pure-Python table, which is (128, 128, 0) and not the (128, 128, 255) every other
         // character here invents. A normal map is a direction field, so the colour IS the data:
         // inventing the wrong one tilts every surface normal on the model, and nothing reports it.
-        const Colour NormalMapYellow(128, 128, 0);
 
         std::vector<GIMICharFixerConfig::RegRef> reflectionKeys(const std::string& obj) {
             return {"ResourceRef" + obj + "Diffuse", "ResourceRef" + obj + "LightMap", "$CharacterIB"};
@@ -71,7 +71,7 @@ namespace AGRemapCore {
                                {"body", {{"ps-t2", {{"ps-t2", &RegValChecks::isLightMap}}, true}}}};
 
         config.texAdds = {{"head", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapYellow)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapYellow)}};
 
         // ---- the 6.1-era defaults ----
         config.swapFaceRegs = false;
@@ -97,7 +97,7 @@ namespace AGRemapCore {
                                           {"ps-t1", {{"ps-t2"}}, true}}}};
 
         config.texAdds = {{"dress", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapYellow)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapYellow)}};
 
         // ---- what this row does with the 6.1-era defaults ----
         config.swapFaceRegs = false;
@@ -151,7 +151,7 @@ namespace AGRemapCore {
                                                     {"ps-t1", &RegValChecks::isDiffuse}}, true}}}};
 
         // ...and the normal map Kirara reads on ps-t0, which this skin never had.
-        config.texAdds = {{"head", "ps-t0", "NormMap", TexCreator(NormalMapSize, NormalMapSize, NormalMapYellow)}};
+        config.texAdds = {{"head", "ps-t0", "NormMap", TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapYellow)}};
 
         config.objFixCalls = {{"head", {IniKeywords::ORFixPath, IniKeywords::TexFxTransparency0}},
                               {"body", {IniKeywords::ORFixPath, IniKeywords::TexFxTransparency0}},

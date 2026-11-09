@@ -28,17 +28,17 @@
 namespace {
 // Wraps a Python partFilter callable as the core PartFilter -- same shape, and same reason, as
 // PyRegBottomAdd.cpp's parsePartFilter.
-PyRegIfTemplateAdd::Core::PartFilter parsePartFilter(const py::object &partFilter, py::object modType) {
+PyRegIfTemplateAdd::PartFilter parsePartFilter(const py::object &partFilter, py::object modType) {
     if (partFilter.is_none() || !PyCallable_Check(partFilter.ptr())) {
         return {};
     }
     py::object heldFilter = partFilter;
     py::object heldModType = std::move(modType);
-    return [heldFilter, heldModType](const PyRegIfTemplateAdd::Core::Base::IterData &iterData, const AGRC::ModType *,
-                                     AGRC::IniFile *) -> PyRegIfTemplateAdd::Core::Base::OrderRanges {
+    return [heldFilter, heldModType](const PyRegIfTemplateAdd::Base::IterData &iterData, const AGRC::ModType *,
+                                     AGRC::IniFile *) -> PyRegIfTemplateAdd::Base::OrderRanges {
         py::object result = heldFilter(py::cast(&iterData, py::return_value_policy::reference), heldModType, py::none());
         PyPartRanges ranges(result);
-        const PyRegIfTemplateAdd::Core::Base::OrderRanges *parsedRanges = ranges.get();
+        const PyRegIfTemplateAdd::Base::OrderRanges *parsedRanges = ranges.get();
         if (parsedRanges == nullptr) {
             throw py::type_error("A RegIfTemplateAdd partFilter must return a Ranges (or a list of (start, end) bounds), not None");
         }
@@ -48,19 +48,32 @@ PyRegIfTemplateAdd::Core::PartFilter parsePartFilter(const py::object &partFilte
 }
 
 
-PyRegIfTemplateAdd::PyRegIfTemplateAdd(py::object ifTemplateObj, Position position, std::string key):
-    Core(nullptr, position, std::move(key)), ifTemplateObj(std::move(ifTemplateObj)) {}
-
-
-void PyRegIfTemplateAdd::refresh() {
-    ifTemplate = ifTemplateObj.is_none() ? nullptr : ifTemplateObj.cast<PyIfTemplate*>();
-    sectionFilter = nullptr;
-    if (sectionFilterObj && !sectionFilterObj.is_none()) {
-        py::object held = sectionFilterObj;
-        sectionFilter = [held](const std::string &name, const PyIfTemplate &section) {
-            return held(name, py::cast(&section, py::return_value_policy::reference)).cast<bool>();
-        };
+namespace {
+    // a Python object kept alive by its edit (BaseIniPartEdit::owned), let go of with the GIL held
+    std::shared_ptr<void> holdPy(py::object object) {
+        return std::shared_ptr<void>(new py::object(std::move(object)), [](void *held) {
+            py::gil_scoped_acquire gil;
+            delete static_cast<py::object *>(held);
+        });
     }
+
+    // the section the edit adds, kept alive by the edit
+    void setIfTemplate(PyRegIfTemplateAdd &edit, const py::object &ifTemplate) {
+        edit.owned.clear();
+        edit.ifTemplate = ifTemplate.is_none() ? nullptr : ifTemplate.cast<PyIfTemplate *>();
+        if (!ifTemplate.is_none()) {
+            edit.owned.push_back(holdPy(ifTemplate));
+        }
+    }
+
+    // a section filter given in Python, kept as itself so 'sectionFilter' reads it back
+    struct PySectionFilter {
+        py::object filter;
+        bool operator()(const std::string &name, const PyIfTemplate &section) const {
+            py::gil_scoped_acquire gil;
+            return filter(name, py::cast(&section, py::return_value_policy::reference)).cast<bool>();
+        }
+    };
 }
 
 
@@ -127,12 +140,24 @@ Where in each root :class:`RegIfTemplateAdd` puts the template's parts
         .value("BeforeTopKey", PyRegIfTemplateAdd::Position::BeforeTopKey, "Right before the first `KVP`_ at the `section`_'s top level (outside every ``if``) whose key is :attr:`RegIfTemplateAdd.key`")
         .value("BeforeFirstIf", PyRegIfTemplateAdd::Position::BeforeFirstIf, "Right before the `section`_'s first top-level ``if``");
 
-    cls.def(py::init([](py::object ifTemplate, PyRegIfTemplateAdd::Position position, std::string key) {
-        return std::make_unique<PyRegIfTemplateAdd>(std::move(ifTemplate), position, std::move(key));
-    }), py::arg("ifTemplate") = py::none(), py::arg("position") = PyRegIfTemplateAdd::Position::Bottom, py::arg("key") = "");
+    cls.def(py::init([](py::object ifTemplate, PyRegIfTemplateAdd::Position position, std::string key,
+                        std::optional<std::string> value, bool everySection, py::object sectionFilter) {
+        // every setting of the edit can be given here, as the property of the same name
+        auto edit = std::make_unique<PyRegIfTemplateAdd>(nullptr, position, std::move(key));
+        setIfTemplate(*edit, ifTemplate);
+        edit->value = std::move(value);
+        edit->everySection = everySection;
+        if (!sectionFilter.is_none()) {
+            edit->sectionFilter = PyRegIfTemplateAdd::SectionFilter(PySectionFilter{sectionFilter});
+        }
+        return edit;
+    }), py::arg("ifTemplate") = py::none(), py::arg("position") = PyRegIfTemplateAdd::Position::Bottom, py::arg("key") = "",
+        py::arg("value") = py::none(), py::arg("everySection") = false, py::arg("sectionFilter") = py::none());
 
-    cls.def_property("ifTemplate", [](const PyRegIfTemplateAdd &self) { return self.ifTemplateObj; },
-                     [](PyRegIfTemplateAdd &self, py::object v) { self.ifTemplateObj = std::move(v); }, py::doc(R"doc(
+    cls.def_property("ifTemplate", [](const PyRegIfTemplateAdd &self) {
+                         return self.ifTemplate == nullptr ? py::none() : py::cast(self.ifTemplate, py::return_value_policy::reference);
+                     },
+                     [](PyRegIfTemplateAdd &self, py::object v) { setIfTemplate(self, v); }, py::doc(R"doc(
 Optional[:class:`IfTemplate`]: The template whose parts are added
     )doc"));
 
@@ -154,8 +179,13 @@ Optional[:class:`str`]: The value the :attr:`key` `KVP`_ must have for :attr:`Po
 included -- rather than only its roots. **Default**: ``False``
     )doc"));
 
-    cls.def_property("sectionFilter", [](const PyRegIfTemplateAdd &self) { return self.sectionFilterObj; },
-                     [](PyRegIfTemplateAdd &self, py::object v) { self.sectionFilterObj = std::move(v); }, py::doc(R"doc(
+    cls.def_property("sectionFilter", [](const PyRegIfTemplateAdd &self) -> py::object {
+                         const PySectionFilter *own = self.sectionFilter ? self.sectionFilter.target<PySectionFilter>() : nullptr;
+                         return own != nullptr ? own->filter : (self.sectionFilter ? py::cast(self.sectionFilter) : py::none());
+                     },
+                     [](PyRegIfTemplateAdd &self, py::object v) {
+                         self.sectionFilter = v.is_none() ? PyRegIfTemplateAdd::SectionFilter() : PyRegIfTemplateAdd::SectionFilter(PySectionFilter{v});
+                     }, py::doc(R"doc(
 Optional[Callable[[:class:`str`, :class:`IfTemplate`], :class:`bool`]]: Which `sections`_ the edit adds
 to, asked of each with its name: one it answers ``False`` for is left alone. ``None`` (the default) takes
 every `section`_. Asked only of a `section`_ that has a place for the parts
@@ -165,9 +195,8 @@ every `section`_. Asked only of a `section`_ that has a place for the parts
                        const std::string &modName, const py::object &partFilter, bool trackKeys,
                        const py::object &keysToTrack) {
         (void)keysToTrack;
-        self.refresh();
         PyIniSectionGraph &parsedGraph = parseGraphArg(graph);
-        self.Core::edit(parsedGraph, nullptr, modName, parsePartFilter(partFilter, modType), trackKeys, std::nullopt);
+        self.edit(parsedGraph, nullptr, modName, parsePartFilter(partFilter, modType), trackKeys, std::nullopt);
         // brand-new parts the graph's Python-side keep-alive has never seen, as RegBottomAdd's
         parsedGraph.refreshKeepAlive();
         return graph;

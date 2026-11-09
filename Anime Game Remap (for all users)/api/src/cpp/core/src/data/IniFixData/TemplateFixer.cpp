@@ -18,9 +18,12 @@
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/iftemplate/IfContentPart.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h"
 #include "AGRemapCore/tools/StringTools.h"
 
 #include <algorithm>
+#include <optional>
+#include <stdexcept>
 #include <unordered_map>
 
 
@@ -84,13 +87,13 @@ namespace AGRemapCore {
             return;
         }
 
-        for (Fixer::GroupEdit* edit : this->graphGroupEdits) {
+        // each step is handed the mod type being fixed: a step that is the same for every mod reads the mod's values
+        // off its parse data (IniFile::parseDataOf)
+        for (GroupEdit* edit : list()) {
             if (edit != nullptr) {
-                edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), nullptr, modName);
+                edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), ctx_.modType(), modName);
             }
         }
-
-        addFixSectionGraphs(modName);
 
         // The parser registers a download per object it filled, at parse time, and fixResources
         // fetches every one it finds whether or not anything references it -- so a fix that writes
@@ -98,18 +101,65 @@ namespace AGRemapCore {
         if (gaveUp_ && withdrawDownloadsOnGiveUp && ctx_.getIniFile() != nullptr) {
             ctx_.getIniFile()->getFileDownloads().clear();
         }
+    }
 
-        for (GroupEdit* edit : fixSectionEdits) {
-            if (edit != nullptr) {
-                edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), nullptr, modName);
-            }
+    std::vector<TemplateFixer::GroupEdit*> TemplateFixer::list() {
+        if (listRewritten_) {
+            return this->graphGroupEdits;
         }
+
+        std::vector<GroupEdit*> steps = this->graphGroupEdits;
+        steps.push_back(fixSectionsStep());
+        steps.insert(steps.end(), fixSectionEdits.begin(), fixSectionEdits.end());
+        return steps;
+    }
+
+    GraphEditVariables& TemplateFixer::fixVariables() {
+        return fixVariables_;
+    }
+
+    void TemplateFixer::adoptStep(GroupEdit* step) {
+        if (auto* apply = dynamic_cast<GraphVarApply*>(step); apply != nullptr && apply->variables == nullptr) {
+            apply->variables = &fixVariables_;
+        }
+    }
+
+    void TemplateFixer::setList(std::vector<GroupEdit*> steps) {
+        if (gaveUp_) {
+            return;
+        }
+        for (GroupEdit* step : steps) {
+            adoptStep(step);
+        }
+        this->graphGroupEdits = std::move(steps);
+        fixSectionEdits.clear();
+        listRewritten_ = true;
+    }
+
+    IniFixBuilder::Factory TemplateFixer::withList(
+            IniFixBuilder::Factory factory,
+            std::function<std::vector<GroupEdit*>(TemplateFixer& fixer, std::vector<GroupEdit*> steps)> rewrite) {
+        return [factory = std::move(factory), rewrite = std::move(rewrite)](BaseIniParser<>* parser, const std::string& toModName,
+                                                                           std::optional<int> modTypeId) {
+            std::shared_ptr<BaseIniFixer<>> fixer = factory(parser, toModName, modTypeId);
+            auto* templateFixer = dynamic_cast<TemplateFixer*>(fixer.get());
+            if (templateFixer == nullptr) {
+                throw std::invalid_argument("withList: the factory does not build a template fixer, whose list could be rewritten");
+            }
+            if (templateFixer->hasGivenUp()) {
+                return fixer;
+            }
+
+            templateFixer->setList(rewrite(*templateFixer, templateFixer->list()));
+            return fixer;
+        };
     }
 
     void TemplateFixer::giveUp() {
         gaveUp_ = true;
         this->graphGroupEdits = {&removeEveryGroup_};
         fixSectionEdits.clear();
+        listRewritten_ = false;
         fixVariables_.clear();
     }
 
@@ -209,12 +259,13 @@ namespace AGRemapCore {
         return GraphRemove<std::string, std::string>::GraphId(group, "", "fixSections");
     }
 
-    void TemplateFixer::addFixSectionGraphs(const std::string& modName) {
+    TemplateFixer::GroupEdit* TemplateFixer::fixSectionsStep() {
         // each group's graph: the sections added with no group (into the first group, or every copy too), then the
         // group's own
         if (createEdit_ == nullptr) {
             createEdit_ = std::make_unique<GraphCreate<std::string, std::string>>(fixSectionsGraphId(0), nullptr);
             createEdit_->runConfig = sectionRunConfig();
+            createEdit_->name = "fixSections";
             createEdit_->sectionsOf = [this](std::size_t group) {
                 std::vector<Section*> sections;
                 for (const std::string& name : group == 0 || fixSectionsInCopies
@@ -230,8 +281,9 @@ namespace AGRemapCore {
             };
         }
 
+        // fixSectionsZ3 is set by the time a list is asked for: in the fixer's constructor
         createEdit_->z3 = fixSectionsZ3;
-        createEdit_->edit(*this->graphGroups(), nullptr, modName);
+        return createEdit_.get();
     }
 
     void TemplateFixer::giveUp(const std::string& logLine) {

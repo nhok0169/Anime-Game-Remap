@@ -104,6 +104,15 @@ namespace AGRemapCore {
             bool newPartIds;
 
             /**
+             * @brief
+             @rst
+             Whether a copy that keeps no `KVP`_ at all is still added. ``false`` adds nothing then -- eg. a copy of a
+             `section`_ the predicate picks, when the graph may have no such `section`_. **Default**: ``true``
+             @endrst
+             */
+            bool keepEmpty = true;
+
+            /**
              * @brief Constructs a new copying edit
              *
              * @param srcId The id of the graph to copy

@@ -16,6 +16,8 @@
 
 #include <string>
 
+#include "AGRemapCore/model/assets/Hashes.h"
+
 namespace AGRemapCore {
 
     /**
@@ -135,13 +137,14 @@ namespace AGRemapCore {
 
         /**
          * @brief A role's hash the game binds once the texture's mips have streamed in: ``<role>Live``
+         *        (:cpp:member:`Hashes::LiveSuffix`)
          */
-        static inline const std::string LiveSuffix = "Live";
+        static inline const std::string& LiveSuffix = Hashes::LiveSuffix;
 
         /**
-         * @brief A role's older hash: ``<role>Old``, ``<role>Old2``, ...
+         * @brief A role's older hash: ``<role>Old``, ``<role>Old2``, ... (:cpp:member:`Hashes::OldSuffix`)
          */
-        static inline const std::string OldSuffix = "Old";
+        static inline const std::string& OldSuffix = Hashes::OldSuffix;
 
         // ---- the words of a WWMIFixerConfig::Shader line's value ----
 

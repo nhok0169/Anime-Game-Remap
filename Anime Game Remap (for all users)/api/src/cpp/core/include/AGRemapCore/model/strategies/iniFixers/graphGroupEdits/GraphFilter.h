@@ -122,6 +122,32 @@ namespace AGRemapCore {
             Predicate predicate;
 
             /**
+             * @brief
+             @rst
+             Whether a graph left with no `KVP`_ at all is taken out of its group -- eg. a mod object the predicate
+             finds has nothing for the fix. Such a graph is removed WHOLE, its `sections`_ left as they are: a graph shares
+             `sections`_ with others (a command list several objects run), which filtering it first would empty for all
+             of them. **Default**: ``false``
+             @endrst
+             */
+            bool removeEmptied = false;
+
+            /**
+             * @brief Whether 'graph' holds at least one `KVP`_, in any part of any `section`_
+             *
+             * @param graph The graph
+             */
+            static bool hasKVPs(const Graph& graph);
+
+            /**
+             * @brief Whether 'predicate' keeps at least one `KVP`_ of 'graph'. An empty predicate keeps every one
+             *
+             * @param graph The graph
+             * @param predicate Decides which `KVPs`_ are kept
+             */
+            static bool keepsAny(const Graph& graph, const Predicate& predicate);
+
+            /**
              * @brief Constructs a new filtering edit
              *
              * @param graphIds The ids of the graphs to filter

@@ -281,6 +281,30 @@ List[Tuple[Any, ...]]
     The matching keys, in the order they were filed; empty when none matches
         )doc"))
 
+        .def("versionOf", [](const CoreModMappedAssets &self, const std::string &asset, const py::object &nonVersionVals) {
+            return self.versionOf(asset, resolveNonVersionValsFilter(self, nonVersionVals));
+        }, py::arg("asset"), py::arg("nonVersionVals") = py::none(), py::doc(R"doc(
+The version whose rows hold 'asset' -- the newest one with a matching key
+
+What a value tells about the data it came from: a mod's ``vb0`` hash says which version of the character it was made
+for
+
+Parameters
+----------
+asset: Any
+    The asset value to search for
+
+nonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]]
+    The non-version value filter -- see :meth:`hasFrom`
+
+    **Default**: ``None``
+
+Returns
+-------
+Optional[:class:`Version`]
+    The version, or ``None`` when no row holds 'asset'
+        )doc"))
+
         .def("replace", [](const CoreModMappedAssets &self, const std::string &asset, const py::object &fromVersion, const py::object &fromNonVersionVals, const py::object &toVersion, const std::string &toAssetName, bool errorOnNotFound) -> py::object {
             std::optional<AGRC::Version> from = parseVersionArg(fromVersion);
             std::optional<AGRC::Version> to = parseVersionArg(toVersion);

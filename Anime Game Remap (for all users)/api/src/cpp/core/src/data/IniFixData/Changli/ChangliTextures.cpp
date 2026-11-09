@@ -12,7 +12,6 @@
 // ##### EndCredits
 
 #include "AGRemapCore/data/IniFixData/Changli/ChangliTextures.h"
-#include "AGRemapCore/data/IniFixData/Changli/ChangliThumbprints.h"
 
 
 namespace AGRemapCore {
@@ -101,7 +100,7 @@ namespace AGRemapCore {
         };
 
         // ---- her own textures' pixels, for a file no hash and no register names ----
-        facts.textureThumbprints = changliTextureThumbprints();
+        // textureThumbprints: read off TextureThumbprints (WWMIParserConfig::withGameData, WWMIFixerConfig::withGameData)
 
         // ---- a role the mod ships no file for falls back to HER game texture ----
         // The hair map, the eye textures and the glow are the same hashes on both skins, so the game

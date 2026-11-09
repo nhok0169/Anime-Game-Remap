@@ -23,13 +23,13 @@
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
+#include "AGRemapCore/constants/Colours.h"
 #include "AGRemapCore/model/textures/Colour.h"
 
 
 namespace AGRemapCore {
     namespace {
         const int NormalMapSize = 1024;
-        const Colour NormalMapBlue(128, 128, 255);
 
         // 1, not 0 -- see XianglingFixer's note on the difference.
         const int NearlyTransparent = 1;
@@ -65,7 +65,7 @@ namespace AGRemapCore {
                                           {"ps-t1", {{"ps-t2"}}, true}}}};
 
         config.texAdds = {{"dress", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapBlue)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapBlue)}};
 
         // ---- the 6.1-era defaults, and 5.x's own draw-call move ----
         config.swapFaceRegs = false;
@@ -113,7 +113,7 @@ namespace AGRemapCore {
         // The head's freed ps-t0 is nulled; the dress's takes an invented blue normal map.
         config.objNewRegVals.push_back({"head", {{"ps-t0", "null"}}});
         config.texAdds = {{"dress", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapBlue)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapBlue)}};
 
         // ---- what this row does with the 6.1-era defaults ----
         config.swapFaceRegs = false;
@@ -176,7 +176,7 @@ namespace AGRemapCore {
 
         // ...and the normal map the dress copy needs, which nothing in a HuTao mod carries.
         config.texAdds = {{"dress", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapBlue)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapBlue)}};
 
         // The two copies that must not draw, plus the head's now-vacant diffuse slot.
         config.objNewRegVals = {{"head", {{"ps-t0", "null"}}},

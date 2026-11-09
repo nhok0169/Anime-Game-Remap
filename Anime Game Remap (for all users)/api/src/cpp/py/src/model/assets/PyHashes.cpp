@@ -52,5 +52,48 @@ map: Optional[Dict[Any, List[Any]]]
     predefined mods
 
     **Default**: ``None``
+        )doc"))
+
+        .def_property_readonly_static("LiveSuffix", [](py::object) { return AGRC::Hashes::LiveSuffix; }, py::doc(R"doc(
+:class:`str`: A hash type's later generation of the same role's hash: ``<type>Live``, the hash bound once a texture's
+mips have streamed in
+        )doc"))
+        .def_property_readonly_static("OldSuffix", [](py::object) { return AGRC::Hashes::OldSuffix; }, py::doc(R"doc(
+:class:`str`: A hash type's older generations: ``<type>Old``, ``<type>Old2``, ...
+        )doc"))
+
+        .def_static("generationOf", &AGRC::Hashes::generationOf, py::arg("hashType"), py::doc(R"doc(
+The hash type a generation of it is filed as, and which generation: ``("bangsDiffuse", 0)`` for ``"bangsDiffuse"``,
+``1`` for its :attr:`LiveSuffix` (``"bangsDiffuseLive"``), ``2``, ``3``, ... for its :attr:`OldSuffix`, ``Old2``, ... --
+so every hash a texture has had can be read as the one type
+
+Parameters
+----------
+hashType: :class:`str`
+    The hash type, as the table files it
+
+Returns
+-------
+Tuple[:class:`str`, :class:`int`]
+    The base type and the generation
+)doc"))
+        .def("age", &AGRC::Hashes::age, py::arg("name"), py::arg("hash"), py::doc(R"doc(
+How old 'hash' is among 'name''s hashes, lower newer: the versions this table files 'name' at that are newer than the
+one filing 'hash' (100 each), then the generation its hash type names -- ``0`` for a type's current hash, ``1`` for its
+:attr:`LiveSuffix`, ``2``, ``3``, ... for its :attr:`OldSuffix`, ``Old2``, ... The lowest over every row filing 'hash'
+(case-insensitively); ``1 << 20`` when none does
+
+Parameters
+----------
+name: :class:`str`
+    The mod name the hashes are filed under
+
+hash: :class:`str`
+    The hash
+
+Returns
+-------
+:class:`int`
+    The age
         )doc"));
 }

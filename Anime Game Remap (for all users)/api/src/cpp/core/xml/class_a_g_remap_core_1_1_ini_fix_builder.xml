@@ -80,7 +80,7 @@ version)* -&gt; *(target mod at a target version)* pair
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="267" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" bodystart="267" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="286" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" bodystart="286" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_fix_builder_1ac5a850b62747b8d51353b34741a413f0" prot="private" static="no" mutable="no">
         <type>std::shared_ptr&lt; const <ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1ae367280bdaa331711bf03470eb03e2d4" kindref="member">ArgsRepo</ref> &gt;</type>
@@ -94,7 +94,7 @@ version)* -&gt; *(target mod at a target version)* pair
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="269" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" bodystart="269" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="288" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" bodystart="288" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_fix_builder_1a19f3ecc665bd1a087fbe81a284a9d0ba" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -109,7 +109,7 @@ version)* -&gt; *(target mod at a target version)* pair
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="271" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" bodystart="271" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="290" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" bodystart="290" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -271,6 +271,79 @@ fixed-factory builder
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="170" column="18" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="106" bodyend="108"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_1a680fe84fb6efda091799a3d8148d5503" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilder::factoryOf</definition>
+        <argsstring>(const std::string &amp;fromModName, const std::string &amp;toModName, const std::optional&lt; Version &gt; &amp;fromVersion=std::nullopt, const std::optional&lt; Version &gt; &amp;toVersion=std::nullopt) const</argsstring>
+        <name>factoryOf</name>
+        <qualifiedname>AGRemapCore::IniFixBuilder::factoryOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fromModName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>toModName</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>fromVersion</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>toVersion</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The factory #build builds with for these keys, without building anything: a runtime override
+(:cpp:class:`StrategyOverrides`) first, then the fixed factory or the #getBuilderArgs row, else
+#defaultFactory. A shipped fix&apos;s config is read off it -- eg. :cpp:func:`WWMIFixerConfig::ofFactory`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fromModName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod being fixed <bold>from</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toModName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod being fixed <bold>to</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version the <computeroutput>.ini</computeroutput> file originates from; <computeroutput>std::nullopt</computeroutput> means the latest listed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version being fixed to; <computeroutput>std::nullopt</computeroutput> means the latest listed</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The factory </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="187" column="21" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="110" bodyend="137"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_1aae6b5a0c5bab4633554a3853169e33e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_fixer" kindref="compound">BaseIniFixer</ref>&lt;&gt; &gt;</type>
         <definition>std::shared_ptr&lt; BaseIniFixer&lt;&gt; &gt; AGRemapCore::IniFixBuilder::build</definition>
@@ -385,7 +458,7 @@ means the latest listed :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="210" column="29" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="110" bodyend="142"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="229" column="29" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="139" bodyend="151"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_1a281bf90ee7942ac2b57a82535c4841da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_fixer" kindref="compound">BaseIniFixer</ref>&lt;&gt; &gt; &gt; &gt;</type>
@@ -501,7 +574,7 @@ for this source is built
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="258" column="25" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="144" bodyend="215"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="277" column="25" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="153" bodyend="224"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -531,7 +604,7 @@ This is what :cpp:member:`ModType::iniFixBuilder` holds. The exact sibling of
    anything a template could actually carry
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="58" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" bodystart="58" bodyend="272"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="58" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" bodystart="58" bodyend="291"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_1ae367280bdaa331711bf03470eb03e2d4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilder</scope><name>ArgsRepo</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_1aae6b5a0c5bab4633554a3853169e33e6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilder</scope><name>build</name></member>
@@ -541,6 +614,7 @@ This is what :cpp:member:`ModType::iniFixBuilder` holds. The exact sibling of
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_1a19f3ecc665bd1a087fbe81a284a9d0ba" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFixBuilder</scope><name>errorOnNotFound_</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilder</scope><name>Factory</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_1ae44709e8a04a0d54c33c803b14ce48d2" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFixBuilder</scope><name>factory_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_1a680fe84fb6efda091799a3d8148d5503" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilder</scope><name>factoryOf</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_1a666e8aaa4606a6a8257322fca0f92cb3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilder</scope><name>getBuilderArgs</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_1aa1c85b50dbf4cb1dfdee1868ba99f0b7" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilder</scope><name>getErrorOnNotFound</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_1af2506e9c4b59d2159dd34df50d6783d8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilder</scope><name>IniFixBuilder</name></member>

@@ -27,43 +27,12 @@ namespace AGRC = AGRemapCore;
 /**
  * @brief
  @rst
- The `pybind11`_-facing subclass of `AGRC::RegIfTemplateAdd`\\<std::string, std::string\\>. It holds
- the exact `Python`_ ``IfTemplate`` passed (which is what keeps the borrowed template alive), and
- re-derives the core pointer from it at the start of every ``edit`` (see #refresh)
+ The `Python`_ ``RegIfTemplateAdd`` is :cpp:class:`AGRemapCore::RegIfTemplateAdd` itself: its arguments are parsed into the C++ members
+ when it is built or they are set, and read back from them -- so one built in `Python`_ runs in a C++ fixer's list, and
+ one built in C++ reads in `Python`_ as a ``RegIfTemplateAdd``
  @endrst
  */
-class PyRegIfTemplateAdd: public AGRC::RegIfTemplateAdd<std::string, std::string> {
-    public:
-
-        /**
-         * @brief The C++ core class this wraps
-         */
-        using Core = AGRC::RegIfTemplateAdd<std::string, std::string>;
-
-        /**
-         * @brief The exact `Python`_ template, or ``None``
-         */
-        py::object ifTemplateObj;
-
-        /**
-         * @brief The `Python`_ section filter, or ``None`` -- see ``sectionFilter``
-         */
-        py::object sectionFilterObj;
-
-        /**
-         * @brief Constructs a new template-adding edit
-         *
-         * @param ifTemplateObj The Python ``IfTemplate``, or None
-         * @param position Where in each root the parts go
-         * @param key The key ``AfterKey`` inserts after
-         */
-        PyRegIfTemplateAdd(py::object ifTemplateObj, Position position, std::string key);
-
-        /**
-         * @brief Re-derives the core template pointer from #ifTemplateObj, and the core section filter from #sectionFilterObj
-         */
-        void refresh();
-};
+using PyRegIfTemplateAdd = AGRC::RegIfTemplateAdd<std::string, std::string>;
 
 
 void initCppRegIfTemplateAdd(pybind11::module_ &m);

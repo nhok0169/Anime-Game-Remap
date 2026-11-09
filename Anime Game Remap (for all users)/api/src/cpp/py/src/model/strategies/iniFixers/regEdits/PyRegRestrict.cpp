@@ -24,31 +24,28 @@ namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
 
-PyRegRestrict::PyRegRestrict(py::object allowedKeysObj, py::object keyFilterObj, bool keepFirstOnly):
-    Core(std::nullopt, {}, keepFirstOnly), allowedKeysObj(std::move(allowedKeysObj)), keyFilterObj(std::move(keyFilterObj)) {}
+namespace {
+    struct PyKeyFilter {
+        py::object filter;
+        bool operator()(const std::string &key) const {
+            py::gil_scoped_acquire gil;
+            return py::cast<bool>(filter(key));
+        }
+    };
 
-
-void PyRegRestrict::refresh(const py::object &modType) {
-    (void)modType;
-
-    if (allowedKeysObj.is_none()) {
-        allowedKeys = std::nullopt;
-    } else {
+    std::optional<std::vector<std::string>> allowedKeysOf(const py::object &allowedKeys) {
+        if (allowedKeys.is_none()) {
+            return std::nullopt;
+        }
         std::vector<std::string> parsed;
-        for (auto key : allowedKeysObj) {
+        for (auto key : allowedKeys) {
             parsed.push_back(py::str(key).cast<std::string>());
         }
-
-        allowedKeys = std::move(parsed);
+        return parsed;
     }
 
-    if (keyFilterObj.is_none()) {
-        keyFilter = {};
-    } else {
-        py::object held = keyFilterObj;
-        keyFilter = [held](const std::string &key) {
-            return py::cast<bool>(held(key));
-        };
+    PyRegRestrict::KeyFilter keyFilterOf(const py::object &keyFilter) {
+        return keyFilter.is_none() ? PyRegRestrict::KeyFilter() : PyRegRestrict::KeyFilter(PyKeyFilter{keyFilter});
     }
 }
 
@@ -101,21 +98,22 @@ keepFirstOnly: :class:`bool`
     )doc");
 
     cls.def(py::init([](py::object allowedKeys, py::object keyFilter, bool keepFirstOnly) {
-        return std::make_unique<PyRegRestrict>(std::move(allowedKeys), std::move(keyFilter), keepFirstOnly);
+        return std::make_unique<PyRegRestrict>(allowedKeysOf(allowedKeys), keyFilterOf(keyFilter), keepFirstOnly);
     }), py::arg("allowedKeys") = py::none(), py::arg("keyFilter") = py::none(), py::arg("keepFirstOnly") = true);
 
     cls.def_property("allowedKeys", [](const PyRegRestrict &self) {
-        return self.allowedKeysObj;
+        return self.allowedKeys.has_value() ? py::object(py::cast(*self.allowedKeys)) : py::none();
     }, [](PyRegRestrict &self, py::object allowedKeys) {
-        self.allowedKeysObj = std::move(allowedKeys);
+        self.allowedKeys = allowedKeysOf(allowedKeys);
     }, py::doc(R"doc(
 Optional[List[:class:`str`]]: The governed keys a part may keep, or ``None`` for all of them
     )doc"));
 
     cls.def_property("keyFilter", [](const PyRegRestrict &self) {
-        return self.keyFilterObj;
+        const PyKeyFilter *own = self.keyFilter ? self.keyFilter.target<PyKeyFilter>() : nullptr;
+        return own != nullptr ? own->filter : (self.keyFilter ? py::cast(self.keyFilter) : py::none());
     }, [](PyRegRestrict &self, py::object keyFilter) {
-        self.keyFilterObj = std::move(keyFilter);
+        self.keyFilter = keyFilterOf(keyFilter);
     }, py::doc(R"doc(
 Optional[Callable[[:class:`str`], :class:`bool`]]: Which keys this edit governs, or ``None`` for every key
     )doc"));

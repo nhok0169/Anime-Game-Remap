@@ -340,7 +340,7 @@ edits make copies of the .ini file
     )doc"));
 
     cls.def_property("srcRegs", [](const PyResRegCollect &self) { return self.srcRegsObj; },
-                     [](PyResRegCollect &self, py::object value) { self.srcRegsObj = std::move(value); },
+                     [](PyResRegCollect &self, py::object value) { self.srcRegsObj = std::move(value); self.refresh(); },
                      py::doc(R"doc(
 Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`], Callable[[:class:`str`], :class:`bool`]]]:
 The different registers that reference the particular resource -- a list for several registers of one graph,
@@ -348,41 +348,41 @@ or a test of a register's name for every register of the graph it accepts (eg. `
     )doc"));
 
     cls.def_property("resEdits", [](const PyResRegCollect &self) { return self.resEditsObj; },
-                     [](PyResRegCollect &self, py::object value) { self.resEditsObj = std::move(value); },
+                     [](PyResRegCollect &self, py::object value) { self.resEditsObj = std::move(value); self.refresh(); },
                      py::doc(R"doc(
 Dict[:class:`str`, :class:`BaseResEdit`]: Describes how a resource should be built
     )doc"));
 
     cls.def_property("partPredicates", [](const PyResRegCollect &self) { return self.partPredicatesObj; },
-                     [](PyResRegCollect &self, py::object value) { self.partPredicatesObj = std::move(value); },
+                     [](PyResRegCollect &self, py::object value) { self.partPredicatesObj = std::move(value); self.refresh(); },
                      py::doc(R"doc(
 Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`SectionIterData`], :class:`Ranges`]]:
 The predicates for which particular order indices to process for some :class:`IfContentPart`
     )doc"));
 
     cls.def_property("resPredicates", [](const PyResRegCollect &self) { return self.resPredicatesObj; },
-                     [](PyResRegCollect &self, py::object value) { self.resPredicatesObj = std::move(value); },
+                     [](PyResRegCollect &self, py::object value) { self.resPredicatesObj = std::move(value); self.refresh(); },
                      py::doc(R"doc(
 Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]]:
 The predicates to check whether some reference to the resource should be used
     )doc"));
 
     cls.def_property("remaps", [](const PyResRegCollect &self) { return self.remapsObj; },
-                     [](PyResRegCollect &self, py::object value) { self.remapsObj = std::move(value); },
+                     [](PyResRegCollect &self, py::object value) { self.remapsObj = std::move(value); self.refresh(); },
                      py::doc(R"doc(
 Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[:class:`str`, Tuple]]]: Whether
 to remap the graphs searched from :attr:`srcRegs`
     )doc"));
 
     cls.def_property("trackKeys", [](const PyResRegCollect &self) { return self.trackKeysObj; },
-                     [](PyResRegCollect &self, py::object value) { self.trackKeysObj = std::move(value); },
+                     [](PyResRegCollect &self, py::object value) { self.trackKeysObj = std::move(value); self.refresh(); },
                      py::doc(R"doc(
 Union[:class:`bool`, Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`bool`]]: Whether
 to track the `KVPs`_ in the .ini file when searching for particular resources
     )doc"));
 
     cls.def_property("keysToTrack", [](const PyResRegCollect &self) { return self.keysToTrackObj; },
-                     [](PyResRegCollect &self, py::object value) { self.keysToTrackObj = std::move(value); },
+                     [](PyResRegCollect &self, py::object value) { self.keysToTrackObj = std::move(value); self.refresh(); },
                      py::doc(R"doc(
 Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Optional[Set[:class:`str`]]]: Specific keys to
 track in the .ini file when searching particular resources

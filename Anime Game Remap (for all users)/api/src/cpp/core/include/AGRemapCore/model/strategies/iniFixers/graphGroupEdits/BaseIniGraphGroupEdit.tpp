@@ -50,6 +50,24 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    bool BaseIniGraphGroupEdit<K, V, KeyHash, KeyEqual>::heldAnywhere(const GraphGroups& graphGroups, const std::vector<ModObj>& objs) {
+        for (const ModObj& obj : objs) {
+            for (std::size_t g = 0; g < graphGroups.size(); ++g) {
+                if (graphGroups.getGraph(g, obj) != nullptr) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    bool BaseIniGraphGroupEdit<K, V, KeyHash, KeyEqual>::gatesPass(const GraphGroups& graphGroups, const std::vector<ModObj>& onlyWith,
+                                                                 const std::vector<ModObj>& onlyWithout) {
+        return (onlyWith.empty() || heldAnywhere(graphGroups, onlyWith)) && !heldAnywhere(graphGroups, onlyWithout);
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     bool BaseIniGraphGroupEdit<K, V, KeyHash, KeyEqual>::addGraph(GraphGroups& graphGroups, const GraphId& id, Graph* graph) {
         if (id.iniIndex >= graphGroups.size()) {
             return false;

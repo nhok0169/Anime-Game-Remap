@@ -18,6 +18,7 @@
 #include "AGRemapCore/data/IniFixData/GIMICharFixer.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/ColourReplaceFilter.h"
+#include "AGRemapCore/constants/Colours.h"
 #include "AGRemapCore/model/textures/Colour.h"
 #include "AGRemapCore/model/textures/ColourRange.h"
 
@@ -25,18 +26,14 @@
 namespace AGRemapCore {
 
     namespace {
-        // Colours.NormalMapYellow, and the purple band Colours/ColourRanges call NormalMapPurple1 --
-        // (128, 0, 128) up to (128, 98, 128).
-        const Colour NormalMapYellow(128, 128, 0);
-        const Colour NormalMapPurpleMin(128, 0, 128);
-        const Colour NormalMapPurple1(128, 98, 128);
-
+        // (The yellow and the purple band are the shared Colours::NormalMapYellow and
+        // ColourRanges::NormalMapPurple1: (128, 0, 128) up to (128, 98, 128).)
 
         // HER HEAD: only the purple is repainted yellow. arlecchino5_4's
         // ColourReplaceFilter(NormalMapYellow, coloursToReplace = {ColourRanges.NormalMapPurple1}).
         void yellowHeadNormal(TextureFile& texFile) {
-            ColourReplaceFilter filter(NormalMapYellow,
-                                        ColourOrRangeSet{ColourRange(NormalMapPurpleMin, NormalMapPurple1)});
+            ColourReplaceFilter filter(Colours::NormalMapYellow,
+                                        ColourOrRangeSet{ColourRanges::NormalMapPurple1});
             filter.transform(texFile);
         }
 
@@ -44,7 +41,7 @@ namespace AGRemapCore {
         // HER BODY: the whole texture goes yellow -- the same filter with NO coloursToReplace, which
         // is the difference between the two and the reason they are separate edits rather than one.
         void yellowBodyNormal(TextureFile& texFile) {
-            ColourReplaceFilter filter(NormalMapYellow);
+            ColourReplaceFilter filter(Colours::NormalMapYellow);
             filter.transform(texFile);
         }
     }

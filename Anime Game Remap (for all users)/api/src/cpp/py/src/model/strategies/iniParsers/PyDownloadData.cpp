@@ -103,6 +103,38 @@ Returns
 :class:`str`
     The path
                     )doc"))
+        .def_static("fixedFileName", &Tools::fixedFileName, py::arg("prefix"), py::arg("kind"), py::arg("ext"), py::doc(R"doc(
+The name a download is saved under: ``<prefix><kind><RemapDL><ext>`` -- eg. ``"AmberBlendRemapDL.buf"``
+
+Parameters
+----------
+prefix: :class:`str`
+    The character's own file prefix, eg. ``"Amber"``
+
+kind: :class:`str`
+    What the file holds, eg. ``"Blend"``
+
+ext: :class:`str`
+    The file extension, **including** the dot
+
+Returns
+-------
+:class:`str`
+    The file name)doc"))
+        .def_static("versionFolder", &Tools::versionFolder, py::arg("version"), py::doc(R"doc(
+The folder a game version's downloads are filed in: the version with its dots as underscores, eg. ``3_7`` for
+``3.7`` -- so a download's folder is read off the version of the asset row it comes from (a texture's
+:class:`Hashes` row, say) rather than written out
+
+Parameters
+----------
+version: :class:`Version`
+    The game version
+
+Returns
+-------
+:class:`str`
+    The folder)doc"))
         .def_static("url", &Tools::url, py::arg("game"), py::arg("charFolder"), py::arg("versionFolder"), py::arg("prefix"),
                     py::arg("kind"), py::arg("ext"), py::doc(R"doc(
 The whole url of a download: :meth:`downloadFolder`, then :meth:`urlPath`

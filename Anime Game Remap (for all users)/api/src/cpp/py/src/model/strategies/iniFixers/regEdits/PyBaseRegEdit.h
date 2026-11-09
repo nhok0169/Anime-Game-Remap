@@ -22,6 +22,7 @@
 #include <pybind11/stl.h>
 
 #include "../../../../tools/PyRanges.h"
+#include "../PyEditScope.h"
 #include "../../../iftemplate/PyIfContentPart.h"  // reuses PyIfContentPart (the exact ContentPart
                                                    // instantiation every reg edit below edits) and
                                                    // its parseRemoveKeys/parseKeyRemap/
@@ -111,10 +112,14 @@ void bindRegEditEdit(PyClass &cls, const char *docstring) {
         // thing to pass down. The *Python* object is handed to refresh() instead: RegNewVals
         // needs it to call a user-supplied ReplaceIf predicate as predicate(oldValue, modType).
         // Every other reg edit ignores it, exactly as its pure-Python original did.
-        self.refresh(modType);
+        if constexpr (requires { self.refresh(modType); }) {
+            self.refresh(modType);
+        }
 
+        // the call's own modType reaches the edit's callables as itself (PyEditScope)
+        PyEditScope scope(modType, py::none());
         PyPartRanges ranges(partRanges);
-        self.edit(py::cast<PyIfContentPart &>(part), sectionName, nullptr, modName, ranges.get());
+        self.edit(py::cast<PyIfContentPart &>(part), sectionName, editModTypeFromPy(modType), modName, ranges.get());
 
         // Returns the original Python object rather than py::cast()-ing the C++ reference back,
         // so 'result is part' holds (matching the pure-Python originals, which all did a plain

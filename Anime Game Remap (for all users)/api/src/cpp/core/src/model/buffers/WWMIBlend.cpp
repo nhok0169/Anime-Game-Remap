@@ -88,44 +88,24 @@ namespace AGRemapCore {
 
 
     std::vector<std::unique_ptr<BufElementType>> WWMIBlend::blendElements(std::size_t influences) {
-        // The four-wide name is what a dump of a four-influence character writes; WWMI Tools' own
-        // `.fmt` calls any other width `R8_UINT`
-        const auto byte = [] { return std::make_unique<BufUnSignedInt>("UnsignedInt8", 1, false); };
-        const std::string format = influences == 4 ? "R8G8B8A8_UINT" : "R8_UINT";
-
-        std::vector<std::unique_ptr<BufElementType>> elements;
-        elements.push_back(BufElementType::repeated(BlendFile::BlendIndicesKey, influences, byte, format));
-        elements.push_back(BufElementType::repeated(BlendFile::BlendWeightKey, influences, byte, format));
-        return elements;
+        return BlendFile::byteElements(influences);
     }
 
     std::vector<std::unique_ptr<BufElementType>> WWMIBlend::vertexVGElements(std::size_t influences) {
-        std::vector<std::unique_ptr<BufElementType>> elements;
-        elements.push_back(BufElementType::repeated(
-            BlendFile::BlendIndicesKey, influences,
-            [] { return std::make_unique<BufUnSignedInt>("UnsignedInt16", 2, false); }, "R16_UINT"));
-
-        return elements;
+        return BlendFile::idElements(influences, 2);
     }
 
     std::optional<WWMIBlend::Layout> WWMIBlend::layoutOf(const std::string& blendPath, const std::string& positionPath) {
-        const std::optional<std::uintmax_t> positionSize = FileService::fileSize(positionPath);
-        if (!positionSize.has_value() || *positionSize < PositionStride) {
+        const std::optional<std::size_t> vertices = BufFile::linesOf(positionPath, PositionStride);
+        if (!vertices.has_value()) {
             return std::nullopt;
         }
 
-        const auto vertices = static_cast<std::uintmax_t>(*positionSize / PositionStride);
-        const std::optional<std::uintmax_t> blendSize = FileService::fileSize(blendPath);
-        if (vertices == 0 || !blendSize.has_value() || *blendSize == 0 || *blendSize % vertices != 0) {
+        const std::optional<std::size_t> influences = BlendFile::influencesOf(blendPath, *vertices);
+        if (!influences.has_value()) {
             return std::nullopt;
         }
-
-        const std::uintmax_t stride = *blendSize / vertices;
-        if (stride < 2 || stride % 2 != 0) {
-            return std::nullopt;
-        }
-
-        return Layout{static_cast<std::size_t>(vertices), static_cast<std::size_t>(stride / 2)};
+        return Layout{*vertices, *influences};
     }
 
     std::size_t WWMIBlend::influencesOf(const std::string& blendPath, long long vertices,
@@ -140,14 +120,7 @@ namespace AGRemapCore {
         if (vertices <= 0) {
             return fallback;
         }
-
-        const std::optional<std::uintmax_t> blendSize = FileService::fileSize(blendPath);
-        if (!blendSize.has_value() || *blendSize == 0 || *blendSize % static_cast<std::uintmax_t>(vertices) != 0) {
-            return fallback;
-        }
-
-        const std::uintmax_t stride = *blendSize / static_cast<std::uintmax_t>(vertices);
-        return (stride < 2 || stride % 2 != 0) ? fallback : static_cast<std::size_t>(stride / 2);
+        return BlendFile::influencesOf(blendPath, static_cast<std::size_t>(vertices)).value_or(fallback);
     }
 
     std::vector<int> WWMIBlend::componentOfVertex(const std::string& indexPath,
@@ -389,14 +362,10 @@ namespace AGRemapCore {
                                      + " a WWMI blend remap holds");
         }
 
-        std::vector<std::uint16_t> forward(RemapSize, 0);
-        std::vector<std::uint16_t> reverse(RemapSize, 0);
-        std::uint16_t local = 0;
-        for (const std::uint16_t merged : used) {
-            forward[local] = merged;
-            reverse[merged] = local;
-            ++local;
-        }
+        // the row's targets numbered in a table of RemapSize entries (VGRemap::compact)
+        const VGRemap::Compact table = row.compact(RemapSize);
+        const std::vector<std::uint16_t>& forward = table.forward;
+        const std::vector<std::uint16_t>& reverse = table.reverse;
 
         // ---- the blend, with the LOCAL ids the remap addresses ----
         // What WWMI's BlendRemapper writes there at run time (`RemappedBlend[v*16+i] =
@@ -463,20 +432,7 @@ namespace AGRemapCore {
     }
 
     std::vector<std::uint16_t> WWMIBlend::reverseOf(const VGRemap& row) {
-        std::set<std::uint16_t> used;
-        for (const auto& [srcBone, dstBone] : row.getRemap()) {
-            (void)srcBone;
-            if (dstBone >= 0 && static_cast<std::size_t>(dstBone) < RemapSize) {
-                used.insert(static_cast<std::uint16_t>(dstBone));
-            }
-        }
-
-        std::vector<std::uint16_t> reverse(RemapSize, 0);
-        std::uint16_t local = 0;
-        for (const std::uint16_t merged : used) {
-            reverse[merged] = local++;
-        }
-        return reverse;
+        return row.compact(RemapSize).reverse;
     }
 
     ByteVec WWMIBlend::componentBlend(const std::string& blendPath, const std::string& positionPath, long long vgOffset,

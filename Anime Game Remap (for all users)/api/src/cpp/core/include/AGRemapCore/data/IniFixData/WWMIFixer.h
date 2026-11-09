@@ -18,6 +18,7 @@
 #include <cstdint>
 #include <functional>
 #include <map>
+#include <memory>
 #include <optional>
 #include <set>
 #include <string>
@@ -29,12 +30,17 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/WWMITextureFacts.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
+#include "AGRemapCore/model/VGRemap.h"
+#include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/textures/Colour.h"
 
 
 namespace AGRemapCore {
     class IniParseData;
+    class ModType;
     class IniFile;
 
     /**
@@ -88,17 +94,62 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         The config the library's own fix from 'source' to 'target' is built from, or ``std::nullopt`` for a pair it has
-         no WWMI fix for -- to start a variant of a shipped fix from (change a field, hand it to
-         :cpp:func:`makeWWMIFixer`), or to read what it does
+         The config a fixer factory from :cpp:func:`makeWWMIFixer` was made with, or ``std::nullopt`` for any other
+         factory. A shipped fix's factory is its mod type's builder row (:cpp:func:`IniFixBuilder::factoryOf`), so this
+         reads what a shipped fix does -- or starts a variant of it (change a field, hand it to :cpp:func:`makeWWMIFixer`)
          @endrst
          *
-         * @param source The character a mod is made for
-         * @param target The character it is remapped onto
+         * @param factory The factory
          *
          * @return The config
          */
-        static std::optional<WWMIFixerConfig> of(ModTypeId source, ModTypeId target);
+        static std::optional<WWMIFixerConfig> ofFactory(const IniFixBuilder::Factory& factory);
+
+        /**
+         * @brief
+         @rst
+         This config with its GAME DATA read off the versioned asset tables, at the run's versions -- what a config
+         carries is the pair's choices, and what the game draws with comes from the tables, so a fix runs at any
+         version the tables have rows for:
+
+         * :cpp:member:`slotPasses`, :cpp:member:`passVertexShaders` and :cpp:member:`filterIndices`, from the
+           target's :cpp:class:`DrawPasses` (each slot's ``main``, ``main2``, ... and ``other``, ``other2``, ... passes,
+           their vertex shaders and ``filter_index`` tags)
+         * the keys of :cpp:member:`extraPassRegs` and :cpp:member:`extraPassNoDraw` written as a pass NAME
+           (``other``, ``other2``), as the pass's pixel shader
+         * :cpp:member:`shapeKeyDispatchSize` (:cpp:class:`ShapeKeyDispatchSizes`) and :cpp:member:`shapeKeyOrder`
+           (:cpp:class:`ShapeKeyRemaps`)
+         * each :cpp:struct:`Shader`'s code and constant buffers, for one naming its :cpp:class:`GameShaders` row
+           (:cpp:member:`Shader::game`, and a pass's own code by :cpp:member:`Shader::passGame`)
+         * the source's game textures' thumbprints (:cpp:member:`sourceTextures`, :cpp:class:`TextureThumbprints`)
+         * a :cpp:struct:`CreatedTexture`'s colour, for one naming its :cpp:class:`MaterialColours` row
+         * :cpp:member:`sourceVgMaps`: the source's :cpp:class:`VGRemaps` rows from each component onto her merged
+           skeleton (``""``), at her oldest ``vb0``'s version
+         * :cpp:member:`stashRegs`, from :cpp:member:`stashRoles` and the target's :cpp:class:`TextureRegisters`
+         * :cpp:member:`sourceVersionByVb0`, when :cpp:member:`sourceVersionFromVb0` (see :cpp:func:`vb0VersionsOf`)
+
+         A field the tables hold nothing for keeps the config's value. The compiled fixer calls this once per fix
+         @endrst
+         *
+         * @param source The source's mod type
+         * @param target The target's mod type
+         * @param fromVersion The source's version (the mod's) -- ``std::nullopt`` reads each table's newest rows
+         * @param toVersion The target's version (the fix's)
+         *
+         * @return The filled config
+         */
+        WWMIFixerConfig withGameData(const ModType& source, const ModType& target, const std::optional<Version>& fromVersion,
+                                     const std::optional<Version>& toVersion) const;
+
+        /**
+         * @brief Each ``vb0`` hash :cpp:class:`HashData` files a character's model under (lower case) -> its version
+         *     (``Version::toString``)
+         *
+         * @param source The character's mod type
+         *
+         * @return The versions
+         */
+        static std::map<std::string, std::string> vb0VersionsOf(const ModType& source);
 
         /**
          * @brief One register of a target slot's draw and the ROLE of the mod texture bound there
@@ -214,6 +265,25 @@ namespace AGRemapCore {
             std::string name;
 
             /**
+             * @brief
+             @rst
+             The :cpp:class:`GameShaders` row its code and constant buffers are read from, eg. ``LynaeFilm`` -- the
+             source's or the target's game shader (:cpp:func:`WWMIFixerConfig::withGameData` fills :cpp:member:`ps`
+             and :cpp:member:`constantBuffers`). Empty: the config gives them
+             @endrst
+             */
+            std::string game;
+
+            /**
+             * @brief A shader whose code and constant buffers are the :cpp:class:`GameShaders` row 'game' (#game), named after it
+             *
+             * @param game The row, eg. ``LynaeUpper``
+             *
+             * @return The shader
+             */
+            static Shader ofGame(const std::string& game);
+
+            /**
              * @brief The HLSL source, entry point ``main``
              */
             std::string ps;
@@ -261,6 +331,16 @@ namespace AGRemapCore {
              @endrst
              */
             std::vector<std::string> passPs;
+
+            /**
+             * @brief
+             @rst
+             :cpp:member:`passPs` by :cpp:class:`GameShaders` row: per entry of :cpp:member:`passes`, the row whose code
+             that pass draws with (:cpp:func:`WWMIFixerConfig::withGameData` fills :cpp:member:`passPs`). An empty entry
+             keeps that pass's :cpp:member:`passPs`. **Default**: empty
+             @endrst
+             */
+            std::vector<std::string> passGame;
 
             /**
              * @brief
@@ -502,6 +582,16 @@ namespace AGRemapCore {
              * @brief Its width and height. **Default**: ``16``
              */
             int size = 16;
+
+            /**
+             * @brief
+             @rst
+             The target's component and :cpp:class:`MaterialColours` type its colour is read from, eg.
+             ``("component3", "torsoMask.skin")`` (:cpp:func:`WWMIFixerConfig::withGameData`). Empty: :cpp:member:`colour`
+             is the config's
+             @endrst
+             */
+            std::pair<std::string, std::string> material;
         };
 
         /**
@@ -560,6 +650,15 @@ namespace AGRemapCore {
          @endrst
          */
         std::map<std::string, std::string> sourceVersionByVb0;
+
+        /**
+         * @brief
+         @rst
+         Whether :cpp:member:`sourceVersionByVb0` is read off the source's own ``vb0`` rows in :cpp:class:`HashData`
+         (:cpp:func:`vb0VersionsOf`, by :cpp:func:`withGameData`). **Default**: ``false``
+         @endrst
+         */
+        bool sourceVersionFromVb0 = false;
 
 
         /**
@@ -1085,6 +1184,15 @@ namespace AGRemapCore {
          @endrst
          */
         std::map<int, std::vector<std::string>> stashRegs;
+
+        /**
+         * @brief
+         @rst
+         :cpp:member:`stashRegs` by ROLE: slot -> the roles to capture, each at the register the target's
+         :cpp:class:`TextureRegisters` binds it (:cpp:func:`withGameData`), eg. ``{4, {"glow", "flow", "noise"}}``
+         @endrst
+         */
+        std::map<int, std::vector<std::string>> stashRoles;
         /**
          * @brief What a texture-edit filter is allowed to know about the mod it is editing
          */
@@ -1532,7 +1640,11 @@ namespace AGRemapCore {
             std::string file;
 
             /**
-             * @brief The file relative to the ``.ini``'s folder, as the ``filename =`` line writes it
+             * @brief
+             @rst
+             The file relative to the ``.ini``'s folder, as the ``filename =`` line writes it -- empty for the fix to
+             compute it from #file
+             @endrst
              */
             std::string rel;
 
@@ -2197,6 +2309,77 @@ namespace AGRemapCore {
          */
         FileGroups fileGroups(const std::set<int>& drawn, const std::string& sourceName) const;
 
+        /**
+         * @brief
+         @rst
+         The roles as a fix resolves them once the reroutes are known: each reroute (:cpp:member:`drawReroutes`) reads
+         its source component's files, so every ``(role, from)`` entry of :cpp:member:`RoleResources::ofSlotRole` is
+         also filed under ``(role, as)``, unless that entry is there already
+         @endrst
+         *
+         * @param roles The #roleResources decision
+         * @param rerouteFrom Each reroute that took draws: its ``as`` -> its ``from``
+         *
+         * @return The roles
+         */
+        static RoleResources withReroutes(RoleResources roles, const std::map<int, int>& rerouteFrom);
+
+        /**
+         * @brief Whether the target's merged skeleton needs WWMI's blend remap -- see #blendWidth
+         */
+        struct BlendWidth {
+            /**
+             * @brief
+             @rst
+             Whether the remapped blend indices pass what an 8-bit blend index names, so the fix writes a blend remap
+             (and drops the mod's own skeleton lines: :cpp:member:`remappedSkeletonRemovals`)
+             @endrst
+             */
+            bool targetPast256 = false;
+
+            /**
+             * @brief The distinct target bones the vertex group row names
+             */
+            std::size_t bones = 0;
+
+            /**
+             * @brief What the decision has to say, for the log, in order
+             */
+            std::vector<std::string> notes;
+        };
+
+        /**
+         * @brief
+         @rst
+         DOES THE TARGET'S SKELETON PASS AN 8-BIT BLEND INDEX? The vertex group row's largest target bone answers it, a
+         property of the PAIR, so the ``.ini`` and the buffers cannot disagree about whether there is a blend remap. A
+         row naming more distinct target bones than one blend remap holds (:cpp:member:`WWMIBlend::RemapSize`) falls back
+         to an 8-bit blend, and says that every bone past 255 then lands on bone 0
+         @endrst
+         *
+         * @param row The source's vertex group row onto the target, if it has one
+         *
+         * @return The decision
+         */
+        BlendWidth blendWidth(const std::optional<VGRemap>& row) const;
+
+        /**
+         * @brief
+         @rst
+         THE LINES EACH REMAPPED SECTION DROPS. Per remapped source component: :cpp:member:`removedRegs`, plus
+         :cpp:member:`remappedSkeletonRemovals` when ``targetPast256`` -- without RabbitFX's own lines for a component
+         that keeps RabbitFX. A component with nothing to drop is left out. Each is matched with or without ``ref``
+         @endrst
+         *
+         * @param targetPast256 The #blendWidth decision
+         * @param components The remapped source components (every #fileGroups group's)
+         * @param keepsRabbitFX The components that keep the mod's RabbitFX (the #rabbitFXFlags decision's keys)
+         *
+         * @return Per component, the lines it drops
+         */
+        std::map<int, std::vector<RegRemoval>> removedLines(bool targetPast256, const std::set<int>& components,
+                                                           const std::set<int>& keepsRabbitFX) const;
+
         std::map<int, std::vector<ModTexLine>> modTexLines(const IniParseData& data, const RoleResources& roles,
                                                            const TextureLists& lists, const std::set<int>& drawn,
                                                            const std::map<int, int>& rerouteFrom,
@@ -2210,11 +2393,78 @@ namespace AGRemapCore {
      Builds the fixer that remaps a mod of one Wuthering Waves character onto another -- see
      :cpp:struct:`WWMIFixerConfig`. One fixer for the pair: every source component of the mod's
      ``.ini`` is handled by it, and the target's components are draw slots rather than mod types
-     of their own
+     of their own :raw-html:`<br />` :raw-html:`<br />`
+
+     The fix is a LIST of edits, the same for every mod: 'steps', or :cpp:func:`wwmiSteps` of 'config' when it is empty.
+     Change a fix by taking that list, editing it like any list, and handing it back here
      @endrst
      * @param config The pair's config
+     * @param steps The list of edits each fixer runs. **Default**: :cpp:func:`wwmiSteps` of 'config'
      */
-    IniFixBuilder::Factory makeWWMIFixer(WWMIFixerConfig config);
+    IniFixBuilder::Factory makeWWMIFixer(WWMIFixerConfig config, std::vector<std::shared_ptr<BaseIniGraphGroupEdit<>>> steps = {});
+
+    /**
+     * @brief
+     @rst
+     THE WWMI FIX AS A LIST: the edits a fixer of 'config' runs, in order, each named
+     (:cpp:member:`BaseIniGraphGroupEdit::name`) -- the same list for every mod. Each step builds its edits when it runs,
+     from the ``.ini`` file it runs on: ``copies``, ``toggles``, ``slotRemap``, the edits on the target's objects by kind
+     (``textureListCalls``, ``sharedBypass``, ``modTexLines``, ``drawTwins``, ``additions``, ``rerouteFilters``,
+     ``removedLines``, ``rabbitFXPins``, ``slotValues``, ``hashes``, ``dispatchSize``, ``shapeKeyLists``,
+     ``afterShaders``, ``markLines``, ``overlays``, ``rerouteShaders``, ``offPasses``), ``blend``, ``rebind``,
+     ``fixSections`` (the fix's own sections, into graph ``(0, "", "fixSections")``), then ``shaderFiles``, ``fixFiles``,
+     ``latch`` and ``texEdits``. A step does nothing on a mod that has nothing for it
+     @endrst
+     *
+     * @param config The pair's config
+     *
+     * @return The steps
+     */
+    std::vector<std::shared_ptr<BaseIniGraphGroupEdit<>>> wwmiSteps(const WWMIFixerConfig& config);
+
+    /**
+     * @brief
+     @rst
+     The ``slotRemap`` step of :cpp:func:`wwmiSteps`, a :cpp:class:`GraphGroupRemap` whose table
+     (:cpp:member:`GraphGroupRemap::remap`) is: each component :cpp:member:`WWMIFixerConfig::plan`
+     names, its source graph ``("", <slotPrefix><component>)`` onto its target slot's graph
+     ``(<target>, <slotPrefix><slot>)`` (``<slot>_<component>`` for a :cpp:member:`SourceComponent::sameFileSection`), its
+     sections renamed by :cpp:func:`IniNamingTools::getRemapFixName`. When the step runs, what the mod draws is added to
+     it (:cpp:member:`GraphGroupRemap::remapAtRun`): the reroutes it draws, no target for a component whose section draws
+     nothing, and its other hashed objects onto themselves
+     @endrst
+     *
+     * @param config The pair's config
+     *
+     * @return The step
+     */
+    std::shared_ptr<GraphGroupRemap<>> wwmiSlotRemapStep(const WWMIFixerConfig& config);
+
+    /**
+     * @brief
+     @rst
+     What :cpp:func:`makeWWMIFixer` returns, as an :cpp:type:`IniFixBuilder::Factory`: the pair's config, its list of
+     edits and the call that builds a fixer from them -- so the config can be read back
+     (:cpp:func:`WWMIFixerConfig::ofFactory`)
+     @endrst
+     */
+    struct WWMIFixFactory {
+        /**
+         * @brief The pair's config
+         */
+        WWMIFixerConfig config;
+
+        /**
+         * @brief The list of edits each fixer runs
+         */
+        std::vector<std::shared_ptr<BaseIniGraphGroupEdit<>>> steps;
+
+        /**
+         * @brief Builds the fixer -- see :cpp:type:`IniFixBuilder::Factory`
+         */
+        std::shared_ptr<BaseIniFixer<>> operator()(BaseIniParser<>* parser, const std::string& toModName,
+                                                   std::optional<int> modTypeId) const;
+    };
 }
 
 #endif

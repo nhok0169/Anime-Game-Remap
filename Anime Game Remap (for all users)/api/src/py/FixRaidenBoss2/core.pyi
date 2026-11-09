@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'ChannelMapFilter', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'DownloadTools', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalIniClassifiers', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'GraphVarApply', 'GraphVarTake', 'GuidedScaleFilter', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniComments', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSharedState', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'LynaeData', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegPartEdit', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexThumbprint', 'TexcoordFile', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMINames', 'WWMIParserConfig', 'WWMISections', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'ChannelMapFilter', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CustomShaderBackups', 'DFA', 'DownloadData', 'DownloadMode', 'DownloadModeTools', 'DownloadTools', 'EditScope', 'FileAddCreate', 'FileDownload', 'FileDownloadCreate', 'FileExt', 'FilePrefixes', 'FileRefAdd', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalIniClassifiers', 'GlobalRemapIniRemover', 'GraphCollect', 'GraphCreate', 'GraphEditVariables', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'GraphVarApply', 'GraphVarTake', 'GuidedScaleFilter', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IParseResult', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniComments', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniParseDownloadData', 'IniParseRows', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSharedState', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'IterGraphGroupEdit', 'KeyRemapData', 'ListValue', 'Logger', 'LynaeData', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegPartEdit', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SectionText', 'ShaderFilterTags', 'ShapeKeyChecksums', 'SideMeshes', 'SkeletonNumberingProbe', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TexThumbprint', 'TexcoordFile', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemapBlendReplace', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMINames', 'WWMIParserConfig', 'WWMISections', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -430,6 +430,16 @@ class BaseIniGraphGroupEdit(BaseIniPartEdit):
         List[:class:`IniGraphGroup`]
             The resultant group of graphs that got editted
         """
+    @property
+    def name(self) -> str:
+        """
+        :class:`str`: The edit's name as a step of a fixer's list -- how a user finds a step in the list
+        :meth:`CppIniFixFactory.withList` hands them. Empty (the default) for an unnamed step; a :class:`GraphVarApply` is named after the
+        variable it makes
+        """
+    @name.setter
+    def name(self, arg0: str) -> None:
+        ...
 class BaseIniGraphPartEdit(BaseIniPartEdit):
     """
     
@@ -1725,6 +1735,22 @@ class BlendFile(CppBufFile):
         
     """
     @staticmethod
+    def byteElements(influences: typing.SupportsInt | typing.SupportsIndex) -> list:
+        """
+        The elements of a `blend`_ line of one-byte slots: 'influences' one-byte ids under ``BLENDINDICES``, then 'influences'
+        one-byte weights under ``BLENDWEIGHT`` (formatted ``R8G8B8A8_UINT`` when four wide, else ``R8_UINT``)
+        
+        Parameters
+        ----------
+        influences: :class:`int`
+            How many (id, weight) slots each vertex carries
+        
+        Returns
+        -------
+        List[:class:`BufElementType`]
+            The elements
+        """
+    @staticmethod
     def defaultElements(influences: typing.SupportsInt | typing.SupportsIndex = 4) -> list:
         """
         The ordinary `blend`_ layout: 'influences' 32-bit float weights then 'influences' 32-bit signed indices
@@ -1778,6 +1804,50 @@ class BlendFile(CppBufFile):
         Dict[:class:`int`, :class:`int`]
             The temporary remap for the missing indices. The keys are the missing indices found and the
             values are the temporary remapped values for these missing indices
+        """
+    @staticmethod
+    def idElements(count: typing.SupportsInt | typing.SupportsIndex, idBytes: typing.SupportsInt | typing.SupportsIndex) -> list:
+        """
+        The elements of a line of ids alone: 'count' unsigned ids of 'idBytes' bytes each (1, 2 or 4) under ``BLENDINDICES``,
+        and no weights -- eg. a blend's true bone ids kept beside it, or a table of bone ids, one a line
+        
+        Parameters
+        ----------
+        count: :class:`int`
+            How many ids a line carries
+        
+        idBytes: :class:`int`
+            The bytes of one id
+        
+        Returns
+        -------
+        List[:class:`BufElementType`]
+            The elements
+        """
+    @staticmethod
+    def influencesOf(blendPath: str, vertices: typing.SupportsInt | typing.SupportsIndex, bytesPerInfluence: typing.SupportsInt | typing.SupportsIndex = 2) -> int | None:
+        """
+        How many (id, weight) slots a vertex of the `blend`_ at 'blendPath' carries, from the file's SIZE: its bytes per vertex
+        over 'bytesPerInfluence'
+        
+        Parameters
+        ----------
+        blendPath: :class:`str`
+            The `blend`_ file
+        
+        vertices: :class:`int`
+            How many vertices the mesh has (eg. :meth:`CppBufFile.linesOf` its position buffer)
+        
+        bytesPerInfluence: :class:`int`
+            The bytes of one (id, weight) slot :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``2``, a one-byte id and weight
+        
+        Returns
+        -------
+        Optional[:class:`int`]
+            The slots a vertex, or ``None`` when the sizes say nothing: no vertices, a file that does not divide by them, or
+            bytes a vertex that do not divide into slots
         """
     @staticmethod
     def keepSlots(ids: bytes, idBytes: typing.SupportsInt | typing.SupportsIndex, fromSlots: typing.SupportsInt | typing.SupportsIndex, kept: collections.abc.Sequence[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | None]]) -> bytes:
@@ -1907,6 +1977,40 @@ class BlendFile(CppBufFile):
         -------
         List[List[Optional[:class:`int`]]]
             For each vertex, the slot each new slot came from -- ``None`` for a new, empty slot
+        """
+class BoneCentroids(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    Each bone's rest-pose centroid on a character's own model, per game version, pre-populated with this project's real data
+    
+    The ``component`` is ``""`` and the ``type`` is the bone's id in that version's numbering: its value is
+    the centroid, ``x,y,z``. :class:`SkeletonNumberingProbe` scores which numbering a mod's blend is in
+    against these -- see :meth:`ModType.getBoneCentroids`
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/``getKeys``/
+        ``versionOf``/``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * component
+        * type
+        
+    """
+    def __init__(self, map: typing.Any = None) -> None:
+        """
+        Constructs a new, fully-populated lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the values to fix from to the values to fix to
+        
+            **Default**: ``None``
         """
 class BufBaseFloat(BufDataType):
     """
@@ -2687,6 +2791,33 @@ class ChannelMapFilter(CppBaseTexFilter):
     @read.setter
     def read(self, arg0: ChannelMapFilter.Read) -> None:
         ...
+class ColourRanges:
+    """
+    
+    The colour bands the texture edits share, each a :class:`CppColourRange` of :class:`Colours`
+        
+    """
+    LightMapGreen: typing.ClassVar[CppColourRange]  # value = <FixRaidenBoss2.core.CppColourRange object>
+    NormalMapPurple1: typing.ClassVar[CppColourRange]  # value = <FixRaidenBoss2.core.CppColourRange object>
+    NormalMapPurple2: typing.ClassVar[CppColourRange]  # value = <FixRaidenBoss2.core.CppColourRange object>
+class Colours:
+    """
+    
+    Colours the texture edits share: a flat normal map or light map a fix creates or replaces a band with, and white
+    
+    A colour that is ONE character's game data (the skin code in its material mask, say) is not here: it is a row of a
+    versioned asset table (:class:`MaterialColours`)
+        
+    """
+    LightMapGreen: typing.ClassVar[CppColour]  # value = <FixRaidenBoss2.core.CppColour object>
+    LightMapGreenMax: typing.ClassVar[CppColour]  # value = <FixRaidenBoss2.core.CppColour object>
+    LightMapGreenMin: typing.ClassVar[CppColour]  # value = <FixRaidenBoss2.core.CppColour object>
+    NormalMapBlue: typing.ClassVar[CppColour]  # value = <FixRaidenBoss2.core.CppColour object>
+    NormalMapPurple1: typing.ClassVar[CppColour]  # value = <FixRaidenBoss2.core.CppColour object>
+    NormalMapPurple2: typing.ClassVar[CppColour]  # value = <FixRaidenBoss2.core.CppColour object>
+    NormalMapPurpleMin: typing.ClassVar[CppColour]  # value = <FixRaidenBoss2.core.CppColour object>
+    NormalMapYellow: typing.ClassVar[CppColour]  # value = <FixRaidenBoss2.core.CppColour object>
+    White: typing.ClassVar[CppColour]  # value = <FixRaidenBoss2.core.CppColour object>
 class CppAhoCorasickDFA:
     """
     
@@ -3280,6 +3411,25 @@ class CppBufFile(BinaryFile):
     footer, just the lines themselves back-to-back
         
     """
+    @staticmethod
+    def linesOf(path: str, stride: typing.SupportsInt | typing.SupportsIndex) -> int | None:
+        """
+        How many whole lines of 'stride' bytes the file at 'path' holds -- eg. a mesh's vertices, off its position buffer and
+        the stride its resource section declares
+        
+        Parameters
+        ----------
+        path: :class:`str`
+            The file
+        
+        stride: :class:`int`
+            The bytes of one line
+        
+        Returns
+        -------
+        Optional[:class:`int`]
+            The number of lines, or ``None`` when the file cannot be read or holds less than one line
+        """
     def __init__(self, src: typing.Any, elements: typing.Any, fileType: str = 'Buffer') -> None:
         """
         Constructs a new ``.buf`` file and immediately reads it
@@ -4494,9 +4644,25 @@ class CppIniFixFactory:
     
     A built fixer factory, ready to hand to :meth:`CppStrategyOverrides.setFixer`
     
-    Opaque: there is nothing to read off one. Build it with :func:`makeGIMICharFixer`
+    Build it with a template's ``make...Fixer`` (:func:`makeGIMICharFixer`, :func:`makeWWMIFixer`, ...), or take a shipped one off its
+    mod type's builder (:meth:`IniFixBuilder.factoryOf`)
         
     """
+    def withList(self, rewrite: collections.abc.Callable) -> CppIniFixFactory:
+        """
+        A factory that builds what this one builds and runs the list 'rewrite' returns in place of each fixer's own -- how a
+        shipped fix is changed without rebuilding the library. 'rewrite' is given the fixer's WHOLE list, each step named by its
+        :attr:`BaseIniGraphGroupEdit.name` (eg. a WWMI fix's ``"slotRemap"``, ``"textureListCalls"``, ``"removedLines"``,
+        ``"slotValues"``, ..., then ``"fixSections"`` -- which puts the sections the fix writes of its own, such as its texture
+        command lists, into graph ``(0, "", "fixSections")`` -- and the steps that work on those, such as ``"texEdits"``), and
+        returns the list to run: the same list edited, steps added, removed, replaced or reordered, or a list of your own -- which
+        is then the whole fix. A :class:`GraphVarApply` given no ``variables`` reads and replaces the fixer's own. Every step must
+        be an edit the library binds (a Python subclass of an edit does not run in a compiled fix)
+        
+        :param rewrite: Callable[[List[:class:`BaseIniGraphGroupEdit`]], List[:class:`BaseIniGraphGroupEdit`]]: given a fixer's
+            list, the list to run instead
+        :returns: :class:`CppIniFixFactory`
+        """
 class CppIniParseBuilderArgs:
     """
     
@@ -6423,6 +6589,27 @@ class DownloadTools:
             The location
         """
     @staticmethod
+    def fixedFileName(prefix: str, kind: str, ext: str) -> str:
+        """
+        The name a download is saved under: ``<prefix><kind><RemapDL><ext>`` -- eg. ``"AmberBlendRemapDL.buf"``
+        
+        Parameters
+        ----------
+        prefix: :class:`str`
+            The character's own file prefix, eg. ``"Amber"``
+        
+        kind: :class:`str`
+            What the file holds, eg. ``"Blend"``
+        
+        ext: :class:`str`
+            The file extension, **including** the dot
+        
+        Returns
+        -------
+        :class:`str`
+            The file name
+        """
+    @staticmethod
     def url(game: str, charFolder: str, versionFolder: str, prefix: str, kind: str, ext: str) -> str:
         """
         The whole url of a download: :meth:`downloadFolder`, then :meth:`urlPath`
@@ -6485,6 +6672,62 @@ class DownloadTools:
         -------
         :class:`str`
             The path
+        """
+    @staticmethod
+    def versionFolder(version: Version) -> str:
+        """
+        The folder a game version's downloads are filed in: the version with its dots as underscores, eg. ``3_7`` for
+        ``3.7`` -- so a download's folder is read off the version of the asset row it comes from (a texture's
+        :class:`Hashes` row, say) rather than written out
+        
+        Parameters
+        ----------
+        version: :class:`Version`
+            The game version
+        
+        Returns
+        -------
+        :class:`str`
+            The folder
+        """
+class DrawPasses(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    The draw passes of a WWMI character's draw slots, per game version, pre-populated with this project's real data
+    
+    The slot is the ``component`` (``component0``, ``component1``, ...) and the ``type`` names a pass and
+    what is read of it: ``<pass>`` -- the vertex shaders the pass draws with, comma-separated; ``<pass>.ps`` -- its
+    pixel shader; ``<pass>.tags`` -- the ``filter_index`` a fix tags each of those vertex shaders with, in the same
+    order. The passes are ``main`` (``main2``, ... for a slot drawn more than once) and ``other`` (an outline, a
+    second pass) :raw-html:`<br />` :raw-html:`<br />`
+    
+    A fix gates what it binds on its target slot's passes. A game update that changes a pass's shader is a new
+    row at the new version; a fix asked for an older version still reads that version's rows
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/``getKeys``/
+        ``versionOf``/``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * component
+        * type
+        
+    """
+    def __init__(self, map: typing.Any = None) -> None:
+        """
+        Constructs a new, fully-populated lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the values to fix from to the values to fix to
+        
+            **Default**: ``None``
         """
 class DrawUVCoverage:
     """
@@ -6644,6 +6887,46 @@ class DrawUVCoverage:
             The ranges
         """
 
+class EditScope:
+    """
+    
+    What a callable of an edit (a predicate, a value producer, ``sectionsOf``, a :class:`GraphVarApply` function) may read of
+    the run it is called in: the ``.ini`` file a parser's or fixer's list runs on, its mod type, and its parse data -- the
+    :class:`IniParseData` the list's results (:class:`IParseResult`, eg. :class:`GraphCollect`'s rows) are filed into. A list
+    is the same for every ``.ini`` file, so this is how its callables read the one they run on :raw-html:`<br />` :raw-html:`<br />`
+    
+    Each is ``None`` outside a run, and when the list runs from C++
+    """
+    @staticmethod
+    def ini() -> typing.Any:
+        """
+        The ``.ini`` file the list runs on
+        
+        Returns
+        -------
+        Optional[:class:`IniFile`]
+            The file
+        """
+    @staticmethod
+    def modType() -> typing.Any:
+        """
+        The mod type the list runs for
+        
+        Returns
+        -------
+        Optional[:class:`ModType`]
+            The mod type
+        """
+    @staticmethod
+    def parseData() -> typing.Any:
+        """
+        The parse data of the ``.ini`` file the list runs on: what the parser and the fixer's lists have filed so far
+        
+        Returns
+        -------
+        Optional[:class:`IniParseData`]
+            The data
+        """
 class FileAddCreate(BaseResEdit):
     """
     
@@ -9135,6 +9418,16 @@ class GIMIFixer(BaseIniFixer):
         :class:`str`
             The rendered .ini text
         """
+    def keepAlive(self, object: typing.Any) -> None:
+        """
+        Keeps 'object' alive as long as the fixer -- eg. what the edits of the fixer's list borrow (a Z3 context, a variables
+        holder, a resource edit), when the list was built outside it
+        
+        Parameters
+        ----------
+        object: Any
+            The object
+        """
     @property
     def _iniFile(self) -> typing.Any:
         """
@@ -10425,6 +10718,43 @@ class GIMISectionClassifier:
     @version.setter
     def version(self, arg0: typing.Any) -> None:
         ...
+class GameShaders(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    The game pixel shaders a fix draws a character's parts with, per game version, pre-populated with this project's real data
+    
+    The ``component`` is ``""`` and the ``type`` names the shader (``LynaeUpper``): its value is the shader's
+    decompiled HLSL; ``<shader>.<register>`` (eg. ``LynaeUpper.ps-cb4``) is a constant buffer its draw read at that
+    register, as 32-bit words in hex, comma-separated :raw-html:`<br />` :raw-html:`<br />`
+    
+    Game shaders change on updates faster than anything else a remap reads, so each is filed under the game
+    version it was read from
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/``getKeys``/
+        ``versionOf``/``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * component
+        * type
+        
+    """
+    def __init__(self, map: typing.Any = None) -> None:
+        """
+        Constructs a new, fully-populated lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the values to fix from to the values to fix to
+        
+            **Default**: ``None``
+        """
 class GameTypeId:
     """
     
@@ -11034,7 +11364,7 @@ class GraphCollect(BaseIniGraphGroupEdit, IParseResult):
         Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], List[:class:`str`]]: The keys whose state is recorded with each row, keyed by graph
         """
     @contextKeys.setter
-    def contextKeys(self, arg0: typing.Any) -> None:
+    def contextKeys(self, arg1: typing.Any) -> None:
         ...
     @property
     def everyGroup(self) -> bool:
@@ -11050,7 +11380,7 @@ class GraphCollect(BaseIniGraphGroupEdit, IParseResult):
         Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`], Callable[[:class:`str`], :class:`bool`]]]: The keys to collect, keyed by graph
         """
     @keys.setter
-    def keys(self, arg0: typing.Any) -> None:
+    def keys(self, arg1: typing.Any) -> None:
         ...
     @property
     def keysToTrack(self) -> typing.Any:
@@ -11058,7 +11388,7 @@ class GraphCollect(BaseIniGraphGroupEdit, IParseResult):
         Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Optional[Set[:class:`str`]]]]: Which keys to track while searching each graph
         """
     @keysToTrack.setter
-    def keysToTrack(self, arg0: typing.Any) -> None:
+    def keysToTrack(self, arg1: typing.Any) -> None:
         ...
     @property
     def name(self) -> str:
@@ -11074,7 +11404,7 @@ class GraphCollect(BaseIniGraphGroupEdit, IParseResult):
         Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`SectionIterData`], :class:`Ranges`]]]: Which order indices to collect from, keyed by graph
         """
     @partPredicates.setter
-    def partPredicates(self, arg0: typing.Any) -> None:
+    def partPredicates(self, arg1: typing.Any) -> None:
         ...
     @property
     def rows(self) -> list[GraphCollect.Row]:
@@ -11087,7 +11417,7 @@ class GraphCollect(BaseIniGraphGroupEdit, IParseResult):
         Union[:class:`bool`, Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`bool`]]: Whether to track `KVPs`_ while searching
         """
     @trackKeys.setter
-    def trackKeys(self, arg0: typing.Any) -> None:
+    def trackKeys(self, arg1: typing.Any) -> None:
         ...
     @property
     def valPredicates(self) -> typing.Any:
@@ -11095,7 +11425,7 @@ class GraphCollect(BaseIniGraphGroupEdit, IParseResult):
         Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]]]: Which occurrences to collect, keyed by graph
         """
     @valPredicates.setter
-    def valPredicates(self, arg0: typing.Any) -> None:
+    def valPredicates(self, arg1: typing.Any) -> None:
         ...
     @property
     def withConditions(self) -> bool:
@@ -11147,7 +11477,7 @@ class GraphCopy(BaseIniGraphGroupEdit):
         **Default**: ``True``
         
     """
-    def __init__(self, srcId: typing.Any, dstId: typing.Any, predicate: typing.Any = None, minimal: bool = True, newPartIds: bool = True) -> None:
+    def __init__(self, srcId: typing.Any, dstId: typing.Any, predicate: typing.Any = None, minimal: bool = True, newPartIds: bool = True, keepEmpty: bool = True) -> None:
         ...
     def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
         """
@@ -11172,12 +11502,21 @@ class GraphCopy(BaseIniGraphGroupEdit):
             The same list that was passed in, after the copy was added
         """
     @property
-    def dstId(self) -> typing.Any:
+    def dstId(self) -> tuple:
         """
         Tuple[:class:`int`, :class:`str`, :class:`str`]: The id the copy is stored under
         """
     @dstId.setter
     def dstId(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def keepEmpty(self) -> bool:
+        """
+        :class:`bool`: Whether a copy that keeps no `KVP`_ at all is still added. ``False`` adds nothing then -- eg. a copy of a
+        `section`_ the predicate picks, when the graph may have no such `section`_. **Default**: ``True``
+        """
+    @keepEmpty.setter
+    def keepEmpty(self, arg0: bool) -> None:
         ...
     @property
     def minimal(self) -> bool:
@@ -11204,7 +11543,7 @@ class GraphCopy(BaseIniGraphGroupEdit):
     def predicate(self, arg1: typing.Any) -> None:
         ...
     @property
-    def srcId(self) -> typing.Any:
+    def srcId(self) -> tuple:
         """
         Tuple[:class:`int`, :class:`str`, :class:`str`]: The id of the graph to copy
         """
@@ -11263,7 +11602,7 @@ class GraphCreate(BaseIniGraphGroupEdit):
         **Default**: ``True``
         
     """
-    def __init__(self, graphId: typing.Any, graph: typing.Any = None, minimal: bool = True, newPartIds: bool = True) -> None:
+    def __init__(self, graphId: typing.Any, graph: typing.Any = None, minimal: bool = True, newPartIds: bool = True, sectionsOf: typing.Any = None, z3: Z3Context = None, onlyWith: typing.Any = None, onlyWithout: typing.Any = None) -> None:
         ...
     def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
         """
@@ -11319,6 +11658,25 @@ class GraphCreate(BaseIniGraphGroupEdit):
         """
     @newPartIds.setter
     def newPartIds(self, arg0: bool) -> None:
+        ...
+    @property
+    def onlyWith(self) -> typing.Any:
+        """
+        Optional[List[Tuple[:class:`str`, :class:`str`]]]: Objects -- one, or a list -- a graph of any of which, in ANY group, is what lets the edit add: nothing is
+        added when no group holds one -- eg. a texture list a fix writes for a component, added only when the mod draws that
+        component. The mirror of :attr:`onlyWithout`. **Default**: ``None``
+        """
+    @onlyWith.setter
+    def onlyWith(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def onlyWithout(self) -> typing.Any:
+        """
+        Optional[List[Tuple[:class:`str`, :class:`str`]]]: Objects -- one, or a list -- a graph of any of which, in ANY group, stops the edit: nothing is added when one
+        is there -- eg. a section that hides a target slot, added only when nothing is remapped onto that slot. **Default**: ``None``
+        """
+    @onlyWithout.setter
+    def onlyWithout(self, arg1: typing.Any) -> None:
         ...
     @property
     def sectionsOf(self) -> typing.Any:
@@ -11611,7 +11969,7 @@ class GraphFilter(BaseIniGraphGroupEdit):
         **Default**: ``None``
         
     """
-    def __init__(self, graphIds: typing.Any, predicate: typing.Any = None) -> None:
+    def __init__(self, graphIds: typing.Any, predicate: typing.Any = None, removeEmptied: bool = False) -> None:
         ...
     def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
         """
@@ -11636,7 +11994,7 @@ class GraphFilter(BaseIniGraphGroupEdit):
             The same list that was passed in, after filtering
         """
     @property
-    def graphIds(self) -> typing.Any:
+    def graphIds(self) -> list:
         """
         List[Tuple[:class:`int`, :class:`str`, :class:`str`]]: The ids of the graphs to filter
         """
@@ -11650,6 +12008,17 @@ class GraphFilter(BaseIniGraphGroupEdit):
         """
     @predicate.setter
     def predicate(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def removeEmptied(self) -> bool:
+        """
+        :class:`bool`: Whether a graph the predicate would leave with no `KVP`_ at all is taken out of its group -- eg. a mod object
+        the predicate finds has nothing for the fix. Such a graph is removed WHOLE, its `sections`_ left as they are: a graph shares
+        `sections`_ with others (a command list several objects run), which filtering it first would empty for all of them.
+        **Default**: ``False``
+        """
+    @removeEmptied.setter
+    def removeEmptied(self, arg0: bool) -> None:
         ...
 
 class GraphGroupEdit(BaseIniGraphGroupEdit):
@@ -11717,7 +12086,7 @@ class GraphGroupEdit(BaseIniGraphGroupEdit):
         **Default**: ``None``
         
     """
-    def __init__(self, edits: typing.Any, trackKeys: typing.Any = False, keysToTrack: typing.Any = None, keyFilters: typing.Any = None) -> None:
+    def __init__(self, edits: typing.Any, trackKeys: typing.Any = False, keysToTrack: typing.Any = None, keyFilters: typing.Any = None, everyGroup: bool = False, onlyWith: typing.Any = None, onlyWithout: typing.Any = None) -> None:
         ...
     def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
         """
@@ -11767,16 +12136,27 @@ class GraphGroupEdit(BaseIniGraphGroupEdit):
             The same list that was passed in, after editing
         """
     @property
-    def edits(self) -> typing.Any:
+    def edits(self) -> list:
         """
-        List[Dict[Tuple[:class:`str`, :class:`str`], List[Union[:class:`BaseIniGraphEdit`, :class:`BaseRegEdit`]]]]:
-        The specific edits to make on the individual graphs
+        List[Dict[Tuple[:class:`str`, :class:`str`], List[Union[:class:`BaseIniGraphEdit`, :class:`BaseRegEdit`, :class:`RegPartEdit`]]]]:
+        The specific edits to make on the individual graphs -- read from the edit's own table, so a step of a compiled fix reads
+        its edits too
         """
     @edits.setter
     def edits(self, arg1: typing.Any) -> None:
         ...
     @property
-    def keyFilters(self) -> typing.Any:
+    def everyGroup(self) -> bool:
+        """
+        :class:`bool`: Whether the FIRST entry of :attr:`edits` (and of :attr:`keyFilters` / :attr:`keysToTrack`) applies in every
+        group, instead of each entry in the group of its own index -- an edit on an object wherever it lands, written before the
+        number of groups is known (eg. a step of a fixer's list, whose remap makes the groups). **Default**: ``False``
+        """
+    @everyGroup.setter
+    def everyGroup(self, arg0: bool) -> None:
+        ...
+    @property
+    def keyFilters(self) -> list:
         """
         List[Dict[Tuple[:class:`str`, :class:`str`], Union[List[Optional[Callable]], Callable]]]: Functions
         for any :class:`BaseRegEdit` to only process on specific parts of a `section`_
@@ -11785,13 +12165,32 @@ class GraphGroupEdit(BaseIniGraphGroupEdit):
     def keyFilters(self, arg1: typing.Any) -> None:
         ...
     @property
-    def keysToTrack(self) -> typing.Any:
+    def keysToTrack(self) -> list:
         """
         List[Dict[Tuple[:class:`str`, :class:`str`], Optional[Set[:class:`str`]]]]: Specific keys to track
         in the .ini file for any :class:`BaseRegEdit` passed into :attr:`edits`
         """
     @keysToTrack.setter
     def keysToTrack(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def onlyWith(self) -> typing.Any:
+        """
+        Optional[List[Tuple[:class:`str`, :class:`str`]]]: Objects -- one, or a list -- a graph of any of which, in ANY group, is what lets the edit run: nothing is
+        edited when no group holds one -- eg. a parser's marker graph for something only some mods have, so a list that is the
+        same for every mod edits only those. As :attr:`GraphCreate.onlyWith`. **Default**: ``None``
+        """
+    @onlyWith.setter
+    def onlyWith(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def onlyWithout(self) -> typing.Any:
+        """
+        Optional[List[Tuple[:class:`str`, :class:`str`]]]: Objects -- one, or a list -- a graph of any of which, in ANY group, stops the edit: nothing is edited when
+        one is there. As :attr:`GraphCreate.onlyWithout`. **Default**: ``None``
+        """
+    @onlyWithout.setter
+    def onlyWithout(self, arg1: typing.Any) -> None:
         ...
     @property
     def trackKeys(self) -> typing.Any:
@@ -11822,6 +12221,8 @@ class GraphGroupRemap(BaseIniGraphGroupEdit):
             #. The name of the component for the graph
             #. The name of the mod object for the graph
             #. An optional rename function if the tuple has 4 values. The rename function takes in the old name of the `section`_
+            #. An optional flag, the 5th value: ``True`` makes the target a copy in EVERY group there is, once
+               every other target has made the groups it makes
         
     """
     @staticmethod
@@ -11913,7 +12314,7 @@ class GraphGroupRemap(BaseIniGraphGroupEdit):
             The same list that was passed in, after the graphs were remapped
         """
     @property
-    def remap(self) -> typing.Any:
+    def remap(self) -> dict:
         """
         Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], List[Union[Tuple[:class:`int`, :class:`str`, :class:`str`], Tuple[:class:`int`, :class:`str`, :class:`str`, Callable[[:class:`str`], :class:`str`]]]]]:
         The remap for the graphs
@@ -11947,7 +12348,7 @@ class GraphGroupRemove(BaseIniGraphGroupEdit):
         **Default**: ``None``
         
     """
-    def __init__(self, iniIndices: typing.Any = None) -> None:
+    def __init__(self, iniIndices: typing.Any = None, onlyWith: typing.Any = None, onlyWithout: typing.Any = None) -> None:
         ...
     def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
         """
@@ -11978,6 +12379,27 @@ class GraphGroupRemove(BaseIniGraphGroupEdit):
         """
     @iniIndices.setter
     def iniIndices(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def onlyWith(self) -> typing.Any:
+        """
+        Optional[List[Tuple[:class:`str`, :class:`str`]]]: Objects -- one, or a list -- a graph of any of which, in ANY group, is what makes the edit run: nothing is
+        removed when no group holds one -- eg. a marker graph a parser files for a mod the fix cannot handle, so a list that is
+        the same for every mod ends by writing nothing for that one. ``None`` always runs. The mirror of
+        :attr:`GraphCreate.onlyWithout`. **Default**: ``None``
+        """
+    @onlyWith.setter
+    def onlyWith(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def onlyWithout(self) -> typing.Any:
+        """
+        Optional[List[Tuple[:class:`str`, :class:`str`]]]: Objects -- one, or a list -- a graph of any of which, in ANY group, stops
+        the edit: nothing is removed when one is there -- eg. the objects a fix remaps onto, so a list that is the same for every
+        mod ends by writing nothing for a mod none of whose objects it found. **Default**: ``None``
+        """
+    @onlyWithout.setter
+    def onlyWithout(self, arg1: typing.Any) -> None:
         ...
 class GraphInherit(BaseIniGraphGroupEdit):
     """
@@ -12244,7 +12666,7 @@ class GraphRemove(BaseIniGraphGroupEdit):
             The same list that was passed in, after the graphs were removed
         """
     @property
-    def graphIds(self) -> typing.Any:
+    def graphIds(self) -> list:
         """
         List[Tuple[:class:`int`, :class:`str`, :class:`str`]]: The ids of the graphs to remove
         """
@@ -13018,6 +13440,25 @@ class Hashes(ModMappedAssets):
         * type
         
     """
+    LiveSuffix: typing.ClassVar[str] = 'Live'
+    OldSuffix: typing.ClassVar[str] = 'Old'
+    @staticmethod
+    def generationOf(hashType: str) -> tuple[str, int]:
+        """
+        The hash type a generation of it is filed as, and which generation: ``("bangsDiffuse", 0)`` for ``"bangsDiffuse"``,
+        ``1`` for its :attr:`LiveSuffix` (``"bangsDiffuseLive"``), ``2``, ``3``, ... for its :attr:`OldSuffix`, ``Old2``, ... --
+        so every hash a texture has had can be read as the one type
+        
+        Parameters
+        ----------
+        hashType: :class:`str`
+            The hash type, as the table files it
+        
+        Returns
+        -------
+        Tuple[:class:`str`, :class:`int`]
+            The base type and the generation
+        """
     def __init__(self, map: typing.Any = None) -> None:
         """
         Constructs a new, fully-populated hash lookup table
@@ -13029,6 +13470,26 @@ class Hashes(ModMappedAssets):
             predefined mods
         
             **Default**: ``None``
+        """
+    def age(self, name: str, hash: str) -> int:
+        """
+        How old 'hash' is among 'name''s hashes, lower newer: the versions this table files 'name' at that are newer than the
+        one filing 'hash' (100 each), then the generation its hash type names -- ``0`` for a type's current hash, ``1`` for its
+        :attr:`LiveSuffix`, ``2``, ``3``, ... for its :attr:`OldSuffix`, ``Old2``, ... The lowest over every row filing 'hash'
+        (case-insensitively); ``1 << 20`` when none does
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The mod name the hashes are filed under
+        
+        hash: :class:`str`
+            The hash
+        
+        Returns
+        -------
+        :class:`int`
+            The age
         """
 class IniParseData:
     """
@@ -17789,6 +18250,22 @@ class IniFile:
         name: :class:`str`
             The name of the `section`_ to remove
         """
+    def resourceNamed(self, value: str) -> str:
+        """
+        The resource `section`_ a binding's value names (``Resource...`` or ``ref Resource...``), under the name the file declares
+        it by -- found without regard to case, as 3DMigoto reads a section name -- or empty when the file declares no such
+        `section`_
+        
+        Parameters
+        ----------
+        value: :class:`str`
+            The value of the binding
+        
+        Returns
+        -------
+        :class:`str`
+            The `section`_'s name, as declared
+        """
     def sectionGraph(self, root: str) -> IniSectionGraph:
         """
         The call graph from the `section`_ 'root': it and every `section`_ it reaches through ``run =``, over this file's
@@ -18151,6 +18628,31 @@ class IniFixBuilder:
         -------
         List[Tuple[:class:`str`, :class:`CppBaseIniFixer`]]
             One ``(toModName, fixer)`` pair per target mod, in no particular order
+        """
+    def factoryOf(self, fromModName: str, toModName: str, fromVersion: FixRaidenBoss2.core.Version | None = None, toVersion: FixRaidenBoss2.core.Version | None = None) -> CppIniFixFactory:
+        """
+        The factory :meth:`build` builds with for these keys, without building anything: a runtime override
+        (:class:`CppStrategyOverrides`) first, then the fixed factory or the :attr:`builderArgs` row, else :meth:`defaultFactory`.
+        A shipped fix's config is read off it -- eg. :meth:`WWMIFixerConfig.ofFactory`
+        
+        Parameters
+        ----------
+        fromModName: :class:`str`
+            The name of the mod being fixed **from**
+        
+        toModName: :class:`str`
+            The name of the mod being fixed **to**
+        
+        fromVersion: Optional[:class:`Version`]
+            The game version the .ini file originates from; ``None`` means the latest listed
+        
+        toVersion: Optional[:class:`Version`]
+            The game version being fixed to; ``None`` means the latest listed
+        
+        Returns
+        -------
+        :class:`CppIniFixFactory`
+            The factory
         """
     @property
     def builderArgs(self) -> CppIniFixBuilderArgs:
@@ -18614,6 +19116,9 @@ class IniKeywords:
     Filename: typing.ClassVar[str] = 'filename'
     FilterIndex: typing.ClassVar[str] = 'filter_index'
     Format: typing.ClassVar[str] = 'format'
+    FormatR16UInt: typing.ClassVar[str] = 'DXGI_FORMAT_R16_UINT'
+    FormatR32G32B32A32Float: typing.ClassVar[str] = 'R32G32B32A32_FLOAT'
+    FormatR8UInt: typing.ClassVar[str] = 'DXGI_FORMAT_R8_UINT'
     GIMIDiffuse: typing.ClassVar[str] = 'Resource\\GIMI\\Diffuse'
     GIMILightMap: typing.ClassVar[str] = 'Resource\\GIMI\\LightMap'
     GIMINormalMap: typing.ClassVar[str] = 'Resource\\GIMI\\NormalMap'
@@ -18640,6 +19145,7 @@ class IniKeywords:
     Present: typing.ClassVar[str] = 'Present'
     PsT69: typing.ClassVar[str] = 'ps-t69'
     PsT70: typing.ClassVar[str] = 'ps-t70'
+    RWBuffer: typing.ClassVar[str] = 'RWBuffer'
     RabbitFXResourceFolder: typing.ClassVar[str] = 'Resource\\RabbitFX'
     RabbitFXSetTexturesPath: typing.ClassVar[str] = 'CommandList\\RabbitFX\\SetTextures'
     Ref: typing.ClassVar[str] = 'ref'
@@ -18668,14 +19174,24 @@ class IniKeywords:
     WWMIBlendBufferOverride: typing.ClassVar[str] = 'ResourceBlendBufferOverride'
     WWMIBlendRemapId: typing.ClassVar[str] = '$\\WWMIv1\\blend_remap_id'
     WWMIBlendRemapper: typing.ClassVar[str] = 'CustomShader\\WWMIv1\\BlendRemapper'
+    WWMIBlendRemapperOutReg: typing.ClassVar[str] = 'cs-u4'
+    WWMIBlendRemapperReverseReg: typing.ClassVar[str] = 'cs-t34'
+    WWMIBlendRemapperVertexVGReg: typing.ClassVar[str] = 'cs-t35'
+    WWMIBoneDataCb: typing.ClassVar[str] = 'vs-cb4'
     WWMICustomMeshScale: typing.ClassVar[str] = '$\\WWMIv1\\custom_mesh_scale'
     WWMICustomVertexCount: typing.ClassVar[str] = '$\\WWMIv1\\custom_vertex_count'
+    WWMIExtraBoneDataCb: typing.ClassVar[str] = 'vs-cb3'
     WWMIIndexBuffer: typing.ClassVar[str] = 'ResourceIndexBuffer'
+    WWMIMergerBonesReg: typing.ClassVar[str] = 'cs-cb8'
+    WWMIMergerSkeletonReg: typing.ClassVar[str] = 'cs-u6'
     WWMIMeshVertexCount: typing.ClassVar[str] = '$mesh_vertex_count'
     WWMIModEnabled: typing.ClassVar[str] = '$mod_enabled'
     WWMINamespace: typing.ClassVar[str] = '$\\WWMIv1'
     WWMIObjectDetected: typing.ClassVar[str] = '$object_detected'
     WWMIPositionBuffer: typing.ClassVar[str] = 'ResourcePositionBuffer'
+    WWMIRemapperForwardReg: typing.ClassVar[str] = 'cs-t37'
+    WWMIRemapperOutReg: typing.ClassVar[str] = 'cs-u5'
+    WWMIRemapperSkeletonReg: typing.ClassVar[str] = 'cs-t38'
     WWMIShapeKeyChecksum: typing.ClassVar[str] = '$\\WWMIv1\\shapekey_checksum'
     WWMIShapeKeyDispatchSizeYOriginalBatch: typing.ClassVar[str] = '$\\WWMIv1\\shapekey_dispatch_size_y_original_batch'
     WWMIShapeKeyOffsetBuffer: typing.ClassVar[str] = 'ResourceShapeKeyOffsetBuffer'
@@ -19043,6 +19559,25 @@ class IniParseBuilder:
         -------
         :class:`CppBaseIniParser`
             The built parser -- the very same object a Python factory returned, when one was given
+        """
+    def factoryOf(self, modName: str, version: FixRaidenBoss2.core.Version | None = None) -> CppIniParseFactory:
+        """
+        The factory :meth:`build` builds with for these keys, without building anything: a runtime override
+        (:class:`CppStrategyOverrides`) first, then the fixed factory or the :attr:`builderArgs` row, else :meth:`defaultFactory`.
+        A shipped parser's config is read off it -- eg. :meth:`WWMIParserConfig.ofFactory`
+        
+        Parameters
+        ----------
+        modName: :class:`str`
+            The name of the mod the .ini file is for
+        
+        version: Optional[:class:`Version`]
+            The game version the .ini file originates from; ``None`` means the latest listed
+        
+        Returns
+        -------
+        :class:`CppIniParseFactory`
+            The factory
         """
     @property
     def builderArgs(self) -> CppIniParseBuilderArgs:
@@ -20144,11 +20679,6 @@ class LynaeData:
         :class:`WWMIFixerConfig.Shader`: Lynae's bangs pass
         """
     @staticmethod
-    def boneCentroids() -> dict[int, typing.Annotated[list[float], "FixedSize(3)"]]:
-        """
-        Dict[:class:`int`, Tuple[:class:`float`, :class:`float`, :class:`float`]]: Where each of Lynae's bones sits, to tell a mod's skeleton numbering
-        """
-    @staticmethod
     def filmCodeTable() -> list[int]:
         """
         List[:class:`int`]: The table that moves Lynae's coat film code to LynaePeppermint's, for :meth:`ChannelMapFilter.codeMap`
@@ -20184,11 +20714,6 @@ class LynaeData:
         List[:class:`int`]: The table that moves Lynae's plain props materials to LynaePeppermint's plain hip-pouch material, for :meth:`ChannelMapFilter.codeMap`
         """
     @staticmethod
-    def renumbered36To37() -> dict[int, int]:
-        """
-        Dict[:class:`int`, :class:`int`]: Lynae's bones renumbered from 3.6 to 3.7
-        """
-    @staticmethod
     def shadeBandFactors() -> list[typing.Annotated[list[float], "FixedSize(3)"]]:
         """
         List[Tuple[:class:`float`, :class:`float`, :class:`float`]]: Lynae's lower-body shading bands, as :class:`GuidedScaleFilter` factors guided by the normal map's alpha, in linear colour
@@ -20201,22 +20726,121 @@ class LynaeData:
     @staticmethod
     def textureFacts() -> WWMITextureFacts:
         """
-        :class:`WWMITextureFacts`: Lynae's texture roles, registers and thumbprints
-        """
-    @staticmethod
-    def toPeppermintShapeKeys() -> list[int]:
-        """
-        List[:class:`int`]: Lynae's shape keys in LynaePeppermint's order
+        :class:`WWMITextureFacts`: Lynae's texture roles and registers (her thumbprints are her :class:`TextureThumbprints` rows)
         """
     @staticmethod
     def upperShader() -> WWMIFixerConfig.Shader:
         """
         :class:`WWMIFixerConfig.Shader`: Lynae's upper-body pass
         """
-    @staticmethod
-    def vgMaps36() -> dict[int, list[int]]:
+class MaterialCodes(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    What the codes of a character's single-channel code maps mean, per game version, pre-populated with this project's real data
+    
+    The ``component`` is the draw slot (``component6``) and the ``type`` names a code map role and what of it:
+    ``<role>.<field>`` -- the bits a field of the code occupies (``propsDetail.flags.film``: ``0x10``;
+    ``propsDetail.material``: ``0x0f``); ``<role>.<field>.<name>`` -- one code of a field (``pouchDetail.material.plain``:
+    ``15``). Values are numbers, decimal or ``0x`` hex -- see :meth:`ModType.getMaterialCode` :raw-html:`<br />` :raw-html:`<br />`
+    
+    A game update that renumbers a character's materials is new rows at the new version, not an edit to a filter
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/``getKeys``/
+        ``versionOf``/``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * component
+        * type
+        
+    """
+    def __init__(self, map: typing.Any = None) -> None:
         """
-        Dict[:class:`int`, List[:class:`int`]]: Each of Lynae's components' vertex groups in her merged skeleton, at 3.6
+        Constructs a new, fully-populated lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the values to fix from to the values to fix to
+        
+            **Default**: ``None``
+        """
+class MaterialColours(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    The colours a character's multi-channel material masks mark each material with, per game version, pre-populated with this project's real data
+    
+    The ``component`` is the draw slot (``component3``) and the ``type`` names a mask role and a material
+    (``torsoMask.skin``); the value is the :class:`CppColour` the mask marks it with, written by
+    :meth:`valueOf` and read by :meth:`ModType.getMaterialColour` :raw-html:`<br />` :raw-html:`<br />`
+    
+    A colour every character shares (a flat normal map, white) is a :class:`Colours` constant instead, which a
+    row may be written with
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/``getKeys``/
+        ``versionOf``/``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * component
+        * type
+        
+    """
+    @staticmethod
+    def colourOf(value: str) -> ...:
+        """
+        The colour a value of the table holds (:meth:`valueOf` read back)
+        
+        Parameters
+        ----------
+        value: :class:`str`
+            The value, ``r,g,b,a``
+        
+        Raises
+        ------
+        :class:`ValueError`
+            When the value is not four comma-separated channels
+        
+        Returns
+        -------
+        :class:`CppColour`
+            The colour
+        """
+    @staticmethod
+    def valueOf(colour: ...) -> str:
+        """
+        A colour as the table holds it: ``r,g,b,a``
+        
+        Parameters
+        ----------
+        colour: :class:`CppColour`
+            The colour
+        
+        Returns
+        -------
+        :class:`str`
+            The value
+        """
+    def __init__(self, map: typing.Any = None) -> None:
+        """
+        Constructs a new, fully-populated lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the values to fix from to the values to fix to
+        
+            **Default**: ``None``
         """
 class ModAssets:
     """
@@ -20774,6 +21398,28 @@ class ModMappedAssets:
             The corresponding assets for the fix to replace, keyed by asset name -- empty if nothing is
             found
         """
+    def versionOf(self, asset: str, nonVersionVals: typing.Any = None) -> FixRaidenBoss2.core.Version | None:
+        """
+        The version whose rows hold 'asset' -- the newest one with a matching key
+        
+        What a value tells about the data it came from: a mod's ``vb0`` hash says which version of the character it was made
+        for
+        
+        Parameters
+        ----------
+        asset: Any
+            The asset value to search for
+        
+        nonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]]
+            The non-version value filter -- see :meth:`hasFrom`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        Optional[:class:`Version`]
+            The version, or ``None`` when no row holds 'asset'
+        """
     @property
     def fixFrom(self) -> set:
         """
@@ -20836,7 +21482,7 @@ class ModType:
         **Default**: ``[]``
         
     """
-    def __init__(self, gameTypeId: typing.SupportsInt | typing.SupportsIndex, modTypeId: typing.SupportsInt | typing.SupportsIndex, name: str, aliases: collections.abc.Sequence[str] = [], hashes: Hashes = None, indices: Indices = None, vertexCounts: VertexCounts = None, vgRemaps: VGRemaps = None, indexCounts: IndexCounts = None, vgOffsets: VGOffsets = None, vgCounts: VGCounts = None, shapeKeyChecksums: ShapeKeyChecksums = None) -> None:
+    def __init__(self, gameTypeId: typing.SupportsInt | typing.SupportsIndex, modTypeId: typing.SupportsInt | typing.SupportsIndex, name: str, aliases: collections.abc.Sequence[str] = [], hashes: Hashes = None, indices: Indices = None, vertexCounts: VertexCounts = None, vgRemaps: VGRemaps = None, indexCounts: IndexCounts = None, vgOffsets: VGOffsets = None, vgCounts: VGCounts = None, shapeKeyChecksums: ShapeKeyChecksums = None, drawPasses: DrawPasses = None, textureRegisters: TextureRegisters = None, gameShaders: GameShaders = None, shapeKeyDispatchSizes: ShapeKeyDispatchSizes = None, boneCentroids: BoneCentroids = None, shapeKeyRemaps: ShapeKeyRemaps = None, materialCodes: MaterialCodes = None, materialColours: MaterialColours = None, textureDescs: TextureDescs = None, textureThumbprints: TextureThumbprints = None) -> None:
         ...
     def fixIni(self, iniFile: IniFile, keepBackup: bool = True, fixOnly: bool = False) -> None:
         """
@@ -20859,6 +21505,66 @@ class ModType:
             Whether to only fix without removing any previous fix :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``False``
+        """
+    def getBoneCentroids(self, version: FixRaidenBoss2.core.Version | None = None) -> dict[int, typing.Annotated[list[float], "FixedSize(3)"]]:
+        """
+        Each bone's rest-pose centroid on the mod's own model (:attr:`boneCentroids`) -- what :class:`SkeletonNumberingProbe`
+        scores a mod's numbering against
+        
+        Parameters
+        ----------
+        version: Optional[:class:`Version`]
+            The game version wanted -- for each bone, the newest row at or below it
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        Dict[:class:`int`, List[:class:`float`]]
+            Bone id -> its centroid, ``[x, y, z]``; empty when the mod has none
+        """
+    def getDrawPass(self, component: str, type: str, version: FixRaidenBoss2.core.Version | None = None) -> str | None:
+        """
+        One of :attr:`drawPasses`' values for a draw slot
+        
+        Parameters
+        ----------
+        component: :class:`str`
+            The draw slot, eg. ``component3``
+        
+        type: :class:`str`
+            The pass and what is read of it: ``<pass>`` (its vertex shaders, comma-separated), ``<pass>.ps`` (its pixel
+            shader) or ``<pass>.tags`` (each vertex shader's ``filter_index``) -- eg. ``main``, ``other.ps``
+        
+        version: Optional[:class:`Version`]
+            The game version wanted -- the newest row at or below it :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning the latest
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The value, or ``None`` when the mod has no such row
+        """
+    def getGameShader(self, type: str, version: FixRaidenBoss2.core.Version | None = None) -> str | None:
+        """
+        One of :attr:`gameShaders`' values: a shader's HLSL (``<shader>``) or a constant buffer its draw read
+        (``<shader>.<register>``, eg. ``LynaeUpper.ps-cb4``: 32-bit words in hex, comma-separated)
+        
+        Parameters
+        ----------
+        type: :class:`str`
+            The shader, eg. ``LynaeUpper``, or one of its constant buffers, eg. ``LynaeUpper.ps-cb4``
+        
+        version: Optional[:class:`Version`]
+            The game version wanted -- see :meth:`getDrawPass`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The value, or ``None`` when the mod has no such row
         """
     def getHashRanges(self, partColours: IfContentPartColouring, version: FixRaidenBoss2.core.Version | None = None, nonVersionVals: typing.Any = None) -> Ranges:
         """
@@ -20924,6 +21630,51 @@ class ModType:
         Optional[:class:`str`]
             The value, or ``None`` if this mod type has no row for it
         """
+    def getMaterialCode(self, component: str, type: str, version: FixRaidenBoss2.core.Version | None = None) -> int | None:
+        """
+        A field or a code of one of the mod's code maps (:attr:`materialCodes`): ``<role>.<field>`` the bits the field
+        occupies (``propsDetail.flags.film``), ``<role>.<field>.<name>`` one code of it (``pouchDetail.material.plain``)
+        
+        Parameters
+        ----------
+        component: :class:`str`
+            The draw slot, eg. ``component6``
+        
+        type: :class:`str`
+            The row's type
+        
+        version: Optional[:class:`Version`]
+            The game version wanted -- see :meth:`getDrawPass`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        Optional[:class:`int`]
+            The number, or ``None`` when the mod has no such row
+        """
+    def getMaterialColour(self, component: str, type: str, version: FixRaidenBoss2.core.Version | None = None) -> ... | None:
+        """
+        The colour one of the mod's material masks marks a material with (:attr:`materialColours`), eg. ``torsoMask.skin``
+        
+        Parameters
+        ----------
+        component: :class:`str`
+            The draw slot, eg. ``component3``
+        
+        type: :class:`str`
+            The row's type, ``<role>.<material>``
+        
+        version: Optional[:class:`Version`]
+            The game version wanted -- see :meth:`getDrawPass`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        Optional[:class:`CppColour`]
+            The colour, or ``None`` when the mod has no such row
+        """
     def getModsToFix(self) -> set[str]:
         """
         Retrieves the names of the mods this mod type can be fixed onto, read from the remap targets
@@ -20937,6 +21688,138 @@ class ModType:
     def getShapeKeyChecksum(self, type: str = 'shapekeys', component: str = '', version: FixRaidenBoss2.core.Version | None = None) -> str | None:
         """
         Retrieves the shape-key ``checksum`` of this mod (WuWa) -- see :meth:`getIndexCount`; ``type`` is ``shapekeys`` on every shipped row
+        """
+    def getShapeKeyDispatchSize(self, version: FixRaidenBoss2.core.Version | None = None) -> str | None:
+        """
+        The height WWMI dispatches the mod's shape keys with (:attr:`shapeKeyDispatchSizes`)
+        
+        Parameters
+        ----------
+        version: Optional[:class:`Version`]
+            The game version wanted -- see :meth:`getDrawPass`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The height, or ``None`` when the mod has no row
+        """
+    def getShapeKeyRemap(self, modName: str, fromVersion: FixRaidenBoss2.core.Version | None = None, toVersion: FixRaidenBoss2.core.Version | None = None) -> list[int] | None:
+        """
+        The source shape key each of another mod's shape-key slots takes, from this mod (:attr:`shapeKeyRemaps`) -- what
+        :meth:`WWMIShapeKeys.reorder` is handed
+        
+        Parameters
+        ----------
+        modName: :class:`str`
+            The mod remapped to
+        
+        fromVersion: Optional[:class:`Version`]
+            This mod's version -- the newest row at or below it
+        
+            **Default**: ``None``
+        
+        toVersion: Optional[:class:`Version`]
+            The other mod's version -- likewise
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        Optional[List[:class:`int`]]
+            The order (``-1`` for a slot that takes none), or ``None`` when the table has none for the pair
+        """
+    def getTextureDesc(self, textureHash: str, version: FixRaidenBoss2.core.Version | None = None) -> tuple[str, int, int, int] | None:
+        """
+        How the game creates one of the mod's game textures (:attr:`textureDescs`) -- what :meth:`RabbitFX.tagOf` takes
+        
+        Parameters
+        ----------
+        textureHash: :class:`str`
+            The texture's hash
+        
+        version: Optional[:class:`Version`]
+            The game version wanted -- see :meth:`getDrawPass`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        Optional[Tuple[:class:`str`, :class:`int`, :class:`int`, :class:`int`]]
+            ``(format, width, height, mips)`` -- the format by its name, ``BC7_TYPELESS`` -- or ``None`` when the mod has no such row
+        """
+    def getTextureRegister(self, component: str, role: str, version: FixRaidenBoss2.core.Version | None = None) -> str | None:
+        """
+        The register the mod's own draw of a slot binds a texture role at (:attr:`textureRegisters`) -- else the game's default
+        for the role: the row named after the mod's game, with an empty component
+        
+        Parameters
+        ----------
+        component: :class:`str`
+            The draw slot, eg. ``component3``
+        
+        role: :class:`str`
+            The role, eg. ``upperDiffuse``; ``<role>@rabbitfx`` for the key the role is handed to RabbitFX under;
+            ``<role>@<pass>``, eg. ``upperDiffuse@other``, for where another pass of the slot (:meth:`getDrawPass`'s
+            ``other``) binds it
+        
+        version: Optional[:class:`Version`]
+            The game version wanted -- see :meth:`getDrawPass`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The register, or ``None`` when neither the mod nor its game has a row for the role
+        """
+    def getTextureRole(self, component: str, reg: str, version: FixRaidenBoss2.core.Version | None = None, drawPass: str = '') -> str | None:
+        """
+        The texture role the mod's own draw of a slot binds at a register -- :meth:`getTextureRegister` read backwards, with the
+        game's default where the mod has no row of the role. A RabbitFX key answers with the role it carries
+        
+        Parameters
+        ----------
+        component: :class:`str`
+            The draw slot, eg. ``component3``
+        
+        reg: :class:`str`
+            The register, eg. ``ps-t3``, or a RabbitFX key
+        
+        version: Optional[:class:`Version`]
+            The game version wanted -- see :meth:`getDrawPass`
+        
+            **Default**: ``None``
+        
+        drawPass: :class:`str`
+            The pass of the slot, as :meth:`getDrawPass` names it (``other``, ``other2``, ...): its ``<role>@<pass>`` rows
+            are read, and the role answered without the suffix. Empty for the slot's main pass (its plain rows and RabbitFX
+            keys)
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The role, or ``None`` when no role is bound there
+        """
+    def getTextureThumbprints(self, version: FixRaidenBoss2.core.Version | None = None) -> dict[str, list[int]]:
+        """
+        The thumbprint of each of the mod's game textures (:attr:`textureThumbprints`), by the texture's hash -- what
+        :attr:`WWMITextureFacts.textureThumbprints` holds
+        
+        Parameters
+        ----------
+        version: Optional[:class:`Version`]
+            The game version wanted -- see :meth:`getDrawPass`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        Dict[:class:`str`, List[:class:`int`]]
+            Hash -> its thumbprint's bytes (16 x 16, row by row); empty when the mod has no rows
         """
     def getVGCount(self, type: str, component: str = '', version: FixRaidenBoss2.core.Version | None = None) -> str | None:
         """
@@ -21024,6 +21907,34 @@ class ModType:
     def aliases(self, arg0: collections.abc.Sequence[str]) -> None:
         ...
     @property
+    def boneCentroids(self) -> BoneCentroids:
+        """
+        :class:`BoneCentroids`: Each bone's rest-pose centroid on the mod's own model -- see :meth:`getBoneCentroids`
+        """
+    @boneCentroids.setter
+    def boneCentroids(self, arg0: BoneCentroids) -> None:
+        ...
+    @property
+    def drawPasses(self) -> DrawPasses:
+        """
+        :class:`DrawPasses`: The draw passes of each of the mod's draw slots (WuWa) -- see :meth:`getDrawPass`
+        
+        The first of six versioned tables of a character's GAME data that a fix reads at the run's version rather than carrying
+        it: this, :attr:`textureRegisters`, :attr:`gameShaders`, :attr:`shapeKeyDispatchSizes`, :attr:`boneCentroids` and
+        :attr:`shapeKeyRemaps`. Same defaulting and sharing rules as :attr:`hashes`
+        """
+    @drawPasses.setter
+    def drawPasses(self, arg0: DrawPasses) -> None:
+        ...
+    @property
+    def gameShaders(self) -> GameShaders:
+        """
+        :class:`GameShaders`: The game pixel shaders a fix draws the mod's parts with -- see :meth:`getGameShader`
+        """
+    @gameShaders.setter
+    def gameShaders(self, arg0: GameShaders) -> None:
+        ...
+    @property
     def gameTypeId(self) -> int:
         """
         :class:`int`: The id for the game this type of mod belongs to
@@ -21093,6 +22004,22 @@ class ModType:
     def iniRemoveBuilder(self, arg0: IniRemoveBuilder) -> None:
         ...
     @property
+    def materialCodes(self) -> MaterialCodes:
+        """
+        :class:`MaterialCodes`: What the codes of the mod's single-channel code maps mean -- see :meth:`getMaterialCode`
+        """
+    @materialCodes.setter
+    def materialCodes(self, arg0: MaterialCodes) -> None:
+        ...
+    @property
+    def materialColours(self) -> MaterialColours:
+        """
+        :class:`MaterialColours`: The colours the mod's material masks mark each material with -- see :meth:`getMaterialColour`
+        """
+    @materialColours.setter
+    def materialColours(self, arg0: MaterialColours) -> None:
+        ...
+    @property
     def modTypeId(self) -> int:
         """
         :class:`int`: The id for this specific type of mod
@@ -21115,6 +22042,46 @@ class ModType:
         """
     @shapeKeyChecksums.setter
     def shapeKeyChecksums(self, arg0: ShapeKeyChecksums) -> None:
+        ...
+    @property
+    def shapeKeyDispatchSizes(self) -> ShapeKeyDispatchSizes:
+        """
+        :class:`ShapeKeyDispatchSizes`: The height WWMI dispatches the mod's shape keys with -- see :meth:`getShapeKeyDispatchSize`
+        """
+    @shapeKeyDispatchSizes.setter
+    def shapeKeyDispatchSizes(self, arg0: ShapeKeyDispatchSizes) -> None:
+        ...
+    @property
+    def shapeKeyRemaps(self) -> ShapeKeyRemaps:
+        """
+        :class:`ShapeKeyRemaps`: The order the mod's shape keys are put in on another character -- see :meth:`getShapeKeyRemap`
+        """
+    @shapeKeyRemaps.setter
+    def shapeKeyRemaps(self, arg0: ShapeKeyRemaps) -> None:
+        ...
+    @property
+    def textureDescs(self) -> TextureDescs:
+        """
+        :class:`TextureDescs`: How the game creates the mod's game textures -- see :meth:`getTextureDesc`
+        """
+    @textureDescs.setter
+    def textureDescs(self, arg0: TextureDescs) -> None:
+        ...
+    @property
+    def textureRegisters(self) -> TextureRegisters:
+        """
+        :class:`TextureRegisters`: Where the mod's own draws bind each texture role -- see :meth:`getTextureRegister`
+        """
+    @textureRegisters.setter
+    def textureRegisters(self, arg0: TextureRegisters) -> None:
+        ...
+    @property
+    def textureThumbprints(self) -> TextureThumbprints:
+        """
+        :class:`TextureThumbprints`: What the mod's game textures look like, as thumbprints -- see :meth:`getTextureThumbprints`
+        """
+    @textureThumbprints.setter
+    def textureThumbprints(self, arg0: TextureThumbprints) -> None:
         ...
     @property
     def vertexCounts(self) -> VertexCounts:
@@ -23107,6 +24074,57 @@ class RabbitFX:
             The flags, in :attr:`FlagKeys`' order
         """
     @staticmethod
+    @typing.overload
+    def tagOf(dxgiFormat: typing.SupportsInt | typing.SupportsIndex, width: typing.SupportsInt | typing.SupportsIndex, height: typing.SupportsInt | typing.SupportsIndex, mips: typing.SupportsInt | typing.SupportsIndex) -> int:
+        """
+        The tag RabbitFX's texture overrides give a texture of this description (:meth:`textureTag`'s rule, on a texture that is
+        not on disk -- a game texture's :class:`TextureDescs` row, say)
+        
+        Parameters
+        ----------
+        dxgiFormat: :class:`int`
+            The texture's ``DXGI_FORMAT`` number
+        
+        width: :class:`int`
+            The texture's width
+        
+        height: :class:`int`
+            The texture's height
+        
+        mips: :class:`int`
+            The texture's mip count, as the game creates it
+        
+        Returns
+        -------
+        :class:`int`
+            The tag
+        """
+    @staticmethod
+    @typing.overload
+    def tagOf(format: str, width: typing.SupportsInt | typing.SupportsIndex, height: typing.SupportsInt | typing.SupportsIndex, mips: typing.SupportsInt | typing.SupportsIndex) -> int:
+        """
+        The same, by the format's name without ``DXGI_FORMAT_`` (``BC7_TYPELESS``, as a frame dump's ``.dsc`` writes it)
+        
+        Parameters
+        ----------
+        format: :class:`str`
+            The format's name
+        
+        width: :class:`int`
+            The texture's width
+        
+        height: :class:`int`
+            The texture's height
+        
+        mips: :class:`int`
+            The texture's mip count, as the game creates it
+        
+        Returns
+        -------
+        :class:`int`
+            The tag
+        """
+    @staticmethod
     def textureTag(path: str) -> int:
         """
         The tag RabbitFX's texture overrides give the texture at ``path``, from its ``.dds`` header: ``3`` for
@@ -24321,7 +25339,7 @@ class RegAssetRemap(BaseRegEdit):
             The same part that was passed in, after editing
         """
     @property
-    def assets(self) -> typing.Any:
+    def assets(self) -> dict:
         """
         Dict[:class:`str`, Union[:class:`ModMappedAssets`, Tuple[:class:`ModMappedAssets`, Optional[:class:`str`]]]]: Which
         registers are remapped, and against which asset table -- see this class's constructor
@@ -25314,7 +26332,7 @@ class RegIfTemplateAdd(BaseIniGraphEdit):
         @property
         def value(self) -> int:
             ...
-    def __init__(self, ifTemplate: typing.Any = None, position: RegIfTemplateAdd.Position = ..., key: str = '') -> None:
+    def __init__(self, ifTemplate: typing.Any = None, position: RegIfTemplateAdd.Position = ..., key: str = '', value: str | None = None, everySection: bool = False, sectionFilter: typing.Any = None) -> None:
         ...
     def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
         """
@@ -25493,7 +26511,7 @@ class RegNewVals(BaseRegEdit):
     def addNewKVPs(self, arg0: bool) -> None:
         ...
     @property
-    def vals(self) -> typing.Any:
+    def vals(self) -> dict:
         """
         Dict[:class:`str`, Union[:class:`str`, Callable[[Optional[:class:`ModType`]], :class:`str`], :class:`ReplaceList`, :class:`ReplaceIf`]]: Defines which
         registers will have their values changed, where the keys are the names of the register and the
@@ -25586,7 +26604,7 @@ class RegRemap(BaseRegEdit):
             The same part that was passed in, after editing
         """
     @property
-    def keyRemap(self) -> typing.Any:
+    def keyRemap(self) -> dict:
         """
         Dict[:class:`str`, Union[List[Union[:class:`str`, :class:`CppRemappedKeyData`]], :class:`CppKeyRemapData`]]:
         The old key -> remap rules mapping to apply
@@ -25661,7 +26679,7 @@ class RegRemove(BaseRegEdit):
             The same part that was passed in, after editing
         """
     @property
-    def removeKeys(self) -> typing.Any:
+    def removeKeys(self) -> dict:
         """
         Dict[Any, Optional[Callable[[:class:`int`, Any], :class:`bool`]]]: Each key to remove, mapped to
         its own optional check predicate
@@ -29402,6 +30420,88 @@ class ShapeKeyChecksums(ModMappedAssets):
         
             **Default**: ``None``
         """
+class ShapeKeyDispatchSizes(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    The height WWMI dispatches a character's shape keys with, per game version, pre-populated with this project's real data
+    
+    The ``component`` is ``""`` and the ``type`` is ``dispatchY``: its value is the character's
+    ``Metadata.json`` ``dispatch_y``, which a mod remapped onto the character writes as its
+    ``$\\\\WWMIv1\\\\shapekey_dispatch_size_y_original_batch<n>``
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/``getKeys``/
+        ``versionOf``/``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * component
+        * type
+        
+    """
+    def __init__(self, map: typing.Any = None) -> None:
+        """
+        Constructs a new, fully-populated lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the values to fix from to the values to fix to
+        
+            **Default**: ``None``
+        """
+class ShapeKeyRemaps:
+    """
+    
+    The order a mod's shape keys are put in when it is remapped onto another character, pre-populated with this project's
+    real data
+    
+    The game drives a character's shape keys (blinks, mouth shapes) by SLOT, and two characters can number the same keys
+    differently, so a fix writes the mod's shape-key buffers again in the target's order (:meth:`WWMIShapeKeys.reorder`).
+    The value is that order: for each of the target's slots, the source key it takes (``-1`` for none), comma-separated --
+    see :meth:`ModType.getShapeKeyRemap`
+    
+    .. note::
+        Six index columns with two versions, as :class:`VGRemaps` has: ``fromVersion``, ``fromChar``, ``fromComp``,
+        ``toVersion``, ``toChar``, ``toComp``. Both component columns are ``""`` on every shipped row
+        
+    """
+    def __init__(self) -> None:
+        """
+        Constructs a new, fully-populated table
+        """
+    def __len__(self) -> int:
+        """
+        The number of rows
+        """
+    def get(self, fromChar: str, toChar: str, fromVersion: FixRaidenBoss2.core.Version | None = None, toVersion: FixRaidenBoss2.core.Version | None = None) -> str | None:
+        """
+        The order from one character's version onto another's, as written in the table -- each version the newest row at or
+        below it
+        
+        Parameters
+        ----------
+        fromChar: :class:`str`
+            The character remapped from
+        
+        toChar: :class:`str`
+            The character remapped to
+        
+        fromVersion: Optional[:class:`Version`]
+            **Default**: ``None``, the latest
+        
+        toVersion: Optional[:class:`Version`]
+            **Default**: ``None``, the latest
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The order, comma-separated, or ``None`` when the table has none for the pair
+        """
 class SideMeshes:
     """
     
@@ -30219,7 +31319,7 @@ class TexCreate(BaseResEdit):
         :class:`str`
             The unique id for the file
         """
-    def __init__(self, resModObj: typing.Any, texName: str, texCreator: typing.Any, resType: str = 'resourceRemapTexAdd', fixFunc: typing.Any = None) -> None:
+    def __init__(self, resModObj: typing.Any, texName: str, texCreator: typing.Any, resType: str = 'resourceRemapTexAdd', fixFunc: typing.Any = None, files: collections.abc.Mapping[str, str] = {}) -> None:
         ...
     def buildResModel(self, resType: str, ini: typing.Any, srcPath: str, modType: typing.Any = None, *args, modName: str = '', **kwargs) -> typing.Any:
         """
@@ -30651,6 +31751,82 @@ class TexReplace(BaseResEdit):
     def texEditor(self, arg1: typing.Any) -> None:
         ...
 
+class TextureDescs(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    How the game creates a character's game textures, per game version, pre-populated with this project's real data
+    
+    The ``component`` is ``""`` and the ``type`` is the texture's hash; the value is its description as a frame
+    dump's ``.dsc`` gives it, ``format,width,height,mips`` (``BC7_TYPELESS,2048,2048,12``) -- what a texture's own
+    file cannot say once a copy has dropped its mips. See :meth:`ModType.getTextureDesc` and
+    :meth:`RabbitFX.tagOf`
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/``getKeys``/
+        ``versionOf``/``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * component
+        * type
+        
+    """
+    def __init__(self, map: typing.Any = None) -> None:
+        """
+        Constructs a new, fully-populated lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the values to fix from to the values to fix to
+        
+            **Default**: ``None``
+        """
+class TextureRegisters(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    Where a character's own draws bind each texture role, per game version, pre-populated with this project's real data
+    
+    The slot is the ``component`` (``component0``, ...), the role the ``type`` (``upperDiffuse``), and the value
+    the register (``ps-t3``). The same role handed to RabbitFX is the type ``<role>@rabbitfx``, valued with
+    RabbitFX's key (``Resource\\\\RabbitFX\\\\Diffuse``), and the register another pass of the slot binds it at (an
+    outline, named as :class:`DrawPasses` names the pass) is the type ``<role>@<pass>``
+    (``upperDiffuse@other``) :raw-html:`<br />` :raw-html:`<br />`
+    
+    A row whose ``name`` is a GAME's (the game's name) and whose ``component`` is ``""`` is
+    that game's default for every character and slot -- :meth:`ModType.getTextureRegister` falls back to it.
+    So a game update that moves a role to another register for every character (GI 5.x moved the diffuse from
+    ``ps-t0`` to ``ps-t1``) is one row
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/``getKeys``/
+        ``versionOf``/``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * component
+        * type
+        
+    """
+    def __init__(self, map: typing.Any = None) -> None:
+        """
+        Constructs a new, fully-populated lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the values to fix from to the values to fix to
+        
+            **Default**: ``None``
+        """
 class TextureRoles:
     """
     
@@ -30753,6 +31929,41 @@ class TextureRoles:
             file -> its roles
         """
 
+class TextureThumbprints(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    What a character's game textures look like, as small thumbprints, per game version, pre-populated with this project's real data
+    
+    The ``component`` is ``""`` and the ``type`` is the texture's hash; the value is its thumbprint -- a 16 x 16
+    grayscale box average of the decoded texture, each pixel's ``(r + g + b) / 3`` -- as 256 bytes in hex, row by row.
+    A fix places a mod file that carries no hash by correlating its own thumbprint against these. See
+    :meth:`ModType.getTextureThumbprints` and :cpp:member:`WWMITextureFacts::textureThumbprints`
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/``getKeys``/
+        ``versionOf``/``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * component
+        * type
+        
+    """
+    def __init__(self, map: typing.Any = None) -> None:
+        """
+        Constructs a new, fully-populated lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the values to fix from to the values to fix to
+        
+            **Default**: ``None``
+        """
 class Token:
     """
     
@@ -31781,6 +32992,23 @@ class VGRemap:
         vgRemap: Dict[:class:`int`, :class:`int`]
             The vertex group remap from one type of mod to another. **Default**: ``{}``
         """
+    def compact(self, size: typing.SupportsInt | typing.SupportsIndex) -> tuple[VGRemap, list[int], list[int]]:
+        """
+        This row renumbered into a table of 'size' entries: every distinct target bone below 'size' it names gets a LOCAL id,
+        in ascending order of the bone -- so a buffer can hold local ids no wider than the table, with the table to turn them
+        back
+        
+        Parameters
+        ----------
+        size: :class:`int`
+            The entries of the table
+        
+        Returns
+        -------
+        Tuple[:class:`VGRemap`, List[:class:`int`], List[:class:`int`]]
+            The row in local ids (a target past the table left out); the forward table, local id -> target bone (``0`` past the
+            last); and the reverse table, target bone -> local id (``0`` for a bone the row does not name)
+        """
     @property
     def maxIndex(self) -> int | None:
         """
@@ -31873,7 +33101,7 @@ class VGRemapBlendReplace(BaseResEdit):
         @path.setter
         def path(self, arg0: str) -> None:
             ...
-    def __init__(self, resModObj: typing.Any, modType: typing.Any, fromVersion: FixRaidenBoss2.core.Version | None = None, toVersion: FixRaidenBoss2.core.Version | None = None, resType: str = 'blend', resSubType: str | None = None, fromComp: str | None = None, toComp: str | None = None) -> None:
+    def __init__(self, resModObj: typing.Any, modType: typing.Any, fromVersion: FixRaidenBoss2.core.Version | None = None, toVersion: FixRaidenBoss2.core.Version | None = None, resType: str = 'blend', resSubType: str | None = None, fromComp: str | None = None, toComp: str | None = None, anchorChains: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]] = {}, influences: typing.SupportsInt | typing.SupportsIndex = 0, fixFunc: typing.Any = None, elements: typing.Any = None, pairedIds: typing.Any = None, row: typing.Any = None) -> None:
         ...
     @property
     def anchorChains(self) -> dict[int, list[int]]:
@@ -31952,6 +33180,15 @@ class VGRemapBlendReplace(BaseResEdit):
         """
     @resSubType.setter
     def resSubType(self, arg0: str | None) -> None:
+        ...
+    @property
+    def row(self) -> typing.Any:
+        """
+        Optional[:class:`VGRemap`]: The vertex group row given outright, used in place of looking one up in :attr:`modType`'s
+        asset tables -- a table the caller built, eg. a row composed with another map. **Default**: ``None``, the row is looked up
+        """
+    @row.setter
+    def row(self, arg1: typing.Any) -> None:
         ...
     @property
     def rowModName(self) -> str | None:
@@ -33307,6 +34544,38 @@ class WWMIFixerConfig:
         @srcComponent.setter
         def srcComponent(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
+    class BlendWidth:
+        """
+        
+        Whether the target's merged skeleton needs WWMI's blend remap -- see :meth:`WWMIFixerConfig.blendWidth`
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def bones(self) -> int:
+            """
+            :class:`int`: the distinct target bones the vertex group row names
+            """
+        @bones.setter
+        def bones(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def notes(self) -> list[str]:
+            """
+            List[:class:`str`]: what the decision has to say, for the log, in order
+            """
+        @notes.setter
+        def notes(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
+        def targetPast256(self) -> bool:
+            """
+            :class:`bool`: whether the remapped blend indices pass what an 8-bit blend index names, so the fix writes a blend remap (and drops the mod's own skeleton lines: :attr:`WWMIFixerConfig.remappedSkeletonRemovals`)
+            """
+        @targetPast256.setter
+        def targetPast256(self, arg0: bool) -> None:
+            ...
     class CarriedLine:
         """
         
@@ -33357,7 +34626,7 @@ class WWMIFixerConfig:
         def __init__(self) -> None:
             ...
         @typing.overload
-        def __init__(self, role: str, colour: ..., size: typing.SupportsInt | typing.SupportsIndex = 16) -> None:
+        def __init__(self, role: str, colour: ... | None = None, size: typing.SupportsInt | typing.SupportsIndex = 16, material: tuple[str, str] = ('', '')) -> None:
             ...
         @property
         def colour(self) -> ...:
@@ -33366,6 +34635,15 @@ class WWMIFixerConfig:
             """
         @colour.setter
         def colour(self, arg0: ...) -> None:
+            ...
+        @property
+        def material(self) -> tuple[str, str]:
+            """
+            Tuple[:class:`str`, :class:`str`]: The target's component and :class:`MaterialColours` type its colour is read from, eg.
+            ``("component3", "torsoMask.skin")`` (:meth:`WWMIFixerConfig.withGameData`). Empty: :attr:`colour` is the config's
+            """
+        @material.setter
+        def material(self, arg0: tuple[str, str]) -> None:
             ...
         @property
         def role(self) -> str:
@@ -33403,7 +34681,7 @@ class WWMIFixerConfig:
         @property
         def rel(self) -> str:
             """
-            :class:`str`: The file relative to the ``.ini``'s folder, as the ``filename =`` line writes it
+            :class:`str`: The file relative to the ``.ini``'s folder, as the ``filename =`` line writes it -- empty for the fix to compute it from :attr:`file`
             """
         @rel.setter
         def rel(self, arg0: str) -> None:
@@ -33889,6 +35167,14 @@ class WWMIFixerConfig:
             Optional[:class:`str`]
                 The role, or ``None``
             """
+        @staticmethod
+        def ofGame(game: str) -> WWMIFixerConfig.Shader:
+            """
+            A shader whose code and constant buffers are the :class:`GameShaders` row 'game' (:attr:`game`), named after it
+            
+            :param game: :class:`str`: the row, eg. ``"LynaeUpper"``
+            :returns: :class:`WWMIFixerConfig.Shader`
+            """
         def __init__(self) -> None:
             ...
         @property
@@ -33909,6 +35195,16 @@ class WWMIFixerConfig:
             """
         @constantBuffers.setter
         def constantBuffers(self, arg0: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
+            ...
+        @property
+        def game(self) -> str:
+            """
+            :class:`str`: The :class:`GameShaders` row its code and constant buffers are read from, eg. ``"LynaeFilm"`` -- the source's
+            or the target's game shader (:meth:`WWMIFixerConfig.withGameData` fills :attr:`ps` and :attr:`constantBuffers`). Empty:
+            the config gives them
+            """
+        @game.setter
+        def game(self, arg0: str) -> None:
             ...
         @property
         def lines(self) -> list[tuple[str, str]]:
@@ -33936,6 +35232,16 @@ class WWMIFixerConfig:
             """
         @onlyWith.setter
         def onlyWith(self, arg0: str) -> None:
+            ...
+        @property
+        def passGame(self) -> list[str]:
+            """
+            List[:class:`str`]: :attr:`passPs` by :class:`GameShaders` row: per entry of :attr:`passes`, the row whose code that pass
+            draws with (:meth:`WWMIFixerConfig.withGameData` fills :attr:`passPs`). An empty entry keeps that pass's :attr:`passPs`.
+            **Default**: empty
+            """
+        @passGame.setter
+        def passGame(self, arg0: collections.abc.Sequence[str]) -> None:
             ...
         @property
         def passPs(self) -> list[str]:
@@ -34505,14 +35811,14 @@ class WWMIFixerConfig:
         def thisKeys(self, arg0: collections.abc.Sequence[str]) -> None:
             ...
     @staticmethod
-    def of(source: ModTypeId, target: ModTypeId) -> FixRaidenBoss2.core.WWMIFixerConfig | None:
+    def ofFactory(factory: CppIniFixFactory) -> FixRaidenBoss2.core.WWMIFixerConfig | None:
         """
-        The config the library's own fix from ``source`` to ``target`` is built from, or ``None`` for a pair it has no WWMI fix
-        for -- to start a variant of a shipped fix from (change a field, hand it to :func:`makeWWMIFixer`), or to read what it does
+        The config a fixer factory from :func:`makeWWMIFixer` was made with, or ``None`` for any other factory. A shipped fix's
+        factory is its mod type's builder row (:meth:`IniFixBuilder.factoryOf`), so this reads what a shipped fix does -- or
+        starts a variant of it (change a field, hand it to :func:`makeWWMIFixer`)
         
-        :param source: The character a mod is made for
-        :param target: The character it is remapped onto
-        :returns: The config
+        :param factory: :class:`CppIniFixFactory`: the factory
+        :returns: Optional[:class:`WWMIFixerConfig`]
         """
     @staticmethod
     def registerOf(bindings: collections.abc.Sequence[WWMIFixerConfig.Binding], role: str) -> str | None:
@@ -34535,6 +35841,25 @@ class WWMIFixerConfig:
         :param role: The role
         :returns: Its kind
         """
+    @staticmethod
+    def vb0VersionsOf(source: ModType) -> dict[str, str]:
+        """
+        Each ``vb0`` hash the library's hashes file a character's model under (lower case) -> its version
+        
+        :param source: :class:`ModType`: the character's mod type
+        :returns: Dict[:class:`str`, :class:`str`]
+        """
+    @staticmethod
+    def withReroutes(roles: WWMIFixerConfig.RoleResources, rerouteFrom: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> WWMIFixerConfig.RoleResources:
+        """
+        The roles as a fix resolves them once the reroutes are known : each reroute
+        (:attr:`drawReroutes`) reads its source component's files, so every ``(role, from)`` entry of
+        :attr:`RoleResources.ofSlotRole` is also filed under ``(role, as)``, unless that entry is there already
+        
+        :param roles: :class:`WWMIFixerConfig.RoleResources`: the :meth:`roleResources` decision
+        :param rerouteFrom: Dict[:class:`int`, :class:`int`]: each reroute that took draws: its ``as`` -> its ``from``
+        :returns: :class:`WWMIFixerConfig.RoleResources`
+        """
     def __init__(self) -> None:
         ...
     def bindingsOf(self, component: typing.SupportsInt | typing.SupportsIndex, shaderDrawn: bool) -> list[WWMIFixerConfig.Binding]:
@@ -34545,6 +35870,16 @@ class WWMIFixerConfig:
         :param component: The source component
         :param shaderDrawn: Whether its shader draws it
         :returns: List[:class:`WWMIFixerConfig.Binding`]
+        """
+    def blendWidth(self, row: FixRaidenBoss2.core.VGRemap | None) -> WWMIFixerConfig.BlendWidth:
+        """
+        DOES THE TARGET'S SKELETON PASS AN 8-BIT BLEND INDEX? The vertex group row's largest target bone answers it, a property of
+        the PAIR, so the ``.ini`` and the buffers cannot disagree about whether there is a blend remap. A row naming more distinct
+        target bones than one blend remap holds (:attr:`WWMIBlend.RemapSize`) falls back to an 8-bit blend, and says that every bone
+        past 255 then lands on bone 0
+        
+        :param row: Optional[:class:`VGRemap`]: the source's vertex group row onto the target (:meth:`ModType.getVGRemap`)
+        :returns: :class:`WWMIFixerConfig.BlendWidth`
         """
     def downloadOf(self, kind: str, hash: str) -> WWMIFixerConfig.Download:
         """
@@ -34566,7 +35901,7 @@ class WWMIFixerConfig:
         :param sourceName: The source character's name, for the notes
         :returns: :class:`WWMIFixerConfig.FileGroups`
         """
-    def gameDefaults(self, data: IniParseData, roles: WWMIFixerConfig.RoleResources, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], rerouteFrom: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], ownShader: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], sourceName: str) -> WWMIFixerConfig.GameDefaults:
+    def gameDefaults(self, data: ..., roles: WWMIFixerConfig.RoleResources, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], rerouteFrom: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], ownShader: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], sourceName: str) -> WWMIFixerConfig.GameDefaults:
         """
         THE SOURCE'S OWN GAME TEXTURE AS THE DEFAULT, where the mod's file reaches only some of a component's draws -- each a
         place the original drew with the game's texture:
@@ -34588,7 +35923,7 @@ class WWMIFixerConfig:
         :param sourceName: The source character's name
         :returns: :class:`WWMIFixerConfig.GameDefaults`
         """
-    def linkedLines(self, data: IniParseData, roles: WWMIFixerConfig.RoleResources, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], linkedInis: collections.abc.Sequence[IniFile], sourceName: str, toModName: str, iniFolder: str) -> WWMIFixerConfig.LinkedLines:
+    def linkedLines(self, data: ..., roles: WWMIFixerConfig.RoleResources, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], linkedInis: collections.abc.Sequence[...], sourceName: str, toModName: str, iniFolder: str) -> WWMIFixerConfig.LinkedLines:
         """
         What linked ``.ini`` files set on this file's draws (:meth:`IniParseData.linkedLines`), on the components the mod draws:
         each line's value names its file through the resource this ``.ini`` uses for it, or one the fix declares; its condition
@@ -34604,7 +35939,7 @@ class WWMIFixerConfig:
         :param iniFolder: The ``.ini``'s folder
         :returns: :class:`WWMIFixerConfig.LinkedLines`
         """
-    def modTexLines(self, data: IniParseData, roles: WWMIFixerConfig.RoleResources, lists: WWMIFixerConfig.TextureLists, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], rerouteFrom: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], ownShader: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex]) -> dict[int, list[WWMIFixerConfig.ModTexLine]]:
+    def modTexLines(self, data: ..., roles: WWMIFixerConfig.RoleResources, lists: WWMIFixerConfig.TextureLists, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], rerouteFrom: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], ownShader: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex]) -> dict[int, list[WWMIFixerConfig.ModTexLine]]:
         """
         THE MOD'S OWN TEXTURE LINES, RE-KEYED BY ROLE. Each ``<texRegPrefix>N`` line of the mod's sections, for each drawn
         component of the plan, goes to the register that component's bindings read its texture's role at
@@ -34635,7 +35970,7 @@ class WWMIFixerConfig:
         :param drawn: Set[:class:`int`]: the source components the mod draws
         :returns: List[:class:`str`]
         """
-    def rabbitFXFlags(self, data: IniParseData, roles: WWMIFixerConfig.RoleResources, toggled: collections.abc.Mapping[tuple[str, typing.SupportsInt | typing.SupportsIndex], str], drawn: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[str]], rerouteFrom: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], iniPath: str, iniFolder: str) -> dict[int, typing.Annotated[list[int], "FixedSize(4)"]]:
+    def rabbitFXFlags(self, data: ..., roles: WWMIFixerConfig.RoleResources, toggled: collections.abc.Mapping[tuple[str, typing.SupportsInt | typing.SupportsIndex], str], drawn: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[str]], rerouteFrom: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], iniPath: str, iniFolder: str) -> dict[int, typing.Annotated[list[int], "FixedSize(4)"]]:
         """
         The routing flags RabbitFX's ``SetTextures`` sets on the SOURCE's own draw of each drawn component that keeps RabbitFX
         (:attr:`SourceComponent.rabbitFX`) and whose sections run ``SetTextures`` -- from what that draw has BOUND at ``ps-t0``
@@ -34652,7 +35987,18 @@ class WWMIFixerConfig:
         :param iniFolder: The ``.ini``'s folder
         :returns: Dict[:class:`int`, List[:class:`int`]]: component -> its four flags (:meth:`RabbitFX.routingFlags`)
         """
-    def roleResources(self, data: IniParseData, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], rabbitFX: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], sourceName: str, toModName: str, iniFolder: str) -> WWMIFixerConfig.RoleResources:
+    def removedLines(self, targetPast256: bool, components: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], keepsRabbitFX: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex]) -> dict[int, list[WWMIFixerConfig.RegRemoval]]:
+        """
+        THE LINES EACH REMAPPED SECTION DROPS. Per remapped source component: :attr:`removedRegs`, plus
+        :attr:`remappedSkeletonRemovals` when ``targetPast256`` -- without RabbitFX's own lines for a component that keeps RabbitFX.
+        A component with nothing to drop is left out. Each is matched with or without ``ref``
+        
+        :param targetPast256: the :meth:`blendWidth` decision
+        :param components: Set[:class:`int`]: the remapped source components (every :meth:`fileGroups` group's)
+        :param keepsRabbitFX: Set[:class:`int`]: the components that keep the mod's RabbitFX (the :meth:`rabbitFXFlags` decision's keys)
+        :returns: Dict[:class:`int`, List[:class:`WWMIFixerConfig.RegRemoval`]]: per component, the lines it drops
+        """
+    def roleResources(self, data: ..., drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], rabbitFX: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], sourceName: str, toModName: str, iniFolder: str) -> WWMIFixerConfig.RoleResources:
         """
         What each role resolves to on each component the mod draws.
         
@@ -34688,7 +36034,7 @@ class WWMIFixerConfig:
         :param component: The source component
         :returns: List[:class:`str`]: the roles, in the order the lines are written
         """
-    def texEditTargets(self, data: IniParseData, roles: WWMIFixerConfig.RoleResources, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], ownShader: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], iniPath: str, sourceName: str) -> WWMIFixerConfig.TexEditTargets:
+    def texEditTargets(self, data: ..., roles: WWMIFixerConfig.RoleResources, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], ownShader: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], iniPath: str, sourceName: str) -> WWMIFixerConfig.TexEditTargets:
         """
         Which resources each of :attr:`texEdits` applies to: the one its role resolves to (:meth:`RoleResources.shared`) and
         every other variant the mod's toggles bind the role as -- unless another role's edit of another kind claimed that file
@@ -34703,7 +36049,7 @@ class WWMIFixerConfig:
         :param sourceName: The source character's name
         :returns: :class:`WWMIFixerConfig.TexEditTargets`
         """
-    def textureLists(self, data: IniParseData, roles: WWMIFixerConfig.RoleResources, defaults: WWMIFixerConfig.GameDefaults, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], rerouteFrom: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], ownShader: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], overlaid: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex]) -> WWMIFixerConfig.TextureLists:
+    def textureLists(self, data: ..., roles: WWMIFixerConfig.RoleResources, defaults: WWMIFixerConfig.GameDefaults, drawn: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], rerouteFrom: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], ownShader: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex], overlaid: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex]) -> WWMIFixerConfig.TextureLists:
         """
         THE FIX'S TEXTURE LISTS, LINE BY LINE. For each drawn component of the plan, in order: its ``"main"`` list (each of its
         bindings at its register: ``null`` as nothing, a role the mod toggles against the game's texture by what binds it
@@ -34722,7 +36068,7 @@ class WWMIFixerConfig:
         :param overlaid: Set[:class:`int`]: the drawn components whose overlay is drawn
         :returns: :class:`WWMIFixerConfig.TextureLists`
         """
-    def toggleLists(self, lists: WWMIFixerConfig.TextureLists, data: IniParseData, defaults: WWMIFixerConfig.GameDefaults, sourceName: str, toModName: str, iniPath: str) -> WWMIFixerConfig.TextureLists:
+    def toggleLists(self, lists: WWMIFixerConfig.TextureLists, data: ..., defaults: WWMIFixerConfig.GameDefaults, sourceName: str, toModName: str, iniPath: str) -> WWMIFixerConfig.TextureLists:
         """
         THE MOD'S OWN TOGGLES IN THE LISTS. A line binding a resource the mod chooses among others under a toggle
         (:meth:`IniParseData.thisToggleOf`) runs a copy of the mod's texture override instead
@@ -34738,6 +36084,33 @@ class WWMIFixerConfig:
         :param toModName: The target's name
         :param iniPath: The ``.ini``'s path
         :returns: :class:`WWMIFixerConfig.TextureLists`: the lists, with the lines that run a toggle, and the toggles
+        """
+    def withGameData(self, source: ModType, target: ModType, fromVersion: FixRaidenBoss2.core.Version | None = None, toVersion: FixRaidenBoss2.core.Version | None = None) -> WWMIFixerConfig:
+        """
+        This config with its GAME DATA read off the versioned asset tables, at the run's versions -- what a config carries is the
+        pair's choices, and what the game draws with comes from the tables, so a fix runs at any version the tables have rows for:
+        
+        * :attr:`slotPasses`, :attr:`passVertexShaders` and :attr:`filterIndices`, from the target's :class:`DrawPasses` (each
+          slot's ``main``, ``main2``, ... and ``other``, ``other2``, ... passes, their vertex shaders and ``filter_index`` tags)
+        * the keys of :attr:`extraPassRegs` and :attr:`extraPassNoDraw` written as a pass NAME (``other``, ``other2``), as the
+          pass's pixel shader
+        * :attr:`shapeKeyDispatchSize` (:class:`ShapeKeyDispatchSizes`) and :attr:`shapeKeyOrder` (:class:`ShapeKeyRemaps`)
+        * each :class:`WWMIFixerConfig.Shader`'s code and constant buffers, for one naming its :class:`GameShaders` row
+          (:attr:`WWMIFixerConfig.Shader.game`, and a pass's own code by :attr:`WWMIFixerConfig.Shader.passGame`)
+        * the source's game textures' thumbprints (:attr:`sourceTextures`, :class:`TextureThumbprints`)
+        * a :class:`WWMIFixerConfig.CreatedTexture`'s colour, for one naming its :class:`MaterialColours` row
+        * :attr:`sourceVgMaps`: the source's :class:`VGRemaps` rows from each component onto her merged skeleton (``""``), at her
+          oldest ``vb0``'s version
+        * :attr:`stashRegs`, from :attr:`stashRoles` and the target's :class:`TextureRegisters`
+        * :attr:`sourceVersionByVb0`, when :attr:`sourceVersionFromVb0` (see :meth:`vb0VersionsOf`)
+        
+        A field the tables hold nothing for keeps the config's value. The compiled fixer calls this once per fix
+        
+        :param source: :class:`ModType`: the source's mod type
+        :param target: :class:`ModType`: the target's mod type
+        :param fromVersion: Optional[:class:`Version`]: the source's version (the mod's) -- ``None`` reads each table's newest rows
+        :param toVersion: Optional[:class:`Version`]: the target's version (the fix's)
+        :returns: :class:`WWMIFixerConfig`
         """
     @property
     def anchorChains(self) -> dict[int, list[int]]:
@@ -35105,6 +36478,15 @@ class WWMIFixerConfig:
     def sourceVersionByVb0(self, arg0: collections.abc.Mapping[str, str]) -> None:
         ...
     @property
+    def sourceVersionFromVb0(self) -> bool:
+        """
+        :class:`bool`: Whether :attr:`sourceVersionByVb0` is read off the source's own ``vb0`` rows in the library's hashes
+        (:meth:`vb0VersionsOf`, by :meth:`withGameData`). **Default**: ``False``
+        """
+    @sourceVersionFromVb0.setter
+    def sourceVersionFromVb0(self, arg0: bool) -> None:
+        ...
+    @property
     def sourceVgMaps(self) -> dict[int, list[int]]:
         """
         Dict[:class:`int`, List[:class:`int`]]: The SOURCE's ``vg_map`` per component, for a mod from before
@@ -35122,6 +36504,15 @@ class WWMIFixerConfig:
         """
     @stashRegs.setter
     def stashRegs(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[str]]) -> None:
+        ...
+    @property
+    def stashRoles(self) -> dict[int, list[str]]:
+        """
+        Dict[:class:`int`, List[:class:`str`]]: :attr:`stashRegs` by ROLE -- slot -> the roles to capture, each at the register
+        the target's :class:`TextureRegisters` binds it (:meth:`withGameData`), eg. ``{4: ["glow", "flow", "noise"]}``
+        """
+    @stashRoles.setter
+    def stashRoles(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[str]]) -> None:
         ...
     @property
     def targetId(self) -> ModTypeId:
@@ -35360,13 +36751,14 @@ class WWMIParserConfig:
         def sourceFlags(self, arg0: WWMIParserConfig.DrawSplit.FlagMask) -> None:
             ...
     @staticmethod
-    def of(id: ModTypeId) -> FixRaidenBoss2.core.WWMIParserConfig | None:
+    def ofFactory(factory: CppIniParseFactory) -> FixRaidenBoss2.core.WWMIParserConfig | None:
         """
-        The config the library's own parser of ``id`` is built from, or ``None`` for a character it has no WWMI parser for -- to
-        start a variant from (change a field, hand it to :func:`makeWWMIParser`), or to read it
+        The config a parser factory from :func:`makeWWMIParser` was made with, or ``None`` for any other factory. A shipped
+        parser's factory is its mod type's builder row (:meth:`IniParseBuilder.factoryOf`), so this reads a shipped parser -- or
+        starts a variant of it (change a field, hand it to :func:`makeWWMIParser`)
         
-        :param id: The character
-        :returns: The config
+        :param factory: :class:`CppIniParseFactory`: the factory
+        :returns: Optional[:class:`WWMIParserConfig`]
         """
     def __init__(self) -> None:
         ...
@@ -35383,6 +36775,18 @@ class WWMIParserConfig:
         -------
         Optional[:class:`int`]
             The slot, or ``None`` for any other mod object
+        """
+    def withGameData(self, modType: ModType) -> WWMIParserConfig:
+        """
+        This config with the character's GAME DATA read off the versioned asset tables: her game textures' thumbprints
+        (:attr:`WWMITextureFacts.textureThumbprints`, :class:`TextureThumbprints`, at her version) and, for a character whose skeleton was
+        renumbered (her ``vb0`` rows in the library's hashes at two versions or more, each with a :class:`VGRemaps` row onto the
+        newest), :attr:`skeletonNumberings` -- one per version, oldest first, with the bones that row moves -- and
+        :attr:`referenceBoneCentroids` (:class:`BoneCentroids` at the newest). A field the tables hold nothing for keeps the
+        config's value. The compiled parser calls this once per parse
+        
+        :param modType: :class:`ModType`: the character's mod type
+        :returns: :class:`WWMIParserConfig`
         """
     @property
     def drawSplits(self) -> list[WWMIParserConfig.DrawSplit]:
@@ -36394,7 +37798,8 @@ class WWMITextureFacts:
         """
         Dict[:class:`str`, List[:class:`int`]]: The game's own textures by hash, each a
         :attr:`thumbprintSize` square grayscale box average of the decoded file
-        (``Tools/Misc/Diagnostics/wwmiTextureThumbs.py`` generates them). A declared file nothing else names
+        (a shipped config leaves it empty: :meth:`WWMIParserConfig.withGameData` and :meth:`WWMIFixerConfig.withGameData` fill it
+        from the character's :class:`TextureThumbprints` rows). A declared file nothing else names
         is thumbprinted the same way and correlated against every entry; it IS the texture it correlates at
         least :attr:`identityMin` with while every other stays under :attr:`identityGap`. Consulted after
         :attr:`identifyTexture`; empty skips the step

@@ -659,6 +659,119 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The register a draw reads its bones from (``vs-cb4``): what a skeleton merge takes, and a remapped skeleton is
+             bound back to
+             @endrst
+             */
+            static inline const std::string WWMIBoneDataCb = "vs-cb4";
+
+            /**
+             * @brief
+             @rst
+             The register a draw reads its previous frame's bones from (``vs-cb3``), the extra merged skeleton's
+             @endrst
+             */
+            static inline const std::string WWMIExtraBoneDataCb = "vs-cb3";
+
+            /**
+             * @brief
+             @rst
+             :cpp:member:`WWMISkeletonMerger`'s input: the bone-data constant buffer it merges (``cs-cb8``)
+             @endrst
+             */
+            static inline const std::string WWMIMergerBonesReg = "cs-cb8";
+
+            /**
+             * @brief
+             @rst
+             :cpp:member:`WWMISkeletonMerger`'s output: the merged skeleton it writes (``cs-u6``)
+             @endrst
+             */
+            static inline const std::string WWMIMergerSkeletonReg = "cs-u6";
+
+            /**
+             * @brief
+             @rst
+             :cpp:member:`WWMISkeletonRemapper`'s input: the blend remap's forward table, local id to merged bone (``cs-t37``)
+             @endrst
+             */
+            static inline const std::string WWMIRemapperForwardReg = "cs-t37";
+
+            /**
+             * @brief
+             @rst
+             :cpp:member:`WWMISkeletonRemapper`'s input: the merged skeleton it remaps (``cs-t38``)
+             @endrst
+             */
+            static inline const std::string WWMIRemapperSkeletonReg = "cs-t38";
+
+            /**
+             * @brief
+             @rst
+             :cpp:member:`WWMISkeletonRemapper`'s output: the remapped skeleton it writes (``cs-u5``)
+             @endrst
+             */
+            static inline const std::string WWMIRemapperOutReg = "cs-u5";
+
+            /**
+             * @brief
+             @rst
+             :cpp:member:`WWMIBlendRemapper`'s input: the blend remap's reverse table, merged bone to local id (``cs-t34``)
+             @endrst
+             */
+            static inline const std::string WWMIBlendRemapperReverseReg = "cs-t34";
+
+            /**
+             * @brief
+             @rst
+             :cpp:member:`WWMIBlendRemapper`'s input: every vertex's merged bone ids (``cs-t35``)
+             @endrst
+             */
+            static inline const std::string WWMIBlendRemapperVertexVGReg = "cs-t35";
+
+            /**
+             * @brief
+             @rst
+             :cpp:member:`WWMIBlendRemapper`'s output: the blend it rewrites into the remap's local ids (``cs-u4``)
+             @endrst
+             */
+            static inline const std::string WWMIBlendRemapperOutReg = "cs-u4";
+
+            /**
+             * @brief
+             @rst
+             A resource's ``type`` for a buffer a compute shader writes
+             @endrst
+             */
+            static inline const std::string RWBuffer = "RWBuffer";
+
+            /**
+             * @brief
+             @rst
+             A resource's ``format`` of four 32-bit floats an element -- eg. a merged skeleton's bone matrices
+             @endrst
+             */
+            static inline const std::string FormatR32G32B32A32Float = "R32G32B32A32_FLOAT";
+
+            /**
+             * @brief
+             @rst
+             A resource's ``format`` of one unsigned byte an element
+             @endrst
+             */
+            static inline const std::string FormatR8UInt = "DXGI_FORMAT_R8_UINT";
+
+            /**
+             * @brief
+             @rst
+             A resource's ``format`` of one unsigned 16-bit integer an element
+             @endrst
+             */
+            static inline const std::string FormatR16UInt = "DXGI_FORMAT_R16_UINT";
+
+            /**
+             * @brief
+             @rst
              The flag every `section`_ of a WWMI mod sets when its character is drawn, and its ``[Present]`` resets each frame
              @endrst
              */

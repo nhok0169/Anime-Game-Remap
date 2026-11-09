@@ -128,6 +128,116 @@ ShapeKeyChecksums
 
 :raw-html:`<br />`
 
+BoneCentroids
+-------------
+
+.. cppattributetable:: AGRemapCore::BoneCentroids
+
+.. doxygenclass:: AGRemapCore::BoneCentroids
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+DrawPasses
+----------
+
+.. cppattributetable:: AGRemapCore::DrawPasses
+
+.. doxygenclass:: AGRemapCore::DrawPasses
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GameShaders
+-----------
+
+.. cppattributetable:: AGRemapCore::GameShaders
+
+.. doxygenclass:: AGRemapCore::GameShaders
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ShapeKeyDispatchSizes
+---------------------
+
+.. cppattributetable:: AGRemapCore::ShapeKeyDispatchSizes
+
+.. doxygenclass:: AGRemapCore::ShapeKeyDispatchSizes
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ShapeKeyRemaps
+--------------
+
+.. cppattributetable:: AGRemapCore::ShapeKeyRemaps
+
+.. doxygenclass:: AGRemapCore::ShapeKeyRemaps
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+MaterialCodes
+-------------
+
+.. cppattributetable:: AGRemapCore::MaterialCodes
+
+.. doxygenclass:: AGRemapCore::MaterialCodes
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+MaterialColours
+---------------
+
+.. cppattributetable:: AGRemapCore::MaterialColours
+
+.. doxygenclass:: AGRemapCore::MaterialColours
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TextureDescs
+------------
+
+.. cppattributetable:: AGRemapCore::TextureDescs
+
+.. doxygenclass:: AGRemapCore::TextureDescs
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TextureThumbprints
+------------------
+
+.. cppattributetable:: AGRemapCore::TextureThumbprints
+
+.. doxygenclass:: AGRemapCore::TextureThumbprints
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TextureRegisters
+----------------
+
+.. cppattributetable:: AGRemapCore::TextureRegisters
+
+.. doxygenclass:: AGRemapCore::TextureRegisters
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 VertexCounts
 ------------
 
@@ -1842,6 +1952,16 @@ TemplateFixer
 
 :raw-html:`<br />`
 
+WWMIFixFactory
+--------------
+
+.. cppattributetable:: AGRemapCore::WWMIFixFactory
+
+.. doxygenstruct:: AGRemapCore::WWMIFixFactory
+    :members:
+
+:raw-html:`<br />`
+
 WWMIFixerConfig
 ---------------
 
@@ -2064,6 +2184,16 @@ makeWWMIParser
 --------------
 
 .. doxygenfunction:: AGRemapCore::makeWWMIParser
+
+:raw-html:`<br />`
+
+WWMIParseFactory
+----------------
+
+.. cppattributetable:: AGRemapCore::WWMIParseFactory
+
+.. doxygenstruct:: AGRemapCore::WWMIParseFactory
+    :members:
 
 :raw-html:`<br />`
 
@@ -2750,6 +2880,28 @@ ColourRange
 .. cppattributetable:: AGRemapCore::ColourRange
 
 .. doxygenclass:: AGRemapCore::ColourRange
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ColourRanges
+------------
+
+.. cppattributetable:: AGRemapCore::ColourRanges
+
+.. doxygenstruct:: AGRemapCore::ColourRanges
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+Colours
+-------
+
+.. cppattributetable:: AGRemapCore::Colours
+
+.. doxygenstruct:: AGRemapCore::Colours
     :members:
     :protected-members:
 

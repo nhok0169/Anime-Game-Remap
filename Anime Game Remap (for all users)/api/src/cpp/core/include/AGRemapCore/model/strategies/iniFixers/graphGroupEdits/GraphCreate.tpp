@@ -38,6 +38,10 @@ namespace AGRemapCore {
         (void)modType;
         (void)modName;
 
+        if (!Base::gatesPass(graphGroups, onlyWith, onlyWithout)) {
+            return graphGroups;
+        }
+
         if (sectionsOf) {
             // a graph per group, of the sections it is handed; and group 0's into a group of its own when there is
             // none (every group removed, say)

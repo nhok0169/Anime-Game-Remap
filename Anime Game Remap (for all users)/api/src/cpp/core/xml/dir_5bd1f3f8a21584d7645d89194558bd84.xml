@@ -4,7 +4,6 @@
     <compoundname>include/AGRemapCore/data/IniFixData/ChisaParfait</compoundname>
     <innerfile refid="_chisa_parfait_fixer_8h">ChisaParfaitFixer.h</innerfile>
     <innerfile refid="_chisa_parfait_textures_8h">ChisaParfaitTextures.h</innerfile>
-    <innerfile refid="_chisa_parfait_thumbprints_8h">ChisaParfaitThumbprints.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

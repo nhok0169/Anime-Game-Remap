@@ -18,6 +18,7 @@
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/GIMICharFixer.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
+#include "AGRemapCore/constants/Colours.h"
 #include "AGRemapCore/model/textures/Colour.h"
 
 
@@ -26,7 +27,6 @@ namespace AGRemapCore {
         // The flat normal map a 4.0-era row invents, matching that row's
         // TexCreator(1024, 1024, colour = Colours.NormalMapYellow) exactly.
         const int NormalMapSize4_0 = 1024;
-        const Colour NormalMapYellow4_0(128, 128, 0);
     }
 
 
@@ -39,7 +39,6 @@ namespace AGRemapCore {
         // purple a Sumeru-era normal map is mostly made of, NOT the flat (128, 128, 255) blue.
         // Spelled out here rather than shared because core has no Colours constant class; Ayaka
         // declares the same value the same way.
-        const Colour NormalMapPurple1(128, 98, 128);
     }
 
 
@@ -89,9 +88,9 @@ namespace AGRemapCore {
 
         // PURPLE from 5.4, where lisa4_0 invents a yellow one.
         config.texAdds = {{"head", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple1)},
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapPurple1)},
                           {"body", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple1)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapPurple1)}};
 
         // ---- the 6.1-era defaults ----
         config.swapFaceRegs = false;
@@ -139,9 +138,9 @@ namespace AGRemapCore {
         // (1 -> 1, name only). A row with a single texAdd, like ganyu4_0, shows no divergence at
         // all, which is what makes this easy to misread as a missing texture.
         config.texAdds = {{"head", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize4_0, NormalMapSize4_0, NormalMapYellow4_0)},
+                            TexCreator(NormalMapSize4_0, NormalMapSize4_0, Colours::NormalMapYellow)},
                           {"body", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize4_0, NormalMapSize4_0, NormalMapYellow4_0)}};
+                            TexCreator(NormalMapSize4_0, NormalMapSize4_0, Colours::NormalMapYellow)}};
 
         // ---- what this row does with the 6.1-era defaults ----
         config.swapFaceRegs = false;
@@ -220,9 +219,9 @@ namespace AGRemapCore {
         // and the body different colours would need different names, or the second would silently
         // overwrite the first.
         config.texAdds = {{"head", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple1)},
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapPurple1)},
                           {"body", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple1)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapPurple1)}};
 
         // ORFix rather than the default NNFix, because the TARGET now has a normal map --
         // ORFix is the normal-map one. Same single line that separates ganyu6_1 from

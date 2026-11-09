@@ -37,14 +37,34 @@ The resource edits #edits borrow -- eg. those a :cpp:class:`ResRegCollect` names
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h" line="100" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h" bodystart="100" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_iter_graph_group_edit_1_1_group_edits_1aa35b02d353995a9aa5d4fe443a08e168" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1ae19fe8ca6e13db3675770964aa6e200f" kindref="member">Base</ref> * &gt;</type>
+        <definition>std::vector&lt;Base*&gt; AGRemapCore::IterGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GroupEdits::borrowed</definition>
+        <argsstring></argsstring>
+        <name>borrowed</name>
+        <qualifiedname>AGRemapCore::IterGraphGroupEdit::GroupEdits::borrowed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Edits owned elsewhere, run after #edits, in order -- eg. a fixer&apos;s stage, built when the list first
+reaches it and kept by the fixer because what it registers (a resource collect&apos;s edits) is read after
+the edits have run. Each must outlive the run
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h" line="110" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
 <para>The edits the factory builds for one group. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h" line="87" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h" bodystart="87" bodyend="101"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h" line="87" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEdit.h" bodystart="87" bodyend="111"/>
     <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_iter_graph_group_edit_1_1_group_edits_1aa35b02d353995a9aa5d4fe443a08e168" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit::GroupEdits</scope><name>borrowed</name></member>
       <member refid="struct_a_g_remap_core_1_1_iter_graph_group_edit_1_1_group_edits_1ac714004e95b2fe8432db2226b9f6bc66" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit::GroupEdits</scope><name>edits</name></member>
       <member refid="struct_a_g_remap_core_1_1_iter_graph_group_edit_1_1_group_edits_1ac9d3fa611a0422c93a4078b89d858211" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit::GroupEdits</scope><name>resEdits</name></member>
     </listofallmembers>

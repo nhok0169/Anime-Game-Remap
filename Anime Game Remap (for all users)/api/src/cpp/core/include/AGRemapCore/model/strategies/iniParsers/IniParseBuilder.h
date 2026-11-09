@@ -177,6 +177,21 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The factory #build builds with for these keys, without building anything: a runtime override
+             (:cpp:class:`StrategyOverrides`) first, then the fixed factory or the #getBuilderArgs row, else
+             #defaultFactory. A shipped parser's config is read off it -- eg. :cpp:func:`WWMIParserConfig::ofFactory`
+             @endrst
+             *
+             * @param modName The name of the mod the ``.ini`` file is for
+             * @param version The game version the ``.ini`` file originates from; ``std::nullopt`` means the latest listed
+             *
+             * @return The factory
+             */
+            Factory factoryOf(const std::string& modName, const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
              Builds the parser for one ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
 
              A parser registered for 'modName'/'version' through :cpp:class:`StrategyOverrides`

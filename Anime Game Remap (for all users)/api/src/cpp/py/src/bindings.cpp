@@ -47,6 +47,16 @@ void initCppIndexCounts(pybind11::module_ &m);
 void initCppVGOffsets(pybind11::module_ &m);
 void initCppVGCounts(pybind11::module_ &m);
 void initCppShapeKeyChecksums(pybind11::module_ &m);
+void initCppDrawPasses(pybind11::module_ &m);
+void initCppTextureRegisters(pybind11::module_ &m);
+void initCppGameShaders(pybind11::module_ &m);
+void initCppShapeKeyDispatchSizes(pybind11::module_ &m);
+void initCppBoneCentroids(pybind11::module_ &m);
+void initCppShapeKeyRemaps(pybind11::module_ &m);
+void initCppMaterialCodes(pybind11::module_ &m);
+void initCppMaterialColours(pybind11::module_ &m);
+void initCppTextureDescs(pybind11::module_ &m);
+void initCppTextureThumbprints(pybind11::module_ &m);
 void initCppConstantEnums(pybind11::module_ &m);
 void initCppConstantStrings(pybind11::module_ &m);
 void initCppGameTypeId(pybind11::module_ &m);
@@ -157,6 +167,7 @@ void initCppBaseBufEditor(pybind11::module_ &m);
 void initCppBufEditor(pybind11::module_ &m);
 void initCppColour(pybind11::module_ &m);
 void initCppColourRange(pybind11::module_ &m);
+void initCppColours(pybind11::module_ &m);
 void initCppTexCache(pybind11::module_ &m);
 void initCppTextureFile(pybind11::module_ &m);
 void initCppBasePixelTransform(pybind11::module_ &m);
@@ -274,6 +285,17 @@ PYBIND11_MODULE(core, m) {
     initCppVGOffsets(m);
     initCppVGCounts(m);
     initCppShapeKeyChecksums(m);
+    // the six game-data tables: ahead of ModType, whose constructor and members name them
+    initCppDrawPasses(m);
+    initCppTextureRegisters(m);
+    initCppGameShaders(m);
+    initCppShapeKeyDispatchSizes(m);
+    initCppBoneCentroids(m);
+    initCppShapeKeyRemaps(m);
+    initCppMaterialCodes(m);
+    initCppMaterialColours(m);
+    initCppTextureDescs(m);
+    initCppTextureThumbprints(m);
     initCppGameTypeId(m);
     initCppModTypeId(m);
     initCppModTypeIdData(m);
@@ -397,6 +419,7 @@ PYBIND11_MODULE(core, m) {
     initCppBufEditor(m); // must come after initCppBaseBufEditor (registers its base)
     initCppColour(m);
     initCppColourRange(m); // must come after initCppColour (constructor arg type)
+    initCppColours(m); // must come after initCppColourRange (its attributes' types)
     initCppTexCache(m); // must come before initCppTextureFile (its 'setCache' signature references it)
     initCppTextureFile(m);
     initCppBasePixelTransform(m);

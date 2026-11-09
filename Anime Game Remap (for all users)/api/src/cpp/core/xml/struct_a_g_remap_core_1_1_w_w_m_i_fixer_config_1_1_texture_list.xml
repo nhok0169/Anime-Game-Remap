@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1953" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1953" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1957" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1957" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a4fb75cf097b6b3380fbaf9f80791fe15" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1958" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1958" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1962" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1962" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a6d442b7581e7f1dfa4ec8724d6e27ac2" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1963" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1963" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1967" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1967" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a28fcb083fab1588d8a9b19c9374c6faf" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -64,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1969" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1969" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1973" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1973" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a12920a9e674462b60b1a54fa8e22cbd8" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line" kindref="compound">TextureLine</ref> &gt;</type>
@@ -79,7 +79,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1974" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1974" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1978" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1978" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -87,7 +87,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1947" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1947" bodyend="1975"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1951" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1951" bodyend="1979"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a4fb75cf097b6b3380fbaf9f80791fe15" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureList</scope><name>component</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1ac48fad1d823e47476cf3f171a4a9eaad" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureList</scope><name>kind</name></member>

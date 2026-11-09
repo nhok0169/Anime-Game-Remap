@@ -15,7 +15,7 @@ class RegNewValsTest(BaseUnitTest):
     def test_init_setsAttributes(self):
         vals = {"a": "1"}
         edit = FRB.RegNewVals(vals, addNewKVPs = True)
-        self.assertIs(edit.vals, vals)
+        self.assertEqual(edit.vals, vals)   # held as the edit's own (C++) data, read back
         self.assertTrue(edit.addNewKVPs)
 
     def test_init_addNewKVPsDefaultsFalse(self):
@@ -197,10 +197,11 @@ class RegNewValsTest(BaseUnitTest):
         self.compareList(part.entries(), [("a", "no"), ("a", "MNew")])
 
     def test_edit_callableValMutatedInPlaceAfterInit_mutationHonoured(self):
-        # 'vals' is re-read on every edit, so swapping in a producer later takes effect
+        # the edit holds what it was given as its own (C++) data, so a producer swapped in later is set through the property
         vals = {"a": "new"}
         edit = FRB.RegNewVals(vals)
         vals["a"] = lambda mt: "fromProducer"
+        edit.vals = vals
 
         part = FRB.IfContentPart({"a": [(0, "1")]}, 0)
         edit.edit(part, "root", None)
@@ -263,11 +264,11 @@ class RegNewValsTest(BaseUnitTest):
         self.compareList(part.entries(), [("a", "1")])
 
     def test_edit_valsMutatedInPlaceAfterInit_mutationHonoured(self):
-        # 'vals' stays the exact Python dict that was passed in, so mutating it later changes what
-        # the edit does -- same as the pure-Python original this replaced
+        # the edit holds what it was given as its own (C++) data, so a change is set through the property
         vals = {"a": "new"}
         edit = FRB.RegNewVals(vals)
         vals["b"] = "alsoNew"
+        edit.vals = vals
 
         part = FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]}, 0)
         edit.edit(part, "root", None)

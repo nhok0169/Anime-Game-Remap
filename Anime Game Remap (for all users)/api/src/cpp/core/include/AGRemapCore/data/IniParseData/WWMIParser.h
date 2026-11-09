@@ -27,6 +27,7 @@
 
 
 namespace AGRemapCore {
+    class ModType;
     /**
      * @brief
      @rst
@@ -53,15 +54,34 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         The config the library's own parser of 'id' is built from, or ``std::nullopt`` for a character it has no WWMI
-         parser for -- to start a variant from (change a field, hand it to :cpp:func:`makeWWMIParser`), or to read it
+         The config a parser factory from :cpp:func:`makeWWMIParser` was made with, or ``std::nullopt`` for any other
+         factory. A shipped parser's factory is its mod type's builder row (:cpp:func:`IniParseBuilder::factoryOf`), so
+         this reads a shipped parser -- or starts a variant of it (change a field, hand it to :cpp:func:`makeWWMIParser`)
          @endrst
          *
-         * @param id The character
+         * @param factory The factory
          *
          * @return The config
          */
-        static std::optional<WWMIParserConfig> of(ModTypeId id);
+        static std::optional<WWMIParserConfig> ofFactory(const IniParseBuilder::Factory& factory);
+
+        /**
+         * @brief
+         @rst
+         This config with the character's GAME DATA read off the versioned asset tables: her game textures'
+         thumbprints (:cpp:member:`WWMITextureFacts::textureThumbprints`, :cpp:class:`TextureThumbprints`, at her
+         version) and, for a character whose skeleton was renumbered (her ``vb0`` rows in :cpp:class:`HashData` at two versions or more, each with a
+         :cpp:class:`VGRemaps` row onto the newest), :cpp:member:`skeletonNumberings` -- one per version, oldest first,
+         with the bones that row moves -- and :cpp:member:`referenceBoneCentroids` (:cpp:class:`BoneCentroids` at the
+         newest). A field the tables hold nothing for keeps the config's value. The compiled parser calls this once per
+         parse
+         @endrst
+         *
+         * @param self The character's mod type
+         *
+         * @return The filled config
+         */
+        WWMIParserConfig withGameData(const ModType& self) const;
 
         /**
          * @brief
@@ -263,6 +283,26 @@ namespace AGRemapCore {
      * @param config The character's config
      */
     IniParseBuilder::Factory makeWWMIParser(WWMIParserConfig config);
+
+    /**
+     * @brief
+     @rst
+     What :cpp:func:`makeWWMIParser` returns, as an :cpp:type:`IniParseBuilder::Factory`: the character's config and the
+     call that builds a parser from it -- so the config can be read back (:cpp:func:`WWMIParserConfig::ofFactory`)
+     @endrst
+     */
+    struct WWMIParseFactory {
+        /**
+         * @brief The character's config
+         */
+        WWMIParserConfig config;
+
+        /**
+         * @brief Builds the parser, at the ``.ini`` file's own version, else the config's -- see
+         * :cpp:type:`IniParseBuilder::Factory`
+         */
+        std::shared_ptr<BaseIniParser<>> operator()(IniFile* iniFile, std::optional<int> modTypeId) const;
+    };
 
     /**
      * @brief

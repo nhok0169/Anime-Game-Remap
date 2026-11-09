@@ -17,6 +17,7 @@
 
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/GIMICharFixer.h"
+#include "AGRemapCore/constants/Colours.h"
 #include "AGRemapCore/model/textures/Colour.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include <vector>
@@ -29,11 +30,9 @@ namespace AGRemapCore {
         // NilouBreeze's 5.4 normal map is a DIFFERENT purple from Ayaka's -- (128, 114, 128)
         // rather than (128, 98, 128). Colours.NormalMapPurple2, not Purple1.
         const int NormalMapSize5_4 = 1024;
-        const Colour NormalMapPurple2(128, 114, 128);
         // The flat normal map these rows invent, matching TexCreator(1024, 1024,
         // colour = Colours.NormalMapYellow) exactly.
         const int NormalMapSize4x = 1024;
-        const Colour NormalMapYellow4x(128, 128, 0);
         // The 3dmigoto reflection-support keys. They name the SOURCE's texture slots, so
         // carrying them into a remapped section aims the reflection pass at the wrong textures.
         std::vector<GIMICharFixerConfig::RegRef> reflectionKeys(const std::string& obj) {
@@ -82,11 +81,11 @@ namespace AGRemapCore {
                                           {"ps-t2", {{"ps-t3"}}, true}}}};
 
         config.texAdds = {{"head", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize5_4, NormalMapSize5_4, NormalMapPurple2)},
+                            TexCreator(NormalMapSize5_4, NormalMapSize5_4, Colours::NormalMapPurple2)},
                           {"body", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize5_4, NormalMapSize5_4, NormalMapPurple2)},
+                            TexCreator(NormalMapSize5_4, NormalMapSize5_4, Colours::NormalMapPurple2)},
                           {"dress", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize5_4, NormalMapSize5_4, NormalMapPurple2)}};
+                            TexCreator(NormalMapSize5_4, NormalMapSize5_4, Colours::NormalMapPurple2)}};
 
         // ---- the 6.1-era defaults ----
         config.swapFaceRegs = false;
@@ -121,11 +120,11 @@ namespace AGRemapCore {
                                           {"ps-t2", {{"ps-t3"}}, true}}}};
 
         config.texAdds = {{"head", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize4x, NormalMapSize4x, NormalMapYellow4x)},
+                            TexCreator(NormalMapSize4x, NormalMapSize4x, Colours::NormalMapYellow)},
                           {"body", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize4x, NormalMapSize4x, NormalMapYellow4x)},
+                            TexCreator(NormalMapSize4x, NormalMapSize4x, Colours::NormalMapYellow)},
                           {"dress", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize4x, NormalMapSize4x, NormalMapYellow4x)}};
+                            TexCreator(NormalMapSize4x, NormalMapSize4x, Colours::NormalMapYellow)}};
 
         // ---- what this row does with the 6.1-era defaults ----
         config.swapFaceRegs = false;

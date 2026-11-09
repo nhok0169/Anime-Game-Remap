@@ -21,6 +21,9 @@
 #include "AGRemapCore/constants/FileSuffixes.h"
 
 #include "graphGroupEdits/resEdits/PyResEdit.h"  // reuses pyCoreModule()
+#include "PyEditScope.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
+#include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
 #include "../PyStrategyFactory.h"  // resolveStrategyModType
 #include "../../PyIniGraphGroup.h"
 #include "../../PyIniSectionGraph.h"
@@ -392,6 +395,20 @@ void PyGIMIFixer::applyGraphGroupEdits(const std::string &modName) {
 
     py::object modType = ctxImpl.modType();
 
+    // the .ini's parse data, which the parser's list filed into: an edit of this list that files a result
+    // (IParseResult, eg. GraphCollect) files it there too, so one edit means the same in either list
+    AGRC::IniParseData *data = nullptr;
+    py::object dataObj = py::none();
+    if (!this->parserObj.is_none() && py::hasattr(this->parserObj, "parseData")) {
+        dataObj = this->parserObj.attr("parseData");
+        try {
+            data = dataObj.cast<AGRC::IniParseData *>();
+        } catch (const py::cast_error &) {
+            data = nullptr;
+        }
+    }
+    PyListScope scope(ctxImpl.ini, modType, dataObj);
+
     for (auto item : graphGroupEditsObj) {
         py::object edit = py::reinterpret_borrow<py::object>(item);
         if (edit.is_none()) {
@@ -405,6 +422,20 @@ void PyGIMIFixer::applyGraphGroupEdits(const std::string &modName) {
         // free to hand back a different one -- the original reassigns unconditionally, so do that.
         if (!result.is_none() && !result.is(groups)) {
             setGraphGroupsFromPy(std::move(result));
+        }
+
+        if (data == nullptr) {
+            continue;
+        }
+        if (py::isinstance<AGRC::IParseResult>(edit)) {
+            edit.cast<AGRC::IParseResult *>()->fileInto(*data);
+        } else if (py::isinstance<AGRC::BaseIniGraphGroupEdit<std::string, std::string>>(edit)) {
+            // an edit built in C++ that files a result reaches Python as its base class
+            const auto *filed = dynamic_cast<const AGRC::IParseResult *>(
+                edit.cast<AGRC::BaseIniGraphGroupEdit<std::string, std::string> *>());
+            if (filed != nullptr) {
+                filed->fileInto(*data);
+            }
         }
     }
 }
@@ -688,6 +719,21 @@ Optional[Dict[Union[:class:`str`, :class:`int`], :class:`IniGraphGroup`]]
     * The keys are the file paths each group should be written to. A .ini file with no path at all
       is keyed by its group's index instead
     * The values are the edited graph groups themselves
+        )doc"))
+
+       .def("keepAlive", [](PyGIMIFixer &self, py::object object) {
+            self.keepAlive(std::shared_ptr<void>(new py::object(std::move(object)), [](void* held) {
+                py::gil_scoped_acquire gil;
+                delete static_cast<py::object*>(held);
+            }));
+        }, py::arg("object"), py::doc(R"doc(
+Keeps 'object' alive as long as the fixer -- eg. what the edits of the fixer's list borrow (a Z3 context, a variables
+holder, a resource edit), when the list was built outside it
+
+Parameters
+----------
+object: Any
+    The object
         )doc"))
 
        .def("groupToStr", [](PyGIMIFixer &self, std::size_t groupInd) {

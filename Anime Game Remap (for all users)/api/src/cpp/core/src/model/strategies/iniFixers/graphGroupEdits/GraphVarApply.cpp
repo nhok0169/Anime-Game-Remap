@@ -18,11 +18,15 @@
 
 namespace AGRemapCore {
     GraphVarApply::GraphVarApply(std::vector<std::string> inputs, GraphEditVariables::Apply fn, std::string into):
-        inputs(std::move(inputs)), fn(std::move(fn)), into(std::move(into)) {}
+        inputs(std::move(inputs)), fn(std::move(fn)), into(std::move(into)) {
+        this->name = this->into;
+    }
 
     GraphVarApply::GraphVarApply(GraphEditVariables& variables, std::vector<std::string> inputs, GraphEditVariables::Apply fn,
                                  std::string into):
-        inputs(std::move(inputs)), fn(std::move(fn)), into(std::move(into)), variables(&variables) {}
+        variables(&variables), inputs(std::move(inputs)), fn(std::move(fn)), into(std::move(into)) {
+        this->name = this->into;
+    }
 
     GraphVarApply::GraphGroups& GraphVarApply::edit(GraphGroups& graphGroups, const ModType*, const std::string&) {
         if (variables != nullptr) {
@@ -32,6 +36,9 @@ namespace AGRemapCore {
     }
 
     void GraphVarApply::fileInto(IniParseData& data) const {
-        data.variables().apply(inputs, fn, into);
+        // an edit over variables of its own has already applied there (edit)
+        if (variables == nullptr) {
+            data.variables().apply(inputs, fn, into);
+        }
     }
 }

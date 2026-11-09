@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_colour_ranges" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::ColourRanges</compoundname>
+    <includes refid="_colours_8h" local="no">Colours.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_colour_ranges_1a017dd61427e2faa4269e548d2eea02ff" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="class_a_g_remap_core_1_1_colour_range" kindref="compound">ColourRange</ref></type>
+        <definition>const ColourRange AGRemapCore::ColourRanges::LightMapGreen</definition>
+        <argsstring></argsstring>
+        <name>LightMapGreen</name>
+        <qualifiedname>AGRemapCore::ColourRanges::LightMapGreen</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_colour_range" kindref="compound">ColourRange</ref>(<ref refid="struct_a_g_remap_core_1_1_colours_1af2d3a8d9804cfb1b6d000333ddf2719b" kindref="member">Colours::LightMapGreenMin</ref>, <ref refid="struct_a_g_remap_core_1_1_colours_1a016a4bf28535167c995d5d510b55238a" kindref="member">Colours::LightMapGreenMax</ref>)</initializer>
+        <briefdescription>
+<para>A light map&apos;s green band. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/Colours.h" line="86" column="41" bodyfile="include/AGRemapCore/constants/Colours.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_colour_ranges_1a2f5dee517bc28de3e7d29238703de203" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="class_a_g_remap_core_1_1_colour_range" kindref="compound">ColourRange</ref></type>
+        <definition>const ColourRange AGRemapCore::ColourRanges::NormalMapPurple1</definition>
+        <argsstring></argsstring>
+        <name>NormalMapPurple1</name>
+        <qualifiedname>AGRemapCore::ColourRanges::NormalMapPurple1</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_colour_range" kindref="compound">ColourRange</ref>(<ref refid="struct_a_g_remap_core_1_1_colours_1a1ec2c5844e3a037c723355c381993a3a" kindref="member">Colours::NormalMapPurpleMin</ref>, <ref refid="struct_a_g_remap_core_1_1_colours_1a9f59c6c79a572e22fc00196a1e3e206e" kindref="member">Colours::NormalMapPurple1</ref>)</initializer>
+        <briefdescription>
+<para>A purple normal map&apos;s band, up to :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_colours_1a9f59c6c79a572e22fc00196a1e3e206e" kindref="member">Colours::NormalMapPurple1</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/Colours.h" line="91" column="41" bodyfile="include/AGRemapCore/constants/Colours.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_colour_ranges_1aa1fa61f48c02e0b564877fb15282c3c9" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="class_a_g_remap_core_1_1_colour_range" kindref="compound">ColourRange</ref></type>
+        <definition>const ColourRange AGRemapCore::ColourRanges::NormalMapPurple2</definition>
+        <argsstring></argsstring>
+        <name>NormalMapPurple2</name>
+        <qualifiedname>AGRemapCore::ColourRanges::NormalMapPurple2</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_colour_range" kindref="compound">ColourRange</ref>(<ref refid="struct_a_g_remap_core_1_1_colours_1a1ec2c5844e3a037c723355c381993a3a" kindref="member">Colours::NormalMapPurpleMin</ref>, <ref refid="struct_a_g_remap_core_1_1_colours_1afff1a058e0df9cf7831e28ff0e347e6e" kindref="member">Colours::NormalMapPurple2</ref>)</initializer>
+        <briefdescription>
+<para>A purple normal map&apos;s band, up to :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_colours_1afff1a058e0df9cf7831e28ff0e347e6e" kindref="member">Colours::NormalMapPurple2</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/Colours.h" line="96" column="41" bodyfile="include/AGRemapCore/constants/Colours.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>The colour bands the texture edits share, each a :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_colour_range" kindref="compound">ColourRange</ref></computeroutput> of :cpp:struct:<computeroutput><ref refid="struct_a_g_remap_core_1_1_colours" kindref="compound">Colours</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::Colour</label>
+        <link refid="class_a_g_remap_core_1_1_colour"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::ColourRange</label>
+        <link refid="class_a_g_remap_core_1_1_colour_range"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>max</edgelabel>
+          <edgelabel>min</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::ColourRanges</label>
+        <link refid="struct_a_g_remap_core_1_1_colour_ranges"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>LightMapGreen</edgelabel>
+          <edgelabel>NormalMapPurple1</edgelabel>
+          <edgelabel>NormalMapPurple2</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/constants/Colours.h" line="82" column="5" bodyfile="include/AGRemapCore/constants/Colours.h" bodystart="82" bodyend="97"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_colour_ranges_1a017dd61427e2faa4269e548d2eea02ff" prot="public" virt="non-virtual"><scope>AGRemapCore::ColourRanges</scope><name>LightMapGreen</name></member>
+      <member refid="struct_a_g_remap_core_1_1_colour_ranges_1a2f5dee517bc28de3e7d29238703de203" prot="public" virt="non-virtual"><scope>AGRemapCore::ColourRanges</scope><name>NormalMapPurple1</name></member>
+      <member refid="struct_a_g_remap_core_1_1_colour_ranges_1aa1fa61f48c02e0b564877fb15282c3c9" prot="public" virt="non-virtual"><scope>AGRemapCore::ColourRanges</scope><name>NormalMapPurple2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

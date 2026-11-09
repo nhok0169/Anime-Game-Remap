@@ -18,21 +18,30 @@
 #include <utility>
 
 
-PyGraphRename::PyGraphRename(py::object renameFuncObj): Core({}), renameFuncObj(std::move(renameFuncObj)) {}
+namespace {
+    // a rename callable given in Python, kept as itself so 'renameFunc' reads it back
+    struct PyRename {
+        py::object rename;
+        std::string operator()(const std::string &name) const {
+            py::gil_scoped_acquire gil;
+            return py::str(rename(name)).cast<std::string>();
+        }
+    };
 
-
-void PyGraphRename::refresh() {
-    if (renameFuncObj.is_none() || !PyCallable_Check(renameFuncObj.ptr())) {
-        renameFunc = {};
-        return;
+    PyGraphRename::RenameFunc renameFuncOf(const py::object &renameFunc) {
+        if (renameFunc.is_none() || !PyCallable_Check(renameFunc.ptr())) {
+            return {};
+        }
+        return PyRename{renameFunc};
     }
 
-    // Captures the Python object by value: the resulting std::function only ever runs synchronously
-    // inside a binding call, so the GIL is always held when it is invoked.
-    py::object func = renameFuncObj;
-    renameFunc = [func](const std::string &name) {
-        return py::str(func(name)).cast<std::string>();
-    };
+    py::object renameFuncToPy(const PyGraphRename::RenameFunc &renameFunc) {
+        if (!renameFunc) {
+            return py::none();
+        }
+        const PyRename *own = renameFunc.target<PyRename>();
+        return own != nullptr ? own->rename : py::object(py::cast(renameFunc));
+    }
 }
 
 
@@ -53,13 +62,13 @@ renameFunc: Callable[[:class:`str`], :class:`str`]
     // members through its own and its base's typedefs, and a factory returning a unique_ptr avoids
     // ever needing to move-construct the class itself -- see PyGraphRemove.cpp's identical note.
     cls.def(py::init([](py::object renameFunc) {
-        return std::make_unique<PyGraphRename>(std::move(renameFunc));
+        return std::make_unique<PyGraphRename>(renameFuncOf(renameFunc));
     }), py::arg("renameFunc"));
 
     cls.def_property("renameFunc", [](const PyGraphRename &self) {
-        return self.renameFuncObj;
+        return renameFuncToPy(self.renameFunc);
     }, [](PyGraphRename &self, py::object renameFunc) {
-        self.renameFuncObj = std::move(renameFunc);
+        self.renameFunc = renameFuncOf(renameFunc);
     }, py::doc(R"doc(
 Callable[[:class:`str`], :class:`str`]: Function used to rename a `section`_. The function takes in
 the name of the old `section`_ and returns the new name for the `section`_
@@ -68,7 +77,6 @@ the name of the old `section`_ and returns the new name for the `section`_
     cls.def("edit", [](PyGraphRename &self, py::object graph, const py::object &modType,
                        const std::string &modName, const py::object &partFilter, bool trackKeys,
                        const py::object &keysToTrack) {
-        self.refresh();
 
         PyIniSectionGraph &parsedGraph = parseGraphArg(graph);
 
@@ -80,7 +88,7 @@ the name of the old `section`_ and returns the new name for the `section`_
         (void)partFilter;
         (void)trackKeys;
         (void)keysToTrack;
-        self.Core::edit(parsedGraph, nullptr, modName);
+        self.edit(parsedGraph, nullptr, modName);
 
         // IniSectionGraph.rename()'s own binding does this too -- renaming relabels the sections
         // this graph's Python-side keep-alive tracks, so its keys have to be resynced.

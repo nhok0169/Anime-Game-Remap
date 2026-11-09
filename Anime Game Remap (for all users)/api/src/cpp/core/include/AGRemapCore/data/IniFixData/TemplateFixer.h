@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
@@ -26,6 +27,7 @@
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
+#include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 #include "AGRemapCore/model/strategies/iniFixers/GraphEditVariables.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
@@ -161,6 +163,78 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             THE FIX'S VARIABLES: the sections it writes of its own (#addFixSection) and the decisions a template's
+             steps make (a :cpp:class:`GraphVarApply` over them) -- which a step of a user's own, put in
+             :cpp:member:`GIMIFixer::graphGroupEdits` before the stage that reads a decision, can read and replace
+             @endrst
+             */
+            GraphEditVariables& fixVariables();
+
+            /**
+             * @brief
+             @rst
+             Makes 'step' a step of this fixer's list: a :cpp:class:`GraphVarApply` with no
+             :cpp:member:`GraphVarApply::variables` is given #fixVariables
+             @endrst
+             *
+             * @param step The step
+             */
+            void adoptStep(GroupEdit* step);
+
+            /**
+             * @brief
+             @rst
+             THE FIXER'S WHOLE LIST, in the order it runs: :cpp:member:`GIMIFixer::graphGroupEdits`, then the step
+             named ``fixSections`` -- which puts the sections #addFixSection added into the groups, one graph per
+             group (a :cpp:class:`GraphCreate`) -- then :cpp:member:`fixSectionEdits`, the steps that read or change
+             those sections. Once #withList has replaced the list, it is :cpp:member:`GIMIFixer::graphGroupEdits`
+             alone. The steps are **borrowed** from the fixer
+             @endrst
+             *
+             * @return The steps
+             */
+            std::vector<GroupEdit*> list();
+
+            /**
+             * @brief
+             @rst
+             Makes 'steps' the fixer's whole list (#list): each step is adopted (#adoptStep), and a list without the
+             ``fixSections`` step writes none of the fix's own sections. **Borrowed**: the steps must outlive the fixer's
+             run. A fixer that gave up keeps its list
+             @endrst
+             *
+             * @param steps The steps
+             */
+            void setList(std::vector<GroupEdit*> steps);
+
+            /**
+             * @brief The step that puts the sections #addFixSection added into the groups, named ``fixSections``
+             */
+            GroupEdit* fixSectionsStep();
+
+            /**
+             * @brief
+             @rst
+             THE FIXER'S LIST, HANDED TO THE USER: a fixer factory that builds what 'factory' builds, gives its whole
+             list (#list, each step named by :cpp:member:`BaseIniGraphGroupEdit::name`) to 'rewrite', and runs the list
+             it returns -- the same list edited, steps added, removed, replaced or reordered, or a list of the user's
+             own. Every step it returns is adopted (#adoptStep), and the list it returns is the whole fix: a list
+             without the ``fixSections`` step writes none of the fix's own sections. A fixer that gave up keeps its
+             list. 'factory' must build a template fixer
+             @endrst
+             *
+             * @param factory The factory whose fixers' lists are rewritten
+             * @param rewrite Given a fixer's list, the list to run instead
+             *
+             * @return The factory
+             */
+            static IniFixBuilder::Factory withList(IniFixBuilder::Factory factory,
+                                                   std::function<std::vector<GroupEdit*>(TemplateFixer& fixer,
+                                                                                         std::vector<GroupEdit*> steps)> rewrite);
+
+            /**
+             * @brief
+             @rst
              The resource naming every fixer's resource edits use: a resource's file is its ``filename``
              register, and a register value and a file path are the same string
              @endrst
@@ -237,13 +311,12 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Runs every :cpp:member:`GIMIFixer::graphGroupEdits` entry over the groups with the real
-             ``.ini`` file, in order :raw-html:`<br />` :raw-html:`<br />`
+             Runs every step of #list over the groups with the real ``.ini`` file, in order
+             :raw-html:`<br />` :raw-html:`<br />`
 
-             Does nothing when there are no groups. Otherwise runs each edit's ``editFromIni``, then
-             adds :cpp:func:`addFixSection`'s sections to the groups, then -- when the fixer has given
-             up and :cpp:member:`withdrawDownloadsOnGiveUp` is set -- clears the ``.ini`` file's
-             registered downloads, then runs each :cpp:member:`fixSectionEdits` entry
+             Does nothing when there are no groups. Otherwise runs each step's ``editFromIni``, then -- when
+             the fixer has given up and :cpp:member:`withdrawDownloadsOnGiveUp` is set -- clears the ``.ini``
+             file's registered downloads
              @endrst
              *
              * @param modName The name of the mod being fixed to
@@ -429,7 +502,6 @@ namespace AGRemapCore {
             std::string toModName_;
 
         private:
-            void addFixSectionGraphs(const std::string& modName);
 
             // The sections variable of the sections added with no group, and of the ones for group 'group'
             static std::string fixSectionsVariable();
@@ -441,6 +513,9 @@ namespace AGRemapCore {
             std::unique_ptr<GraphCreate<std::string, std::string>> createEdit_;
             bool gaveUp_ = false;
             GraphGroupRemove<std::string, std::string> removeEveryGroup_;
+
+            // whether withList replaced the list: GIMIFixer::graphGroupEdits is then the whole of it
+            bool listRewritten_ = false;
     };
 }
 

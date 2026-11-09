@@ -195,6 +195,39 @@ class WWMIHelpersTest(BaseUnitTest):
         self.assertIn("component9", groups.notes[0])
         self.assertEqual(config.fileGroups(set(), "Sanhua").groups, [[]])
 
+    def test_blendWidth_pastAByteBone_unlessTheRowNamesMoreBonesThanOneRemapHolds(self):
+        config = self._config()
+        self.assertFalse(config.blendWidth(None).targetPast256)
+
+        small = config.blendWidth(FRB.VGRemap({0: 3, 1: 255}))
+        self.assertEqual((small.targetPast256, small.bones, small.notes), (False, 2, []))
+
+        past = config.blendWidth(FRB.VGRemap({0: 3, 1: 256}))
+        self.assertEqual((past.targetPast256, past.bones, past.notes), (True, 2, []))
+
+        many = config.blendWidth(FRB.VGRemap({k: k + 1 for k in range(FRB.WWMIBlend.RemapSize + 1)}))
+        self.assertFalse(many.targetPast256)
+        self.assertEqual(many.bones, FRB.WWMIBlend.RemapSize + 1)
+        self.assertEqual(len(many.notes), 1)
+
+    def test_removedLines_perComponent_skeletonLinesOnlyPast256_rabbitFXLinesKeptByItsComponents(self):
+        R = FRB.WWMIFixerConfig.RegRemoval
+        config = self._config()
+        config.removedRegs = [R("ResourceBlendBufferOverride", "ref"), R(FRB.IniKeywords.Run, "commandlist\\rabbitfx\\settextures")]
+        config.remappedSkeletonRemovals = [R("vs-cb4", "resourcemergedskeleton")]
+        keys = lambda lines: [(line.reg, line.valuePrefix) for line in lines]
+
+        lines = config.removedLines(False, {0, 2}, {2})
+        self.assertEqual(sorted(lines), [0, 2])
+        self.assertEqual(keys(lines[0]), [("ResourceBlendBufferOverride", "ref"), ("run", "commandlist\\rabbitfx\\settextures")])
+        self.assertEqual(keys(lines[2]), [("ResourceBlendBufferOverride", "ref")])
+
+        past = config.removedLines(True, {0}, set())
+        self.assertEqual(keys(past[0])[-1], ("vs-cb4", "resourcemergedskeleton"))
+
+        config.removedRegs, config.remappedSkeletonRemovals = [], []
+        self.assertEqual(config.removedLines(True, {0, 2}, set()), {})
+
     def test_modTexLines_onlyTheDrawnComponentsOfThePlan_aModWithNoLinesKeepsNone(self):
         config = self._config()
         data = FRB.IniParseData()

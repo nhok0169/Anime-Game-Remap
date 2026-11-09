@@ -423,6 +423,20 @@ class PyResEditMixin: public CoreT, public PyResEditCommon {
         /**
          * @brief
          @rst
+         The `Python`_ path's context -- the edit run by a `Python`_ ``edit`` / ``editFromIni`` -- or ``nullptr`` when
+         the edit runs in a C++ fixer's list, where an edit's ``buildResModel`` is its own C++ one: the edit is the C++
+         class, so it does in a compiled list what it does in `Python`_
+         @endrst
+         *
+         * @param ctx The .ini file the resource is being built for
+         */
+        static PyIniResEditContext* pyContextOf(Context &ctx) {
+            return dynamic_cast<PyIniResEditContext*>(&ctx);
+        }
+
+        /**
+         * @brief
+         @rst
          Calls the `Python`_ ``buildResModel`` with 'args' and stores whatever it returns into 'ctx'
          -- the shared half of every concrete edit's own ``buildResModel`` override :raw-html:`<br />`
          :raw-html:`<br />`
@@ -439,7 +453,7 @@ class PyResEditMixin: public CoreT, public PyResEditCommon {
          * @param ctx The .ini file the resource is being built for
          */
         void dispatchBuildResModel(const py::tuple &args, const std::string &modName, const std::string &fileKey, Context &ctx) {
-            auto &pyCtx = static_cast<PyIniResEditContext&>(ctx);
+            auto &pyCtx = *pyContextOf(ctx);
             py::object resource = pySelf().attr("buildResModel")(*args, py::arg("modName") = modName);
             if (resource.is_none()) {
                 return;

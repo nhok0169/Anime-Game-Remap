@@ -22,30 +22,56 @@
 #include "../../../iftemplate/PyIfTemplate.h"
 
 
-AGRC::GraphFilter<std::string, std::string>::Predicate toGraphPredicate(const py::object &predicate) {
-    if (predicate.is_none()) {
-        return nullptr;
-    }
-    return [predicate](const PyIfTemplate &section, const PyIfContentPart &part, std::size_t index) {
-        return predicate(py::cast(&section, py::return_value_policy::reference),
-                         py::cast(&part, py::return_value_policy::reference), index).cast<bool>();
+namespace {
+    // a predicate given in Python, kept so it reads back as itself
+    struct PyGraphPredicate {
+        py::object predicate;
+
+        bool operator()(const PyIfTemplate &section, const PyIfContentPart &part, std::size_t index) const {
+            py::gil_scoped_acquire gil;
+            return predicate(py::cast(&section, py::return_value_policy::reference),
+                             py::cast(&part, py::return_value_policy::reference), index).cast<bool>();
+        }
     };
 }
 
 
-PyGraphFilter::PyGraphFilter(py::object graphIdsObj, py::object predicateObj):
-    Core({}, nullptr), graphIdsObj(std::move(graphIdsObj)), predicateObj(std::move(predicateObj)) {}
-
-
-void PyGraphFilter::refresh() {
-    std::vector<GraphId> parsed;
-    if (!graphIdsObj.is_none()) {
-        for (auto item : graphIdsObj) {
-            parsed.push_back(parseGraphId(py::reinterpret_borrow<py::object>(item)));
-        }
+AGRC::GraphFilter<std::string, std::string>::Predicate toGraphPredicate(const py::object &predicate) {
+    if (predicate.is_none()) {
+        return nullptr;
     }
-    graphIds = std::move(parsed);
-    predicate = toGraphPredicate(predicateObj);
+    return PyGraphPredicate{predicate};
+}
+
+py::object graphPredicateToPy(const AGRC::GraphFilter<std::string, std::string>::Predicate &predicate) {
+    if (!predicate) {
+        return py::none();
+    }
+    if (const PyGraphPredicate *own = predicate.target<PyGraphPredicate>(); own != nullptr) {
+        return own->predicate;
+    }
+    return py::cast(predicate);
+}
+
+
+namespace {
+    std::vector<PyGraphFilter::GraphId> graphIdsOf(const py::object &graphIds) {
+        std::vector<PyGraphFilter::GraphId> parsed;
+        if (!graphIds.is_none()) {
+            for (auto item : graphIds) {
+                parsed.push_back(parseGraphId(py::reinterpret_borrow<py::object>(item)));
+            }
+        }
+        return parsed;
+    }
+
+    py::list graphIdsToPy(const std::vector<PyGraphFilter::GraphId> &graphIds) {
+        py::list result;
+        for (const PyGraphFilter::GraphId &id : graphIds) {
+            result.append(graphIdToPy(id));
+        }
+        return result;
+    }
 }
 
 
@@ -78,26 +104,34 @@ predicate: Optional[Callable[[:class:`IfTemplate`, :class:`IfContentPart`, :clas
     **Default**: ``None``
     )doc");
 
-    cls.def(py::init([](py::object graphIds, py::object predicate) {
-        return std::make_unique<PyGraphFilter>(std::move(graphIds), std::move(predicate));
-    }), py::arg("graphIds"), py::arg("predicate") = py::none());
+    cls.def(py::init([](py::object graphIds, py::object predicate, bool removeEmptied) {
+        auto edit = std::make_unique<PyGraphFilter>(graphIdsOf(graphIds), toGraphPredicate(predicate));
+        edit->removeEmptied = removeEmptied;
+        return edit;
+    }), py::arg("graphIds"), py::arg("predicate") = py::none(), py::arg("removeEmptied") = false);
 
-    cls.def_property("graphIds", [](const PyGraphFilter &self) { return self.graphIdsObj; },
-                     [](PyGraphFilter &self, py::object v) { self.graphIdsObj = std::move(v); }, py::doc(R"doc(
+    cls.def_readwrite("removeEmptied", &PyGraphFilter::removeEmptied, py::doc(R"doc(
+:class:`bool`: Whether a graph the predicate would leave with no `KVP`_ at all is taken out of its group -- eg. a mod object
+the predicate finds has nothing for the fix. Such a graph is removed WHOLE, its `sections`_ left as they are: a graph shares
+`sections`_ with others (a command list several objects run), which filtering it first would empty for all of them.
+**Default**: ``False``
+    )doc"));
+
+    cls.def_property("graphIds", [](const PyGraphFilter &self) { return graphIdsToPy(self.graphIds); },
+                     [](PyGraphFilter &self, py::object v) { self.graphIds = graphIdsOf(v); }, py::doc(R"doc(
 List[Tuple[:class:`int`, :class:`str`, :class:`str`]]: The ids of the graphs to filter
     )doc"));
 
-    cls.def_property("predicate", [](const PyGraphFilter &self) { return self.predicateObj; },
-                     [](PyGraphFilter &self, py::object v) { self.predicateObj = std::move(v); }, py::doc(R"doc(
+    cls.def_property("predicate", [](const PyGraphFilter &self) { return graphPredicateToPy(self.predicate); },
+                     [](PyGraphFilter &self, py::object v) { self.predicate = toGraphPredicate(v); }, py::doc(R"doc(
 Optional[Callable[[:class:`IfTemplate`, :class:`IfContentPart`, :class:`int`], :class:`bool`]]: Decides which `KVPs`_ are kept
     )doc"));
 
     cls.def("edit", [](PyGraphFilter &self, py::list graphGroups, const py::object &modType, const std::string &modName) {
         (void)modType;
-        self.refresh();
         PyIniGraphGroups groups(graphGroups);
         // nullptr for the same reason GraphRemove's binding passes it -- this edit never reads it
-        self.Core::edit(groups, nullptr, modName);
+        self.edit(groups, nullptr, modName);
         return graphGroups;
     }, py::arg("graphGroups"), py::arg("modType"), py::arg("modName") = "", py::doc(R"doc(
 Removes, from every graph named by :attr:`graphIds`, the `KVPs`_ :attr:`predicate` rejects

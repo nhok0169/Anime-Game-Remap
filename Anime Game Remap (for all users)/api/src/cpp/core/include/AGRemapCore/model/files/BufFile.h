@@ -46,6 +46,21 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             How many whole lines of 'stride' bytes the file at 'path' holds -- eg. a mesh's vertices, off its position
+             buffer and the stride its resource section declares. ``std::nullopt`` when the file cannot be read or holds
+             less than one line
+             @endrst
+             *
+             * @param path The file
+             * @param stride The bytes of one line
+             *
+             * @return The number of lines
+             */
+            static std::optional<std::size_t> linesOf(const std::string& path, std::size_t stride);
+
+            /**
+             * @brief
+             @rst
              A function used to process the decoded data for one line of a ``.buf`` file, used by
              :cpp:func:`fix` :raw-html:`<br />` :raw-html:`<br />`
 

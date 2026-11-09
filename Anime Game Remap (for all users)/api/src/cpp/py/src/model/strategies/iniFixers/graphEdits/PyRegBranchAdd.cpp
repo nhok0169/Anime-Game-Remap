@@ -112,29 +112,47 @@ static py::object branchToPy(const PyRegBranchAdd::Core::Branch &branch) {
     return py::make_tuple(branch.key, py::cast(branch.additions), py::cast(branch.replacements), py::cast(branch.removals));
 }
 
-// The core edit's branchOf as a Python callable, so the binding's branchOf (re-wrapped on every edit) is that edit's
-static std::unique_ptr<PyRegBranchAdd> fromCore(std::unique_ptr<PyRegBranchAdd::Core> core) {
-    PyRegBranchAdd::Core::BranchOf branchOf = std::move(core->branchOf);
-    py::cpp_function callable([branchOf](const AGRC::Z3Predicate &query, py::object iterData) {
-        return branchToPy(branchOf(query, iterData.cast<const PyRegBranchAdd::Core::IterData &>()));
-    });
-    return std::make_unique<PyRegBranchAdd>(std::move(callable));
+namespace {
+    // a branchOf given in Python, kept so it reads back as itself
+    struct PyBranchOf {
+        py::object given;
+
+        PyRegBranchAdd::Core::Branch operator()(const AGRC::Z3Predicate &query, const PyRegBranchAdd::Core::IterData &iterData) const {
+            py::gil_scoped_acquire gil;
+            // The predicate by value: it is a small handle, and Python may keep it past this call.
+            return parseBranch(given(query, py::cast(&iterData, py::return_value_policy::reference)));
+        }
+    };
 }
 
-PyRegBranchAdd::PyRegBranchAdd(py::object branchOfObj): Core({}), branchOfObj(std::move(branchOfObj)) {}
+// The core edit as the Python RegBranchAdd: its branchOf kept as the C++ function it is
+static std::unique_ptr<PyRegBranchAdd> fromCore(std::unique_ptr<PyRegBranchAdd::Core> core) {
+    auto edit = std::make_unique<PyRegBranchAdd>(py::none());
+    edit->branchOf = std::move(core->branchOf);
+    return edit;
+}
+
+PyRegBranchAdd::PyRegBranchAdd(py::object branchOfObj): Core({}) {
+    setBranchOf(branchOfObj);
+}
 
 
-void PyRegBranchAdd::refresh() {
-    if (branchOfObj.is_none()) {
-        branchOf = {};
-        return;
+void PyRegBranchAdd::setBranchOf(const py::object &branchOfObj) {
+    branchOf = branchOfObj.is_none() ? Core::BranchOf() : Core::BranchOf(PyBranchOf{branchOfObj});
+}
+
+
+py::object PyRegBranchAdd::branchOfToPy() const {
+    if (!branchOf) {
+        return py::none();
     }
-
-    py::object held = branchOfObj;
-    branchOf = [held](const AGRC::Z3Predicate &query, const Core::IterData &iterData) {
-        // The predicate by value: it is a small handle, and Python may keep it past this call.
-        return parseBranch(held(query, py::cast(&iterData, py::return_value_policy::reference)));
-    };
+    if (const PyBranchOf *own = branchOf.target<PyBranchOf>(); own != nullptr) {
+        return own->given;
+    }
+    Core::BranchOf held = branchOf;
+    return py::cpp_function([held](const AGRC::Z3Predicate &query, py::object iterData) {
+        return branchToPy(held(query, iterData.cast<const PyRegBranchAdd::Core::IterData &>()));
+    });
 }
 
 
@@ -266,9 +284,9 @@ Returns
     )doc"));
 
     cls.def_property("branchOf", [](const PyRegBranchAdd &self) {
-        return self.branchOfObj;
+        return self.branchOfToPy();
     }, [](PyRegBranchAdd &self, py::object branchOf) {
-        self.branchOfObj = std::move(branchOf);
+        self.setBranchOf(branchOf);
     }, py::doc(R"doc(
 Optional[Callable[[:class:`Z3Predicate`, :class:`SectionIterData`], Optional[Tuple]]]: Decides what belongs in each branch
     )doc"));
@@ -276,7 +294,6 @@ Optional[Callable[[:class:`Z3Predicate`, :class:`SectionIterData`], Optional[Tup
     cls.def("edit", [](PyRegBranchAdd &self, py::object graph, const py::object &modType,
                        const std::string &modName, const py::object &partFilter, bool trackKeys,
                        const py::object &keysToTrack) {
-        self.refresh();
         PyIniSectionGraph &parsedGraph = parseGraphArg(graph);
 
         self.Core::edit(parsedGraph, nullptr, modName, parsePartFilter(partFilter, modType),

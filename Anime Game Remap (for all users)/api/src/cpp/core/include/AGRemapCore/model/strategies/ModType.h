@@ -14,9 +14,13 @@
 
 // ##### EndCredits
 
+#include <array>
+#include <cstdint>
+#include <map>
 #include <memory>
 #include <optional>
 #include <string>
+#include <tuple>
 #include <unordered_set>
 #include <vector>
 
@@ -24,6 +28,17 @@
 #include "AGRemapCore/model/assets/Indices.h"
 #include "AGRemapCore/model/assets/IndexCounts.h"
 #include "AGRemapCore/model/assets/ShapeKeyChecksums.h"
+#include "AGRemapCore/model/assets/DrawPasses.h"
+#include "AGRemapCore/model/assets/TextureRegisters.h"
+#include "AGRemapCore/model/assets/GameShaders.h"
+#include "AGRemapCore/model/assets/ShapeKeyDispatchSizes.h"
+#include "AGRemapCore/model/assets/BoneCentroids.h"
+#include "AGRemapCore/model/assets/ShapeKeyRemaps.h"
+#include "AGRemapCore/model/assets/MaterialCodes.h"
+#include "AGRemapCore/model/assets/MaterialColours.h"
+#include "AGRemapCore/model/assets/TextureDescs.h"
+#include "AGRemapCore/model/assets/TextureThumbprints.h"
+#include "AGRemapCore/model/textures/Colour.h"
 #include "AGRemapCore/model/assets/VertexCounts.h"
 #include "AGRemapCore/model/assets/VGCounts.h"
 #include "AGRemapCore/model/assets/VGOffsets.h"
@@ -160,7 +175,17 @@ namespace AGRemapCore {
                               std::shared_ptr<IndexCounts> indexCounts = nullptr,
                               std::shared_ptr<VGOffsets> vgOffsets = nullptr,
                               std::shared_ptr<VGCounts> vgCounts = nullptr,
-                              std::shared_ptr<ShapeKeyChecksums> shapeKeyChecksums = nullptr);
+                              std::shared_ptr<ShapeKeyChecksums> shapeKeyChecksums = nullptr,
+                              std::shared_ptr<DrawPasses> drawPasses = nullptr,
+                              std::shared_ptr<TextureRegisters> textureRegisters = nullptr,
+                              std::shared_ptr<GameShaders> gameShaders = nullptr,
+                              std::shared_ptr<ShapeKeyDispatchSizes> shapeKeyDispatchSizes = nullptr,
+                              std::shared_ptr<BoneCentroids> boneCentroids = nullptr,
+                              std::shared_ptr<ShapeKeyRemaps> shapeKeyRemaps = nullptr,
+                              std::shared_ptr<MaterialCodes> materialCodes = nullptr,
+                              std::shared_ptr<MaterialColours> materialColours = nullptr,
+                              std::shared_ptr<TextureDescs> textureDescs = nullptr,
+                              std::shared_ptr<TextureThumbprints> textureThumbprints = nullptr);
 
             /**
              * @brief The id for the game this type of mod belongs to
@@ -290,6 +315,65 @@ namespace AGRemapCore {
              * @brief The shape-key ``checksum`` of the mod (WuWa) -- see #indexCounts
              */
             std::shared_ptr<ShapeKeyChecksums> shapeKeyChecksums;
+
+            /**
+             * @brief
+             @rst
+             The draw passes of each of the mod's draw slots (WuWa) -- see :cpp:class:`DrawPasses` and #getDrawPass
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The first of six versioned tables of a character's GAME data that a fix reads at the run's version rather
+             than carrying it: this, #textureRegisters, #gameShaders, #shapeKeyDispatchSizes, #boneCentroids and
+             #shapeKeyRemaps. They default as #hashes does: a fresh, fully-populated table each
+             @endrst
+             */
+            std::shared_ptr<DrawPasses> drawPasses;
+
+            /**
+             * @brief Where the mod's own draws bind each texture role -- see :cpp:class:`TextureRegisters` and #getTextureRegister
+             */
+            std::shared_ptr<TextureRegisters> textureRegisters;
+
+            /**
+             * @brief The game pixel shaders a fix draws the mod's parts with -- see :cpp:class:`GameShaders` and #getGameShader
+             */
+            std::shared_ptr<GameShaders> gameShaders;
+
+            /**
+             * @brief The height WWMI dispatches the mod's shape keys with -- see :cpp:class:`ShapeKeyDispatchSizes`
+             */
+            std::shared_ptr<ShapeKeyDispatchSizes> shapeKeyDispatchSizes;
+
+            /**
+             * @brief Each bone's rest-pose centroid on the mod's own model -- see :cpp:class:`BoneCentroids` and #getBoneCentroids
+             */
+            std::shared_ptr<BoneCentroids> boneCentroids;
+
+            /**
+             * @brief The order the mod's shape keys are put in on another character -- see :cpp:class:`ShapeKeyRemaps` and #getShapeKeyRemap
+             */
+            std::shared_ptr<ShapeKeyRemaps> shapeKeyRemaps;
+
+            /**
+             * @brief What the codes of the mod's single-channel code maps mean -- see :cpp:class:`MaterialCodes` and #getMaterialCode
+             */
+            std::shared_ptr<MaterialCodes> materialCodes;
+
+            /**
+             * @brief The colours the mod's material masks mark each material with -- see :cpp:class:`MaterialColours` and #getMaterialColour
+             */
+            std::shared_ptr<MaterialColours> materialColours;
+
+            /**
+             * @brief How the game creates the mod's game textures -- see :cpp:class:`TextureDescs` and #getTextureDesc
+             */
+            std::shared_ptr<TextureDescs> textureDescs;
+
+            /**
+             * @brief What the mod's game textures look like, as thumbprints -- see :cpp:class:`TextureThumbprints` and
+             *     #getTextureThumbprints
+             */
+            std::shared_ptr<TextureThumbprints> textureThumbprints;
 
             /**
              * @brief
@@ -458,6 +542,151 @@ namespace AGRemapCore {
              */
             std::optional<std::string> getShapeKeyChecksum(const std::string& type = "shapekeys", const std::string& component = "",
                                                            const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             One of #drawPasses' values for a draw slot: ``<pass>`` (its vertex shaders, comma-separated),
+             ``<pass>.ps`` (its pixel shader) or ``<pass>.tags`` (each vertex shader's ``filter_index``)
+             @endrst
+             *
+             * @param component The draw slot, eg. ``component3``
+             * @param type The pass and what is read of it, eg. ``main``, ``other.ps``
+             * @param version The game version wanted -- the newest row at or below it; ``std::nullopt`` for the latest
+             *
+             * @return The value, or ``std::nullopt`` when the mod has no such row
+             */
+            std::optional<std::string> getDrawPass(const std::string& component, const std::string& type,
+                                                   const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             The register the mod's own draw of a slot binds a texture role at (#textureRegisters) -- else the game's
+             default for the role, the row named after the mod's game (:cpp:func:`GameTypeIdTools::getName`)
+             @endrst
+             *
+             * @param component The draw slot, eg. ``component3``
+             * @param role The role, eg. ``upperDiffuse``; ``<role>@rabbitfx`` for the key it is handed to RabbitFX under;
+             *     ``<role>@<pass>``, eg. ``upperDiffuse@other``, for where another pass of the slot (#getDrawPass's
+             *     ``other``) binds it
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return The register, or ``std::nullopt`` when neither the mod nor its game has a row for the role
+             */
+            std::optional<std::string> getTextureRegister(const std::string& component, const std::string& role,
+                                                          const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             The texture role the mod's own draw of a slot binds at a register -- #getTextureRegister read backwards,
+             with the game's default where the mod has no row of the role. A RabbitFX key answers with the role
+             it carries (no ``@rabbitfx``)
+             @endrst
+             *
+             * @param component The draw slot, eg. ``component3``
+             * @param reg The register, eg. ``ps-t3``, or a RabbitFX key
+             * @param version The game version wanted -- see #getDrawPass
+             * @param drawPass The pass of the slot, as #getDrawPass names it (``other``, ``other2``, ...): its
+             *     ``<role>@<pass>`` rows are read, and the role answered without the suffix. Empty for the slot's main
+             *     pass (its plain rows and RabbitFX keys)
+             *
+             * @return The role, or ``std::nullopt`` when no role is bound there
+             */
+            std::optional<std::string> getTextureRole(const std::string& component, const std::string& reg,
+                                                      const std::optional<Version>& version = std::nullopt,
+                                                      const std::string& drawPass = "") const;
+
+            /**
+             * @brief One of #gameShaders' values: a shader's HLSL (under its name, eg. ``LynaeUpper``) or a constant buffer it read (under the name, a dot and the register, eg. ``LynaeUpper.ps-cb4``)
+             *
+             * @param type The shader, eg. ``LynaeUpper``, or one of its constant buffers, eg. ``LynaeUpper.ps-cb4``
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return The value, or ``std::nullopt`` when the mod has no such row
+             */
+            std::optional<std::string> getGameShader(const std::string& type, const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief The height WWMI dispatches the mod's shape keys with (#shapeKeyDispatchSizes)
+             *
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return The height, or ``std::nullopt`` when the mod has no row
+             */
+            std::optional<std::string> getShapeKeyDispatchSize(const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief Each bone's rest-pose centroid on the mod's own model (#boneCentroids), at a version
+             *
+             * @param version The game version wanted -- for each bone, the newest row at or below it
+             *
+             * @return Bone id -> centroid; empty when the mod has none
+             */
+            std::map<long long, std::array<double, 3>> getBoneCentroids(const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief The source shape key each of another mod's shape-key slots takes, from this mod (#shapeKeyRemaps)
+             *
+             * @param modName The mod remapped to
+             * @param fromVersion This mod's version -- the newest row at or below it
+             * @param toVersion The other mod's version -- likewise
+             *
+             * @return The order (``-1`` for a slot that takes none), or ``std::nullopt`` when the table has none for the pair
+             */
+            std::optional<std::vector<long long>> getShapeKeyRemap(const std::string& modName, const std::optional<Version>& fromVersion = std::nullopt,
+                                                                   const std::optional<Version>& toVersion = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             A field or a code of one of the mod's code maps (#materialCodes): ``<role>.<field>`` the bits the field
+             occupies (``propsDetail.flags.film``), ``<role>.<field>.<name>`` one code of it (``pouchDetail.material.plain``)
+             @endrst
+             *
+             * @param component The draw slot, eg. ``component6``
+             * @param type The row's type
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return The number, or ``std::nullopt`` when the mod has no such row
+             */
+            std::optional<long long> getMaterialCode(const std::string& component, const std::string& type,
+                                                     const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief The colour one of the mod's material masks marks a material with (#materialColours), eg. ``torsoMask.skin``
+             *
+             * @param component The draw slot, eg. ``component3``
+             * @param type The row's type, ``<role>.<material>``
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return The colour, or ``std::nullopt`` when the mod has no such row
+             */
+            std::optional<Colour> getMaterialColour(const std::string& component, const std::string& type,
+                                                    const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief How the game creates one of the mod's game textures (#textureDescs)
+             *
+             * @param textureHash The texture's hash
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return ``(format, width, height, mips)`` -- the format by its name, ``BC7_TYPELESS`` -- or ``std::nullopt``
+             *     when the mod has no such row
+             */
+            std::optional<std::tuple<std::string, std::uint32_t, std::uint32_t, std::uint32_t>> getTextureDesc(
+                const std::string& textureHash, const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief The thumbprint of each of the mod's game textures (#textureThumbprints), by the texture's hash
+             *
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return Hash -> its thumbprint's bytes (16 x 16, row by row); empty when the mod has no rows
+             */
+            std::unordered_map<std::string, std::vector<std::uint8_t>> getTextureThumbprints(
+                const std::optional<Version>& version = std::nullopt) const;
 
             /**
              * @brief The help text describing this mod type, as the CLI prints it

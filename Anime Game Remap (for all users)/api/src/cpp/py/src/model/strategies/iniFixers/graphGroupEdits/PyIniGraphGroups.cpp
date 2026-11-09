@@ -71,6 +71,35 @@ py::tuple PyIniGraphGroups::modObjToPy(const ModObj &modObj) {
 }
 
 
+std::vector<PyIniGraphGroups::ModObj> PyIniGraphGroups::modObjsFromPy(const py::handle &objs) {
+    std::vector<ModObj> result;
+    if (objs.is_none()) {
+        return result;
+    }
+    // one object: a tuple of two strings
+    if (py::isinstance<py::tuple>(objs) && py::len(objs) == 2 && py::isinstance<py::str>(py::reinterpret_borrow<py::tuple>(objs)[0])) {
+        result.push_back(modObjFromPy(objs));
+        return result;
+    }
+    for (const py::handle item : objs) {
+        result.push_back(modObjFromPy(item));
+    }
+    return result;
+}
+
+
+py::object PyIniGraphGroups::modObjsToPy(const std::vector<ModObj> &objs) {
+    if (objs.empty()) {
+        return py::none();
+    }
+    py::list result;
+    for (const ModObj &obj : objs) {
+        result.append(modObjToPy(obj));
+    }
+    return std::move(result);
+}
+
+
 PyIniGraphGroups::ModObj PyIniGraphGroups::modObjFromPy(const py::handle &key) {
     // Every real graph key in this codebase is a plain (componentName, objectName) tuple of str.
     // Anything else can't identify a graph for a core algorithm at all, so it maps to the empty

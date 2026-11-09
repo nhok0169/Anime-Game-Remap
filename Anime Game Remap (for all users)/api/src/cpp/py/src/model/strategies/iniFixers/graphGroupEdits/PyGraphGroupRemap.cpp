@@ -19,76 +19,66 @@
 #include <vector>
 
 
-PyGraphGroupRemap::PyGraphGroupRemap(py::object remapObj): Core({}), remapObj(std::move(remapObj)) {}
+namespace {
+    // a rename callable given in Python, kept as itself so 'remap' reads it back
+    struct PyRename {
+        py::object rename;
+        std::string operator()(const std::string &oldSectionName) const {
+            py::gil_scoped_acquire gil;
+            return rename(py::str(oldSectionName)).cast<std::string>();
+        }
+    };
 
+    py::object renameFuncToPy(const PyGraphGroupRemap::RenameFunc &renameFunc) {
+        if (!renameFunc) {
+            return py::none();
+        }
+        const PyRename *own = renameFunc.target<PyRename>();
+        return own != nullptr ? own->rename : py::object(py::cast(renameFunc));
+    }
 
-void PyGraphGroupRemap::refresh() {
-    RemapList parsed;
-    renameFuncObjs_.clear();
-
-    // Parsed in two passes: the RenameFunc -> Python-object map has to be keyed by the address of
-    // the *stored* std::function, so it can only be filled once the vector has stopped growing
-    // (every reallocation would otherwise invalidate the keys).
-    std::vector<std::vector<py::object>> renameFuncObjs;
-
-    if (!remapObj.is_none()) {
-        py::dict remapDict = remapObj.cast<py::dict>();
-
-        for (auto item : remapDict) {
-            GraphId srcId = parseGraphId(py::reinterpret_borrow<py::object>(item.first));
-            std::vector<RemapTarget> targets;
-            std::vector<py::object> targetRenameFuncs;
-
+    // 'remap' as the edit holds it: each source graph -> its targets, a target's 4th element an optional rename
+    PyGraphGroupRemap::RemapList parseRemap(const py::object &remap) {
+        PyGraphGroupRemap::RemapList parsed;
+        if (remap.is_none()) {
+            return parsed;
+        }
+        for (auto item : remap.cast<py::dict>()) {
+            std::vector<PyGraphGroupRemap::RemapTarget> targets;
             for (auto targetItem : py::reinterpret_borrow<py::object>(item.second)) {
                 py::object targetObj = py::reinterpret_borrow<py::object>(targetItem);
                 py::sequence targetSeq = targetObj.cast<py::sequence>();
-
-                RemapTarget target(parseGraphId(targetObj));
-                py::object renameFuncObj = py::none();
-
-                // A 4th element is an optional rename callable -- matching the pure-Python
-                // original's own "if (len(remappedObjData) == 3)" branch.
-                if (targetSeq.size() > 3) {
-                    renameFuncObj = py::reinterpret_borrow<py::object>(targetSeq[3]);
+                PyGraphGroupRemap::RemapTarget target(parseGraphId(targetObj));
+                if (targetSeq.size() > 3 && !py::object(targetSeq[3]).is_none()) {
+                    target.renameFunc = PyRename{py::reinterpret_borrow<py::object>(targetSeq[3])};
                 }
-
-                if (!renameFuncObj.is_none()) {
-                    py::object heldRenameFunc = renameFuncObj;
-                    target.renameFunc = [heldRenameFunc](const std::string &oldSectionName) {
-                        return heldRenameFunc(py::str(oldSectionName)).cast<std::string>();
-                    };
+                if (targetSeq.size() > 4) {
+                    target.everyGroup = py::object(targetSeq[4]).cast<bool>();
                 }
-
                 targets.push_back(std::move(target));
-                targetRenameFuncs.push_back(std::move(renameFuncObj));
             }
-
-            parsed.emplace_back(std::move(srcId), std::move(targets));
-            renameFuncObjs.push_back(std::move(targetRenameFuncs));
+            parsed.emplace_back(parseGraphId(py::reinterpret_borrow<py::object>(item.first)), std::move(targets));
         }
+        return parsed;
     }
 
-    remap = std::move(parsed);
-
-    for (std::size_t i = 0; i < remap.size(); ++i) {
-        for (std::size_t j = 0; j < remap[i].second.size(); ++j) {
-            if (renameFuncObjs[i][j].is_none()) {
-                continue;
+    py::dict remapToPy(const PyGraphGroupRemap &edit) {
+        py::dict result;
+        for (const auto &[from, targets] : edit.remap) {
+            py::list given;
+            for (const PyGraphGroupRemap::RemapTarget &target : targets) {
+                py::tuple id = graphIdToPy(target.id);
+                if (target.everyGroup) {
+                    given.append(py::make_tuple(id[0], id[1], id[2], renameFuncToPy(target.renameFunc), true));
+                } else {
+                    given.append(target.renameFunc ? py::object(py::make_tuple(id[0], id[1], id[2], renameFuncToPy(target.renameFunc)))
+                                                   : py::object(id));
+                }
             }
-
-            renameFuncObjs_[static_cast<const void*>(&remap[i].second[j].renameFunc)] = renameFuncObjs[i][j];
+            result[graphIdToPy(from)] = given;
         }
+        return result;
     }
-}
-
-
-py::object PyGraphGroupRemap::renameFuncToPy(const RenameFunc &renameFunc) const {
-    auto it = renameFuncObjs_.find(static_cast<const void*>(&renameFunc));
-    if (it == renameFuncObjs_.end()) {
-        return py::none();
-    }
-
-    return it->second;
 }
 
 
@@ -111,19 +101,21 @@ remap: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], List[Union[Tuple[:c
         #. The name of the component for the graph
         #. The name of the mod object for the graph
         #. An optional rename function if the tuple has 4 values. The rename function takes in the old name of the `section`_
+        #. An optional flag, the 5th value: ``True`` makes the target a copy in EVERY group there is, once
+           every other target has made the groups it makes
     )doc");
 
     // py::init(factory) rather than py::init<py::object>(): the core class owns std::function
     // members, and a factory returning a unique_ptr avoids ever needing to move-construct the
     // class itself -- see PyRegAdd.cpp's identical note.
     cls.def(py::init([](py::object remap) {
-        return std::make_unique<PyGraphGroupRemap>(std::move(remap));
+        return std::make_unique<PyGraphGroupRemap>(parseRemap(remap));
     }), py::arg("remap"));
 
     cls.def_property("remap", [](const PyGraphGroupRemap &self) {
-        return self.remapObj;
+        return remapToPy(self);
     }, [](PyGraphGroupRemap &self, py::object remap) {
-        self.remapObj = std::move(remap);
+        self.remap = parseRemap(remap);
     }, py::doc(R"doc(
 Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], List[Union[Tuple[:class:`int`, :class:`str`, :class:`str`], Tuple[:class:`int`, :class:`str`, :class:`str`, Callable[[:class:`str`], :class:`str`]]]]]:
 The remap for the graphs
@@ -184,16 +176,15 @@ Returns
     )doc"));
 
     cls.def("remapGraphs", [](PyGraphGroupRemap &self, py::list graphGroups, const py::object &createToGraph) {
-        self.refresh();
 
         PyIniGraphGroups groups(graphGroups);
-        self.Core::remapGraphs(groups, [&self, &groups, &createToGraph](PyGraphGroupRemap::GraphGroups &,
+        self.remapGraphs(groups, [&groups, &createToGraph](PyGraphGroupRemap::GraphGroups &,
                                                                         PyGraphGroupRemap::Graph &fromGraph,
                                                                         const PyGraphGroupRemap::GraphId &fromId,
                                                                         const PyGraphGroupRemap::GraphId &toId,
                                                                         const PyGraphGroupRemap::RenameFunc &renameFunc) {
             py::object result = createToGraph(groups.graphToPy(&fromGraph), graphIdToPy(fromId), graphIdToPy(toId),
-                                              self.renameFuncToPy(renameFunc));
+                                              renameFuncToPy(renameFunc));
             return groups.adopt(std::move(result));
         });
 
@@ -231,12 +222,11 @@ List[:class:`IniGraphGroup`]
     )doc"));
 
     cls.def("edit", [](PyGraphGroupRemap &self, py::list graphGroups, const py::object &modType, const std::string &modName) {
-        self.refresh();
 
         PyIniGraphGroups groups(graphGroups);
         // nullptr for modType: this edit never reads it (only 'modName' reaches copyGraph), and the
         // Python-side ModType is a pure-Python class with no C++ counterpart to cast to.
-        self.Core::edit(groups, nullptr, modName);
+        self.edit(groups, nullptr, modName);
         return graphGroups;
     }, py::arg("graphGroups"), py::arg("modType"), py::arg("modName") = "", py::doc(R"doc(
 Remaps the graphs, building each new graph with :meth:`copyGraph`

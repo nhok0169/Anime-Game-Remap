@@ -205,6 +205,9 @@ namespace AGRemapCore {
             if (edit != nullptr) {
                 // nullptr for both collaborators -- see this method's own note.
                 edit->editFromIni(*graphGroups_, nullptr, nullptr, modName);
+                if (const auto* result = dynamic_cast<const IParseResult*>(edit); result != nullptr && this->getParser() != nullptr) {
+                    result->fileInto(this->getParser()->parseData());
+                }
             }
         }
     }

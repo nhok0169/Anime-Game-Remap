@@ -133,6 +133,52 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The elements of a `blend`_ line of one-byte slots: 'influences' one-byte ids under
+             :cpp:member:`BlendIndicesKey`, then 'influences' one-byte weights under :cpp:member:`BlendWeightKey`
+             (formatted ``R8G8B8A8_UINT`` when four wide, else ``R8_UINT``)
+             @endrst
+             *
+             * @param influences How many (id, weight) slots each vertex carries
+             *
+             * @return The elements
+             */
+            static std::vector<std::unique_ptr<BufElementType>> byteElements(std::size_t influences);
+
+            /**
+             * @brief
+             @rst
+             The elements of a line of ids alone: 'count' unsigned ids of 'idBytes' bytes each (1, 2 or 4) under
+             :cpp:member:`BlendIndicesKey`, and no weights -- eg. a blend's true bone ids kept beside it, or a table of
+             bone ids, one a line
+             @endrst
+             *
+             * @param count How many ids a line carries
+             * @param idBytes The bytes of one id
+             *
+             * @return The elements
+             */
+            static std::vector<std::unique_ptr<BufElementType>> idElements(std::size_t count, std::size_t idBytes);
+
+            /**
+             * @brief
+             @rst
+             How many (id, weight) slots a vertex of the `blend`_ at 'blendPath' carries, from the file's SIZE: its bytes
+             per vertex over 'bytesPerInfluence'. ``std::nullopt`` when the sizes say nothing: no vertices, a file that
+             does not divide by them, or bytes a vertex that do not divide into slots
+             @endrst
+             *
+             * @param blendPath The `blend`_ file
+             * @param vertices How many vertices the mesh has (eg. :cpp:func:`BufFile::linesOf` its position buffer)
+             * @param bytesPerInfluence The bytes of one (id, weight) slot. **Default**: ``2``, a one-byte id and weight
+             *
+             * @return The slots a vertex
+             */
+            static std::optional<std::size_t> influencesOf(const std::string& blendPath, std::size_t vertices,
+                                                           std::size_t bytesPerInfluence = 2);
+
+            /**
+             * @brief
+             @rst
              For each slot of a vertex after :cpp:func:`setInfluences`, the slot it came from -- or ``std::nullopt`` for
              a new, empty slot. One list per vertex
              @endrst

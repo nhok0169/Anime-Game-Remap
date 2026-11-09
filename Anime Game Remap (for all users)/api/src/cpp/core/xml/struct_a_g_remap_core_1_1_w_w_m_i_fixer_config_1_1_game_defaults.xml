@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1655" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1655" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1659" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1659" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1a952cac543bcaec0041cc5a3d5a108afb" prot="public" static="no" mutable="no">
         <type>std::map&lt; std::string, <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_download" kindref="compound">Download</ref> &gt;</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1660" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1660" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1664" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1664" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1a6c1ff79d2dc82a4166789473e88cce7c" prot="public" static="no" mutable="no">
         <type>std::map&lt; std::pair&lt; std::string, int &gt;, std::string &gt;</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1665" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1665" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1669" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1669" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1aded46b06514fbde6363210115f4cef56" prot="public" static="no" mutable="no">
         <type>std::set&lt; std::string &gt;</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1671" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1671" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1675" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1675" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1af2a77f791cea562744248dd4480464ca" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1676" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1676" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1680" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1680" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -136,7 +136,7 @@ own shader draws, else #ofRole&apos;s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1689" column="25" bodyfile="src/data/IniFixData/WWMIFixerConfigs.cpp" bodystart="349" bodyend="357"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1693" column="25" bodyfile="src/data/IniFixData/WWMIFixerConfigs.cpp" bodystart="342" bodyend="350"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -146,7 +146,7 @@ own shader draws, else #ofRole&apos;s
 Where the source&apos;s own game texture is the default for a role -- see #gameDefaults
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1650" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1650" bodyend="1690"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1654" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1654" bodyend="1694"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1a952cac543bcaec0041cc5a3d5a108afb" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::GameDefaults</scope><name>downloads</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1aded46b06514fbde6363210115f4cef56" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::GameDefaults</scope><name>edited</name></member>

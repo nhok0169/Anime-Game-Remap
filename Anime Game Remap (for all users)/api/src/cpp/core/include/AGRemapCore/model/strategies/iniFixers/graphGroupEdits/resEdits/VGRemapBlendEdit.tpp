@@ -42,8 +42,8 @@ namespace AGRemapCore {
             const std::string& modName, const std::string& fileKey, Context& ctx) {
         (void)resType;
 
-        std::optional<VGRemap> vgRemap;
-        if (modType != nullptr) {
+        std::optional<VGRemap> vgRemap = row;
+        if (!vgRemap.has_value() && modType != nullptr) {
             vgRemap = modType->getVGRemap(rowModName.value_or(modName), fromVersion, toVersion, this->fromComp, this->toComp);
         }
 

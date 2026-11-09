@@ -37,8 +37,8 @@ class GraphCopyTest(BaseUnitTest):
         predicate = lambda section, part, ind: True
         edit = FRB.GraphCopy(srcId, dstId, predicate, minimal = False, newPartIds = False)
 
-        self.assertIs(edit.srcId, srcId)
-        self.assertIs(edit.dstId, dstId)
+        self.assertEqual(edit.srcId, srcId)   # held as the edit's own (C++) data, read back
+        self.assertEqual(edit.dstId, dstId)   # held as the edit's own (C++) data, read back
         self.assertIs(edit.predicate, predicate)
         self.assertFalse(edit.minimal)
         self.assertFalse(edit.newPartIds)

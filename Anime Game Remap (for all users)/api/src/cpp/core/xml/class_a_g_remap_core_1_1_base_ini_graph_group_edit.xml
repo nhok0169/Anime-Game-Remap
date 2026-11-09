@@ -91,6 +91,45 @@ equivalent of a `Python`_ ``Tuple[str, str]``
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="71" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="71" bodyend="-1"/>
       </memberdef>
     </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a155ad46234ecc68c385c6126574a4edf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The edit&apos;s name as a step of a fixer&apos;s list -- what a step of a user&apos;s own is put after
+(:cpp:func:`TemplateFixer::insertStep`). Empty (the default) for an unnamed step; a
+:cpp:class:`GraphVarApply` is named after the variable it makes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="214" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_part_edit_1acd8a85c8fe1c8c312205e797129d5c36" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; void &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;void&gt; &gt; AGRemapCore::BaseIniPartEdit::owned</definition>
+        <argsstring></argsstring>
+        <name>owned</name>
+        <qualifiedname>AGRemapCore::BaseIniPartEdit::owned</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What the edit borrows that nothing else keeps alive -- eg. the `Python`_ objects an edit built in `Python`_
+holds (its tables, its adapters) -- kept as long as the edit
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="54" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
     <sectiondef kind="public-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> &amp;</type>
@@ -267,7 +306,7 @@ untouched)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="45" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -588,7 +627,7 @@ Note that this derives from :cpp:class:`BaseIniPartEdit` **directly**, not from
         <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="55" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="55" bodyend="205"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="55" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="55" bodyend="215"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit</scope><name>addGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit</scope><name>clear</name></member>
@@ -598,6 +637,8 @@ Note that this derives from :cpp:class:`BaseIniPartEdit` **directly**, not from
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit</scope><name>Graph</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit</scope><name>GraphGroups</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a155ad46234ecc68c385c6126574a4edf" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit</scope><name>name</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1acd8a85c8fe1c8c312205e797129d5c36" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit</scope><name>owned</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit</scope><name>~BaseIniPartEdit</name></member>
     </listofallmembers>
   </compounddef>

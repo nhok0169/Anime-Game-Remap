@@ -89,6 +89,12 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename T, typename KeyHash, typename KeyEqual, typename ValueHash, typename ValueEqual>
+    std::optional<Version> ModMappedAssets<K, T, KeyHash, KeyEqual, ValueHash, ValueEqual>::versionOf(const T& asset, const std::vector<std::optional<K>>& nonVersionVals) const {
+        std::optional<InternalKeysResult> found = matchingKeys(asset, std::nullopt, nonVersionVals, true, false);
+        return found.has_value() ? std::optional<Version>(found->version) : std::nullopt;
+    }
+
+    template <typename K, typename T, typename KeyHash, typename KeyEqual, typename ValueHash, typename ValueEqual>
     std::vector<std::vector<K>> ModMappedAssets<K, T, KeyHash, KeyEqual, ValueHash, ValueEqual>::getKeys(const T& asset, const std::optional<Version>& fromVersion, const std::vector<std::optional<K>>& fromNonVersionVals) const {
         std::optional<InternalKeysResult> found = matchingKeys(asset, fromVersion, fromNonVersionVals, false, false);
         return found.has_value() ? std::move(found->keys) : std::vector<std::vector<K>>();

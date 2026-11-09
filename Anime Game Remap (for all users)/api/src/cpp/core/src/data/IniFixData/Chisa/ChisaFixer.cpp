@@ -24,7 +24,6 @@
 
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
-#include "AGRemapCore/data/IniFixData/Chisa/ChisaThumbprints.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h"
@@ -393,42 +392,17 @@ namespace AGRemapCore {
 
 
         // ---- the passes the TARGET draws each slot on, off her frame dumps ----
-        config.slotPasses = {
-            {"f863af7e80af9aed", "f863af7e80af9aed"},    // front hair
-            {"f863af7e80af9aed"},    // hair
-            {"6e25bfc4ac027787"},    // face
-            {"3f2e3788f5cb485a"},    // upper body
-            {"01e5bb58c3054b73"},    // lower body
-            {"0fbe7ebba08cd1b0"},    // the skin's own (nothing maps onto it)
-            // TWO passes, and the one on screen is the SECOND. `275e4ce82ebf0976` sets the eye
-            // slot's whole register set and `e04f4df80ee6b0ab` sets only ps-t1 and inherits the
-            // rest -- and it is the second that renders. Naming only the first gated the eye's
-            // texture list on a `vs` the visible draw never has, so the fix bound the eyes for a
-            // draw nobody sees and a mod's eye toggle did nothing (2026-10-01). Proved with a flat
-            // magenta: 0 magenta pixels gated, 686 ungated, 631 gated with this pass added.
-            {"275e4ce82ebf0976", "e04f4df80ee6b0ab"},    // eyes
-        };
+        // slotPasses: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
         // ---- every pass gated through its VERTEX shaders: see passVertexShaders ----
+        // passVertexShaders: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
+        // ...but for the passes DrawPasses has no row for yet: the shared meshes' and her own shaders' (literal)
         config.passVertexShaders = {
-            {"f863af7e80af9aed", {"3e7bb648e306c671"}},
-            {"f863af7e80af9aed", {"3e7bb648e306c671"}},
-            {"6e25bfc4ac027787", {"75501c2d87600e89", "c277738ca4039045", "34ba67b27aeadd4d"}},
-            {"3f2e3788f5cb485a", {"343a49bd31719ade"}},
-            {"01e5bb58c3054b73", {"6dd634933d8f0837"}},
-            {"0fbe7ebba08cd1b0", {"641c11c9ee112caf"}},
-            {"5e31423fa8ddfcec", {"d8d93966d246ed2b"}},
-            {"ced9a47fb6ad4d16", {"d8d93966d246ed2b"}},
-            {"275e4ce82ebf0976", {"72f45530b1e1f75a", "729d10a88623b937", "2b36896899a06c0a"}},
-            {"259b766b59f72419", {"fd12d3374ac7a7dd", "1479e3f5a626af60"}},
-            {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
-            {"32414b557630d98d", {"255061ec51f15e29", "60b893ec7f585976", "f906b8aa4c220a6f", "af60c434a9393b08", "166a83e1c94c5a59", "4cf784b1b2c7ca1c"}},
-            {"ca134b7ad59cdf8c", {"0b22e4a80375c4d0", "a5cd08444f0fca2e"}},
-            {"a7bdec26cf254853", {"ee6166816ce9f788"}},
+            {"021a95efb2428e47", {"ac592389c85c3e38", "98b6b0d294299cd6"}},
             {"21a483170781cfeb", {"da98d2d08d937357"}},
             {"94d9d5e981938d52", {"5102d7edd774359e"}},
-            {"021a95efb2428e47", {"ac592389c85c3e38", "98b6b0d294299cd6"}},
-            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53", "89577c176b52b351", "a54621ce48ed541b"}},
+            {"a7bdec26cf254853", {"ee6166816ce9f788"}},
+            {"ca134b7ad59cdf8c", {"0b22e4a80375c4d0", "a5cd08444f0fca2e"}},
         };
         config.filterBase = 3381.71;
         config.filterStep = 0.001;
@@ -452,39 +426,13 @@ namespace AGRemapCore {
         // it buys is that they stop moving. `Tools/Misc/Diagnostics/wwmiShaderTags.py` is the check.
         // A shader added here needs a value this pair does not already use -- the forward occupies
         // 3381.710..3381.734, the reverse 3381.76..3381.768, and the Sanhua pair .81-.84 and .91-.96.
+        // filterIndices: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
+        // ...but for the passes DrawPasses has no row for yet: the shared meshes' and her own shaders' (literal)
         config.filterIndices = {
-            {"3e7bb648e306c671", "3381.71"},    // her bangs and hair
-            {"75501c2d87600e89", "3381.711"},
-            {"c277738ca4039045", "3381.712"},
-            {"343a49bd31719ade", "3381.713"},
-            {"6dd634933d8f0837", "3381.714"},
-            {"641c11c9ee112caf", "3381.715"},   // her ribbon / prop slot
-            {"72f45530b1e1f75a", "3381.716"},
-            {"729d10a88623b937", "3381.717"},   // her eyes
-            {"5fd6e5bb6ff81c53", "3381.718"},   // the eye pass's own vertex shader
-            {"89577c176b52b351", "3381.719"},
-            {"da98d2d08d937357", "3381.72"},
-            {"ee6166816ce9f788", "3381.721"},
             {"0b22e4a80375c4d0", "3381.722"},
             {"a5cd08444f0fca2e", "3381.723"},
-            {"255061ec51f15e29", "3381.724"},
-            {"60b893ec7f585976", "3381.725"},
-            {"f906b8aa4c220a6f", "3381.726"},
-            {"af60c434a9393b08", "3381.727"},
-            {"166a83e1c94c5a59", "3381.728"},
-            {"4cf784b1b2c7ca1c", "3381.729"},
-            {"6a6650a9db8983ce", "3381.73"},    // the shared extra-art pass, slots 0/1/3/4
-            {"e4a3da6d1d1068b9", "3381.731"},   //   ...and its partner
-            {"fd12d3374ac7a7dd", "3381.732"},
-            {"1479e3f5a626af60", "3381.733"},
-            {"d8d93966d246ed2b", "3381.734"},
-        // A pass may draw with EITHER of two vertex shaders, frame to frame (Lynae's eyes and face, 2026-10-10;
-        // these partners measured in this pair's own dumps): a list gated on one drops the mod's textures on the
-        // other frames. A shader holds ONE filter_index across every loaded .ini, so a shared one keeps the value
-        // the Lynae configs give it (a54621ce .616, 4ce754b5 .769)
-            {"a54621ce48ed541b", "3381.616"},   // the eye pass's second vertex shader
-            {"2b36896899a06c0a", "3381.735"},   // her eyes' second
-            {"34ba67b27aeadd4d", "3381.736"},   // the face's second
+            {"da98d2d08d937357", "3381.72"},
+            {"ee6166816ce9f788", "3381.721"},
         };
 
         // ---- source component -> target slot and the registers it binds ----
@@ -508,25 +456,25 @@ namespace AGRemapCore {
         // ---- a slot's OTHER passes bind the same art at different registers ----
         config.extraPassRegs = {
             {0, {
-                {"f8c96a270bf847dd", {{"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
-                {"32414b557630d98d", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other2", {{"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {1, {
-                {"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
-                {"32414b557630d98d", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other2", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {2, {
-                {"259b766b59f72419", {{"ps-t0", "upperDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other", {{"ps-t0", "upperDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {3, {
-                {"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other", {{"ps-t0", "upperDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {4, {
-                {"f8c96a270bf847dd", {{"ps-t0", "lowerDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other", {{"ps-t0", "lowerDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {5, {
-                {"5e31423fa8ddfcec", {{"ps-t0", "Flat050000FF"}, {"ps-t1", "FlatDE5A7E00"}, {"ps-t2", "accessoryNormal"}, {"ps-t3", "accessoryDiffuse"}}},
-                {"ced9a47fb6ad4d16", {{"ps-t0", "Flat050000FF"}, {"ps-t1", "FlatDE5A7E00"}, {"ps-t2", "accessoryNormal"}, {"ps-t3", "accessoryDiffuse"}}},
+                {"other", {{"ps-t0", "Flat050000FF"}, {"ps-t1", "FlatDE5A7E00"}, {"ps-t2", "accessoryNormal"}, {"ps-t3", "accessoryDiffuse"}}},
+                {"other2", {{"ps-t0", "Flat050000FF"}, {"ps-t1", "FlatDE5A7E00"}, {"ps-t2", "accessoryNormal"}, {"ps-t3", "accessoryDiffuse"}}},
             }},
         };
 
@@ -598,15 +546,7 @@ namespace AGRemapCore {
         };
 
         // ---- a mod from before WWMI's merged skeleton holds per-component LOCAL ids ----
-        config.sourceVgMaps = {
-            {0, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26}},
-            {1, {27, 28, 29, 30, 31, 32, 33, 3, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140}},
-            {2, {3}},
-            {3, {142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 45, 3, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269}},
-            {4, {152, 154, 155, 167, 187, 185, 179, 163, 193, 175, 177, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 245, 242, 343, 344, 253, 254, 255, 196, 172, 251, 256, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 249, 246, 368, 199, 166, 261, 372, 263, 264, 265, 266, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390}},
-            {5, {146, 148, 145, 149, 147, 144, 143, 153, 152, 154, 156, 402, 142, 159, 160, 158, 157, 3, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418}},
-            {6, {3}},
-        };
+        // sourceVgMaps: read off VGRemaps (component -> "") at the run's versions (WWMIFixerConfig::withGameData)
 
         // ---- what the per-slot table and the hide sections say ----
         config.sourceLabels = {
@@ -641,7 +581,7 @@ namespace AGRemapCore {
 
         // a batched export's dispatch height is the TARGET's (her Metadata.json's dispatch_y), or WWMI loads
         // too few of the mod's offsets on her draws (Lynae9's spikes; Chisa14 kept Chisa's 1441)
-        config.shapeKeyDispatchSize = "1301";
+        // shapeKeyDispatchSize: read off ShapeKeyDispatchSizes at the run's versions (WWMIFixerConfig::withGameData)
 
         // ---- a remap-only texcoord copy ---------------------------------------------------------
         // Her fox mask, hairpins and bells are drawn, placed and textured correctly and INVISIBLE,

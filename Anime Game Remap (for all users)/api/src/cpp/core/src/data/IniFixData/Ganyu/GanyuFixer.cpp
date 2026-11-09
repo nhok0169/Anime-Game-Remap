@@ -22,6 +22,7 @@
 #include "AGRemapCore/data/IniFixData/DarkDiffuse.h"
 #include "AGRemapCore/data/IniFixData/GIMICharFixer.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
+#include "AGRemapCore/constants/Colours.h"
 #include "AGRemapCore/model/textures/Colour.h"
 
 
@@ -35,7 +36,6 @@ namespace AGRemapCore {
         // derive it FROM. What this buys is a slot the shader can read that does not perturb the
         // lighting, which is the whole requirement.
         const int NormalMapSize = 1024;
-        const Colour NormalMapYellow(128, 128, 0);
     }
 
 
@@ -55,7 +55,7 @@ namespace AGRemapCore {
         // collectors run before the register edits. See ganyu6_1.
         config.texEdits = {{"head", "ps-t0", "DarkDiffuse", &DarkDiffuse::edit}};
         config.texAdds = {{"head", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapYellow)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapYellow)}};
 
         // ---- the 6.1-era defaults, and 5.x's own draw-call move ----
         config.swapFaceRegs = false;
@@ -87,7 +87,7 @@ namespace AGRemapCore {
         // ps-t1 now holds what ps-t0 held, and that copy is the one darkened.
         config.texEdits = {{"head", "ps-t1", "DarkDiffuse", &DarkDiffuse::edit}};
         config.texAdds = {{"head", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapYellow)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapYellow)}};
 
         // ---- what this row does with the 6.1-era defaults ----
         config.swapFaceRegs = false;
@@ -140,7 +140,7 @@ namespace AGRemapCore {
 
         // ...and the normal map that fills the slot the shift vacated.
         config.texAdds = {{"head", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapYellow)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapYellow)}};
 
         // The pure-Python row carries IbRemapData/IbDrawIndexedRename on all three objects plus a
         // postModel drawindexed removal, which together are what this flag does.

@@ -17,9 +17,6 @@
 #include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphFixer.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
-#include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphShawlShader.h"
-#include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphSheerShader.h"
-#include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphSkeleton.h"
 #include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphTextures.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 
@@ -41,37 +38,13 @@ namespace AGRemapCore {
 
         // a mod from before WWMI's merged skeleton (WWMI BETA-2 exports with no vg_offset) holds each
         // component's LOCAL bone ids: lifted through her Metadata.json's per-component vg_map
-        config.sourceVgMaps = changliNymphVgMaps();
+        // sourceVgMaps: read off VGRemaps (component -> "") at the run's versions (WWMIFixerConfig::withGameData)
 
         // ---- the passes the TARGET draws each slot on (Changli's dump, wwmiPassLayout.py) ----
-        config.slotPasses = {
-            {"880e1a81d913db05", "83782bd563d3a6c9"},   // bangs
-            {"518dadece9a19b08"},                       // hair
-            {"ed1c0f8b2ba08ac4"},                       // face
-            {"9d4c7d9618ef7f45"},                       // upper body
-            {"fbe2f2f061949559"},                       // legs and skirt
-            {"7f639abb370f996d"},                       // coat
-            {"5616e4de7d4e70ef"},                       // eyes
-            {"bb1c5ba6e1be6395"},                       // chest flame tattoo (nothing of hers lands there)
-        };
+        // slotPasses: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
         // ---- every pass gated through its VERTEX shader -- both outfits' and both dumps', per pixel shader ----
-        config.passVertexShaders = {
-            {"880e1a81d913db05", {"a695e6d5f9d489cf"}},
-            {"83782bd563d3a6c9", {"a695e6d5f9d489cf"}},
-            {"518dadece9a19b08", {"e97b4254e5ed8812"}},
-            {"ed1c0f8b2ba08ac4", {"7c0b4db32cee62d3", "4ce754b5b9574b1a"}},
-            {"9d4c7d9618ef7f45", {"6e5d4bc00bc160ee"}},
-            {"fbe2f2f061949559", {"3b36d7d284d20522"}},
-            {"7f639abb370f996d", {"3ba352c448cd29cc", "a434a95920c66e51"}},
-            // the eyes draw through a second vertex shader outside the character menu (as Lynae's do): gated
-            // on the menu's alone, the overworld eyes took the game's textures
-            {"5616e4de7d4e70ef", {"ceff9a81afb1de70", "c32a69851757154a"}},
-            {"bb1c5ba6e1be6395", {"488d2eb256ff8c71"}},
-            {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
-            {"705575a2e1b4a4b9", {"3e22b125329523fa", "7148f95feba974ac"}},
-            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53", "a54621ce48ed541b"}},
-        };
+        // passVertexShaders: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
         // ---- the blindfold: Changli draws her own, black cloth on another mesh. The skin's is white lace,
         // so hers takes a recoloured copy of her own diffuse (the meshes' UVs differ, so the skin's cannot be
@@ -83,25 +56,7 @@ namespace AGRemapCore {
 
         // ---- and every tag NAMED: the values the forward direction and the other pairs already give a
         // shader, and 3381.521 up for the vertex shaders only Changli's own draws use ----
-        config.filterIndices = {
-            {"a695e6d5f9d489cf", "3381.91"},
-            {"7c0b4db32cee62d3", "3381.76"},
-            {"4ce754b5b9574b1a", "3381.769"},
-            {"6a6650a9db8983ce", "3381.73"},
-            {"e4a3da6d1d1068b9", "3381.731"},
-            {"ceff9a81afb1de70", "3381.625"},
-            {"c32a69851757154a", "3381.615"},
-            {"5fd6e5bb6ff81c53", "3381.718"},
-            {"a54621ce48ed541b", "3381.616"},
-            {"a434a95920c66e51", "3381.511"},
-            {"e97b4254e5ed8812", "3381.512"},
-            {"7148f95feba974ac", "3381.513"},
-            {"6e5d4bc00bc160ee", "3381.521"},
-            {"3b36d7d284d20522", "3381.522"},
-            {"3ba352c448cd29cc", "3381.523"},
-            {"488d2eb256ff8c71", "3381.524"},
-            {"3e22b125329523fa", "3381.525"},
-        };
+        // filterIndices: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
         // ---- source component -> target slot and the registers it binds there ----
         config.plan = {
@@ -138,14 +93,14 @@ namespace AGRemapCore {
         // shards), so its copy takes the dress's own value, 0 on every vertex; her coat slot passes the shawl's. And
         // both take the overworld's camera-near fade from CHANGLI's material constants, live at b4 (the skin's own
         // fade is per-object data hers leaves off), with their own material bound at b5 ----
-        WWMIFixerConfig::Shader sheer = changliNymphSheerShader();
+        WWMIFixerConfig::Shader sheer = WWMIFixerConfig::Shader::ofGame("ChangliNymphSheer");
         // (the ramp as a download too: the target draw's registers cannot be `ref`'d for them: the slot's OVERWORLD pass holds other textures there than the menu's (Changli's keeps bb73967a at t6 and the ramp at t7))
         sheer.registers = {{"ps-t0", "sheerNormal"}, {"ps-t1", "sheerDiffuse"}, {"ps-t2", "sheerDetail"}, {"ps-t3", "sheerNoise"},
                            {"ps-t4", "sheerRamp"}};
         sheer.onlyWith = "o3";
         config.plan.at(3).shader = std::move(sheer);
 
-        WWMIFixerConfig::Shader shawl = changliNymphShawlShader();
+        WWMIFixerConfig::Shader shawl = WWMIFixerConfig::Shader::ofGame("ChangliNymphShawl");
         shawl.registers = {{"ps-t0", "shawlNormal"}, {"ps-t1", "shawlDiffuse"}, {"ps-t2", "sheerDetail"}, {"ps-t3", "sheerNoise"},
                            {"ps-t4", "sheerRamp"}};
         shawl.onlyWith = "o3";
@@ -154,11 +109,11 @@ namespace AGRemapCore {
         // ---- a slot's OTHER passes: her outlines bind the part's own DIFFUSE at ps-t0 (Changli binds
         // dedicated outline maps there); the eye's second pass sets ps-t1 only ----
         config.extraPassRegs = {
-            {0, {{"f8c96a270bf847dd", {{"ps-t0", "bangsDiffuse"}}}}},
-            {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}}}}},
-            {4, {{"705575a2e1b4a4b9", {{"ps-t0", "bodyDiffuse"}}}}},
-            {5, {{"705575a2e1b4a4b9", {{"ps-t0", "skirtDiffuse", 5}}}}},
-            {6, {{"e04f4df80ee6b0ab", {{"ps-t1", "eyeHighlight"}}}}},
+            {0, {{"other", {{"ps-t0", "bangsDiffuse"}}}}},
+            {1, {{"other", {{"ps-t0", "hairDiffuse"}}}}},
+            {4, {{"other", {{"ps-t0", "bodyDiffuse"}}}}},
+            {5, {{"other", {{"ps-t0", "skirtDiffuse", 5}}}}},
+            {6, {{"other", {{"ps-t1", "eyeHighlight"}}}}},
         };
 
         config.createdTextures = {
@@ -187,12 +142,8 @@ namespace AGRemapCore {
         // Changli: her slots 0-71 take the skin's keys 14-85 by content, 72-85 nothing), with her dispatch height ----
         config.hiddenObjs = {};
         config.zeroShapeKeyStream = false;
-        config.shapeKeyDispatchSize = "1097";
-        config.shapeKeyOrder = {};
-        for (long long key = 14; key < 86; ++key) {
-            config.shapeKeyOrder.push_back(key);
-        }
-        config.shapeKeyOrder.insert(config.shapeKeyOrder.end(), 14, -1);
+        // shapeKeyDispatchSize: read off ShapeKeyDispatchSizes at the run's versions (WWMIFixerConfig::withGameData)
+        // shapeKeyOrder: read off ShapeKeyRemaps at the run's versions (WWMIFixerConfig::withGameData)
         config.cleanTexcoords = true;
         config.carryByRegisterRole = true;
         // her slots reach bone 275 (276 x 3 float4 = 828), past the 768 default

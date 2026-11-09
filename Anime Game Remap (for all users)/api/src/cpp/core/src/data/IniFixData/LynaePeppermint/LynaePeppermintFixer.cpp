@@ -21,12 +21,6 @@
 #include "AGRemapCore/constants/IniComments.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
-#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.h"
-#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.h"
-#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.h"
-#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.h"
-#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSolidShader.h"
-#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
@@ -80,67 +74,25 @@ namespace AGRemapCore {
         config.copyPreamble = IniComments::GIMIObjMergerPreamble;
 
         // ---- the passes the TARGET (Lynae) draws each slot on (her dumps, wwmiDrawTable.py) ----
-        config.slotPasses = {
-            {"d4252cf5b68968eb", "5eb19d847b81ed33"},   // bangs (the second pass inherits the first's set)
-            {"d4252cf5b68968eb"},                       // hair
-            {"97ce9ee79fd51349"},                       // face
-            {"a175ff3bd01feb29", "8d8250706d224af7"},   // upper body (the second inherits)
-            {"a68c6144f18d6caf"},                       // lower body
-            {"404f5464fdffc665"},                       // jacket
-            // props: nothing of the skin is drawn there, so only the hide section uses it
-            {"0f6f8facde912ff4", "2d6d59feda76cef9", "208e7eadc60a7abd", "0fc420109de57a0e"},
-            {"fa9e4d98ed0a570e"},                       // eyes (and e04f4df8, in extraPassRegs)
-        };
+        // slotPasses: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
         // ---- every pass gated through its VERTEX shaders, so RabbitFX's pixel-shader tags survive ----
+        // passVertexShaders: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
+        // ...but for the passes DrawPasses has no row for yet: the shared meshes' and her own shaders' (literal)
         config.passVertexShaders = {
-            {"d4252cf5b68968eb", {"3e7bb648e306c671"}},
-            {"5eb19d847b81ed33", {"3e7bb648e306c671"}},
-            // her face's second vertex shader, by Chisa's face pass on the same 7c0b4db3 (seen alternating
-            // there); listed so the face list cannot drop out on those frames as the skin's face did
-            {"97ce9ee79fd51349", {"7c0b4db32cee62d3", "4ce754b5b9574b1a"}},
-            {"a175ff3bd01feb29", {"1f324d354402418c"}},
-            {"8d8250706d224af7", {"1f324d354402418c"}},
-            {"a68c6144f18d6caf", {"343a49bd31719ade", "c30da0cb86079064"}},
-            {"404f5464fdffc665", {"6ffcf365937e50bd"}},
-            {"0f6f8facde912ff4", {"d4edc0d609271c1a"}},
-            {"2d6d59feda76cef9", {"3424c4bc44c29aad"}},
-            {"208e7eadc60a7abd", {"759b7b30c86ca081"}},
-            {"0fc420109de57a0e", {"e2cb95b268cbb51e"}},
-            {"bb718d7619295f25", {"99b91a71ed833cb8"}},
             {"9a01e7bd0aeff915", {"3b8be044e56e8c14"}},
-            {"fa9e4d98ed0a570e", {"c32a69851757154a", "ceff9a81afb1de70"}},
-            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53", "a54621ce48ed541b"}},
-            {"bce1512f1c6b82fe", {"a57b6349c93b6107"}},
-            {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
-            {"30ab50e715dce218", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
+            {"bb718d7619295f25", {"99b91a71ed833cb8"}},
         };
 
         // ---- ...and every tag NAMED. A shader holds ONE filter_index across every loaded .ini, so
         // every shader another pair tags keeps THAT value: Chisa's 3e7bb648 .71, 343a49bd .713,
         // 5fd6e5bb .718, 6a6650a9 .73, e4a3da6d .731, ChisaParfait -> Chisa's 7c0b4db3 .76, and this
         // pair's forward direction's .61x. The shaders only this direction tags take 3381.62x ----
+        // filterIndices: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
+        // ...but for the passes DrawPasses has no row for yet: the shared meshes' and her own shaders' (literal)
         config.filterIndices = {
-            {"3e7bb648e306c671", "3381.71"},
-            {"343a49bd31719ade", "3381.713"},
-            {"5fd6e5bb6ff81c53", "3381.718"},
-            {"6a6650a9db8983ce", "3381.73"},
-            {"e4a3da6d1d1068b9", "3381.731"},
-            {"7c0b4db32cee62d3", "3381.76"},
-            {"4ce754b5b9574b1a", "3381.769"},
-            {"c30da0cb86079064", "3381.61"},
-            {"1f324d354402418c", "3381.612"},
-            {"c32a69851757154a", "3381.615"},
-            {"a54621ce48ed541b", "3381.616"},
-            {"a57b6349c93b6107", "3381.617"},
-            {"6ffcf365937e50bd", "3381.62"},
-            {"d4edc0d609271c1a", "3381.621"},
-            {"3424c4bc44c29aad", "3381.622"},
-            {"759b7b30c86ca081", "3381.623"},
-            {"e2cb95b268cbb51e", "3381.624"},
-            {"ceff9a81afb1de70", "3381.625"},
-            {"99b91a71ed833cb8", "3381.626"},
             {"3b8be044e56e8c14", "3381.627"},
+            {"99b91a71ed833cb8", "3381.626"},
         };
 
         // ---- source component -> Lynae's slot and the registers it binds there ----
@@ -178,20 +130,20 @@ namespace AGRemapCore {
 
         // ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0 ----
         config.extraPassRegs = {
-            {0, {{"bce1512f1c6b82fe", {{"ps-t0", "bangsDiffuse"}}}}},
-            {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}}}}},
-            {3, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse"}}}}},
+            {0, {{"other", {{"ps-t0", "bangsDiffuse"}}}}},
+            {1, {{"other", {{"ps-t0", "hairDiffuse"}}}}},
+            {3, {{"other", {{"ps-t0", "upperDiffuse"}}}}},
             // her lower body's outline reads a mask at ps-t0 and the diffuse at ps-t1. Her own mask there
             // is a flat white ("outline everywhere"); the skin's outline reads its DIFFUSE at ps-t0, and
             // with the white the outline shell of the skin's layered thigh overlay drew as two black
             // bands down the backs of her thighs. So the skin's diffuse goes at both. That slot takes TWO
             // sources (the lower body and the shirt), and "the diffuse" is a different file for each:
             // without srcComponent both land in one list and the last one's wins
-            {4, {{"30ab50e715dce218", {{"ps-t0", "lowerDiffuse", 4}, {"ps-t1", "lowerDiffuse", 4},
+            {4, {{"other", {{"ps-t0", "lowerDiffuse", 4}, {"ps-t1", "lowerDiffuse", 4},
                                        {"ps-t0", "jacketDiffuse", 6}, {"ps-t1", "jacketDiffuse", 6},
                                        {"ps-t0", "pouchDiffuse", 5}, {"ps-t1", "pouchDiffuse", 5}}}}},
             // her second eye pass SETS its own t0, and it is the eye MASK (a506a70d in her dump)
-            {7, {{"e04f4df80ee6b0ab", {{"ps-t0", "eyeMask"}}}}},
+            {7, {{"other", {{"ps-t0", "eyeMask"}}}}},
         };
 
         config.sourceTextures = lynaePeppermintTextureFacts();
@@ -214,7 +166,7 @@ namespace AGRemapCore {
         // lower body's state -- its reversed-Z depth test above all: without it the default LESS test
         // throws away every pixel in front of the body. The shader reads her lighting ramp at ps-t6:
         // HERS, downloaded -- Lynae's slots hold the same game texture refilled with Lynae's ramp ----
-        WWMIFixerConfig::Shader sheerJacket = lynaePeppermintSheerShader();
+        WWMIFixerConfig::Shader sheerJacket = WWMIFixerConfig::Shader::ofGame("LynaePeppermintSheer");
         sheerJacket.lines = {
             {"ps-t6", "role ramp"},
             {"depth_stencil_state_merge", "true"},
@@ -244,7 +196,7 @@ namespace AGRemapCore {
         // ...and that OPAQUE pass with her SOLID jacket shader (efc2690a), as her own draw does first: drawn with
         // the see-through one, her lemon earrings, necklace and bag strap came out pale and half see-through --
         // a paint of the see-through shader's output showed it never touches them on her card (epoch 6)
-        sheerJacket.passPs = {"", lynaePeppermintSolidShader().ps};
+        sheerJacket.passGame = {"", "LynaePeppermintSolid"};
         // ...after her upper body, whichever slot the game draws first: in the overworld her jacket slot
         // draws BEFORE the upper body (the character menu after it), so the shirt blended over her hair,
         // the coat's back panel and the scene behind her, and the body then lost the depth test under it.
@@ -268,7 +220,7 @@ namespace AGRemapCore {
         // the hips, and released from inside the lower body's own section (After::also) it drew a
         // saturated blue with dark bands -- the shirt's arrangement, its own section on the lower body's
         // draw, is the one that renders as the skin does ----
-        WWMIFixerConfig::Shader sheerCoat = lynaePeppermintSheerCoatShader();
+        WWMIFixerConfig::Shader sheerCoat = WWMIFixerConfig::Shader::ofGame("LynaePeppermintSheerCoat");
         sheerCoat.lines = sheerJacket.lines;
         sheerCoat.passes = sheerJacket.passes;
         WWMIFixerConfig::Shader::After afterBodyCoat = afterBody;
@@ -283,7 +235,7 @@ namespace AGRemapCore {
         // outfit are a foil only that shader draws, and Lynae's lower-body shader drew them flat grey (a
         // mod's jacket panel modelled on the lower body). Her body's stencil -- ref 14, which turns the
         // background's 128 into 14 -- and two-sided, as her own draw is ----
-        WWMIFixerConfig::Shader lowerBody = lynaePeppermintLowerShader();
+        WWMIFixerConfig::Shader lowerBody = WWMIFixerConfig::Shader::ofGame("LynaePeppermintLower");
         lowerBody.lines = {
             {"depth_stencil_state_merge", "true"},
             {"stencil_enable", "true"},
@@ -304,7 +256,7 @@ namespace AGRemapCore {
         // Her register order is Lynae's slot's (normal, mask, code, diffuse, the ramp at ps-t6); her noise
         // (ps-t4) and foil (ps-t5) are the game's, bound only while her shader draws. Her body's stencil, as
         // her lower body: the shirt's see-through pass tests those bits ----
-        WWMIFixerConfig::Shader upperBody = lynaePeppermintUpperShader();
+        WWMIFixerConfig::Shader upperBody = WWMIFixerConfig::Shader::ofGame("LynaePeppermintUpper");
         upperBody.lines = {
             {"depth_stencil_state_merge", "true"},
             {"stencil_enable", "true"},
@@ -379,11 +331,11 @@ namespace AGRemapCore {
         // Metadata.json's dispatch_y) ----
         config.hiddenObjs = {};
         config.zeroShapeKeyStream = false;
-        config.shapeKeyDispatchSize = "1631";
+        // shapeKeyDispatchSize: read off ShapeKeyDispatchSizes at the run's versions (WWMIFixerConfig::withGameData)
 
         // ---- the game drives shape keys by SLOT, and the two skins number the same face keys
         // differently (2 of 105 at the same index): moved across unchanged, a blink opened the mouth ----
-        config.shapeKeyOrder = peppermintToLynaeShapeKeys();
+        // shapeKeyOrder: read off ShapeKeyRemaps at the run's versions (WWMIFixerConfig::withGameData)
         config.cleanTexcoords = true;
 
         // A mod's own line that puts a texture into another kind of slot on purpose keeps that slot:
@@ -396,7 +348,7 @@ namespace AGRemapCore {
         config.mergedSkeletonSlots = 1536;
 
         // ---- a mod from before WWMI's merged skeleton: the skin was never renumbered ----
-        config.sourceVgMaps = lynaePeppermintVgMaps();
+        // sourceVgMaps: read off VGRemaps (component -> "") at the run's versions (WWMIFixerConfig::withGameData)
 
         config.sourceLabels = {
             {0, "bangs"}, {1, "hair"}, {2, "face"}, {3, "upper body"}, {4, "lower body"},

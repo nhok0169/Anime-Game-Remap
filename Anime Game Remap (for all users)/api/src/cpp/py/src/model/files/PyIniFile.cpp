@@ -495,6 +495,21 @@ Returns
         // ================================================
         // ==================== sections ==================
 
+        .def("resourceNamed", &AGRC::IniFile::resourceNamed, py::arg("value"), py::doc(R"doc(
+The resource `section`_ a binding's value names (``Resource...`` or ``ref Resource...``), under the name the file declares
+it by -- found without regard to case, as 3DMigoto reads a section name -- or empty when the file declares no such
+`section`_
+
+Parameters
+----------
+value: :class:`str`
+    The value of the binding
+
+Returns
+-------
+:class:`str`
+    The `section`_'s name, as declared
+        )doc"))
         .def("getSectionNames", &AGRC::IniFile::getSectionNames, py::doc(R"doc(
 Retrieves the names of all the `sections`_ in the .ini file, in the order they are declared
 

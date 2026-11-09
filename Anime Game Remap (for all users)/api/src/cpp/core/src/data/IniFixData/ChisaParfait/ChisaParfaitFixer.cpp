@@ -23,7 +23,6 @@
 #include "AGRemapCore/constants/IniComments.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
-#include "AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h"
@@ -181,47 +180,22 @@ namespace AGRemapCore {
         //
         // Slot 0 has two: 86560277 sets her bangs' set, and b455d737 -- the HAIR shader -- draws the
         // bangs as well as the hair, each with its own textures.
-        config.slotPasses = {
-            {"13a86b87d383a40f", "5eb19d847b81ed33"},   // 0: front hair / bangs
-            // 3.7 SPLIT the shader that used to draw both: old b455d737821784cd was slot 0's second
-            // pass AND slot 1's only one, and the two are different shaders now. Slot 1's is the one
-            // slot 0 draws FIRST with -- see the dumps' pass tables, which agree on the role layout
-            // (ps-t0 mask, ps-t1 diffuse, ps-t2 ramp, ps-t5 normal) before and after.
-            {"13a86b87d383a40f"},                       // 1: hair
-            {"ed1c0f8b2ba08ac4"},                       // 2: face
-            {"c9cdf1b99fb01750"},                       // 3: upper body
-            {"3bbc20374cc3d229"},                       // 4: lower body
-            {"0fbe7ebba08cd1b0"},                       // 5: her ribbon and props (nothing maps here)
-            // TWO passes, and the one on screen is the SECOND. `275e4ce82ebf0976` sets the eye
-            // slot's whole register set and `e04f4df80ee6b0ab` sets only ps-t1 and inherits the
-            // rest -- and it is the second that renders. Naming only the first gated the eye's
-            // texture list on a `vs` the visible draw never has, so the fix bound the eyes for a
-            // draw nobody sees and a mod's eye toggle did nothing (2026-10-01). Proved with a flat
-            // magenta: 0 magenta pixels gated, 686 ungated, 631 gated with this pass added.
-            {"275e4ce82ebf0976", "e04f4df80ee6b0ab"},   // 6: eyes
-        };
+        // slotPasses: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
         // ---- every pass gated through its VERTEX shaders -----------------------------------------
         // NEVER the pixel shader: RabbitFX marks every pixel shader it patches filter_index 1718.1,
         // a shader holds ONE filter index, and a [ShaderOverride] is keyed by hash across every
         // loaded .ini -- so tagging a pixel shader switches RabbitFX off for every mod drawn with it,
         // globally. Read off her own dump's draw table, which pairs each ps with its vs.
+        // passVertexShaders: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
+        // ...but for the passes DrawPasses has no row for yet: the shared meshes' and her own shaders' (literal)
         config.passVertexShaders = {
-            {"13a86b87d383a40f", {"3e7bb648e306c671"}},
-            {"5eb19d847b81ed33", {"3e7bb648e306c671"}},
-            {"ed1c0f8b2ba08ac4", {"7c0b4db32cee62d3", "4ce754b5b9574b1a"}},
-            {"c9cdf1b99fb01750", {"b3c7ad652f7a1c40"}},
-            {"3bbc20374cc3d229", {"9cf0b7666af23697"}},
-            {"0fbe7ebba08cd1b0", {"641c11c9ee112caf"}},
-            {"275e4ce82ebf0976", {"729d10a88623b937", "2b36896899a06c0a"}},
-            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53", "a54621ce48ed541b"}},
-            {"94d9d5e981938d52", {"5102d7edd774359e"}},
-            {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
-            {"32414b557630d98d", {"255061ec51f15e29"}},
-            {"320a753b019eff67", {"aef4fc536fbff1e7"}},
             {"259b766b59f72419", {"fd12d3374ac7a7dd"}},
+            {"320a753b019eff67", {"aef4fc536fbff1e7"}},
+            {"32414b557630d98d", {"255061ec51f15e29"}},
             {"50f2ed8061f3d351", {"49d13f65f2b7838a", "84e073e202127beb", "91256be56071db94"}},
             {"92ca4bd985fe6887", {"676fdbd61b302294"}},
+            {"94d9d5e981938d52", {"5102d7edd774359e"}},
         };
 
         // ---- the filter_index of every shader this direction tags --------------------------------
@@ -241,37 +215,17 @@ namespace AGRemapCore {
         //     direction occupies 3381.710..3381.732 and the Sanhua pair 3381.81-.84 and .91-.96.
         //     `Tools/Misc/Diagnostics/wwmiShaderTags.py` is the check -- it reads the fixed .ini
         //     files of every installed mod and reports any shader carrying two values.
+        // filterIndices: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
+        // ...but for the passes DrawPasses has no row for yet: the shared meshes' and her own shaders' (literal)
         config.filterIndices = {
-            // shared with Chisa -> ChisaParfait; these values are ITS
-            {"3e7bb648e306c671", "3381.71"},    // her bangs and hair
-            {"641c11c9ee112caf", "3381.715"},   // her ribbon / prop slot
-            {"729d10a88623b937", "3381.717"},   // her eyes
-            {"5fd6e5bb6ff81c53", "3381.718"},   // the vertex shader her EYE pass runs on. Undeclared
-                                                //   until 2026-10-03, so it fell through to
-                                                //   filterBase (3381.91) while the forward tagged it
-                                                //   3381.718: with one mod of each installed, one of
-                                                //   the two lost its eye textures outright.
-            {"6a6650a9db8983ce", "3381.73"},    // the shared extra-art pass, slots 0/1/3/4
-            {"e4a3da6d1d1068b9", "3381.731"},   //   ...and its partner
             {"255061ec51f15e29", "3381.724"},
-            {"fd12d3374ac7a7dd", "3381.732"},
-            // this direction's own
-            {"7c0b4db32cee62d3", "3381.76"},    // her face
-            {"b3c7ad652f7a1c40", "3381.761"},   // her upper body
-            {"9cf0b7666af23697", "3381.762"},   // her lower body
-            {"5102d7edd774359e", "3381.763"},
-            {"aef4fc536fbff1e7", "3381.764"},
             {"49d13f65f2b7838a", "3381.765"},
+            {"5102d7edd774359e", "3381.763"},
+            {"676fdbd61b302294", "3381.768"},
             {"84e073e202127beb", "3381.766"},
             {"91256be56071db94", "3381.767"},
-            {"676fdbd61b302294", "3381.768"},
-        // A pass may draw with EITHER of two vertex shaders, frame to frame (Lynae's eyes and face, 2026-10-10;
-        // these partners measured in this pair's own dumps): a list gated on one drops the mod's textures on the
-        // other frames. A shader holds ONE filter_index across every loaded .ini, so a shared one keeps the value
-        // the Lynae configs give it (a54621ce .616, 4ce754b5 .769)
-            {"4ce754b5b9574b1a", "3381.769"},   // her face's second vertex shader
-            {"2b36896899a06c0a", "3381.735"},   // her eyes' second (the forward's value)
-            {"a54621ce48ed541b", "3381.616"},   // the eye pass's second
+            {"aef4fc536fbff1e7", "3381.764"},
+            {"fd12d3374ac7a7dd", "3381.732"},
         };
 
         // ---- source component -> target slot, and the registers CHISA's pass reads ---------------
@@ -496,11 +450,11 @@ namespace AGRemapCore {
         // file for each. Without it both bindings land in one list and the second wins for the
         // source it does not belong to.
         config.extraPassRegs = {
-            {0, {{"f8c96a270bf847dd", {{"ps-t0", "frontHairDiffuse"}}}}},
-            {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}}}}},
-            {3, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse", 3},
+            {0, {{"other", {{"ps-t0", "frontHairDiffuse"}}}}},
+            {1, {{"other", {{"ps-t0", "hairDiffuse"}}}}},
+            {3, {{"other", {{"ps-t0", "upperDiffuse", 3},
                                       {"ps-t0", "panelDiffuse", 5}}}}},
-            {4, {{"f8c96a270bf847dd", {{"ps-t0", "lowerDiffuse", 4},
+            {4, {{"other", {{"ps-t0", "lowerDiffuse", 4},
                                       {"ps-t0", "propDiffuse", 7}}}}},
         };
 
@@ -520,8 +474,8 @@ namespace AGRemapCore {
         // The two HAIR slots keep their draw: gating 3 and 4 alone is clean in game, and 0 and 1
         // really are drawn on that pass.
         config.extraPassNoDraw = {
-            {3, {"f8c96a270bf847dd"}},
-            {4, {"f8c96a270bf847dd"}},
+            {3, {"other"}},
+            {4, {"other"}},
         };
 
         // ---- the shape keys are RETARGETED, not hidden -------------------------------------------
@@ -558,7 +512,7 @@ namespace AGRemapCore {
         // The cost is that a mod's own shape keys do not play on the target, which is the same
         // trade Sanhua makes and is not a plane across the scene.
         config.zeroShapeKeyStream = true;
-        config.shapeKeyDispatchSize = "1441";        // Chisa's dispatch_y -- see ChisaFixer
+        // shapeKeyDispatchSize: read off ShapeKeyDispatchSizes at the run's versions (WWMIFixerConfig::withGameData)        // Chisa's dispatch_y -- see ChisaFixer
 
         // ---- a flat mask is LEFT TO THE GAME on the hair, as in the forward direction ------------
         // The body masks of WWMITextureFacts::regionRoles fall back to hers when their REGIONS are missing; this is about the

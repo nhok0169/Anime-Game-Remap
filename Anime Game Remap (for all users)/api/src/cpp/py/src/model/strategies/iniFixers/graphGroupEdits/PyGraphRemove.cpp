@@ -18,19 +18,24 @@
 #include <vector>
 
 
-PyGraphRemove::PyGraphRemove(py::object graphIdsObj): Core({}), graphIdsObj(std::move(graphIdsObj)) {}
-
-
-void PyGraphRemove::refresh() {
-    std::vector<GraphId> parsed;
-
-    if (!graphIdsObj.is_none()) {
-        for (auto item : graphIdsObj) {
-            parsed.push_back(parseGraphId(py::reinterpret_borrow<py::object>(item)));
+namespace {
+    std::vector<PyGraphRemove::GraphId> graphIdsOf(const py::object &graphIds) {
+        std::vector<PyGraphRemove::GraphId> parsed;
+        if (!graphIds.is_none()) {
+            for (auto item : graphIds) {
+                parsed.push_back(parseGraphId(py::reinterpret_borrow<py::object>(item)));
+            }
         }
+        return parsed;
     }
 
-    graphIds = std::move(parsed);
+    py::list graphIdsToPy(const std::vector<PyGraphRemove::GraphId> &graphIds) {
+        py::list result;
+        for (const PyGraphRemove::GraphId &id : graphIds) {
+            result.append(graphIdToPy(id));
+        }
+        return result;
+    }
 }
 
 
@@ -58,25 +63,24 @@ graphIds: List[Tuple[:class:`int`, :class:`str`, :class:`str`]]
     // members through its base's typedefs, and a factory returning a unique_ptr avoids ever
     // needing to move-construct the class itself -- see PyRegAdd.cpp's identical note.
     cls.def(py::init([](py::object graphIds) {
-        return std::make_unique<PyGraphRemove>(std::move(graphIds));
+        return std::make_unique<PyGraphRemove>(graphIdsOf(graphIds));
     }), py::arg("graphIds"));
 
     cls.def_property("graphIds", [](const PyGraphRemove &self) {
-        return self.graphIdsObj;
+        return graphIdsToPy(self.graphIds);
     }, [](PyGraphRemove &self, py::object graphIds) {
-        self.graphIdsObj = std::move(graphIds);
+        self.graphIds = graphIdsOf(graphIds);
     }, py::doc(R"doc(
 List[Tuple[:class:`int`, :class:`str`, :class:`str`]]: The ids of the graphs to remove
     )doc"));
 
     cls.def("edit", [](PyGraphRemove &self, py::list graphGroups, const py::object &modType, const std::string &modName) {
-        self.refresh();
 
         PyIniGraphGroups groups(graphGroups);
         // The C++ core takes 'modType' as a nullable ModType*, and the Python-side ModType is a
         // pure-Python class with no C++ counterpart to cast to, so nullptr is the only honest
         // thing to pass -- this edit never reads it anyway.
-        self.Core::edit(groups, nullptr, modName);
+        self.edit(groups, nullptr, modName);
         return graphGroups;
     }, py::arg("graphGroups"), py::arg("modType"), py::arg("modName") = "", py::doc(R"doc(
 Removes every graph named by :attr:`graphIds` from 'graphGroups'

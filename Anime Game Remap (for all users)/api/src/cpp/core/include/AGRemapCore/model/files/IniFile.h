@@ -44,6 +44,7 @@ namespace AGRemapCore {
     class BaseIniRemover;
 
     class IniSharedState;
+    class IniParseData;
 
     /**
      * @brief
@@ -607,6 +608,19 @@ namespace AGRemapCore {
             std::vector<std::string> getSectionNames();
 
             /**
+             * @brief
+             @rst
+             The resource `section`_ a binding's value names (``Resource...`` or ``ref Resource...``), under the name the
+             file declares it by -- found without regard to case, as 3DMigoto reads a section name -- or empty when the
+             file declares no such `section`_
+             @endrst
+             *
+             * @param value The value of the binding
+             * @return The `section`_'s name, as declared
+             */
+            std::string resourceNamed(const std::string& value);
+
+            /**
              * @brief The `section`_ named 'name', or ``nullptr`` when there is none
              *
              * @param name The name to look up
@@ -870,6 +884,20 @@ namespace AGRemapCore {
              * @return The state
              */
             VarState varState(const std::set<std::string>& vars);
+
+            /**
+             * @brief
+             @rst
+             The parse data of the parser this file built for 'modType' (filed under its :cpp:member:`ModType::modTypeId`),
+             or ``nullptr`` when it built none -- what a step of a fixer's list reads the mod's values from, through
+             :cpp:func:`IniParseData::variables`. Nothing is built here
+             @endrst
+             *
+             * @param modType The mod type
+             *
+             * @return The parse data
+             */
+            IniParseData* parseDataOf(const ModType& modType);
 
             /**
              * @brief

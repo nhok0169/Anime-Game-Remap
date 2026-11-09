@@ -671,6 +671,54 @@ Returns
     The tag
     )doc");
 
+    rabbitFX.def_static("tagOf", py::overload_cast<std::uint32_t, std::uint32_t, std::uint32_t, std::uint32_t>(&AGRC::RabbitFX::tagOf),
+                        py::arg("dxgiFormat"), py::arg("width"), py::arg("height"), py::arg("mips"), R"doc(
+The tag RabbitFX's texture overrides give a texture of this description (:meth:`textureTag`'s rule, on a texture that is
+not on disk -- a game texture's :class:`TextureDescs` row, say)
+
+Parameters
+----------
+dxgiFormat: :class:`int`
+    The texture's ``DXGI_FORMAT`` number
+
+width: :class:`int`
+    The texture's width
+
+height: :class:`int`
+    The texture's height
+
+mips: :class:`int`
+    The texture's mip count, as the game creates it
+
+Returns
+-------
+:class:`int`
+    The tag
+    )doc");
+    rabbitFX.def_static("tagOf", py::overload_cast<const std::string&, std::uint32_t, std::uint32_t, std::uint32_t>(&AGRC::RabbitFX::tagOf),
+                        py::arg("format"), py::arg("width"), py::arg("height"), py::arg("mips"), R"doc(
+The same, by the format's name without ``DXGI_FORMAT_`` (``BC7_TYPELESS``, as a frame dump's ``.dsc`` writes it)
+
+Parameters
+----------
+format: :class:`str`
+    The format's name
+
+width: :class:`int`
+    The texture's width
+
+height: :class:`int`
+    The texture's height
+
+mips: :class:`int`
+    The texture's mip count, as the game creates it
+
+Returns
+-------
+:class:`int`
+    The tag
+    )doc");
+
     rabbitFX.def_static("routingFlags", &AGRC::RabbitFX::routingFlags, py::arg("tags"), R"doc(
 The routing flags ``SetTextures`` writes for a draw whose ``ps-t0`` .. ``ps-t3`` carry ``tags``. A flag it
 leaves unwritten keeps whatever the previous draw left, which no fix can know; it is ``0`` here

@@ -7,10 +7,8 @@
     <innerfile refid="_lynae_fixer_8h">LynaeFixer.h</innerfile>
     <innerfile refid="_lynae_hair_shader_8h">LynaeHairShader.h</innerfile>
     <innerfile refid="_lynae_lower_shader_8h">LynaeLowerShader.h</innerfile>
-    <innerfile refid="_lynae_skeleton_8h">LynaeSkeleton.h</innerfile>
     <innerfile refid="_lynae_skin_codes_8h">LynaeSkinCodes.h</innerfile>
     <innerfile refid="_lynae_textures_8h">LynaeTextures.h</innerfile>
-    <innerfile refid="_lynae_thumbprints_8h">LynaeThumbprints.h</innerfile>
     <innerfile refid="_lynae_upper_shader_8h">LynaeUpperShader.h</innerfile>
     <briefdescription>
     </briefdescription>

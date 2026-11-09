@@ -20,7 +20,6 @@
 #include "AGRemapCore/constants/IniComments.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
-#include "AGRemapCore/data/IniFixData/Sanhua/SanhuaThumbprints.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/textures/Colour.h"
 
@@ -47,14 +46,7 @@ namespace AGRemapCore {
             // dump of SanhuaExorcist (wwmiDrawTable.py). Slot 0 (the bangs) has two -- the hair
             // shader and the see-through pass over the eyes -- and its third pass (94d9d5e9, the
             // eye region) binds only globals, so it is not here.
-            config.slotPasses = {
-                {"0f1752e476c3804d", "394feb3747bda7a0"},   // 0: bangs
-                {"0f1752e476c3804d"},                       // 1: hair
-                {"ed1c0f8b2ba08ac4"},                       // 2: face
-                {"fbe2f2f061949559"},                       // 3: torso, arms, ribbons
-                {"348ac69e57e38686"},                       // 4: hair bun, trousers
-                {"0512a7e61d6bd01d"},                       // 5: eyes
-            };
+            // slotPasses: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
             // ...each gated by the VERTEX shaders it is drawn with rather than by its own pixel
             // shader, because RabbitFX patches these pixel shaders. Measured 2026-10-13 over the 3.7
@@ -75,28 +67,14 @@ namespace AGRemapCore {
             // roles. The face pass carries ChisaParfait's second vertex shader too: it is the same
             // pass, and naming only the one this character's dumps show is how Chisa's eye list
             // ended up gated on a draw nobody sees (2026-10-01).
-            config.passVertexShaders = {
-                {"0f1752e476c3804d", {"a695e6d5f9d489cf"}},                         // hair, both characters
-                {"394feb3747bda7a0", {"a695e6d5f9d489cf"}},                         // Exorcist's bangs see-through pass
-                {"ed1c0f8b2ba08ac4", {"7c0b4db32cee62d3", "4ce754b5b9574b1a"}},     // face, both characters
-                {"fbe2f2f061949559", {"02f5c4b333a78fa0"}},                         // Exorcist's torso, arms, ribbons
-                {"348ac69e57e38686", {"15a2c90dd35b8c07"}},                         // Exorcist's hair bun, trousers
-                {"0512a7e61d6bd01d", {"a79e471015b2a16c"}},                         // eyes, both characters
-            };
+            // passVertexShaders: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
             // Every value named rather than derived from filterBase/filterStep: a derived value is
             // numbered in map-iteration order, so adding a pass renumbers every shader after it and
             // silently breaks the agreement these shaders are under. The face pair must match
             // ChisaParfait's and LynaePeppermint's values -- a Chisa mod and a Sanhua mod installed
             // together is the ordinary case, and whichever .ini loads last wins.
-            config.filterIndices = {
-                {"a695e6d5f9d489cf", "3381.91"},    // hair + bangs; the reverse direction tags it too
-                {"7c0b4db32cee62d3", "3381.76"},    // the face, as ChisaParfait and LynaePeppermint tag it
-                {"4ce754b5b9574b1a", "3381.769"},   //   and its second vertex shader, likewise
-                {"02f5c4b333a78fa0", "3381.94"},    // Exorcist's own slots: values the reverse never uses
-                {"15a2c90dd35b8c07", "3381.95"},
-                {"a79e471015b2a16c", "3381.96"},    // the eyes; the reverse tags this one too
-            };
+            // filterIndices: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
             // Source component -> target slot, and the registers each pass reads. Shader families
             // decide the slot (bones do not, under a merged skeleton): the bangs, hair and face onto
@@ -134,7 +112,7 @@ namespace AGRemapCore {
                 {6, {{"diffuse", "irisDiffuse"}, {"mask", "eyeMask"}}},
             };
 
-            config.createdTextures = {{SkinMask, Colour(255, 77, 0, 255), 16}};
+            config.createdTextures = {{SkinMask, Colour(), 16, {"component3", "torsoMask.skin"}}};     // its colour: MaterialColours
 
             config.sourceTextures = sanhuaTextureFacts();
 
@@ -147,7 +125,7 @@ namespace AGRemapCore {
             // export's dispatch height is the target's (its Metadata.json's dispatch_y) ----
             config.hiddenObjs = {};
             config.zeroShapeKeyStream = false;
-            config.shapeKeyDispatchSize = "853";
+            // shapeKeyDispatchSize: read off ShapeKeyDispatchSizes at the run's versions (WWMIFixerConfig::withGameData)
 
 
             // Her own textures' thumbprints, so a file named by nothing (Component6_Diffuse.dds: the

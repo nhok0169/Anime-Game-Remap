@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/RabbitFX.h" line="42" column="45" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="42" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="43" column="45" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="43" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_rabbit_f_x_1a7db3af6ee18fb7741818ac5813a78f93" prot="public" static="yes" mutable="no">
         <type>const std::array&lt; std::string, 4 &gt;</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/RabbitFX.h" line="47" column="44" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="47" bodyend="47"/>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="48" column="44" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="48" bodyend="48"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_rabbit_f_x_1acd69e0a602c81d9323cd1c7f37472ba5" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/RabbitFX.h" line="52" column="45" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="52" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="53" column="45" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="53" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -91,7 +91,144 @@ header: ``3`` for ``filter_index = 1718.3`` .. ``6`` for ``1718.6``, ``0`` for n
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/RabbitFX.h" line="70" column="24" bodyfile="src/data/RabbitFX.cpp" bodystart="25" bodyend="53"/>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="71" column="24" bodyfile="src/data/RabbitFX.cpp" bodystart="26" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1a7c958f4ccc45125a0a1fc531fb4acf2e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::RabbitFX::tagOf</definition>
+        <argsstring>(std::uint32_t dxgiFormat, std::uint32_t width, std::uint32_t height, std::uint32_t mips)</argsstring>
+        <name>tagOf</name>
+        <qualifiedname>AGRemapCore::RabbitFX::tagOf</qualifiedname>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>dxgiFormat</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>mips</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The tag RabbitFX&apos;s texture overrides give a texture of this description (#textureTag&apos;s rule, on a texture
+that is not on disk -- a game texture&apos;s :cpp:class:`TextureDescs` row, say)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dxgiFormat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s <computeroutput>DXGI_FORMAT</computeroutput> number </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s width </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s height </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mips</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s mip count, as the game creates it</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The tag </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="87" column="24" bodyfile="src/data/RabbitFX.cpp" bodystart="43" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1a1f9d6511821728a8503c23aeed113f1e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::RabbitFX::tagOf</definition>
+        <argsstring>(const std::string &amp;format, std::uint32_t width, std::uint32_t height, std::uint32_t mips)</argsstring>
+        <name>tagOf</name>
+        <qualifiedname>AGRemapCore::RabbitFX::tagOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>mips</declname>
+        </param>
+        <briefdescription>
+<para>The same, by the format&apos;s name without <computeroutput>DXGI_FORMAT_</computeroutput> (<computeroutput>BC7_TYPELESS</computeroutput>, as a frame dump&apos;s <computeroutput>.dsc</computeroutput> writes it). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The format&apos;s name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s width </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s height </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mips</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s mip count, as the game creates it</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The tag </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="99" column="24" bodyfile="src/data/RabbitFX.cpp" bodystart="34" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1ac74c6108b22de6d1a3c049c3e1620adc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::array&lt; int, 4 &gt;</type>
@@ -126,7 +263,7 @@ can know; it is ``0`` here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/RabbitFX.h" line="84" column="31" bodyfile="src/data/RabbitFX.cpp" bodystart="55" bodyend="67"/>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="113" column="31" bodyfile="src/data/RabbitFX.cpp" bodystart="68" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1ad8c161164f1abf7e2bd5d12a09834a25" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -155,7 +292,7 @@ can know; it is ``0`` here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/RabbitFX.h" line="91" column="25" bodyfile="src/data/RabbitFX.cpp" bodystart="69" bodyend="71"/>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="120" column="25" bodyfile="src/data/RabbitFX.cpp" bodystart="82" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1a7c34bf70df98798eff673071afa293c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -199,7 +336,7 @@ Whether a `KVP`_ is one of RabbitFX&apos;s own: a resource under
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/RabbitFX.h" line="103" column="25" bodyfile="src/data/RabbitFX.cpp" bodystart="73" bodyend="77"/>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="132" column="25" bodyfile="src/data/RabbitFX.cpp" bodystart="86" bodyend="90"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -217,7 +354,7 @@ from the source&apos;s textures (:cpp:func:`textureTag`, :cpp:func:`routingFlags
 the call (:cpp:member:`FlagKeys`)
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/RabbitFX.h" line="37" column="5" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="37" bodyend="104"/>
+    <location file="include/AGRemapCore/data/RabbitFX.h" line="38" column="5" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="38" bodyend="133"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7db3af6ee18fb7741818ac5813a78f93" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>FlagKeys</name></member>
       <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1acd69e0a602c81d9323cd1c7f37472ba5" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>GlowMapKey</name></member>
@@ -225,6 +362,8 @@ the call (:cpp:member:`FlagKeys`)
       <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1adf8f0499f9d5d8e3bab1f700f2f7d71d" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>Name</name></member>
       <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1ad8c161164f1abf7e2bd5d12a09834a25" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>names</name></member>
       <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1ac74c6108b22de6d1a3c049c3e1620adc" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>routingFlags</name></member>
+      <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c958f4ccc45125a0a1fc531fb4acf2e" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>tagOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1a1f9d6511821728a8503c23aeed113f1e" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>tagOf</name></member>
       <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c78f788dff06e424c24bbb11a2ae2c6" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>textureTag</name></member>
     </listofallmembers>
   </compounddef>

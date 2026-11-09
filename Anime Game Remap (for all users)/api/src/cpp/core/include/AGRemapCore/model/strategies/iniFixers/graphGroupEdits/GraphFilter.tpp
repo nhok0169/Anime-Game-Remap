@@ -35,11 +35,59 @@ namespace AGRemapCore {
                 continue;
             }
             Graph* graph = graphGroups.getGraph(graphId.iniIndex, graphId.modObj);
-            if (graph != nullptr) {
-                filterGraph(*graph, predicate);
+            if (graph == nullptr) {
+                continue;
             }
+            // a graph the predicate leaves nothing of is taken out WHOLE, its sections untouched: a graph shares sections
+            // with others (a command list several objects run), which filtering it first would empty for all of them
+            if (removeEmptied && !keepsAny(*graph, predicate)) {
+                graphGroups.removeGraph(graphId.iniIndex, graphId.modObj);
+                continue;
+            }
+            filterGraph(*graph, predicate);
         }
         return graphGroups;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    bool GraphFilter<K, V, KeyHash, KeyEqual>::hasKVPs(const Graph& graph) {
+        for (const auto& entry : graph.sections()) {
+            if (entry.second == nullptr) {
+                continue;
+            }
+            for (const auto& part : entry.second->parts()) {
+                const auto* content = dynamic_cast<const ContentPart*>(part.get());
+                if (content != nullptr && content->size() > 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    bool GraphFilter<K, V, KeyHash, KeyEqual>::keepsAny(const Graph& graph, const Predicate& predicate) {
+        if (!predicate) {
+            return hasKVPs(graph);
+        }
+        for (const auto& entry : graph.sections()) {
+            const Section* section = entry.second;
+            if (section == nullptr) {
+                continue;
+            }
+            for (const auto& part : section->parts()) {
+                const auto* content = dynamic_cast<const ContentPart*>(part.get());
+                if (content == nullptr) {
+                    continue;
+                }
+                for (std::size_t i = 0; i < content->size(); ++i) {
+                    if (predicate(*section, *content, i)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>

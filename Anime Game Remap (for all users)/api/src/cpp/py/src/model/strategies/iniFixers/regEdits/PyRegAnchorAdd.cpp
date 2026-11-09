@@ -26,36 +26,35 @@ namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
 
-PyRegAnchorAdd::PyRegAnchorAdd(std::vector<std::string> anchorKeys, py::object adderObj, Core::Placement placement,
-                               py::object anchorIfObj, bool firstOnly, bool skipExisting):
-    Core(std::move(anchorKeys), nullptr, placement, nullptr, firstOnly, skipExisting), adderObj(std::move(adderObj)), anchorIfObj(std::move(anchorIfObj)) {}
-
-
-void PyRegAnchorAdd::refresh(const py::object &modType) {
-    (void)modType;
-
-    if (anchorIfObj.is_none()) {
-        anchorIf = {};
-    } else {
-        py::object filter = anchorIfObj;
-        anchorIf = [filter](const std::string &key) -> bool {
+namespace {
+    // the Python callables as the C++ functions, kept as themselves so they read back
+    struct PyAnchorIf {
+        py::object filter;
+        bool operator()(const std::string &key) const {
+            py::gil_scoped_acquire gil;
             return py::bool_(filter(key));
-        };
-    }
-
-    if (adderObj.is_none()) {
-        adder = {};
-        return;
-    }
-
-    py::object held = adderObj;
-    adder = [held](const std::string &key, const std::string &value) -> std::optional<std::vector<std::pair<std::string, std::string>>> {
-        py::object result = held(key, value);
-        if (result.is_none()) {
-            return std::nullopt;
         }
-        return result.cast<std::vector<std::pair<std::string, std::string>>>();
     };
+
+    struct PyAdder {
+        py::object adder;
+        std::optional<std::vector<std::pair<std::string, std::string>>> operator()(const std::string &key, const std::string &value) const {
+            py::gil_scoped_acquire gil;
+            py::object result = adder(key, value);
+            if (result.is_none()) {
+                return std::nullopt;
+            }
+            return result.cast<std::vector<std::pair<std::string, std::string>>>();
+        }
+    };
+
+    PyRegAnchorAdd::AnchorFilter anchorIfOf(const py::object &anchorIf) {
+        return anchorIf.is_none() ? PyRegAnchorAdd::AnchorFilter() : PyRegAnchorAdd::AnchorFilter(PyAnchorIf{anchorIf});
+    }
+
+    PyRegAnchorAdd::Adder adderOf(const py::object &adder) {
+        return adder.is_none() ? PyRegAnchorAdd::Adder() : PyRegAnchorAdd::Adder(PyAdder{adder});
+    }
 }
 
 
@@ -120,19 +119,19 @@ skipExisting: :class:`bool`
     **Default**: ``False``
     )doc");
 
-    py::enum_<PyRegAnchorAdd::Core::Placement>(cls, "Placement", R"doc(
+    py::enum_<PyRegAnchorAdd::Placement>(cls, "Placement", R"doc(
 Where a :class:`RegAnchorAdd`'s lines go, relative to their anchor
     )doc")
-        .value("Before", PyRegAnchorAdd::Core::Placement::Before, "Immediately before the anchor")
-        .value("After", PyRegAnchorAdd::Core::Placement::After, "Immediately after the anchor")
-        .value("Replace", PyRegAnchorAdd::Core::Placement::Replace, "In the anchor's place: the anchor is removed");
+        .value("Before", PyRegAnchorAdd::Placement::Before, "Immediately before the anchor")
+        .value("After", PyRegAnchorAdd::Placement::After, "Immediately after the anchor")
+        .value("Replace", PyRegAnchorAdd::Placement::Replace, "In the anchor's place: the anchor is removed");
 
-    cls.def(py::init([](std::vector<std::string> anchorKeys, py::object adder, PyRegAnchorAdd::Core::Placement placement,
+    cls.def(py::init([](std::vector<std::string> anchorKeys, py::object adder, PyRegAnchorAdd::Placement placement,
                         py::object anchorIf, bool firstOnly, bool skipExisting) {
-        return std::make_unique<PyRegAnchorAdd>(std::move(anchorKeys), std::move(adder), placement, std::move(anchorIf),
+        return std::make_unique<PyRegAnchorAdd>(std::move(anchorKeys), adderOf(adder), placement, anchorIfOf(anchorIf),
                                                 firstOnly, skipExisting);
     }), py::arg("anchorKeys") = std::vector<std::string>{}, py::arg("adder") = py::none(),
-        py::arg("placement") = PyRegAnchorAdd::Core::Placement::After, py::arg("anchorIf") = py::none(),
+        py::arg("placement") = PyRegAnchorAdd::Placement::After, py::arg("anchorIf") = py::none(),
         py::arg("firstOnly") = false, py::arg("skipExisting") = false);
 
     cls.def_readwrite("anchorKeys", &PyRegAnchorAdd::anchorKeys, R"doc(
@@ -140,17 +139,19 @@ List[:class:`str`]: The keys whose lines are anchors, matched case-insensitively
     )doc");
 
     cls.def_property("adder", [](const PyRegAnchorAdd &self) {
-        return self.adderObj;
+        const PyAdder *own = self.adder ? self.adder.target<PyAdder>() : nullptr;
+        return own != nullptr ? own->adder : (self.adder ? py::cast(self.adder) : py::none());
     }, [](PyRegAnchorAdd &self, py::object adder) {
-        self.adderObj = std::move(adder);
+        self.adder = adderOf(adder);
     }, py::doc(R"doc(
 Optional[Callable[[:class:`str`, :class:`str`], Optional[List[Tuple[:class:`str`, :class:`str`]]]]]: The lines each anchor gets, or ``None`` to leave every anchor alone
     )doc"));
 
     cls.def_property("anchorIf", [](const PyRegAnchorAdd &self) {
-        return self.anchorIfObj;
+        const PyAnchorIf *own = self.anchorIf ? self.anchorIf.target<PyAnchorIf>() : nullptr;
+        return own != nullptr ? own->filter : (self.anchorIf ? py::cast(self.anchorIf) : py::none());
     }, [](PyRegAnchorAdd &self, py::object anchorIf) {
-        self.anchorIfObj = std::move(anchorIf);
+        self.anchorIf = anchorIfOf(anchorIf);
     }, py::doc(R"doc(
 Optional[Callable[[:class:`str`], :class:`bool`]]: Which keys make a line an anchor, in place of :attr:`anchorKeys`, or ``None`` to leave the choice to :attr:`anchorKeys`
     )doc"));
@@ -168,7 +169,7 @@ Optional[Callable[[:class:`str`], :class:`bool`]]: Which keys make a line an anc
     )doc");
 
     cls.def_static("holds", [](py::object part, const std::string &key, const std::string &value) {
-        return PyRegAnchorAdd::Core::holds(py::cast<PyIfContentPart &>(part), key, value);
+        return PyRegAnchorAdd::holds(py::cast<PyIfContentPart &>(part), key, value);
     }, py::arg("part"), py::arg("key"), py::arg("value"), py::doc(R"doc(
 Whether 'part' holds a line of 'key' and 'value', both compared case-insensitively and ignoring surrounding whitespace
 

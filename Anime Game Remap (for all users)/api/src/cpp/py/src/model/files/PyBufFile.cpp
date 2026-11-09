@@ -185,6 +185,24 @@ each one composed of the same sequence of :class:`BufElementType`\s -- there is 
 footer, just the lines themselves back-to-back
     )doc")
 
+        .def_static("linesOf", &AGRC::BufFile::linesOf, py::arg("path"), py::arg("stride"), py::doc(R"doc(
+How many whole lines of 'stride' bytes the file at 'path' holds -- eg. a mesh's vertices, off its position buffer and
+the stride its resource section declares
+
+Parameters
+----------
+path: :class:`str`
+    The file
+
+stride: :class:`int`
+    The bytes of one line
+
+Returns
+-------
+Optional[:class:`int`]
+    The number of lines, or ``None`` when the file cannot be read or holds less than one line
+        )doc"))
+
         .def(py::init([](py::object src, py::object elements, std::string fileType) {
             return translateBufFileErrors([&]() {
                 return std::make_unique<AGRC::BufFile>(pyToBinarySrc(src), parseBufElementTypes(elements), std::move(fileType));

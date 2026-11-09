@@ -12,7 +12,6 @@
 // ##### EndCredits
 
 #include "AGRemapCore/data/IniFixData/Chisa/ChisaTextures.h"
-#include "AGRemapCore/data/IniFixData/Chisa/ChisaThumbprints.h"
 
 
 namespace AGRemapCore {
@@ -68,7 +67,7 @@ namespace AGRemapCore {
         // the file is. Read by the PARSER (`WWMIParser::buildRoles`), which is what identifies a
         // mod's textures; they sat on the fixer's config until 2026-09-29, where nothing read them
         // any more, and the parser's pass matched against an empty table on every mod.
-        facts.textureThumbprints = chisaTextureThumbprints();
+        // textureThumbprints: read off TextureThumbprints (WWMIParserConfig::withGameData, WWMIFixerConfig::withGameData)
 
         // ---- a role the mod ships no file for falls back to HER game texture ----
         facts.downloadCharFolder = "Chisa";

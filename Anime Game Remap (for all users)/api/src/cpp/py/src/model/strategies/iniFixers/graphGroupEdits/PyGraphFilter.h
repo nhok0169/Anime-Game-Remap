@@ -34,46 +34,22 @@ namespace AGRC = AGRemapCore;
  */
 AGRC::GraphFilter<std::string, std::string>::Predicate toGraphPredicate(const py::object &predicate);
 
+/**
+ * @brief The callable a predicate made by :cpp:func:`toGraphPredicate` was made from, the C++ predicate cast to Python
+ *        for any other, or ``None`` for an empty one
+ */
+py::object graphPredicateToPy(const AGRC::GraphFilter<std::string, std::string>::Predicate &predicate);
+
 
 /**
  * @brief
  @rst
- The `pybind11`_-facing subclass of `AGRC::GraphFilter`\\<std::string, std::string\\>. It holds the
- exact `Python`_ objects passed for ``graphIds`` and ``predicate``, and re-derives the core members
- from them at the start of every ``edit`` (see #refresh), as `PyGraphRemove` does
+ The `Python`_ ``GraphFilter`` is :cpp:class:`AGRemapCore::GraphFilter` itself: its arguments are parsed into the C++ members
+ when it is built or they are set, and read back from them -- so one built in `Python`_ runs in a C++ fixer's list, and
+ one built in C++ reads in `Python`_ as a ``GraphFilter``
  @endrst
  */
-class PyGraphFilter: public AGRC::GraphFilter<std::string, std::string> {
-    public:
-
-        /**
-         * @brief The C++ core class this wraps
-         */
-        using Core = AGRC::GraphFilter<std::string, std::string>;
-
-        /**
-         * @brief The exact `Python`_ list of graph id tuples
-         */
-        py::object graphIdsObj;
-
-        /**
-         * @brief The exact `Python`_ predicate, or ``None``
-         */
-        py::object predicateObj;
-
-        /**
-         * @brief Constructs a new filtering edit
-         *
-         * @param graphIdsObj The Python list of graph id tuples to filter
-         * @param predicateObj The Python predicate, or None
-         */
-        PyGraphFilter(py::object graphIdsObj, py::object predicateObj);
-
-        /**
-         * @brief Re-derives the core members from #graphIdsObj and #predicateObj
-         */
-        void refresh();
-};
+using PyGraphFilter = AGRC::GraphFilter<std::string, std::string>;
 
 
 void initCppGraphFilter(pybind11::module_ &m);

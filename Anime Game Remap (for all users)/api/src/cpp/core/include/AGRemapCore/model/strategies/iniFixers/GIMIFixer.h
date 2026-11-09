@@ -37,6 +37,8 @@
 //   RemapIniFixContext rather than on the IniFixContext this class's Context typedef names.
 #include "AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h"
+#include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
 
 
 namespace AGRemapCore {
@@ -211,6 +213,19 @@ namespace AGRemapCore {
              @endrst
              */
             std::vector<GroupEdit*> graphGroupEdits;
+
+            /**
+             * @brief
+             @rst
+             Keeps 'object' alive as long as the fixer -- eg. what the edits of #graphGroupEdits borrow, when the list
+             was built by someone else (a user's list, :cpp:func:`TemplateFixer::withList`)
+             @endrst
+             *
+             * @param object The object
+             */
+            void keepAlive(std::shared_ptr<void> object) {
+                keptAlive_.push_back(std::move(object));
+            }
 
             /**
              * @brief The mods to fix to, or ``std::nullopt`` to ask the ``.ini`` file -- see #getModsToFix
@@ -569,7 +584,9 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Runs every #graphGroupEdits entry over #graphGroups, once for 'modName'
+             Runs every #graphGroupEdits entry over #graphGroups, once for 'modName'. An entry that files a result
+             (:cpp:class:`IParseResult`, eg. :cpp:class:`GraphCollect`) files it into the parse data of the parser this
+             fixer reads, as a parser's own list does, so one edit means the same in either list
              :raw-html:`<br />` :raw-html:`<br />`
 
              ``ini``/``modType`` are passed as ``nullptr`` -- there is nothing castable to hand
@@ -637,6 +654,7 @@ namespace AGRemapCore {
 
         private:
             FixerConfig config_;
+            std::vector<std::shared_ptr<void>> keptAlive_;   // see keepAlive
     };
 }
 

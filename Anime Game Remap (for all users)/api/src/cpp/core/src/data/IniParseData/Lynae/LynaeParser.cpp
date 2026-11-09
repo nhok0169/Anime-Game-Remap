@@ -17,7 +17,6 @@
 #include "AGRemapCore/data/IniParseBuilderData.h"
 #include "AGRemapCore/data/IniParseData/WWMIParser.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h"
-#include "AGRemapCore/data/IniFixData/Lynae/LynaeSkeleton.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeFilmShader.h"
 
 
@@ -29,9 +28,8 @@ namespace AGRemapCore {
         config.version = "3.6";
         // Her own textures, so a mod of hers can be sorted into roles at PARSE time
         config.textures = lynaeTextureFacts();
-        // the numberings her skeleton has had, and her own bones' centroids -- see WWMIParserConfig::skeletonNumberings
-        config.skeletonNumberings = {{"3.6", lynaeRenumbered36To37()}, {"3.7", {}}};
-        config.referenceBoneCentroids = lynaeBoneCentroids();
+        // the numberings her skeleton has had and her own bones' centroids: read off VGRemaps and BoneCentroids
+        // (WWMIParserConfig::withGameData) -- see WWMIParserConfig::skeletonNumberings
         // the draws LynaeFixer's drawReroutes send elsewhere: her jacket's and props' film (flag 0x10; Lynae9 draws
         // its props with the game's code map, hence the mask), and any draw of her lower body with a real share
         // of 0x80 -- Lynae9 draws legs, tights and shorts in one range whose majority is skin (see LynaeFixer)

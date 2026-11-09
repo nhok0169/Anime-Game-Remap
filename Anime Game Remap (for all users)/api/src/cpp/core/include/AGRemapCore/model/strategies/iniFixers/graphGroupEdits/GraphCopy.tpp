@@ -44,6 +44,10 @@ namespace AGRemapCore {
         }
         GraphFilter<K, V, KeyHash, KeyEqual>::filterGraph(*copy, predicate);
 
+        if (!keepEmpty && !GraphFilter<K, V, KeyHash, KeyEqual>::hasKVPs(*copy)) {
+            return graphGroups;     // the copy stays owned by the groups, unbound, as an out-of-range GraphCreate's would
+        }
+
         if (dstId.iniIndex == groups) {
             graphGroups.insertGroup(groups);
         }

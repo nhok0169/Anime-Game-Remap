@@ -442,17 +442,17 @@ List[Optional[:class:`Z3Predicate`]]
         py::arg("partPredicates") = py::none(), py::arg("valPredicates") = py::none(), py::arg("trackKeys") = false,
         py::arg("keysToTrack") = py::none(), py::arg("withConditions") = false, py::arg("everyGroup") = false);
 
-    cls.def_readwrite("keys", &PyGraphCollect::keysObj,
+    cls.def_property("keys", [](const PyGraphCollect& self) { return self.keysObj; }, [](PyGraphCollect& self, py::object value) { self.keysObj = std::move(value); self.refresh(); },
                       py::doc(R"doc(Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`], Callable[[:class:`str`], :class:`bool`]]]: The keys to collect, keyed by graph)doc"))
-       .def_readwrite("contextKeys", &PyGraphCollect::contextKeysObj,
+       .def_property("contextKeys", [](const PyGraphCollect& self) { return self.contextKeysObj; }, [](PyGraphCollect& self, py::object value) { self.contextKeysObj = std::move(value); self.refresh(); },
                       py::doc(R"doc(Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], List[:class:`str`]]: The keys whose state is recorded with each row, keyed by graph)doc"))
-       .def_readwrite("partPredicates", &PyGraphCollect::partPredicatesObj,
+       .def_property("partPredicates", [](const PyGraphCollect& self) { return self.partPredicatesObj; }, [](PyGraphCollect& self, py::object value) { self.partPredicatesObj = std::move(value); self.refresh(); },
                       py::doc(R"doc(Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`SectionIterData`], :class:`Ranges`]]]: Which order indices to collect from, keyed by graph)doc"))
-       .def_readwrite("valPredicates", &PyGraphCollect::valPredicatesObj,
+       .def_property("valPredicates", [](const PyGraphCollect& self) { return self.valPredicatesObj; }, [](PyGraphCollect& self, py::object value) { self.valPredicatesObj = std::move(value); self.refresh(); },
                       py::doc(R"doc(Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]]]: Which occurrences to collect, keyed by graph)doc"))
-       .def_readwrite("trackKeys", &PyGraphCollect::trackKeysObj,
+       .def_property("trackKeys", [](const PyGraphCollect& self) { return self.trackKeysObj; }, [](PyGraphCollect& self, py::object value) { self.trackKeysObj = std::move(value); self.refresh(); },
                       py::doc(R"doc(Union[:class:`bool`, Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`bool`]]: Whether to track `KVPs`_ while searching)doc"))
-       .def_readwrite("keysToTrack", &PyGraphCollect::keysToTrackObj,
+       .def_property("keysToTrack", [](const PyGraphCollect& self) { return self.keysToTrackObj; }, [](PyGraphCollect& self, py::object value) { self.keysToTrackObj = std::move(value); self.refresh(); },
                       py::doc(R"doc(Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Optional[Set[:class:`str`]]]]: Which keys to track while searching each graph)doc"))
        .def_readwrite("name", &PyGraphCollect::name,
                       py::doc(R"doc(:class:`str`: The name the rows are filed under in :class:`IniParseData` -- empty files nothing)doc"))

@@ -69,6 +69,7 @@ from .test_HeldResEdits import HeldResEditsTest, HeldTexEditorsTest
 from .test_IniNamingTools import IniNamingToolsTest
 from .test_PythonParity import PythonParityTest
 from .test_ObjectLifetime import ObjectLifetimeTest, IniFileLifetimeTest, GraphKeeperTest
+from .test_GameDataTables import GameDataTablesTest
 from .test_BranchedValues import BranchedValuesTest, ElseConditionTest, TemplateValuesTest
 from .test_ListValue import ListValueTest, IbFileRemapDrawRangeTest, SectionTextTest
 from .test_DownloadData import DownloadDataTest, LoadedInisTest, IniSharedStateTest
@@ -222,3 +223,4 @@ __all__ += ["ShaderFilterTagsTest", "CustomShaderBackupsTest"]
 __all__ += ["PythonParityTest"]
 __all__ += ["ChannelMapFilterTest", "GuidedScaleFilterTest", "WWMIHelpersTest"]
 __all__ += ["ObjectLifetimeTest", "IniFileLifetimeTest", "GraphKeeperTest"]
+__all__ += ["GameDataTablesTest"]

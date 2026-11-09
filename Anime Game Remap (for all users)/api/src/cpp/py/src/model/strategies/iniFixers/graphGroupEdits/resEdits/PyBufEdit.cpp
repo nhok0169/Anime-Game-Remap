@@ -48,7 +48,13 @@ py::object PyBufReplace::pySelf() const {
 
 void PyBufReplace::buildResModel(const std::string &resType, const std::string &srcPath, const std::string &fixedPath,
                                   const std::string &modName, const std::string &fileKey, Context &ctx) {
-    auto &pyCtx = static_cast<PyIniResEditContext&>(ctx);
+    PyIniResEditContext *pyCtxOf = pyContextOf(ctx);
+    if (pyCtxOf == nullptr) {
+        // in a C++ fixer's list: the edit's own C++ side
+        CoreClass::buildResModel(resType, srcPath, fixedPath, modName, fileKey, ctx);
+        return;
+    }
+    auto &pyCtx = *pyCtxOf;
     dispatchBuildResModel(py::make_tuple(py::str(resType), pyCtx.ini, py::str(srcPath), py::str(fixedPath), modTypeObj),
                            modName, fileKey, ctx);
 }

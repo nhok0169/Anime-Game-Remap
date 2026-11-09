@@ -27,6 +27,7 @@
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseRows.h"
 #include "AGRemapCore/data/RabbitFX.h"
+#include "AGRemapCore/model/buffers/WWMIBlend.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/tools/DownloadTools.h"
 #include "AGRemapCore/tools/ListTools.h"
@@ -34,14 +35,6 @@
 #include "AGRemapCore/tools/files/FileService.h"
 #include <algorithm>
 
-#include "AGRemapCore/data/IniFixData/Changli/ChangliFixer.h"
-#include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphFixer.h"
-#include "AGRemapCore/data/IniFixData/Chisa/ChisaFixer.h"
-#include "AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h"
-#include "AGRemapCore/data/IniFixData/Lynae/LynaeFixer.h"
-#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h"
-#include "AGRemapCore/data/IniFixData/Sanhua/SanhuaFixer.h"
-#include "AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.h"
 
 
 namespace AGRemapCore {
@@ -782,6 +775,73 @@ namespace AGRemapCore {
         return result;
     }
 
+    WWMIFixerConfig::RoleResources WWMIFixerConfig::withReroutes(RoleResources roles, const std::map<int, int>& rerouteFrom) {
+        for (const auto& [as, from] : rerouteFrom) {
+            std::vector<std::pair<std::pair<std::string, int>, std::string>> add;
+            for (const auto& [roleComponent, resource] : roles.ofSlotRole) {
+                if (roleComponent.second == from) {
+                    add.push_back({{roleComponent.first, as}, resource});
+                }
+            }
+            for (auto& entry : add) {
+                roles.ofSlotRole.insert(std::move(entry));
+            }
+        }
+        return roles;
+    }
+
+    WWMIFixerConfig::BlendWidth WWMIFixerConfig::blendWidth(const std::optional<VGRemap>& row) const {
+        BlendWidth result;
+        if (!row.has_value()) {
+            return result;
+        }
+
+        std::set<long long> targets;
+        for (const auto& [srcBone, dstBone] : row->getRemap()) {
+            (void)srcBone;
+            targets.insert(dstBone);
+            if (dstBone > WWMIBlend::MaxByteBone) {
+                result.targetPast256 = true;
+            }
+        }
+        result.bones = targets.size();
+
+        // A row naming more distinct targets than one remap holds would need WWMI's per-component scheme back. Which of
+        // the two guards should win -- fall back and lose the far bones, or refuse the mod outright -- is the
+        // maintainer's call; today it falls back, and says so.
+        if (result.targetPast256 && result.bones > static_cast<std::size_t>(WWMIBlend::RemapSize)) {
+            result.notes.push_back("the vertex group row names " + std::to_string(result.bones) + " distinct target bones, past the "
+                                   + std::to_string(WWMIBlend::RemapSize) + " one blend remap holds; falling back to an 8-bit blend, so"
+                                   + " every bone past " + std::to_string(WWMIBlend::MaxByteBone) + " will land on bone 0");
+            result.targetPast256 = false;
+        }
+        return result;
+    }
+
+    std::map<int, std::vector<WWMIFixerConfig::RegRemoval>> WWMIFixerConfig::removedLines(
+            bool targetPast256, const std::set<int>& components, const std::set<int>& keepsRabbitFX) const {
+        std::vector<RegRemoval> all = removedRegs;
+        if (targetPast256) {
+            all.insert(all.end(), remappedSkeletonRemovals.begin(), remappedSkeletonRemovals.end());
+        }
+
+        std::vector<RegRemoval> withoutRabbitFX;
+        for (const RegRemoval& removal : all) {
+            if (!RabbitFX::isOwnKVP(removal.reg, removal.valuePrefix)) {
+                withoutRabbitFX.push_back(removal);
+            }
+        }
+
+        std::map<int, std::vector<RegRemoval>> result;
+        for (const int component : components) {
+            const std::vector<RegRemoval>& lines = keepsRabbitFX.count(component) > 0 ? withoutRabbitFX : all;
+            if (!lines.empty()) {
+                result.emplace(component, lines);
+            }
+        }
+        return result;
+    }
+
     std::map<int, std::vector<WWMIFixerConfig::ModTexLine>> WWMIFixerConfig::modTexLines(
             const IniParseData& data, const RoleResources& roles, const TextureLists& lists, const std::set<int>& drawn,
             const std::map<int, int>& rerouteFrom, const std::set<int>& ownShader) const {
@@ -1116,31 +1176,4 @@ namespace AGRemapCore {
         return result;
     }
 
-    std::optional<WWMIFixerConfig> WWMIFixerConfig::of(ModTypeId source, ModTypeId target) {
-        if (source == ModTypeId::Changli && target == ModTypeId::ChangliNymph) {
-            return ChangliFixer::nymph2_4Config();
-        }
-        if (source == ModTypeId::ChangliNymph && target == ModTypeId::Changli) {
-            return ChangliNymphFixer::changli1_4Config();
-        }
-        if (source == ModTypeId::Chisa && target == ModTypeId::ChisaParfait) {
-            return ChisaFixer::parfait3_7Config();
-        }
-        if (source == ModTypeId::ChisaParfait && target == ModTypeId::Chisa) {
-            return ChisaParfaitFixer::chisa2_8Config();
-        }
-        if (source == ModTypeId::Lynae && target == ModTypeId::LynaePeppermint) {
-            return LynaeFixer::peppermint3_7Config();
-        }
-        if (source == ModTypeId::LynaePeppermint && target == ModTypeId::Lynae) {
-            return LynaePeppermintFixer::lynae3_7Config();
-        }
-        if (source == ModTypeId::Sanhua && target == ModTypeId::SanhuaExorcist) {
-            return SanhuaFixer::exorcist2_5Config();
-        }
-        if (source == ModTypeId::SanhuaExorcist && target == ModTypeId::Sanhua) {
-            return SanhuaExorcistFixer::sanhua2_5Config();
-        }
-        return std::nullopt;
-    }
 }

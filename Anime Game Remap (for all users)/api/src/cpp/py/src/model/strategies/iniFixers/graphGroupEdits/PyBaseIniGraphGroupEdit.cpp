@@ -56,6 +56,12 @@ Base class for a filter that edits a group of caller/callee graphs across many .
 
         .def(py::init<>())
 
+        .def_readwrite("name", &PyBaseIniGraphGroupEdit::name, R"doc(
+:class:`str`: The edit's name as a step of a fixer's list -- how a user finds a step in the list
+:meth:`CppIniFixFactory.withList` hands them. Empty (the default) for an unnamed step; a :class:`GraphVarApply` is named after the
+variable it makes
+        )doc")
+
         // Deliberately routed through self.attr("edit") rather than bound to the C++
         // BaseIniGraphGroupEdit::editFromIni (which calls this->edit(...) as a *C++* virtual
         // call): with no trampoline in play, a pure-Python subclass overriding only 'edit' has no

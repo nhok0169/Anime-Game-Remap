@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2171" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2171" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2175" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2175" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups_1a85d736e06da50abf4e04c19bf88a0397" prot="public" static="no" mutable="no">
         <type>std::vector&lt; int &gt;</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2176" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2176" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2180" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2180" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups_1a54d159bb37e38a80dddd050f4e2fc604" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2181" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2181" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2185" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2185" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -124,7 +124,7 @@ A line left alone is not listed
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2167" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2167" bodyend="2182"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2171" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2171" bodyend="2186"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups_1a85d736e06da50abf4e04c19bf88a0397" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::FileGroups</scope><name>dropped</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_file_groups_1a915efa30f5bb86e44e346c3476d4d108" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::FileGroups</scope><name>groups</name></member>

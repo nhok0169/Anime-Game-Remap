@@ -13,7 +13,6 @@
 
 
 #include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphTextures.h"
-#include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphThumbprints.h"
 
 
 namespace AGRemapCore {
@@ -83,7 +82,7 @@ namespace AGRemapCore {
         };
 
         // ---- her own textures' pixels, for a file no hash and no register names ----
-        facts.textureThumbprints = changliNymphTextureThumbprints();
+        // textureThumbprints: read off TextureThumbprints (WWMIParserConfig::withGameData, WWMIFixerConfig::withGameData)
 
         // ---- a role the mod ships no file for falls back to HER game texture; the hair map and the eye
         // textures are the same hashes on both outfits, so the game already binds them on Changli ----

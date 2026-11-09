@@ -16,7 +16,6 @@
 #include "AGRemapCore/data/IniParseBuilderData.h"
 #include "AGRemapCore/data/IniParseData/WWMIParser.h"
 #include "AGRemapCore/data/IniFixData/Changli/ChangliTextures.h"
-#include "AGRemapCore/data/IniFixData/Changli/ChangliSkeleton.h"
 
 
 namespace AGRemapCore {
@@ -28,9 +27,8 @@ namespace AGRemapCore {
         config.version = "1.1";
         // Her own textures, so a mod of hers can be sorted into roles at PARSE time
         config.textures = changliTextureFacts();
-        // the numberings her skeleton has had, and her own bones' centroids -- see WWMIParserConfig::skeletonNumberings
-        config.skeletonNumberings = {{"1.1", changliRenumbered11To14()}, {"1.2", changliRenumbered12To14()}, {"1.4", {}}};
-        config.referenceBoneCentroids = changliBoneCentroids();
+        // the numberings her skeleton has had and her own bones' centroids: read off VGRemaps and BoneCentroids
+        // (WWMIParserConfig::withGameData) -- see WWMIParserConfig::skeletonNumberings
         // her blindfold, which several mods hide: its sections go to a graph of their own for the fix to copy
         config.hashOnlyObjs.emplace_back("blindfold", "blindfold");
         return config;

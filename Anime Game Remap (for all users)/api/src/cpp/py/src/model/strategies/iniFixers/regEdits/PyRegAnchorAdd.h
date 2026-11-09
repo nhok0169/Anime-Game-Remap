@@ -30,47 +30,12 @@ namespace AGRC = AGRemapCore;
 /**
  * @brief
  @rst
- The `pybind11`_-facing subclass of `AGRC::RegAnchorAdd`\\<std::string, std::string\\> -- holds the
- exact `Python`_ object given for ``adder``, for the reason `PyRegRestrict` holds its ``keyFilter``: a
- ``std::function`` cannot be handed back to `Python`_ as the callable it was built from
+ The `Python`_ ``RegAnchorAdd`` is :cpp:class:`AGRemapCore::RegAnchorAdd` itself: its arguments are parsed into the C++ members
+ when it is built or they are set, and read back from them -- so one built in `Python`_ runs in a C++ fixer's list, and
+ one built in C++ reads in `Python`_ as a ``RegAnchorAdd``
  @endrst
  */
-class PyRegAnchorAdd: public AGRC::RegAnchorAdd<std::string, std::string> {
-    public:
-
-        /**
-         * @brief The C++ core class this wraps
-         */
-        using Core = AGRC::RegAnchorAdd<std::string, std::string>;
-
-        /**
-         * @brief The exact `Python`_ object given for ``adder`` -- a callable, or ``None``
-         */
-        py::object adderObj;
-
-        /**
-         * @brief The exact `Python`_ object given for ``anchorIf`` -- a callable, or ``None``
-         */
-        py::object anchorIfObj;
-
-        /**
-         * @brief Constructs a new anchored add
-         *
-         * @param anchorKeys The keys whose lines are anchors
-         * @param adderObj The Python callable giving each anchor's lines, or ``None``
-         * @param placement Where the added lines go
-         * @param anchorIfObj The Python callable deciding which keys make a line an anchor, or ``None``
-         * @param firstOnly Whether only the part's first anchor gets lines
-         * @param skipExisting Whether a line the part already holds is left out
-         */
-        PyRegAnchorAdd(std::vector<std::string> anchorKeys, py::object adderObj, Core::Placement placement,
-                       py::object anchorIfObj, bool firstOnly, bool skipExisting);
-
-        /**
-         * @copydoc PyRegAdd::refresh
-         */
-        void refresh(const py::object &modType);
-};
+using PyRegAnchorAdd = AGRC::RegAnchorAdd<std::string, std::string>;
 
 
 /**

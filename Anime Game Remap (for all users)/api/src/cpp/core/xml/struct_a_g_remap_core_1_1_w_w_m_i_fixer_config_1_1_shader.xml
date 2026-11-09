@@ -19,7 +19,26 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="211" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="211" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="265" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1aa9172f44b0feda8a26faaac0cda518b6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::Shader::game</definition>
+        <argsstring></argsstring>
+        <name>game</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::game</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The :cpp:class:`GameShaders` row its code and constant buffers are read from, eg. ``LynaeFilm`` -- the
+source&apos;s or the target&apos;s game shader (:cpp:func:`WWMIFixerConfig::withGameData` fills :cpp:member:`ps`
+and :cpp:member:`constantBuffers`). Empty: the config gives them
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="275" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="275" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1ac4f08ccc042dedb1460e9c1ac4de624a" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -34,7 +53,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="216" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="216" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="289" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="289" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a4928e841db694caac65322b96dcdff07" prot="public" static="no" mutable="no">
         <type>std::map&lt; std::string, std::vector&lt; std::uint32_t &gt; &gt;</type>
@@ -52,7 +71,7 @@ row), eg. ``ps-cb4``. Written as a ``R32G32B32A32_FLOAT`` buffer
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="225" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="225" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="298" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="298" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a551f6bdaf36f0e5d47001b33e7bb63f3" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
@@ -74,7 +93,7 @@ neither is left out)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="238" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="238" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="311" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="311" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a50ccc403e95a5af644f8a57085965309" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt;</type>
@@ -94,7 +113,7 @@ draw with :cpp:member:`lines`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="249" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="249" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="322" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="322" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a2afae4bfae7cf4988ecd8c7e8c23ea0a" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -114,7 +133,26 @@ written beside :cpp:member:`ps` as a file of its own. **Default**: empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="260" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="260" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="333" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1aa7a779a2e01557435dade56abbfee8dd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::Shader::passGame</definition>
+        <argsstring></argsstring>
+        <name>passGame</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::passGame</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+:cpp:member:`passPs` by :cpp:class:`GameShaders` row: per entry of :cpp:member:`passes`, the row whose code
+that pass draws with (:cpp:func:`WWMIFixerConfig::withGameData` fills :cpp:member:`passPs`). An empty entry
+keeps that pass&apos;s :cpp:member:`passPs`. **Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="343" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="343" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a97dc20e0315e46bb34c998e54ea721a6" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -133,7 +171,7 @@ any other component. Empty, the shader draws on every pass of the slot. **Defaul
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="323" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="323" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="406" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="406" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a9c6af9268cb9c803a08432d3db27c734" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -153,7 +191,7 @@ drawn with it loses its effect (a mod&apos;s robotic legs drawn as skin). **Defa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="333" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="333" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="416" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="416" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a64fc798f150c19250d203acd7b2bc269" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding" kindref="compound">Binding</ref> &gt;</type>
@@ -173,7 +211,7 @@ bindings alone. **Default**: empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="344" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="344" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="427" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="427" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a925fa2b98a7c1bedf5d1b88a129bde15" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after" kindref="compound">After</ref> &gt;</type>
@@ -199,7 +237,7 @@ component has not drawn yet, and made after that component&apos;s last draw inst
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="361" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="361" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="444" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="444" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -235,7 +273,38 @@ for any other line
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="206" column="34" bodyfile="src/data/IniFixData/WWMIFixerConfigs.cpp" bodystart="45" bodyend="53"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="260" column="34" bodyfile="src/data/IniFixData/WWMIFixerConfigs.cpp" bodystart="50" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a7022666459559a46aee09fcd77d00dec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kindref="compound">Shader</ref></type>
+        <definition>WWMIFixerConfig::Shader AGRemapCore::WWMIFixerConfig::Shader::ofGame</definition>
+        <argsstring>(const std::string &amp;game)</argsstring>
+        <name>ofGame</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::ofGame</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>game</declname>
+        </param>
+        <briefdescription>
+<para>A shader whose code and constant buffers are the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_game_shaders" kindref="compound">GameShaders</ref></computeroutput> row &apos;game&apos; (<ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1aa9172f44b0feda8a26faaac0cda518b6" kindref="member">game</ref>), named after it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>game</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The row, eg. <computeroutput>LynaeUpper</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The shader </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="284" column="27" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="5107" bodyend="5112"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -253,15 +322,18 @@ draw&apos;s: its vertex shader, its render targets and the textures the componen
 :cpp:member:`plan` entry binds
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="194" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="194" bodyend="362"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="248" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="248" bodyend="445"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a925fa2b98a7c1bedf5d1b88a129bde15" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>after</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a4928e841db694caac65322b96dcdff07" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>constantBuffers</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1aa9172f44b0feda8a26faaac0cda518b6" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>game</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a2a050aaab6698b1ae6033d1c0a4c9dd9" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>lineRole</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a551f6bdaf36f0e5d47001b33e7bb63f3" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>lines</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a5ede2e7aecc963b58b709d1b895c58d2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a7022666459559a46aee09fcd77d00dec" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>ofGame</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a97dc20e0315e46bb34c998e54ea721a6" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>onlyWith</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a50ccc403e95a5af644f8a57085965309" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>passes</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1aa7a779a2e01557435dade56abbfee8dd" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>passGame</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a2afae4bfae7cf4988ecd8c7e8c23ea0a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>passPs</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1ac4f08ccc042dedb1460e9c1ac4de624a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>ps</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a64fc798f150c19250d203acd7b2bc269" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>registers</name></member>

@@ -13,6 +13,7 @@
 
 #include "AGRemapCore/tools/DownloadTools.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <utility>
 
@@ -82,6 +83,13 @@ namespace AGRemapCore {
     std::string DownloadTools::fixedFileName(const std::string& prefix, const std::string& kind,
                                               const std::string& ext) {
         return prefix + kind + IniKeywords::RemapDL + ext;
+    }
+
+
+    std::string DownloadTools::versionFolder(const Version& version) {
+        std::string folder = version.toString();
+        std::replace(folder.begin(), folder.end(), '.', '_');
+        return folder;
     }
 
 

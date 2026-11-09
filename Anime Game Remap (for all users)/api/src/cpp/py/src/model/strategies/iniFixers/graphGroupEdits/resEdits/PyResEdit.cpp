@@ -313,7 +313,13 @@ void PyBaseResEdit::buildResModel(const std::string &resType, const std::string 
                                    const std::string &modName, const std::string &fileKey, Context &ctx) {
     // A plain IniResource carries only the source path -- 'fixedPath' is what ResReplace uses.
     (void)fixedPath;
-    auto &pyCtx = static_cast<PyIniResEditContext&>(ctx);
+    PyIniResEditContext *pyCtxOf = pyContextOf(ctx);
+    if (pyCtxOf == nullptr) {
+        // in a C++ fixer's list: the edit's own C++ side
+        CoreClass::buildResModel(resType, srcPath, fixedPath, modName, fileKey, ctx);
+        return;
+    }
+    auto &pyCtx = *pyCtxOf;
     dispatchBuildResModel(py::make_tuple(py::str(resType), pyCtx.ini, py::str(srcPath)), modName, fileKey, ctx);
 }
 
@@ -345,7 +351,13 @@ void PyResIdentity::buildResModel(const std::string &resType, const std::string 
     // The pure-Python original never overrode buildResModel here -- an identity edit builds the
     // same plain IniResource the base does (when it builds anything at all; see createResModel).
     (void)fixedPath;
-    auto &pyCtx = static_cast<PyIniResEditContext&>(ctx);
+    PyIniResEditContext *pyCtxOf = pyContextOf(ctx);
+    if (pyCtxOf == nullptr) {
+        // in a C++ fixer's list: the edit's own C++ side
+        CoreClass::buildResModel(resType, srcPath, fixedPath, modName, fileKey, ctx);
+        return;
+    }
+    auto &pyCtx = *pyCtxOf;
     dispatchBuildResModel(py::make_tuple(py::str(resType), pyCtx.ini, py::str(srcPath)), modName, fileKey, ctx);
 }
 
@@ -370,7 +382,13 @@ py::object PyResReplace::pySelf() const {
 
 void PyResReplace::buildResModel(const std::string &resType, const std::string &srcPath, const std::string &fixedPath,
                                   const std::string &modName, const std::string &fileKey, Context &ctx) {
-    auto &pyCtx = static_cast<PyIniResEditContext&>(ctx);
+    PyIniResEditContext *pyCtxOf = pyContextOf(ctx);
+    if (pyCtxOf == nullptr) {
+        // in a C++ fixer's list: the edit's own C++ side
+        CoreClass::buildResModel(resType, srcPath, fixedPath, modName, fileKey, ctx);
+        return;
+    }
+    auto &pyCtx = *pyCtxOf;
     dispatchBuildResModel(py::make_tuple(py::str(resType), pyCtx.ini, py::str(srcPath), py::str(fixedPath), modTypeObj),
                            modName, fileKey, ctx);
 }
@@ -397,7 +415,13 @@ py::object PyResCreate::pySelf() const {
 void PyResCreate::buildResModel(const std::string &resType, const std::string &srcPath, const std::string &fixedPath,
                                  const std::string &modName, const std::string &fileKey, Context &ctx) {
     (void)fixedPath;
-    auto &pyCtx = static_cast<PyIniResEditContext&>(ctx);
+    PyIniResEditContext *pyCtxOf = pyContextOf(ctx);
+    if (pyCtxOf == nullptr) {
+        // in a C++ fixer's list: the edit's own C++ side
+        CoreClass::buildResModel(resType, srcPath, fixedPath, modName, fileKey, ctx);
+        return;
+    }
+    auto &pyCtx = *pyCtxOf;
     dispatchBuildResModel(py::make_tuple(py::str(resType), pyCtx.ini, py::str(srcPath), modTypeObj), modName, fileKey, ctx);
 }
 

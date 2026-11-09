@@ -8,10 +8,8 @@
     <innerfile refid="_lynae_hair_shader_8cpp">LynaeHairShader.cpp</innerfile>
     <innerfile refid="_lynae_lower_shader_8cpp">LynaeLowerShader.cpp</innerfile>
     <innerfile refid="_lynae_props_film_flags_8cpp">LynaePropsFilmFlags.cpp</innerfile>
-    <innerfile refid="_lynae_skeleton_8cpp">LynaeSkeleton.cpp</innerfile>
     <innerfile refid="_lynae_skin_codes_8cpp">LynaeSkinCodes.cpp</innerfile>
     <innerfile refid="_lynae_textures_8cpp">LynaeTextures.cpp</innerfile>
-    <innerfile refid="_lynae_thumbprints_8cpp">LynaeThumbprints.cpp</innerfile>
     <innerfile refid="_lynae_upper_shader_8cpp">LynaeUpperShader.cpp</innerfile>
     <briefdescription>
     </briefdescription>

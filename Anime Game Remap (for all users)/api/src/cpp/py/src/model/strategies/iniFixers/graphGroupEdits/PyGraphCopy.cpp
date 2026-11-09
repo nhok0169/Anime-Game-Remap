@@ -20,18 +20,6 @@
 #include "PyIniGraphGroups.h"
 
 
-PyGraphCopy::PyGraphCopy(py::object srcIdObj, py::object dstIdObj, py::object predicateObj, bool minimal, bool newPartIds):
-    Core(Core::GraphId(), Core::GraphId(), nullptr, minimal, newPartIds),
-    srcIdObj(std::move(srcIdObj)), dstIdObj(std::move(dstIdObj)), predicateObj(std::move(predicateObj)) {}
-
-
-void PyGraphCopy::refresh() {
-    srcId = parseGraphId(srcIdObj);
-    dstId = parseGraphId(dstIdObj);
-    predicate = toGraphPredicate(predicateObj);
-}
-
-
 void initCppGraphCopy(pybind11::module_ &m) {
     py::class_<PyGraphCopy, PyBaseIniGraphGroupEdit, py::smart_holder> cls(m, "GraphCopy", R"doc(
 This class inherits from :class:`BaseIniGraphGroupEdit`
@@ -73,22 +61,30 @@ newPartIds: :class:`bool`
     **Default**: ``True``
     )doc");
 
-    cls.def(py::init([](py::object srcId, py::object dstId, py::object predicate, bool minimal, bool newPartIds) {
-        return std::make_unique<PyGraphCopy>(std::move(srcId), std::move(dstId), std::move(predicate), minimal, newPartIds);
-    }), py::arg("srcId"), py::arg("dstId"), py::arg("predicate") = py::none(), py::arg("minimal") = true, py::arg("newPartIds") = true);
+    cls.def(py::init([](py::object srcId, py::object dstId, py::object predicate, bool minimal, bool newPartIds, bool keepEmpty) {
+        auto edit = std::make_unique<PyGraphCopy>(parseGraphId(srcId), parseGraphId(dstId), toGraphPredicate(predicate), minimal, newPartIds);
+        edit->keepEmpty = keepEmpty;
+        return edit;
+    }), py::arg("srcId"), py::arg("dstId"), py::arg("predicate") = py::none(), py::arg("minimal") = true, py::arg("newPartIds") = true,
+        py::arg("keepEmpty") = true);
 
-    cls.def_property("srcId", [](const PyGraphCopy &self) { return self.srcIdObj; },
-                     [](PyGraphCopy &self, py::object v) { self.srcIdObj = std::move(v); }, py::doc(R"doc(
+    cls.def_readwrite("keepEmpty", &PyGraphCopy::keepEmpty, py::doc(R"doc(
+:class:`bool`: Whether a copy that keeps no `KVP`_ at all is still added. ``False`` adds nothing then -- eg. a copy of a
+`section`_ the predicate picks, when the graph may have no such `section`_. **Default**: ``True``
+    )doc"));
+
+    cls.def_property("srcId", [](const PyGraphCopy &self) { return graphIdToPy(self.srcId); },
+                     [](PyGraphCopy &self, py::object v) { self.srcId = parseGraphId(v); }, py::doc(R"doc(
 Tuple[:class:`int`, :class:`str`, :class:`str`]: The id of the graph to copy
     )doc"));
 
-    cls.def_property("dstId", [](const PyGraphCopy &self) { return self.dstIdObj; },
-                     [](PyGraphCopy &self, py::object v) { self.dstIdObj = std::move(v); }, py::doc(R"doc(
+    cls.def_property("dstId", [](const PyGraphCopy &self) { return graphIdToPy(self.dstId); },
+                     [](PyGraphCopy &self, py::object v) { self.dstId = parseGraphId(v); }, py::doc(R"doc(
 Tuple[:class:`int`, :class:`str`, :class:`str`]: The id the copy is stored under
     )doc"));
 
-    cls.def_property("predicate", [](const PyGraphCopy &self) { return self.predicateObj; },
-                     [](PyGraphCopy &self, py::object v) { self.predicateObj = std::move(v); }, py::doc(R"doc(
+    cls.def_property("predicate", [](const PyGraphCopy &self) { return graphPredicateToPy(self.predicate); },
+                     [](PyGraphCopy &self, py::object v) { self.predicate = toGraphPredicate(v); }, py::doc(R"doc(
 Optional[Callable[[:class:`IfTemplate`, :class:`IfContentPart`, :class:`int`], :class:`bool`]]: Decides which `KVPs`_ of the copy are kept
     )doc"));
 
@@ -102,10 +98,9 @@ Optional[Callable[[:class:`IfTemplate`, :class:`IfContentPart`, :class:`int`], :
 
     cls.def("edit", [](PyGraphCopy &self, py::list graphGroups, const py::object &modType, const std::string &modName) {
         (void)modType;
-        self.refresh();
         PyIniGraphGroups groups(graphGroups);
         // nullptr for the same reason GraphRemove's binding passes it -- this edit never reads it
-        self.Core::edit(groups, nullptr, modName);
+        self.edit(groups, nullptr, modName);
         return graphGroups;
     }, py::arg("graphGroups"), py::arg("modType"), py::arg("modName") = "", py::doc(R"doc(
 Stores a (filtered) copy of the graph at :attr:`srcId` under :attr:`dstId`

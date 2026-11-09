@@ -26,6 +26,7 @@
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/ColourReplaceFilter.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h"
+#include "AGRemapCore/constants/Colours.h"
 #include "AGRemapCore/model/textures/Colour.h"
 #include "AGRemapCore/model/textures/ColourRange.h"
 
@@ -34,7 +35,6 @@ namespace AGRemapCore {
 
     namespace {
         // The green a lightmap uses to mark an ordinary, non-emissive surface.
-        const Colour LightMapGreen(0, 128, 0, 255);
 
         // 1, not 0 -- see XianglingFixer's note.
         const int NearlyTransparent = 1;
@@ -47,7 +47,7 @@ namespace AGRemapCore {
         // The band the green lightmap occupies, Colours.LightMapGreenMin..Max in the pure-Python
         // table. Alpha spans the whole range here, unlike CherryHuTao's emissive bands.
         ColourOrRangeSet greenBand() {
-            return ColourOrRangeSet{ColourRange(Colour(0, 125, 0, 0), Colour(50, 160, 50, 255))};
+            return ColourOrRangeSet{ColourRanges::LightMapGreen};
         }
 
 
@@ -66,7 +66,7 @@ namespace AGRemapCore {
             opaqueBand.transform(texFile);
 
             ColourReplaceFilter partialBands(
-                LightMapGreen,
+                Colours::LightMapGreen,
                 ColourOrRangeSet{ColourRange(Colour(0, 125, 0, 100), Colour(50, 160, 50, 254)),
                                  ColourRange(Colour(0, 0, 0, 100), Colour(0, 0, 0, 200))});
             partialBands.transform(texFile);

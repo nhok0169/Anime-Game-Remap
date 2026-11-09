@@ -34,6 +34,18 @@ using the API compared to a C++ API User." What that means in practice:
   `core.pyi` finds ~180 non-character names unbound (plus 136 per-character `XxxFixer`/`XxxParser`), but some are
   nested types bound under another name (`GraphCollectRow` is `GraphCollect.Row`) or private details
   (`TemplateFixer::TakeFixSections`). Sort a candidate by hand before binding it.
+- **An edit built in Python must run in a C++ fixer's list (2026-11-07).** `CppIniFixFactory.withList` puts Python-built
+  edits into a compiled fixer's list, which calls their C++ side with C++ arguments and no Python context. Four ways a
+  binding failed that, each silent or worse: (1) C++ members filled only by a `refresh()` the Python `edit` calls -- the
+  edit ran EMPTY (22 bindings; now filled when built and when a property is set); (2) a Python callable kept as a
+  `py::object` beside the member -- the getter returned a wrapped `std::function`, not the callable (keep it in a functor
+  struct and read it back with `std::function::target<>()`); (3) a callable handed the call's Python `modType` / `ini` /
+  graphs captured from the Python call -- use `PyEditScope` (`editModTypeToPy`, `editIniToPy`, `scope->graphToPy`), which
+  falls back to casting the C++ objects; (4) **a resource edit's `buildResModel` did
+  `static_cast<PyIniResEditContext&>(ctx)` -- a SEGFAULT on the C++ context**; it now asks
+  `PyResEditMixin::pyContextOf(ctx)` and runs its own C++ `buildResModel` when that is null. Test a binding change by
+  splicing the edit into a shipped fix (`test_withList_theWholeListRunsWithEditsBuiltInPython`,
+  `Tools/Misc/Prototypes/lynaeTweaks.py`), not only by its Python `edit`.
 
 ## A BLEND'S INFLUENCE COUNT IS A PARAMETER, AND ONE CLASS STILL SAYS FOUR (2026-09-30)
 

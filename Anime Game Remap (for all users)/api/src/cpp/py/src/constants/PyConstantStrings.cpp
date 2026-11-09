@@ -469,6 +469,49 @@ WWMI's shader that remaps a merged skeleton through a blend remap
         .def_readonly_static("WWMIBlendRemapper", &AGRC::IniKeywords::WWMIBlendRemapper, py::doc(R"doc(
 WWMI's shader that writes a mod's remapped ``Blend.buf`` at load
         )doc"))
+        .def_readonly_static("WWMIBoneDataCb", &AGRC::IniKeywords::WWMIBoneDataCb, py::doc(R"doc(
+The register a draw reads its bones from (``vs-cb4``): what a skeleton merge takes, and a remapped skeleton is
+bound back to
+        )doc"))
+        .def_readonly_static("WWMIExtraBoneDataCb", &AGRC::IniKeywords::WWMIExtraBoneDataCb, py::doc(R"doc(
+The register a draw reads its previous frame's bones from (``vs-cb3``), the extra merged skeleton's
+        )doc"))
+        .def_readonly_static("WWMIMergerBonesReg", &AGRC::IniKeywords::WWMIMergerBonesReg, py::doc(R"doc(
+:attr:`WWMISkeletonMerger`'s input: the bone-data constant buffer it merges (``cs-cb8``)
+        )doc"))
+        .def_readonly_static("WWMIMergerSkeletonReg", &AGRC::IniKeywords::WWMIMergerSkeletonReg, py::doc(R"doc(
+:attr:`WWMISkeletonMerger`'s output: the merged skeleton it writes (``cs-u6``)
+        )doc"))
+        .def_readonly_static("WWMIRemapperForwardReg", &AGRC::IniKeywords::WWMIRemapperForwardReg, py::doc(R"doc(
+:attr:`WWMISkeletonRemapper`'s input: the blend remap's forward table, local id to merged bone (``cs-t37``)
+        )doc"))
+        .def_readonly_static("WWMIRemapperSkeletonReg", &AGRC::IniKeywords::WWMIRemapperSkeletonReg, py::doc(R"doc(
+:attr:`WWMISkeletonRemapper`'s input: the merged skeleton it remaps (``cs-t38``)
+        )doc"))
+        .def_readonly_static("WWMIRemapperOutReg", &AGRC::IniKeywords::WWMIRemapperOutReg, py::doc(R"doc(
+:attr:`WWMISkeletonRemapper`'s output: the remapped skeleton it writes (``cs-u5``)
+        )doc"))
+        .def_readonly_static("WWMIBlendRemapperReverseReg", &AGRC::IniKeywords::WWMIBlendRemapperReverseReg, py::doc(R"doc(
+:attr:`WWMIBlendRemapper`'s input: the blend remap's reverse table, merged bone to local id (``cs-t34``)
+        )doc"))
+        .def_readonly_static("WWMIBlendRemapperVertexVGReg", &AGRC::IniKeywords::WWMIBlendRemapperVertexVGReg, py::doc(R"doc(
+:attr:`WWMIBlendRemapper`'s input: every vertex's merged bone ids (``cs-t35``)
+        )doc"))
+        .def_readonly_static("WWMIBlendRemapperOutReg", &AGRC::IniKeywords::WWMIBlendRemapperOutReg, py::doc(R"doc(
+:attr:`WWMIBlendRemapper`'s output: the blend it rewrites into the remap's local ids (``cs-u4``)
+        )doc"))
+        .def_readonly_static("RWBuffer", &AGRC::IniKeywords::RWBuffer, py::doc(R"doc(
+A resource's ``type`` for a buffer a compute shader writes
+        )doc"))
+        .def_readonly_static("FormatR32G32B32A32Float", &AGRC::IniKeywords::FormatR32G32B32A32Float, py::doc(R"doc(
+A resource's ``format`` of four 32-bit floats an element -- eg. a merged skeleton's bone matrices
+        )doc"))
+        .def_readonly_static("FormatR8UInt", &AGRC::IniKeywords::FormatR8UInt, py::doc(R"doc(
+A resource's ``format`` of one unsigned byte an element
+        )doc"))
+        .def_readonly_static("FormatR16UInt", &AGRC::IniKeywords::FormatR16UInt, py::doc(R"doc(
+A resource's ``format`` of one unsigned 16-bit integer an element
+        )doc"))
         .def_readonly_static("WWMIObjectDetected", &AGRC::IniKeywords::WWMIObjectDetected, py::doc(R"doc(
 The flag every `section`_ of a WWMI mod sets when its character is drawn, and its ``[Present]`` resets each frame
         )doc"))

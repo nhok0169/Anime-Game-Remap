@@ -31,6 +31,14 @@
 
 
 namespace AGRemapCore {
+    std::optional<std::size_t> BufFile::linesOf(const std::string& path, std::size_t stride) {
+        const std::optional<std::uintmax_t> size = FileService::fileSize(path);
+        if (stride == 0 || !size.has_value() || *size < stride) {
+            return std::nullopt;
+        }
+        return static_cast<std::size_t>(*size / stride);
+    }
+
     BufFile::BufFile(BinarySrc src, std::vector<std::unique_ptr<BufElementType>> elements, std::string fileType):
         BinaryFile(std::move(src)), fileType_(std::move(fileType)) {
 

@@ -24,6 +24,20 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename IterGraphGroupEdit<K, V, KeyHash, KeyEqual>::GraphGroups& IterGraphGroupEdit<K, V, KeyHash, KeyEqual>::editFromIni(
             GraphGroups& graphGroups, IniFile* ini, const ModType* modType, const std::string& modName) {
+        if (makeRunEdits) {
+            GroupEdits runEdits = makeRunEdits(graphGroups, ini, modType, modName);
+            for (const std::unique_ptr<Base>& edit : runEdits.edits) {
+                if (edit != nullptr) {
+                    edit->editFromIni(graphGroups, ini, modType, modName);
+                }
+            }
+            for (Base* edit : runEdits.borrowed) {
+                if (edit != nullptr) {
+                    edit->editFromIni(graphGroups, ini, modType, modName);
+                }
+            }
+        }
+
         if (!makeEdits) {
             return graphGroups;
         }
@@ -32,6 +46,11 @@ namespace AGRemapCore {
         for (std::size_t iniIndex = 0; iniIndex < graphGroupsLen; ++iniIndex) {
             GroupEdits groupEdits = makeEdits(iniIndex, graphGroups);
             for (const std::unique_ptr<Base>& edit : groupEdits.edits) {
+                if (edit != nullptr) {
+                    edit->editFromIni(graphGroups, ini, modType, modName);
+                }
+            }
+            for (Base* edit : groupEdits.borrowed) {
                 if (edit != nullptr) {
                     edit->editFromIni(graphGroups, ini, modType, modName);
                 }

@@ -33,6 +33,7 @@
 #include "AGRemapCore/data/IniParseData/GIMITemplateParser.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "../iniFixers/graphGroupEdits/resEdits/PyResEdit.h"  // reuses pyCoreModule()
+#include "../iniFixers/PyEditScope.h"
 #include "PyDownloadData.h"
 #include "../PyStrategyFactory.h"  // resolveStrategyModType
 
@@ -580,6 +581,9 @@ void PyGIMIParser::runStepsFromPy(const py::object& steps, AGRC::IniParseData& d
     if (steps.is_none()) {
         return;
     }
+
+    // every callable of the list reads the .ini and the data it files into (EditScope)
+    PyListScope scope(ctxImpl.ini, ctxImpl.modType(), py::cast(&data, py::return_value_policy::reference));
 
     for (auto item : steps) {
         py::object step = py::reinterpret_borrow<py::object>(item);

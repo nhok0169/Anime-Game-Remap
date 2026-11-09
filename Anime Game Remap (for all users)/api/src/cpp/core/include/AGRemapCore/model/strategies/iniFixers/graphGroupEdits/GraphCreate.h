@@ -16,6 +16,7 @@
 
 #include <cstddef>
 #include <functional>
+#include <optional>
 #include <string>
 
 #include "AGRemapCore/constants/IniKeywords.h"
@@ -159,6 +160,26 @@ namespace AGRemapCore {
              * @brief The context a graph built from \ref sectionsOf builds its conditions in, or ``nullptr`` for its own. **Default**: ``nullptr``
              */
             Z3Context* z3 = nullptr;
+
+            /**
+             * @brief
+             @rst
+             Objects a graph of any of which, in ANY group, stops the edit: nothing is added when one is there -- eg. a section
+             that hides a target slot, added only when nothing is remapped onto that slot. Empty (the default) always adds
+             @endrst
+             */
+            std::vector<ModObj> onlyWithout;
+
+            /**
+             * @brief
+             @rst
+             Objects a graph of any of which, in ANY group, is what lets the edit add: nothing is added when no group holds
+             one -- eg. a texture list a fix writes for a component, added only when the mod draws that component, or the
+             fix's own sections, added when the mod draws any of the source's components. The mirror of \ref onlyWithout.
+             Empty (the default) always adds
+             @endrst
+             */
+            std::vector<ModObj> onlyWith;
 
             /**
              * @brief How a graph of `sections`_ a fix writes follows ``run =``: each value names the `section`_ it calls

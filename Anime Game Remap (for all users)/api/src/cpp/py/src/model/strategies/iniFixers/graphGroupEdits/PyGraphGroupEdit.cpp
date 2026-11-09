@@ -12,12 +12,21 @@
 // ##### EndCredits
 
 #include "PyGraphGroupEdit.h"
+#include "PyIniGraphGroups.h"
+#include "../PyEditScope.h"
 
+#include <memory>
+#include <optional>
+#include <string>
+#include <vector>
 #include <utility>
 
 #include "../graphEdits/PyBaseIniGraphEdit.h"  // reuses PyBaseIniGraphEdit (the isinstance
                                                 // target for the graph-edit half)
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h"
+#include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/strategies/ModType.h"
+#include "../../../../tools/PyRanges.h"
 #include "../regEdits/PyBaseRegEdit.h"  // reuses PyBaseRegEdit (the isinstance target for the
                                         // register-edit half) and PyPartRanges (the "a bound
                                         // Ranges, or a raw list of bounds" resolver)
@@ -25,35 +34,33 @@
 
 namespace {
 
-// The pure-Python original handed a 'defaultFilter' returning Ranges.createFull() to any edit
-// with no filter of its own. Built once, on first use, so a graph edit that reads its 'partFilter'
-// argument unconditionally still gets a real callable rather than None.
-//
-// Held through a deliberately-never-deleted pointer, NOT as a plain 'static py::object'. A
-// function-local static holding a Python reference is destroyed during C++ static destruction,
-// which on CPython runs *after* Py_Finalize -- decref'ing an object into an already-torn-down
-// interpreter. Confirmed the hard way: the plain-static version printed its results correctly and
-// then exited with 0xC0000005 (access violation) with no traceback, so it looks like a clean run
-// unless the process's exit code is actually checked.
+using Edit = PyGraphGroupEdit;
+using PartEdit = Edit::PartEdit;
+using PartFilter = Edit::PartFilter;
+using KeySet = Edit::KeySet;
+using IterData = Edit::IterData;
+using OrderRanges = Edit::OrderRanges;
+using ModObj = Edit::ModObj;
+using Graph = Edit::Graph;
+using ContentPart = Edit::ContentPart;
+
+
+// The pure-Python original handed a 'defaultFilter' returning Ranges.createFull() to any edit with no filter of its own.
+// Held through a deliberately-never-deleted pointer, NOT a plain 'static py::object': a function-local static holding a
+// Python reference is destroyed after Py_Finalize, which exited 0xC0000005 with no traceback.
 py::object defaultPartFilter() {
     static py::object *filter = nullptr;
     if (filter == nullptr) {
         filter = new py::object(py::cpp_function([](const py::object &, const py::object &, const py::object &) {
-            // PyRanges<long long>, not the bare AGRC::Ranges -- only the former is a registered
-            // Python type, and returning the core type raises "Unregistered type" at call time
-            // (not at bind time), so a plain import check never catches it.
+            // PyRanges<long long>, not the bare AGRC::Ranges -- only the former is a registered Python type
             AGRC::Ranges<long long> full = AGRC::Ranges<long long>::createFull();
             return PyRanges<long long>(full.ranges, false);
         }));
     }
-
     return *filter;
 }
 
-
-// Converts a core key set back into a real Python set, for handing a graph edit the group's own
-// 'keysToTrack'. The keys are already py::object for this instantiation, so nothing is re-parsed.
-py::set keySetToPy(const PyGraphGroupEdit::KeySet &keys) {
+py::set keySetToPy(const KeySet &keys) {
     py::set result;
     for (const std::string &key : keys) {
         result.add(key);
@@ -61,292 +68,297 @@ py::set keySetToPy(const PyGraphGroupEdit::KeySet &keys) {
     return result;
 }
 
+}
 
-// Forwards one entry of a graph's edit list to whatever Python object the caller actually put
-// there. See AGRC::GraphGroupEdit::PartEdit's own note for why the dispatch (rather than a C++
-// base pointer) is the abstraction.
-class PyPartEdit: public PyGraphGroupEdit::PartEdit {
+
+// shared with the other graph group edits (PyGraphGroupEdit.h)
+std::shared_ptr<void> holdPy(py::object object) {
+    return std::shared_ptr<void>(new py::object(std::move(object)), [](void *held) {
+        py::gil_scoped_acquire gil;
+        delete static_cast<py::object *>(held);
+    });
+}
+
+// an object of a class the library binds, as itself (a Python subclass's type is not the registered one)
+bool isBound(const py::handle &object) {
+    const py::detail::type_info *info = py::detail::get_type_info(Py_TYPE(object.ptr()));
+    return info != nullptr && info->type == Py_TYPE(object.ptr());
+}
+
+// the Python graphs of a call's groups, for its scope (PyEditScope)
+std::function<py::object(const void *)> graphToPyOf(PyIniGraphGroups &groups) {
+    return [&groups](const void *graph) { return groups.graphToPy(static_cast<const Graph *>(graph)); };
+}
+
+std::function<void *(py::object)> adoptOf(PyIniGraphGroups &groups) {
+    return [&groups](py::object graph) -> void * { return groups.adopt(std::move(graph)); };
+}
+
+
+namespace {
+
+// A key filter given in Python: called with the C++ iteration data, mod type and .ini file; kept as itself so the
+// filter reads back (keyFilters) and a graph edit is handed the callable it was given
+struct PyKeyFilter {
+    py::object filter;
+
+    OrderRanges operator()(const IterData &iterData, const AGRC::ModType *modType, AGRC::IniFile *ini) const {
+        py::gil_scoped_acquire gil;
+        py::object result = filter(py::cast(&iterData, py::return_value_policy::reference), editModTypeToPy(modType), editIniToPy(ini));
+        PyPartRanges ranges(result);
+        const OrderRanges *parsed = ranges.get();
+        if (parsed == nullptr) {
+            throw py::type_error("A GraphGroupEdit keyFilter must return a Ranges (or a list of (start, end) bounds), not None");
+        }
+        return *parsed;
+    }
+};
+
+py::object keyFilterToPy(const PartFilter *keyFilter) {
+    if (keyFilter != nullptr) {
+        if (const PyKeyFilter *own = keyFilter->target<PyKeyFilter>(); own != nullptr) {
+            return own->filter;
+        }
+    }
+    return defaultPartFilter();
+}
+
+
+// An edit that is not one of the library's own (a Python subclass): called through its own Python editFromIni, with the
+// C++ part or graph and the C++ mod type and .ini file cast to Python -- so it runs the same in a Python list and a C++
+// one
+class PyCallPartEdit: public PartEdit {
     public:
-        PyPartEdit(py::object filter, PyGraphGroupEdit &owner, PyIniGraphGroups &groups, py::object ini, py::object modType):
-            filter_(std::move(filter)), owner_(owner), groups_(groups), ini_(std::move(ini)), modType_(std::move(modType)) {
-            // a RegPartEdit: its register edit, on the sections its filter names
-            if (py::isinstance<AGRC::RegPartEdit<>>(filter_)) {
-                const auto& adapter = filter_.cast<const AGRC::RegPartEdit<>&>();
-                sectionFilter_ = adapter.sectionFilter;
-                filter_ = adapter.edit() == nullptr ? py::none() : py::cast(adapter.edit(), py::return_value_policy::reference);
-            }
-
-            if (py::isinstance<PyBaseIniGraphEdit>(filter_)) {
-                kind_ = PyGraphGroupEdit::PartEditKind::GraphEdit;
-            } else if (py::isinstance<PyBaseRegEdit>(filter_)) {
-                kind_ = PyGraphGroupEdit::PartEditKind::RegEdit;
+        explicit PyCallPartEdit(py::object edit): edit_(std::move(edit)) {
+            if (py::isinstance<PyBaseIniGraphEdit>(edit_)) {
+                kind_ = Edit::PartEditKind::GraphEdit;
+            } else if (py::isinstance<PyBaseRegEdit>(edit_)) {
+                kind_ = Edit::PartEditKind::RegEdit;
             }
         }
 
-        PyGraphGroupEdit::PartEditKind kind() const override {
+        const py::object &edit() const {
+            return edit_;
+        }
+
+        Edit::PartEditKind kind() const override {
             return kind_;
         }
 
-        PyGraphGroupEdit::Graph* editGraph(PyGraphGroupEdit::Graph &graph, AGRC::IniFile *, const AGRC::ModType *,
-                                            const std::string &modName, const PyGraphGroupEdit::PartFilter *keyFilter,
-                                            bool trackKeys, const std::optional<PyGraphGroupEdit::KeySet> &keysToTrack) override {
-            // 'ini'/'modType' come from the captured Python objects, not the (always null) C++
-            // parameters -- the Python-side IniFile/ModType are pure-Python classes with no C++
-            // counterpart to cast to.
-            py::object graphObj = groups_.graphToPy(&graph);
-            py::object partFilter = owner_.partFilterToPy(keyFilter);
-            py::object result;
-
-            // The group's own key-tracking settings are handed down as keyword arguments: a graph
-            // edit walks the graph itself, so nothing GraphGroupEdit builds would otherwise reach
-            // it. An edit with its own setting combines the two (see RegFillMissing); one without
-            // simply ignores them.
-            py::object keysToTrackObj = py::none();
-            if (keysToTrack.has_value()) {
-                keysToTrackObj = keySetToPy(*keysToTrack);
+        Graph *editGraph(Graph &graph, AGRC::IniFile *ini, const AGRC::ModType *modType, const std::string &modName,
+                         const PartFilter *keyFilter, bool trackKeys, const std::optional<KeySet> &keysToTrack) override {
+            py::gil_scoped_acquire gil;
+            PyEditScope *scope = PyEditScope::current();
+            if (scope == nullptr || !scope->graphToPy) {
+                // run from C++ (a compiled fixer's list): a graph edit of the library's runs its C++ side; a Python one
+                // has no Python graph to be handed
+                if (!isBound(edit_)) {
+                    throw py::type_error("A graph edit written in Python runs only in a Python fixer's list, not in a compiled one");
+                }
+                return &edit_.cast<PyBaseIniGraphEdit *>()->editFromIni(graph, ini, modType, modName,
+                                                                        keyFilter != nullptr ? *keyFilter : PartFilter(),
+                                                                        trackKeys, keysToTrack);
             }
-
-            if (!ini_.is_none()) {
-                result = filter_.attr("editFromIni")(graphObj, ini_, modType_, py::arg("modName") = modName,
-                                                     py::arg("partFilter") = partFilter,
-                                                     py::arg("trackKeys") = trackKeys,
-                                                     py::arg("keysToTrack") = keysToTrackObj);
-            } else {
-                result = filter_.attr("edit")(graphObj, modType_, py::arg("modName") = modName,
-                                              py::arg("partFilter") = partFilter,
-                                              py::arg("trackKeys") = trackKeys,
-                                              py::arg("keysToTrack") = keysToTrackObj);
-            }
-
+            py::object graphObj = scope->graphToPy(&graph);
+            py::object result = edit_.attr("editFromIni")(graphObj, editIniToPy(ini), editModTypeToPy(modType), py::arg("modName") = modName,
+                                                          py::arg("partFilter") = keyFilterToPy(keyFilter),
+                                                          py::arg("trackKeys") = trackKeys,
+                                                          py::arg("keysToTrack") = keysToTrack.has_value() ? py::object(keySetToPy(*keysToTrack))
+                                                                                                           : py::none());
             if (result.is_none() || result.is(graphObj)) {
                 return &graph;
             }
 
-            // A graph edit that genuinely hands back a *different* graph -- register it with the
-            // view so the core can keep working with it as a plain pointer.
-            return groups_.adopt(std::move(result));
+            // a graph edit that hands back a different graph: adopted into the call's groups
+            return static_cast<Graph *>(scope->adoptGraph(std::move(result)));
         }
 
-        void editPart(PyGraphGroupEdit::ContentPart &part, const std::string &sectionName, AGRC::IniFile *, const AGRC::ModType *,
-                       const std::string &modName, const PyGraphGroupEdit::OrderRanges &partRanges) override {
-            if (sectionFilter_ && !sectionFilter_(sectionName)) {
-                return;
-            }
-
-            py::object partObj = py::cast(&part, py::return_value_policy::reference);
-            // Rebuilt with normalize = false from the already-normalized range list -- the same
-            // shape PyIfContentPartColour.cpp uses to hand a core Ranges back to Python.
-            py::object rangesObj = py::cast(PyRanges<long long>(partRanges.ranges, false));
-
-            if (!ini_.is_none()) {
-                filter_.attr("editFromIni")(partObj, sectionName, ini_, modType_, py::arg("modName") = modName,
-                                            py::arg("partRanges") = rangesObj);
-            } else {
-                filter_.attr("edit")(partObj, sectionName, modType_, py::arg("modName") = modName,
-                                     py::arg("partRanges") = rangesObj);
-            }
+        void editPart(ContentPart &part, const std::string &sectionName, AGRC::IniFile *ini, const AGRC::ModType *modType,
+                      const std::string &modName, const OrderRanges &partRanges) override {
+            py::gil_scoped_acquire gil;
+            edit_.attr("editFromIni")(py::cast(&part, py::return_value_policy::reference), sectionName, editIniToPy(ini),
+                                      editModTypeToPy(modType), py::arg("modName") = modName,
+                                      py::arg("partRanges") = py::cast(PyRanges<long long>(partRanges.ranges, false)));
         }
 
     private:
-        py::object filter_;
-        PyGraphGroupEdit &owner_;
-        PyIniGraphGroups &groups_;
-        py::object ini_;
-        py::object modType_;
-        PyGraphGroupEdit::PartEditKind kind_ = PyGraphGroupEdit::PartEditKind::None;
-        AGRC::RegPartEdit<>::SectionFilter sectionFilter_;
+        py::object edit_;
+        Edit::PartEditKind kind_ = Edit::PartEditKind::None;
 };
 
 
-// Reads one entry out of a Python list, or returns None when the index is past the end -- the
-// direct equivalent of the pure-Python original's own "{} if (i >= someLen) else someList[i]".
-py::object entryAt(const py::object &container, std::size_t index) {
-    if (container.is_none()) {
-        return py::none();
-    }
-
-    py::sequence seq = container.cast<py::sequence>();
-    if (index >= static_cast<std::size_t>(seq.size())) {
-        return py::none();
-    }
-
-    return py::reinterpret_borrow<py::object>(seq[index]);
-}
-
-
-py::object dictGet(const py::object &container, const py::object &key) {
-    if (container.is_none()) {
-        return py::none();
-    }
-
-    return container.attr("get")(key, py::none());
-}
-
-}
-
-
-PyGraphGroupEdit::PyGraphGroupEdit(py::object editsObj, py::object trackKeysObj, py::object keysToTrackObj, py::object keyFiltersObj):
-    Core({}), editsObj(std::move(editsObj)), trackKeysObj(std::move(trackKeysObj)),
-    keysToTrackObj(std::move(keysToTrackObj)), keyFiltersObj(std::move(keyFiltersObj)) {}
-
-
-py::object PyGraphGroupEdit::partFilterToPy(const PartFilter *keyFilter) const {
-    if (keyFilter == nullptr) {
-        return defaultPartFilter();
-    }
-
-    auto it = partFilterObjs_.find(static_cast<const void*>(keyFilter));
-    if (it == partFilterObjs_.end()) {
-        return defaultPartFilter();
-    }
-
-    return it->second;
-}
-
-
-void PyGraphGroupEdit::refresh(PyIniGraphGroups &groups, py::object ini, py::object modType) {
-    partEdits_.clear();
-    partFilterObjs_.clear();
-
-    std::vector<IniEdits> parsed;
-
-    // 'trackKeys' is either one bool for every graph or the granular per-.ini-file structure --
-    // exactly the pure-Python original's own 'isinstance(self.trackKeys, bool)' fork.
-    trackKeysIsGlobal = py::isinstance<py::bool_>(trackKeysObj);
-    trackKeysGlobal = trackKeysIsGlobal ? trackKeysObj.cast<bool>() : false;
-
-    std::size_t editsLen = editsObj.is_none() ? 0 : static_cast<std::size_t>(py::len(editsObj));
-
-    // The PartFilter -> Python-callable map is filled in a second pass below, for the same reason
-    // PyGraphGroupRemap's own rename-function map is: it is keyed by the address of the *stored*
-    // std::function, which every reallocation of 'parsed' would invalidate.
-    for (std::size_t i = 0; i < editsLen; ++i) {
-        py::object iniEditsObj = entryAt(editsObj, i);
-        py::object iniKeyFiltersObj = entryAt(keyFiltersObj, i);
-        py::object iniKeysToTrackObj = entryAt(keysToTrackObj, i);
-        py::object iniTrackKeysObj = trackKeysIsGlobal ? py::none() : entryAt(trackKeysObj, i);
-
-        IniEdits iniEdits;
-        if (iniEditsObj.is_none()) {
-            parsed.push_back(std::move(iniEdits));
-            continue;
+// One edit of a graph's list, as the table holds it: an edit of the library's goes in as itself, any other through
+// PyCallPartEdit. What the table borrows is kept alive by the GraphGroupEdit (its 'owned')
+PartEdit *partEditOf(Edit &self, const py::object &edit) {
+    self.owned.push_back(holdPy(edit));
+    if (isBound(edit)) {
+        if (py::isinstance<AGRC::RegPartEdit<>>(edit)) {
+            return edit.cast<AGRC::RegPartEdit<> *>();
         }
-
-        for (auto item : iniEditsObj.cast<py::dict>()) {
-            py::object modObjKey = py::reinterpret_borrow<py::object>(item.first);
-            ModObj modObj = PyIniGraphGroups::modObjFromPy(modObjKey);
-
-            std::vector<PartEdit*> filters;
-            for (auto filterItem : py::reinterpret_borrow<py::object>(item.second)) {
-                partEdits_.push_back(std::make_unique<PyPartEdit>(py::reinterpret_borrow<py::object>(filterItem), *this,
-                                                                  groups, ini, modType));
-                filters.push_back(partEdits_.back().get());
-            }
-
-            py::object objKeyFilters = dictGet(iniKeyFiltersObj, modObjKey);
-
-            // A single callable (rather than a list) means "use this same filter for every edit of
-            // this graph" -- the pure-Python original's own 'if (callable(objKeyFilters))' branch.
-            // Kept on this side of the boundary because "is this a list or a callable?" is a
-            // Python-typing question with no C++ equivalent.
-            std::vector<py::object> objKeyFilterList;
-            if (!objKeyFilters.is_none() && py::hasattr(objKeyFilters, "__call__")) {
-                objKeyFilterList.assign(filters.size(), objKeyFilters);
-            } else if (!objKeyFilters.is_none()) {
-                for (auto keyFilterItem : objKeyFilters) {
-                    objKeyFilterList.push_back(py::reinterpret_borrow<py::object>(keyFilterItem));
-                }
-            }
-
-            std::vector<PartFilter> keyFilters;
-            for (py::object &keyFilterObj : objKeyFilterList) {
-                if (keyFilterObj.is_none()) {
-                    keyFilters.emplace_back();
-                    continue;
-                }
-
-                py::object heldKeyFilter = keyFilterObj;
-                py::object heldModType = modType;
-                py::object heldIni = ini;
-                keyFilters.emplace_back([heldKeyFilter, heldModType, heldIni](const IterData &iterData, const AGRC::ModType *,
-                                                                              AGRC::IniFile *) -> OrderRanges {
-                    py::object result = heldKeyFilter(py::cast(&iterData, py::return_value_policy::reference), heldModType, heldIni);
-
-                    PyPartRanges ranges(result);
-                    const OrderRanges *parsedRanges = ranges.get();
-                    if (parsedRanges == nullptr) {
-                        throw py::type_error("A GraphGroupEdit keyFilter must return a Ranges (or a list of (start, end) bounds), not None");
-                    }
-
-                    return *parsedRanges;
-                });
-            }
-
-            std::optional<KeySet> objKeysToTrack;
-            py::object keysToTrackVal = dictGet(iniKeysToTrackObj, modObjKey);
-            if (!keysToTrackVal.is_none()) {
-                KeySet keys;
-                for (auto keyItem : keysToTrackVal) {
-                    keys.insert(py::cast<std::string>(keyItem));
-                }
-                objKeysToTrack = std::move(keys);
-            }
-
-            bool objTrackKeys = false;
-            if (!trackKeysIsGlobal) {
-                py::object trackKeysVal = dictGet(iniTrackKeysObj, modObjKey);
-                objTrackKeys = trackKeysVal.is_none() ? false : trackKeysVal.cast<bool>();
-            }
-
-            iniEdits.edits.insert_or_assign(modObj, std::move(filters));
-            iniEdits.keyFilters.insert_or_assign(modObj, std::move(keyFilters));
-            iniEdits.keysToTrack.insert_or_assign(modObj, std::move(objKeysToTrack));
-            iniEdits.trackKeys.insert_or_assign(modObj, objTrackKeys);
+        if (py::isinstance<PyBaseRegEdit>(edit)) {
+            auto adapter = std::make_shared<AGRC::RegPartEdit<>>(edit.cast<PyBaseRegEdit *>());
+            self.owned.push_back(adapter);
+            return adapter.get();
         }
-
-        parsed.push_back(std::move(iniEdits));
     }
+    // a graph edit -- the library's or a Python subclass -- runs through its own editFromIni: it runs once per graph, so
+    // the Python call costs nothing that matters, and it is the one path every graph edit's binding honours
+    if (!py::isinstance<PyBaseIniGraphEdit>(edit) && !py::isinstance<PyBaseRegEdit>(edit)) {
+        throw py::type_error("A GraphGroupEdit's edits must be a BaseIniGraphEdit, a BaseRegEdit or a RegPartEdit, not "
+                             + std::string(py::str(py::type::of(edit).attr("__name__"))));
+    }
+    auto adapter = std::make_shared<PyCallPartEdit>(edit);
+    self.owned.push_back(adapter);
+    return adapter.get();
+}
 
-    edits = std::move(parsed);
+// the edit in a table entry, as Python reads it back
+py::object partEditToPy(PartEdit *part) {
+    if (auto *reg = dynamic_cast<AGRC::RegPartEdit<> *>(part); reg != nullptr) {
+        return reg->sectionFilter ? py::cast(reg, py::return_value_policy::reference)
+                                  : py::cast(reg->edit(), py::return_value_policy::reference);
+    }
+    if (auto *graphEdit = dynamic_cast<AGRC::GraphPartEdit<> *>(part); graphEdit != nullptr) {
+        return py::cast(graphEdit->edit(), py::return_value_policy::reference);
+    }
+    if (auto *call = dynamic_cast<PyCallPartEdit *>(part); call != nullptr) {
+        return call->edit();
+    }
+    return py::none();
+}
 
-    // Now that 'edits' has stopped growing, record which Python callable each stored PartFilter
-    // was built from -- see this class's own note on why the address is the key.
-    std::size_t iniInd = 0;
-    for (IniEdits &iniEdits : edits) {
-        py::object iniKeyFiltersObj = entryAt(keyFiltersObj, iniInd);
+// each .ini file's dict of a list argument, 'None' as no entries
+std::vector<py::dict> perIni(const py::object &arg) {
+    std::vector<py::dict> result;
+    if (arg.is_none()) {
+        return result;
+    }
+    for (auto item : arg) {
+        result.push_back(item.is_none() ? py::dict() : py::reinterpret_borrow<py::dict>(item));
+    }
+    return result;
+}
 
-        for (const auto &entry : iniEdits.keyFilters) {
-            py::object modObjKey = PyIniGraphGroups::modObjToPy(entry.first);
-            py::object objKeyFilters = dictGet(iniKeyFiltersObj, modObjKey);
-            if (objKeyFilters.is_none()) {
-                continue;
+void ensureInis(Edit &self, std::size_t count) {
+    if (self.edits.size() < count) {
+        self.edits.resize(count);
+    }
+}
+
+void setEdits(Edit &self, const py::object &edits) {
+    self.owned.clear();
+    const std::vector<py::dict> inis = perIni(edits);
+    self.edits.resize(inis.size());
+    for (std::size_t i = 0; i < inis.size(); ++i) {
+        self.edits[i].edits.clear();
+        for (auto item : inis[i]) {
+            std::vector<PartEdit *> parts;
+            for (auto edit : item.second) {
+                parts.push_back(partEditOf(self, py::reinterpret_borrow<py::object>(edit)));
             }
-
-            std::vector<py::object> objKeyFilterList;
-            if (py::hasattr(objKeyFilters, "__call__")) {
-                objKeyFilterList.assign(entry.second.size(), objKeyFilters);
-            } else {
-                for (auto keyFilterItem : objKeyFilters) {
-                    objKeyFilterList.push_back(py::reinterpret_borrow<py::object>(keyFilterItem));
-                }
-            }
-
-            std::vector<PartFilter> &storedFilters = iniEdits.keyFilters.at(entry.first);
-            for (std::size_t j = 0; j < storedFilters.size() && j < objKeyFilterList.size(); ++j) {
-                if (objKeyFilterList[j].is_none()) {
-                    continue;
-                }
-
-                partFilterObjs_[static_cast<const void*>(&storedFilters[j])] = objKeyFilterList[j];
-            }
+            self.edits[i].edits.insert_or_assign(PyIniGraphGroups::modObjFromPy(item.first), std::move(parts));
         }
-
-        ++iniInd;
     }
+}
+
+void setTrackKeys(Edit &self, const py::object &trackKeys) {
+    self.trackKeysIsGlobal = py::isinstance<py::bool_>(trackKeys);
+    self.trackKeysGlobal = self.trackKeysIsGlobal ? trackKeys.cast<bool>() : false;
+    for (Edit::IniEdits &ini : self.edits) {
+        ini.trackKeys.clear();
+    }
+    if (self.trackKeysIsGlobal) {
+        return;
+    }
+    const std::vector<py::dict> inis = perIni(trackKeys);
+    ensureInis(self, inis.size());
+    for (std::size_t i = 0; i < inis.size(); ++i) {
+        for (auto item : inis[i]) {
+            self.edits[i].trackKeys.insert_or_assign(PyIniGraphGroups::modObjFromPy(item.first),
+                                                     !item.second.is_none() && item.second.cast<bool>());
+        }
+    }
+}
+
+void setKeysToTrack(Edit &self, const py::object &keysToTrack) {
+    for (Edit::IniEdits &ini : self.edits) {
+        ini.keysToTrack.clear();
+    }
+    const std::vector<py::dict> inis = perIni(keysToTrack);
+    ensureInis(self, inis.size());
+    for (std::size_t i = 0; i < inis.size(); ++i) {
+        for (auto item : inis[i]) {
+            std::optional<KeySet> keys;
+            if (!item.second.is_none()) {
+                keys = KeySet();
+                for (auto key : item.second) {
+                    keys->insert(py::cast<std::string>(key));
+                }
+            }
+            self.edits[i].keysToTrack.insert_or_assign(PyIniGraphGroups::modObjFromPy(item.first), std::move(keys));
+        }
+    }
+}
+
+void setKeyFilters(Edit &self, const py::object &keyFilters) {
+    for (Edit::IniEdits &ini : self.edits) {
+        ini.keyFilters.clear();
+    }
+    const std::vector<py::dict> inis = perIni(keyFilters);
+    ensureInis(self, inis.size());
+    for (std::size_t i = 0; i < inis.size(); ++i) {
+        for (auto item : inis[i]) {
+            const ModObj obj = PyIniGraphGroups::modObjFromPy(item.first);
+            py::object given = py::reinterpret_borrow<py::object>(item.second);
+            std::vector<PartFilter> filters;
+            // a single callable (rather than a list) is the filter of every edit of that graph
+            if (!given.is_none() && py::hasattr(given, "__call__")) {
+                const auto found = self.edits[i].edits.find(obj);
+                const std::size_t count = found == self.edits[i].edits.end() ? 1 : found->second.size();
+                filters.assign(count, PartFilter(PyKeyFilter{given}));
+            } else if (!given.is_none()) {
+                for (auto filter : given) {
+                    filters.push_back(filter.is_none() ? PartFilter() : PartFilter(PyKeyFilter{py::reinterpret_borrow<py::object>(filter)}));
+                }
+            }
+            self.edits[i].keyFilters.insert_or_assign(obj, std::move(filters));
+        }
+    }
+}
+
 }
 
 
 void initCppGraphGroupEdit(pybind11::module_ &m) {
+    py::class_<PyListScope, std::unique_ptr<PyListScope, py::nodelete>>(m, "EditScope", R"doc(
+What a callable of an edit (a predicate, a value producer, ``sectionsOf``, a :class:`GraphVarApply` function) may read of
+the run it is called in: the ``.ini`` file a parser's or fixer's list runs on, its mod type, and its parse data -- the
+:class:`IniParseData` the list's results (:class:`IParseResult`, eg. :class:`GraphCollect`'s rows) are filed into. A list
+is the same for every ``.ini`` file, so this is how its callables read the one they run on :raw-html:`<br />` :raw-html:`<br />`
+
+Each is ``None`` outside a run, and when the list runs from C++)doc")
+        .def_static("ini", []() { PyListScope *list = PyListScope::current(); return list == nullptr ? py::none() : list->ini; },
+            R"doc(The ``.ini`` file the list runs on
+
+Returns
+-------
+Optional[:class:`IniFile`]
+    The file)doc")
+        .def_static("modType", []() { PyListScope *list = PyListScope::current(); return list == nullptr ? py::none() : list->modType; },
+            R"doc(The mod type the list runs for
+
+Returns
+-------
+Optional[:class:`ModType`]
+    The mod type)doc")
+        .def_static("parseData", []() { PyListScope *list = PyListScope::current(); return list == nullptr ? py::none() : list->parseData; },
+            R"doc(The parse data of the ``.ini`` file the list runs on: what the parser and the fixer's lists have filed so far
+
+Returns
+-------
+Optional[:class:`IniParseData`]
+    The data)doc");
+
     py::class_<AGRC::RegPartEdit<>, py::smart_holder>(m, "RegPartEdit", R"doc(
 A :class:`BaseRegEdit` with the `sections`_ it applies to, by name -- an entry of a :class:`GraphGroupEdit`'s edit list
 for an edit meant for only some of the `sections`_ a graph reaches (eg. only a mod's override command list)
@@ -432,46 +444,122 @@ keyFilters: Optional[List[Dict[Tuple[:class:`str`, :class:`str`], Union[List[Opt
     **Default**: ``None``
     )doc");
 
-    // py::init(factory) rather than py::init<...>(): the core class owns std::function members, and
-    // a factory returning a unique_ptr avoids ever needing to move-construct the class itself --
-    // see PyRegAdd.cpp's identical note.
-    cls.def(py::init([](py::object edits, py::object trackKeys, py::object keysToTrack, py::object keyFilters) {
-        return std::make_unique<PyGraphGroupEdit>(std::move(edits), std::move(trackKeys), std::move(keysToTrack),
-                                                   std::move(keyFilters));
+    cls.def(py::init([](py::object edits, py::object trackKeys, py::object keysToTrack, py::object keyFilters, bool everyGroup,
+                        py::object onlyWith, py::object onlyWithout) {
+        auto edit = std::make_unique<PyGraphGroupEdit>();
+        setEdits(*edit, edits);
+        setTrackKeys(*edit, trackKeys);
+        setKeysToTrack(*edit, keysToTrack);
+        setKeyFilters(*edit, keyFilters);
+        edit->everyGroup = everyGroup;
+        edit->onlyWith = PyIniGraphGroups::modObjsFromPy(onlyWith);
+        edit->onlyWithout = PyIniGraphGroups::modObjsFromPy(onlyWithout);
+        return edit;
     }), py::arg("edits"), py::arg("trackKeys") = false, py::arg("keysToTrack") = py::none(),
-        py::arg("keyFilters") = py::none());
+        py::arg("keyFilters") = py::none(), py::arg("everyGroup") = false, py::arg("onlyWith") = py::none(),
+        py::arg("onlyWithout") = py::none());
 
-    cls.def_property("edits", [](const PyGraphGroupEdit &self) {
-        return self.editsObj;
-    }, [](PyGraphGroupEdit &self, py::object edits) {
-        self.editsObj = std::move(edits);
+    cls.def_readwrite("everyGroup", &PyGraphGroupEdit::everyGroup, R"doc(
+:class:`bool`: Whether the FIRST entry of :attr:`edits` (and of :attr:`keyFilters` / :attr:`keysToTrack`) applies in every
+group, instead of each entry in the group of its own index -- an edit on an object wherever it lands, written before the
+number of groups is known (eg. a step of a fixer's list, whose remap makes the groups). **Default**: ``False``
+    )doc");
+
+    cls.def_property("onlyWith", [](const PyGraphGroupEdit &self) -> py::object {
+        return PyIniGraphGroups::modObjsToPy(self.onlyWith);
+    }, [](PyGraphGroupEdit &self, const py::object &obj) {
+        self.onlyWith = PyIniGraphGroups::modObjsFromPy(obj);
     }, py::doc(R"doc(
-List[Dict[Tuple[:class:`str`, :class:`str`], List[Union[:class:`BaseIniGraphEdit`, :class:`BaseRegEdit`]]]]:
-The specific edits to make on the individual graphs
+Optional[List[Tuple[:class:`str`, :class:`str`]]]: Objects -- one, or a list -- a graph of any of which, in ANY group, is what lets the edit run: nothing is
+edited when no group holds one -- eg. a parser's marker graph for something only some mods have, so a list that is the
+same for every mod edits only those. As :attr:`GraphCreate.onlyWith`. **Default**: ``None``
     )doc"));
 
-    cls.def_property("trackKeys", [](const PyGraphGroupEdit &self) {
-        return self.trackKeysObj;
+    cls.def_property("onlyWithout", [](const PyGraphGroupEdit &self) -> py::object {
+        return PyIniGraphGroups::modObjsToPy(self.onlyWithout);
+    }, [](PyGraphGroupEdit &self, const py::object &obj) {
+        self.onlyWithout = PyIniGraphGroups::modObjsFromPy(obj);
+    }, py::doc(R"doc(
+Optional[List[Tuple[:class:`str`, :class:`str`]]]: Objects -- one, or a list -- a graph of any of which, in ANY group, stops the edit: nothing is edited when
+one is there. As :attr:`GraphCreate.onlyWithout`. **Default**: ``None``
+    )doc"));
+
+    cls.def_property("edits", [](const PyGraphGroupEdit &self) {
+        py::list result;
+        for (const PyGraphGroupEdit::IniEdits &ini : self.edits) {
+            py::dict graphs;
+            for (const auto &[obj, parts] : ini.edits) {
+                py::list edits;
+                for (PartEdit *part : parts) {
+                    edits.append(partEditToPy(part));
+                }
+                graphs[PyIniGraphGroups::modObjToPy(obj)] = edits;
+            }
+            result.append(graphs);
+        }
+        return result;
+    }, [](PyGraphGroupEdit &self, py::object edits) {
+        setEdits(self, edits);
+    }, py::doc(R"doc(
+List[Dict[Tuple[:class:`str`, :class:`str`], List[Union[:class:`BaseIniGraphEdit`, :class:`BaseRegEdit`, :class:`RegPartEdit`]]]]:
+The specific edits to make on the individual graphs -- read from the edit's own table, so a step of a compiled fix reads
+its edits too
+    )doc"));
+
+    cls.def_property("trackKeys", [](const PyGraphGroupEdit &self) -> py::object {
+        if (self.trackKeysIsGlobal) {
+            return py::bool_(self.trackKeysGlobal);
+        }
+        py::list result;
+        for (const PyGraphGroupEdit::IniEdits &ini : self.edits) {
+            py::dict graphs;
+            for (const auto &[obj, track] : ini.trackKeys) {
+                graphs[PyIniGraphGroups::modObjToPy(obj)] = track;
+            }
+            result.append(graphs);
+        }
+        return result;
     }, [](PyGraphGroupEdit &self, py::object trackKeys) {
-        self.trackKeysObj = std::move(trackKeys);
+        setTrackKeys(self, trackKeys);
     }, py::doc(R"doc(
 Union[:class:`bool`, List[Dict[Tuple[:class:`str`, :class:`str`], :class:`bool`]]]: Whether to track
 the `KVPs`_ in the .ini file for any :class:`BaseRegEdit` passed into :attr:`edits`
     )doc"));
 
     cls.def_property("keysToTrack", [](const PyGraphGroupEdit &self) {
-        return self.keysToTrackObj;
+        py::list result;
+        for (const PyGraphGroupEdit::IniEdits &ini : self.edits) {
+            py::dict graphs;
+            for (const auto &[obj, keys] : ini.keysToTrack) {
+                graphs[PyIniGraphGroups::modObjToPy(obj)] = keys.has_value() ? py::object(keySetToPy(*keys)) : py::none();
+            }
+            result.append(graphs);
+        }
+        return result;
     }, [](PyGraphGroupEdit &self, py::object keysToTrack) {
-        self.keysToTrackObj = std::move(keysToTrack);
+        setKeysToTrack(self, keysToTrack);
     }, py::doc(R"doc(
 List[Dict[Tuple[:class:`str`, :class:`str`], Optional[Set[:class:`str`]]]]: Specific keys to track
 in the .ini file for any :class:`BaseRegEdit` passed into :attr:`edits`
     )doc"));
 
     cls.def_property("keyFilters", [](const PyGraphGroupEdit &self) {
-        return self.keyFiltersObj;
+        py::list result;
+        for (const PyGraphGroupEdit::IniEdits &ini : self.edits) {
+            py::dict graphs;
+            for (const auto &[obj, filters] : ini.keyFilters) {
+                py::list given;
+                for (const PartFilter &filter : filters) {
+                    const PyKeyFilter *own = filter ? filter.target<PyKeyFilter>() : nullptr;
+                    given.append(own == nullptr ? py::none() : own->filter);
+                }
+                graphs[PyIniGraphGroups::modObjToPy(obj)] = given;
+            }
+            result.append(graphs);
+        }
+        return result;
     }, [](PyGraphGroupEdit &self, py::object keyFilters) {
-        self.keyFiltersObj = std::move(keyFilters);
+        setKeyFilters(self, keyFilters);
     }, py::doc(R"doc(
 List[Dict[Tuple[:class:`str`, :class:`str`], Union[List[Optional[Callable]], Callable]]]: Functions
 for any :class:`BaseRegEdit` to only process on specific parts of a `section`_
@@ -479,11 +567,8 @@ for any :class:`BaseRegEdit` to only process on specific parts of a `section`_
 
     cls.def("edit", [](PyGraphGroupEdit &self, py::list graphGroups, const py::object &modType, const std::string &modName) {
         PyIniGraphGroups groups(graphGroups);
-        self.refresh(groups, py::none(), modType);
-
-        // nullptr for both C++ collaborators: the real Python objects are captured by the
-        // PartEdit adapters instead -- see PyPartEdit.
-        self.Core::edit(groups, nullptr, modName);
+        PyEditScope scope(modType, py::none(), graphToPyOf(groups), adoptOf(groups));
+        self.edit(groups, editModTypeFromPy(modType), modName);
         return graphGroups;
     }, py::arg("graphGroups"), py::arg("modType"), py::arg("modName") = "", py::doc(R"doc(
 Edits a group of caller/callee graphs
@@ -510,9 +595,8 @@ List[:class:`IniGraphGroup`]
     cls.def("editFromIni", [](PyGraphGroupEdit &self, py::list graphGroups, const py::object &ini, const py::object &modType,
                               const std::string &modName) {
         PyIniGraphGroups groups(graphGroups);
-        self.refresh(groups, ini, modType);
-
-        self.Core::editFromIni(groups, nullptr, nullptr, modName);
+        PyEditScope scope(modType, ini, graphToPyOf(groups), adoptOf(groups));
+        self.editFromIni(groups, editIniFromPy(ini), editModTypeFromPy(modType), modName);
         return graphGroups;
     }, py::arg("graphGroups"), py::arg("ini"), py::arg("modType"), py::arg("modName") = "", py::doc(R"doc(
 Edits a group of caller/callee graphs with state info from 'ini'

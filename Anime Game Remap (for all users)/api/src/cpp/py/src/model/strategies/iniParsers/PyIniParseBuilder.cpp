@@ -23,6 +23,7 @@
 
 #include "PyBaseIniParser.h"
 #include "../PyStrategyFactory.h"
+#include "../../../data/PyGIMICharBuilders.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/files/IniFile.h"
 
@@ -129,6 +130,30 @@ The lookup table this builder resolves factories from, or ``None`` if it is a fi
 Whether :meth:`build` raises rather than falling back when the mod name has no row
 
 :class:`bool`
+        )doc"))
+
+        .def("factoryOf", [](const AGRC::IniParseBuilder& self, const std::string& modName,
+                             const std::optional<AGRC::Version>& version) {
+                 return PyIniParseFactory{self.factoryOf(modName, version)};
+             },
+             py::arg("modName"), py::arg("version") = py::none(),
+             py::doc(R"doc(
+The factory :meth:`build` builds with for these keys, without building anything: a runtime override
+(:class:`CppStrategyOverrides`) first, then the fixed factory or the :attr:`builderArgs` row, else :meth:`defaultFactory`.
+A shipped parser's config is read off it -- eg. :meth:`WWMIParserConfig.ofFactory`
+
+Parameters
+----------
+modName: :class:`str`
+    The name of the mod the .ini file is for
+
+version: Optional[:class:`Version`]
+    The game version the .ini file originates from; ``None`` means the latest listed
+
+Returns
+-------
+:class:`CppIniParseFactory`
+    The factory
         )doc"))
 
         .def("build", &AGRC::IniParseBuilder::build,

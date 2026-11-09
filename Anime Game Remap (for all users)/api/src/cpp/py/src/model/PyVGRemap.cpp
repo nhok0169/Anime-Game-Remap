@@ -49,5 +49,25 @@ Dict[:class:`int`, :class:`int`]: The vertex group remap
 
         .def_property_readonly("maxIndex", &AGRC::VGRemap::getMaxIndex, py::doc(R"doc(
 Optional[:class:`int`]: The maximum index in the vertex group remap, or ``None`` if :attr:`remap` is empty
+        )doc"))
+
+        .def("compact", [](const AGRC::VGRemap &self, std::size_t size) {
+            AGRC::VGRemap::Compact compact = self.compact(size);
+            return py::make_tuple(AGRC::VGRemap(compact.localRow), compact.forward, compact.reverse);
+        }, py::arg("size"), py::doc(R"doc(
+This row renumbered into a table of 'size' entries: every distinct target bone below 'size' it names gets a LOCAL id,
+in ascending order of the bone -- so a buffer can hold local ids no wider than the table, with the table to turn them
+back
+
+Parameters
+----------
+size: :class:`int`
+    The entries of the table
+
+Returns
+-------
+Tuple[:class:`VGRemap`, List[:class:`int`], List[:class:`int`]]
+    The row in local ids (a target past the table left out); the forward table, local id -> target bone (``0`` past the
+    last); and the reverse table, target bone -> local id (``0`` for a bone the row does not name)
         )doc"));
 }

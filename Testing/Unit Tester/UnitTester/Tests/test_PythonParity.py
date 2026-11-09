@@ -271,12 +271,102 @@ class PythonParityTest(unittest.TestCase):
         self.assertTrue(part.sectionFilter("CommandListCleanup"))
         self.assertFalse(part.sectionFilter("CommandListOverride"))
 
-    def test_wwmiConfigs_of_theShippedPairsAndCharacters(self):
-        ids = FRB.ModTypeId
-        fix = FRB.WWMIFixerConfig.of(ids.Chisa, ids.ChisaParfait)
-        self.assertIsNotNone(fix)
-        self.assertEqual(fix.targetId, ids.ChisaParfait)
-        self.assertIsNone(FRB.WWMIFixerConfig.of(ids.Chisa, ids.Sanhua))
-        parse = FRB.WWMIParserConfig.of(ids.Sanhua)
-        self.assertEqual(parse.version, "2.5")
-        self.assertIsNone(FRB.WWMIParserConfig.of(ids.Amber))
+    def test_wwmiConfigs_ofFactory_theShippedRowsOfTheBuilders(self):
+        ids, name = FRB.ModTypeId, FRB.ModTypeIdTools.getName
+        pairs = [(ids.Sanhua, ids.SanhuaExorcist), (ids.SanhuaExorcist, ids.Sanhua), (ids.Chisa, ids.ChisaParfait),
+                 (ids.ChisaParfait, ids.Chisa), (ids.Changli, ids.ChangliNymph), (ids.ChangliNymph, ids.Changli),
+                 (ids.Lynae, ids.LynaePeppermint), (ids.LynaePeppermint, ids.Lynae)]
+        for source, target in pairs:
+            modType = FRB.ModTypes[name(source)].value
+            fix = FRB.WWMIFixerConfig.ofFactory(modType.iniFixBuilder.factoryOf(name(source), name(target)))
+            self.assertIsNotNone(fix, name(source))
+            self.assertEqual(fix.targetId, target)
+            parse = FRB.WWMIParserConfig.ofFactory(modType.iniParseBuilder.factoryOf(name(source)))
+            self.assertIsNotNone(parse, name(source))
+
+        self.assertEqual(FRB.WWMIParserConfig.ofFactory(FRB.ModTypes["Sanhua"].value.iniParseBuilder.factoryOf("Sanhua")).version, "2.5")
+        # another template's factory, and a pair with no fix, hold no WWMI config
+        amber = FRB.ModTypes["Amber"].value
+        self.assertIsNone(FRB.WWMIParserConfig.ofFactory(amber.iniParseBuilder.factoryOf("Amber")))
+        chisa = FRB.ModTypes["Chisa"].value
+        self.assertIsNone(FRB.WWMIFixerConfig.ofFactory(chisa.iniFixBuilder.factoryOf("Chisa", "Sanhua")))
+        # a factory made from a config gives that config back
+        config = FRB.WWMIFixerConfig.ofFactory(chisa.iniFixBuilder.factoryOf("Chisa", "ChisaParfait"))
+        config.sourceVersion = "9.9"
+        self.assertEqual(FRB.WWMIFixerConfig.ofFactory(FRB.makeWWMIFixer(config)).sourceVersion, "9.9")
+
+    def test_steps_aGraphVarApplyIsNamedAfterItsVariable_withListTakesOnlyBoundEdits(self):
+        apply = FRB.GraphVarApply(["a"], lambda a: a, "b")
+        self.assertEqual(apply.name, "b")
+        apply.name = "renamed"
+        self.assertEqual(apply.name, "renamed")
+
+        factory = FRB.ModTypes["Lynae"].value.iniFixBuilder.factoryOf("Lynae", "LynaePeppermint")
+        tweaked = factory.withList(lambda steps: steps)
+        self.assertIsInstance(tweaked, FRB.CppIniFixFactory)
+        # a tweaked factory wraps the template's: it is not one of makeWWMIFixer's, so it holds no config to read back
+        self.assertIsNone(FRB.WWMIFixerConfig.ofFactory(tweaked))
+
+    def test_wwmiSteps_aPlainListTheSameForEveryMod(self):
+        lynae = FRB.ModTypes["Lynae"].value
+        config = FRB.WWMIFixerConfig.ofFactory(lynae.iniFixBuilder.factoryOf("Lynae", "LynaePeppermint"))
+        steps = FRB.wwmiSteps(config)
+        names = [step.name for step in steps]
+        self.assertEqual(names[:3], ["copies", "toggles", "slotRemap"])
+        self.assertEqual(names[-7:], ["blend", "rebind", "fixSections", "shaderFiles", "fixFiles", "latch", "texEdits"])
+
+        # the slot remap is a GraphGroupRemap whose table is the config's plan, read and set like any edit's
+        remap = steps[2]
+        self.assertIsInstance(remap, FRB.GraphGroupRemap)
+        self.assertEqual(remap.remap.keys(), FRB.wwmiSlotRemapStep(config).remap.keys())
+        self.assertIn((0, "", "component0"), remap.remap)
+        self.assertEqual(remap.remap[(0, "", "component0")][0][:3], (0, "LynaePeppermint", "component0"))
+
+        # a list goes back in as it is; a factory made from it still reads back its config
+        factory = FRB.makeWWMIFixer(config, steps + [FRB.GraphGroupEdit([])])
+        self.assertEqual(FRB.WWMIFixerConfig.ofFactory(factory).targetId, config.targetId)
+
+        class Mine(FRB.GraphGroupEdit):
+            pass
+        with self.assertRaises(TypeError):
+            FRB.makeWWMIFixer(config, [Mine([])])
+        with self.assertRaises(ValueError):
+            FRB.makeWWMIFixer(config, [])
+
+    def test_withList_theWholeListRunsWithEditsBuiltInPython(self):
+        # the shipped AmberCN -> Amber fix, its list rewritten with edits built in Python: they run in the compiled fix
+        folder = tempfile.mkdtemp(prefix = "AGRemapParity")
+        with open(os.path.join(folder, "mod.ini"), "w", encoding = "utf-8") as file:
+            file.write("[TextureOverrideAmberCNBody]\nhash = b41d4d94\nmatch_first_index = 5670\n"
+                       "ib = ResourceAmberCNBodyIB\nps-t0 = ResourceAmberCNBodyDiffuse\n\n"
+                       "[ResourceAmberCNBodyIB]\ntype = Buffer\nformat = DXGI_FORMAT_R32_UINT\nfilename = AmberCNBody.ib\n\n"
+                       "[ResourceAmberCNBodyDiffuse]\nfilename = AmberCNBodyDiffuse.dds\n")
+
+        seen = []
+        body = ("", "body")
+
+        def rewrite(steps):
+            seen.extend(step.name for step in steps)
+            at = seen.index("fixSections")
+            add = FRB.GraphGroupEdit([{body: [FRB.RegAdd([("run", "CommandListTweak")])]}])
+            collect = FRB.ResRegCollect({(0,) + body: "ps-t0"},
+                                        {"tex": FRB.TexReplace((0, "", "tweakTex"), FRB.CppTexEditor(), resSubType = "Tweak")})
+            return steps[:at] + [add, collect] + steps[at:]
+
+        amberCN = FRB.ModTypes["AmberCN"].value
+        FRB.CppStrategyOverrides.setFixer("AmberCN", "Amber", amberCN.iniFixBuilder.factoryOf("AmberCN", "Amber").withList(rewrite))
+        try:
+            service = FRB.RemapService(path = folder, downloadMode = FRB.DownloadMode.Disabled, toModTypeIds = {FRB.ModTypeId.Amber})
+            service.fix()
+        finally:
+            FRB.CppStrategyOverrides.clear()
+
+        # the list handed over is the whole fix: the step that writes the fix's own sections is in it
+        self.assertIn("fixSections", seen)
+        self.assertEqual(dict(service.stats.ini.skipped), {})
+        with open(os.path.join(folder, "mod.ini"), encoding = "utf-8") as file:
+            text = file.read()
+        remapped = text[text.index("[TextureOverrideAmberCNBodyAmberRemapFix]"):]
+        remapped = remapped[:remapped.index("\n\n")]
+        self.assertIn("run = CommandListTweak", remapped)
+        self.assertIn("ps-t0 = ResourceAmberCNBodyDiffuseAmberTweakRemapTex", remapped)

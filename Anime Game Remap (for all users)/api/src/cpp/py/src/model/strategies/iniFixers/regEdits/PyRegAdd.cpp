@@ -22,14 +22,6 @@ namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
 
-PyRegAdd::PyRegAdd(py::object valsObj, bool latest, bool skipExisting): Core({}, latest, skipExisting), valsObj(std::move(valsObj)) {}
-
-void PyRegAdd::refresh(const py::object &modType) {
-    (void)modType;
-    vals = py::cast<std::vector<std::pair<std::string, std::string>>>(valsObj);
-}
-
-
 void initCppRegAdd(pybind11::module_ &m) {
     py::class_<PyRegAdd, PyBaseRegEdit, py::smart_holder> cls(m, "RegAdd", R"doc(
 This class inherits from :class:`BaseRegEdit`
@@ -60,13 +52,13 @@ skipExisting: :class:`bool`
     // avoids ever needing to move-construct the class itself -- the same pattern BaseSLR1Parser's
     // constructor bindings use.
     cls.def(py::init([](py::object vals, bool latest, bool skipExisting) {
-        return std::make_unique<PyRegAdd>(std::move(vals), latest, skipExisting);
+        return std::make_unique<PyRegAdd>(py::cast<std::vector<std::pair<std::string, std::string>>>(vals), latest, skipExisting);
     }), py::arg("vals"), py::arg("latest") = true, py::arg("skipExisting") = false);
 
     cls.def_property("vals", [](const PyRegAdd &self) {
-        return self.valsObj;
+        return py::cast(self.vals);
     }, [](PyRegAdd &self, py::object vals) {
-        self.valsObj = std::move(vals);
+        self.vals = py::cast<std::vector<std::pair<std::string, std::string>>>(vals);
     }, py::doc(R"doc(
 List[Tuple[:class:`str`, :class:`str`]]: The `KVPs`_ to add, in the order given
     )doc"));

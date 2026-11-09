@@ -598,19 +598,214 @@ missing, the work item is the EDIT, not the fixer. **And the refactor is not mov
 2026-10-31):** a slice is judged by how much of the fixer's logic BECOMES configured edits plus data -- a loop
 relocated into a data module or a helper, doing the same thing, is no progress.
 
+**A LIST OF EDITS NAMES NO GAME: A GAME IS JUST A CONTEXT (the maintainer, 2026-11-08).** "Will a Python API user
+understand the difference between a `WWMISections.RemapFiles`, a `GISections.RemapFiles` and a `ZZZSections.RemapFiles`?"
+No -- each is a black box. So the Python acceptance test is `Tools/Misc/Prototypes/editList.py`: generic edits only,
+every parameter READ FROM THE API -- the mod types' asset tables and the pair's configs off its builder rows -- with no
+helper redoing an API capability (the maintainer, 2026-11-08: "most of your changes were lazy instead of considering good
+design"; a first version copied the data into a `pairData/` file and the WWMI math into helpers, both gone). A capability
+filed under a game class but generic MOVES to a generic class: `BlendFile::byteElements` / `idElements` / `influencesOf`,
+`BufFile::linesOf`, `VGRemap::compact`, `Hashes::age` (WWMIBlend and WWMIParser call them). Its test: the same list, run on
+a mod of another character of ANY game (`Tools/Misc/Diagnostics/listCrossRun.py`: GI, ZZZ, another WuWa character) or on
+a fuzzed `.ini` (`iniFuzz.py` + `fuzzRun.py`), never crashes and writes nothing when nothing of its source is found -- a
+FOUND / NOTHING marker pair and `GraphGroupRemove(onlyWith = NOTHING)`, not a game rule's give-up. A setting an edit
+takes is a CONSTRUCTOR argument (`GraphCreate(sectionsOf, z3, onlyWith, onlyWithout)`, `VGRemapBlendReplace(row, ...)`),
+never a helper that sets properties. The sections the WWMI runtime needs (hide, bypass, merged skeleton, merge lists,
+blend remap) are written IN the list with `SectionText`, line by line from the pair's values -- not through
+`WWMISections`, whose one call per section kind hid what the fix writes.
+**THE PARSER CLASSIFIES; THE FIXER'S LIST READS AND FIXES (the maintainer, 2026-11-08: "get all the required graphs you
+need through classification, then do whatever fix you need in the fixer").** `editList.py`'s parser is one `GIMIParser`
+with its objects and a classifier (`GIMISectionClassifier` over the source's hash and index tables, plus a predicate for
+the watcher and the catch-all texture), and nothing else. Reading the mod (the `GraphCollect` rows, `IniParseData.
+resourceDataOf` / `roleFilesOf`, `WWMIFixerConfig.roleResources`) is the first part of the FIXER's list (`READ`), because
+**a fixer files a step's result (`IParseResult`) into the `.ini`'s parse data exactly as a parser does** (both
+`GIMIFixer`s, 2026-11-08), so one edit means the same in either list. A callable of a list reads the `.ini` it runs on
+through **`EditScope`** (`EditScope.ini()` / `parseData()` / `modType()`, open while a Python parser's or fixer's list
+runs), and `IniFile.resourceNamed` answers which resource a value names without the parser. The list scope is its own
+stack (`PyListScope`), never `PyEditScope`'s, whose presence tells an edit it runs from Python (a build with both on one
+stack crashed on Sanhua3; with them apart it runs clean). **A callable that runs AFTER the list sees no scope**: a
+resource's `fixFunc` runs when `RemapService` fixes resources, so it reads only the resource (`createBlend()`, its paths)
+-- Lynae's blend remap wrote nothing until it did. A linked `.ini` no fixer runs on is read by a parser running
+`READ_LINKED`. A whole-file graph is made IN the list (`GraphCreate(sectionsOf = the scope's sections)`), never
+classified: the fixer snapshots its classified graphs as the mod's sections to hide. Checked: all 14 Sanhua mods and
+LynaeIdentity A/B as before (only the download cache's `*RemapDL.dds` vary), the cross-game mods write nothing, 60 fuzzed
+mods neither crash nor hang.
+**THE TEST OF A LIST IS A TWEAK BY AN API USER (the maintainer, 2026-11-08: "component 0 onto slot 3, her body all
+blue", and the Changli list without WWMIFixer / WWMIParser).** `editList.py` failed it at first: the plan was read by ten
+comprehensions at import. Now `SLOT_REMAP` is the ONLY step that knows which slot a source object goes to -- every step
+after it addresses TARGET objects (and must match names as the remap left them: the shared list is
+`<name><Target>RemapFix` by then, which cost a round), and a texture list's guard is read off `SLOT_REMAP.remap` when the
+list is written. `Tools/Misc/Prototypes/editListTweaks.py` is the tweak: one remap entry changed, one `ResRegCollect` +
+`TexReplace` added. The list uses no `WWMIFixerConfig` FUNCTION (its fields stay as the pair's data): role resolution is
+one `GraphVarApply` over `IniParseData.roleFile` / `resourceOfFile`, downloads are `DownloadTools.url` /
+`fixedFileName`, the blend width is read off the row. `onlyWith` / `onlyWithout` take any-of LISTS (on `GraphCreate`,
+`GraphGroupEdit`, `GraphGroupRemove`, sharing `BaseIniGraphGroupEdit::gatesPass`), which retired the FOUND / NOTHING
+marker graphs. The WWMI runtime's registers and formats are `IniKeywords` now (`WWMIRemapperForwardReg`, `RWBuffer`,
+`FormatR16UInt`, ...), in C++ `WWMISections` too. **`Tools/Misc/Docs/genConstantStrings.py` is stale**: it rewrites
+`PyConstantStrings.cpp` WITHOUT the hand-bound `IniComments` (the module then fails to import) -- splice its new blocks
+into the committed file instead. And a callable a resource runs AFTER the list (`VGRemapBlendReplace`'s widening calls
+`elements` again) sees no scope: a list's `elements` must not read it. Do not swap that call for the resource's stored
+`blendElements` -- those were built from the `.ini`'s RELATIVE path, so the compiled fix's width probe read no file and
+every ChangliNymph -> Changli blend changed in the sweep.
+**THE PARSER CLASSIFIES TEXTURE ROLES TOO: `WWMISectionClassifier` (2026-11-08, prototype in
+`Tools/Misc/Prototypes/wwmiSectionClassifier.py`, the maintainer's suggestion).** A hash table alone binds the wrong file
+when an author's overrides mislabel a texture (Sanhua2's skin diffuse), so which file plays which role is read off the
+whole mod (`IniParseData.roleFilesOf`) by the classifier's own parser edits, filed as graphs per (component, role):
+the resource the mod uses, the override that toggles it, or a `RemapRef` to write. `sanhuaList.py` -- literal tables,
+existing edits, no helpers -- then binds a role with one `GraphInherit`. Two crashes on the way, both intermittent and
+both invisible in review: a Python subclass of a bound C++ class must call `super().__init__` BEFORE setting any
+attribute (2 runs in 3 died at import), and a `Z3Context()` made inside a callable dies with it while the sections built
+in it live on -- keep one context the object owns. An empty graph an edit leaves behind still counts for
+`onlyWith` / `onlyWithout`: drop it (`GraphFilter(..., removeEmptied = True)`) where absence means "none".
+**LYNAE IS A LITERAL LIST TOO (2026-11-08): `Tools/Misc/Prototypes/lynaeList.py`, and the maintainer's tweak of it is THREE
+TABLE LINES** (`lynaeListTweak.py`: component 0 onto slot 3, slot 0 in `HIDDEN`, a blue `TEX_EDITS` entry). On
+LynaeIdentity it matches the compiled fix byte for byte -- blend, blend-remap tables, her five shaders and constants, the
+reordered shape keys, the props code edit -- except two `*GameRemapDL` guide downloads the COMPILED fix declares and binds
+nowhere (edits it then skips, her own shaders drawing those parts). Its bulk data comes from the bound `LynaeData` (shaders,
+code tables, shape-key order, texture facts), so it uses no `WWMIFixerConfig` at all; past-256 runtime, shader draws
+(`RegAnchorAdd` Replace on `drawindexed` + `SectionText` per draw), `FileAddCreate` / `FileRefAdd` and
+`WWMIShapeKeys.reordered` / `WWMIBlend.writeRemap` cover everything else. Three traps: **a resource edit finds the section it
+copies BY NAME IN ANY GRAPH, first match** (`BaseResEdit::sourceSections`), so an empty stand-in graph of the same name made
+`TexReplace` copy an empty section -- drop helper graphs once used; **gate a step after the remap on TARGET objects** (the
+sources are gone); and a fix's graph a copy `.ini` binds from must be in the remap's every-file list. **API gap:**
+`FileAddCreate.files` / `FileRefAdd.files` are fixed when the edit is built, while their place (beside the mod's mesh) and
+contents (the mod's shape keys) are per mod, so the list sets them in a step (`fixFiles`); a per-`.ini` `files` is the
+general fix. **Open for real Lynae mods** (13 A/B'd): the 3.6 vb0 / bone row and pre-merge `LegacyLift` (Lynae5 and the
+blend bytes of 9 mods), `cleanTexcoords`, the draw reroutes and `LynaeFilm` (Lynae8/9/11), RabbitFX pins / `offPasses`,
+watcher files, game defaults for toggled roles. Not yet `IniKeywords`: `CustomShader`, `o3`, `ps`, `blend`, `cull`,
+`rasterizer_state_merge`.
+**AND THE PARSER IS IN THE LIST TOO: `WWMISectionClassifier` only classifies (hash / index, like `GIMISectionClassifier`),
+and each list's `PARSE` reads every role with plain collects (2026-11-08, the maintainer: "a ResRegCollect cannot collect the
+resource that you want so you go with roleFiles?").** Per role: a `ResRegCollect` of the `this` of the mod's override of the
+role's hash, else of what the component binds at the role's register (a literal `SOURCE_REGISTERS` table), and a `GraphCopy`
+of a toggling override. A/B'd on 14 Sanhua and 14 Lynae mods against the compiled fix (`roleFilesOf`), compared by the FILE
+a binding resolves to: the RANKING was never needed (every conflict was one file under two resource names, or one hash
+overridden twice, where 3DMigoto's last line wins the same way). What real mods DO need is now its own visible step of
+`PARSE`: a mask role REFUSES a flat file (`TexThumbprint.channelIsConstant`; most Lynae mods and her identity -- her game
+mask is bound instead), a file missing from the folder is no candidate (Sanhua3's `disabled` copy), a LINKED `.ini`'s files
+on the component's draw are declared as `RemapRef`s (Sanhua3's LOD0: a second parser with a small `LINKED_PARSE`), and an
+UNDRAWN component (draws nothing, skips the game's draw) is dropped -- and the fixer hides EVERY target slot nothing lands
+on (`onlyWithout`), which also made the Lynae tweak two table lines. A toggle copy is per (role, register, raw): one per
+(component, role) bound at two registers (a main list and a pass's) was renamed twice and bound the wrong register. After
+it: every Sanhua mod matches the compiled fix by file, and every Lynae mod differs only in the seven features still open.
+**Then six of Lynae's seven open features went into her list (2026-11-08), each a visible step or table, each A/B'd:** her bone
+NUMBERING read off the mod's geometry (`SkeletonNumberingProbe`, her 3.6 -> 3.7 renumbering) choosing the vertex group row;
+a mod from before the merged skeleton lifted (`WWMIBlend.LegacyLift` + `LynaeData.vgMaps36`) and its hidden slot skipped
+outright (it declares no `ResourceMergedSkeleton`); the cleaned texcoords (`TexcoordFile.straddling` / `clean`); WATCHER
+files (a new classifier object, `("", "watch")`); a toggle of one `this` gets her game texture first; RabbitFX pinned on a
+part her shader draws (`RabbitFX.textureTag` / `routingFlags`); the bypass, the stash, the shader backups and the draw
+numbering read off what the mod has. 11 of 14 Lynae mods now match by file; only the DRAW REROUTES (Lynae8 / 9 / 11) are
+open. Two lessons: **a set-of-lines A/B hides a section that lost its lines** when the same lines appear elsewhere in the
+file -- look at the section itself; and **a `sed '/^$/q'` print stops at a blank line inside a section**, which made a
+healthy toggle copy look empty for an hour.
+**And the reroutes are in too: every Lynae mod matches the compiled fix by file (2026-11-08)**, except three known
+differences: the two guide downloads the compiled fix declares and binds nowhere; one game texture under another download
+name (Lynae11); and Lynae9's bangs / hair, whose toggle the compiled fix reads only on the main pass (her game texture, then
+the first variant on the outline pass) where the list copies the toggle for both -- the list is right there, the compiled
+fix is the one to correct. A reroute is the source component's section copied again by the remap, into the same file, with
+a few edits after the remap (its lists and merge in place of the component's, only the draws it takes); which draws it takes
+is one parser step over `DrawUVCoverage`. Draws in a list a section CALLS are not the component's (they stay as the mod drew
+them); a row's `rootSection` is set only by a `withConditions` collect. And Python's `next(gen, default)` evaluates the
+default EAGERLY -- one such default looked a split draw up in the wrong list.
+**THE MAINTAINER (2026-11-08): NO HARDCODED GAME DATA IN A LIST -- "what if the game version changes ... what if a user wants
+to apply a fix based on a previous version of the game?"** The lists hardcode `FROM, TO = 3.7` and the `3_7` download
+folder, copy `HashData` (`VB0_VERSIONS`, the version-blind `fallbackTextures`), and carry game data no asset table holds yet
+(her shader passes' hashes and tags, the shape-key dispatch height, her shader code and constants, the shape-key order, the
+RabbitFX tags, the film mask) -- as do the compiled `WWMIFixerConfig`s. Versions come from the RUN, hashes and indices from
+the versioned asset tables, and what has no table gets one (proposed first: an API change); a list keeps only the pair's
+version-free choices.
+**SIX TABLES NOW HOLD IT, AND BOTH LISTS READ THEM PER RUN (2026-11-08).** `ModType`'s `DrawPasses`, `TextureRegisters`,
+`GameShaders`, `ShapeKeyDispatchSizes`, `BoneCentroids` and `ShapeKeyRemaps`, plus skeleton numberings as `VGRemaps` self-rows,
+generated from the WWMI configs by `Tools/Misc/Diagnostics/genWWMIAssetData.py` (`--check` reads them back). `lynaeList.py` and
+`sanhuaList.py` build their lists in `lists(FROM, TO)`, at the run's versions (`--fromVersion` / `--version`, else the newest vb0),
+and keep only CHOICES at the top: which component goes where, which source role lands on which layout role (`MAIN` /
+`ROLES_ON_TARGET`), which part her own shader draws, which roles are left to the game (`GAME_LEFT`). Four conventions to know:
+**`<role>@<pass>`** is where another pass of a slot binds a role (`upperDiffuse@other`; `getTextureRole(..., drawPass = "other")`
+reads them, the default reads only the main pass); **a self-numbering needs its reference row** (`Lynae 3.7 -> 3.7` identity) or
+the newest-at-or-below lookup hands a 3.7 mod the 3.6 renumbering; **a download's folder is its hash row's version**
+(`DownloadTools::versionFolder`); and a generator block that writes "what the table lacks" must judge that by the SOURCE text
+outside its own block -- judged by the built module, the second run wrote it empty. Checked: both table-reading lists are
+byte-identical to the literal ones on all 14 Lynae and 14 Sanhua mods, the 174-folder WWMI sweep is SAME, and moving a
+component to another slot is now THREE table lines (its slot, its role on the new slot's other pass, the edit) -- the list
+refuses (`need`) rather than bind a register the table has no row for. A new `test_*.py` must also be registered in
+`UnitTester/Tests/__init__.py`: `main.py` runs only what it imports, and an unregistered file passes by never running.
+**Then the rest of it (same day):** `MaterialCodes` (what a code map's bits mean: `propsDetail.flags.film` = `0x10`,
+`pouchDetail.material.plain` = `15` -- Lynae's props code table is now one line built from them, and the reroute flags are
+read too) and `MaterialColours` (a mask's material colour, a real `Colour`: Sanhua's invented skin mask); a character's
+`vg_map`s are `VGRemaps` rows from each component onto her merged skeleton (`""`), not a new table; the three textures
+stashed off the skin's lower body are the game's shared effect textures (`glow` / `flow` / `noise`, read off the frame dumps)
+as ordinary `TextureRegisters` rows. And **the shared colours are C++ constants again** (`Colours` / `ColourRanges`, bound):
+the 2026-10-01 commit that deleted the Python `Colours` enum "as repeating the C++ core" had in fact copied it into a dozen
+fixers as locals. **And the last two (the maintainer's choices):** her RabbitFX tags come from what her own draws bind
+(`DrawPasses`' `main.ps-t0`..`t3`, a hash each) and how the game CREATES that texture (`TextureDescs`: format, size, mips, from
+a frame dump's `.dsc` -- a saved `.dds` copy has dropped its mips, and then the rule answers 4 where the game's is 3), through
+`RabbitFX::tagOf`; and her props film stand-in is her game code map, fetched "like a download" (`FileDownload`, into a
+temp folder, none when downloads are disabled) and read as a mod's own code map is. `lynaeList.py` no longer reads
+`LynaeData` at all. Her bangs and hair share BOTH shaders: a dump's draws of a slot are told apart by the textures of its
+own roles, never by shader hashes alone.
+**AND THE COMPILED WWMI FIXES READ THE TABLES TOO (2026-11-08): `WWMIFixerConfig::withGameData` and
+`WWMIParserConfig::withGameData`.** The eight pair configs keep only the pair's CHOICES. The fixer fills each config at the
+run's versions, as soon as it knows both characters; the parser fills its own when it is built. They fill:
+
+* passes, `filter_index` tags and shape keys;
+* game shaders, by name (`Shader::ofGame`, `Shader::passGame`);
+* an invented colour (`CreatedTexture::material`);
+* vertex group maps, stashed registers (`stashRoles`), vb0 versions (`sourceVersionFromVb0`);
+* skeleton numberings and centroids;
+* texture thumbprints, from a new `TextureThumbprints` table.
+
+A config names an other pass `other` / `other2`, and the table gives its shader. The per-character `<Char>Skeleton` and
+`<Char>Thumbprints` files are deleted, and so are `LynaeData`'s four copies of that data. Moving them changed no fix:
+
+* filled at their own versions, all eight fix configs and all eight parser configs equal the literal configs from before,
+  field by field;
+* the 174-folder WWMI sweep and the 97-folder GI/ZZZ sweep against the build before the move are all SAME.
+
+`genWWMIAssetData.py` reads the FILLED configs now, so it is a fixed point: a re-run rewrote no table byte.
+`wwmiTextureThumbs.py --name X --version V` prints a character's thumbprint rows. **Python that reads a config's fields calls
+`withGameData` first** -- `ofFactory` returns the bare config, whose `slotPasses` is empty. **Still literal**, with no table
+yet: the shared meshes' and own shaders' passes in four configs, `sharedMeshes` / `hiddenMeshes` / `meshCounterparts`, the
+register ids in `plan`, `removedRegs`, the texture role tables, reroutes, the code tables, and the other invented colours.
+See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "A WWMI PAIR'S GAME DATA IS IN VERSIONED TABLES".
+
 **THE LIST IS FOR TRANSPARENCY: AN API USER TWEAKS A FIX BY READING ITS LIST (the maintainer, 2026-11-06).** Their test:
 take the Lynae fix and send component 0 through another slot. A hidden class or an implicit rule makes them read all the
-internals and hack the API; a list of generic edits shows what to change. So a fix's DECISION is a visible step --
-`GraphVarApply(inputs, fn, into, variables = fixVars)` over the fixer's own variables (new 2026-11-06) -- and each writing
-stage an `IterGraphGroupEdit` that reads those variables when the list reaches it. The WWMI decisions are
-`WWMIFixerConfig.roleResources` / `gameDefaults` / `texEditTargets` / `rabbitFXFlags` / `linkedLines` /
-`textureLists` / `toggleLists` / `modTexLines` / `fileGroups` (which file each component goes in), and the mirror (`sanhuaExorcistEdits.py`) lists them as steps. **Every texture list is
+internals and hack the API; a list of generic edits shows what to change. So a fix's DECISIONS are bound functions of
+the config (`WWMIFixerConfig.roleResources` / `gameDefaults` / `texEditTargets` / `rabbitFXFlags` / `linkedLines` /
+`textureLists` / `toggleLists` / `modTexLines` / `fileGroups`, which file each component goes in), and the list is the
+edits built from them (a first version ran each decision as a lazy `GraphVarApply` step with stages built when the list
+reached them; it was replaced by the eager list below, which a user reads and rewrites directly). The mirror
+(`sanhuaExorcistEdits.py`) does the same in Python. **Every texture list is
 DATA now (2026-11-07)**: `textureLists` gives each list's lines (`<reg> = <value>` with the role it binds), `toggleLists`
 turns a line binding a mod-toggled texture into a `run =` of a copy of that toggle, and the writers only print lines --
 so a user changes a list's lines in a step of their own. `bindLine` (a memo of toggle copies built while writing) is gone.
 `modTexLines` is the same for the mod's OWN `ps-t` lines: each one the fix moves to another register or drops, listed. The tweak found a coupling no rule should paper over: `extraPassRegs` is
 keyed by TARGET slot but names SOURCE roles, so moving a component means editing it (`Tools/Misc/Prototypes/lynaeBangsOnHair.py`);
 a kind-swapping `passBindingsOf` was built and reverted the same day.
+**The Lynae tweak was ONE example (the maintainer, 2026-11-07): "there are like thousands of examples an API user can
+make"** -- "make Lynae's body all blue" is another. So the requirement is structural, not a list of scenarios: every
+part of the output is data before anything writes it, and the writers decide nothing. **The compiled `WWMIFixer` builds
+its list EAGERLY (2026-11-07, the maintainer's go-ahead):** its constructor decides (the `WWMIFixerConfig` functions --
+`fileGroups`, `roleResources`, `withReroutes`, `gameDefaults`, `texEditTargets`, `linkedLines`, `rabbitFXFlags`,
+`textureLists`, `modTexLines`, `blendWidth`, `removedLines`) and builds a list of GENERIC edits keyed by target object
+(`(target mod, "component<slot>")`), each named: `copies`, `toggles`, `slotRemap`, `textureListCalls`, ..., `slotValues`,
+`hashes`, ..., `blend`, `rebind`, then **`fixSections`** (the fix's own sections into graph `(0, "", "fixSections")`) and the
+edits on those (`shaderFiles`, `fixFiles`, `latch`, `texEdits`). **`CppIniFixFactory.withList(fn)` hands `fn` that WHOLE
+list** (`TemplateFixer::list()`; until 2026-11-07 the `fixSections` half was a hidden second list, `fixSectionEdits`,
+so the texture lists could not be touched) and runs what it returns -- edited, reordered, or replaced outright.
+**An edit built in Python IS the C++ class** (one-class bindings: arguments parsed into the C++ members when built or set,
+callables kept in functors that read back as themselves, `PyEditScope` handing them the call's own Python `modType` /
+`ini` / graphs), so it runs in a compiled list. The resource edits were the last gap: their `buildResModel` cast the
+context to the Python one and SEGFAULTED in a compiled list; on the C++ context they now run their own C++ side.
+`Tools/Misc/Prototypes/lynaeTweaks.py` is the demonstration: component 0 onto slot 1 (the `slotRemap` step's `remap`
+edited), the upper body's diffuse all blue (a `ResRegCollect` + `TexReplace` over the texture lists), an ORFix call
+(`RegDelimitedAdd`, once per path) and the lower body without its diffuse (`RegRemove` with a key filter), each a few
+lines. **And a config "hides your own complexity" (the
+maintainer, same day)**: its behaviour switches are branches in the template and its game data is version-blind (a
+3.x config on a 4.x row breaks silently) -- a switch belongs in the list as a step present or absent, version data in
+the versioned asset tables. **A shipped config is read off its builder row**: `WWMIFixerConfig::ofFactory(
+modType.iniFixBuilder.factoryOf(from, to, fromVersion, toVersion))` (and `WWMIParserConfig::ofFactory` /
+`IniParseBuilder::factoryOf`); the hand-kept `of()` registries are gone.
 
 **BUT A NEW EDIT MUST EDIT THE GRAPH (the maintainer, 2026-10-31).** Asked what a proposed `DrawTexelSplit` parse
 step, and the then-existing `SkeletonNumberingRead` (retired the same day), offered that the other edits could not express, the honest answer

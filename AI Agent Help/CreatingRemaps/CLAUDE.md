@@ -9,6 +9,74 @@ Read [Architecture](../Architecture/CLAUDE.md) first if you have never touched
 
 <br>
 
+## A WWMI PAIR'S GAME DATA IS IN VERSIONED TABLES, AND ITS CONFIG HOLDS ONLY CHOICES (2026-11-08)
+
+The maintainer's rule: no hardcoded game data in a fix or a list. "What if the game version changes ... what if a user
+wants to apply a fix based on a previous version of the game?" So everything the GAME decides lives in a versioned asset
+table on the character's `ModType`. A lookup answers with the newest row at or below the version asked; below the oldest
+row it answers the oldest. A `WWMIFixerConfig` / `WWMIParserConfig` keeps only the pair's choices: which component goes
+to which slot, which role lands where, reroutes, anchors, texture edits.
+
+| Game data | Table (getter on `ModType`) | Config field it fills |
+| --- | --- | --- |
+| each slot's passes, their vertex shaders and `filter_index` tags | `DrawPasses` (`main`, `main2`, `other`, ... with `.ps` / `.tags`) | `slotPasses`, `passVertexShaders`, `filterIndices`; the keys of `extraPassRegs` / `extraPassNoDraw` |
+| what each draw binds at `ps-t0..t3` | `DrawPasses` (`main.ps-tN`) | (the lists' RabbitFX tags) |
+| where a role is bound (`<role>`, `<role>@rabbitfx`, `<role>@other`) | `TextureRegisters` | `stashRegs` from `stashRoles` |
+| a game shader's code and constant buffers | `GameShaders` | `Shader::ps` / `constantBuffers` (`Shader::game`, `Shader::ofGame`); a pass's own code (`Shader::passGame`) |
+| shape-key dispatch height / key order | `ShapeKeyDispatchSizes` / `ShapeKeyRemaps` | `shapeKeyDispatchSize` / `shapeKeyOrder` |
+| a code map's bits / a mask's material colour | `MaterialCodes` / `MaterialColours` | `CreatedTexture::colour` (`CreatedTexture::material`) |
+| how the game creates a texture | `TextureDescs` | (the lists' RabbitFX tags) |
+| a texture's 16 x 16 thumbprint | `TextureThumbprints` | `WWMITextureFacts::textureThumbprints` (fixer and parser) |
+| a component's vertex groups in the merged skeleton | `VGRemaps` (component -> `""`), at her OLDEST `vb0` | `sourceVgMaps` |
+| a renumbered skeleton | `VGRemaps` self-rows (older -> newest, newest -> itself) + `BoneCentroids` | parser `skeletonNumberings` / `referenceBoneCentroids` |
+| her models' versions | `HashData`'s `vb0` rows (`WWMIFixerConfig::vb0VersionsOf`) | `sourceVersionByVb0` (`sourceVersionFromVb0 = true`) |
+
+**`withGameData` fills a config from them.** The compiled `WWMIFixer` calls `WWMIFixerConfig::withGameData(source, target,
+fromVersion, toVersion)` once per fix, at the run's versions, as soon as it knows both characters. `WWMIParser` calls
+`WWMIParserConfig::withGameData(self)` in its constructor. Both are bound. A table with no row for a field leaves the
+config's value. A row the config names but the table lacks is an ERROR, never silence: a `Shader::game` with no
+`GameShaders` row, a `CreatedTexture::material` with no colour, a `stashRoles` role with no register, an `other` pass with
+no `.ps`. **Python that reads a config's fields must fill it first.** `ofFactory` hands back the bare config, whose
+`slotPasses` is empty. `editList.py`, `sanhuaExorcistEdits.py` and `genWWMIAssetData.py` call `withGameData` at the config's
+own versions.
+
+**Moving the eight configs changed no fix.** Filled at their own versions, all eight fix configs and all eight parser
+configs equal the literal configs from before the move, field by field. Checked with a JSON dump of each, before and after.
+The 174-folder WWMI sweep and the 97-folder GI/ZZZ sweep against the build before the move are all SAME.
+
+**`genWWMIAssetData.py` is a fixed point now.** It reads the FILLED configs, so re-running it rewrites the tables as they
+are, and a row added to a data file by hand survives. Proof: a run changed no byte of any table. A new character's
+thumbprints are `wwmiTextureThumbs.py <folder> --name X --version V`, which prints her `TextureThumbprintData.cpp` rows.
+Her other rows go into the generator's literals (`TARGET_ONLY_ROLES`, `DRAW_BINDINGS`, `TEXTURE_DESCS`, `MATERIAL_*`) or
+straight into a data file.
+
+Three traps:
+
+* **An other pass is NAMED in a config.** Write `{1, {{"other", {...}}}}`, and `withGameData` turns `other` into the pass's
+  pixel shader. A key that is a shader hash stays as it is, so the bindings follow the shader the table names. Keying the
+  same pass both ways throws. `lynaeBangsOnHair.py` was the one user and is updated.
+* **`DrawPasses` holds a slot's own passes, not every pass a fix tags.** The shared meshes' passes (Changli, Chisa) and
+  the passes of a source's own shaders (ChisaParfait -> Chisa, LynaePeppermint -> Lynae) are still literal
+  `passVertexShaders` / `filterIndices` entries in those four configs, under a comment saying so. A first strip removed them
+  and the before/after dump caught it.
+* **The `extraPassRegs` other-pass rows exist only where they derive.** The `TextureRegisters` `<role>@other` rows are
+  missing for four pairs whose other-pass bindings do not derive: Chisa, LynaePeppermint -> Lynae, Changli, and
+  ChangliNymph -> Changli. A LIST of those pairs needs them read off a dump first. The compiled fix does not: its
+  `extraPassRegs` bindings are the config's choices.
+
+**Still literal, game data with no table yet:**
+
+* `sharedMeshes`, `hiddenMeshes`, `meshCounterparts`
+* the register ids in `plan`'s bindings, and `removedRegs`
+* `WWMITextureFacts`' role tables and `typeRoles`
+* `drawReroutes`, and the texture-edit code tables still in `LynaeData`
+* the invented flat textures' colours, all but Sanhua's skin mask
+
+The deleted `<Char>Skeleton.cpp` and `<Char>Thumbprints.cpp` are in git history. `changliPortTables.py` /
+`nymphPortTables.py` still write them, and nothing compiles their output.
+
+<br>
+
 ## THE FIX'S OWN FILES GO WHERE THE MOD KEEPS ITS OWN (2026-09-30)
 
 `WWMIFixer` writes a blend remap, a zero shape-key stream, created textures, fallback downloads and a

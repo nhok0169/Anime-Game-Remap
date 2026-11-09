@@ -14,6 +14,7 @@
 #include "AGRemapCore/data/RabbitFX.h"
 
 #include <optional>
+#include <unordered_map>
 
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/files/TextureFile.h"
@@ -24,13 +25,25 @@ namespace AGRemapCore {
 
     int RabbitFX::textureTag(const std::string& path) {
         const std::optional<TextureFile::DDSHeader> header = TextureFile::readDDSHeader(path);
-        if (!header.has_value() || header->width != header->height) {
+        if (!header.has_value()) {
             return 0;
         }
+        return tagOf(header->dxgiFormat, header->width, header->height, header->mipCount);
+    }
 
-        const std::uint32_t dxgi = header->dxgiFormat;
-        const std::uint32_t height = header->height;
-        const std::uint32_t mips = header->mipCount;
+    int RabbitFX::tagOf(const std::string& format, std::uint32_t width, std::uint32_t height, std::uint32_t mips) {
+        // the DXGI formats the rule tells apart, by name (the rest tag 0)
+        static const std::unordered_map<std::string, std::uint32_t> formats = {
+            {"bc7_typeless", 97}, {"bc7_unorm", 98}, {"bc7_unorm_srgb", 99}, {"r8_typeless", 60}, {"r8_unorm", 61},
+            {"b8g8r8a8_unorm", 87}, {"b8g8r8a8_typeless", 90}, {"b8g8r8a8_unorm_srgb", 91}};
+        const auto found = formats.find(StringTools::toLower(format));
+        return tagOf(found == formats.end() ? 0 : found->second, width, height, mips);
+    }
+
+    int RabbitFX::tagOf(std::uint32_t dxgi, std::uint32_t width, std::uint32_t height, std::uint32_t mips) {
+        if (width != height) {
+            return 0;
+        }
         if (dxgi >= 97 && dxgi <= 99) {                                     // BC7
             if (height > 1 && mips > 10) {
                 return 3;

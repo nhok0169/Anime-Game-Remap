@@ -20,26 +20,20 @@
 #include <vector>
 
 
-PyGraphGroupRemove::PyGraphGroupRemove(py::object iniIndicesObj): Core(std::nullopt), iniIndicesObj(std::move(iniIndicesObj)) {}
-
-
-void PyGraphGroupRemove::refresh() {
-    if (iniIndicesObj.is_none()) {
-        iniIndices = std::nullopt;
-        return;
-    }
-
-    std::vector<std::size_t> parsed;
-    for (auto item : iniIndicesObj) {
-        const long long index = py::cast<long long>(item);
-
-        // A negative index names no group, and is skipped the way an index past the end is.
-        if (index >= 0) {
-            parsed.push_back(static_cast<std::size_t>(index));
+namespace {
+    std::optional<std::vector<std::size_t>> iniIndicesOf(const py::object &iniIndices) {
+        if (iniIndices.is_none()) {
+            return std::nullopt;
         }
+        std::vector<std::size_t> parsed;
+        for (auto item : iniIndices) {
+            const long long index = py::cast<long long>(item);
+            if (index >= 0) {
+                parsed.push_back(static_cast<std::size_t>(index));
+            }
+        }
+        return parsed;
     }
-
-    iniIndices = std::move(parsed);
 }
 
 
@@ -68,26 +62,49 @@ iniIndices: Optional[List[:class:`int`]]
     **Default**: ``None``
     )doc");
 
-    cls.def(py::init([](py::object iniIndices) {
-        return std::make_unique<PyGraphGroupRemove>(std::move(iniIndices));
-    }), py::arg("iniIndices") = py::none());
+    cls.def(py::init([](py::object iniIndices, py::object onlyWith, py::object onlyWithout) {
+        auto edit = std::make_unique<PyGraphGroupRemove>(iniIndicesOf(iniIndices));
+        edit->onlyWith = PyIniGraphGroups::modObjsFromPy(onlyWith);
+        edit->onlyWithout = PyIniGraphGroups::modObjsFromPy(onlyWithout);
+        return edit;
+    }), py::arg("iniIndices") = py::none(), py::arg("onlyWith") = py::none(), py::arg("onlyWithout") = py::none());
 
     cls.def_property("iniIndices", [](const PyGraphGroupRemove &self) {
-        return self.iniIndicesObj;
+        return self.iniIndices.has_value() ? py::object(py::cast(*self.iniIndices)) : py::none();
     }, [](PyGraphGroupRemove &self, py::object iniIndices) {
-        self.iniIndicesObj = std::move(iniIndices);
+        self.iniIndices = iniIndicesOf(iniIndices);
     }, py::doc(R"doc(
 Optional[List[:class:`int`]]: The .ini indices of the groups to remove, or ``None`` for every group
     )doc"));
 
+    cls.def_property("onlyWith", [](const PyGraphGroupRemove &self) -> py::object {
+        return PyIniGraphGroups::modObjsToPy(self.onlyWith);
+    }, [](PyGraphGroupRemove &self, const py::object &obj) {
+        self.onlyWith = PyIniGraphGroups::modObjsFromPy(obj);
+    }, py::doc(R"doc(
+Optional[List[Tuple[:class:`str`, :class:`str`]]]: Objects -- one, or a list -- a graph of any of which, in ANY group, is what makes the edit run: nothing is
+removed when no group holds one -- eg. a marker graph a parser files for a mod the fix cannot handle, so a list that is
+the same for every mod ends by writing nothing for that one. ``None`` always runs. The mirror of
+:attr:`GraphCreate.onlyWithout`. **Default**: ``None``
+    )doc"));
+
+    cls.def_property("onlyWithout", [](const PyGraphGroupRemove &self) -> py::object {
+        return PyIniGraphGroups::modObjsToPy(self.onlyWithout);
+    }, [](PyGraphGroupRemove &self, const py::object &obj) {
+        self.onlyWithout = PyIniGraphGroups::modObjsFromPy(obj);
+    }, py::doc(R"doc(
+Optional[List[Tuple[:class:`str`, :class:`str`]]]: Objects -- one, or a list -- a graph of any of which, in ANY group, stops
+the edit: nothing is removed when one is there -- eg. the objects a fix remaps onto, so a list that is the same for every
+mod ends by writing nothing for a mod none of whose objects it found. **Default**: ``None``
+    )doc"));
+
     cls.def("edit", [](PyGraphGroupRemove &self, py::list graphGroups, const py::object &modType, const std::string &modName) {
         (void)modType;
-        self.refresh();
 
         PyIniGraphGroups groups(graphGroups);
 
         // nullptr for the same reason GraphRemove's binding passes it -- this edit never reads it.
-        self.Core::edit(groups, nullptr, modName);
+        self.edit(groups, nullptr, modName);
         return graphGroups;
     }, py::arg("graphGroups"), py::arg("modType"), py::arg("modName") = "", py::doc(R"doc(
 Removes every group named by :attr:`iniIndices` from 'graphGroups'

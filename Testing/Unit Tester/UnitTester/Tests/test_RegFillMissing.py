@@ -554,7 +554,7 @@ class RegFillMissingTest(BaseUnitTest):
         edit = FRB.RegFillMissing("z", "9", trackKeys = True, keysToTrack = keysToTrack)
 
         self.assertTrue(edit.trackKeys)
-        self.assertIs(edit.keysToTrack, keysToTrack)
+        self.assertEqual(edit.keysToTrack, keysToTrack)   # held as the edit's own (C++) data, read back
 
     def test_edit_noPartFilter_everyMissingPartStillFilled(self):
         graph = self.makeParentChildGraph()
@@ -644,7 +644,9 @@ class RegFillMissingTest(BaseUnitTest):
         seen = []
         keysToTrack = {"a"}
         edit = FRB.RegFillMissing("z", "9", trackKeys = True, keysToTrack = keysToTrack)
+        # the edit holds what it was given as its own (C++) data, so a change is set through the property
         keysToTrack.add("b")
+        edit.keysToTrack = keysToTrack
 
         def partFilter(iterData, modType, ini):
             seen.append(sorted(iterData.colouring.keys()))

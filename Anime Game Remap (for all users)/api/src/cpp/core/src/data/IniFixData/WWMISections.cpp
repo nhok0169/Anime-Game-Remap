@@ -75,8 +75,8 @@ namespace AGRemapCore {
         sections.push_back(SectionText(z3, extra).build());
         for (const std::string& name : {mergedRW, extraRW}) {
             sections.push_back(SectionText(z3, name)
-                       .keys({{IniKeywords::Type, "RWBuffer"},
-                              {IniKeywords::Format, "R32G32B32A32_FLOAT"},
+                       .keys({{IniKeywords::Type, IniKeywords::RWBuffer},
+                              {IniKeywords::Format, IniKeywords::FormatR32G32B32A32Float},
                               {IniKeywords::Array, std::to_string(skeleton.mergedSkeletonSlots)}})
                        .build());
         }
@@ -136,16 +136,16 @@ namespace AGRemapCore {
             for (const auto& cb : {std::make_tuple(mergedRW, merged, remappedRW, remapped),
                                    std::make_tuple(extraRW, extra, extraRemappedRW, extraRemapped)}) {
                 remap.keys({{std::get<1>(cb), "copy " + std::get<0>(cb)},
-                                {"cs-t37", skeleton.blendRemapForward},
+                                {IniKeywords::WWMIRemapperForwardReg, skeleton.blendRemapForward},
                                 {IniKeywords::WWMIBlendRemapId, "0"},
                                 {IniKeywords::WWMIVgCount, std::to_string(skeleton.blendRemapBones)},
-                                {"cs-t38", std::get<1>(cb)},
+                                {IniKeywords::WWMIRemapperSkeletonReg, std::get<1>(cb)},
                                 // Seeded from the merged RW, which is declared with a size. An empty
                                 // resource bound to `cs-u5` has no backing buffer: the dispatch writes
                                 // nowhere, the `copy` below then finds no source, and binding that null
                                 // UNBINDS the slot -- invisible rather than wrong.
                                 {std::get<2>(cb), "copy " + std::get<0>(cb)},
-                                {"cs-u5", std::get<2>(cb)},
+                                {IniKeywords::WWMIRemapperOutReg, std::get<2>(cb)},
                                 {IniKeywords::Run, IniKeywords::WWMISkeletonRemapper},
                                 {std::get<3>(cb), "copy " + std::get<2>(cb)}});
             }
@@ -165,11 +165,11 @@ namespace AGRemapCore {
         if (skeleton.remapped) {
             SectionText window(z3, skeleton.name("CommandListMergeWindow"));
             window.key(IniKeywords::WWMICustomMeshScale, "1.00");
-            for (const auto& cb : {std::make_pair(std::string("vs-cb4"), mergedRW),
-                                   std::make_pair(std::string("vs-cb3"), extraRW)}) {
+            for (const auto& cb : {std::make_pair(IniKeywords::WWMIBoneDataCb, mergedRW),
+                                   std::make_pair(IniKeywords::WWMIExtraBoneDataCb, extraRW)}) {
                 window.open(cb.first + " == " + skeleton.boneDataFilter)
-                      .keys({{"cs-cb8", IniKeywords::Ref + " " + cb.first},
-                             {"cs-u6", cb.second},
+                      .keys({{IniKeywords::WWMIMergerBonesReg, IniKeywords::Ref + " " + cb.first},
+                             {IniKeywords::WWMIMergerSkeletonReg, cb.second},
                              {IniKeywords::Run, IniKeywords::WWMISkeletonMerger}})
                       .close();
             }
@@ -198,16 +198,16 @@ namespace AGRemapCore {
                          .close();
             }
 
-            for (const auto& cb : {std::make_tuple(std::string("vs-cb4"), mergedRW, merged, remappedRW, remapped),
-                                   std::make_tuple(std::string("vs-cb3"), extraRW, extra, extraRemappedRW, extraRemapped)}) {
-                const bool cb3 = std::get<0>(cb) == "vs-cb3";
+            for (const auto& cb : {std::make_tuple(IniKeywords::WWMIBoneDataCb, mergedRW, merged, remappedRW, remapped),
+                                   std::make_tuple(IniKeywords::WWMIExtraBoneDataCb, extraRW, extra, extraRemappedRW, extraRemapped)}) {
+                const bool cb3 = std::get<0>(cb) == IniKeywords::WWMIExtraBoneDataCb;
                 mergeList.open(std::get<0>(cb) + " == " + skeleton.boneDataFilter
                                + (cb3 && skeleton.currentPoseInCb3Only ? " && " + Cb3Only + " == 0" : ""))
                          .keys({{IniKeywords::WWMIVgOffset, s.first},
                                 {IniKeywords::WWMIVgCount, s.second},
                                 {IniKeywords::WWMICustomMeshScale, "1.00"},
-                                {"cs-cb8", IniKeywords::Ref + " " + std::get<0>(cb)},
-                                {"cs-u6", std::get<1>(cb)},
+                                {IniKeywords::WWMIMergerBonesReg, IniKeywords::Ref + " " + std::get<0>(cb)},
+                                {IniKeywords::WWMIMergerSkeletonReg, std::get<1>(cb)},
                                 {IniKeywords::Run, IniKeywords::WWMISkeletonMerger}});
 
                 if (skeleton.remapped) {
@@ -231,13 +231,13 @@ namespace AGRemapCore {
                          .keys({{IniKeywords::WWMIVgOffset, s.first},
                                 {IniKeywords::WWMIVgCount, s.second},
                                 {IniKeywords::WWMICustomMeshScale, "1.00"},
-                                {"cs-cb8", IniKeywords::Ref + " vs-cb3"},
-                                {"cs-u6", mergedRW},
+                                {IniKeywords::WWMIMergerBonesReg, IniKeywords::Ref + " " + IniKeywords::WWMIExtraBoneDataCb},
+                                {IniKeywords::WWMIMergerSkeletonReg, mergedRW},
                                 {IniKeywords::Run, IniKeywords::WWMISkeletonMerger}});
                 if (skeleton.remapped) {
-                    mergeList.key("vs-cb3", remapped);
+                    mergeList.key(IniKeywords::WWMIExtraBoneDataCb, remapped);
                 } else {
-                    mergeList.keys({{merged, "copy " + mergedRW}, {"vs-cb3", merged}});
+                    mergeList.keys({{merged, "copy " + mergedRW}, {IniKeywords::WWMIExtraBoneDataCb, merged}});
                 }
 
                 mergeList.close();
@@ -260,10 +260,10 @@ namespace AGRemapCore {
             if (skeleton.bindPrevPoseAlways) {
                 if (skeleton.currentPoseInCb3Only) {
                     mergeList.open(Cb3Only + " == 0")
-                             .key("vs-cb3", skeleton.remapped ? extraRemapped : extra)
+                             .key(IniKeywords::WWMIExtraBoneDataCb, skeleton.remapped ? extraRemapped : extra)
                              .close();
                 } else {
-                    mergeList.key("vs-cb3", skeleton.remapped ? extraRemapped : extra);
+                    mergeList.key(IniKeywords::WWMIExtraBoneDataCb, skeleton.remapped ? extraRemapped : extra);
                 }
             }
 
@@ -294,15 +294,15 @@ namespace AGRemapCore {
                                   std::make_pair(noStride, blendPath)}) {
             sections.push_back(SectionText(z3, entry.first)
                        .keys({{IniKeywords::Type, IniKeywords::Buffer},
-                              {IniKeywords::Format, entry.first == noStride ? "DXGI_FORMAT_R8_UINT"
-                                                                 : "DXGI_FORMAT_R16_UINT"},
+                              {IniKeywords::Format, entry.first == noStride ? IniKeywords::FormatR8UInt
+                                                                 : IniKeywords::FormatR16UInt},
                               {IniKeywords::Filename, entry.second}})
                        .build());
         }
 
         sections.push_back(SectionText(z3, strided)
                    .keys({{IniKeywords::Type, IniKeywords::Buffer},
-                          {IniKeywords::Format, "DXGI_FORMAT_R8_UINT"},
+                          {IniKeywords::Format, IniKeywords::FormatR8UInt},
                           {IniKeywords::Stride, std::to_string(blendRemap.blendStride)},
                           {IniKeywords::Filename, blendPath}})
                    .build());
@@ -315,10 +315,10 @@ namespace AGRemapCore {
                    .keys({{IniKeywords::WWMICustomVertexCount, IniKeywords::WWMIMeshVertexCount},
                           {IniKeywords::WWMIWeightsPerVertexCount, std::to_string(blendRemap.influences)},
                           {IniKeywords::WWMIBlendRemapId, "0"},
-                          {"cs-t34", IniKeywords::Ref + " " + reverse},
-                          {"cs-t35", IniKeywords::Ref + " " + vertexVG},
+                          {IniKeywords::WWMIBlendRemapperReverseReg, IniKeywords::Ref + " " + reverse},
+                          {IniKeywords::WWMIBlendRemapperVertexVGReg, IniKeywords::Ref + " " + vertexVG},
                           {blendRW, "copy " + noStride},
-                          {"cs-u4", IniKeywords::Ref + " " + blendRW},
+                          {IniKeywords::WWMIBlendRemapperOutReg, IniKeywords::Ref + " " + blendRW},
                           {IniKeywords::Run, IniKeywords::WWMIBlendRemapper},
                           {blendOut, "copy " + blendRW},
                           {blendOut, "copy_desc " + strided},

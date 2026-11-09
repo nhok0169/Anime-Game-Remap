@@ -15,6 +15,7 @@
 // ##### EndCredits
 
 #include <array>
+#include <cstdint>
 #include <string>
 
 
@@ -68,6 +69,34 @@ namespace AGRemapCore {
              * @return The tag
              */
             static int textureTag(const std::string& path);
+
+            /**
+             * @brief
+             @rst
+             The tag RabbitFX's texture overrides give a texture of this description (#textureTag's rule, on a texture
+             that is not on disk -- a game texture's :cpp:class:`TextureDescs` row, say)
+             @endrst
+             *
+             * @param dxgiFormat The texture's ``DXGI_FORMAT`` number
+             * @param width The texture's width
+             * @param height The texture's height
+             * @param mips The texture's mip count, as the game creates it
+             *
+             * @return The tag
+             */
+            static int tagOf(std::uint32_t dxgiFormat, std::uint32_t width, std::uint32_t height, std::uint32_t mips);
+
+            /**
+             * @brief The same, by the format's name without ``DXGI_FORMAT_`` (``BC7_TYPELESS``, as a frame dump's ``.dsc`` writes it)
+             *
+             * @param format The format's name
+             * @param width The texture's width
+             * @param height The texture's height
+             * @param mips The texture's mip count, as the game creates it
+             *
+             * @return The tag
+             */
+            static int tagOf(const std::string& format, std::uint32_t width, std::uint32_t height, std::uint32_t mips);
 
             /**
              * @brief

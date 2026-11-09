@@ -26,14 +26,15 @@ namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
 
-PyRegRemove::PyRegRemove(py::object removeKeysObj): Core({}), removeKeysObj(std::move(removeKeysObj)) {}
-
-void PyRegRemove::refresh(const py::object &modType) {
-    (void)modType;
-
-    // parseRemoveKeys (PyIfContentPart.h) is the exact same helper IfContentPart.removeKeys' own
-    // binding uses.
-    removeKeys = parseRemoveKeys(removeKeysObj);
+namespace {
+    // the C++ member as Python reads it: key -> its check, or None
+    py::dict removeKeysToPy(const PyRegRemove &edit) {
+        py::dict result;
+        for (const auto &[key, check] : edit.removeKeys) {
+            result[py::str(key)] = check.has_value() ? py::cast(*check) : py::none();
+        }
+        return result;
+    }
 }
 
 
@@ -52,8 +53,9 @@ removeKeys: Union[Dict[Any, Optional[Callable[[:class:`int`, Any], :class:`bool`
     which occurrences of a key actually get removed
     )doc");
 
+    // parseRemoveKeys (PyIfContentPart.h) is the exact same helper IfContentPart.removeKeys' own binding uses
     cls.def(py::init([](py::object removeKeys) {
-        return std::make_unique<PyRegRemove>(std::move(removeKeys));
+        return std::make_unique<PyRegRemove>(parseRemoveKeys(removeKeys));
     }), py::arg("removeKeys"));
 
     cls.def_static("valueStartsWith", [](std::string prefix) {
@@ -75,9 +77,9 @@ Callable[[:class:`int`, :class:`str`], :class:`bool`]
     )doc"));
 
     cls.def_property("removeKeys", [](const PyRegRemove &self) {
-        return self.removeKeysObj;
+        return removeKeysToPy(self);
     }, [](PyRegRemove &self, py::object removeKeys) {
-        self.removeKeysObj = std::move(removeKeys);
+        self.removeKeys = parseRemoveKeys(removeKeys);
     }, py::doc(R"doc(
 Dict[Any, Optional[Callable[[:class:`int`, Any], :class:`bool`]]]: Each key to remove, mapped to
 its own optional check predicate

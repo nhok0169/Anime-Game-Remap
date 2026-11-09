@@ -213,6 +213,25 @@ namespace AGRemapCore {
             std::vector<std::vector<K>> getKeys(const T& asset, const std::optional<Version>& fromVersion, const std::vector<std::optional<K>>& fromNonVersionVals) const;
 
             /**
+             * @brief
+             @rst
+             The version whose rows hold 'asset' -- the newest one with a matching key :raw-html:`<br />` :raw-html:`<br />`
+
+             What a value tells about the data it came from: a mod's ``vb0`` hash says which version of the character it
+             was made for
+             @endrst
+             *
+             * @param asset The asset to look up
+             * @param nonVersionVals The non-version value filter -- see #getKey; empty for none
+             *
+             * @throws std::invalid_argument If 'nonVersionVals' is non-empty and doesn't have exactly #getRepo's
+             *      ``getTotalIndices() - 1`` elements
+             *
+             * @return The version, or ``std::nullopt`` when no row holds 'asset'
+             */
+            std::optional<Version> versionOf(const T& asset, const std::vector<std::optional<K>>& nonVersionVals = {}) const;
+
+            /**
              * @brief Retrieves the single corresponding asset to replace 'asset' with, for one
              *      specific target asset name
              *

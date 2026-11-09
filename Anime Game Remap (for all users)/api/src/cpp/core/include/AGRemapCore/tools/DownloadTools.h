@@ -19,6 +19,7 @@
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 
@@ -198,6 +199,18 @@ namespace AGRemapCore {
             static std::string urlPath(const std::string& game, const std::string& charFolder,
                                         const std::string& versionFolder, const std::string& prefix,
                                         const std::string& kind, const std::string& ext);
+
+            /**
+             * @brief
+             @rst
+             The folder a game version's downloads are filed in: the version with its dots as underscores, eg.
+             ``3_7`` for ``3.7`` -- so a download's folder is read off the version of the asset row it comes from
+             (a texture's :cpp:class:`Hashes` row, say) rather than written out
+             @endrst
+             *
+             * @param version The game version
+             */
+            static std::string versionFolder(const Version& version);
 
             /**
              * @brief The whole URL of a download: \ref downloadFolder, then \ref urlPath's six-argument form

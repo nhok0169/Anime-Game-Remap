@@ -15,6 +15,7 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -32,11 +33,11 @@ AGRC::DownloadMode parseIniDownloadMode(const py::object &ini) {
 }
 
 
-PyRegFillMissing::Core::FillMissingFunc parseFillMissing(const py::object &fillMissing, const std::string &reg, bool toFront) {
+PyRegFillMissing::FillMissingFunc parseFillMissing(const py::object &fillMissing, const std::string &reg, bool toFront) {
     // The isinstance checks are deliberately str-then-list, in that order, matching the
     // pure-Python original's own _getFillMissingFunc chain.
     if (py::isinstance<py::str>(fillMissing)) {
-        return PyRegFillMissing::Core::makeFillMissing(reg, py::str(fillMissing).cast<std::string>(), toFront);
+        return PyRegFillMissing::makeFillMissing(reg, py::str(fillMissing).cast<std::string>(), toFront);
     }
 
     if (py::isinstance<py::list>(fillMissing)) {
@@ -50,7 +51,7 @@ PyRegFillMissing::Core::FillMissingFunc parseFillMissing(const py::object &fillM
             kvps.emplace_back(py::str(kvp[0]).cast<std::string>(), py::str(kvp[1]).cast<std::string>());
         }
 
-        return PyRegFillMissing::Core::makeFillMissing(std::move(kvps), toFront);
+        return PyRegFillMissing::makeFillMissing(std::move(kvps), toFront);
     }
 
     if (fillMissing.is_none() || !PyCallable_Check(fillMissing.ptr())) {
@@ -66,13 +67,13 @@ PyRegFillMissing::Core::FillMissingFunc parseFillMissing(const py::object &fillM
 }
 
 
-std::optional<PyRegFillMissing::Core::KeySet> parseKeysToTrack(const py::object &keysToTrack) {
+std::optional<PyRegFillMissing::KeySet> parseKeysToTrack(const py::object &keysToTrack) {
     // None means "every key", not "no keys" -- see this function's own doc comment.
     if (keysToTrack.is_none()) {
         return std::nullopt;
     }
 
-    PyRegFillMissing::Core::KeySet result;
+    PyRegFillMissing::KeySet result;
     for (auto key : keysToTrack) {
         result.insert(py::str(key).cast<std::string>());
     }
@@ -83,14 +84,28 @@ std::optional<PyRegFillMissing::Core::KeySet> parseKeysToTrack(const py::object 
 
 // Publishes 'ini' on a PyRegFillMissing for the lifetime of one forwarded 'edit' call -- see
 // PyRegFillMissing::currentIni's own note.
+std::unordered_map<const PyRegFillMissing *, py::object> &currentInis() {
+    static auto *inis = new std::unordered_map<const PyRegFillMissing *, py::object>();   // never freed: see defaultPartFilter's note
+    return *inis;
+}
+
+py::object currentIniOf(const PyRegFillMissing &edit) {
+    const auto found = currentInis().find(&edit);
+    return found == currentInis().end() ? py::none() : found->second;
+}
+
 class CurrentIniScope {
     public:
-        CurrentIniScope(PyRegFillMissing &edit, py::object ini): edit_(edit), previous_(edit.currentIni) {
-            edit_.currentIni = std::move(ini);
+        CurrentIniScope(PyRegFillMissing &edit, py::object ini): edit_(edit), previous_(currentIniOf(edit)) {
+            currentInis()[&edit_] = std::move(ini);
         }
 
         ~CurrentIniScope() {
-            edit_.currentIni = std::move(previous_);
+            if (previous_.is_none()) {
+                currentInis().erase(&edit_);
+            } else {
+                currentInis()[&edit_] = std::move(previous_);
+            }
         }
 
         CurrentIniScope(const CurrentIniScope&) = delete;
@@ -102,7 +117,7 @@ class CurrentIniScope {
 };
 
 
-PyRegFillMissing::Core::PartFilter parsePartFilter(const py::object &partFilter, py::object modType, py::object ini) {
+PyRegFillMissing::PartFilter parsePartFilter(const py::object &partFilter, py::object modType, py::object ini) {
     if (partFilter.is_none() || !PyCallable_Check(partFilter.ptr())) {
         return {};
     }
@@ -113,14 +128,14 @@ PyRegFillMissing::Core::PartFilter parsePartFilter(const py::object &partFilter,
     py::object heldModType = std::move(modType);
     py::object heldIni = std::move(ini);
 
-    return [heldFilter, heldModType, heldIni](const PyRegFillMissing::Core::IterData &iterData, const AGRC::ModType *,
-                                               AGRC::IniFile *) -> PyRegFillMissing::Core::OrderRanges {
+    return [heldFilter, heldModType, heldIni](const PyRegFillMissing::IterData &iterData, const AGRC::ModType *,
+                                               AGRC::IniFile *) -> PyRegFillMissing::OrderRanges {
         // The captured Python modType/ini are handed over rather than the core's own (always-null)
         // pointers -- same shape, and same reason, as PyGraphGroupEdit's own keyFilters.
         py::object result = heldFilter(py::cast(&iterData, py::return_value_policy::reference), heldModType, heldIni);
 
         PyPartRanges ranges(result);
-        const PyRegFillMissing::Core::OrderRanges *parsedRanges = ranges.get();
+        const PyRegFillMissing::OrderRanges *parsedRanges = ranges.get();
         if (parsedRanges == nullptr) {
             throw py::type_error("A RegFillMissing partFilter must return a Ranges (or a list of (start, end) bounds), not None");
         }
@@ -130,28 +145,45 @@ PyRegFillMissing::Core::PartFilter parsePartFilter(const py::object &partFilter,
 }
 
 
-PyRegFillMissing::PyRegFillMissing(std::string regObj, py::object fillMissingObj, py::object fillModeObj, bool dependOnDownload,
-                                    bool trackKeys, py::object keysToTrackObj):
-    Core(std::move(regObj)), fillMissingObj(std::move(fillMissingObj)), keysToTrackObj(std::move(keysToTrackObj)) {
+// 'fillMissing' as the edit holds it: the value given and the function made of it with the edit's register and mode,
+// together, so it reads back and is made again when the register or the mode changes
+struct PyFillMissing {
+    py::object given;
+    PyRegFillMissing::FillMissingFunc made;
 
-    // An omitted 'fillMode' materializes the real RegFillMissingMode.FillMissing member rather than
-    // staying None, so reading '.fillMode' back gives the member itself.
-    this->fillModeObj = fillModeObj.is_none() ? enumMember(AGRC::RegFillMissingMode::FillMissing) : std::move(fillModeObj);
-    this->dependOnDownload = dependOnDownload;
-    this->trackKeys = trackKeys;
+    void operator()(PyIfContentPart &part) const {
+        if (made) {
+            py::gil_scoped_acquire gil;
+            made(part);
+        }
+    }
+};
+
+void setFillMissing(PyRegFillMissing &edit, const py::object &given) {
+    edit.fillMissing = PyFillMissing{given, parseFillMissing(given, edit.reg, edit.fillMode == AGRC::RegFillMissingMode::TopdownCover)};
 }
 
+py::object fillMissingGiven(const PyRegFillMissing &edit) {
+    const PyFillMissing *own = edit.fillMissing ? edit.fillMissing.target<PyFillMissing>() : nullptr;
+    return own != nullptr ? own->given : (edit.fillMissing ? py::object(py::cast(edit.fillMissing)) : py::none());
+}
 
-void PyRegFillMissing::refresh() {
-    fillMode = toRegFillMissingMode(fillModeObj);
+// after the register or the mode changes: the function made again from what was given
+void remakeFillMissing(PyRegFillMissing &edit) {
+    if (edit.fillMissing && edit.fillMissing.target<PyFillMissing>() != nullptr) {
+        setFillMissing(edit, fillMissingGiven(edit));
+    }
+}
 
-    // Mode and fill function are re-derived together -- see this method's own doc comment.
-    bool toFront = (fillMode == AGRC::RegFillMissingMode::TopdownCover);
-    fillMissing = parseFillMissing(fillMissingObj, reg, toFront);
-
-    // Re-derived per edit for the same reason as the two above: an in-place mutation of the set the
-    // caller passed has to be honoured.
-    keysToTrack = parseKeysToTrack(keysToTrackObj);
+py::object keysToTrackToPy(const std::optional<PyRegFillMissing::KeySet> &keys) {
+    if (!keys.has_value()) {
+        return py::none();
+    }
+    py::set result;
+    for (const std::string &key : *keys) {
+        result.add(key);
+    }
+    return result;
 }
 
 
@@ -207,8 +239,14 @@ keysToTrack: Optional[Set[:class:`str`]]
     // needing to move-construct the class itself -- see PyGraphRemove.cpp's identical note.
     cls.def(py::init([](std::string reg, py::object fillMissing, py::object fillMode, bool dependOnDownload,
                         bool trackKeys, py::object keysToTrack) {
-        return std::make_unique<PyRegFillMissing>(std::move(reg), std::move(fillMissing), std::move(fillMode),
-                                                   dependOnDownload, trackKeys, std::move(keysToTrack));
+        auto edit = std::make_unique<PyRegFillMissing>(std::move(reg));
+        // an omitted 'fillMode' is RegFillMissingMode.FillMissing
+        edit->fillMode = fillMode.is_none() ? AGRC::RegFillMissingMode::FillMissing : toRegFillMissingMode(fillMode);
+        edit->dependOnDownload = dependOnDownload;
+        edit->trackKeys = trackKeys;
+        edit->keysToTrack = parseKeysToTrack(keysToTrack);
+        setFillMissing(*edit, fillMissing);
+        return edit;
     }), py::arg("reg"), py::arg("fillMissing"), py::arg("fillMode") = py::none(), py::arg("dependOnDownload") = false,
         py::arg("trackKeys") = false, py::arg("keysToTrack") = py::none());
 
@@ -216,23 +254,25 @@ keysToTrack: Optional[Set[:class:`str`]]
         return self.reg;
     }, [](PyRegFillMissing &self, std::string reg) {
         self.reg = std::move(reg);
+        remakeFillMissing(self);
     }, py::doc(R"doc(
 :class:`str`: The register to search for
     )doc"));
 
     cls.def_property("fillMissing", [](const PyRegFillMissing &self) {
-        return self.fillMissingObj;
+        return fillMissingGiven(self);
     }, [](PyRegFillMissing &self, py::object fillMissing) {
-        self.fillMissingObj = std::move(fillMissing);
+        setFillMissing(self, fillMissing);
     }, py::doc(R"doc(
 Union[:class:`str`, List[Tuple[:class:`str`, :class:`str`]], Callable[[:class:`IfContentPart`], Any]]: How to
 fill in the :class:`IfContentPart`\s with their corresponding values
     )doc"));
 
     cls.def_property("fillMode", [](const PyRegFillMissing &self) {
-        return self.fillModeObj;
+        return enumMember(self.fillMode);
     }, [](PyRegFillMissing &self, py::object fillMode) {
-        self.fillModeObj = std::move(fillMode);
+        self.fillMode = toRegFillMissingMode(fillMode);
+        remakeFillMissing(self);
     }, py::doc(R"doc(
 :class:`RegFillMissingMode`: What mode used to search and fill the missing register
     )doc"));
@@ -300,16 +340,16 @@ graph, so that the ``partFilter`` given to :meth:`edit` receives a populated
     )doc"));
 
     cls.def_property("keysToTrack", [](const PyRegFillMissing &self) {
-        return self.keysToTrackObj;
+        return keysToTrackToPy(self.keysToTrack);
     }, [](PyRegFillMissing &self, py::object keysToTrack) {
-        self.keysToTrackObj = std::move(keysToTrack);
+        self.keysToTrack = parseKeysToTrack(keysToTrack);
     }, py::doc(R"doc(
 Optional[Set[:class:`str`]]: Which keys :attr:`trackKeys` should colour, or ``None`` for every key
     )doc"));
 
     cls.def_static("fillMissingGraph", [](py::object graph, const std::string &reg, const py::object &fillMissing) {
         PyIniSectionGraph &parsedGraph = parseGraphArg(graph);
-        PyRegFillMissing::Core::fillMissingGraph(parsedGraph, reg, parseFillMissing(fillMissing, reg, false));
+        PyRegFillMissing::fillMissingGraph(parsedGraph, reg, parseFillMissing(fillMissing, reg, false));
         return graph;
     }, py::arg("graph"), py::arg("reg"), py::arg("fillMissing"), py::doc(R"doc(
 Fills the :class:`IfContentPart`\s from 'graph' that are missing 'reg'
@@ -336,7 +376,7 @@ Returns
 
     cls.def_static("addBottomCover", [](py::object graph, const std::string &reg, const py::object &fillMissing) {
         PyIniSectionGraph &parsedGraph = parseGraphArg(graph);
-        PyRegFillMissing::Core::addBottomCover(parsedGraph, reg, parseFillMissing(fillMissing, reg, false));
+        PyRegFillMissing::addBottomCover(parsedGraph, reg, parseFillMissing(fillMissing, reg, false));
 
         // addBottomCover appends brand-new IfContentParts to each root section -- see addCover below.
         parsedGraph.refreshKeepAlive();
@@ -368,7 +408,7 @@ Returns
 
     cls.def_static("addCover", [](py::object graph, const std::string &reg, const py::object &fillMissing) {
         PyIniSectionGraph &parsedGraph = parseGraphArg(graph);
-        PyRegFillMissing::Core::addCover(parsedGraph, reg, parseFillMissing(fillMissing, reg, true));
+        PyRegFillMissing::addCover(parsedGraph, reg, parseFillMissing(fillMissing, reg, true));
 
         // addCover appends brand-new IfContentParts to each root section, which the graph's
         // Python-side keep-alive has never seen -- see PyIniSectionGraph's own note on why every
@@ -402,8 +442,6 @@ Returns
     cls.def("edit", [](PyRegFillMissing &self, py::object graph, const py::object &modType,
                        const std::string &modName, const py::object &partFilter, bool trackKeys,
                        const py::object &keysToTrack) {
-        self.refresh();
-
         PyIniSectionGraph &parsedGraph = parseGraphArg(graph);
 
         // The C++ core takes 'modType' as a nullable ModType*, and the Python-side ModType is a
@@ -412,7 +450,7 @@ Returns
         // instead, which is what actually gets to read it.
         // The caller's trackKeys/keysToTrack are handed to the core, which combines them with this
         // edit's own -- see AGRemapCore::RegFillMissing::effectiveTrackKeys/effectiveKeysToTrack.
-        self.Core::edit(parsedGraph, nullptr, modName, parsePartFilter(partFilter, modType, self.currentIni),
+        self.edit(parsedGraph, nullptr, modName, parsePartFilter(partFilter, modType, currentIniOf(self)),
                         trackKeys, parseKeysToTrack(keysToTrack));
 
         // Either cover mode appends brand-new parts to each root -- see the addCover binding above.

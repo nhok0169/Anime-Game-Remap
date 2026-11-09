@@ -21,14 +21,15 @@ namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
 
-PyRegRemap::PyRegRemap(py::object keyRemapObj): Core({}), keyRemapObj(std::move(keyRemapObj)) {}
-
-void PyRegRemap::refresh(const py::object &modType) {
-    (void)modType;
-
-    // parseKeyRemap (PyIOrderedMultiMap.h) is the exact same helper IfContentPart.remapKeys' own
-    // binding uses, so a CppKeyRemapData/CppRemappedKeyData value works here identically.
-    keyRemap = parseIniKeyRemap(py::cast<py::dict>(keyRemapObj));
+namespace {
+    // the C++ member as Python reads it: key -> the keys it becomes (or its KeyRemapData)
+    py::dict keyRemapToPy(const PyRegRemap &edit) {
+        py::dict result;
+        for (const auto &[key, value] : edit.keyRemap) {
+            result[py::str(key)] = py::cast(value);
+        }
+        return result;
+    }
 }
 
 
@@ -48,13 +49,14 @@ keyRemap: Dict[:class:`str`, Union[List[Union[:class:`str`, :class:`CppRemappedK
     )doc");
 
     cls.def(py::init([](py::object keyRemap) {
-        return std::make_unique<PyRegRemap>(std::move(keyRemap));
+        // parseIniKeyRemap (PyIOrderedMultiMap.h) is the helper IfContentPart.remapKeys' own binding uses
+        return std::make_unique<PyRegRemap>(parseIniKeyRemap(py::cast<py::dict>(keyRemap)));
     }), py::arg("keyRemap"));
 
     cls.def_property("keyRemap", [](const PyRegRemap &self) {
-        return self.keyRemapObj;
+        return keyRemapToPy(self);
     }, [](PyRegRemap &self, py::object keyRemap) {
-        self.keyRemapObj = std::move(keyRemap);
+        self.keyRemap = parseIniKeyRemap(py::cast<py::dict>(keyRemap));
     }, py::doc(R"doc(
 Dict[:class:`str`, Union[List[Union[:class:`str`, :class:`CppRemappedKeyData`]], :class:`CppKeyRemapData`]]:
 The old key -> remap rules mapping to apply

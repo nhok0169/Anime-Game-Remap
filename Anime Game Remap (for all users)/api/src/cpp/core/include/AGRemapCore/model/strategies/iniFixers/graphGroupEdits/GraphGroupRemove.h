@@ -68,9 +68,34 @@ namespace AGRemapCore {
             using GraphGroups = typename Base::GraphGroups;
 
             /**
+             * @copydoc IniGraphGroup::ModObj
+             */
+            using ModObj = typename Base::ModObj;
+
+            /**
              * @brief The ``.ini`` indices of the groups to remove, or ``std::nullopt`` for every group
              */
             std::optional<std::vector<std::size_t>> iniIndices;
+
+            /**
+             * @brief
+             @rst
+             Objects a graph of any of which, in ANY group, is what makes the edit run: nothing is removed when no group
+             holds one -- eg. a marker graph a parser files for a mod the fix cannot handle. As
+             :cpp:member:`GraphCreate::onlyWith`. **Default**: empty, always runs
+             @endrst
+             */
+            std::vector<ModObj> onlyWith;
+
+            /**
+             * @brief
+             @rst
+             Objects a graph of any of which, in ANY group, stops the edit: nothing is removed when one is there -- eg. the
+             objects a fix remaps onto, so a list that is the same for every mod ends by writing nothing for a mod none of
+             whose objects it found. As :cpp:member:`GraphCreate::onlyWithout`. **Default**: empty, always runs
+             @endrst
+             */
+            std::vector<ModObj> onlyWithout;
 
             /**
              * @brief Constructs a new group-removing edit

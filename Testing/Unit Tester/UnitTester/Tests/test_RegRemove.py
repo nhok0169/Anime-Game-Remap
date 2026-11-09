@@ -13,9 +13,11 @@ class RegRemoveTest(BaseUnitTest):
     # =================== __init__ ====================
 
     def test_init_setsAttributes(self):
-        removeKeys = {"a": None}
-        edit = FRB.RegRemove(removeKeys)
-        self.assertIs(edit.removeKeys, removeKeys)
+        # the edit holds what it was given as its own (C++) data, read back as a dict -- not the object passed in
+        edit = FRB.RegRemove({"a": None})
+        self.assertEqual(edit.removeKeys, {"a": None})
+        edit.removeKeys = [("b", None)]
+        self.assertEqual(edit.removeKeys, {"b": None})
 
     # ================================================
     # ===================== edit ======================

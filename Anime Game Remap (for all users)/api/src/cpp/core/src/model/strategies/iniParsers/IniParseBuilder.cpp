@@ -85,38 +85,39 @@ namespace AGRemapCore {
         return errorOnNotFound_;
     }
 
-    std::shared_ptr<BaseIniParser<>> IniParseBuilder::build(IniFile* iniFile, const std::string& modName,
-                                                           const std::optional<Version>& version,
-                                                           std::optional<int> modTypeId) const {
+    IniParseBuilder::Factory IniParseBuilder::factoryOf(const std::string& modName,
+                                                        const std::optional<Version>& version) const {
         // A runtime override wins over everything below, including a fixed factory -- it exists so a
         // parser can be prototyped without rebuilding the core. empty() first so an ordinary run
         // pays one container test rather than a hash lookup per .ini file.
         if (!StrategyOverrides::empty()) {
             std::optional<Factory> overridden = StrategyOverrides::findParser(modName, version);
             if (overridden.has_value() && *overridden) {
-                return (*overridden)(iniFile, modTypeId);
+                return *overridden;
             }
         }
 
         if (builderArgs_ == nullptr) {
-            // The equivalent of the original's "_buildCls is not None" path, where modName/version
-            // are documented as having no effect.
-            return factory_(iniFile, modTypeId);
+            return factory_;
         }
 
-        // 'modName' is the table's single non-version index value, matching the pure-Python
-        // original's own "self._builderArgs.get(modName, version = version)". A missing 'version'
-        // means "latest listed"; a present one floor-matches, so an older row keeps applying to
-        // every later version until a newer row supersedes it.
+        // 'modName' is the table's single non-version index value. A missing 'version' means "latest
+        // listed"; a present one floor-matches, so an older row keeps applying to every later version
+        // until a newer row supersedes it.
         std::optional<Factory> found = builderArgs_->get({modName}, version, errorOnNotFound_);
 
         // Reached only when errorOnNotFound_ is false (get() would have thrown otherwise), or when
         // a row exists but holds an empty std::function -- both are "nothing usable was found", so
         // both degrade to a plain parser rather than dereferencing an empty callable.
         if (!found.has_value() || !*found) {
-            return defaultFactory()(iniFile, modTypeId);
+            return defaultFactory();
         }
+        return *found;
+    }
 
-        return (*found)(iniFile, modTypeId);
+    std::shared_ptr<BaseIniParser<>> IniParseBuilder::build(IniFile* iniFile, const std::string& modName,
+                                                           const std::optional<Version>& version,
+                                                           std::optional<int> modTypeId) const {
+        return factoryOf(modName, version)(iniFile, modTypeId);
     }
 }

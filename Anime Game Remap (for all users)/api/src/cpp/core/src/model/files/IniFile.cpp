@@ -187,6 +187,11 @@ namespace AGRemapCore {
         }
     }
 
+    IniParseData* IniFile::parseDataOf(const ModType& modType) {
+        const auto found = builtParsers_.find(modType.modTypeId);
+        return found == builtParsers_.end() || found->second == nullptr ? nullptr : &found->second->parseData();
+    }
+
     IniFile::VarState IniFile::varState(const std::set<std::string>& vars) {
         VarState result;
         result.vars = vars;
@@ -722,6 +727,20 @@ namespace AGRemapCore {
 
         return result;
     }
+
+    std::string IniFile::resourceNamed(const std::string& value) {
+        const std::string name = StringTools::toLower(IniNamingTools::removeRefPrefix(std::string(StringTools::strip(value))));
+        if (!StringTools::startsWith(name, "resource")) {
+            return "";
+        }
+        for (const auto& entry : getIfTemplates()) {
+            if (StringTools::toLower(entry.first) == name) {
+                return entry.first;
+            }
+        }
+        return "";
+    }
+
 
     std::vector<std::string> IniFile::getSectionNames() {
         std::vector<std::string> result;

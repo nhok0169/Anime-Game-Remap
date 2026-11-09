@@ -101,6 +101,13 @@ from .core import IndexCounts
 from .core import VGOffsets
 from .core import VGCounts
 from .core import ShapeKeyChecksums
+from .core import DrawPasses
+from .core import TextureRegisters
+from .core import GameShaders
+from .core import ShapeKeyDispatchSizes
+from .core import BoneCentroids
+from .core import ShapeKeyRemaps
+from .core import MaterialCodes, MaterialColours, TextureDescs, TextureThumbprints
 from .core import VGRemaps
 from .core import BufType
 from .core import BufDataType
@@ -133,6 +140,7 @@ from .core import BaseBufEditor
 from .core import BufEditor
 from .core import CppColour
 from .core import CppColourRange
+from .core import Colours, ColourRanges
 from .core import CppTextureFile
 from .core import CppBasePixelTransform
 from .core import CppCorrectGamma
@@ -198,6 +206,10 @@ from .core import WWMIParserConfig
 from .core import WWMIFixerConfig
 from .core import makeWWMIParser
 from .core import makeWWMIFixer
+from .core import wwmiSteps
+from .core import wwmiSlotRemapStep
+from .core import CppIniFixFactory
+from .core import CppIniParseFactory
 from .core import GIMIObjPartFilter
 from .core import RegAssetRemap
 from .core import RegNewVals
@@ -239,6 +251,7 @@ from .core import IParseResult
 from .core import GraphEditVariables
 from .core import GraphVarTake
 from .core import GraphVarApply
+from .core import EditScope
 from .core import ShaderFilterTags
 from .core import CustomShaderBackups
 from .core import CppBaseIniParser
@@ -397,9 +410,9 @@ from .main import remapMain
 ##### EndLocalImports
 
 __all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
-           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "FromOldVal", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "DownloadMode", "DownloadModeTools", "RegFillMissingMode", "IniGraphReplaceMode", "IfPredPartType", "IfPredPartTypeTools", "IniKeywords", "IniGraphModObjKeywords", "FileExt", "FilePrefixes", "FileTypes", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppGlobalModTypes", "GlobalIniClassifiers", "CppStrategyOverrides", "IniClassifyStats", "BaseIniClassifier", "IniClassifier", "IniFile", "IniSharedState", "BaseLogger", "Logger", "Version", "VersionSet", "ModDictAssets", "ModMappedAssets", "ModAssets", "Hashes", "Indices", "VertexCounts", "VGRemaps", "IndexCounts", "VGOffsets", "VGCounts", "ShapeKeyChecksums",
+           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "FromOldVal", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "DownloadMode", "DownloadModeTools", "RegFillMissingMode", "IniGraphReplaceMode", "IfPredPartType", "IfPredPartTypeTools", "IniKeywords", "IniGraphModObjKeywords", "FileExt", "FilePrefixes", "FileTypes", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppGlobalModTypes", "GlobalIniClassifiers", "CppStrategyOverrides", "IniClassifyStats", "BaseIniClassifier", "IniClassifier", "IniFile", "IniSharedState", "BaseLogger", "Logger", "Version", "VersionSet", "ModDictAssets", "ModMappedAssets", "ModAssets", "Hashes", "Indices", "VertexCounts", "VGRemaps", "IndexCounts", "VGOffsets", "VGCounts", "ShapeKeyChecksums", "DrawPasses", "TextureRegisters", "GameShaders", "ShapeKeyDispatchSizes", "BoneCentroids", "ShapeKeyRemaps", "MaterialCodes", "MaterialColours", "TextureDescs", "TextureThumbprints",
            "CppBufFile", "BlendFile", "PositionFile", "TexcoordFile", "IbFile", "WWMIBlend", "WWMISections", "WWMIShapeKeys", "SkeletonNumberingProbe", "RabbitFX", "TexThumbprint", "DownloadTools", "IniComments", "DrawUVCoverage", "VbFile", "BaseBufEditor", "BufEditor",
-           "CppColour", "CppColourRange", "CppTextureFile",
+           "CppColour", "CppColourRange", "Colours", "ColourRanges", "CppTextureFile",
            "CppBasePixelTransform", "CppCorrectGamma", "CppColourReplace", "CppHighlightShadow", "CppInvertAlpha", "CppTempControl", "CppTintTransform", "CppTransparency",
            "CppBaseTexFilter", "CppGammaFilter", "CppColourReplaceFilter", "CppTransparencyAdjustFilter", "CppInvertAlphaFilter", "CppMaterialBandRemapFilter", "ChannelMapFilter", "GuidedScaleFilter", "CppHueAdjust", "CppPixelFilter",
            "CppBaseTexEditor", "CppTexEditor", "CppTexCreator",
@@ -408,11 +421,11 @@ __all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA",
            "GIMIObjPartFilter", "IniNamingTools",
            "GIMICharParserConfig", "GIMICharFixerConfig", "makeGIMICharParser", "makeGIMICharFixer",
            "GIMIComponentParserConfig", "GIMIMergeFixerConfig", "makeGIMIComponentParser", "makeGIMIMergeFixer", "SideMeshes",
-           "WWMITextureFacts", "WWMINames", "LynaeData", "WWMIParserConfig", "WWMIFixerConfig", "makeWWMIParser", "makeWWMIFixer",
+           "WWMITextureFacts", "WWMINames", "LynaeData", "WWMIParserConfig", "WWMIFixerConfig", "makeWWMIParser", "makeWWMIFixer", "wwmiSteps", "wwmiSlotRemapStep", "CppIniFixFactory", "CppIniParseFactory",
            "BaseIniGraphEdit", "GraphRename", "GraphVarRename", "RegFillMissing",
            "GraphRemove", "GraphInherit", "GraphGroupRemap", "GraphGroupEdit", "RegPartEdit", "IterGraphGroupEdit",
            "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "TexCreate", "TexReplace", "FileAddCreate", "FileRefAdd", "FileDownloadCreate", "VGRemapBlendReplace", "ResRegCollect", "GraphCollect", "ResGroupCollect", "BaseIniGraphGroupEdit",
-           "TextureRoles", "IniParseData", "IniParseRows", "IParseResult", "GraphEditVariables", "GraphVarTake", "GraphVarApply", "ShaderFilterTags", "CustomShaderBackups", "CppBaseIniParser", "BaseIniParser", "CppIniParseBuilderArgs", "GIMISectionClassifier", "GIMIParser", "CppBaseIniFixer", "BaseIniFixer", "CppIniFixBuilderArgs", "GIMIFixer", "MultiModFixer", "IniFixingContext",
+           "TextureRoles", "IniParseData", "IniParseRows", "IParseResult", "GraphEditVariables", "GraphVarTake", "GraphVarApply", "EditScope", "ShaderFilterTags", "CustomShaderBackups", "CppBaseIniParser", "BaseIniParser", "CppIniParseBuilderArgs", "GIMISectionClassifier", "GIMIParser", "CppBaseIniFixer", "BaseIniFixer", "CppIniFixBuilderArgs", "GIMIFixer", "MultiModFixer", "IniFixingContext",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 

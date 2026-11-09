@@ -14,6 +14,7 @@
 #include "AGRemapCore/model/VGRemap.h"
 
 #include <algorithm>
+#include <set>
 #include <utility>
 
 
@@ -43,5 +44,31 @@ namespace AGRemapCore {
 
     std::optional<long long> VGRemap::getMaxIndex() const {
         return maxIndex_;
+    }
+
+    VGRemap::Compact VGRemap::compact(std::size_t size) const {
+        std::set<long long> used;
+        for (const auto& [src, dst] : remap_) {
+            (void)src;
+            if (dst >= 0 && static_cast<std::size_t>(dst) < size) {
+                used.insert(dst);
+            }
+        }
+
+        Compact result;
+        result.forward.assign(size, 0);
+        result.reverse.assign(size, 0);
+        std::uint16_t local = 0;
+        for (const long long bone : used) {
+            result.forward[local] = static_cast<std::uint16_t>(bone);
+            result.reverse[static_cast<std::size_t>(bone)] = local;
+            ++local;
+        }
+        for (const auto& [src, dst] : remap_) {
+            if (dst >= 0 && static_cast<std::size_t>(dst) < size) {
+                result.localRow[src] = result.reverse[static_cast<std::size_t>(dst)];
+            }
+        }
+        return result;
     }
 }

@@ -95,7 +95,8 @@ namespace AGRemapCore {
             GraphGroups& edit(GraphGroups& graphGroups, const ModType* modType, const std::string& modName = "") override;
 
             /**
-             * @brief Applies #fn to the variables of 'data' -- see this class's own description
+             * @brief Applies #fn to the variables of 'data' -- see this class's own description. Nothing when the edit has
+             *    #variables of its own, where #edit has applied it
              *
              * @param data The parser's data
              */

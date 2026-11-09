@@ -12,7 +12,6 @@
 // ##### EndCredits
 
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.h"
-#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintThumbprints.h"
 
 
 namespace AGRemapCore {
@@ -88,7 +87,7 @@ namespace AGRemapCore {
         };
 
         // ---- her own textures' pixels, for a file no hash and no register names ----
-        facts.textureThumbprints = lynaePeppermintTextureThumbprints();
+        // textureThumbprints: read off TextureThumbprints (WWMIParserConfig::withGameData, WWMIFixerConfig::withGameData)
 
         // ---- a role the mod ships no file for falls back to HER game texture ----
         // The eye textures are the same hashes on both skins, and her face map and mask are not bound

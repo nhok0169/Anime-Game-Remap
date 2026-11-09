@@ -4,7 +4,6 @@
     <compoundname>src/data/IniFixData/Chisa</compoundname>
     <innerfile refid="_chisa_fixer_8cpp">ChisaFixer.cpp</innerfile>
     <innerfile refid="_chisa_textures_8cpp">ChisaTextures.cpp</innerfile>
-    <innerfile refid="_chisa_thumbprints_8cpp">ChisaThumbprints.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

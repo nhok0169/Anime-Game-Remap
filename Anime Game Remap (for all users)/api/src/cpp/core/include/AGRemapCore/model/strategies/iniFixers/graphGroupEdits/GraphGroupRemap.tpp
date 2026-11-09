@@ -116,6 +116,9 @@ namespace AGRemapCore {
             const GraphId& srcModObj = remap[i].first;
 
             for (const RemapTarget& target : remap[i].second) {
+                if (target.everyGroup) {
+                    continue;                       // below, once every group is made
+                }
                 std::size_t bucket = target.id.iniIndex;
                 if (bucket > graphGroupLen) {
                     bucket = graphGroupLen;
@@ -143,6 +146,32 @@ namespace AGRemapCore {
                 }
 
                 graphGroups.addGraph(bucketStart[bucket] + groupInd, target.id.modObj, toGraph);
+            }
+        }
+
+        // ----- the targets in every group: a copy in each group there is, the groups now all made -----
+        for (std::size_t i = 0; i < remap.size(); ++i) {
+            Graph* fromGraph = removedGraphs[i];
+            if (fromGraph == nullptr) {
+                continue;
+            }
+
+            for (const RemapTarget& target : remap[i].second) {
+                if (!target.everyGroup) {
+                    continue;
+                }
+                if (graphGroups.size() == 0) {
+                    appendToBucket(0);
+                }
+                for (std::size_t group = 0; group < graphGroups.size(); ++group) {
+                    if (graphGroups.getGraph(group, target.id.modObj) != nullptr) {
+                        continue;
+                    }
+                    Graph* toGraph = createToGraph(graphGroups, *fromGraph, remap[i].first, target.id, target.renameFunc);
+                    if (toGraph != nullptr) {
+                        graphGroups.addGraph(group, target.id.modObj, toGraph);
+                    }
+                }
             }
         }
 
@@ -176,6 +205,26 @@ namespace AGRemapCore {
                                                     const GraphId& toId, const RenameFunc& renameFunc) {
             return copyGraph(groups, fromGraph, fromId, toId, renameFunc, modName);
         });
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename GraphGroupRemap<K, V, KeyHash, KeyEqual>::GraphGroups& GraphGroupRemap<K, V, KeyHash, KeyEqual>::editFromIni(
+            GraphGroups& graphGroups, IniFile* ini, const ModType* modType, const std::string& modName) {
+        if (!remapAtRun) {
+            return edit(graphGroups, modType, modName);
+        }
+
+        // this run's table in place of #remap, which is restored however the run ends
+        RemapList table = remapAtRun(remap, graphGroups, ini, modType, modName);
+        std::swap(remap, table);
+        try {
+            edit(graphGroups, modType, modName);
+        } catch (...) {
+            std::swap(remap, table);
+            throw;
+        }
+        std::swap(remap, table);
+        return graphGroups;
     }
 }
 

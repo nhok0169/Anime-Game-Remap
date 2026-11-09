@@ -129,6 +129,16 @@ namespace AGRemapCore {
         using PartEdit = ObjGroupEdit::PartEdit;
         using IterEdit = IterGraphGroupEdit<>;
 
+        // THE KINDS OF PER-OBJECT EDIT A WWMI FIX MAKES, each a named step of its list, in the order an object's edits run:
+        // the call of its texture list, the shared-list bypass, the mod's own texture lines carried, the draw's twins, the
+        // other additions, the reroute's draw filters, the lines the section drops, RabbitFX's pins, the target slot's
+        // numbers, the hashes, the shape-key dispatch size and lists, the shaders after the draw, the marked lines, the
+        // overlays, the rerouted shaders and the passes a component is off in
+        const std::vector<std::string> ObjEditKinds{
+            "textureListCalls", "sharedBypass", "modTexLines", "drawTwins", "additions", "rerouteFilters", "removedLines",
+            "rabbitFXPins", "slotValues", "hashes", "dispatchSize", "shapeKeyLists", "afterShaders", "markLines", "overlays",
+            "rerouteShaders", "offPasses"};
+
         // Hash-data keys and .ini registers spelled literally, as the rest of data/ spells them.
         const std::string Vb0HashKey = "vb0";
         const std::string ShapeKeyType = "shapekeys";
@@ -163,7 +173,7 @@ namespace AGRemapCore {
 
         // Marks everything belonging to the SOURCE's own game texture for a role the mod also
         // serves -- the download, its edits and the list that binds them. See
-        // `WWMIFixer::planGameDefaults`.
+        // the fix's "gameDefaults" step.
         const std::string GameSuffix = WWMINames::GameSuffix;
         const std::string ChecksumNotFound = WWMINames::ChecksumNotFound;
 
@@ -557,7 +567,7 @@ namespace AGRemapCore {
                     this->copyPreamble = config_.copyPreamble;
 
                     std::string error;
-                    const bool characters = readCharacters(error);
+                    const bool characters = readCharacters(error) && readGameData(error);
                     if (!characters || !readMod(error)) {
                         giveUp();
                         if (characters && buildWatcher()) {
@@ -570,34 +580,16 @@ namespace AGRemapCore {
                         return;
                     }
 
+                    // what the mod draws (the parser's sections, the plan's reroutes and shaders) -- the "drawn" step's value
                     readTextures();
                     readReroutes();
                     readShaders();
-                    planTexEdits();
-                    planGameDefaults();
-                    planLinkedLines();
-                    readRabbitFX();                     // after the toggles are known, and reading the pre-edit names
-                    planTextureLists();
-                    buildEdits();
-                    buildAppended();
-                    buildToggleLists();
+                    if (hasGivenUp()) {
+                        return;
+                    }
 
-                    this->graphGroupEdits.clear();
-                    for (Fixer::GroupEdit* edit : copyEdits_) {
-                        this->graphGroupEdits.push_back(edit);
-                    }
-                    for (Fixer::GroupEdit* edit : toggleEdits_) {
-                        this->graphGroupEdits.push_back(edit);
-                    }
-                    this->graphGroupEdits.push_back(slotRemap_.get());
-                    this->graphGroupEdits.push_back(mainEdits_.get());
-                    for (auto& collect : blendCollects_) {
-                        this->graphGroupEdits.push_back(collect.get());
-                    }
-                    if (rebindEdits_ != nullptr) {
-                        this->graphGroupEdits.push_back(rebindEdits_.get());
-                    }
-                    buildFixSectionEdits();
+                    // THE FIX IS ITS LIST: the decisions, then the stages that write them (buildList)
+                    buildList();
 
                     // The copies are the prototype's shape: each carries the fix's own sections (the
                     // texture command lists, the shader tags, the resources) and none of the mod's
@@ -613,9 +605,168 @@ namespace AGRemapCore {
                             this->copyHiddenSectionNames.insert(section);
                         }
                     }
+
+                    // the edits each step of the list (wwmiSteps) runs on this .ini, filed on its parse data
+                    builtSteps_ = this->list();
+                    this->getParser()->parseData().variables().set(fixVariable(toModName_),
+                                                                   GraphEditVariables::Value::of<WWMIFixerImpl*>(this));
+                }
+
+                ~WWMIFixerImpl() override {
+                    if (builtSteps_.empty() || this->getParser() == nullptr) {
+                        return;
+                    }
+                    GraphEditVariables& variables = this->getParser()->parseData().variables();
+                    const GraphEditVariables::Value* filed = variables.value(fixVariable(toModName_));
+                    WWMIFixerImpl* const* fixer = filed != nullptr ? filed->as<WWMIFixerImpl*>() : nullptr;
+                    if (fixer != nullptr && *fixer == this) {
+                        variables.erase(fixVariable(toModName_));
+                    }
+                }
+
+                // The parse data variable a fixer for 'target' files itself under
+                static std::string fixVariable(const std::string& target) {
+                    return "WWMIFix " + target;
+                }
+
+                // The edits the step named 'name' runs on this .ini, in order
+                std::vector<Fixer::GroupEdit*> stepEdits(const std::string& name) const {
+                    std::vector<Fixer::GroupEdit*> edits;
+                    for (Fixer::GroupEdit* edit : builtSteps_) {
+                        if (edit != nullptr && edit->name == name) {
+                            edits.push_back(edit);
+                        }
+                    }
+                    return edits;
                 }
 
             protected:
+                // ---- THE FIX'S LIST ----
+                //
+                // What the fix decides is DATA, read off the mod and the config by WWMIFixerConfig's functions and held
+                // in this fixer's members (decide). The list is then the edits that write it, each built with its data
+                // and named (BaseIniGraphGroupEdit::name), in the order they run: the copies, the toggle lists, the slot
+                // remap, the per-object edits by kind (ObjEditKinds), the blend and its rebind. A user reads and
+                // rewrites the list whole (TemplateFixer::withList).
+                void buildList() {
+                    decide();
+                    buildEdits();
+                    buildAppended();
+                    buildToggleLists();
+
+                    this->graphGroupEdits.clear();
+                    const auto add = [this](Fixer::GroupEdit* edit, const std::string& name) {
+                        if (edit != nullptr) {
+                            edit->name = name;
+                            this->graphGroupEdits.push_back(edit);
+                        }
+                    };
+                    for (Fixer::GroupEdit* edit : copyEdits_) {
+                        add(edit, "copies");
+                    }
+                    for (Fixer::GroupEdit* edit : toggleEdits_) {
+                        add(edit, "toggles");
+                    }
+                    add(slotRemap_.get(), "slotRemap");
+                    for (const std::string& kind : ObjEditKinds) {
+                        if (const auto found = kindEdits_.find(kind); found != kindEdits_.end()) {
+                            add(found->second.get(), kind);
+                        }
+                    }
+                    for (auto& collect : blendCollects_) {
+                        add(collect.get(), "blend");
+                    }
+                    add(rebindEdits_.get(), "rebind");
+
+                    // ...and the edits on the fix's own sections, which run after them (TemplateFixer::fixSectionEdits)
+                    buildFixSectionEdits();
+                }
+
+                // THE FIX'S DECISIONS, from what the mod draws (readMod, readReroutes, readShaders) and the config:
+                // which file each component goes in, what each role resolves to (reroutes reading their source's
+                // files), the game's own textures, the texture edits' targets, what a linked .ini carries, RabbitFX's
+                // flags, the texture lists, the mod's own texture lines, the blend width and the lines each section drops
+                void decide() {
+                    const IniParseData& data = parseData();
+                    const std::string iniPath = ctx_.getIniFile()->getFile().value_or("");
+                    const std::string iniFolder = ctx_.getIniFile()->getFolder();
+                    const auto log = [this](const std::vector<std::string>& notes) {
+                        for (const std::string& note : notes) {
+                            ctx_.log(note);
+                        }
+                    };
+
+                    const std::set<int> present = keysOf(present_);
+                    std::set<int> drawn;
+                    std::set<int> rabbitFX;
+                    for (const int component : present) {
+                        if (rerouteFrom_.count(component) == 0) {
+                            drawn.insert(component);
+                            if (usesRabbitFX(component)) {
+                                rabbitFX.insert(component);
+                            }
+                        }
+                    }
+                    const std::set<int> ownShader = keysOf(rerouteShaders_);
+                    const std::set<int> overlaid = keysOf(overlays_);
+
+                    const WWMIFixerConfig::FileGroups groups = config_.fileGroups(present, source_.name);
+                    log(groups.notes);
+                    absorbGroups(groups);
+
+                    WWMIFixerConfig::RoleResources roles = config_.roleResources(data, drawn, rabbitFX, source_.name, toModName_,
+                                                                                 iniFolder);
+                    log(roles.notes);
+                    roles = WWMIFixerConfig::withReroutes(std::move(roles), rerouteFrom_);
+                    absorbRoles(roles);
+
+                    const WWMIFixerConfig::GameDefaults defaults = config_.gameDefaults(data, roles, present, rerouteFrom_, ownShader,
+                                                                                        source_.name);
+                    log(defaults.notes);
+                    const WWMIFixerConfig::TexEditTargets edits = config_.texEditTargets(data, roles, present, ownShader, iniPath,
+                                                                                         source_.name);
+                    log(edits.notes);
+                    absorbTexEditTargets(edits);
+                    absorbGameDefaults(defaults);
+
+                    const WWMIFixerConfig::LinkedLines linked = config_.linkedLines(data, roles, present, ctx_.getIniFile()->linkedInis(),
+                                                                                    source_.name, toModName_, iniFolder);
+                    log(linked.notes);
+                    absorbLinkedLines(linked);
+
+                    const std::map<int, std::array<int, 4>> flags = config_.rabbitFXFlags(data, roles, defaults.toggled, present_,
+                                                                                          rerouteFrom_, iniPath, iniFolder);
+                    absorbRabbitFX(flags);
+
+                    const WWMIFixerConfig::TextureLists lists = config_.toggleLists(
+                        config_.textureLists(data, roles, defaults, present, rerouteFrom_, ownShader, overlaid), data, defaults,
+                        source_.name, toModName_, iniPath);
+                    absorbTextureLists(lists, config_.modTexLines(data, roles, lists, present, rerouteFrom_, ownShader));
+
+                    std::optional<VGRemap> row;
+                    if (const ModType* source = ctx_.modType(); source != nullptr) {
+                        row = source->getVGRemap(toModName_, fromVersion(), toVersion());
+                    }
+                    const WWMIFixerConfig::BlendWidth width = config_.blendWidth(row);
+                    log(width.notes);
+                    absorbBlendWidth(width);
+
+                    std::set<int> components;
+                    for (const std::vector<int>& group : groups.groups) {
+                        components.insert(group.begin(), group.end());
+                    }
+                    absorbRemovals(config_.removedLines(width.targetPast256, components, keysOf(flags)));
+                }
+
+                template <typename V>
+                static std::set<int> keysOf(const std::map<int, V>& map) {
+                    std::set<int> keys;
+                    for (const auto& entry : map) {
+                        keys.insert(entry.first);
+                    }
+                    return keys;
+                }
+
                 // THE EDITS ON THE FIX'S OWN SECTIONS, run on every group once the slot remap has made
                 // the copies and the fix's sections are in them (TemplateFixer::fixSectionEdits), in order:
                 //
@@ -633,11 +784,12 @@ namespace AGRemapCore {
                     fixSectionIters_.clear();
                     texEditCollects_.clear();
                     texEditors_.clear();
-                    for (IterEdit::EditFactory factory : std::initializer_list<IterEdit::EditFactory>{
-                            [this](std::size_t g, Fixer::GraphGroups& groups) { return shaderFileEdits(g, groups); },
-                            [this](std::size_t g, Fixer::GraphGroups& groups) { return fixFileEdits(g, groups); },
-                            [this](std::size_t g, Fixer::GraphGroups& groups) { return latchEdits(g, groups); }}) {
+                    for (auto& [name, factory] : std::vector<std::pair<std::string, IterEdit::EditFactory>>{
+                            {"shaderFiles", [this](std::size_t g, Fixer::GraphGroups& groups) { return shaderFileEdits(g, groups); }},
+                            {"fixFiles", [this](std::size_t g, Fixer::GraphGroups& groups) { return fixFileEdits(g, groups); }},
+                            {"latch", [this](std::size_t g, Fixer::GraphGroups& groups) { return latchEdits(g, groups); }}}) {
                         fixSectionIters_.push_back(std::make_unique<IterEdit>(std::move(factory)));
+                        fixSectionIters_.back()->name = name;
                         this->fixSectionEdits.push_back(fixSectionIters_.back().get());
                     }
                     addTexEditCollects();
@@ -1043,6 +1195,22 @@ namespace AGRemapCore {
                     return true;
                 }
 
+                // The config's game data, off the versioned asset tables at this run's versions (WWMIFixerConfig::withGameData):
+                // the source's vb0 versions first, since the source's version is read off the mod's vb0
+                bool readGameData(std::string& error) {
+                    try {
+                        if (config_.sourceVersionFromVb0) {
+                            config_.sourceVersionByVb0 = WWMIFixerConfig::vb0VersionsOf(*ctx_.modType());
+                            modVb0Version_.reset();
+                        }
+                        config_ = config_.withGameData(*ctx_.modType(), *targetType_, fromVersion(), toVersion());
+                    } catch (const std::exception& e) {
+                        error = e.what();
+                        return false;
+                    }
+                    return true;
+                }
+
                 // ---- what the mod's .ini has: its slot sections, its vertex count, its folders ----
 
                 bool readMod(std::string& error) {
@@ -1282,7 +1450,6 @@ namespace AGRemapCore {
                     // the mod's textures sat in was a vote, and a mod whose textures are spread evenly
                     // over its folders gave it no answer (the maintainer, 2026-10-31).
                     dumpTextureRoles(scan);
-                    applyRoleResources(scan);
                 }
 
                 // AGREMAP_WWMI_ROLES=1: one line per file per role, so the identification this does
@@ -1304,41 +1471,32 @@ namespace AGRemapCore {
                 // WHAT EACH ROLE RESOLVES TO is the config's decision (WWMIFixerConfig::roleResources), from the
                 // parser's data: the mod's file per (role, component) and the resource binding it, the resources the
                 // fix declares for the mod's files, the stand-ins, and the roles left to the game
-                void applyRoleResources(TextureScan& scan) {
-                    std::set<int> drawn;
-                    std::set<int> rabbitFX;
-                    for (const auto& entry : present_) {
-                        drawn.insert(entry.first);
-                        if (usesRabbitFX(entry.first)) {
-                            rabbitFX.insert(entry.first);
-                        }
-                    }
-
-                    WWMIFixerConfig::RoleResources roles = config_.roleResources(*scan.data, drawn, rabbitFX, source_.name,
-                                                                                 toModName_, scan.iniFolder);
-                    for (const std::string& note : roles.notes) {
-                        ctx_.log(note);
-                    }
+                void absorbRoles(const WWMIFixerConfig::RoleResources& roles) {
                     if (std::getenv("AGREMAP_WWMI_PICK") != nullptr) {
+                        const std::string iniPath = ctx_.getIniFile()->getFile().value_or("");
                         for (const auto& [roleComponent, resource] : roles.ofSlotRole) {
                             (void)resource;
-                            std::fprintf(stderr, "WWMIPICK\t%s\t%s\t%d\t%s\n", scan.iniPath.c_str(),
+                            const auto file = roles.fileOfRole.find(roleComponent.first);
+                            std::fprintf(stderr, "WWMIPICK\t%s\t%s\t%d\t%s\n", iniPath.c_str(),
                                          roleComponent.first.c_str(), roleComponent.second,
-                                         FileService::pathKey(roles.fileOfRole[roleComponent.first]).c_str());
+                                         FileService::pathKey(file == roles.fileOfRole.end() ? "" : file->second).c_str());
                         }
                     }
 
-                    leftToGame_.insert(roles.leftToGame.begin(), roles.leftToGame.end());
-                    resourceOfSlotRole_.insert(roles.ofSlotRole.begin(), roles.ofSlotRole.end());
+                    leftToGame_ = roles.leftToGame;
+                    resourceOfSlotRole_ = roles.ofSlotRole;
+                    fileOfRole_.clear();
                     fileOfRole_.insert(roles.fileOfRole.begin(), roles.fileOfRole.end());
-                    for (const auto& [role, resource] : roles.ofRole) {
-                        resourceOfRole_[role] = resource;
-                    }
+                    resourceOfRole_ = roles.ofRole;
+                    declaredName_.clear();
+                    usedDeclaredNames_.clear();
+                    declared_.clear();
                     for (const WWMIFixerConfig::DeclaredFile& declared : roles.declared) {
                         declaredName_[declared.file] = declared.resource;
                         usedDeclaredNames_.insert(declared.resource);
                         declared_.emplace_back(declared.file, declared.rel);
                     }
+                    fallbacks_.clear();
                     for (const auto& [role, download] : roles.downloads) {
                         fallbacks_[role] = Fallback{download.url, download.file, download.file, download.resource};
                     }
@@ -1486,24 +1644,8 @@ namespace AGRemapCore {
                 // the mod's own, or one the fix declares as a RemapRef so an undo leaves the file. A condition on the
                 // linked file's own variables reads the fix's copy of the state that sets them (copyLinkedState): a
                 // file with no namespace names its variables after its path, and this one cannot read them.
-                void planLinkedLines() {
+                void absorbLinkedLines(const WWMIFixerConfig::LinkedLines& linked) {
                     linkedLines_.clear();
-                    if (hasGivenUp() || parseData().linkedLines().empty()) {
-                        return;
-                    }
-
-                    // what is carried is the config's decision (WWMIFixerConfig::linkedLines); copying each linked file's
-                    // state into the fix is this fixer's writing
-                    WWMIFixerConfig::RoleResources roles = currentRoles();
-                    for (const auto& [file, name] : declaredName_) {
-                        if (std::none_of(roles.declared.begin(), roles.declared.end(),
-                                         [&file = file](const WWMIFixerConfig::DeclaredFile& d) { return d.file == file; })) {
-                            roles.declared.push_back(WWMIFixerConfig::DeclaredFile{file, "", name});
-                        }
-                    }
-                    const WWMIFixerConfig::LinkedLines linked = config_.linkedLines(
-                        parseData(), roles, drawnComponents(), ctx_.getIniFile()->linkedInis(), source_.name, toModName_,
-                        ctx_.getIniFile()->getFolder());
                     for (const WWMIFixerConfig::LinkedState& state : linked.states) {
                         std::set<std::string> vars = state.vars;
                         copyLinkedState(*linkedIni(state.ini), vars, state.suffix);
@@ -1517,9 +1659,6 @@ namespace AGRemapCore {
                         for (const WWMIFixerConfig::CarriedLine& line : lines) {
                             linkedLines_[component].push_back(CarriedLine{line.condition, line.key, line.role, line.value});
                         }
-                    }
-                    for (const std::string& note : linked.notes) {
-                        ctx_.log(note);
                     }
                 }
 
@@ -1800,51 +1939,9 @@ namespace AGRemapCore {
                 // Does the TARGET's merged skeleton pass what an 8-bit blend index can name, and can
                 // one WWMI blend remap hold the row? Sets #targetPast256_ and #blendRemapBones_,
                 // which every later phase reads.
-                void readBlendWidth(const ModType* source, const std::optional<Version>& from,
-                                     const std::optional<Version>& to) {
-                    // Does the TARGET's merged skeleton pass what an 8-bit blend index can name?
-                    // The row's largest target id answers it, and it is a property of the PAIR --
-                    // so the .ini and the buffers, written at different moments, cannot disagree
-                    // about whether there is a blend remap. Chisa reaches 418; ChisaParfait, going
-                    // the other way, stops at 250 and needs none.
-                    if (source != nullptr) {
-                        const std::optional<VGRemap> row = source->getVGRemap(toModName_, from, to);
-                        if (row.has_value()) {
-                            std::set<long long> targets;
-                            for (const auto& [srcBone, dstBone] : row->getRemap()) {
-                                (void)srcBone;
-                                targets.insert(dstBone);
-                                if (dstBone > WWMIBlend::MaxByteBone) {
-                                    targetPast256_ = true;
-                                }
-                            }
-
-                            blendRemapBones_ = targets.size();
-
-                            // A row naming more distinct targets than one remap holds would need
-                            // WWMI's per-component scheme back.
-                            //
-                            // THIS SAID "refused rather than truncated" AND THEN TRUNCATED (noted
-                            // 2026-09-29). Clearing `targetPast256_` sends the fix to an 8-bit lift,
-                            // whose ids are one byte -- so every bone past 255 lands on bone 0, the
-                            // exact outcome the comment claimed to be avoiding. `writeBlendRemap`
-                            // does refuse (it throws), but it is unreachable once this has turned
-                            // the path off.
-                            //
-                            // The line now says what happens rather than the opposite. Which of the
-                            // two guards should win -- fall back and lose the far bones, or refuse
-                            // the mod outright -- is the maintainer's call, and both are in game.
-                            if (targetPast256_ && blendRemapBones_ > WWMIBlend::RemapSize) {
-                                ctx_.log("the vertex group row names " + std::to_string(blendRemapBones_)
-                                     + " distinct target bones, past the "
-                                     + std::to_string(WWMIBlend::RemapSize)
-                                     + " one blend remap holds; falling back to an 8-bit blend, so"
-                                     + " every bone past " + std::to_string(WWMIBlend::MaxByteBone)
-                                     + " will land on bone 0");
-                                targetPast256_ = false;
-                            }
-                        }
-                    }
+                void absorbBlendWidth(const WWMIFixerConfig::BlendWidth& width) {
+                    targetPast256_ = width.targetPast256;
+                    blendRemapBones_ = width.bones;
                 }
 
                 void buildEdits() {
@@ -1852,8 +1949,6 @@ namespace AGRemapCore {
                     const ModType* source = ctx_.modType();
                     const std::optional<Version> from = fromVersion();
                     const std::optional<Version> to = toVersion();
-
-                    readBlendWidth(source, from, to);
 
                     assetRemap_ = std::make_unique<RegAssetRemap<>>(
                         std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
@@ -1903,12 +1998,9 @@ namespace AGRemapCore {
                         shapeKeyAdapter_ = std::make_unique<RegPartEdit<>>(shapeKeyEdit_.get());
                     }
 
-                    // In this order because each reads what the one before it set: the removals
-                    // need the blend width, the groups decide which slots are drawn, and everything
-                    // after that is per drawn slot.
+                    // In this order because each reads what the one before it set: everything after the bypasses is
+                    // per drawn slot (the "fileGroups" decision).
                     buildBypasses();
-                    buildRegRemovals();
-                    buildGroups();
                     buildSlotValues();
                     settleOwnMeshes(source, vgRemapVersion(from), to);
                     buildComponentAdditions();
@@ -1941,56 +2033,34 @@ namespace AGRemapCore {
                                                        config_.cleanupResourcesList, toModName_);
                 }
 
-                // Lines a remapped section drops -- see WWMIFixerConfig::removedRegs for why each
-                // kind is there. Built once and hung on every remapped slot section.
-                void buildRegRemovals() {
-                    std::vector<WWMIFixerConfig::RegRemoval> removals = config_.removedRegs;
-                    if (targetPast256_) {
-                        removals.insert(removals.end(), config_.remappedSkeletonRemovals.begin(),
-                                        config_.remappedSkeletonRemovals.end());
-                    }
-
-                    if (!removals.empty()) {
+                // Lines each remapped section drops (WWMIFixerConfig::removedLines) -- see WWMIFixerConfig::removedRegs for
+                // why each kind is there.
+                void absorbRemovals(const std::map<int, std::vector<WWMIFixerConfig::RegRemoval>>& removedLines) {
+                    regRemoves_.clear();
+                    removeAdapters_.clear();
+                    for (const auto& [component, lines] : removedLines) {
                         // each value matched with or without `ref`: an identity mod writes `vs-cb4 = ResourceMergedSkeleton`
-                        // and WWMI Tools `vs-cb4 = ref ResourceMergedSkeleton`, and ChisaFixer.cpp's
-                        // `{"ResourceBlendBufferOverride", "ref"}` drops a binding however it reaches its resource
+                        // and WWMI Tools `vs-cb4 = ref ResourceMergedSkeleton`
                         std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> keys;
-                        keys.reserve(removals.size());
-                        for (const WWMIFixerConfig::RegRemoval& removal : removals) {
+                        keys.reserve(lines.size());
+                        for (const WWMIFixerConfig::RegRemoval& removal : lines) {
                             keys.emplace_back(removal.reg, removal.valuePrefix.empty()
                                                                ? std::nullopt
                                                                : std::optional<RegRemove<>::RemoveKeyCheck>(
                                                                      RegRemove<>::valueStartsWith(removal.valuePrefix)));
                         }
-
-                        // the same without RabbitFX's own lines, for a component that keeps them
-                        // (SourceComponent::rabbitFX)
-                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> keepRabbitFX;
-                        for (std::size_t i = 0; i < removals.size(); ++i) {
-                            if (!isRabbitFXRemoval(removals[i])) {
-                                keepRabbitFX.push_back(keys[i]);
-                            }
-                        }
-
-                        regRemove_ = std::make_unique<RegRemove<>>(std::move(keys));
-                        removeAdapter_ = std::make_unique<RegPartEdit<>>(regRemove_.get());
-                        if (!keepRabbitFX.empty()) {
-                            regRemoveKeepRabbitFX_ = std::make_unique<RegRemove<>>(std::move(keepRabbitFX));
-                            removeKeepRabbitFXAdapter_ = std::make_unique<RegPartEdit<>>(regRemoveKeepRabbitFX_.get());
-                        }
+                        auto remove = std::make_unique<RegRemove<>>(std::move(keys));
+                        removeAdapters_[component] = std::make_unique<RegPartEdit<>>(remove.get());
+                        regRemoves_.push_back(std::move(remove));
                     }
-
                 }
 
                 // The groups (WWMIFixerConfig::fileGroups): one remapped section per target draw per file, in the
                 // source components' numeric order, which is the order the remap below creates the target graphs in
-                void buildGroups() {
-                    WWMIFixerConfig::FileGroups fileGroups = config_.fileGroups(drawnComponents(), source_.name);
-                    for (const std::string& note : fileGroups.notes) {
-                        ctx_.log(note);
-                    }
-                    groups_ = std::move(fileGroups.groups);
-                    dropped_ = std::move(fileGroups.dropped);
+                void absorbGroups(const WWMIFixerConfig::FileGroups& fileGroups) {
+                    groups_ = fileGroups.groups;
+                    dropped_ = fileGroups.dropped;
+                    drawnSlots_.clear();
                     for (const std::vector<int>& group : groups_) {
                         for (const int component : group) {
                             drawnSlots_.insert(config_.plan.at(component).slot);
@@ -2076,12 +2146,12 @@ namespace AGRemapCore {
                                                             [](const std::string&) { return true; }}},
                                 RegSurroundedAdd<>::RegMap{}, false);
                             auto topAdapter = std::make_unique<GraphPartEdit<>>(top.get());
-                            editsOf_[component].push_back(topAdapter.get());
+                            objEdit("textureListCalls", component, topAdapter.get());
                             surroundedAdds_.push_back(std::move(top));
                             graphAdapters_.push_back(std::move(topAdapter));
                         }
 
-                        // WHAT A LINKED .ini SETS ON THIS DRAW (planLinkedLines): RabbitFX's glow map for every pass,
+                        // WHAT A LINKED .ini SETS ON THIS DRAW (the "linkedLines" step): RabbitFX's glow map for every pass,
                         // and a texture under a condition at the register this component's plan binds its role at,
                         // on the passes the texture list binds it on -- after the textures and before the section's own
                         // `run = CommandList\RabbitFX\Run`
@@ -2125,7 +2195,7 @@ namespace AGRemapCore {
 
                         // GENERATION 0: THE DRAWS THIS SECTION MAKES BEFORE IT BINDS ANYTHING
                         // (2026-10-03). They rendered with the SOURCE's own game textures, so that
-                        // is what they are given -- see lateBindings and planGameDefaults. Run with the
+                        // is what they are given -- see lateBindings and the "gameDefaults" step. Run with the
                         // additions, after the list above, so it wins for those draws.
                         if (textureLists_.find("game", component) != nullptr) {
                             const TextureLines game = textureLinesOf("game", component);
@@ -2166,7 +2236,7 @@ namespace AGRemapCore {
                                                                           bypasses_, restoreListName())) {
                                 auto adapter = std::make_unique<RegPartEdit<>>(
                                     bypass.get(), [sections = sections](const std::string& name) { return namesSection(sections, name); });
-                                editsOf_[component].push_back(adapter.get());
+                                objEdit("sharedBypass", component, adapter.get());
                                 bypassEdits_.push_back(std::move(bypass));
                                 regAdapters_.push_back(std::move(adapter));
                             }
@@ -2177,7 +2247,7 @@ namespace AGRemapCore {
                         // which they sit after. Before the twin, because it reads what the mod wrote and the
                         // twin only adds draws. See CarriedLines.
                         {
-                            // what WWMIFixerConfig::modTexLines made of each of the mod's own lines (planTextureLists)
+                            // what WWMIFixerConfig::modTexLines made of each of the mod's own lines (the "modTexLines" step)
                             CarriedLines lines;
                             if (const auto planned = modTexLines_.find(component); planned != modTexLines_.end()) {
                                 for (const WWMIFixerConfig::ModTexLine& line : planned->second) {
@@ -2188,7 +2258,7 @@ namespace AGRemapCore {
 
                             auto carried = carriedTexRegs(config_.texRegPrefix, std::move(lines));
                             auto adapter = std::make_unique<RegPartEdit<>>(carried.get());
-                            editsOf_[component].push_back(adapter.get());
+                            objEdit("modTexLines", component, adapter.get());
                             carriedEdits_.push_back(std::move(carried));
                             regAdapters_.push_back(std::move(adapter));
                         }
@@ -2204,7 +2274,7 @@ namespace AGRemapCore {
                                 IniKeywords::WWMIIndexBuffer, IniKeywords::WWMIVectorBuffer, config_.vectorReg,
                                 mirrorSpan(component).first);
                             auto adapter = std::make_unique<RegPartEdit<>>(twin.get());
-                            editsOf_[component].push_back(adapter.get());
+                            objEdit("drawTwins", component, adapter.get());
                             twinEdits_.push_back(std::move(twin));
                             regAdapters_.push_back(std::move(adapter));
                         }
@@ -2234,7 +2304,7 @@ namespace AGRemapCore {
                                 }}},
                                 RegSurroundedAdd<>::RegMap{}, false);
                             auto adapter = std::make_unique<GraphPartEdit<>>(add.get());
-                            editsOf_[component].push_back(adapter.get());
+                            objEdit("additions", component, adapter.get());
                             surroundedAdds_.push_back(std::move(add));
                             graphAdapters_.push_back(std::move(adapter));
                         }
@@ -2290,20 +2360,6 @@ namespace AGRemapCore {
                                                  [&taken](const std::pair<long long, long long>& r) { return taken.count(r) > 0; }),
                                   own.end());
 
-                        const auto copyFor = [&reroute](auto& byRoleComponent) {
-                            std::vector<std::pair<std::pair<std::string, int>, std::string>> add;
-                            for (const auto& entry : byRoleComponent) {
-                                if (entry.first.second == reroute.from) {
-                                    add.push_back({{entry.first.first, reroute.as}, entry.second});
-                                }
-                            }
-                            for (auto& entry : add) {
-                                byRoleComponent.insert(std::move(entry));
-                            }
-                        };
-                        copyFor(resourceOfSlotRole_);
-                        copyFor(toggledGame_);
-
                         ctx_.log(std::to_string(taken.size()) + " of " + config_.slotPrefix + std::to_string(reroute.from)
                              + "'s draws are in the split " + reroute.split + ", and go through target slot "
                              + std::to_string(config_.plan.at(reroute.as).slot) + " instead");
@@ -2311,28 +2367,17 @@ namespace AGRemapCore {
                 }
 
                 // ---- WWMIFixerConfig::SourceComponent::rabbitFX ----
-                static bool isRabbitFXRemoval(const WWMIFixerConfig::RegRemoval& removal) {
-                    return RabbitFX::isOwnKVP(removal.reg, removal.valuePrefix);
-                }
-
                 // The routing flags RabbitFX's SetTextures sets on the SOURCE's own draw of each
                 // component that keeps RabbitFX, from what that draw has BOUND at ps-t0..t3 -- not
                 // from the maps the mod hands RabbitFX, which it only swaps in afterwards. Per register:
                 // the mod's own `ps-tN` line (unless only a toggle sets it), else the mod's `this`
                 // override of the game texture there, else the game texture itself (gameTags)
-                void readRabbitFX() {
-                    rabbitFXFlags_.clear();
+                void absorbRabbitFX(const std::map<int, std::array<int, 4>>& flags) {
+                    rabbitFXFlags_ = flags;
                     rabbitFXPins_.clear();
                     rabbitFXPinAdapters_.clear();
-                    if (hasGivenUp()) {
-                        return;
-                    }
-
-                    // the flags are the config's decision (WWMIFixerConfig::rabbitFXFlags); the pins are this fixer's edits
-                    rabbitFXFlags_ = config_.rabbitFXFlags(parseData(), currentRoles(), toggledGame_, present_, rerouteFrom_,
-                                                           ctx_.getIniFile()->getFile().value_or(""), ctx_.getIniFile()->getFolder());
-                    for (const auto& [component, flags] : rabbitFXFlags_) {
-                        (void)flags;
+                    for (const auto& [component, componentFlags] : rabbitFXFlags_) {
+                        (void)componentFlags;
                         // a `run =` of the pin list right after each `run = CommandList\RabbitFX\SetTextures`,
                         // which sets RabbitFX's routing flags
                         auto pin = std::make_unique<AnchorAdd>(
@@ -2437,8 +2482,8 @@ namespace AGRemapCore {
 
                         auto dropAdapter = std::make_unique<RegPartEdit<>>(dropTaken.get());
                         auto keepAdapter = std::make_unique<RegPartEdit<>>(keepTaken.get());
-                        editsOf_[from].push_back(dropAdapter.get());
-                        editsOf_[as].push_back(keepAdapter.get());
+                        objEdit("rerouteFilters", from, dropAdapter.get());
+                        objEdit("rerouteFilters", as, keepAdapter.get());
                         rerouteRemoves_.push_back(std::move(dropTaken));
                         rerouteRemoves_.push_back(std::move(keepTaken));
                         regAdapters_.push_back(std::move(dropAdapter));
@@ -2928,30 +2973,50 @@ namespace AGRemapCore {
                     }
 
                     hiddenObjs_ = std::unordered_set<std::string>(config_.hiddenObjs.begin(), config_.hiddenObjs.end());
-                    const std::vector<ModObj>& hashOnlyObjs = hashOnlyObjs_;
-                    const std::unordered_set<std::string>& hidden = hiddenObjs_;
+                    for (const ModObj& obj : hashOnlyObjs_) {
+                        if (hiddenObjs_.count(obj.second) > 0) {
+                            this->hiddenModObjs.insert(obj);
+                        }
+                    }
+                }
 
-                    // The remap: every source slot section onto its target slot's object, named
-                    // after the TARGET so a target never collides with a source still to be moved;
-                    // two claimants of one slot collide with each other, which is what makes the
-                    // further groups (GraphGroupRemap's own rule). Every section keeps its own name
-                    // plus the fix suffix, as the prototype's output has it.
+            public:
+                // THE SLOT REMAP OF THIS MOD (the "slotRemap" step's GraphGroupRemap::remapAtRun): 'table' is the step's
+                // own table -- each planned component's source graph onto its target slot (wwmiSlotRemapStep), or what a user
+                // made of it -- and this mod adds to it:
+                //
+                //   * each reroute it draws: its source component's graph again, onto the reroute's target, under the
+                //     reroute's own names so the two copies do not collide in the mod's file
+                //   * each component whose section draws nothing (readMod): no target, so it goes nowhere -- left out, its
+                //     graph would be rendered into the fix block under the mod's own section names
+                //   * each of its other hashed objects (the bone-data marker, the shape-key overrides): onto itself, once
+                //     per file (see below), unless the config hides it
+                //
+                // Every section is named after the TARGET, so a target never collides with a source still to be moved;
+                // two claimants of one slot collide with each other, which is what makes the further groups
+                // (GraphGroupRemap's own rule).
+                GraphGroupRemap<>::RemapList slotRemapAtRun(const GraphGroupRemap<>::RemapList& table) const {
                     const GraphGroupRemap<>::RenameFunc rename = [this](const std::string& name) { return remapFixName(name); };
+                    const auto own = [&table](const ModObj& src) {
+                        return std::find_if(table.begin(), table.end(), [&src](const auto& entry) {
+                            return entry.first.iniIndex == 0 && entry.first.modObj == src;
+                        });
+                    };
+
+                    std::set<std::size_t> used;
                     GraphGroupRemap<>::RemapList remap;
                     for (const auto& entry : present_) {
                         if (rerouteFrom_.count(entry.first) > 0) {
                             continue;                       // a target of its source's graph, below
                         }
 
+                        const ModObj src = slotObj(entry.first);
                         std::vector<GraphGroupRemap<>::RemapTarget> targets;
-                        auto planned = config_.plan.find(entry.first);
-                        if (planned != config_.plan.end()) {
-                            const ModObj target = targetObjOf(entry.first);
-                            targets.emplace_back(GraphId(0, target.first, target.second), rename);
+                        if (const auto found = own(src); found != table.end()) {
+                            targets = found->second;
+                            used.insert(static_cast<std::size_t>(found - table.begin()));
                         }
 
-                        // ...and each reroute of it: the same sections again under their own names,
-                        // so the two copies do not collide in the mod's file
                         for (const auto& [as, from] : rerouteFrom_) {
                             if (from != entry.first) {
                                 continue;
@@ -2963,23 +3028,31 @@ namespace AGRemapCore {
                                                  [this, tag](const std::string& name) { return remapFixName(name + tag); });
                         }
 
-                        const ModObj src = slotObj(entry.first);
                         remap.emplace_back(GraphId(0, src.first, src.second), std::move(targets));
                     }
 
-                    // A component whose section draws nothing (see readMod) goes nowhere, as one the
-                    // plan does not name does: left out of the remap, its graph would be rendered
-                    // into the fix block under the mod's own section names
+                    // the table's other entries -- components this mod does not have, a user's own -- as they are; a
+                    // reroute's graph is its source's, and a silent component's goes nowhere (below)
+                    for (std::size_t i = 0; i < table.size(); ++i) {
+                        const int component = sourceComponent(table[i].first.modObj);
+                        const bool silent = std::find(silent_.begin(), silent_.end(), component) != silent_.end();
+                        if (used.count(i) == 0 && !silent && rerouteFrom_.count(component) == 0) {
+                            remap.push_back(table[i]);
+                        }
+                    }
+
                     for (int component : silent_) {
                         const ModObj src = slotObj(component);
                         remap.emplace_back(GraphId(0, src.first, src.second), std::vector<GraphGroupRemap<>::RemapTarget>{});
                     }
 
-                    for (const ModObj& obj : hashOnlyObjs) {
+                    for (const ModObj& obj : hashOnlyObjs_) {
+                        if (own(obj) != table.end()) {
+                            continue;                       // the table's own, above
+                        }
+
                         std::vector<GraphGroupRemap<>::RemapTarget> targets;
-                        if (hidden.count(obj.second) > 0) {
-                            this->hiddenModObjs.insert(obj);
-                        } else {
+                        if (hiddenObjs_.count(obj.second) == 0) {
                             // ONCE, in the mod's own file, when the target is past 256 bones
                             // (2026-10-06). These are the bone-data marker and the shape-key
                             // overrides: sections on the GAME's hashes that set WWMI's shared state
@@ -3005,83 +3078,113 @@ namespace AGRemapCore {
                         remap.emplace_back(GraphId(0, obj.first, obj.second), std::move(targets));
                     }
 
-                    slotRemap_ = std::make_unique<GraphGroupRemap<>>(std::move(remap));
+                    return remap;
+                }
 
+            protected:
+                // The component a source slot object names (<slotPrefix><N>), or -1 for any other object
+                int sourceComponent(const ModObj& obj) const {
+                    if (!obj.first.empty() || !StringTools::startsWith(obj.second, config_.slotPrefix)) {
+                        return -1;
+                    }
+                    const std::string digits = obj.second.substr(config_.slotPrefix.size());
+                    if (digits.empty() || digits.find_first_not_of("0123456789") != std::string::npos) {
+                        return -1;
+                    }
+                    return std::stoi(digits);
                 }
 
                 // The edits, per group, keyed by the target objects the remap created.
+                // THE PER-OBJECT EDITS, ONE NAMED STEP PER KIND (ObjEditKinds), each a GraphGroupEdit keyed by the target
+                // object a source component is remapped onto -- per group, so each copy's objects get theirs. An object's
+                // edits run in kind order, as they would in one edit.
                 void buildPerGroupEdits() {
-                    const std::vector<ModObj>& hashOnlyObjs = hashOnlyObjs_;
-                    const std::unordered_set<std::string>& hidden = hiddenObjs_;
-                    std::vector<ObjGroupEdit::IniEdits> perGroup(groups_.size());
-                    for (std::size_t g = 0; g < groups_.size(); ++g) {
-                        for (int component : groups_[g]) {
-                            const int slot = config_.plan.at(component).slot;
-                            const ModObj obj = targetObjOf(component);
-                            std::vector<PartEdit*> edits = editsOf_[component];
-                            const bool keepsRabbitFX = rabbitFXFlags_.count(component) > 0;
-                            if (keepsRabbitFX) {
-                                if (removeKeepRabbitFXAdapter_ != nullptr) {
-                                    edits.push_back(removeKeepRabbitFXAdapter_.get());
-                                }
-                                edits.push_back(rabbitFXPinAdapters_.at(component).get());
-                            } else if (removeAdapter_ != nullptr) {
-                                edits.push_back(removeAdapter_.get());
-                            }
-
-                            edits.push_back(newValsOf_.at(slot));
-                            edits.push_back(assetAdapter_.get());
-                            if (dispatchAdapter_ != nullptr) {
-                                edits.push_back(dispatchAdapter_.get());
-                            }
-
-                            if (shapeKeyAdapter_ != nullptr) {
-                                edits.push_back(shapeKeyAdapter_.get());
-                            }
-
-                            if (afterAdapters_.count(component) > 0) {
-                                edits.push_back(afterAdapters_.at(component).get());
-                            }
-
-                            if (markLines_.count(component) > 0 && markAdapter_ != nullptr) {
-                                edits.push_back(markAdapter_.get());            // before the reroute: it reads the drawindexed
-                            }
-
-                            if (overlays_.count(component) > 0 && overlayAdapter_ != nullptr) {
-                                edits.push_back(overlayAdapter_.get());         // SourceComponent::overlay, the same way
-                            }
-
-                            if (rerouteShaders_.count(component) > 0 && rerouteShaderAdapter_ != nullptr) {
-                                edits.push_back(rerouteShaderAdapter_.get());   // last: every anchor above reads the draw
-                            }
-
-                            if (offAdapters_.count(component) > 0) {
-                                edits.push_back(offAdapters_.at(component).get());   // SourceComponent::offPasses
-                            }
-
-                            perGroup[g].edits[obj] = std::move(edits);
-                            perGroup[g].trackKeys[obj] = false;
+                    const auto partsOf = [this](const std::string& kind, int component) -> std::vector<PartEdit*> {
+                        if (const auto built = objEdits_.find(kind); built != objEdits_.end()) {
+                            const auto found = built->second.find(component);
+                            return found == built->second.end() ? std::vector<PartEdit*>{} : found->second;
                         }
+                        const auto one = [](PartEdit* edit) { return edit == nullptr ? std::vector<PartEdit*>{} : std::vector<PartEdit*>{edit}; };
+                        if (kind == "removedLines") {
+                            const auto remove = removeAdapters_.find(component);
+                            return remove == removeAdapters_.end() ? std::vector<PartEdit*>{} : one(remove->second.get());
+                        }
+                        if (kind == "rabbitFXPins") {
+                            return rabbitFXFlags_.count(component) > 0 ? one(rabbitFXPinAdapters_.at(component).get()) : std::vector<PartEdit*>{};
+                        }
+                        if (kind == "slotValues") {
+                            return one(newValsOf_.at(config_.plan.at(component).slot));
+                        }
+                        if (kind == "hashes") {
+                            return one(assetAdapter_.get());
+                        }
+                        if (kind == "dispatchSize") {
+                            return one(dispatchAdapter_.get());
+                        }
+                        if (kind == "shapeKeyLists") {
+                            return one(shapeKeyAdapter_.get());
+                        }
+                        if (kind == "afterShaders") {
+                            return afterAdapters_.count(component) > 0 ? one(afterAdapters_.at(component).get()) : std::vector<PartEdit*>{};
+                        }
+                        if (kind == "markLines") {           // before the reroute: it reads the drawindexed
+                            return markLines_.count(component) > 0 ? one(markAdapter_.get()) : std::vector<PartEdit*>{};
+                        }
+                        if (kind == "overlays") {            // SourceComponent::overlay, the same way
+                            return overlays_.count(component) > 0 ? one(overlayAdapter_.get()) : std::vector<PartEdit*>{};
+                        }
+                        if (kind == "rerouteShaders") {      // last: every anchor above reads the draw
+                            return rerouteShaders_.count(component) > 0 ? one(rerouteShaderAdapter_.get()) : std::vector<PartEdit*>{};
+                        }
+                        if (kind == "offPasses") {           // SourceComponent::offPasses
+                            return offAdapters_.count(component) > 0 ? one(offAdapters_.at(component).get()) : std::vector<PartEdit*>{};
+                        }
+                        return {};
+                    };
+                    // what a non-slot object of the mod (hashOnlyObjs_) gets: its hashes, and the shape-key settings
+                    const std::set<std::string> objKinds{"hashes", "dispatchSize", "shapeKeyLists"};
 
-                        for (const ModObj& obj : hashOnlyObjs) {
-                            if (hidden.count(obj.second) > 0) {
+                    kindEdits_.clear();
+                    for (const std::string& kind : ObjEditKinds) {
+                        std::vector<ObjGroupEdit::IniEdits> perGroup(groups_.size());
+                        bool any = false;
+                        for (std::size_t g = 0; g < groups_.size(); ++g) {
+                            for (int component : groups_[g]) {
+                                std::vector<PartEdit*> parts = partsOf(kind, component);
+                                if (parts.empty()) {
+                                    continue;
+                                }
+                                const ModObj obj = targetObjOf(component);
+                                perGroup[g].edits[obj] = std::move(parts);
+                                perGroup[g].trackKeys[obj] = false;
+                                any = true;
+                            }
+                            if (objKinds.count(kind) == 0) {
                                 continue;
                             }
-
-                            perGroup[g].edits[obj] = {assetAdapter_.get()};
-                            if (dispatchAdapter_ != nullptr) {
-                                perGroup[g].edits[obj].push_back(dispatchAdapter_.get());
+                            for (const ModObj& obj : hashOnlyObjs_) {
+                                if (hiddenObjs_.count(obj.second) > 0) {
+                                    continue;
+                                }
+                                const std::vector<PartEdit*> parts = partsOf(kind, -1);     // the same edit for every object
+                                if (!parts.empty()) {
+                                    perGroup[g].edits[obj] = parts;
+                                    perGroup[g].trackKeys[obj] = false;
+                                    any = true;
+                                }
                             }
-
-                            if (shapeKeyAdapter_ != nullptr) {
-                                perGroup[g].edits[obj].push_back(shapeKeyAdapter_.get());
-                            }
-                            perGroup[g].trackKeys[obj] = false;
+                        }
+                        if (any) {
+                            auto edit = std::make_unique<ObjGroupEdit>(std::move(perGroup), false);
+                            edit->name = kind;
+                            kindEdits_[kind] = std::move(edit);
                         }
                     }
+                }
 
-                    mainEdits_ = std::make_unique<ObjGroupEdit>(std::move(perGroup), false);
-
+                // an object edit of 'kind' for 'component' (see ObjEditKinds)
+                void objEdit(const std::string& kind, int component, PartEdit* edit) {
+                    objEdits_[kind][component].push_back(edit);
                 }
 
                 // The blend: the register bound in the shared override, collected out of every
@@ -3621,8 +3724,12 @@ namespace AGRemapCore {
 
                 void buildAppended() {
                     for (const auto& entry : declared_) {
+                        // a declared file with no path given relative to the .ini (DeclaredFile::rel) is put there
+                        const std::string rel = !entry.second.empty() ? entry.second
+                            : FileService::pathToIniStr(FileService::strToPath(
+                                  FileService::getRelPath(entry.first, ctx_.getIniFile()->getFolder())));
                         addFixSection(SectionText(z3_, declaredName_[entry.first])
-                                   .key(IniKeywords::Filename, entry.second)
+                                   .key(IniKeywords::Filename, rel)
                                    .build());
                     }
 
@@ -4160,19 +4267,7 @@ namespace AGRemapCore {
                 //
                 // Same split as the fallback downloads: the name is planned at read time and the
                 // resource registered at fix time, so a parse alone still writes nothing.
-                void planTexEdits() {
-                    if (config_.texEdits.empty() || hasGivenUp()) {
-                        return;
-                    }
-
-                    // which resources each edit applies to is the config's decision (WWMIFixerConfig::texEditTargets)
-                    const WWMIFixerConfig::RoleResources roles = currentRoles();
-                    const WWMIFixerConfig::TexEditTargets edits = config_.texEditTargets(
-                        parseData(), roles, drawnComponents(), ownShaderComponents(), ctx_.getIniFile()->getFile().value_or(""),
-                        source_.name);
-                    for (const std::string& note : edits.notes) {
-                        ctx_.log(note);
-                    }
+                void absorbTexEditTargets(const WWMIFixerConfig::TexEditTargets& edits) {
                     for (const auto& [role, download] : edits.references) {
                         gameFallbacks_.emplace(role, Fallback{download.url, download.file, download.file, download.resource});
                         referenceDownloads_.insert(download.resource);
@@ -4228,16 +4323,7 @@ namespace AGRemapCore {
                 //      (IniParseData::toggledBindings); a reroute reads its source component's.
                 //   3. a role bound with ONE `this` under a toggle (IniParseData::TextureToggle::single): off, the
                 //      original draws with the game's texture, which WWMIFixerConfig::toggleLists puts at the front of the role's list.
-                void planGameDefaults() {
-                    if (hasGivenUp()) {
-                        return;
-                    }
-
-                    const WWMIFixerConfig::GameDefaults defaults = config_.gameDefaults(
-                        parseData(), currentRoles(), drawnComponents(), rerouteFrom_, ownShaderComponents(), source_.name);
-                    for (const std::string& note : defaults.notes) {
-                        ctx_.log(note);
-                    }
+                void absorbGameDefaults(const WWMIFixerConfig::GameDefaults& defaults) {
                     for (const auto& [role, download] : defaults.downloads) {
                         gameFallbacks_.emplace(role, Fallback{download.url, download.file, download.file, download.resource});
                     }
@@ -4247,7 +4333,7 @@ namespace AGRemapCore {
                     for (const std::string& role : defaults.edited) {
                         editTargets_[role].insert(StringTools::toLower(defaults.ofRole.at(role)));
                     }
-                    toggledGame_.insert(defaults.toggled.begin(), defaults.toggled.end());
+                    toggledGame_ = defaults.toggled;
                 }
 
                 // The source's own game texture of 'role' as a download (gameFallbacks_), once; false
@@ -4288,25 +4374,12 @@ namespace AGRemapCore {
                 // THE TEXTURE LISTS, LINE BY LINE (WWMIFixerConfig::textureLists), with the mod's own toggles run in
                 // the place of the lines binding a toggled texture (WWMIFixerConfig::toggleLists). Made once the roles,
                 // the game defaults and the shaders are known; every list the fix writes is written from these.
-                void planTextureLists() {
-                    if (hasGivenUp()) {
-                        return;
-                    }
-
-                    std::set<int> overlaid;
-                    for (const auto& entry : overlays_) {
-                        overlaid.insert(entry.first);
-                    }
-
-                    const WWMIFixerConfig::GameDefaults defaults = currentGameDefaults();
-                    textureLists_ = config_.toggleLists(
-                        config_.textureLists(parseData(), currentRoles(), defaults, drawnComponents(), rerouteFrom_,
-                                             ownShaderComponents(), overlaid),
-                        parseData(), defaults, source_.name, toModName_, ctx_.getIniFile()->getFile().value_or(""));
-
-                    modTexLines_ = config_.modTexLines(parseData(), currentRoles(), textureLists_, drawnComponents(), rerouteFrom_,
-                                                       ownShaderComponents());
-
+                void absorbTextureLists(const WWMIFixerConfig::TextureLists& lists,
+                                        const std::map<int, std::vector<WWMIFixerConfig::ModTexLine>>& modTexLines) {
+                    textureLists_ = lists;
+                    modTexLines_ = modTexLines;
+                    listsOfRole_.clear();
+                    rawLists_.clear();
                     // what each toggle's copy binds, for the texture edits (addTexEditCollects)
                     for (const WWMIFixerConfig::ToggleList& toggle : textureLists_.toggles) {
                         listsOfRole_[{toggle.role, toggle.reg}].insert(toggle.name);
@@ -4365,7 +4438,7 @@ namespace AGRemapCore {
 
                 // The texture edits (WWMIFixerConfig::texEdits), as collects over every binding of an
                 // edited role: one TexReplace per edit, collected wherever the role's register
-                // binds one of the resources planTexEdits recorded for it -- in the fix's texture lists
+                // binds one of the resources the "texEditTargets" step recorded for it -- in the fix's texture lists
                 // and the mod's own carried lines alike. A reroute drawn by its own shader keeps the
                 // mod's art unedited (see rerouteShaders_)
                 //
@@ -4469,6 +4542,7 @@ namespace AGRemapCore {
                         }
                         collect->resPredicates[fixSectionsGraphId(0)] = inRoleList;
                         collect->resEdits = {{"texEdit", editor.get()}};
+                        collect->name = "texEdits";
 
                         this->fixSectionEdits.push_back(collect.get());
                         texEditCollects_.push_back(std::move(collect));
@@ -4668,8 +4742,8 @@ namespace AGRemapCore {
                 std::vector<std::vector<int>> groups_;
                 std::vector<ModObj> hashOnlyObjs_;                    // ...and the mod's objects that are not slots
 
-                WWMIFixerConfig::TextureLists textureLists_;            // see planTextureLists
-                std::map<int, std::vector<WWMIFixerConfig::ModTexLine>> modTexLines_;   // see planTextureLists
+                WWMIFixerConfig::TextureLists textureLists_;            // the "textureLists" step
+                std::map<int, std::vector<WWMIFixerConfig::ModTexLine>> modTexLines_;   // the "textureLists" step
                 std::unordered_map<std::string, FileAddCreate<>::File> fixFiles_;   // see addFixFile
                 std::set<std::string> fixFileRegs_;
                 std::unordered_map<std::string, FileDownloadCreate<>::File> fixDownloads_;   // see addFixDownload
@@ -4740,7 +4814,7 @@ namespace AGRemapCore {
                 };
                 std::map<int, OwnMesh> ownMeshes_;
 
-                // A line a linked .ini sets on a draw, as the fix carries it -- see planLinkedLines
+                // A line a linked .ini sets on a draw, as the fix carries it -- see the "linkedLines" step
                 struct CarriedLine {
                     std::string condition;      // reading the fix's copies of that file's variables
                     std::string key;            // the key to write (a glow map), or empty...
@@ -4808,10 +4882,8 @@ namespace AGRemapCore {
                 std::map<std::string, ShapeKeyFile> shapeKeyFiles_;  // WWMIFixerConfig::shapeKeyOrder, by ShapeKeyResources
                 std::unique_ptr<RegNewVals<>> shapeKeyEdit_;
                 std::unique_ptr<RegPartEdit<>> shapeKeyAdapter_;
-                std::unique_ptr<RegRemove<>> regRemove_;
-                std::unique_ptr<RegPartEdit<>> removeAdapter_;
-                std::unique_ptr<RegRemove<>> regRemoveKeepRabbitFX_;               // regRemove_ without RabbitFX's lines
-                std::unique_ptr<RegPartEdit<>> removeKeepRabbitFXAdapter_;
+                std::vector<std::unique_ptr<RegRemove<>>> regRemoves_;
+                std::map<int, std::unique_ptr<RegPartEdit<>>> removeAdapters_;    // per component: WWMIFixerConfig::removedLines
                 std::map<int, std::array<int, 4>> rabbitFXFlags_;                 // SourceComponent::rabbitFX: component -> the source's x187..w187
                 std::vector<std::unique_ptr<AnchorAdd>> rabbitFXPins_;
                 std::map<int, std::unique_ptr<RegPartEdit<>>> rabbitFXPinAdapters_;
@@ -4824,8 +4896,8 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<AnchorAdd>> carriedEdits_;   // ...and the same for the carried-register edits
                 std::vector<std::unique_ptr<BaseRegEdit<>>> bypassEdits_;     // ...and for the cleanup-list edits
                 Bypasses bypasses_;                            // register -> the resource its binding is parked in
-                std::map<int, std::vector<PartEdit*>> editsOf_;
-                std::unique_ptr<ObjGroupEdit> mainEdits_;
+                std::map<std::string, std::map<int, std::vector<PartEdit*>>> objEdits_;   // kind -> component -> its edits (objEdit)
+                std::map<std::string, std::unique_ptr<ObjGroupEdit>> kindEdits_;       // each kind's step (buildPerGroupEdits)
                 std::vector<std::unique_ptr<VGRemapBlendReplace<>>> blendReplaces_;
                 std::optional<std::string> texcoordResource_;                        // the cleaned texcoord copy's resource
                 std::unordered_map<std::string, std::string> fileOfRole_;            // role -> the file it resolved to
@@ -4838,13 +4910,363 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<Collector>> texEditCollects_;            // addTexEditCollects' collects, among fixSectionEdits
                 std::vector<std::unique_ptr<TexReplace<>>> texEditors_;        // ...and the edits they build with
                 std::vector<std::unique_ptr<Collector>> blendCollects_;
+                std::vector<Fixer::GroupEdit*> builtSteps_;                          // the edits of every step, as built for this .ini
         };
     }
 
 
-    IniFixBuilder::Factory makeWWMIFixer(WWMIFixerConfig config) {
-        return [config](BaseIniParser<>* parser, const std::string& toModName, std::optional<int> modTypeId) {
-            return std::make_shared<WWMIFixerImpl>(parser, toModName, modTypeId, config);
+    namespace {
+        // The WWMI fixer this .ini is being fixed by, for 'modName' (filed on its parse data), or nullptr
+        WWMIFixerImpl* filedFixer(IniFile* ini, const ModType* modType, const std::string& modName) {
+            IniParseData* data = ini != nullptr && modType != nullptr ? ini->parseDataOf(*modType) : nullptr;
+            const GraphEditVariables::Value* filed = data != nullptr ? data->variables().value(WWMIFixerImpl::fixVariable(modName))
+                                                                     : nullptr;
+            WWMIFixerImpl* const* fixer = filed != nullptr ? filed->as<WWMIFixerImpl*>() : nullptr;
+            return fixer != nullptr ? *fixer : nullptr;
+        }
+    }
+
+    std::shared_ptr<GraphGroupRemap<>> wwmiSlotRemapStep(const WWMIFixerConfig& config) {
+        const std::string target = ModTypeIdTools::getName(config.targetId);
+        const GraphGroupRemap<>::RenameFunc rename = [target](const std::string& name) {
+            return IniNamingTools::getRemapFixName(name, target);
         };
+
+        GraphGroupRemap<>::RemapList remap;
+        for (const auto& [component, planned] : config.plan) {
+            const std::string slot = config.slotPrefix + std::to_string(planned.slot);
+            const ModObj to(target, planned.sameFileSection ? slot + "_" + std::to_string(component) : slot);
+            remap.emplace_back(GraphId(0, "", config.slotPrefix + std::to_string(component)),
+                               std::vector<GraphGroupRemap<>::RemapTarget>{GraphGroupRemap<>::RemapTarget(GraphId(0, to.first, to.second), rename)});
+        }
+
+        auto step = std::make_shared<GraphGroupRemap<>>(std::move(remap));
+        step->name = "slotRemap";
+        // what this mod draws, added when the step runs (the fixer for this .ini, filed on its parse data)
+        step->remapAtRun = [](const GraphGroupRemap<>::RemapList& table, GraphGroupRemap<>::GraphGroups&, IniFile* ini,
+                              const ModType* modType, const std::string& modName) {
+            const WWMIFixerImpl* fixer = filedFixer(ini, modType, modName);
+            return fixer != nullptr ? fixer->slotRemapAtRun(table) : table;
+        };
+        return step;
+    }
+
+    std::vector<std::shared_ptr<BaseIniGraphGroupEdit<>>> wwmiSteps(const WWMIFixerConfig& config) {
+        std::vector<std::shared_ptr<BaseIniGraphGroupEdit<>>> steps;
+        const auto proxy = [&steps](const std::string& name) {
+            auto step = std::make_shared<IterEdit>();
+            step->name = name;
+            // the step's edits, as the fixer for this .ini built them
+            step->makeRunEdits = [name](IterEdit::GraphGroups&, IniFile* ini, const ModType* modType, const std::string& modName) {
+                IterEdit::GroupEdits edits;
+                if (WWMIFixerImpl* fixer = filedFixer(ini, modType, modName); fixer != nullptr) {
+                    edits.borrowed = fixer->stepEdits(name);
+                }
+                return edits;
+            };
+            steps.push_back(std::move(step));
+        };
+
+        proxy("copies");
+        proxy("toggles");
+
+        steps.push_back(wwmiSlotRemapStep(config));
+
+        for (const std::string& kind : ObjEditKinds) {
+            proxy(kind);
+        }
+        for (const char* name : {"blend", "rebind", "fixSections", "shaderFiles", "fixFiles", "latch", "texEdits"}) {
+            proxy(name);
+        }
+        return steps;
+    }
+
+    std::shared_ptr<BaseIniFixer<>> WWMIFixFactory::operator()(BaseIniParser<>* parser, const std::string& toModName,
+                                                              std::optional<int> modTypeId) const {
+        auto fixer = std::make_shared<WWMIFixerImpl>(parser, toModName, modTypeId, config);
+        std::vector<BaseIniGraphGroupEdit<>*> list;
+        for (const std::shared_ptr<BaseIniGraphGroupEdit<>>& step : steps) {
+            list.push_back(step.get());
+            fixer->keepAlive(step);
+        }
+        fixer->setList(std::move(list));
+        return fixer;
+    }
+
+    IniFixBuilder::Factory makeWWMIFixer(WWMIFixerConfig config, std::vector<std::shared_ptr<BaseIniGraphGroupEdit<>>> steps) {
+        if (steps.empty()) {
+            steps = wwmiSteps(config);
+        }
+        return WWMIFixFactory{std::move(config), std::move(steps)};
+    }
+
+    std::optional<WWMIFixerConfig> WWMIFixerConfig::ofFactory(const IniFixBuilder::Factory& factory) {
+        const WWMIFixFactory* made = factory.target<WWMIFixFactory>();
+        return made != nullptr ? std::optional<WWMIFixerConfig>(made->config) : std::nullopt;
+    }
+
+    namespace {
+        std::vector<std::string> splitCommas(const std::string& text) {
+            std::vector<std::string> parts;
+            std::size_t start = 0;
+            for (std::size_t i = 0; i <= text.size(); ++i) {
+                if (i == text.size() || text[i] == ',') {
+                    parts.push_back(text.substr(start, i - start));
+                    start = i + 1;
+                }
+            }
+            return parts;
+        }
+
+        // A pass's name in DrawPasses: 'kind' (main / other) for the first, then kind2, kind3, ...
+        std::string passName(const std::string& kind, std::size_t i) {
+            return i == 0 ? kind : kind + std::to_string(i + 1);
+        }
+
+        // The number of components a character has at a version (its vg offsets)
+        std::size_t componentCount(const ModType& modType, const std::string& slotPrefix, const std::optional<Version>& version) {
+            std::size_t count = 0;
+            while (modType.getVGOffset(slotPrefix + std::to_string(count), "", version).has_value()) {
+                ++count;
+            }
+            return count;
+        }
+
+        // A game shader's code and constant buffers off GameShaders: the first of 'types' that has a row
+        std::string gameShaderCode(const std::string& game, const std::vector<std::pair<const ModType*, std::optional<Version>>>& owners) {
+            for (const auto& [owner, version] : owners) {
+                if (const std::optional<std::string> code = owner->getGameShader(game, version)) {
+                    return *code;
+                }
+            }
+            throw std::invalid_argument("WWMIFixerConfig: no GameShaders row for the shader " + game);
+        }
+
+        bool fillShader(WWMIFixerConfig::Shader& shader, const std::vector<std::pair<const ModType*, std::optional<Version>>>& owners) {
+            for (std::size_t i = 0; i < shader.passGame.size(); ++i) {
+                if (shader.passGame[i].empty()) {
+                    continue;
+                }
+                if (shader.passPs.size() <= i) {
+                    shader.passPs.resize(i + 1);
+                }
+                shader.passPs[i] = gameShaderCode(shader.passGame[i], owners);
+            }
+            if (shader.game.empty()) {
+                return false;
+            }
+            for (const auto& [owner, version] : owners) {
+                const std::optional<std::string> code = owner->getGameShader(shader.game, version);
+                if (!code.has_value()) {
+                    continue;
+                }
+                shader.ps = *code;
+                shader.constantBuffers.clear();
+                for (const char* stage : {"ps", "vs"}) {
+                    for (int reg = 0; reg < 16; ++reg) {
+                        const std::string buffer = std::string(stage) + "-cb" + std::to_string(reg);
+                        const std::optional<std::string> words = owner->getGameShader(shader.game + "." + buffer, version);
+                        if (!words.has_value()) {
+                            continue;
+                        }
+                        std::vector<std::uint32_t>& out = shader.constantBuffers[buffer];
+                        for (const std::string& word : splitCommas(*words)) {
+                            out.push_back(static_cast<std::uint32_t>(std::stoul(word, nullptr, 16)));
+                        }
+                    }
+                }
+                return true;
+            }
+            throw std::invalid_argument("WWMIFixerConfig: no GameShaders row for the shader " + shader.game);
+        }
+
+        // A map keyed by a target pass, its keys written as a pass NAME (other, other2, ...) turned into the pass's
+        // pixel shader off DrawPasses; a key that is already a shader stays
+        template <typename V>
+        std::map<std::string, V> passKeysToShaders(const std::map<std::string, V>& byPass, const ModType& target,
+                                                   const std::string& component, const std::optional<Version>& version) {
+            std::map<std::string, V> out;
+            for (const auto& [key, value] : byPass) {
+                std::string shader = key;
+                if (StringTools::startsWith(key, "other")) {
+                    const std::optional<std::string> ps = target.getDrawPass(component, key + ".ps", version);
+                    if (!ps.has_value()) {
+                        throw std::invalid_argument("WWMIFixerConfig: no DrawPasses row for " + target.name + " " + component + " " + key);
+                    }
+                    shader = *ps;
+                }
+                if (!out.emplace(shader, value).second) {
+                    throw std::invalid_argument("WWMIFixerConfig: " + target.name + " " + component + "'s pass " + shader
+                                                + " is keyed twice (by its name and by its shader)");
+                }
+            }
+            return out;
+        }
+    }
+
+    WWMIFixerConfig::Shader WWMIFixerConfig::Shader::ofGame(const std::string& game) {
+        Shader shader;
+        shader.name = game;
+        shader.game = game;
+        return shader;
+    }
+
+    std::map<std::string, std::string> WWMIFixerConfig::vb0VersionsOf(const ModType& source) {
+        std::map<std::string, std::string> out;
+        if (source.hashes == nullptr) {
+            return out;
+        }
+        source.hashes->getRepo().forEachEntry([&source, &out](const std::vector<std::string>& keys, const Version& version, const std::string& value) {
+            if (keys.size() >= 2 && keys.front() == source.name && keys.back() == Vb0HashKey) {
+                out[StringTools::toLower(value)] = version.toString();
+            }
+        });
+        return out;
+    }
+
+    WWMIFixerConfig WWMIFixerConfig::withGameData(const ModType& source, const ModType& target, const std::optional<Version>& fromVersion,
+                                                  const std::optional<Version>& toVersion) const {
+        WWMIFixerConfig config = *this;
+
+        if (config.sourceVersionFromVb0) {
+            config.sourceVersionByVb0 = vb0VersionsOf(source);
+        }
+
+        // ---- the target's draw passes: each slot's main passes, their vertex shaders and tags, and its other passes ----
+        const std::size_t slots = componentCount(target, config.slotPrefix, toVersion);
+        std::vector<std::vector<std::string>> slotPasses(slots);
+        bool anyPass = false;
+        for (std::size_t slot = 0; slot < slots; ++slot) {
+            const std::string component = config.slotPrefix + std::to_string(slot);
+            for (const char* kind : {"main", "other"}) {
+                for (std::size_t i = 0;; ++i) {
+                    const std::string name = passName(kind, i);
+                    const std::optional<std::string> ps = target.getDrawPass(component, name + ".ps", toVersion);
+                    if (!ps.has_value()) {
+                        break;
+                    }
+                    if (std::string(kind) == "main") {
+                        slotPasses[slot].push_back(*ps);
+                        anyPass = true;
+                    }
+                    const std::optional<std::string> vs = target.getDrawPass(component, name, toVersion);
+                    const std::optional<std::string> tags = target.getDrawPass(component, name + ".tags", toVersion);
+                    if (vs.has_value() && !vs->empty()) {
+                        const std::vector<std::string> shaders = splitCommas(*vs);
+                        config.passVertexShaders[*ps] = shaders;
+                        const std::vector<std::string> values = tags.has_value() ? splitCommas(*tags) : std::vector<std::string>{};
+                        for (std::size_t k = 0; k < shaders.size() && k < values.size(); ++k) {
+                            config.filterIndices[shaders[k]] = values[k];
+                        }
+                    }
+                }
+            }
+        }
+        while (!slotPasses.empty() && slotPasses.back().empty()) {
+            slotPasses.pop_back();       // a component past the last one any pass draws (the fix plans no slot there)
+        }
+        if (anyPass) {
+            config.slotPasses = std::move(slotPasses);
+        }
+
+        for (auto& [slot, byPass] : config.extraPassRegs) {
+            byPass = passKeysToShaders(byPass, target, config.slotPrefix + std::to_string(slot), toVersion);
+        }
+        for (auto& [slot, byPass] : config.extraPassNoDraw) {
+            std::map<std::string, bool> keyed;
+            for (const std::string& key : byPass) {
+                keyed.emplace(key, true);
+            }
+            byPass.clear();
+            for (const auto& [shader, unused] : passKeysToShaders(keyed, target, config.slotPrefix + std::to_string(slot), toVersion)) {
+                (void)unused;
+                byPass.insert(shader);
+            }
+        }
+
+        // ---- the source's game textures' thumbprints ----
+        if (std::unordered_map<std::string, std::vector<std::uint8_t>> thumbprints = source.getTextureThumbprints(fromVersion); !thumbprints.empty()) {
+            config.sourceTextures.textureThumbprints = std::move(thumbprints);
+        }
+
+        // ---- the shape keys ----
+        if (const std::optional<std::string> dispatch = target.getShapeKeyDispatchSize(toVersion)) {
+            config.shapeKeyDispatchSize = *dispatch;
+        }
+        if (const std::optional<std::vector<long long>> order = source.getShapeKeyRemap(target.name, fromVersion, toVersion)) {
+            config.shapeKeyOrder = *order;
+        }
+
+        // ---- the game shaders the parts are drawn with: the source's, else the target's ----
+        const std::vector<std::pair<const ModType*, std::optional<Version>>> owners = {{&source, fromVersion}, {&target, toVersion}};
+        for (auto& [component, planned] : config.plan) {
+            (void)component;
+            if (planned.shader.has_value()) {
+                fillShader(*planned.shader, owners);
+            }
+            if (planned.overlay.has_value()) {
+                fillShader(*planned.overlay, owners);
+            }
+        }
+
+        // ---- the colours the invented textures take ----
+        for (CreatedTexture& created : config.createdTextures) {
+            if (created.material.first.empty() && created.material.second.empty()) {
+                continue;
+            }
+            const std::optional<Colour> colour = target.getMaterialColour(created.material.first, created.material.second, toVersion);
+            if (!colour.has_value()) {
+                throw std::invalid_argument("WWMIFixerConfig: no MaterialColours row for " + target.name + " " + created.material.first
+                                            + " " + created.material.second);
+            }
+            created.colour = *colour;
+        }
+
+        // ---- the source's vertex group maps, at her oldest model (a mod from before the merged skeleton) ----
+        std::optional<Version> oldest;
+        for (const auto& [hash, version] : vb0VersionsOf(source)) {
+            (void)hash;
+            const std::optional<Version> parsed = Version::parse(version);
+            if (parsed.has_value() && (!oldest.has_value() || *parsed < *oldest)) {
+                oldest = parsed;
+            }
+        }
+        if (oldest.has_value()) {
+            std::map<int, std::vector<int>> vgMaps;
+            const std::size_t components = componentCount(source, config.slotPrefix, oldest);
+            for (std::size_t component = 0; component < components; ++component) {
+                const std::optional<VGRemap> row = source.getVGRemap(source.name, oldest, oldest, config.slotPrefix + std::to_string(component),
+                                                                     std::string(""));
+                if (!row.has_value()) {
+                    continue;
+                }
+                std::vector<int>& out = vgMaps[static_cast<int>(component)];
+                const auto& remap = row->getRemap();
+                out.resize(remap.size());
+                for (const auto& [from, to] : remap) {
+                    if (from >= 0 && static_cast<std::size_t>(from) < out.size()) {
+                        out[static_cast<std::size_t>(from)] = static_cast<int>(to);
+                    }
+                }
+            }
+            if (!vgMaps.empty()) {
+                config.sourceVgMaps = std::move(vgMaps);
+            }
+        }
+
+        // ---- the game textures captured off a slot ----
+        for (const auto& [slot, roles] : config.stashRoles) {
+            std::vector<std::string>& regs = config.stashRegs[slot];
+            regs.clear();
+            for (const std::string& role : roles) {
+                const std::optional<std::string> reg = target.getTextureRegister(config.slotPrefix + std::to_string(slot), role, toVersion);
+                if (!reg.has_value()) {
+                    throw std::invalid_argument("WWMIFixerConfig: no TextureRegisters row for " + target.name + " slot " + std::to_string(slot)
+                                                + " " + role);
+                }
+                regs.push_back(*reg);
+            }
+        }
+        return config;
     }
 }

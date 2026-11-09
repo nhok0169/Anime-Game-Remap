@@ -46,7 +46,7 @@ class GraphFilterTest(BaseUnitTest):
         predicate = lambda section, part, ind: True
         edit = FRB.GraphFilter(graphIds, predicate)
 
-        self.assertIs(edit.graphIds, graphIds)
+        self.assertEqual(edit.graphIds, graphIds)   # held as the edit's own (C++) data, read back
         self.assertIs(edit.predicate, predicate)
 
     def test_init_predicateDefaultsToNone(self):
@@ -129,7 +129,9 @@ class GraphFilterTest(BaseUnitTest):
         graphIds = []
         edit = FRB.GraphFilter(graphIds, lambda section, part, ind: False)
 
+        # the edit holds what it was given as its own (C++) data, so a change is set through the property
         graphIds.append((0, "comp", "a"))
+        edit.graphIds = graphIds
         edit.edit(graphGroups, None)
 
         self.assertEqual(self._keys(graphGroups[0].graphs[("comp", "a")].sections["root"]), [[], None, [], None, []])

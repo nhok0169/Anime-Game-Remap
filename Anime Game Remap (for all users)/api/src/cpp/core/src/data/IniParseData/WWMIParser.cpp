@@ -1,6 +1,7 @@
 #include "AGRemapCore/data/IniParseData/WWMIParser.h"
 
 #include "AGRemapCore/data/RabbitFX.h"
+#include "AGRemapCore/model/assets/Hashes.h"
 #include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"
@@ -58,6 +59,8 @@
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/model/Version.h"
+#include "AGRemapCore/data/IniFixData/WWMIFixer.h"
+#include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h"
@@ -94,6 +97,10 @@ namespace AGRemapCore {
                                std::optional<Version> version, bool onlyThisFile = false):
                     Parser(iniFile, modTypeId), config_(config), version_(version), modTypeId_(modTypeId), onlyThisFile_(onlyThisFile) {
                     this->disjointModObjs = false;
+                    // the character's game data off the versioned asset tables (WWMIParserConfig::withGameData)
+                    if (const std::optional<ModType> own = modTypeId_.has_value() ? ModTypeIdTools::getModType(*modTypeId_) : std::nullopt) {
+                        config_ = config_.withGameData(*own);
+                    }
                     this->keysToTrack = std::unordered_set<std::string>{IniKeywords::Hash, IniKeywords::MatchFirstIndex, MatchIndexCountKey};
 
                     // The slots: every Indices row typed component0, component1, ... the character has.
@@ -582,40 +589,8 @@ namespace AGRemapCore {
 
                     // HOW OLD A HASH IS: the versions HashData files it at, newest first, and within one version the
                     // current hash before its `Live` and `Old`, `Old2`, ... generations
-                    rules.hashAge = [ownName](const std::string& hash) {
-                        std::vector<Version> versions;
-                        for (const auto& row : Data::getHashDataRows()) {
-                            if (row.first.size() >= 3 && row.first[1] == ownName) {
-                                if (const std::optional<Version> version = Version::parse(row.first[0])) {
-                                    if (std::find(versions.begin(), versions.end(), *version) == versions.end()) {
-                                        versions.push_back(*version);
-                                    }
-                                }
-                            }
-                        }
-                        int age = 1 << 20;
-                        for (const auto& row : Data::getHashDataRows()) {
-                            if (row.first.size() < 3 || row.first[1] != ownName || !StringTools::equalsIgnoreCase(row.second, hash)) {
-                                continue;
-                            }
-                            const std::optional<Version> version = Version::parse(row.first[0]);
-                            const int newer = version.has_value()
-                                ? static_cast<int>(std::count_if(versions.begin(), versions.end(), [&version](const Version& other) { return *version < other; }))
-                                : static_cast<int>(versions.size());
-                            const std::string& type = row.first[2];
-                            int generation = 0;
-                            for (const auto& [suffix, base] : {std::make_pair(WWMINames::LiveSuffix, 1), std::make_pair(WWMINames::OldSuffix, 2)}) {
-                                const std::size_t at = type.rfind(suffix);
-                                if (at != std::string::npos && at > 0) {
-                                    const std::string rest = type.substr(at + suffix.size());
-                                    if (std::all_of(rest.begin(), rest.end(), [](char c) { return c >= '0' && c <= '9'; })) {
-                                        generation = base + (rest.empty() ? 0 : std::stoi(rest) - 1);
-                                    }
-                                }
-                            }
-                            age = std::min(age, newer * 100 + generation);
-                        }
-                        return age;
+                    rules.hashAge = [ownName, hashes = std::make_shared<Hashes>()](const std::string& hash) {
+                        return hashes->age(ownName, hash);
                     };
 
                     // a section a previous fix wrote is not the mod's use of a resource
@@ -917,16 +892,68 @@ namespace AGRemapCore {
     }
 
 
+    std::shared_ptr<BaseIniParser<>> WWMIParseFactory::operator()(IniFile* iniFile, std::optional<int> modTypeId) const {
+        std::optional<Version> version = Version::parse(config.version);
+        if (iniFile != nullptr && iniFile->fromVersion.has_value()) {
+            version = iniFile->fromVersion;
+        }
+
+        return std::make_shared<WWMIParser>(iniFile, modTypeId, config, version);
+    }
+
     IniParseBuilder::Factory makeWWMIParser(WWMIParserConfig config) {
-        const std::optional<Version> defaultVersion = Version::parse(config.version);
+        return WWMIParseFactory{std::move(config)};
+    }
 
-        return [config, defaultVersion](IniFile* iniFile, std::optional<int> modTypeId) {
-            std::optional<Version> version = defaultVersion;
-            if (iniFile != nullptr && iniFile->fromVersion.has_value()) {
-                version = iniFile->fromVersion;
+    WWMIParserConfig WWMIParserConfig::withGameData(const ModType& self) const {
+        WWMIParserConfig config = *this;
+
+        // her game textures' thumbprints, at her version
+        std::unordered_map<std::string, std::vector<std::uint8_t>> thumbprints = self.getTextureThumbprints(Version::parse(config.version));
+        if (!thumbprints.empty()) {
+            config.textures.textureThumbprints = std::move(thumbprints);
+        }
+
+        std::vector<Version> versions;
+        for (const auto& [hash, version] : WWMIFixerConfig::vb0VersionsOf(self)) {
+            (void)hash;
+            const std::optional<Version> parsed = Version::parse(version);
+            if (parsed.has_value() && std::find(versions.begin(), versions.end(), *parsed) == versions.end()) {
+                versions.push_back(*parsed);
             }
+        }
+        if (versions.size() < 2) {
+            return config;
+        }
+        std::sort(versions.begin(), versions.end());
 
-            return std::make_shared<WWMIParser>(iniFile, modTypeId, config, version);
-        };
+        const Version& reference = versions.back();
+        std::vector<SkeletonNumberingProbe::Numbering> numberings;
+        for (const Version& version : versions) {
+            const std::optional<VGRemap> row = self.getVGRemap(self.name, version, reference, std::string(""), std::string(""));
+            if (!row.has_value()) {
+                return config;            // not a renumbered skeleton: no row from this model onto the newest
+            }
+            SkeletonNumberingProbe::Numbering numbering;
+            numbering.version = version.toString();
+            for (const auto& [from, to] : row->getRemap()) {
+                if (from != to) {
+                    numbering.toReference.emplace(from, to);
+                }
+            }
+            numberings.push_back(std::move(numbering));
+        }
+        config.skeletonNumberings = std::move(numberings);
+
+        const std::map<long long, std::array<double, 3>> centroids = self.getBoneCentroids(reference);
+        if (!centroids.empty()) {
+            config.referenceBoneCentroids = {centroids.begin(), centroids.end()};
+        }
+        return config;
+    }
+
+    std::optional<WWMIParserConfig> WWMIParserConfig::ofFactory(const IniParseBuilder::Factory& factory) {
+        const WWMIParseFactory* made = factory.target<WWMIParseFactory>();
+        return made != nullptr ? std::optional<WWMIParserConfig>(made->config) : std::nullopt;
     }
 }

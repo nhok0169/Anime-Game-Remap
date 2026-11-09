@@ -391,7 +391,7 @@ hash = 11111111
 match_first_index = 0
 handling = skip
 run = CommandList\Lib\Draw
-""", libraries = [("Lib", lambda text: "\lib\\" in text.lower())], runDraws = lambda called: True)
+""", libraries = [("Lib", lambda text: "\\lib\\" in text.lower())], runDraws = lambda called: True)
         self.assertEqual(data.libraries(self.Body), {"Lib"})
         self.assertFalse(data.isUndrawn(self.Body))
 
@@ -835,3 +835,91 @@ vb0 = ref ResourceBypassVB0
         # a mod without both lists has nothing to be symmetric with
         self.assertEqual(FRB.WWMISections.bypasses(data, FRB.IniParseRows.Sections, "CommandListOverrideSharedResources",
                                                    "CommandListNothing", "Exorcist"), [])
+
+    # ====================== a fixer's list reads and files as a parser's does ==========================
+
+    def fixWith(self, graphGroupEdits):
+        parser = self.parseWith()
+        fixer = FRB.GIMIFixer(parser, graphGroupEdits = graphGroupEdits, modsToFix = ["rika"])
+        fixer.getFix()
+        return parser, fixer
+
+    def test_fixerList_aCollectIsFiledIntoTheIniParseData(self):
+        parser, _ = self.fixWith([self.registers("fixRegs")])
+        self.assertEqual(self.values(parser.parseData.collected("fixRegs")), ["ResourceBodyDiffuse", "ResourceBodyLightMap"])
+
+    def test_fixerList_aVarApplyReadsWhatTheCollectBeforeItFiled(self):
+        apply = FRB.GraphVarApply(["fixRegs"], lambda rows: str(len(rows)), "count")
+        parser, _ = self.fixWith([self.registers("fixRegs"), apply])
+        self.assertEqual(parser.parseData.variables()["count"], "2")
+
+    def test_fixerList_aVarApplyOverItsOwnVariables_leavesTheParseDataAlone(self):
+        own = FRB.GraphEditVariables()
+        own["n"] = "1"
+        apply = FRB.GraphVarApply(["n"], lambda n: n + "1", "m", variables = own)
+        parser, _ = self.fixWith([apply])
+        self.assertEqual(own["m"], "11")
+        self.assertNotIn("m", parser.parseData.variables())
+
+    def test_editScope_isTheListsIniAndParseData_inAParsersAndAFixersList(self):
+        seen = []
+
+        def look(*inputs):
+            seen.append((FRB.EditScope.ini(), FRB.EditScope.parseData()))
+            return None
+
+        parser = self.parseWith([FRB.GraphVarApply([], look, "x")])
+        fixer = FRB.GIMIFixer(parser, graphGroupEdits = [FRB.GraphVarApply([], look, "y")], modsToFix = ["rika"])
+        fixer.getFix()
+        self.assertEqual(len(seen), 2)
+        for ini, data in seen:
+            self.assertIs(ini, self._iniFile)
+            self.assertIs(data, parser.parseData)
+
+    def test_editScope_outsideAList_isNone(self):
+        self.assertIsNone(FRB.EditScope.ini())
+        self.assertIsNone(FRB.EditScope.parseData())
+        self.assertIsNone(FRB.EditScope.modType())
+
+    def test_iniFile_resourceNamed_ignoresCaseAndRef_andNamesOnlyResources(self):
+        self.parseWith()
+        self.assertEqual(self._iniFile.resourceNamed("ref resourcebodydiffuse"), "ResourceBodyDiffuse")
+        self.assertEqual(self._iniFile.resourceNamed("  ResourceBodyLightMap "), "ResourceBodyLightMap")
+        self.assertEqual(self._iniFile.resourceNamed("ResourceNothing"), "")
+        self.assertEqual(self._iniFile.resourceNamed("TextureOverrideBody"), "")
+
+    # ====================== gates on what the groups hold: one object, or any of a list ==========================
+
+    Missing = ("", "missing")
+
+    def marker(self, **gates):
+        z3 = FRB.Z3Context()
+        self._z3 = z3
+        return FRB.GraphCreate((0, "", "marker"), sectionsOf = lambda group: [FRB.SectionText(z3, "Marker").build()], z3 = z3, **gates)
+
+    def heldAfter(self, edits):
+        _, fixer = self.fixWith(edits)
+        return [set(group.graphs.keys()) for group in fixer.graphGroups]
+
+    def test_gates_onlyWith_aList_isAnyOf(self):
+        self.assertIn(("", "marker"), self.heldAfter([self.marker(onlyWith = [self.Missing, self.Body])])[0])
+        self.assertNotIn(("", "marker"), self.heldAfter([self.marker(onlyWith = [self.Missing])])[0])
+
+    def test_gates_onlyWithout_aList_stopsOnAnyOf(self):
+        self.assertNotIn(("", "marker"), self.heldAfter([self.marker(onlyWithout = [self.Missing, self.Body])])[0])
+        self.assertIn(("", "marker"), self.heldAfter([self.marker(onlyWithout = self.Missing)])[0])
+
+    def test_gates_oneObjectOrAList_readBackAsAList(self):
+        edit = self.marker(onlyWith = self.Body)
+        self.assertEqual(edit.onlyWith, [self.Body])
+        edit.onlyWith = None
+        self.assertIsNone(edit.onlyWith)
+
+    def test_groupRemove_onlyWithout_removesOnlyWhenNoneIsHeld(self):
+        self.assertEqual(self.heldAfter([FRB.GraphGroupRemove(onlyWithout = [self.Missing])]), [])
+        self.assertEqual(len(self.heldAfter([FRB.GraphGroupRemove(onlyWithout = [self.Missing, self.Body])])), 1)
+
+    def test_iniKeywords_wwmiRuntimeRegisters(self):
+        self.assertEqual(FRB.IniKeywords.WWMIRemapperForwardReg, "cs-t37")
+        self.assertEqual(FRB.IniKeywords.WWMIBoneDataCb, "vs-cb4")
+        self.assertEqual(FRB.IniKeywords.FormatR16UInt, "DXGI_FORMAT_R16_UINT")

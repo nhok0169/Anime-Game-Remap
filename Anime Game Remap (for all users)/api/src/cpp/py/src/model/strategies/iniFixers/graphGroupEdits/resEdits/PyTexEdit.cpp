@@ -73,7 +73,13 @@ py::object PyTexCreate::pySelf() const {
 void PyTexCreate::buildResModel(const std::string &resType, const std::string &srcPath, const std::string &fixedPath,
                                  const std::string &modName, const std::string &fileKey, Context &ctx) {
     (void)fixedPath;
-    auto &pyCtx = static_cast<PyIniResEditContext&>(ctx);
+    PyIniResEditContext *pyCtxOf = pyContextOf(ctx);
+    if (pyCtxOf == nullptr) {
+        // in a C++ fixer's list: the edit's own C++ side
+        CoreClass::buildResModel(resType, srcPath, fixedPath, modName, fileKey, ctx);
+        return;
+    }
+    auto &pyCtx = *pyCtxOf;
     dispatchBuildResModel(py::make_tuple(py::str(resType), pyCtx.ini, py::str(srcPath), modTypeObj), modName, fileKey, ctx);
 }
 
@@ -113,11 +119,13 @@ fixFunc: Optional[Callable[[:class:`RemapTexAddResource`], :class:`bool`]]
     )doc");
 
     cls.def(py::init([](py::object resModObj, std::string texName, py::object texCreator, std::string resType,
-                        py::object fixFunc) {
-        return std::make_unique<PyTexCreate>(std::move(resModObj), std::move(texName), std::move(texCreator),
-                                              std::move(resType), std::move(fixFunc));
+                        py::object fixFunc, decltype(PyTexCreate::files) files) {
+        auto edit = std::make_unique<PyTexCreate>(std::move(resModObj), std::move(texName), std::move(texCreator),
+                                                  std::move(resType), std::move(fixFunc));
+        edit->files = std::move(files);
+        return edit;
     }), py::arg("resModObj"), py::arg("texName"), py::arg("texCreator"), py::arg("resType") = "resourceRemapTexAdd",
-        py::arg("fixFunc") = py::none());
+        py::arg("fixFunc") = py::none(), py::arg("files") = decltype(PyTexCreate::files)());
 
     cls.def_readwrite("texName", &PyTexCreate::texName, py::doc(R"doc(
 :class:`str`: The name for the type of texture
@@ -285,7 +293,13 @@ py::object PyTexReplace::pySelf() const {
 void PyTexReplace::buildResModel(const std::string &resType, const std::string &srcPath, const std::string &fixedPath,
                                   const std::string &modName, const std::string &fileKey, Context &ctx) {
     // Both paths travel, unlike PyTexCreate's -- an edit reads one file and writes another.
-    auto &pyCtx = static_cast<PyIniResEditContext&>(ctx);
+    PyIniResEditContext *pyCtxOf = pyContextOf(ctx);
+    if (pyCtxOf == nullptr) {
+        // in a C++ fixer's list: the edit's own C++ side
+        CoreClass::buildResModel(resType, srcPath, fixedPath, modName, fileKey, ctx);
+        return;
+    }
+    auto &pyCtx = *pyCtxOf;
     dispatchBuildResModel(py::make_tuple(py::str(resType), pyCtx.ini, py::str(srcPath), py::str(fixedPath), modTypeObj),
                            modName, fileKey, ctx);
 }

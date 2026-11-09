@@ -12,89 +12,121 @@
 // ##### EndCredits
 
 #include "PyRegNewVals.h"
+#include "../PyEditScope.h"
 
 #include <memory>
 #include <utility>
 #include <vector>
+#include <string>
+#include <variant>
+
+#include "AGRemapCore/model/strategies/ModType.h"
 
 
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
 
-PyRegNewVals::PyRegNewVals(py::object valsObj, bool addNewKVPs): Core({}, addNewKVPs), valsObj(std::move(valsObj)) {}
+namespace {
+    using NewVal = PyRegNewVals::NewVal;
+    using NewValSpec = PyRegNewVals::NewValSpec;
 
-void PyRegNewVals::refresh(const py::object &modType) {
-    // Deliberately NOT parseReplaceVals (PyIOrderedMultiMap.h), unlike PyRegRemap/PyRegRemove's
-    // reuse of their own equivalents: that helper bakes a ReplaceIf's predicate down to the
-    // single-argument IfContentPart::Predicate, and this class calls it with (oldValue, modType).
-    // Everything else about the dispatch is identical to it, marker classes included.
-    py::dict src = py::cast<py::dict>(valsObj);
+    // A Python callable as each kind of C++ value function, kept as itself so 'vals' reads back the callable given. Each
+    // is handed the mod type the edit runs for, as Python sees it
+    struct PyValProducer {
+        py::object producer;
+        std::string operator()(const AGRC::ModType *modType) const {
+            py::gil_scoped_acquire gil;
+            return py::str(producer(editModTypeToPy(modType))).cast<std::string>();
+        }
+    };
 
-    // A callable in any value slot is a ValProducer -- called as producer(modType) when 'edit'
-    // runs, rather than being stringified the way every other object here is. 'modType' arrives by
-    // capture, not through the core ValProducer's own parameter, for the same reason a ReplaceIf's
-    // predicate does; see PyRegNewVals::refresh's doc comment.
-    auto toNewVal = [&modType](const py::object &value) -> NewVal {
-        // A FromOldVal's callable is handed the old value as well. 'modType' arrives by capture
-        // here too, for the same reason the plain producer's does.
+    struct PyOldValProducer {
+        py::object producer;
+        std::string operator()(const std::string &oldValue, const AGRC::ModType *modType) const {
+            py::gil_scoped_acquire gil;
+            return py::str(producer(py::cast(oldValue), editModTypeToPy(modType))).cast<std::string>();
+        }
+    };
+
+    struct PyPredicate {
+        py::object predicate;
+        bool operator()(const std::string &oldValue, const AGRC::ModType *modType) const {
+            py::gil_scoped_acquire gil;
+            return predicate(py::cast(oldValue), editModTypeToPy(modType)).cast<bool>();
+        }
+    };
+
+    // One value as the edit holds it: a FromOldVal's callable is handed the old value too, any other callable is a
+    // producer, and anything else is its text
+    NewVal newValOf(const py::object &value) {
         if (py::isinstance<PyFromOldVal>(value)) {
-            py::object producer = value.cast<PyFromOldVal>().producer();
-            return NewVal(OldValProducer([producer, modType](const std::string &oldValue, const AGRC::ModType *) {
-                return py::str(producer(py::cast(oldValue), modType)).cast<std::string>();
-            }));
+            return NewVal(PyRegNewVals::OldValProducer(PyOldValProducer{value.cast<PyFromOldVal>().producer()}));
         }
-
         if (PyCallable_Check(value.ptr())) {
-            py::object producer = value;
-            return NewVal(ValProducer([producer, modType](const AGRC::ModType *) {
-                return py::str(producer(modType)).cast<std::string>();
-            }));
+            return NewVal(PyRegNewVals::ValProducer(PyValProducer{value}));
         }
-
         return NewVal(py::str(value).cast<std::string>());
-    };
-
-    auto toNewVals = [&toNewVal](const std::vector<py::object> &raw) {
-        std::vector<NewVal> out;
-        out.reserve(raw.size());
-        for (const py::object &v : raw) {
-            out.push_back(toNewVal(v));
-        }
-        return out;
-    };
-
-    std::vector<std::pair<std::string, NewValSpec>> result;
-    result.reserve(src.size());
-
-    for (auto item : src) {
-        std::string key = py::str(item.first).cast<std::string>();
-        py::object value = py::reinterpret_borrow<py::object>(item.second);
-
-        if (py::isinstance<PyReplaceList>(value)) {
-            result.emplace_back(std::move(key), NewValSpec(toNewVals(value.cast<PyReplaceList>().values())));
-            continue;
-        }
-
-        if (py::isinstance<PyReplaceIf>(value)) {
-            PyReplaceIf spec = value.cast<PyReplaceIf>();
-
-            // predicateObj(), not predicate() -- the raw Python callable, so it can be invoked
-            // with this class's own wider argument list. 'modType' is captured rather than read
-            // from the ModTypePredicate's own parameter; see PyRegNewVals::refresh's doc comment.
-            py::object predicate = spec.predicateObj();
-            ModTypePredicate boundPredicate = [predicate, modType](const std::string &oldValue, const AGRC::ModType *) {
-                return predicate(py::cast(oldValue), modType).cast<bool>();
-            };
-
-            result.emplace_back(std::move(key), NewValSpec(std::pair<NewVal, ModTypePredicate>(toNewVal(spec.value()), std::move(boundPredicate))));
-            continue;
-        }
-
-        result.emplace_back(std::move(key), NewValSpec(toNewVal(value)));
     }
 
-    vals = std::move(result);
+    // 'vals' as the edit holds it: register -> its value, a ReplaceList of values, or a ReplaceIf
+    std::vector<std::pair<std::string, NewValSpec>> parseNewVals(const py::object &vals) {
+        std::vector<std::pair<std::string, NewValSpec>> result;
+        for (auto item : py::cast<py::dict>(vals)) {
+            std::string key = py::str(item.first).cast<std::string>();
+            py::object value = py::reinterpret_borrow<py::object>(item.second);
+            if (py::isinstance<PyReplaceList>(value)) {
+                std::vector<NewVal> list;
+                for (const py::object &entry : value.cast<PyReplaceList>().values()) {
+                    list.push_back(newValOf(entry));
+                }
+                result.emplace_back(std::move(key), NewValSpec(std::move(list)));
+            } else if (py::isinstance<PyReplaceIf>(value)) {
+                PyReplaceIf spec = value.cast<PyReplaceIf>();
+                result.emplace_back(std::move(key), NewValSpec(std::pair<NewVal, PyRegNewVals::ModTypePredicate>(
+                                                        newValOf(spec.value()), PyPredicate{spec.predicateObj()})));
+            } else {
+                result.emplace_back(std::move(key), NewValSpec(newValOf(value)));
+            }
+        }
+        return result;
+    }
+
+    // a value back as Python: its text, the callable it was given (as a FromOldVal for an old-value one), or the C++
+    // function itself for one built in C++
+    py::object newValToPy(const NewVal &value) {
+        if (const auto *text = std::get_if<std::string>(&value)) {
+            return py::str(*text);
+        }
+        if (const auto *producer = std::get_if<PyRegNewVals::ValProducer>(&value)) {
+            const PyValProducer *own = producer->target<PyValProducer>();
+            return own != nullptr ? own->producer : py::cast(*producer);
+        }
+        const auto &producer = std::get<PyRegNewVals::OldValProducer>(value);
+        const PyOldValProducer *own = producer.target<PyOldValProducer>();
+        return py::cast(PyFromOldVal(own != nullptr ? own->producer : py::object(py::cast(producer))));
+    }
+
+    py::dict newValsToPy(const PyRegNewVals &edit) {
+        py::dict result;
+        for (const auto &[key, spec] : edit.vals) {
+            if (const auto *one = std::get_if<NewVal>(&spec)) {
+                result[py::str(key)] = newValToPy(*one);
+            } else if (const auto *list = std::get_if<std::vector<NewVal>>(&spec)) {
+                std::vector<py::object> values;
+                for (const NewVal &entry : *list) {
+                    values.push_back(newValToPy(entry));
+                }
+                result[py::str(key)] = py::cast(PyReplaceList(std::move(values)));
+            } else {
+                const auto &[value, predicate] = std::get<std::pair<NewVal, PyRegNewVals::ModTypePredicate>>(spec);
+                const PyPredicate *own = predicate.target<PyPredicate>();
+                result[py::str(key)] = py::cast(PyReplaceIf(newValToPy(value), own != nullptr ? own->predicate
+                                                                                               : py::object(py::cast(predicate))));
+            }
+        }
+        return result;
+    }
 }
 
 
@@ -175,13 +207,13 @@ Callable[[:class:`str`, Optional[:class:`ModType`]], :class:`str`]: The callable
         )doc"));
 
     cls.def(py::init([](py::object vals, bool addNewKVPs) {
-        return std::make_unique<PyRegNewVals>(std::move(vals), addNewKVPs);
+        return std::make_unique<PyRegNewVals>(parseNewVals(vals), addNewKVPs);
     }), py::arg("vals"), py::arg("addNewKVPs") = false);
 
     cls.def_property("vals", [](const PyRegNewVals &self) {
-        return self.valsObj;
+        return newValsToPy(self);
     }, [](PyRegNewVals &self, py::object vals) {
-        self.valsObj = std::move(vals);
+        self.vals = parseNewVals(vals);
     }, py::doc(R"doc(
 Dict[:class:`str`, Union[:class:`str`, Callable[[Optional[:class:`ModType`]], :class:`str`], :class:`ReplaceList`, :class:`ReplaceIf`]]: Defines which
 registers will have their values changed, where the keys are the names of the register and the

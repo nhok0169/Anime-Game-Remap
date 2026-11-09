@@ -28,17 +28,18 @@ class GraphGroupEditTest(BaseUnitTest):
 
         edit = FRB.GraphGroupEdit(edits, trackKeys = True, keysToTrack = keysToTrack, keyFilters = keyFilters)
 
-        self.assertIs(edit.edits, edits)
-        self.assertIs(edit.keyFilters, keyFilters)
-        self.assertIs(edit.keysToTrack, keysToTrack)
+        self.assertEqual(edit.edits, edits)   # held as the edit's own (C++) data, read back
+        self.assertEqual(edit.keyFilters, keyFilters)   # held as the edit's own (C++) data, read back
+        self.assertEqual(edit.keysToTrack, keysToTrack)   # held as the edit's own (C++) data, read back
         self.assertTrue(edit.trackKeys)
 
     def test_init_defaults(self):
         edit = FRB.GraphGroupEdit([])
 
         self.assertFalse(edit.trackKeys)
-        self.assertIsNone(edit.keysToTrack)
-        self.assertIsNone(edit.keyFilters)
+        # one entry per .ini of 'edits', and there are none
+        self.assertEqual(edit.keysToTrack, [])
+        self.assertEqual(edit.keyFilters, [])
 
     # ================================================
     # ===================== edit ======================

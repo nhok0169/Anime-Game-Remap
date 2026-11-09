@@ -12,7 +12,6 @@
 // ##### EndCredits
 
 #include "AGRemapCore/data/IniFixData/Sanhua/SanhuaTextures.h"
-#include "AGRemapCore/data/IniFixData/Sanhua/SanhuaThumbprints.h"
 
 
 namespace AGRemapCore {
@@ -74,7 +73,7 @@ namespace AGRemapCore {
         // the file is. Read by the PARSER (`WWMIParser::buildRoles`), which is what identifies a
         // mod's textures; they sat on the fixer's config until 2026-09-29, where nothing read them
         // any more, and the parser's pass matched against an empty table on every mod.
-        facts.textureThumbprints = sanhuaTextureThumbprints();
+        // textureThumbprints: read off TextureThumbprints (WWMIParserConfig::withGameData, WWMIFixerConfig::withGameData)
 
         // A planned role a mod ships no file for is bound to Sanhua's OWN texture of that role,
         // downloaded from her folder (the mod's UVs are hers). The red-camellia mod carries no

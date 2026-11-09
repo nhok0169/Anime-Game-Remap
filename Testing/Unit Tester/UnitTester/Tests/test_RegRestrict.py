@@ -38,7 +38,7 @@ class RegRestrictTest(BaseUnitTest):
         allowedKeys = ["ps-t0", "ps-t1"]
         edit = FRB.RegRestrict(allowedKeys, isTextureRegister, False)
 
-        self.assertIs(edit.allowedKeys, allowedKeys)
+        self.assertEqual(edit.allowedKeys, allowedKeys)   # held as the edit's own (C++) data, read back
         self.assertIs(edit.keyFilter, isTextureRegister)
         self.assertFalse(edit.keepFirstOnly)
 

@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fix_factory" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixFactory</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fix_factory_1a232f17b171ea0f850b618e0ce796c9f2" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config" kindref="compound">WWMIFixerConfig</ref></type>
+        <definition>WWMIFixerConfig AGRemapCore::WWMIFixFactory::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>AGRemapCore::WWMIFixFactory::config</qualifiedname>
+        <briefdescription>
+<para>The pair&apos;s config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2305" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2305" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_w_w_m_i_fix_factory_1a3d42836bdb26cf1356b28f2f44f02406" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_fixer" kindref="compound">BaseIniFixer</ref>&lt;&gt; &gt;</type>
+        <definition>std::shared_ptr&lt; BaseIniFixer&lt;&gt; &gt; AGRemapCore::WWMIFixFactory::operator()</definition>
+        <argsstring>(BaseIniParser&lt;&gt; *parser, const std::string &amp;toModName, std::optional&lt; int &gt; modTypeId) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::WWMIFixFactory::operator()</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_ini_parser" kindref="compound">BaseIniParser</ref>&lt;&gt; *</type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>toModName</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; int &gt;</type>
+          <declname>modTypeId</declname>
+        </param>
+        <briefdescription>
+<para>Builds the fixer <ndash/> see :cpp:type:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2310" column="25" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="4828" bodyend="4831"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What :cpp:func:`makeWWMIFixer` returns, as an :cpp:type:`IniFixBuilder::Factory`: the pair&apos;s config and the call that
+builds a fixer from it -- so the config can be read back (:cpp:func:`WWMIFixerConfig::ofFactory`)
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::WWMIFixFactory</label>
+        <link refid="struct_a_g_remap_core_1_1_w_w_m_i_fix_factory"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::WWMIFixerConfig</label>
+        <link refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>sourceTextures</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::WWMITextureFacts</label>
+        <link refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2301" column="5" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2301" bodyend="2312"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fix_factory_1a232f17b171ea0f850b618e0ce796c9f2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixFactory</scope><name>config</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fix_factory_1a3d42836bdb26cf1356b28f2f44f02406" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixFactory</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

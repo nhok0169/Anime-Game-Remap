@@ -250,6 +250,17 @@ BlendFile
 
 :raw-html:`<br />`
 
+BoneCentroids
+=============
+
+.. attributetable:: FixRaidenBoss2.BoneCentroids
+
+.. autoclass:: FixRaidenBoss2.BoneCentroids
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 BufBaseFloat
 ============
 
@@ -877,6 +888,17 @@ DownloadData
 
 :raw-html:`<br />`
 
+DrawPasses
+==========
+
+.. attributetable:: FixRaidenBoss2.DrawPasses
+
+.. autoclass:: FixRaidenBoss2.DrawPasses
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 DrawUVCoverage
 ==============
 
@@ -960,6 +982,17 @@ FromOldVal
 .. attributetable:: FixRaidenBoss2.FromOldVal
 
 .. autoclass:: FixRaidenBoss2.FromOldVal
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GameShaders
+===========
+
+.. attributetable:: FixRaidenBoss2.GameShaders
+
+.. autoclass:: FixRaidenBoss2.GameShaders
     :members:
     :private-members:
 
@@ -1146,6 +1179,16 @@ GraphEditVariables
 .. autoclass:: FixRaidenBoss2.GraphEditVariables
     :members:
     :private-members:
+
+:raw-html:`<br />`
+
+EditScope
+=========
+
+.. attributetable:: FixRaidenBoss2.EditScope
+
+.. autoclass:: FixRaidenBoss2.EditScope
+    :members:
 
 :raw-html:`<br />`
 
@@ -2421,6 +2464,72 @@ ShapeKeyChecksums
 
 :raw-html:`<br />`
 
+ShapeKeyDispatchSizes
+=====================
+
+.. attributetable:: FixRaidenBoss2.ShapeKeyDispatchSizes
+
+.. autoclass:: FixRaidenBoss2.ShapeKeyDispatchSizes
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ShapeKeyRemaps
+==============
+
+.. attributetable:: FixRaidenBoss2.ShapeKeyRemaps
+
+.. autoclass:: FixRaidenBoss2.ShapeKeyRemaps
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+MaterialCodes
+=============
+
+.. attributetable:: FixRaidenBoss2.MaterialCodes
+
+.. autoclass:: FixRaidenBoss2.MaterialCodes
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+MaterialColours
+===============
+
+.. attributetable:: FixRaidenBoss2.MaterialColours
+
+.. autoclass:: FixRaidenBoss2.MaterialColours
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TextureDescs
+============
+
+.. attributetable:: FixRaidenBoss2.TextureDescs
+
+.. autoclass:: FixRaidenBoss2.TextureDescs
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TextureThumbprints
+==================
+
+.. attributetable:: FixRaidenBoss2.TextureThumbprints
+
+.. autoclass:: FixRaidenBoss2.TextureThumbprints
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 SideMeshes
 ==========
 
@@ -2570,6 +2679,17 @@ TextureFile
 .. attributetable:: FixRaidenBoss2.TextureFile
 
 .. autoclass:: FixRaidenBoss2.TextureFile
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TextureRegisters
+================
+
+.. attributetable:: FixRaidenBoss2.TextureRegisters
+
+.. autoclass:: FixRaidenBoss2.TextureRegisters
     :members:
     :private-members:
 
@@ -3069,6 +3189,22 @@ ColourConsts
 ============
 
 .. autoclass:: FixRaidenBoss2.ColourConsts
+    :members:
+
+:raw-html:`<br />`
+
+ColourRanges
+============
+
+.. autoclass:: FixRaidenBoss2.ColourRanges
+    :members:
+
+:raw-html:`<br />`
+
+Colours
+=======
+
+.. autoclass:: FixRaidenBoss2.Colours
     :members:
 
 :raw-html:`<br />`

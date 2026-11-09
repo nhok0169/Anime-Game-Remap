@@ -180,6 +180,18 @@ class PyIniGraphGroups: public AGRC::IIniGraphGroups<std::string, std::string> {
          */
         static ModObj modObjFromPy(const py::handle& key);
 
+        /**
+         * @brief Several mod objects from Python: ``None`` (none), one ``(component, object)`` tuple, or a list of them
+         * @param objs The Python value
+         */
+        static std::vector<ModObj> modObjsFromPy(const py::handle& objs);
+
+        /**
+         * @brief The inverse of #modObjsFromPy: ``None`` for none, else a list of tuples
+         * @param objs The mod objects
+         */
+        static py::object modObjsToPy(const std::vector<ModObj>& objs);
+
     private:
         py::list graphGroups_;
 

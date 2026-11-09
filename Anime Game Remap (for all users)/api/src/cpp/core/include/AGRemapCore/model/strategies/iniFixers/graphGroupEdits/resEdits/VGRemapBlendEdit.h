@@ -22,6 +22,7 @@
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/model/VGRemap.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/buffers/BufElementType.h"
 #include "AGRemapCore/model/iniresources/RemapBlendResource.h"
@@ -153,6 +154,16 @@ namespace AGRemapCore {
              @endrst
              */
             std::optional<std::string> rowModName;
+
+            /**
+             * @brief
+             @rst
+             The vertex group row given outright, used in place of looking one up in :cpp:member:`modType`'s
+             asset tables -- a table the caller built, eg. a row composed with another map. **Default**:
+             ``std::nullopt``, the row is looked up
+             @endrst
+             */
+            std::optional<VGRemap> row;
 
             /**
              * @brief The version of the ``.ini`` file being fixed

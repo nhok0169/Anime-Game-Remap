@@ -211,6 +211,68 @@ Union[Optional[:class:`str`], :class:`bytearray`]
     returns ``fixedBlendFile`` itself
         )doc"))
 
+        .def_static("byteElements", [](std::size_t influences) {
+            return blendElementsToPy(AGRC::BlendFile::byteElements(influences));
+        }, py::arg("influences"), py::doc(R"doc(
+The elements of a `blend`_ line of one-byte slots: 'influences' one-byte ids under ``BLENDINDICES``, then 'influences'
+one-byte weights under ``BLENDWEIGHT`` (formatted ``R8G8B8A8_UINT`` when four wide, else ``R8_UINT``)
+
+Parameters
+----------
+influences: :class:`int`
+    How many (id, weight) slots each vertex carries
+
+Returns
+-------
+List[:class:`BufElementType`]
+    The elements
+        )doc"))
+
+        .def_static("idElements", [](std::size_t count, std::size_t idBytes) {
+            return blendElementsToPy(AGRC::BlendFile::idElements(count, idBytes));
+        }, py::arg("count"), py::arg("idBytes"), py::doc(R"doc(
+The elements of a line of ids alone: 'count' unsigned ids of 'idBytes' bytes each (1, 2 or 4) under ``BLENDINDICES``,
+and no weights -- eg. a blend's true bone ids kept beside it, or a table of bone ids, one a line
+
+Parameters
+----------
+count: :class:`int`
+    How many ids a line carries
+
+idBytes: :class:`int`
+    The bytes of one id
+
+Returns
+-------
+List[:class:`BufElementType`]
+    The elements
+        )doc"))
+
+        .def_static("influencesOf", &AGRC::BlendFile::influencesOf, py::arg("blendPath"), py::arg("vertices"),
+                    py::arg("bytesPerInfluence") = 2, py::doc(R"doc(
+How many (id, weight) slots a vertex of the `blend`_ at 'blendPath' carries, from the file's SIZE: its bytes per vertex
+over 'bytesPerInfluence'
+
+Parameters
+----------
+blendPath: :class:`str`
+    The `blend`_ file
+
+vertices: :class:`int`
+    How many vertices the mesh has (eg. :meth:`CppBufFile.linesOf` its position buffer)
+
+bytesPerInfluence: :class:`int`
+    The bytes of one (id, weight) slot :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``2``, a one-byte id and weight
+
+Returns
+-------
+Optional[:class:`int`]
+    The slots a vertex, or ``None`` when the sizes say nothing: no vertices, a file that does not divide by them, or
+    bytes a vertex that do not divide into slots
+        )doc"))
+
         .def_static("defaultElements", [](std::size_t influences) {
             return blendElementsToPy(AGRC::BlendFile::defaultElements(influences));
         }, py::arg("influences") = 4, py::doc(R"doc(

@@ -30,6 +30,16 @@
 #include "AGRemapCore/model/assets/Indices.h"
 #include "AGRemapCore/model/assets/IndexCounts.h"
 #include "AGRemapCore/model/assets/ShapeKeyChecksums.h"
+#include "AGRemapCore/model/assets/DrawPasses.h"
+#include "AGRemapCore/model/assets/TextureRegisters.h"
+#include "AGRemapCore/model/assets/GameShaders.h"
+#include "AGRemapCore/model/assets/ShapeKeyDispatchSizes.h"
+#include "AGRemapCore/model/assets/BoneCentroids.h"
+#include "AGRemapCore/model/assets/ShapeKeyRemaps.h"
+#include "AGRemapCore/model/assets/MaterialCodes.h"
+#include "AGRemapCore/model/assets/MaterialColours.h"
+#include "AGRemapCore/model/assets/TextureDescs.h"
+#include "AGRemapCore/model/assets/TextureThumbprints.h"
 #include "AGRemapCore/model/assets/VGCounts.h"
 #include "AGRemapCore/model/assets/VGOffsets.h"
 #include "AGRemapCore/model/assets/VGRemaps.h"
@@ -111,17 +121,30 @@ aliases: Optional[List[:class:`str`]]
                          std::shared_ptr<AGRC::Hashes> hashes, std::shared_ptr<AGRC::Indices> indices,
                          std::shared_ptr<AGRC::VertexCounts> vertexCounts, std::shared_ptr<AGRC::VGRemaps> vgRemaps,
                          std::shared_ptr<AGRC::IndexCounts> indexCounts, std::shared_ptr<AGRC::VGOffsets> vgOffsets,
-                         std::shared_ptr<AGRC::VGCounts> vgCounts, std::shared_ptr<AGRC::ShapeKeyChecksums> shapeKeyChecksums) {
+                         std::shared_ptr<AGRC::VGCounts> vgCounts, std::shared_ptr<AGRC::ShapeKeyChecksums> shapeKeyChecksums,
+                         std::shared_ptr<AGRC::DrawPasses> drawPasses, std::shared_ptr<AGRC::TextureRegisters> textureRegisters,
+                         std::shared_ptr<AGRC::GameShaders> gameShaders, std::shared_ptr<AGRC::ShapeKeyDispatchSizes> shapeKeyDispatchSizes,
+                         std::shared_ptr<AGRC::BoneCentroids> boneCentroids, std::shared_ptr<AGRC::ShapeKeyRemaps> shapeKeyRemaps,
+                         std::shared_ptr<AGRC::MaterialCodes> materialCodes, std::shared_ptr<AGRC::MaterialColours> materialColours,
+                         std::shared_ptr<AGRC::TextureDescs> textureDescs, std::shared_ptr<AGRC::TextureThumbprints> textureThumbprints) {
                  return AGRC::ModType(gameTypeId, modTypeId, name, aliases, std::move(hashes), std::move(indices),
                                       std::move(vertexCounts), std::move(vgRemaps), nullptr, nullptr, nullptr,
-                                      std::move(indexCounts), std::move(vgOffsets), std::move(vgCounts), std::move(shapeKeyChecksums));
+                                      std::move(indexCounts), std::move(vgOffsets), std::move(vgCounts), std::move(shapeKeyChecksums),
+                                      std::move(drawPasses), std::move(textureRegisters), std::move(gameShaders),
+                                      std::move(shapeKeyDispatchSizes), std::move(boneCentroids), std::move(shapeKeyRemaps),
+                                      std::move(materialCodes), std::move(materialColours), std::move(textureDescs),
+                                      std::move(textureThumbprints));
              }),
              py::arg("gameTypeId"), py::arg("modTypeId"), py::arg("name"),
              py::arg("aliases") = std::vector<std::string>{},
              py::arg("hashes") = nullptr, py::arg("indices") = nullptr,
              py::arg("vertexCounts") = nullptr, py::arg("vgRemaps") = nullptr,
              py::arg("indexCounts") = nullptr, py::arg("vgOffsets") = nullptr,
-             py::arg("vgCounts") = nullptr, py::arg("shapeKeyChecksums") = nullptr)
+             py::arg("vgCounts") = nullptr, py::arg("shapeKeyChecksums") = nullptr,
+             py::arg("drawPasses") = nullptr, py::arg("textureRegisters") = nullptr, py::arg("gameShaders") = nullptr,
+             py::arg("shapeKeyDispatchSizes") = nullptr, py::arg("boneCentroids") = nullptr, py::arg("shapeKeyRemaps") = nullptr,
+             py::arg("materialCodes") = nullptr, py::arg("materialColours") = nullptr, py::arg("textureDescs") = nullptr,
+             py::arg("textureThumbprints") = nullptr)
 
         .def_readwrite("indexCounts", &AGRC::ModType::indexCounts,
     py::doc(R"doc(:class:`IndexCounts`: The ``match_index_count`` of each of the mod's draw slots (WuWa)
@@ -139,6 +162,41 @@ Same defaulting and sharing rules as :attr:`hashes`; a GI mod type's holds no ro
 
         .def_readwrite("shapeKeyChecksums", &AGRC::ModType::shapeKeyChecksums,
     py::doc(R"doc(:class:`ShapeKeyChecksums`: The shape-key ``checksum`` of the mod (WuWa) -- see :attr:`indexCounts`)doc"))
+
+        .def_readwrite("drawPasses", &AGRC::ModType::drawPasses,
+    py::doc(R"doc(:class:`DrawPasses`: The draw passes of each of the mod's draw slots (WuWa) -- see :meth:`getDrawPass`
+
+The first of six versioned tables of a character's GAME data that a fix reads at the run's version rather than carrying
+it: this, :attr:`textureRegisters`, :attr:`gameShaders`, :attr:`shapeKeyDispatchSizes`, :attr:`boneCentroids` and
+:attr:`shapeKeyRemaps`. Same defaulting and sharing rules as :attr:`hashes`
+    )doc"))
+
+        .def_readwrite("textureRegisters", &AGRC::ModType::textureRegisters,
+    py::doc(R"doc(:class:`TextureRegisters`: Where the mod's own draws bind each texture role -- see :meth:`getTextureRegister`)doc"))
+
+        .def_readwrite("gameShaders", &AGRC::ModType::gameShaders,
+    py::doc(R"doc(:class:`GameShaders`: The game pixel shaders a fix draws the mod's parts with -- see :meth:`getGameShader`)doc"))
+
+        .def_readwrite("shapeKeyDispatchSizes", &AGRC::ModType::shapeKeyDispatchSizes,
+    py::doc(R"doc(:class:`ShapeKeyDispatchSizes`: The height WWMI dispatches the mod's shape keys with -- see :meth:`getShapeKeyDispatchSize`)doc"))
+
+        .def_readwrite("boneCentroids", &AGRC::ModType::boneCentroids,
+    py::doc(R"doc(:class:`BoneCentroids`: Each bone's rest-pose centroid on the mod's own model -- see :meth:`getBoneCentroids`)doc"))
+
+        .def_readwrite("shapeKeyRemaps", &AGRC::ModType::shapeKeyRemaps,
+    py::doc(R"doc(:class:`ShapeKeyRemaps`: The order the mod's shape keys are put in on another character -- see :meth:`getShapeKeyRemap`)doc"))
+
+        .def_readwrite("materialCodes", &AGRC::ModType::materialCodes,
+    py::doc(R"doc(:class:`MaterialCodes`: What the codes of the mod's single-channel code maps mean -- see :meth:`getMaterialCode`)doc"))
+
+        .def_readwrite("materialColours", &AGRC::ModType::materialColours,
+    py::doc(R"doc(:class:`MaterialColours`: The colours the mod's material masks mark each material with -- see :meth:`getMaterialColour`)doc"))
+
+        .def_readwrite("textureThumbprints", &AGRC::ModType::textureThumbprints,
+    py::doc(R"doc(:class:`TextureThumbprints`: What the mod's game textures look like, as thumbprints -- see :meth:`getTextureThumbprints`)doc"))
+
+        .def_readwrite("textureDescs", &AGRC::ModType::textureDescs,
+    py::doc(R"doc(:class:`TextureDescs`: How the game creates the mod's game textures -- see :meth:`getTextureDesc`)doc"))
 
         .def_readwrite("hashes", &AGRC::ModType::hashes,
     py::doc(R"doc(:class:`Hashes`: The hashes related to the mod and its fix
@@ -264,6 +322,244 @@ Optional[:class:`str`]
 
         .def("getShapeKeyChecksum", &AGRC::ModType::getShapeKeyChecksum, py::arg("type") = "shapekeys", py::arg("component") = "", py::arg("version") = py::none(),
              py::doc(R"doc(Retrieves the shape-key ``checksum`` of this mod (WuWa) -- see :meth:`getIndexCount`; ``type`` is ``shapekeys`` on every shipped row)doc"))
+
+        .def("getDrawPass", &AGRC::ModType::getDrawPass, py::arg("component"), py::arg("type"), py::arg("version") = py::none(), py::doc(R"doc(
+One of :attr:`drawPasses`' values for a draw slot
+
+Parameters
+----------
+component: :class:`str`
+    The draw slot, eg. ``component3``
+
+type: :class:`str`
+    The pass and what is read of it: ``<pass>`` (its vertex shaders, comma-separated), ``<pass>.ps`` (its pixel
+    shader) or ``<pass>.tags`` (each vertex shader's ``filter_index``) -- eg. ``main``, ``other.ps``
+
+version: Optional[:class:`Version`]
+    The game version wanted -- the newest row at or below it :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``, meaning the latest
+
+Returns
+-------
+Optional[:class:`str`]
+    The value, or ``None`` when the mod has no such row
+        )doc"))
+
+        .def("getTextureRegister", &AGRC::ModType::getTextureRegister, py::arg("component"), py::arg("role"), py::arg("version") = py::none(), py::doc(R"doc(
+The register the mod's own draw of a slot binds a texture role at (:attr:`textureRegisters`) -- else the game's default
+for the role: the row named after the mod's game, with an empty component
+
+Parameters
+----------
+component: :class:`str`
+    The draw slot, eg. ``component3``
+
+role: :class:`str`
+    The role, eg. ``upperDiffuse``; ``<role>@rabbitfx`` for the key the role is handed to RabbitFX under;
+    ``<role>@<pass>``, eg. ``upperDiffuse@other``, for where another pass of the slot (:meth:`getDrawPass`'s
+    ``other``) binds it
+
+version: Optional[:class:`Version`]
+    The game version wanted -- see :meth:`getDrawPass`
+
+    **Default**: ``None``
+
+Returns
+-------
+Optional[:class:`str`]
+    The register, or ``None`` when neither the mod nor its game has a row for the role
+        )doc"))
+
+        .def("getTextureRole", &AGRC::ModType::getTextureRole, py::arg("component"), py::arg("reg"), py::arg("version") = py::none(),
+             py::arg("drawPass") = "", py::doc(R"doc(
+The texture role the mod's own draw of a slot binds at a register -- :meth:`getTextureRegister` read backwards, with the
+game's default where the mod has no row of the role. A RabbitFX key answers with the role it carries
+
+Parameters
+----------
+component: :class:`str`
+    The draw slot, eg. ``component3``
+
+reg: :class:`str`
+    The register, eg. ``ps-t3``, or a RabbitFX key
+
+version: Optional[:class:`Version`]
+    The game version wanted -- see :meth:`getDrawPass`
+
+    **Default**: ``None``
+
+drawPass: :class:`str`
+    The pass of the slot, as :meth:`getDrawPass` names it (``other``, ``other2``, ...): its ``<role>@<pass>`` rows
+    are read, and the role answered without the suffix. Empty for the slot's main pass (its plain rows and RabbitFX
+    keys)
+
+    **Default**: ``""``
+
+Returns
+-------
+Optional[:class:`str`]
+    The role, or ``None`` when no role is bound there
+        )doc"))
+
+        .def("getGameShader", &AGRC::ModType::getGameShader, py::arg("type"), py::arg("version") = py::none(), py::doc(R"doc(
+One of :attr:`gameShaders`' values: a shader's HLSL (``<shader>``) or a constant buffer its draw read
+(``<shader>.<register>``, eg. ``LynaeUpper.ps-cb4``: 32-bit words in hex, comma-separated)
+
+Parameters
+----------
+type: :class:`str`
+    The shader, eg. ``LynaeUpper``, or one of its constant buffers, eg. ``LynaeUpper.ps-cb4``
+
+version: Optional[:class:`Version`]
+    The game version wanted -- see :meth:`getDrawPass`
+
+    **Default**: ``None``
+
+Returns
+-------
+Optional[:class:`str`]
+    The value, or ``None`` when the mod has no such row
+        )doc"))
+
+        .def("getShapeKeyDispatchSize", &AGRC::ModType::getShapeKeyDispatchSize, py::arg("version") = py::none(), py::doc(R"doc(
+The height WWMI dispatches the mod's shape keys with (:attr:`shapeKeyDispatchSizes`)
+
+Parameters
+----------
+version: Optional[:class:`Version`]
+    The game version wanted -- see :meth:`getDrawPass`
+
+    **Default**: ``None``
+
+Returns
+-------
+Optional[:class:`str`]
+    The height, or ``None`` when the mod has no row
+        )doc"))
+
+        .def("getBoneCentroids", &AGRC::ModType::getBoneCentroids, py::arg("version") = py::none(), py::doc(R"doc(
+Each bone's rest-pose centroid on the mod's own model (:attr:`boneCentroids`) -- what :class:`SkeletonNumberingProbe`
+scores a mod's numbering against
+
+Parameters
+----------
+version: Optional[:class:`Version`]
+    The game version wanted -- for each bone, the newest row at or below it
+
+    **Default**: ``None``
+
+Returns
+-------
+Dict[:class:`int`, List[:class:`float`]]
+    Bone id -> its centroid, ``[x, y, z]``; empty when the mod has none
+        )doc"))
+
+        .def("getMaterialCode", &AGRC::ModType::getMaterialCode, py::arg("component"), py::arg("type"), py::arg("version") = py::none(), py::doc(R"doc(
+A field or a code of one of the mod's code maps (:attr:`materialCodes`): ``<role>.<field>`` the bits the field
+occupies (``propsDetail.flags.film``), ``<role>.<field>.<name>`` one code of it (``pouchDetail.material.plain``)
+
+Parameters
+----------
+component: :class:`str`
+    The draw slot, eg. ``component6``
+
+type: :class:`str`
+    The row's type
+
+version: Optional[:class:`Version`]
+    The game version wanted -- see :meth:`getDrawPass`
+
+    **Default**: ``None``
+
+Returns
+-------
+Optional[:class:`int`]
+    The number, or ``None`` when the mod has no such row
+        )doc"))
+
+        .def("getMaterialColour", &AGRC::ModType::getMaterialColour, py::arg("component"), py::arg("type"), py::arg("version") = py::none(), py::doc(R"doc(
+The colour one of the mod's material masks marks a material with (:attr:`materialColours`), eg. ``torsoMask.skin``
+
+Parameters
+----------
+component: :class:`str`
+    The draw slot, eg. ``component3``
+
+type: :class:`str`
+    The row's type, ``<role>.<material>``
+
+version: Optional[:class:`Version`]
+    The game version wanted -- see :meth:`getDrawPass`
+
+    **Default**: ``None``
+
+Returns
+-------
+Optional[:class:`CppColour`]
+    The colour, or ``None`` when the mod has no such row
+        )doc"))
+
+        .def("getTextureDesc", &AGRC::ModType::getTextureDesc, py::arg("textureHash"), py::arg("version") = py::none(), py::doc(R"doc(
+How the game creates one of the mod's game textures (:attr:`textureDescs`) -- what :meth:`RabbitFX.tagOf` takes
+
+Parameters
+----------
+textureHash: :class:`str`
+    The texture's hash
+
+version: Optional[:class:`Version`]
+    The game version wanted -- see :meth:`getDrawPass`
+
+    **Default**: ``None``
+
+Returns
+-------
+Optional[Tuple[:class:`str`, :class:`int`, :class:`int`, :class:`int`]]
+    ``(format, width, height, mips)`` -- the format by its name, ``BC7_TYPELESS`` -- or ``None`` when the mod has no such row
+        )doc"))
+
+        .def("getTextureThumbprints", &AGRC::ModType::getTextureThumbprints, py::arg("version") = py::none(), py::doc(R"doc(
+The thumbprint of each of the mod's game textures (:attr:`textureThumbprints`), by the texture's hash -- what
+:attr:`WWMITextureFacts.textureThumbprints` holds
+
+Parameters
+----------
+version: Optional[:class:`Version`]
+    The game version wanted -- see :meth:`getDrawPass`
+
+    **Default**: ``None``
+
+Returns
+-------
+Dict[:class:`str`, List[:class:`int`]]
+    Hash -> its thumbprint's bytes (16 x 16, row by row); empty when the mod has no rows
+        )doc"))
+
+        .def("getShapeKeyRemap", &AGRC::ModType::getShapeKeyRemap, py::arg("modName"), py::arg("fromVersion") = py::none(), py::arg("toVersion") = py::none(), py::doc(R"doc(
+The source shape key each of another mod's shape-key slots takes, from this mod (:attr:`shapeKeyRemaps`) -- what
+:meth:`WWMIShapeKeys.reorder` is handed
+
+Parameters
+----------
+modName: :class:`str`
+    The mod remapped to
+
+fromVersion: Optional[:class:`Version`]
+    This mod's version -- the newest row at or below it
+
+    **Default**: ``None``
+
+toVersion: Optional[:class:`Version`]
+    The other mod's version -- likewise
+
+    **Default**: ``None``
+
+Returns
+-------
+Optional[List[:class:`int`]]
+    The order (``-1`` for a slot that takes none), or ``None`` when the table has none for the pair
+        )doc"))
 
         .def("getVGRemap", &AGRC::ModType::getVGRemap, py::arg("modName"), py::arg("fromVersion") = py::none(),
              py::arg("toVersion") = py::none(), py::arg("fromComp") = py::none(), py::arg("toComp") = py::none(),

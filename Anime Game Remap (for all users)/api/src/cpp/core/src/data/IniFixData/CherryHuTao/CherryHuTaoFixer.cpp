@@ -24,6 +24,7 @@
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/ColourReplaceFilter.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/InvertAlphaFilter.h"
+#include "AGRemapCore/constants/Colours.h"
 #include "AGRemapCore/model/textures/Colour.h"
 #include "AGRemapCore/model/textures/ColourRange.h"
 
@@ -31,7 +32,6 @@
 namespace AGRemapCore {
     namespace {
         // The green a lightmap uses to mark an ordinary, non-emissive surface.
-        const Colour LightMapGreen(0, 128, 0, 255);
 
         // No gamma correction on the way out. Every other texture edit here leaves the metadata
         // alone and lets TextureFile decide; this one sets it to 1 explicitly, which is the
@@ -71,7 +71,7 @@ namespace AGRemapCore {
         void flattenEmission(TextureFile& texFile) {
             texFile.setGamma(NoGammaCorrection);
 
-            ColourReplaceFilter filter(LightMapGreen, emissiveBands());
+            ColourReplaceFilter filter(Colours::LightMapGreen, emissiveBands());
             filter.transform(texFile);
         }
     }

@@ -29,6 +29,10 @@ namespace AGRemapCore {
         (void)modType;
         (void)modName;
 
+        if (!Base::gatesPass(graphGroups, onlyWith, onlyWithout)) {
+            return graphGroups;
+        }
+
         if (!iniIndices.has_value()) {
             while (graphGroups.size() > 0) {
                 graphGroups.removeGroup(graphGroups.size() - 1);

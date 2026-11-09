@@ -73,6 +73,16 @@ pybind11_add_module(core
     src/model/assets/PyVGOffsets.cpp
     src/model/assets/PyVGCounts.cpp
     src/model/assets/PyShapeKeyChecksums.cpp
+    src/model/assets/PyDrawPasses.cpp
+    src/model/assets/PyTextureRegisters.cpp
+    src/model/assets/PyGameShaders.cpp
+    src/model/assets/PyShapeKeyDispatchSizes.cpp
+    src/model/assets/PyBoneCentroids.cpp
+    src/model/assets/PyShapeKeyRemaps.cpp
+    src/model/assets/PyMaterialCodes.cpp
+    src/model/assets/PyMaterialColours.cpp
+    src/model/assets/PyTextureDescs.cpp
+    src/model/assets/PyTextureThumbprints.cpp
     src/model/assets/PyVGRemaps.cpp
     src/model/strategies/PyModTypeIdData.cpp
     src/model/strategies/PyModType.cpp
@@ -199,6 +209,7 @@ pybind11_add_module(core
     src/model/strategies/bufEditors/PyBufEditor.cpp
     src/model/textures/PyColour.cpp
     src/model/textures/PyColourRange.cpp
+    src/constants/PyColours.cpp
     src/model/files/PyTexCache.cpp
     src/model/files/PyTextureFile.cpp
     src/model/strategies/texEditors/pixelTransforms/PyBasePixelTransform.cpp

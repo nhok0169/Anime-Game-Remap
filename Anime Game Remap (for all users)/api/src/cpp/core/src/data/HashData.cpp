@@ -2456,6 +2456,29 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "hairDiffuseOld"}, "b7820acf"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "lowerMaskOld"}, "e3466a1e"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "jacketNormalOld"}, "fa1f94a9"},
+
+        // ===== GENERATED: downloaded role hashes (genWWMIAssetData.py) =====
+        // Lynae's filmFoil (a game texture the fix downloads)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::Lynae), "filmFoil"}, "74a761f5"},
+        // Lynae's ramp (a game texture the fix downloads)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::Lynae), "ramp"}, "3a40da92"},
+        // LynaePeppermint's ramp (a game texture the fix downloads)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "ramp"}, "82550cee"},
+        // Changli's tattooFlow (a game texture the fix downloads)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::Changli), "tattooFlow"}, "7a9915c5"},
+        // Changli's tattooNoise (a game texture the fix downloads)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::Changli), "tattooNoise"}, "30bf03f4"},
+        // Changli's upperShared (a game texture the fix downloads)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::Changli), "upperShared"}, "bb73967a"},
+        // Changli's upperSubsurface (a game texture the fix downloads)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::Changli), "upperSubsurface"}, "5c290276"},
+        // ChangliNymph's sheerDetail (a game texture the fix downloads)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "sheerDetail"}, "24d13e57"},
+        // ChangliNymph's sheerNoise (a game texture the fix downloads)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "sheerNoise"}, "308e6e5e"},
+        // ChangliNymph's sheerRamp (a game texture the fix downloads)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "sheerRamp"}, "5c290276"},
+        // ===== END GENERATED: downloaded role hashes =====
     };
     return rows;
 }

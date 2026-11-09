@@ -16,12 +16,14 @@
 #include <algorithm>
 #include <cmath>
 #include <optional>
+#include <string>
 #include <stdexcept>
 #include <variant>
 #include <utility>
 
 #include "AGRemapCore/model/buffers/BufFloat.h"
 #include "AGRemapCore/model/buffers/BufInt.h"
+#include "AGRemapCore/tools/files/FileService.h"
 
 
 namespace AGRemapCore {
@@ -42,6 +44,40 @@ namespace AGRemapCore {
             influences == 4 ? "R32G32B32A32_SINT" : ""));
 
         return elements;
+    }
+
+    std::vector<std::unique_ptr<BufElementType>> BlendFile::byteElements(std::size_t influences) {
+        // The four-wide name is what a dump of a four-influence character writes; any other width is `R8_UINT`
+        const auto byte = [] { return std::make_unique<BufUnSignedInt>("UnsignedInt8", 1, false); };
+        const std::string format = influences == 4 ? "R8G8B8A8_UINT" : "R8_UINT";
+
+        std::vector<std::unique_ptr<BufElementType>> elements;
+        elements.push_back(BufElementType::repeated(BlendIndicesKey, influences, byte, format));
+        elements.push_back(BufElementType::repeated(BlendWeightKey, influences, byte, format));
+        return elements;
+    }
+
+    std::vector<std::unique_ptr<BufElementType>> BlendFile::idElements(std::size_t count, std::size_t idBytes) {
+        const std::string bits = std::to_string(idBytes * 8);
+        std::vector<std::unique_ptr<BufElementType>> elements;
+        elements.push_back(BufElementType::repeated(
+            BlendIndicesKey, count, [&bits, idBytes] { return std::make_unique<BufUnSignedInt>("UnsignedInt" + bits, idBytes, false); },
+            "R" + bits + "_UINT"));
+        return elements;
+    }
+
+    std::optional<std::size_t> BlendFile::influencesOf(const std::string& blendPath, std::size_t vertices,
+                                                       std::size_t bytesPerInfluence) {
+        const std::optional<std::uintmax_t> size = FileService::fileSize(blendPath);
+        if (vertices == 0 || bytesPerInfluence == 0 || !size.has_value() || *size == 0 || *size % vertices != 0) {
+            return std::nullopt;
+        }
+
+        const std::uintmax_t perVertex = *size / vertices;
+        if (perVertex < bytesPerInfluence || perVertex % bytesPerInfluence != 0) {
+            return std::nullopt;
+        }
+        return static_cast<std::size_t>(perVertex / bytesPerInfluence);
     }
 
     BlendFile::BlendFile(BinarySrc src, std::vector<std::unique_ptr<BufElementType>> elements):

@@ -542,6 +542,19 @@ look at **every angle of every mod and every toggle variant**, comparing **the o
 check-and-approve step. It is NOT the place where the remap's bugs are found -- every bug they find there is one the
 remap agent could have found with the same tools, and costs them a round of their time and energy.
 
+**ON WUWA THE TEAM MENU IS A THIRD SCENE, SINCE 3.8 (the maintainer, 2026-11-13).** The 3.8 update turned the team
+menu (`esc` -> **Team**) from card images into the characters' **3D models**, and it draws them with shaders of its
+own. The maintainer's installed Changli2, refixed with the 3.8 gates and right in the studio, renders **orange** on
+the Laurel Nymph in the team menu: her upper and lower body draw there with vertex shaders `db32afc6` / `4dbd830e`,
+which the 3.8 rows now carry (team-menu log dumps `Upd38TeamT4` / `Upd38TeamT4b` / `Upd38TeamSanhua`, in
+`wwmiUpdateRows.py`'s header; Lynae's, Chisa's and Sanhua's team-menu shaders were already gated; epoch 4 clean on all
+eight test mods). So the scenes a WuWa remap is checked in are **the character studio, the
+overworld AND the team menu**, every epoch, and the team menu's draws are a third set to gate: take a log-only dump
+there (`dump --options "log"`, Game View's dump rules) and derive its rows with
+`Tools/Misc/Diagnostics/wwmiUpdateRows.py` exactly as for the overworld (a dump with no old dump: `<Char>=<new>:`).
+Changing teams there is free, but restore the team, order and active character afterwards, and the ESC menu shows
+the UID (GameView masks it; crop anything else).
+
 **Why this exists (LynaePeppermint -> Lynae, 2026-10-04 .. 10-13).** That pipeline was rammed through in under a
 day without thorough in-game checks, and then took days of back-and-forth in which the maintainer found nearly
 every bug: a see-through shirt that was opaque, then too see-through, then see-through to the body's back in the

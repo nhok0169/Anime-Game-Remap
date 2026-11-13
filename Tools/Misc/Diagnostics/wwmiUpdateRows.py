@@ -54,7 +54,15 @@
 #   Sanhua=Upd38SanhuaOW-2026-11-13-013418:
 #   Chisa=Upd38ChisaOW-2026-11-13-012757:
 #   LynaePeppermint=Upd38LynaeOW-2026-11-13-012605:
-# The last seven are the overworld log dumps (`dump --options "log"`, ~2 MB each) that found the face's overworld vertex
+#   ChangliNymph=Upd38TeamT4-2026-11-13-054457:
+#   LynaePeppermint=Upd38TeamT4-2026-11-13-054457:
+#   Chisa=Upd38TeamT4-2026-11-13-054457:
+#   ChangliNymph=Upd38TeamT4b-2026-11-13-055308:
+#   Sanhua=Upd38TeamSanhua-2026-11-13-055015:
+# The last five are TEAM MENU log dumps (esc -> Team, which since 3.8 draws the party as 3D models): Laurel Nymph's upper
+# and lower body draw there with vertex shaders db32afc6 / 4dbd830e that neither the character menu nor the overworld
+# uses (a remapped Changli rendered orange there); Lynae's, Chisa's and Sanhua's team-menu shaders were already covered.
+# The seven before them are the overworld log dumps (`dump --options "log"`, ~2 MB each) that found the face's overworld vertex
 # shader (2c08d8bc, every character's face row by the shared-pass rule) and the overworld eye / face shaders. A dump
 # with NO old dump (`<Char>=<new>:`) is paired with nothing: it only adds the vertex shaders it draws a pass with.
 # Pairing a new OVERWORLD dump with an old MENU dump is wrong -- it maps the menu's vertex shaders onto the overworld's

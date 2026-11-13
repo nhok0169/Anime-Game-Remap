@@ -475,6 +475,7 @@ whether the account owns the character**:
 | an OWNED character, base or skin | overworld -> `key c` (character menu, verified; the first frame after it is a black fade, so `wait 5`). The roster is down the right. The shirt button at the bottom right opens **Resonator Outfits** (verified): the outfit cards are on the left, **Wear Outfit** equips one, and the eye icon hides the UI. **The SELECTED card is the model drawn**, worn or not: a dump taken with the skin's card selected caught SanhuaExorcist when base Sanhua was wanted (2026-10-05), so click the card you need and check the dump's `vb0`. Same switch-back rule as Genshin |
 | an UNOWNED character's base look | Gallery -> Crossing Stars -> the character |
 | an UNOWNED character's skin | `esc` -> **Shop** -> **Outfit Store**. **View only**: the rules below apply in full |
+| the TEAM MENU (since 3.8 it draws the party's **3D models** with shaders of its own -- a remap can look right in the studio and the overworld and wrong here: the maintainer's Changli2 on Laurel Nymph rendered orange, 2026-11-13) | `esc` -> **Team**. Check every remap here too. The ESC menu shows the UID (masked by GameView). Restore the team, order and active character after any change |
 
 **The roster down the right is not the whole roster --- the SQUARES icon at the bottom right of the
 character screen opens the full `Resonators` grid** (the maintainer's tip, 2026-10-13). That is how

@@ -1491,8 +1491,11 @@ it was the newest `vb0`, which a shader-only update never moves), and a config's
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "A GAME UPDATE THAT REHASHES SHADERS", which lists what is
 still open (the overworld shaders of the outfits no dump wore -- SanhuaExorcist, ChisaParfait, Lynae's and Changli's base -- ChisaParfait's shadow-map pass, the blindfold meshes, the copied
 game shaders' 3.7 code). **`Tools/Misc/Diagnostics/wwmiUpdateRows.py` derives the rows from dumps**, and a log-only dump
-(`dump --options "log"`, ~2 MB) is safe in the OVERWORLD, which draws what a menu dump misses: the face's and Laurel
-Nymph's eyes' overworld vertex shaders were missing from every 3.8 gate until one was taken. **And every remap a
+(`dump --options "log"`, ~2 MB) is safe in the OVERWORLD and the TEAM MENU, which draw what a menu dump misses: the face's and Laurel
+Nymph's eyes' overworld vertex shaders were missing from every 3.8 gate until one was taken. **The TEAM MENU (`esc` ->
+Team) is a third scene since 3.8**: it draws the party as 3D models, and Laurel Nymph's body there uses two vertex shaders
+(`db32afc6`, `4dbd830e`) no other scene does -- the maintainer's remapped Changli rendered orange until team-menu log dumps
+added them (2026-11-13). Every WuWa remap is checked in the studio, the overworld AND the team menu. **And every remap a
 player already INSTALLED is stale until it is fixed again**: the maintainer's live Changli2, fixed in October, drew her
 skin and dress orange-pink at 3.8 while the same mod fixed by the new build matched the original -- so a report about
 scratch copies must say they are NOT what F10 reloads, and an "original" to judge against must itself render after the

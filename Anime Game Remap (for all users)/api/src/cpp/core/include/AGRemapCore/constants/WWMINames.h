@@ -123,6 +123,60 @@ namespace AGRemapCore {
          */
         static inline const std::string TexcoordNoNaN = "TexcoordNoNaN";
 
+        /** @brief The fix's list that remaps the merged skeleton into the target's numbering, once a frame */
+        static inline const std::string RemapMergedSkeletonList = "CommandListRemapMergedSkeleton";
+
+        /** @brief The list a hidden slot's section runs to merge its bones into the skeleton */
+        static inline const std::string MergeSkeletonList = "CommandListMergeSkeleton";
+
+        /** @brief The prefix of the ``[ShaderOverride...]`` that tags one of the target's passes with a ``filter_index`` */
+        static inline const std::string ShaderOverridePass = "ShaderOverridePass";
+
+        /** @brief The resource of a part drawn from mesh files of its own: its blend, remapped */
+        static inline const std::string OwnMeshSkin = "OwnMeshSkin";
+
+        /** @brief The file that remapped blend is written to (``<target>Remap<OwnMeshBlend><component>.buf``) */
+        static inline const std::string OwnMeshBlend = "OwnMeshBlend";
+
+        /** @brief The list that pins RabbitFX's routing flags on a component's passes */
+        static inline const std::string RabbitFXPin = "RabbitFXPin";
+
+        /** @brief The resource a register of the target's is parked in while one of the source's shaders draws */
+        static inline const std::string Stash = "Stash";
+
+        /** @brief The resource a register's binding is backed up in around a shader draw of the fix's */
+        static inline const std::string ShaderBackup = "ShaderBackup";
+
+        /** @brief WWMI's marker on the game's bone-data constant buffer (its ``filter_index``) */
+        static inline const std::string BoneDataFilter = "3381.7777";
+
+        /** @brief The size WWMI Tools' template gives a merged skeleton buffer, in float4 slots: 256 bones of three */
+        static inline const int MergedSkeletonStep = 768;
+
+        /** @brief The prefix of a draw slot's name in the library's tables and a fix's mod objects: ``component3`` */
+        static inline const std::string SlotPrefix = "component";
+
+        /** @brief WWMI Tools' list that binds a mod's shared resources (a list of it per component binds that component's) */
+        static inline const std::string OverrideSharedResourcesList = "CommandListOverrideSharedResources";
+
+        /** @brief WWMI Tools' list that puts the shared resources back after a mod's draws */
+        static inline const std::string CleanupSharedResourcesList = "CommandListCleanupSharedResources";
+
+        /** @brief Bytes per vertex of the game's shape-key offset stream (``vb6``), off a frame dump's layout */
+        static inline const int ShapeKeyStreamStride = 24;
+
+        /** @brief The hash type of a character's bone-data constant buffer */
+        static inline const std::string BoneDataHash = "cb4";
+
+        /** @brief The hash type of a character's shape-key buffer */
+        static inline const std::string ShapeKeysHash = "shapekeys";
+
+        /** @brief The object the classifier files a mod's shape-key offsets section under */
+        static inline const std::string ShapeKeyOffsetsObj = "shapekeyOffsets";
+
+        /** @brief The object the classifier files a mod's shape-key scale section under */
+        static inline const std::string ShapeKeyScaleObj = "shapekeyScale";
+
         /**
          * @brief The blend remap buffers a fix writes
          */
@@ -148,15 +202,6 @@ namespace AGRemapCore {
 
         // ---- the words of a WWMIFixerConfig::Shader line's value ----
 
-        /**
-         * @brief ``role <name>``: the file the component's texture list binds for that role
-         */
-        static inline const std::string RoleLine = "role";
-
-        /**
-         * @brief ``stash <slot> <reg>``: what a register held on that slot's own draw (WWMIFixerConfig::stashRegs)
-         */
-        static inline const std::string StashLine = "stash";
     };
 }
 

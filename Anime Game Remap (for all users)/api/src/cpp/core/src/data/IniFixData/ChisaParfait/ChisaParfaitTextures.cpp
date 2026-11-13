@@ -79,9 +79,7 @@ namespace AGRemapCore {
         // entry: the hash is the same on both sides, so the game already binds the right thing.
         // `hairRamp` and `hairTipRamp` are not in her download folder, so they cannot fall back --
         // they are lookups, and the game's own serve them.
-        facts.downloadCharFolder = "ChisaParfait";
         facts.downloadVersionFolder = "3_5";
-        facts.downloadPrefix = "ChisaParfait";
         facts.fallbackTextures = {
             {"hairMask", "3f433212"}, {"hairDiffuse", "a94ee44f"}, {"hairNormal", "d547f3c6"},
             {"faceMask", "226d9bc4"}, {"faceDiffuse", "53e96488"},

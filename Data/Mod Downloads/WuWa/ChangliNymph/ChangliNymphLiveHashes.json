@@ -1,10 +1,10 @@
 {
-  "_": "ChangliNymph's (Laurel Nymph) textures: the hash WWMI-Assets (ChangliSkin1, 2.7) and this download folder file them under -> the hash the game binds with its texture quality (LOD bias, ImageDetail) at its maximum, 2. Paired by pixel correlation (>= 0.9997) off a Resonator Outfits frame dump at WuWa 3.7.1, FrameAnalysis-ChangliNymph-2026-10-20-111534. c4daa4c2 has no entry: the game's component 4 ps-t1 map at 3.7 is b4ef021f, which is a DIFFERENT texture (red channel 0.89 correlated, 8% of pixels off by more than 16) and ships as its own file. Feed it to Tools/Misc/Diagnostics/wwmiTextureFix.py as --live.",
+  "_": "ChangliNymph's (Laurel Nymph) textures: the hash WWMI-Assets (ChangliSkin1, 2.7) and this download folder file them under -> the hash the game binds with its texture quality (LOD bias, ImageDetail) at its maximum, 2. Paired by pixel correlation (>= 0.9997) off a Resonator Outfits frame dump at WuWa 3.7.1, FrameAnalysis-ChangliNymph-2026-10-20-111534. c4daa4c2 has no entry: the game's component 4 ps-t1 map at 3.7 is b4ef021f, which is a DIFFERENT texture (red channel 0.89 correlated, 8% of pixels off by more than 16) and ships as its own file. Feed it to Tools/Misc/Diagnostics/wwmiTextureFix.py as --live. At WuWa 3.8 (FrameAnalysis-UpdChangliNymph-2026-11-12-050318, the character menu, 2026-11-12) 1b670385 binds as 1676c989; at 3.7 it was 4caadf2f, which the game no longer binds.",
   "014b4c3f": "c6b79d57",
   "0484ab73": "fcf01372",
   "0a785985": "a5ad8491",
   "12638aa6": "b5b89c82",
-  "1b670385": "4caadf2f",
+  "1b670385": "1676c989",
   "1bc98900": "f0536df1",
   "21f813ba": "742c5c7b",
   "45938ff1": "f87e0c3a",

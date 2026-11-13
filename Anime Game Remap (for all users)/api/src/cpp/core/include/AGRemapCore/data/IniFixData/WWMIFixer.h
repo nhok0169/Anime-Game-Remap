@@ -27,11 +27,13 @@
 #include <vector>
 
 #include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/constants/WWMINames.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/WWMITextureFacts.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 #include "AGRemapCore/model/VGRemap.h"
 #include "AGRemapCore/model/Version.h"
@@ -75,7 +77,7 @@ namespace AGRemapCore {
         shaders read the game's live per-vertex shape-key offsets out of a sixth vertex stream BY
         VERTEX ID, which WWMI never rebinds, so a mod vertex through those slots would take
         whatever offset the target's buffer holds at the same index
-     #. **remaps the blend** (:cpp:member:`blendReg`, collected out of the shared-resource override)
+     #. **remaps the blend** (:cpp:member:`IniKeywords::WWMIBlendReg`, collected out of the shared-resource override)
         through the library's vertex-group row for the pair -- an 8-byte-a-vertex WWMI layout,
         not GIMI's 32
      #. **writes one remapped section per target draw per file**: several source components landing
@@ -125,7 +127,13 @@ namespace AGRemapCore {
          * a :cpp:struct:`CreatedTexture`'s colour, for one naming its :cpp:class:`MaterialColours` row
          * :cpp:member:`sourceVgMaps`: the source's :cpp:class:`VGRemaps` rows from each component onto her merged
            skeleton (``""``), at her oldest ``vb0``'s version
-         * :cpp:member:`stashRegs`, from :cpp:member:`stashRoles` and the target's :cpp:class:`TextureRegisters`
+         * each :cpp:struct:`Shader`'s registers left empty, from :cpp:class:`TextureRegisters`: the source's for the
+           draw it was read from (:cpp:member:`Shader::component`), the target's for the slot it captures or refs off
+           (:cpp:member:`Shader::stashed`, :cpp:member:`Shader::refRoles`)
+         * :cpp:member:`stashRegs`, from the shaders' :cpp:member:`Shader::stashed`
+         * :cpp:member:`sourceTextures`' download game folder, folder and prefix, when empty: the source's game and name
+         * :cpp:member:`roleKinds`, from both characters' :cpp:class:`TextureKinds` -- refusing a role the config names
+           (a binding, a shader's, an edit's, a created texture's, :cpp:member:`sourceTextures`') with no row
          * :cpp:member:`sourceVersionByVb0`, when :cpp:member:`sourceVersionFromVb0` (see :cpp:func:`vb0VersionsOf`)
 
          A field the tables hold nothing for keeps the config's value. The compiled fixer calls this once per fix
@@ -152,6 +160,22 @@ namespace AGRemapCore {
         static std::map<std::string, std::string> vb0VersionsOf(const ModType& source);
 
         /**
+         * @brief
+         @rst
+         The version a fix onto a character is made at when the run asks for none: the newest of her newest model (the
+         version of her newest ``vb0`` row in :cpp:class:`Hashes`) and the newest game version her :cpp:class:`DrawPasses`
+         rows are filed at. A game update that rehashes her shaders and moves no model of hers (Wuthering Waves 3.8) is a
+         newer :cpp:class:`DrawPasses` row, and a fix made by default reaches it; a lookup of a model table at that
+         version still answers her newest model's row
+         @endrst
+         *
+         * @param target The character's mod type
+         *
+         * @return The version, or ``std::nullopt`` when her tables hold neither
+         */
+        static std::optional<Version> newestVersionOf(const ModType& target);
+
+        /**
          * @brief One register of a target slot's draw and the ROLE of the mod texture bound there
          */
         struct Binding {
@@ -163,7 +187,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The role (a value of :cpp:member:`roles` or :cpp:member:`typeRoles`, or the name of a
+             The role (a value of :cpp:member:`roles`, or the name of a
              :cpp:member:`createdTextures` entry). A role no file of the mod has is left unbound,
              so the GAME's texture serves the register.
 
@@ -205,21 +229,26 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         What a config's role name says the texture IS, with the part it belongs to stripped: ``upperDiffuse``,
-         ``lowerDiffuse`` and ``panelDiffuse`` all have the kind ``Diffuse``. The names are the config's own, so the
-         convention is this library's -- empty for a name with no capital
+         Each texture role -> its KIND: ``upperDiffuse``, ``lowerDiffuse`` and ``panelDiffuse`` all have the kind
+         ``Diffuse``. :cpp:func:`withGameData` fills it from both characters' :cpp:class:`TextureKinds` rows, and refuses
+         a role the config names that has none. **Default**: empty
          @endrst
+         */
+        std::map<std::string, std::string> roleKinds;
+
+        /**
+         * @brief A role's kind (#roleKinds): ``""`` for a role with no kind, or none known
          *
          * @param role The role
          *
          * @return Its kind
          */
-        static std::string roleKind(const std::string& role);
+        std::string kindOf(const std::string& role) const;
 
         /**
          * @brief
          @rst
-         The register 'bindings' bind 'role' at: the first of its own, else the one they bind its KIND at (#roleKind)
+         The register 'bindings' bind 'role' at: the first of its own, else the one they bind its KIND at (#kindOf)
          -- only where that is one register, since two roles of one kind (``irisDiffuse``, ``eyeDiffuse``) may sit at
          different ones. A ``null`` binding binds nothing
          @endrst
@@ -229,7 +258,7 @@ namespace AGRemapCore {
          *
          * @return The register, or ``std::nullopt``
          */
-        static std::optional<std::string> registerOf(const std::vector<Binding>& bindings, const std::string& role);
+        std::optional<std::string> registerOf(const std::vector<Binding>& bindings, const std::string& role) const;
 
         /**
          * @brief
@@ -246,19 +275,6 @@ namespace AGRemapCore {
          @endrst
          */
         struct Shader {
-            /**
-             * @brief
-             @rst
-             The role a line ``X = role <name>`` of #lines names (:cpp:member:`WWMINames::RoleLine`), or ``std::nullopt``
-             for any other line
-             @endrst
-             *
-             * @param line The line
-             *
-             * @return The role, or ``std::nullopt``
-             */
-            static std::optional<std::string> lineRole(const std::pair<std::string, std::string>& line);
-
             /**
              * @brief The name its files and sections are given, eg. ``LynaeFilm``
              */
@@ -300,15 +316,89 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Further lines of the ``CustomShader`` section, as they are written, eg.
-             ``{"ps-t5", "ref ps-t6"}``. Two values are resolved first: ``stash <slot> <reg>`` binds
-             the capture :cpp:member:`WWMIFixerConfig::stashRegs` makes off that slot, and
-             ``role <name>`` binds the texture of that role -- the mod's file, or the source's own game
-             texture from :cpp:member:`WWMITextureFacts::fallbackTextures` (a line whose role has
-             neither is left out)
+             Further lines of the ``CustomShader`` section, written as they are, after :cpp:member:`stashed` and
+             :cpp:member:`gameRoles`, eg. a render state
              @endrst
              */
             std::vector<std::pair<std::string, std::string>> lines;
+
+            /**
+             * @brief
+             @rst
+             The SOURCE component whose own draw the shader was read from: the roles it binds sit at the registers
+             that draw binds them (the source's :cpp:class:`TextureRegisters` for that component), so every register
+             below left empty is read off that table by :cpp:func:`WWMIFixerConfig::withGameData`. **Default**:
+             ``-1``, the component of the :cpp:member:`plan` entry the shader is on (a reroute's: the component it
+             reroutes)
+             @endrst
+             */
+            int component = -1;
+
+            /**
+             * @brief
+             @rst
+             Roles the shader reads off the target slot's own draw by ``ref``: each is written first in
+             :cpp:member:`lines` as ``<the shader's register> = ref <the slot's register>`` (the two from the source's
+             and the target's :cpp:class:`TextureRegisters`) -- a texture both characters share, eg. Lynae's matcap,
+             which the skin's slot holds at ``ps-t8`` and her shader reads at ``ps-t4``. **Default**: empty
+             @endrst
+             */
+            std::vector<std::string> refRoles;
+
+            /**
+             * @brief A register of the shader's bound to a capture the fix makes off another slot -- see #stashed
+             */
+            struct Stashed {
+                /**
+                 * @brief The role captured, eg. ``"glow"``
+                 */
+                std::string role;
+
+                /**
+                 * @brief The target slot whose draw the capture is made off (:cpp:member:`WWMIFixerConfig::stashRegs`)
+                 */
+                int slot = -1;
+
+                /**
+                 * @brief
+                 @rst
+                 The shader's register, eg. ``"ps-t4"``. Empty: the source's :cpp:class:`TextureRegisters` row for
+                 #role on :cpp:member:`Shader::component` (:cpp:func:`WWMIFixerConfig::withGameData`)
+                 @endrst
+                 */
+                std::string reg;
+
+                /**
+                 * @brief
+                 @rst
+                 The register of that slot's draw that is captured. Empty: the target's :cpp:class:`TextureRegisters`
+                 row for #role on #slot (:cpp:func:`WWMIFixerConfig::withGameData`)
+                 @endrst
+                 */
+                std::string slotReg;
+            };
+
+            /**
+             * @brief
+             @rst
+             Registers bound to a texture the target's OTHER slot holds while it draws -- captured off that slot's draw
+             (:cpp:member:`WWMIFixerConfig::stashRegs`, filled from these) -- eg. Lynae's glow, flow and noise maps,
+             which her lower body reads and the skin's upper-body slot lacks. Written first. **Default**: empty
+             @endrst
+             */
+            std::vector<Stashed> stashed;
+
+            /**
+             * @brief
+             @rst
+             Register -> role: the shader's register bound to the texture of that role -- the mod's file, or the
+             source's own game texture downloaded (a role with neither binds nothing). Written after
+             :cpp:member:`stashed`. Eg. Lynae's lighting ramp, which the skin's slot holds under the same name but the
+             game refills with the ramp of whoever is on screen. A register left empty is the source's
+             :cpp:class:`TextureRegisters` row for the role on :cpp:member:`component`. **Default**: empty
+             @endrst
+             */
+            std::vector<std::pair<std::string, std::string>> gameRoles;
 
             /**
              * @brief
@@ -371,7 +461,7 @@ namespace AGRemapCore {
                  leaves unbound -- such a pass draws the component as before. **Default**: ``"o3"``
                  @endrst
                  */
-                std::string target = "o3";
+                std::string target = IniKeywords::WWMIColourTarget;
 
                 /**
                  * @brief
@@ -419,7 +509,8 @@ namespace AGRemapCore {
              * @brief
              @rst
              Bindings the component takes only while this shader draws it, after the plan entry's own --
-             a register (or a register's role) the shader reads in the SOURCE's layout. With
+             a register (or a register's role) the shader reads in the SOURCE's layout; a register left empty is the
+             source's :cpp:class:`TextureRegisters` row for the role on :cpp:member:`component`. With
              :cpp:member:`yieldToRabbitFX`, a mod that keeps the target's shader keeps the plan's
              bindings alone. **Default**: empty
              @endrst
@@ -513,7 +604,9 @@ namespace AGRemapCore {
                  * @brief
                  @rst
                  ``ps-t0`` .. ``ps-t3`` -> the tag RabbitFX gives the SOURCE's own game texture there
-                 (3 for 1718.3, 4 for 1718.4, 5 for 1718.5, 6 for 1718.6, 0 for none)
+                 (3 for 1718.3, 4 for 1718.4, 5 for 1718.5, 6 for 1718.6, 0 for none). Empty: :cpp:func:`withGameData`
+                 fills it at the run's version, from what her draw of the component binds (:cpp:class:`DrawPasses`'
+                 ``main.ps-tN``) and how the game creates that texture (:cpp:class:`TextureDescs`, :cpp:func:`RabbitFX::tagOf`)
                  @endrst
                  */
                 std::map<std::string, int> gameTags;
@@ -606,11 +699,12 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         The game version the library files both characters under, used when the ``.ini`` carries
-         no version of its own. **Default**: ``"2.5"``
+         The TARGET's game version, used when the run asks for none. Empty (the default) is
+         :cpp:func:`newestVersionOf` the target -- her newest model, or a newer game version her draw passes are filed
+         at -- so a fix follows the tables to a new model of the target, or to a game update, without a change here
          @endrst
          */
-        std::string version = "2.5";
+        std::string version;
         /**
          * @brief
          @rst
@@ -675,35 +769,18 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         The ``filter_index`` the first distinct shader of :cpp:member:`slotPasses` is tagged with;
-         every further one is :cpp:member:`filterStep` higher. **Default**: ``3381.91``, beside
-         WWMI's own ``3381.3333`` / ``3381.4444`` / ``3381.7777``
-         @endrst
-         */
-        double filterBase = 3381.91;
-
-        /**
-         * @brief See :cpp:member:`filterBase`. **Default**: ``0.01``
-         */
-        double filterStep = 0.01;
-
-        /**
-         * @brief
-         @rst
-         The ``filter_index`` to tag a particular shader with, overriding the value
-         :cpp:member:`filterBase` and :cpp:member:`filterStep` would compute for it -- as a string, so
-         the value in the ``.ini`` is exactly what is written here :raw-html:`<br />`
-         :raw-html:`<br />`
+         The ``filter_index`` each pass shader is tagged with -- as a string, so the value in the ``.ini`` is
+         exactly what is written here. :cpp:func:`withGameData` reads them off the target's (and the source's)
+         ``DrawPasses`` tags, and the fix REFUSES a pass shader with none (:cpp:func:`ShaderFilterTags::addGiven`)
+         :raw-html:`<br />` :raw-html:`<br />`
 
          3dmigoto keys a ``[ShaderOverride]`` by its shader hash across EVERY loaded ``.ini``, not per
          file or per namespace. Both directions of one pair tag the same shaders -- a skin and its
          character share the hair, face and eye ones -- so a mod fixed one way and a mod fixed the
          other way, both installed, declare overrides on those hashes twice. If the two disagree on
          the value, whichever file 3dmigoto reads last wins and the other mod's ``if ps == <filter>``
-         never matches: its textures are silently not bound. So the SECOND pair to be written names
-         the first's values here, and gives its own shaders values the first never uses (Sanhua's
-         direction computes ``3381.91`` up; the Exorcist's names those and takes ``3381.81`` up for
-         the shaders only it tags)
+         never matches: its textures are silently not bound. So one shader has one value in the table,
+         whichever pair tags it
          @endrst
          */
         std::unordered_map<std::string, std::string> filterIndices;
@@ -764,14 +841,15 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         Source component -> ``{"diffuse" | "mask" | "normal" -> role}``, for a file named by
-         component and type and by nothing else (``Component4_NM.dds``: the RabbitFX / WWMI-Tools
-         export names). The suffixes accepted: ``diffuse``, ``albedo``, ``base``, ``color``,
-         ``colour``, ``d`` (diffuse); ``lm``, ``lightmap``, ``mask``, ``m`` (mask); ``nm``,
-         ``normal``, ``normalmap``, ``n`` (normal)
+         The SOURCE component a :cpp:member:`plan` entry draws: for a reroute's entry (:cpp:member:`DrawReroute::as`), the
+         component it takes its draws from (:cpp:member:`DrawReroute::from`); else the entry's own key
          @endrst
+         *
+         * @param key The plan entry
+         *
+         * @return The component
          */
-        std::map<int, std::unordered_map<std::string, std::string>> typeRoles;
+        int componentOf(int key) const;
 
         /**
          * @brief
@@ -804,19 +882,15 @@ namespace AGRemapCore {
         std::set<std::string> flatLeftToGame;
 
         /**
-         * @brief Whether every remapped draw binds a zero shape-key offset stream (item 3 above). **Default**: ``true``
+         * @brief
+         @rst
+         Whether every remapped draw binds a zero shape-key offset stream (item 3 above), at
+         :cpp:member:`IniKeywords::WWMIShapeKeyStreamReg`, :cpp:member:`WWMINames::ShapeKeyStreamStride` bytes a
+         vertex. **Default**: ``false``
+         @endrst
          */
-        bool zeroShapeKeyStream = true;
+        bool zeroShapeKeyStream = false;
 
-        /**
-         * @brief The register the game reads that stream from. **Default**: ``"vb6"``
-         */
-        std::string shapeKeyStreamReg = "vb6";
-
-        /**
-         * @brief Bytes per vertex of that stream, off the frame dump's ``vb6`` layout. **Default**: ``24``
-         */
-        int shapeKeyStride = 24;
 
         /**
          * @brief
@@ -861,66 +935,31 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         The SOURCE components drawn a SECOND time, wound the other way with their normals flipped.
-         **Default**: empty -- nothing is mirrored, so no character's output moves
-         :raw-html:`<br />` :raw-html:`<br />`
-
-         For single-layer cloth whose INSIDE the target's shader lights differently from the
-         source's. A skirt is one sheet -- measured, 0 triangles in any of ChisaParfait's 8
-         components share three positions with opposite winding -- so where the gaps between a hem's
-         scallops show its inside, the target's shader is lighting a back face, and on
-         ChisaParfait -> Chisa that drew dark quadrilaterals the skin's own model does not have.
-
-         The twin presents those pixels as a front face with an outward normal: the component's
-         index window wound the other way, over a copy of the mod's own vector buffer with every
-         normal negated. It is the WuWa counterpart of GI's
-         :cpp:member:`GIMIComponentFixerConfig::Component::mirroredObjs`, and unlike that one it
-         adds no vertices -- the twin indexes the same ones.
-
-         .. note::
-            A component the mod draws as more than one RANGE is skipped and said so in the log. One
-            twin after one draw is right only while the component has one draw; a toggled range
-            would have its twin drawn whatever the toggle says
-         @endrst
-         */
-        std::set<int> mirroredComponents;
-
-        /**
-         * @brief
-         @rst
-         The register family a mod binds its textures with, which a remapped section's CARRIED
-         bindings are re-keyed within -- see :cpp:member:`plan`
-         @endrst
-         *
-         * A mod that binds per draw rather than once per section writes these lines inside the
-         * component section, in ITS OWN layout, and they land after the fix's texture list and
-         * override it. Matched by prefix, case-insensitively.
-         */
-        std::string texRegPrefix = "ps-t";
-
-        /**
-         * @brief The register the mod's vector buffer (its normals) is bound at. **Default**: ``"vb1"``
-         */
-        std::string vectorReg = "vb1";
-
-        /**
-         * @brief
-         @rst
          The mod objects (of :cpp:struct:`WWMIParserConfig`'s hash-only ones) whose sections are
-         commented out of the mod's own text and copied nowhere. **Default**: the two shape-key
-         overrides, since the mod's keys are sized for the source's shape-key vertex count, not the
-         target's
+         commented out of the mod's own text and copied nowhere, eg. the two shape-key overrides
+         (``{"shapekeyOffsets", "shapekeyScale"}``) when the mod's keys cannot be retargeted. **Default**: none
          @endrst
          */
-        std::vector<std::string> hiddenObjs = {"shapekeyOffsets", "shapekeyScale"};
+        std::vector<std::string> hiddenObjs;
 
-        /**
-         * @brief The register the mod's blend buffer is bound at. **Default**: ``"vb4"``
-         */
-        std::string blendReg = "vb4";
         /**
          * @brief A register line a remapped section DROPS, optionally only for certain values
          */
+        struct RegRemoval;
+
+        /**
+         * @brief
+         @rst
+         The lines every remapped section drops (:cpp:member:`removedRegs`' default): the three
+         ``Resource{BlendBuffer,MergedSkeleton,ExtraMergedSkeleton}Override = ref ...`` of a source past 256 bones, and
+         RabbitFX's ``run = CommandList\RabbitFX\SetTextures`` and the six maps it reads
+         (:cpp:member:`RabbitFX::TextureKeys`)
+         @endrst
+         *
+         * @return The lines
+         */
+        static std::vector<RegRemoval> gameRemovedRegs();
+
         struct RegRemoval {
             /**
              * @brief The register or key, eg. ``"ResourceBlendBufferOverride"`` or ``"run"``
@@ -951,9 +990,12 @@ namespace AGRemapCore {
            to ``null``, which is a safety net worth keeping
          * the ``run`` of RabbitFX's ``SetTextures`` and the maps it names, which otherwise override
            the fix's own texture lists positionally
+
+         **Default**: those ten lines (:cpp:func:`gameRemovedRegs`), a game rule rather than a pair's choice. A line the
+         mod does not carry is not there to remove
          @endrst
          */
-        std::vector<RegRemoval> removedRegs;
+        std::vector<RegRemoval> removedRegs = gameRemovedRegs();
 
         /**
          * @brief
@@ -967,12 +1009,12 @@ namespace AGRemapCore {
          @endrst
          */
         std::vector<RegRemoval> remappedSkeletonRemovals{
-            {IniKeywords::Run, "commandlistmergeskeleton"},
-            {"CheckTextureOverride", "vs-cb3"},
-            {"CheckTextureOverride", "vs-cb4"},
-            {"vs-cb3", "resourceextramergedskeleton"},
-            {"vs-cb4", "resourcemergedskeleton"},
-            {"vs-cb3", "resourcemergedskeleton"}};
+            {IniKeywords::Run, WWMINames::MergeSkeletonList},
+            {IniKeywords::CheckTextureOverride, IniKeywords::WWMIExtraBoneDataCb},
+            {IniKeywords::CheckTextureOverride, IniKeywords::WWMIBoneDataCb},
+            {IniKeywords::WWMIExtraBoneDataCb, IniKeywords::WWMIExtraMergedSkeleton},
+            {IniKeywords::WWMIBoneDataCb, IniKeywords::WWMIMergedSkeleton},
+            {IniKeywords::WWMIExtraBoneDataCb, IniKeywords::WWMIMergedSkeleton}};
         /**
          * @brief
          @rst
@@ -1134,7 +1176,8 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         Other meshes the TARGET draws that a mod of her replaces, by their own ``vb0`` hash: each
+         Other meshes the TARGET draws that a mod of her replaces, by their :cpp:class:`Hashes` mesh type (eg.
+         ``blackShirt``; :cpp:func:`withGameData` reads the hash at the run's version) or their own ``vb0`` hash: each
          is skipped while the mod is enabled.
 
          A character is not only her ``vb0`` mesh, and some of her other meshes belong to the
@@ -1162,7 +1205,7 @@ namespace AGRemapCore {
          Every section of the mod the parser placed in such an object is copied into the fix's block
          with its hash swapped for the target's of the same type, so what the mod does to that part of
          the outfit -- skip it, or mark when it is drawn -- happens on the target too. Changli draws
-         her blindfold as its own mesh (``blindfold``: ``baaa6262``), the Laurel Nymph skin draws hers
+         her blindfold as its own mesh (``blindfoldMesh``: ``baaa6262``), the Laurel Nymph skin draws hers
          as another (``646aa163``), and several Changli mods hide the blindfold with a
          ``handling = skip`` section on the first hash; without the copy that blindfold showed on every
          remap of them.
@@ -1178,21 +1221,13 @@ namespace AGRemapCore {
          @rst
          Registers to capture off the GAME's draw of a target slot nothing of the mod is drawn through
          (slot -> registers, eg. ``{4, {"ps-t5", "ps-t6"}}``), on passes that bind ``o3``. A
-         :cpp:member:`Shader::lines` value ``stash <slot> <register>`` binds the capture: a game texture the
-         target binds on another slot, for a shader the source draws with it, without a download. The
-         captured slot has to be drawn before the shader's in every scene
+         :cpp:member:`Shader::stashed` entry binds the capture: a game texture the target binds on another slot,
+         for a shader the source draws with it, without a download. The captured slot has to be drawn before the
+         shader's in every scene. :cpp:func:`withGameData` adds each :cpp:member:`Shader::stashed` register here
          @endrst
          */
         std::map<int, std::vector<std::string>> stashRegs;
 
-        /**
-         * @brief
-         @rst
-         :cpp:member:`stashRegs` by ROLE: slot -> the roles to capture, each at the register the target's
-         :cpp:class:`TextureRegisters` binds it (:cpp:func:`withGameData`), eg. ``{4, {"glow", "flow", "noise"}}``
-         @endrst
-         */
-        std::map<int, std::vector<std::string>> stashRoles;
         /**
          * @brief What a texture-edit filter is allowed to know about the mod it is editing
          */
@@ -1227,35 +1262,19 @@ namespace AGRemapCore {
              @endrst
              */
             std::map<std::string, std::string> fileOfRole;
-            /**
-             * @brief
-             @rst
-             The SOURCE character's own game texture for each role a :cpp:member:`TexEdit::sourceGameRoles`
-             names, downloaded for the edit. A filter that grades a mod's texture by how far it
-             strays from the character's own reads the original here
-             @endrst
-             */
-            std::map<std::string, std::string> gameFileOfRole;
 
             /**
              * @brief
              @rst
-             The file 'role' reads: the mod's own (#fileOfRole), else the source's game texture (#gameFileOfRole),
-             else empty -- eg. the code map a bake of another role's texture is guided by
+             The characters fixed from and to, and the run's versions of each -- so a filter reads the versioned asset
+             tables (:cpp:func:`ModType::getMaterialCode`, ...) at the run's versions rather than carrying their values.
+             ``nullptr`` / ``std::nullopt`` outside a fix
              @endrst
-             *
-             * @param role The role
-             *
-             * @return The file, or empty
              */
-            std::string fileOrGame(const std::string& role) const {
-                const auto own = fileOfRole.find(role);
-                if (own != fileOfRole.end()) {
-                    return own->second;
-                }
-                const auto game = gameFileOfRole.find(role);
-                return game == gameFileOfRole.end() ? std::string() : game->second;
-            }
+            const ModType* source = nullptr;
+            const ModType* target = nullptr;
+            std::optional<Version> fromVersion;
+            std::optional<Version> toVersion;
         };
         /**
          * @brief An edit the fix makes to one role's texture before binding it
@@ -1291,25 +1310,13 @@ namespace AGRemapCore {
              @endrst
              */
             bool compress = false;
-            /**
-             * @brief
-             @rst
-             Roles whose SOURCE game texture this edit reads, each downloaded from
-             ``sourceTextures.fallbackTextures`` and handed to the filter in
-             :cpp:member:`TexEditContext::gameFileOfRole`. Nothing binds the download.
-             **Default**: none
-             @endrst
-             */
-            std::vector<std::string> sourceGameRoles;
         };
         /**
          * @brief
          @rst
-         Edits the fix makes to a role's texture before binding it. Chisa needs four: her material
-         mask repacked into the target's layout, her packed four-profile sheen matcap translated into
-         the skin's holographic foil, a colour grade on her accessory diffuse -- a shader family is a
-         colour grade, and the texture is the only place to put it back -- and her hair's ps-t5 map
-         repacked so a UV-mapped register need not be left to the game
+         Edits the fix makes to a role's texture before binding it -- eg. Chisa's material mask repacked
+         into the target's layout, or a colour grade on a diffuse a different shader family draws: a shader
+         family is a colour grade, and the texture is the only place to put it back
          @endrst
          */
         std::vector<TexEdit> texEdits;
@@ -1339,14 +1346,6 @@ namespace AGRemapCore {
          @endrst
          */
         bool cleanTexcoords = false;
-        /**
-         * @brief
-         @rst
-         The register the texcoord buffer is bound at, for :cpp:member:`cleanTexcoords`.
-         **Default**: ``"vb2"``
-         @endrst
-         */
-        std::string texcoordReg = "vb2";
 
         /**
          * @brief
@@ -1370,46 +1369,32 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         The float4 slots of the merged skeleton buffers the fix declares for a legacy mod -- WWMI
-         Tools' own template's size, whatever the character's bone count. **Default**: ``768``
+         The float4 slots of the merged skeleton buffers the fix declares for a legacy mod: three per bone of the
+         TARGET, in steps of WWMI Tools' own template size (:cpp:member:`WWMINames::MergedSkeletonStep`, 768).
+         **Default**: ``0`` -- :cpp:func:`withGameData` derives it from the target's bones (:cpp:class:`VGOffsets` +
+         :cpp:class:`VGCounts`) at the run's version
          @endrst
          */
-        int mergedSkeletonSlots = 768;
+        int mergedSkeletonSlots = 0;
 
         /**
          * @brief
          @rst
-         WWMI's marker on the game's bone-data constant buffer, which a legacy mod's supplied merge
-         is gated on so a pass with something else in that slot cannot merge junk.
-         **Default**: ``"3381.7777"``
-         @endrst
-         */
-        std::string boneDataFilter = "3381.7777";
-
-        /**
-         * @brief
-         @rst
-         Bind the remapped PREVIOUS pose on every pass, not only where the second skeleton
-         carries ``boneDataFilter`` -- see :cpp:member:`boneDataFilter`. **Default**: ``true``
+         The size of a merged skeleton for 'bones' bones, in float4 slots: three a bone, rounded up to WWMI Tools' steps
+         (:cpp:member:`WWMINames::MergedSkeletonStep`) -- what :cpp:func:`withGameData` fills :cpp:member:`mergedSkeletonSlots`
+         with, for the target's :cpp:func:`ModType::getMergedBoneCount`
          @endrst
          *
-         * `vs-cb4` is the pose a draw is skinned with and `vs-cb3` is the previous frame's,
-         * which the shader turns into motion vectors. The game does not mark cb3 on every
-         * pass, so a guarded replacement leaves some draws skinned with OUR pose and
-         * reprojected from the TARGET's -- a large bogus motion, which TAA smears into a
-         * second body over the whole character.
+         * @param bones The bones
          *
-         * Defaulted ON because the alternative is never right.
+         * @return The slots
          */
-        // Turning this on moved the output of every WuWa pair, so a pair whose in-game check
-        // predates it wants another look. Kept out of the doc comment above on purpose: that one
-        // is published as the API reference and reads as the present-tense contract.
-        bool bindPrevPoseAlways = true;
+        static int mergedSkeletonSlotsFor(long long bones);
 
         /**
          * @brief
          @rst
-         Treat a draw whose ``vs-cb3`` carries :cpp:member:`boneDataFilter` while its ``vs-cb4`` does
+         Treat a draw whose ``vs-cb3`` carries :cpp:member:`WWMINames::BoneDataFilter` while its ``vs-cb4`` does
          not as one whose skeleton -- the CURRENT pose -- sits in ``vs-cb3``: merge it into the main
          skeleton and bind the remapped main one there, where the default reads ``vs-cb3`` as the
          previous pose on every draw :raw-html:`<br />` :raw-html:`<br />`
@@ -1419,29 +1404,12 @@ namespace AGRemapCore {
          alone -- Lynae's early depth passes, 11 draws of her dump -- and reading it as the previous
          pose wrote their depth for last frame's pose: every thin layered part then failed the later
          passes' equal-depth test and dropped out (her ID card, chest pin and ear cups, first seen on
-         her identity mod). Such a draw also takes no previous pose from
-         :cpp:member:`bindPrevPoseAlways`. **Default**: ``false``, which writes exactly the lines every
+         her identity mod). Such a draw also takes no remapped previous pose (which every other draw is bound,
+         the merge list binds it on every pass). **Default**: ``false``, which writes exactly the lines every
          earlier pair writes
          @endrst
          */
         bool currentPoseInCb3Only = false;
-
-        /**
-         * @brief
-         @rst
-         Make every generated COPY ``.ini`` (a second source component on one target slot) share the
-         mod's skeleton state, on a target past 256 bones :raw-html:`<br />` :raw-html:`<br />`
-
-         Two changes, both found merging LynaePeppermint's coat and jacket onto Lynae's one jacket
-         slot. Each copy gets a merge-only section for every target slot another file draws, since a
-         copy's own merged skeleton is fed only by the draws that file matches and its other windows
-         stayed zero. And the bone-data marker and the shape-key overrides are written in the mod's
-         own file only, since a copy repeating them on the game's hashes drew the whole model as giant
-         polygons. **Default**: ``false``, which keeps ChisaParfait -> Chisa's copies, confirmed in game,
-         exactly as they were
-         @endrst
-         */
-        bool copiesShareSkeleton = false;
 
         /**
          * @brief
@@ -1483,35 +1451,6 @@ namespace AGRemapCore {
          @endrst
          */
         bool carryByRegisterRole = false;
-
-        /**
-         * @brief
-         @rst
-         The command list every slot section runs to bind the mod's buffers; the texture command
-         list and the zero stream are added right after it. **Default**:
-         ``"CommandListOverrideSharedResources"``
-         @endrst
-         */
-        std::string sharedResourcesList = "CommandListOverrideSharedResources";
-
-        /**
-         * @brief
-         @rst
-         The command list every slot section runs after its draw to put the game's own buffers
-         back -- see :cpp:member:`sharedResourcesList`. **Default**:
-         ``"CommandListCleanupSharedResources"``
-         @endrst
-         *
-         * WWMI's own pair captures `vb0` and restores only that; the fix extends both so every
-         * buffer the override list binds is put back, because a REMAP has draws of the target
-         * that no section of it matches, and those inherit whatever is still bound.
-         */
-        std::string cleanupResourcesList = "CommandListCleanupSharedResources";
-
-        /**
-         * @brief The mod object prefix of a draw slot. **Default**: ``"component"``
-         */
-        std::string slotPrefix = "component";
 
         /**
          * @brief Source component -> a label for the log, eg. ``"bangs"``
@@ -1851,12 +1790,6 @@ namespace AGRemapCore {
             std::map<std::string, std::vector<std::string>> rolesOf;
 
             /**
-             * @brief Role -> a source game texture an edit compares against (:cpp:member:`TexEdit::sourceGameRoles`):
-             *        downloaded, never bound
-             */
-            std::map<std::string, Download> references;
-
-            /**
              * @brief What the decision has to say, for the log, in order
              */
             std::vector<std::string> notes;
@@ -1877,13 +1810,11 @@ namespace AGRemapCore {
          * @param drawn The source components the mod draws
          * @param ownShader The drawn components their own shader draws
          * @param iniPath The mod's ``.ini``
-         * @param sourceName The source character's name
          *
          * @return The targets
          */
         TexEditTargets texEditTargets(const IniParseData& data, const RoleResources& roles, const std::set<int>& drawn,
-                                      const std::set<int>& ownShader, const std::string& iniPath,
-                                      const std::string& sourceName) const;
+                                      const std::set<int>& ownShader, const std::string& iniPath) const;
 
         /**
          * @brief
@@ -2246,7 +2177,7 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         THE MOD'S OWN TEXTURE LINES, RE-KEYED BY ROLE. Each ``<texRegPrefix>N`` line of the mod's sections, for each
+         THE MOD'S OWN TEXTURE LINES, RE-KEYED BY ROLE. Each ``ps-tN`` line of the mod's sections, for each
          drawn component of the plan, goes to the register that component's bindings read its texture's role at
          (:cpp:func:`registerOf`) -- the layout of the fix's own list, which the lines sit after. The role is the
          parser's (:cpp:func:`IniParseData::roleOfResource`: one it chose the file for among the roles a drawn component
@@ -2308,6 +2239,197 @@ namespace AGRemapCore {
          * @return The groups
          */
         FileGroups fileGroups(const std::set<int>& drawn, const std::string& sourceName) const;
+
+        /**
+         * @brief
+         @rst
+         The parser's graphs and the sections it placed in each, in the parser's order
+         (:cpp:type:`IniParseData::SectionTargets`), as #drawnOf reads it
+         @endrst
+         */
+        using SectionTargets = IniParseData::SectionTargets;
+
+        /**
+         * @brief One draw of a component: its ``(index count, first index)``, as :cpp:func:`IniParseData::drawRanges` gives it
+         */
+        using DrawRange = std::pair<long long, long long>;
+
+        /**
+         * @brief
+         @rst
+         A source component the mod draws from mesh files of its OWN: its section runs a
+         ``<sharedResourcesList>.<suffix>`` list (:cpp:member:`WWMINames::OverrideSharedResourcesList`) that binds an index,
+         position and blend buffer of its own -- see #drawnOf
+         @endrst
+         */
+        struct OwnMesh {
+            /**
+             * @brief The mod's own shared-resource list, as the section runs it
+             */
+            std::string list;
+
+            /**
+             * @brief The resource the list binds at the blend register (:cpp:member:`IniKeywords::WWMIBlendReg`)
+             */
+            std::string blendResource;
+
+            /**
+             * @brief That resource's file, as the ``.ini`` names it
+             */
+            std::string blendFile;
+
+            /**
+             * @brief The file of the resource the list binds at ``vb0``, as the ``.ini`` names it
+             */
+            std::string positionFile;
+
+            /**
+             * @brief The section's ``vg_offset``: where the component's bone ids start (``0`` when it has none or it is not a number)
+             */
+            long long vgOffset = 0;
+        };
+
+        /**
+         * @brief What the mod draws, read off the parser's data -- see #drawnOf
+         */
+        struct Drawn {
+            /**
+             * @brief Each source component whose sections draw -> its sections, a reroute's ``as`` included (sharing its ``from``'s sections)
+             */
+            std::map<int, std::vector<std::string>> present;
+
+            /**
+             * @brief The source components whose sections draw nothing (:cpp:func:`IniParseData::isUndrawn`), in the parser's order
+             */
+            std::vector<int> silent;
+
+            /**
+             * @brief Each drawn source component -> its draws, less the ones a reroute took; a reroute's ``as`` -> the draws it took
+             */
+            std::map<int, std::vector<DrawRange>> drawRanges;
+
+            /**
+             * @brief Each reroute (:cpp:member:`drawReroutes`) that took draws: its ``as`` -> its ``from``
+             */
+            std::map<int, int> rerouteFrom;
+
+            /**
+             * @brief Each reroute that took draws: its ``as`` -> the draws it took
+             */
+            std::map<int, std::set<DrawRange>> reroutedDraws;
+
+            /**
+             * @brief The present components that are not a reroute's ``as``
+             */
+            std::set<int> drawn;
+
+            /**
+             * @brief Of #drawn, the ones whose sections name RabbitFX (:cpp:func:`IniParseData::libraries`)
+             */
+            std::set<int> rabbitFX;
+
+            /**
+             * @brief
+             @rst
+             The present components their own :cpp:member:`SourceComponent::shader` draws (:cpp:func:`shaderDraws`)
+             @endrst
+             */
+            std::set<int> ownShader;
+
+            /**
+             * @brief
+             @rst
+             The present components their :cpp:member:`SourceComponent::overlay` is drawn over -- not one that hands its
+             maps to RabbitFX while the overlay yields to it
+             @endrst
+             */
+            std::set<int> overlaid;
+
+            /**
+             * @brief
+             @rst
+             The present components whose :cpp:member:`SourceComponent::markLines` are written -- not one whose shader
+             yields to RabbitFX
+             @endrst
+             */
+            std::set<int> markLines;
+
+            /**
+             * @brief
+             @rst
+             Whether the mod is from before WWMI's merged skeleton: none of its slot sections carries a
+             ``vg_offset`` (:cpp:member:`IniKeywords::WWMIVgOffset`), so its blend holds each component's OWN bone indices
+             @endrst
+             */
+            bool legacy = false;
+
+            /**
+             * @brief
+             @rst
+             Whether the mod's ``[Present]`` resets ``$object_detected`` each frame (``post $object_detected = 0``,
+             anywhere in it; a ``[Present]`` written more than once is one section)
+             @endrst
+             */
+            bool hostResetsDetected = false;
+
+            /**
+             * @brief Each drawn component (not a reroute's ``as``) drawn from mesh files of its own -> those files
+             */
+            std::map<int, OwnMesh> ownMeshes;
+
+            /**
+             * @brief
+             @rst
+             Why the mod is not remapped, or empty. When set, only #hostResetsDetected, #watching and what was read before
+             the reason are filled
+             @endrst
+             */
+            std::string error;
+
+            /**
+             * @brief The sections the parser placed in its watching graph (:cpp:member:`WWMIParseObjs::Watch`), in its order
+             */
+            std::vector<std::string> watching;
+
+            /**
+             * @brief What the reading has to say, for the log, in order
+             */
+            std::vector<std::string> notes;
+        };
+
+        /**
+         * @brief
+         @rst
+         WHAT THE MOD DRAWS, off the parser's data and graphs:
+
+         #. each slot graph (:cpp:func:`WWMIParserConfig::slotWithPrefix` with :cpp:member:`WWMINames::SlotPrefix`) of a
+            source slot below 'sourceSlots' with sections is a source component: :cpp:member:`Drawn::silent` when its
+            sections draw nothing, else :cpp:member:`Drawn::present`, with its draws. With neither, the mod is not
+            remapped (:cpp:member:`Drawn::error`)
+         #. whether the mod is :cpp:member:`Drawn::legacy`; a legacy mod is not remapped when :cpp:member:`sourceVgMaps`
+            is empty
+         #. the components drawn from mesh files of their own (:cpp:member:`Drawn::ownMeshes`); one whose blend or
+            position resource names no file is left out, with a note
+         #. each of :cpp:member:`drawReroutes` whose ``from`` is present with draws, whose ``as`` is planned and not
+            present, and whose split (:cpp:member:`DrawReroute::split`) picked draws: those draws move from ``from`` to
+            ``as``, which is present from then on with ``from``'s sections
+         #. which components keep RabbitFX, and which are drawn by their own shader, under an overlay or with mark lines
+            (:cpp:member:`SourceComponent::shader`, :cpp:member:`SourceComponent::overlay`,
+            :cpp:member:`SourceComponent::markLines`)
+         @endrst
+         *
+         * @param data The parser's data of the mod's ``.ini``
+         * @param targets The parser's graphs and their sections, in its order (:cpp:func:`GIMIParser::sectionTargets`)
+         * @param sourceSlots How many draw slots the source has at the fix's source version; a slot graph at or past it
+         *      is not a component. ``-1`` for no limit
+         * @param sourceName The source character's name, for the notes
+         * @param sourceVb0 The source's ``vb0`` hash at the fix's source version, for the notes
+         * @param targetName The target character's name, for the notes
+         *
+         * @return What the mod draws
+         */
+        Drawn drawnOf(const IniParseData& data, const SectionTargets& targets, int sourceSlots, const std::string& sourceName,
+                      const std::string& sourceVb0, const std::string& targetName) const;
 
         /**
          * @brief
@@ -2395,56 +2517,27 @@ namespace AGRemapCore {
      ``.ini`` is handled by it, and the target's components are draw slots rather than mod types
      of their own :raw-html:`<br />` :raw-html:`<br />`
 
-     The fix is a LIST of edits, the same for every mod: 'steps', or :cpp:func:`wwmiSteps` of 'config' when it is empty.
-     Change a fix by taking that list, editing it like any list, and handing it back here
-     @endrst
-     * @param config The pair's config
-     * @param steps The list of edits each fixer runs. **Default**: :cpp:func:`wwmiSteps` of 'config'
-     */
-    IniFixBuilder::Factory makeWWMIFixer(WWMIFixerConfig config, std::vector<std::shared_ptr<BaseIniGraphGroupEdit<>>> steps = {});
-
-    /**
-     * @brief
-     @rst
-     THE WWMI FIX AS A LIST: the edits a fixer of 'config' runs, in order, each named
-     (:cpp:member:`BaseIniGraphGroupEdit::name`) -- the same list for every mod. Each step builds its edits when it runs,
-     from the ``.ini`` file it runs on: ``copies``, ``toggles``, ``slotRemap``, the edits on the target's objects by kind
-     (``textureListCalls``, ``sharedBypass``, ``modTexLines``, ``drawTwins``, ``additions``, ``rerouteFilters``,
+     The fix is a LIST of edits, built for each ``.ini`` from 'config' and what the mod draws, each step named
+     (:cpp:member:`BaseIniGraphGroupEdit::name`): ``copies``, ``toggles``, ``slotRemap``, the edits on the target's
+     objects by kind (``textureListCalls``, ``sharedBypass``, ``modTexLines``, ``additions``, ``rerouteFilters``,
      ``removedLines``, ``rabbitFXPins``, ``slotValues``, ``hashes``, ``dispatchSize``, ``shapeKeyLists``,
      ``afterShaders``, ``markLines``, ``overlays``, ``rerouteShaders``, ``offPasses``), ``blend``, ``rebind``,
-     ``fixSections`` (the fix's own sections, into graph ``(0, "", "fixSections")``), then ``shaderFiles``, ``fixFiles``,
-     ``latch`` and ``texEdits``. A step does nothing on a mod that has nothing for it
+     ``fixSections`` -- the fix's own sections, into graph ``(0, "", "fixSections")``, one step per kind of section
+     after it (``textureLists``, ``glowLists``, ``linkedState``, ``declaredFiles``, ``skeletonSections``,
+     ``blendRemapSections``, ``bypassSections``, ``hideSections``, ``stashResources``, ``passTags``, ``sharedMeshes``,
+     ``hiddenMeshes``, ``shaderDraws``, ``rabbitFXPinLists``), so one kind is read, removed or replaced
+     as one step -- then ``shaderFiles``, ``fixFiles``, ``latch`` and ``texEdits``. Change a fix by rewriting that list:
+     :cpp:func:`TemplateFixer::withList`
      @endrst
-     *
      * @param config The pair's config
-     *
-     * @return The steps
      */
-    std::vector<std::shared_ptr<BaseIniGraphGroupEdit<>>> wwmiSteps(const WWMIFixerConfig& config);
+    IniFixBuilder::Factory makeWWMIFixer(WWMIFixerConfig config);
 
     /**
      * @brief
      @rst
-     The ``slotRemap`` step of :cpp:func:`wwmiSteps`, a :cpp:class:`GraphGroupRemap` whose table
-     (:cpp:member:`GraphGroupRemap::remap`) is: each component :cpp:member:`WWMIFixerConfig::plan`
-     names, its source graph ``("", <slotPrefix><component>)`` onto its target slot's graph
-     ``(<target>, <slotPrefix><slot>)`` (``<slot>_<component>`` for a :cpp:member:`SourceComponent::sameFileSection`), its
-     sections renamed by :cpp:func:`IniNamingTools::getRemapFixName`. When the step runs, what the mod draws is added to
-     it (:cpp:member:`GraphGroupRemap::remapAtRun`): the reroutes it draws, no target for a component whose section draws
-     nothing, and its other hashed objects onto themselves
-     @endrst
-     *
-     * @param config The pair's config
-     *
-     * @return The step
-     */
-    std::shared_ptr<GraphGroupRemap<>> wwmiSlotRemapStep(const WWMIFixerConfig& config);
-
-    /**
-     * @brief
-     @rst
-     What :cpp:func:`makeWWMIFixer` returns, as an :cpp:type:`IniFixBuilder::Factory`: the pair's config, its list of
-     edits and the call that builds a fixer from them -- so the config can be read back
+     What :cpp:func:`makeWWMIFixer` returns, as an :cpp:type:`IniFixBuilder::Factory`: the pair's config and the call that
+     builds a fixer from it -- so the config can be read back
      (:cpp:func:`WWMIFixerConfig::ofFactory`)
      @endrst
      */
@@ -2453,11 +2546,6 @@ namespace AGRemapCore {
          * @brief The pair's config
          */
         WWMIFixerConfig config;
-
-        /**
-         * @brief The list of edits each fixer runs
-         */
-        std::vector<std::shared_ptr<BaseIniGraphGroupEdit<>>> steps;
 
         /**
          * @brief Builds the fixer -- see :cpp:type:`IniFixBuilder::Factory`

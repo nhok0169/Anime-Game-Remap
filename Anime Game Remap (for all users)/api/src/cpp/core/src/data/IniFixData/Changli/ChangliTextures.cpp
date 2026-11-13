@@ -105,10 +105,7 @@ namespace AGRemapCore {
         // ---- a role the mod ships no file for falls back to HER game texture ----
         // The hair map, the eye textures and the glow are the same hashes on both skins, so the game
         // already binds them on the target and they have no fallback.
-        facts.downloadGameFolder = "WuWa";
-        facts.downloadCharFolder = "Changli";
         facts.downloadVersionFolder = "3_7";
-        facts.downloadPrefix = "Changli";
         facts.fallbackTextures = {
             {"bangsMap", "25e6decf"},
             {"bangsDiffuse", "89da6405"},

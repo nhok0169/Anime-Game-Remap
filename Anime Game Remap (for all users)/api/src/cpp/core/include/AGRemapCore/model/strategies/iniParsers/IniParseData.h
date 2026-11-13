@@ -62,6 +62,36 @@ namespace AGRemapCore {
             using ModObj = std::pair<std::string, std::string>;
 
             /**
+             * @brief
+             @rst
+             A parser's graphs and the sections it placed in each, in the parser's order: the shape of
+             :cpp:func:`GIMIParser::sectionTargets` as a list
+             @endrst
+             */
+            using SectionTargets = std::vector<std::pair<ModObj, std::vector<std::string>>>;
+
+            /**
+             * @brief
+             @rst
+             A parser's graphs and their sections as a #SectionTargets list, in the order 'targets' gives them
+             @endrst
+             *
+             * @tparam Targets A map of a mod object to its sections, such as :cpp:func:`GIMIParser::sectionTargets`
+             *
+             * @param targets The graphs and their sections
+             *
+             * @return The list
+             */
+            template <typename Targets>
+            static SectionTargets sectionTargetsOf(const Targets& targets) {
+                SectionTargets result;
+                for (const auto& [obj, sections] : targets) {
+                    result.emplace_back(obj, sections);
+                }
+                return result;
+            }
+
+            /**
              * @brief Fills the deferred part of the data -- see #defer
              */
             using Filler = std::function<void(IniParseData& data)>;

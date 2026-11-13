@@ -42,8 +42,6 @@ Each builder fills a fixed template with the values it is given. Every name goes
         .def_readwrite("name", &Sections::Skeleton::name, "Callable[[:class:`str`], :class:`str`]: The fix's name for a section of the given name")
         .def_readwrite("cb4Hash", &Sections::Skeleton::cb4Hash,
                        ":class:`str`: The hash of the game's bone-data constant buffer, which the merges are gated on")
-        .def_readwrite("boneDataFilter", &Sections::Skeleton::boneDataFilter,
-                       ":class:`str`: The ``filter_index`` the fix marks that buffer with")
         .def_readwrite("mergedSkeletonSlots", &Sections::Skeleton::mergedSkeletonSlots,
                        ":class:`int`: How many bones the merged skeleton holds")
         .def_readwrite("remapped", &Sections::Skeleton::remapped,
@@ -53,8 +51,6 @@ Each builder fills a fixed template with the values it is given. Every name goes
                        ":class:`bool`: Whether the remap runs once a frame from a latch elsewhere; otherwise each merge list runs it first")
         .def_readwrite("currentPoseInCb3Only", &Sections::Skeleton::currentPoseInCb3Only,
                        ":class:`bool`: Whether a draw with its current pose in ``vs-cb3`` alone merges into the MAIN skeleton")
-        .def_readwrite("bindPrevPoseAlways", &Sections::Skeleton::bindPrevPoseAlways,
-                       ":class:`bool`: Whether ``vs-cb3`` gets the previous pose after every merge, whatever the marker says")
         .def_readwrite("blendRemapBones", &Sections::Skeleton::blendRemapBones,
                        ":class:`int`: The blend remap's bone count, for the remap")
         .def_readwrite("blendRemapForward", &Sections::Skeleton::blendRemapForward,
@@ -91,10 +87,7 @@ Each builder fills a fixed template with the values it is given. Every name goes
         .def_readwrite("mergeSkeletonList", &Sections::Hide::mergeSkeletonList,
                        ":class:`str`: The list run once a frame without :attr:`mergeWindowList`")
         .def_readwrite("stashed", &Sections::Hide::stashed,
-                       "List[Tuple[:class:`str`, :class:`str`]]: Lines that capture the game's own bindings on the slot, run while a pixel shader is bound")
-        .def_readwrite("mergeOnly", &Sections::Hide::mergeOnly,
-                       ":class:`bool`: Only merge the slot's window (:attr:`mergeWindowList`), for a file whose skeleton needs the bones "
-                       "of a slot another file draws: no ``$object_detected`` and no skip");
+                       "List[Tuple[:class:`str`, :class:`str`]]: Lines that capture the game's own bindings on the slot, run while a pixel shader is bound");
 
     py::class_<Sections::ShaderDraw>(cls, "ShaderDraw", "What :meth:`WWMISections.shaderDrawSections` writes")
         .def(py::init<>())

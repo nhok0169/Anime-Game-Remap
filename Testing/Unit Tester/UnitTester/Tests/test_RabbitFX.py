@@ -128,6 +128,40 @@ class DrawUVCoverageTest(BaseUnitTest):
         self.assertEqual(coverage.coveredRanges(ranges, 2, 2, left, 0.7), [])
         self.assertEqual(coverage.coveredRanges([(0, 0)], 2, 2, left, 0.0), [])        # a range of no vertices
 
+    def test_triangles_skipTrianglesOutsideTheMesh(self):
+        # the second triangle names vertex 9 of a 4-vertex mesh, the third runs past the index list
+        coverage = FRB.DrawUVCoverage([0, 1, 2, 1, 9, 3, 2, 3], [0.0] * 4, [0.0] * 4, 4)
+        self.assertEqual(coverage.triangles([(9, 0)]), [[0, 1, 2]])
+        self.assertEqual(coverage.triangles([(3, 0), (3, 0)]), [[0, 1, 2], [0, 1, 2]])
+
+    def test_islands_joinTrianglesThatShareAVertex(self):
+        triangles = [(0, 1, 2), (5, 6, 7), (2, 3, 4), (7, 8, 9), (10, 11, 12)]
+        self.assertEqual(FRB.DrawUVCoverage.islands(triangles), [0, 1, 0, 1, 2])
+        # a later triangle joining two pieces puts both in one
+        self.assertEqual(FRB.DrawUVCoverage.islands([(0, 1, 2), (3, 4, 5), (2, 3, 6)]), [0, 0, 0])
+
+    def test_region_coversTheAcceptedTriangles_dropsShared_andGrowsIntoTheGutter(self):
+        # the left half of a 4 x 4 texture as two triangles, and the right half's first column as two more
+        us = [0.0, 0.5, 0.0, 0.5, 0.5, 0.75, 0.5, 0.75]
+        vs = [0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0]
+        coverage = FRB.DrawUVCoverage([], us, vs, 8)
+        left = [(0, 1, 2), (1, 3, 2)]
+        both = left + [(4, 5, 6), (5, 7, 6)]
+        rows = lambda region: ["".join("x" if region[y * 4 + x] else "." for x in range(4)) for y in range(4)]
+
+        self.assertEqual(rows(coverage.region(left, [True, True], 4, 4)), ["xx.."] * 4)
+        self.assertEqual(rows(coverage.region(both, [True, True, False, False], 4, 4)), ["xx.."] * 4)
+        # grown, but never into the column the rejected triangle paints
+        self.assertEqual(rows(coverage.region(both, [True, True, False, False], 4, 4, 1)), ["xx.."] * 4)
+        self.assertEqual(rows(coverage.region(left, [True, True], 4, 4, 1)), ["xxx."] * 4)
+        # one triangle of the two: the texels on the diagonal both cover belong to neither
+        self.assertEqual(rows(coverage.region(left, [True, False], 4, 4)), ["xx..", "x...", "x...", "...."])
+
+    def test_region_wrapsATriangleIntoTheTexture(self):
+        coverage = FRB.DrawUVCoverage([], [1.0, 1.5, 1.0, 1.5], [2.0, 2.0, 3.0, 3.0], 4)
+        region = coverage.region([(0, 1, 2), (1, 3, 2)], [True, True], 4, 4)
+        self.assertEqual(region, [x < 2 for y in range(4) for x in range(4)])
+
     def test_ofMesh_readsTheIndexAndTheFirstUV(self):
         folder = tempfile.mkdtemp()
         index, texcoord = os.path.join(folder, "Index.buf"), os.path.join(folder, "Texcoord.buf")

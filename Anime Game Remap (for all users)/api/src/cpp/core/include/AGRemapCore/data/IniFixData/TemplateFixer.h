@@ -186,7 +186,8 @@ namespace AGRemapCore {
              @rst
              THE FIXER'S WHOLE LIST, in the order it runs: :cpp:member:`GIMIFixer::graphGroupEdits`, then the step
              named ``fixSections`` -- which puts the sections #addFixSection added into the groups, one graph per
-             group (a :cpp:class:`GraphCreate`) -- then :cpp:member:`fixSectionEdits`, the steps that read or change
+             group (a :cpp:class:`GraphCreate`) -- and one step per kind of section (#addFixSection with a kind), each
+             adding its kind's to that graph, then :cpp:member:`fixSectionEdits`, the steps that read or change
              those sections. Once #withList has replaced the list, it is :cpp:member:`GIMIFixer::graphGroupEdits`
              alone. The steps are **borrowed** from the fixer
              @endrst
@@ -208,9 +209,17 @@ namespace AGRemapCore {
             void setList(std::vector<GroupEdit*> steps);
 
             /**
-             * @brief The step that puts the sections #addFixSection added into the groups, named ``fixSections``
+             * @brief
+             @rst
+             The step that puts the sections #addFixSection added with no kind into the groups, named ``fixSections`` --
+             or, given a kind, the step that adds that kind's after them, named for the kind
+             @endrst
+             *
+             * @param kind The kind, or empty for the sections of none
+             *
+             * @return The step
              */
-            GroupEdit* fixSectionsStep();
+            GroupEdit* fixSectionsStep(const std::string& kind = "");
 
             /**
              * @brief
@@ -426,6 +435,31 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             As #addFixSection, filed under a KIND: each kind is a step of its own in #list, named 'kind', which writes that
+             kind's sections into the same graph after the ``fixSections`` step's -- so a user reads, removes or
+             replaces one kind of the fix's sections (its hide sections, say) as one step
+             @endrst
+             *
+             * @param kind The kind, eg. ``hideSections``
+             * @param section The section
+             * @param group The one group it goes into. **Default**: as #addFixSection
+             */
+            void addFixSection(const std::string& kind, std::unique_ptr<Section> section, std::optional<std::size_t> group = std::nullopt);
+
+            /**
+             * @brief
+             @rst
+             Puts 'kinds' first among the kinds of #addFixSection, in this order, so a fixer's list names them in an order of
+             its choosing whichever it writes first. A kind given no section is a step that writes nothing
+             @endrst
+             *
+             * @param kinds The kinds
+             */
+            void declareFixSectionKinds(const std::vector<std::string>& kinds);
+
+            /**
+             * @brief
+             @rst
              An edit for :cpp:member:`GIMIFixer::graphGroupEdits` that makes `sections`_ an earlier
              edit built in a graph into the fix's own: each named `section`_ of graph 'graph' goes to
              :cpp:func:`addFixSection`, and the graph is removed :raw-html:`<br />` :raw-html:`<br />`
@@ -506,11 +540,13 @@ namespace AGRemapCore {
             // The sections variable of the sections added with no group, and of the ones for group 'group'
             static std::string fixSectionsVariable();
             static std::string fixSectionsVariable(std::size_t group);
+            static std::string fixSectionsVariable(const std::string& kind, std::optional<std::size_t> group);
 
             // the sections the fix writes of its own, as variables, and the edits that take and write them
             GraphEditVariables fixVariables_;
             std::vector<std::unique_ptr<GraphVarTake>> takeEdits_;
-            std::unique_ptr<GraphCreate<std::string, std::string>> createEdit_;
+            std::map<std::string, std::unique_ptr<GraphCreate<std::string, std::string>>> createEdits_;   // fixSectionsStep's, by kind
+            std::vector<std::string> fixSectionKinds_;   // addFixSection's kinds, in order
             bool gaveUp_ = false;
             GraphGroupRemove<std::string, std::string> removeEveryGroup_;
 

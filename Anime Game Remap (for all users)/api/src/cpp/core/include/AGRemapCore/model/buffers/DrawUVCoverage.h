@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <array>
 #include <cstddef>
 #include <functional>
 #include <string>
@@ -44,6 +45,11 @@ namespace AGRemapCore {
              * @brief Whether the texel at (x, y) counts
              */
             using TexelTest = std::function<bool(long long x, long long y)>;
+
+            /**
+             * @brief A triangle, as its three vertices
+             */
+            using Triangle = std::array<long long, 3>;
 
             /**
              * @brief What \ref count found for one range
@@ -132,6 +138,57 @@ namespace AGRemapCore {
             std::vector<std::pair<long long, long long>> coveredRanges(const std::vector<std::pair<long long, long long>>& ranges,
                                                                        long long width, long long height, const TexelTest& test,
                                                                        double share) const;
+
+            /**
+             * @brief
+             @rst
+             The triangles of 'ranges', in order: every three indices of each range, skipping a triangle with an index
+             past the end of the index list or a vertex at or past the mesh's vertex count
+             @endrst
+             *
+             * @param ranges The ranges, each ``(index count, first index)``
+             *
+             * @return The triangles
+             */
+            std::vector<Triangle> triangles(const std::vector<std::pair<long long, long long>>& ranges) const;
+
+            /**
+             * @brief
+             @rst
+             The connected pieces of a mesh: triangles that share a vertex are in one piece. A piece is what a
+             modeller lays out as one UV island, so it is how a fix names a part of a texture by the geometry
+             that paints it
+             @endrst
+             *
+             * @param triangles The triangles
+             *
+             * @return For each triangle, the number of its piece, from 0, in the order the pieces are first met
+             */
+            static std::vector<std::size_t> islands(const std::vector<Triangle>& triangles);
+
+            /**
+             * @brief
+             @rst
+             The texels of a texture of 'width' x 'height' the accepted triangles cover and no other triangle of
+             'triangles' does, grown 'grow' texels into the texels no triangle covers -- the part of an atlas a
+             set of triangles paints, and the gutter round it, never a texel a neighbouring part also paints
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A texel is covered when its centre lies in the triangle at the vertices' UVs. A triangle is
+             wrapped into the texture the way a sampler in wrap mode reads it, and a UV that is not a finite
+             number is read as ``0``
+             @endrst
+             *
+             * @param triangles The triangles, eg. from #triangles
+             * @param accepted For each triangle, whether its texels are in the region. A triangle past its end is not
+             * @param width The texture's width
+             * @param height Its height
+             * @param grow How many texels to grow the region into the uncovered texels round it. **Default**: ``0``
+             *
+             * @return For each texel, row by row, whether it is in the region
+             */
+            std::vector<bool> region(const std::vector<Triangle>& triangles, const std::vector<bool>& accepted,
+                                     long long width, long long height, int grow = 0) const;
 
         private:
             std::vector<long long> indices_;

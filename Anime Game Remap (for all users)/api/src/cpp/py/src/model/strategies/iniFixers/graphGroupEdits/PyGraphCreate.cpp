@@ -119,9 +119,10 @@ newPartIds: :class:`bool`
 
     // every setting of the edit can be given here, as the property of the same name
     cls.def(py::init([](py::object graphId, py::object graph, bool minimal, bool newPartIds, py::object sectionsOf,
-                        AGRC::Z3Context* z3, py::object onlyWith, py::object onlyWithout) {
+                        AGRC::Z3Context* z3, py::object onlyWith, py::object onlyWithout, bool append) {
         auto edit = std::make_unique<PyGraphCreate>(std::move(graphId), std::move(graph), minimal, newPartIds);
         edit->z3 = z3;
+        edit->append = append;
         edit->onlyWith = PyIniGraphGroups::modObjsFromPy(onlyWith);
         edit->onlyWithout = PyIniGraphGroups::modObjsFromPy(onlyWithout);
         if (!sectionsOf.is_none()) {
@@ -131,7 +132,7 @@ newPartIds: :class:`bool`
         return edit;
     }), py::arg("graphId"), py::arg("graph") = py::none(), py::arg("minimal") = true, py::arg("newPartIds") = true,
         py::arg("sectionsOf") = py::none(), py::arg("z3") = nullptr, py::arg("onlyWith") = py::none(),
-        py::arg("onlyWithout") = py::none(), py::keep_alive<1, 7>());
+        py::arg("onlyWithout") = py::none(), py::arg("append") = false, py::keep_alive<1, 7>());
 
     cls.def_property("graphId", [](const PyGraphCreate &self) {
         return self.graphIdObj;
@@ -172,6 +173,12 @@ out as a graph in each group -- a fixer's own sections into its file and every c
 
     write = FRB.GraphCreate((0, "", "fixSections"))
     write.sectionsOf = lambda group: variables.sections("fix").list()
+    )doc"));
+
+    cls.def_readwrite("append", &PyGraphCreate::append, py::doc(R"doc(
+:class:`bool`: Whether a graph built from :attr:`sectionsOf` is ADDED TO the graph already under :attr:`graphId`'s object in
+that group (its `sections`_ first, then these) rather than replacing it -- so several edits, each named for what it writes,
+can write one graph between them. **Default**: ``False``
     )doc"));
 
     cls.def_property("onlyWithout", [](const PyGraphCreate &self) -> py::object {

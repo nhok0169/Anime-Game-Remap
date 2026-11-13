@@ -83,6 +83,7 @@ pybind11_add_module(core
     src/model/assets/PyMaterialColours.cpp
     src/model/assets/PyTextureDescs.cpp
     src/model/assets/PyTextureThumbprints.cpp
+    src/model/assets/PyTextureKinds.cpp
     src/model/assets/PyVGRemaps.cpp
     src/model/strategies/PyModTypeIdData.cpp
     src/model/strategies/PyModType.cpp

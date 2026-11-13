@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1738" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1738" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1785" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1785" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_targets_1a48a9753da86e70212fccf9f828fdaa51" prot="public" static="no" mutable="no">
         <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
@@ -32,22 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1743" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1743" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_targets_1a9e11c60e8ab6559ef6fb757bd7d6bf8a" prot="public" static="no" mutable="no">
-        <type>std::map&lt; std::string, <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_download" kindref="compound">Download</ref> &gt;</type>
-        <definition>std::map&lt;std::string, Download&gt; AGRemapCore::WWMIFixerConfig::TexEditTargets::references</definition>
-        <argsstring></argsstring>
-        <name>references</name>
-        <qualifiedname>AGRemapCore::WWMIFixerConfig::TexEditTargets::references</qualifiedname>
-        <briefdescription>
-<para>Role -&gt; a source game texture an edit compares against (:cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_1a16bbab6dbf774502c36f4265d72926e1" kindref="member">TexEdit::sourceGameRoles</ref></computeroutput>): downloaded, never bound. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1749" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1749" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1790" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1790" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_targets_1abfd79b8bee85615cf8a01cf15a3f4698" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -62,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1754" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1754" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1795" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1795" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -72,10 +57,9 @@
 Which resources each :cpp:member:`texEdits` edit applies to -- see #texEditTargets
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1734" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1734" bodyend="1755"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1781" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1781" bodyend="1796"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_targets_1abfd79b8bee85615cf8a01cf15a3f4698" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditTargets</scope><name>notes</name></member>
-      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_targets_1a9e11c60e8ab6559ef6fb757bd7d6bf8a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditTargets</scope><name>references</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_targets_1a48a9753da86e70212fccf9f828fdaa51" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditTargets</scope><name>rolesOf</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_targets_1a881bc2a2c56910f2e009a359a0ea21fa" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditTargets</scope><name>targets</name></member>
     </listofallmembers>

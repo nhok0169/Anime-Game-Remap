@@ -120,7 +120,7 @@ Returns no edits to leave the group alone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="66" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="66" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="67" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="67" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" prot="public" static="no">
         <type>typename GraphGroups::ModObj</type>
@@ -138,7 +138,7 @@ equivalent of a `Python`_ ``Tuple[str, str]``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="71" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="71" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="72" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="72" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -175,7 +175,7 @@ The edit&apos;s name as a step of a fixer&apos;s list -- what a step of a user&a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="214" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="214" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="236" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="236" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_part_edit_1acd8a85c8fe1c8c312205e797129d5c36" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::shared_ptr&lt; void &gt; &gt;</type>
@@ -255,8 +255,8 @@ holds (its tables, its adapters) -- kept as long as the edit
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Calls #makeEdits for each group, in order of the ``.ini`` file index, and runs the edits it
-builds with ``editFromIni`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+Calls #makeEdits for each group, in order of the ``.ini`` file
+index, and runs the edits it builds with ``editFromIni`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 The groups are counted once, before the first one is edited, so a group an edit adds is
 not visited
@@ -455,7 +455,104 @@ Non-owning -- the graph stays owned by &apos;graphGroups&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="185" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="186" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa5499f268d94ce57b6f04be6e74a868f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::heldAnywhere</definition>
+        <argsstring>(const GraphGroups &amp;graphGroups, const std::vector&lt; ModObj &gt; &amp;objs)</argsstring>
+        <name>heldAnywhere</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::heldAnywhere</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1a2177371331d773bb2be84b9668e84660" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" kindref="member">ModObj</ref> &gt; &amp;</type>
+          <declname>objs</declname>
+        </param>
+        <briefdescription>
+<para>Whether a graph of any of &apos;objs&apos; is in any group of &apos;graphGroups&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The groups of graphs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>objs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The objects </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="193" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a403b21e06ef6988af927f931e5d4e855" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::gatesPass</definition>
+        <argsstring>(const GraphGroups &amp;graphGroups, const std::vector&lt; ModObj &gt; &amp;onlyWith, const std::vector&lt; ModObj &gt; &amp;onlyWithout)</argsstring>
+        <name>gatesPass</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::gatesPass</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1a2177371331d773bb2be84b9668e84660" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" kindref="member">ModObj</ref> &gt; &amp;</type>
+          <declname>onlyWith</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" kindref="member">ModObj</ref> &gt; &amp;</type>
+          <declname>onlyWithout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+An edit&apos;s gates on what the groups hold: whether &apos;onlyWith&apos; is empty or a graph of one of its objects is in a
+group, and no graph of an object of &apos;onlyWithout&apos; is -- see :cpp:member:`GraphCreate::onlyWith`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The groups of graphs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>onlyWith</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Objects one of which must have a graph somewhere; empty for no such gate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>onlyWithout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Objects none of which may have a graph anywhere; empty for no such gate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="206" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -516,7 +613,7 @@ Whether the graph was added -- ``false`` if ``id.iniIndex`` is out of range for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="204" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="226" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -621,10 +718,12 @@ group&apos;s edits from them :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
       <member refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1a8b8340380fa4ec0a0cf5a3ca61871be7" prot="public" virt="virtual"><scope>AGRemapCore::IterGraphGroupEdit</scope><name>edit</name></member>
       <member refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1a437123a99f2d37b5d459e6312a57ed5c" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit</scope><name>EditFactory</name></member>
       <member refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1a7b6095857043caf379a9c0ba7e30a30d" prot="public" virt="virtual"><scope>AGRemapCore::IterGraphGroupEdit</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a403b21e06ef6988af927f931e5d4e855" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit</scope><name>gatesPass</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit</scope><name>getGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit</scope><name>Graph</name></member>
       <member refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1a2177371331d773bb2be84b9668e84660" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit</scope><name>GraphGroups</name></member>
       <member refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1a8ee62415b36c2b834c057ab3bfd1b5b9" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit</scope><name>GraphId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa5499f268d94ce57b6f04be6e74a868f" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit</scope><name>heldAnywhere</name></member>
       <member refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1a9cd40af29cc96634d3275ab3efc2c736" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit</scope><name>IterGraphGroupEdit</name></member>
       <member refid="class_a_g_remap_core_1_1_iter_graph_group_edit_1ab51962139af0478a494d5201e4e830e2" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit</scope><name>makeEdits</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" prot="public" virt="non-virtual"><scope>AGRemapCore::IterGraphGroupEdit</scope><name>ModObj</name></member>

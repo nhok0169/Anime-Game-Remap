@@ -2125,7 +2125,7 @@ class ModFiles():
         self.iniFolder = ini.folder
         self.present: List[int] = []         # source components the mod has a section for
         self.draws: Dict[int, int] = {}      # source component -> its number of drawindexed / custom-shader draws
-        targets = parser._sectionTargets
+        targets = parser.sectionTargets
         for i in range(len(source["components"])):
             names = targets.get(("", f"{SlotPrefix}{i}")) or []
             if (not names):
@@ -2822,7 +2822,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             obj = roleObj(role)
             clObj = ("", f"cl{role[0].upper()}{role[1:]}{regTag(reg)}")
             clObjOfPair[(role, reg)] = clObj
-            roots = set(parser._sectionTargets.get(obj) or [])
+            roots = set(parser.sectionTargets.get(obj) or [])
             base = name[:len(name) - len(fixName(""))] if (name.endswith(fixName(""))) else name
             rename = (lambda name, base, roots: (lambda old: name if ((old in roots) or (not roots and old.startswith("TextureOverride")))
                                                   else fixName(f"{base}{old}")))(name, base, roots)

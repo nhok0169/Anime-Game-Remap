@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="77" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="77" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="78" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="78" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">Base::GraphGroups</ref></type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="82" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="82" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="83" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="83" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_create_1ac97f88113919dd51136281ede515e54f" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" kindref="member">Base::Graph</ref></type>
@@ -66,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="87" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="87" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="88" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="88" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_create_1aaf4bf93198caf2f720dee971cea6ecb3" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" kindref="member">Base::ModObj</ref></type>
@@ -84,7 +84,7 @@ equivalent of a `Python`_ ``Tuple[str, str]``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="92" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="92" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="93" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="93" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_create_1ac1893d7c87927b058dd1e6993f057a52" prot="public" static="no">
         <type>typename Base::GraphId</type>
@@ -104,7 +104,7 @@ fields rather than restating them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="97" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="97" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="98" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="98" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_create_1af9fc81714b3e901a2dbd4581768e81f3" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -119,7 +119,7 @@ fields rather than restating them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="137" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="137" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="138" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="138" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -136,7 +136,7 @@ fields rather than restating them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="102" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="102" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="103" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="103" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_create_1a928830144067760a88b9e9556a29235a" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_graph_create_1ac97f88113919dd51136281ede515e54f" kindref="member">Graph</ref> *</type>
@@ -154,7 +154,7 @@ class&apos;s own note. ``nullptr`` makes the edit a no-op
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="111" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="111" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="112" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="112" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_create_1a34b1ac63c3dd137347ff9fb78e2390d0" prot="public" static="no" mutable="no">
         <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_graph_create_1ac97f88113919dd51136281ede515e54f" kindref="member">Graph</ref> *()&gt;</type>
@@ -174,7 +174,7 @@ no-op. **Default**: unset
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="122" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="122" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="123" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="123" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_create_1a4fd89081bf0d0b904ec0eb341c7edba2" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -189,7 +189,7 @@ no-op. **Default**: unset
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="127" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="127" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="128" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="128" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_create_1a6167263b5bafbdc4e3cff39dc4a9d3fd" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -204,7 +204,7 @@ no-op. **Default**: unset
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="132" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="132" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="133" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="133" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_create_1a514f2644d5bce524ee0498c37a62624a" prot="public" static="no" mutable="no">
         <type>std::function&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_create_1af9fc81714b3e901a2dbd4581768e81f3" kindref="member">Section</ref> * &gt;(std::size_t group)&gt;</type>
@@ -227,7 +227,27 @@ graph in each group -- a fixer&apos;s own sections into its file and every copy.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="151" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="151" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="152" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_create_1ab1e9d5f959cb3a867dbced482a127441" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GraphCreate&lt; K, V, KeyHash, KeyEqual &gt;::append</definition>
+        <argsstring></argsstring>
+        <name>append</name>
+        <qualifiedname>AGRemapCore::GraphCreate::append</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether a graph built from \ref sectionsOf is ADDED TO the graph already under \ref graphId&apos;s object in that
+group (its `sections`_ first, then these) rather than replacing it -- so several edits, each named for what it
+writes, can write one graph between them. **Default**: ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="162" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="162" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_create_1a20604cae769bd4269396ab17570abb0c" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
@@ -244,7 +264,7 @@ graph in each group -- a fixer&apos;s own sections into its file and every copy.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="156" column="33" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="156" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="167" column="33" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="167" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_create_1a24a03bc80308684e5733e5fe2b1e2fdf" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> *</type>
@@ -261,7 +281,82 @@ graph in each group -- a fixer&apos;s own sections into its file and every copy.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="161" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="161" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="172" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_create_1afc8903b2878f25ea505ad466d9780dca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_create_1aaf4bf93198caf2f720dee971cea6ecb3" kindref="member">ModObj</ref> &gt;</type>
+        <definition>std::vector&lt;ModObj&gt; AGRemapCore::GraphCreate&lt; K, V, KeyHash, KeyEqual &gt;::onlyWithout</definition>
+        <argsstring></argsstring>
+        <name>onlyWithout</name>
+        <qualifiedname>AGRemapCore::GraphCreate::onlyWithout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Objects a graph of any of which, in ANY group, stops the edit: nothing is added when one is there -- eg. a section
+that hides a target slot, added only when nothing is remapped onto that slot. Empty (the default) always adds
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="181" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_create_1aba139df9c78b2d58a9bc78f92ee4c02c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_create_1aaf4bf93198caf2f720dee971cea6ecb3" kindref="member">ModObj</ref> &gt;</type>
+        <definition>std::vector&lt;ModObj&gt; AGRemapCore::GraphCreate&lt; K, V, KeyHash, KeyEqual &gt;::onlyWith</definition>
+        <argsstring></argsstring>
+        <name>onlyWith</name>
+        <qualifiedname>AGRemapCore::GraphCreate::onlyWith</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Objects a graph of any of which, in ANY group, is what lets the edit add: nothing is added when no group holds
+one -- eg. a texture list a fix writes for a component, added only when the mod draws that component, or the
+fix&apos;s own sections, added when the mod draws any of the source&apos;s components. The mirror of \ref onlyWithout.
+Empty (the default) always adds
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="192" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a155ad46234ecc68c385c6126574a4edf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The edit&apos;s name as a step of a fixer&apos;s list -- what a step of a user&apos;s own is put after
+(:cpp:func:`TemplateFixer::insertStep`). Empty (the default) for an unnamed step; a
+:cpp:class:`GraphVarApply` is named after the variable it makes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="236" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_part_edit_1acd8a85c8fe1c8c312205e797129d5c36" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; void &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;void&gt; &gt; AGRemapCore::BaseIniPartEdit::owned</definition>
+        <argsstring></argsstring>
+        <name>owned</name>
+        <qualifiedname>AGRemapCore::BaseIniPartEdit::owned</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What the edit borrows that nothing else keeps alive -- eg. the `Python`_ objects an edit built in `Python`_
+holds (its tables, its adapters) -- kept as long as the edit
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="54" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" bodystart="54" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -278,7 +373,7 @@ graph in each group -- a fixer&apos;s own sections into its file and every copy.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="166" column="40"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="197" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_graph_create_1ac97f88113919dd51136281ede515e54f" kindref="member">Graph</ref> *</type>
@@ -354,7 +449,104 @@ Non-owning -- the graph stays owned by &apos;graphGroups&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="185" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="186" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa5499f268d94ce57b6f04be6e74a868f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::heldAnywhere</definition>
+        <argsstring>(const GraphGroups &amp;graphGroups, const std::vector&lt; ModObj &gt; &amp;objs)</argsstring>
+        <name>heldAnywhere</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::heldAnywhere</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_create_1aaf4bf93198caf2f720dee971cea6ecb3" kindref="member">ModObj</ref> &gt; &amp;</type>
+          <declname>objs</declname>
+        </param>
+        <briefdescription>
+<para>Whether a graph of any of &apos;objs&apos; is in any group of &apos;graphGroups&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The groups of graphs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>objs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The objects </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="193" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a403b21e06ef6988af927f931e5d4e855" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::gatesPass</definition>
+        <argsstring>(const GraphGroups &amp;graphGroups, const std::vector&lt; ModObj &gt; &amp;onlyWith, const std::vector&lt; ModObj &gt; &amp;onlyWithout)</argsstring>
+        <name>gatesPass</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::gatesPass</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_create_1aaf4bf93198caf2f720dee971cea6ecb3" kindref="member">ModObj</ref> &gt; &amp;</type>
+          <declname>onlyWith</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_create_1aaf4bf93198caf2f720dee971cea6ecb3" kindref="member">ModObj</ref> &gt; &amp;</type>
+          <declname>onlyWithout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+An edit&apos;s gates on what the groups hold: whether &apos;onlyWith&apos; is empty or a graph of one of its objects is in a
+group, and no graph of an object of &apos;onlyWithout&apos; is -- see :cpp:member:`GraphCreate::onlyWith`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The groups of graphs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>onlyWith</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Objects one of which must have a graph somewhere; empty for no such gate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>onlyWithout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Objects none of which may have a graph anywhere; empty for no such gate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="206" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -415,7 +607,7 @@ Whether the graph was added -- ``false`` if ``id.iniIndex`` is out of range for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="204" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="226" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -484,7 +676,7 @@ Whether the graph was added -- ``false`` if ``id.iniIndex`` is out of range for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="176" column="13"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="207" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_create_1af65184484b4cc8bc8f84d71c01c7f0c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" kindref="member">GraphGroups</ref> &amp;</type>
@@ -541,7 +733,7 @@ Whether the graph was added -- ``false`` if ``id.iniIndex`` is out of range for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="187" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="218" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" kindref="member">GraphGroups</ref> &amp;</type>
@@ -622,7 +814,7 @@ Edits a group of caller/callee graphs with state info from &apos;ini&apos; :raw-
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="143" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="144" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -642,7 +834,7 @@ Edits a group of caller/callee graphs with state info from &apos;ini&apos; :raw-
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="45" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -770,13 +962,15 @@ graph it wants to render is not a copy of anything the parser handed it
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="71" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="71" bodyend="188"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="72" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" bodystart="72" bodyend="219"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>addGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_create_1ab1e9d5f959cb3a867dbced482a127441" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>append</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_create_1a3c528c8a25a5a26bc0be2ffd7c1cda19" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::GraphCreate</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_create_1af65184484b4cc8bc8f84d71c01c7f0c6" prot="public" virt="virtual"><scope>AGRemapCore::GraphCreate</scope><name>edit</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591" prot="public" virt="virtual"><scope>AGRemapCore::GraphCreate</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a403b21e06ef6988af927f931e5d4e855" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>gatesPass</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>getGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_create_1ac97f88113919dd51136281ede515e54f" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>Graph</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_create_1a928830144067760a88b9e9556a29235a" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>graph</name></member>
@@ -785,9 +979,14 @@ graph it wants to render is not a copy of anything the parser handed it
       <member refid="class_a_g_remap_core_1_1_graph_create_1ac1893d7c87927b058dd1e6993f057a52" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>GraphId</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_create_1a86df6e5aaa1e2bae185dd66802f49b5d" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>graphId</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_create_1a34b1ac63c3dd137347ff9fb78e2390d0" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>graphOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa5499f268d94ce57b6f04be6e74a868f" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>heldAnywhere</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_create_1a4fd89081bf0d0b904ec0eb341c7edba2" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>minimal</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_create_1aaf4bf93198caf2f720dee971cea6ecb3" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a155ad46234ecc68c385c6126574a4edf" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>name</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_create_1a6167263b5bafbdc4e3cff39dc4a9d3fd" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>newPartIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_create_1aba139df9c78b2d58a9bc78f92ee4c02c" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>onlyWith</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_create_1afc8903b2878f25ea505ad466d9780dca" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>onlyWithout</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1acd8a85c8fe1c8c312205e797129d5c36" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>owned</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_create_1a36eca6704fd9d9c949d65efbb360db8e" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>runCalls</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_create_1a20604cae769bd4269396ab17570abb0c" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>runConfig</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_create_1af9fc81714b3e901a2dbd4581768e81f3" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCreate</scope><name>Section</name></member>

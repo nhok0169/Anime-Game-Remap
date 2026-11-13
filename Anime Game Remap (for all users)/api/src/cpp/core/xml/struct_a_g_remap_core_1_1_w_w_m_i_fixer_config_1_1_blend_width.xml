@@ -21,7 +21,7 @@ Whether the remapped blend indices pass what an 8-bit blend index names, so the 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2230" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2230" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2460" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2460" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_blend_width_1ad909e3d62adb48a109cd0cbd3c1c2403" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
@@ -37,7 +37,7 @@ Whether the remapped blend indices pass what an 8-bit blend index names, so the 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2235" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2235" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2465" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2465" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_blend_width_1a4176d1504fdaa2d740d028d14ebc3a41" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -52,7 +52,7 @@ Whether the remapped blend indices pass what an 8-bit blend index names, so the 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2240" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2240" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2470" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2470" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -60,7 +60,7 @@ Whether the remapped blend indices pass what an 8-bit blend index names, so the 
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2222" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2222" bodyend="2241"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2452" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2452" bodyend="2471"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_blend_width_1ad909e3d62adb48a109cd0cbd3c1c2403" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::BlendWidth</scope><name>bones</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_blend_width_1a4176d1504fdaa2d740d028d14ebc3a41" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::BlendWidth</scope><name>notes</name></member>

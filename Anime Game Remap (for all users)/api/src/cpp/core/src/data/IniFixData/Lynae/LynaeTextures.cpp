@@ -110,10 +110,7 @@ namespace AGRemapCore {
         // ---- a role the mod ships no file for falls back to HER game texture ----
         // The eye textures are the same hashes on both skins, so the game already binds them on the
         // target and they have no fallback.
-        facts.downloadGameFolder = "WuWa";
-        facts.downloadCharFolder = "Lynae";
         facts.downloadVersionFolder = "3_7";
-        facts.downloadPrefix = "Lynae";
         facts.fallbackTextures = {
             {"bangsDiffuse", "7d044e58"},
             // her holographic foil, which her jacket and props passes read at ps-t4 (and her props' glass

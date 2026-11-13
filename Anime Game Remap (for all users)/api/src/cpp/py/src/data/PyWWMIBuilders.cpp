@@ -81,6 +81,42 @@ built from `Python`_ spells them as the compiled ones do
             py::doc(":class:`str`: The suffix of a resource that binds the source's game texture"))
         .def_property_readonly_static("TexcoordNoNaN", [](py::object) { return AGRC::WWMINames::TexcoordNoNaN; },
             py::doc(":class:`str`: The texcoord buffer a fix writes with no ``NaN``"))
+        .def_property_readonly_static("RemapMergedSkeletonList", [](py::object) { return AGRC::WWMINames::RemapMergedSkeletonList; },
+                                      py::doc(":class:`str`: The fix's list that remaps the merged skeleton into the target's numbering, once a frame"))
+        .def_property_readonly_static("MergeSkeletonList", [](py::object) { return AGRC::WWMINames::MergeSkeletonList; },
+                                      py::doc(":class:`str`: The list a hidden slot's section runs to merge its bones into the skeleton"))
+        .def_property_readonly_static("ShaderOverridePass", [](py::object) { return AGRC::WWMINames::ShaderOverridePass; },
+                                      py::doc(":class:`str`: The prefix of the ``[ShaderOverride...]`` that tags one of the target's passes with a ``filter_index``"))
+        .def_property_readonly_static("OwnMeshSkin", [](py::object) { return AGRC::WWMINames::OwnMeshSkin; },
+                                      py::doc(":class:`str`: The resource of a part drawn from mesh files of its own: its blend, remapped"))
+        .def_property_readonly_static("OwnMeshBlend", [](py::object) { return AGRC::WWMINames::OwnMeshBlend; },
+                                      py::doc(":class:`str`: The file that remapped blend is written to (``<target>Remap<OwnMeshBlend><component>.buf``)"))
+        .def_property_readonly_static("RabbitFXPin", [](py::object) { return AGRC::WWMINames::RabbitFXPin; },
+                                      py::doc(":class:`str`: The list that pins RabbitFX's routing flags on a component's passes"))
+        .def_property_readonly_static("Stash", [](py::object) { return AGRC::WWMINames::Stash; },
+                                      py::doc(":class:`str`: The resource a register of the target's is parked in while one of the source's shaders draws"))
+        .def_property_readonly_static("ShaderBackup", [](py::object) { return AGRC::WWMINames::ShaderBackup; },
+                                      py::doc(":class:`str`: The resource a register's binding is backed up in around a shader draw of the fix's"))
+        .def_property_readonly_static("BoneDataFilter", [](py::object) { return AGRC::WWMINames::BoneDataFilter; },
+                                      py::doc(":class:`str`: WWMI's marker on the game's bone-data constant buffer (its ``filter_index``)"))
+        .def_property_readonly_static("MergedSkeletonStep", [](py::object) { return AGRC::WWMINames::MergedSkeletonStep; },
+                                      py::doc(":class:`int`: The size WWMI Tools' template gives a merged skeleton buffer, in float4 slots: 256 bones of three"))
+        .def_property_readonly_static("SlotPrefix", [](py::object) { return AGRC::WWMINames::SlotPrefix; },
+                                      py::doc(":class:`str`: The prefix of a draw slot's name in the library's tables and a fix's mod objects: ``component3``"))
+        .def_property_readonly_static("OverrideSharedResourcesList", [](py::object) { return AGRC::WWMINames::OverrideSharedResourcesList; },
+                                      py::doc(":class:`str`: WWMI Tools' list that binds a mod's shared resources (a list of it per component binds that component's)"))
+        .def_property_readonly_static("CleanupSharedResourcesList", [](py::object) { return AGRC::WWMINames::CleanupSharedResourcesList; },
+                                      py::doc(":class:`str`: WWMI Tools' list that puts the shared resources back after a mod's draws"))
+        .def_property_readonly_static("ShapeKeyStreamStride", [](py::object) { return AGRC::WWMINames::ShapeKeyStreamStride; },
+                                      py::doc(":class:`int`: Bytes per vertex of the game's shape-key offset stream (``vb6``), off a frame dump's layout"))
+        .def_property_readonly_static("BoneDataHash", [](py::object) { return AGRC::WWMINames::BoneDataHash; },
+                                      py::doc(":class:`str`: The hash type of a character's bone-data constant buffer"))
+        .def_property_readonly_static("ShapeKeysHash", [](py::object) { return AGRC::WWMINames::ShapeKeysHash; },
+                                      py::doc(":class:`str`: The hash type of a character's shape-key buffer"))
+        .def_property_readonly_static("ShapeKeyOffsetsObj", [](py::object) { return AGRC::WWMINames::ShapeKeyOffsetsObj; },
+                                      py::doc(":class:`str`: The object the classifier files a mod's shape-key offsets section under"))
+        .def_property_readonly_static("ShapeKeyScaleObj", [](py::object) { return AGRC::WWMINames::ShapeKeyScaleObj; },
+                                      py::doc(":class:`str`: The object the classifier files a mod's shape-key scale section under"))
         .def_property_readonly_static("BlendRemap", [](py::object) { return AGRC::WWMINames::BlendRemap; },
             py::doc(":class:`str`: The blend remap buffers a fix writes"))
         .def_property_readonly_static("ChecksumNotFound", [](py::object) { return AGRC::WWMINames::ChecksumNotFound; },
@@ -88,11 +124,7 @@ built from `Python`_ spells them as the compiled ones do
         .def_property_readonly_static("LiveSuffix", [](py::object) { return AGRC::WWMINames::LiveSuffix; },
             py::doc(":class:`str`: A role's hash the game binds once the texture's mips have streamed in: ``<role>Live``"))
         .def_property_readonly_static("OldSuffix", [](py::object) { return AGRC::WWMINames::OldSuffix; },
-            py::doc(":class:`str`: A role's older hash: ``<role>Old``, ``<role>Old2``, ..."))
-        .def_property_readonly_static("RoleLine", [](py::object) { return AGRC::WWMINames::RoleLine; },
-            py::doc(":class:`str`: ``role <name>`` in a :class:`WWMIFixerConfig.Shader` line: the file the component's texture list binds for that role"))
-        .def_property_readonly_static("StashLine", [](py::object) { return AGRC::WWMINames::StashLine; },
-            py::doc(":class:`str`: ``stash <slot> <reg>`` in a :class:`WWMIFixerConfig.Shader` line: what a register held on that slot's own draw"));
+            py::doc(":class:`str`: A role's older hash: ``<role>Old``, ``<role>Old2``, ..."));
 
     py::class_<AGRC::WWMITextureFacts>(m, "WWMITextureFacts", R"doc(
 What a Wuthering Waves character's textures ARE, read by her parser (and by her fixer for what a role
@@ -122,19 +154,14 @@ Dict[:class:`int`, Dict[:class:`str`, :class:`str`]]: Which role each register b
 component, as ``component -> {register -> role}`` -- the other way a texture is identified, for a
 `section`_ carrying the MESH's hash
         )doc"))
-        .def_readwrite("identifyTexture", &AGRC::WWMITextureFacts::identifyTexture, py::doc(R"doc(
-Optional[Callable[[:class:`str`], Optional[:class:`str`]]]: A hook that names the texture hash a mod
-file IS -- pixel identity with one of the game's own textures -- for a declared file no hash and no
-register names. ``None`` skips the step
-        )doc"))
         .def_readwrite("textureThumbprints", &AGRC::WWMITextureFacts::textureThumbprints, py::doc(R"doc(
 Dict[:class:`str`, List[:class:`int`]]: The game's own textures by hash, each a
 :attr:`thumbprintSize` square grayscale box average of the decoded file
 (a shipped config leaves it empty: :meth:`WWMIParserConfig.withGameData` and :meth:`WWMIFixerConfig.withGameData` fill it
 from the character's :class:`TextureThumbprints` rows). A declared file nothing else names
 is thumbprinted the same way and correlated against every entry; it IS the texture it correlates at
-least :attr:`identityMin` with while every other stays under :attr:`identityGap`. Consulted after
-:attr:`identifyTexture`; empty skips the step
+least :attr:`identityMin` with while every other stays under :attr:`identityGap`. Empty skips
+the step
 
 .. note::
     The thumbprints are read from here only, not from the fixer's config; leaving this empty makes
@@ -164,9 +191,9 @@ Optional[:class:`str`]
         .def_readwrite("identityGap", &AGRC::WWMITextureFacts::identityGap,
                         py::doc(":class:`float`: The correlation every OTHER thumbprint must stay under. **Default**: ``0.90``"))
         .def_readwrite("downloadGameFolder", &AGRC::WWMITextureFacts::downloadGameFolder,
-                        py::doc(":class:`str`: The game folder under ``Data/Mod Downloads`` this character's textures are fetched from. **Default**: ``\"WuWa\"``"))
+                        py::doc(":class:`str`: The game folder under ``Data/Mod Downloads`` this character's textures are fetched from. Empty (the default): her game's name, filled by :meth:`WWMIFixerConfig.withGameData`"))
         .def_readwrite("downloadCharFolder", &AGRC::WWMITextureFacts::downloadCharFolder,
-                        py::doc(":class:`str`: This character's download folder under :attr:`downloadGameFolder`. Empty registers no fallback download. **Default**: ``\"\"``"))
+                        py::doc(":class:`str`: This character's download folder under :attr:`downloadGameFolder`. Empty (the default): her name, filled by :meth:`WWMIFixerConfig.withGameData`"))
         .def_readwrite("downloadVersionFolder", &AGRC::WWMITextureFacts::downloadVersionFolder,
                         py::doc(":class:`str`: The version folder under :attr:`downloadCharFolder`, eg. ``\"2_5\"``. **Default**: ``\"\"``"))
         .def_readwrite("downloadPrefix", &AGRC::WWMITextureFacts::downloadPrefix,
@@ -236,7 +263,7 @@ Bits are row-major, the lowest bit of each byte first
         .def(py::init<>())
         .def(py::init([](std::string name, int component, std::string codeRole, int flags) {
             return AGRC::WWMIParserConfig::DrawSplit{std::move(name), component, std::move(codeRole), flags};
-        }), py::arg("name"), py::arg("component"), py::arg("codeRole"), py::arg("flags"))
+        }), py::arg("name"), py::arg("component"), py::arg("codeRole"), py::arg("flags") = 0)
         .def_readwrite("name", &AGRC::WWMIParserConfig::DrawSplit::name, py::doc(R"doc(
 :class:`str`: The split's name: the parser files the draws it picks as the :meth:`IniParseData.drawRanges`
 of the mod object ``(name, <the slot's own name>)``
@@ -245,6 +272,11 @@ of the mod object ``(name, <the slot's own name>)``
                         py::doc(":class:`int`: The source slot whose draws are read"))
         .def_readwrite("codeRole", &AGRC::WWMIParserConfig::DrawSplit::codeRole,
                         py::doc(":class:`str`: The role of the material-code map, among the slot's textures, that marks the draws"))
+        .def_readwrite("flag", &AGRC::WWMIParserConfig::DrawSplit::flag, py::doc(R"doc(
+:class:`str`: The :class:`MaterialCodes` row naming ``flags``: ``<codeRole>.flags.<flag>`` on the slot, eg. ``film`` for
+``jacketDetail.flags.film``; :meth:`WWMIParserConfig.withGameData` reads it into ``flags``. **Default**: ``""``, ``flags``
+as given
+        )doc"))
         .def_readwrite("flags", &AGRC::WWMIParserConfig::DrawSplit::flags, py::doc(R"doc(
 :class:`int`: The flag bits that mark a texel, in the code a shader reads off the map's red channel
 (:meth:`TextureFile.shaderChannel`): a draw is picked when more than :attr:`WWMIParserConfig.DrawSplit.share`
@@ -264,8 +296,25 @@ the flags. **Default**: empty, and such a mod's slot is not split
 
     parserConfig
         .def(py::init<>())
+        .def_static("slotWithPrefix", &AGRC::WWMIParserConfig::slotWithPrefix, py::arg("obj"), py::arg("prefix"), py::doc(R"doc(
+The number a slot's mod object names under ``prefix``: ``("", <prefix><n>)`` is ``n``, for digits only -- what
+:meth:`slotOf` reads with :attr:`WWMINames.SlotPrefix`
+
+Parameters
+----------
+obj: Tuple[:class:`str`, :class:`str`]
+    The mod object
+
+prefix: :class:`str`
+    The slot prefix, eg. ``component``
+
+Returns
+-------
+Optional[:class:`int`]
+    The number, or ``None`` for any other mod object
+        )doc"))
         .def("slotOf", &AGRC::WWMIParserConfig::slotOf, py::arg("obj"), py::doc(R"doc(
-The draw slot a slot's mod object names: ``("", <slotPrefix><n>)`` is slot ``n``
+The draw slot a slot's mod object names: ``("", <WWMINames.SlotPrefix><n>)`` is slot ``n``
 
 Parameters
 ----------
@@ -290,10 +339,6 @@ holding the value, and ``0`` (component 0's index) is every GI head's index too
 
 **Default**: ``"2.5"``
         )doc"))
-        .def_readwrite("texRegPrefix", &AGRC::WWMIParserConfig::texRegPrefix,
-                        py::doc(":class:`str`: The register family a mod binds its textures with. **Default**: ``\"ps-t\"``"))
-        .def_readwrite("slotHashType", &AGRC::WWMIParserConfig::slotHashType,
-                        py::doc(":class:`str`: The hash type every draw slot section matches. **Default**: ``\"vb0\"``"))
         .def_readwrite("skeletonNumberings", &AGRC::WWMIParserConfig::skeletonNumberings, py::doc(R"doc(
 List[:class:`SkeletonNumberingProbe.Numbering`]: Every numbering this character's merged skeleton has had,
 when a game update renumbered it. The parser asks the mod's own geometry which one its bone ids are in
@@ -309,8 +354,6 @@ this character's bones, keyed by its id in the numbering :attr:`skeletonNumberin
 :class:`WWMITextureFacts`: What this character's textures are -- what the parser identifies a mod's
 textures WITH. Leaving it empty means every role falls back to downloading the game's own texture
         )doc"))
-        .def_readwrite("slotPrefix", &AGRC::WWMIParserConfig::slotPrefix,
-                        py::doc(":class:`str`: The ``type`` a draw slot's index rows are filed under, followed by the slot number. **Default**: ``\"component\"``"))
         .def_readwrite("hashOnlyObjs", &AGRC::WWMIParserConfig::hashOnlyObjs, py::doc(R"doc(
 List[Tuple[:class:`str`, :class:`str`]]: The sections identified by a hash alone, as
 ``(hash type in HashData, mod object name)``
@@ -341,7 +384,7 @@ One register of a target slot's draw and the ROLE of the mod texture bound there
         .def_readwrite("reg", &AGRC::WWMIFixerConfig::Binding::reg,
                         py::doc(":class:`str`: The register, eg. ``\"ps-t0\"``"))
         .def_readwrite("role", &AGRC::WWMIFixerConfig::Binding::role, py::doc(R"doc(
-:class:`str`: The role (a value of :attr:`WWMIFixerConfig.roles` or :attr:`WWMIFixerConfig.typeRoles`,
+:class:`str`: The role (a value of :attr:`WWMIFixerConfig.roles`,
 or the name of a :attr:`WWMIFixerConfig.createdTextures` entry). A role no file of the mod has is
 left unbound, so the GAME's texture serves the register
         )doc"))
@@ -359,6 +402,26 @@ block (so an undo removes them), and turns each ``drawindexed`` of the component
 itself is the target draw's: its vertex shader, its render targets and the textures the component's
 :attr:`WWMIFixerConfig.plan` entry binds
     )doc");
+
+    py::class_<AGRC::WWMIFixerConfig::Shader::Stashed>(shader, "Stashed", R"doc(
+A register of a :class:`WWMIFixerConfig.Shader`'s bound to a capture the fix makes off another slot -- see
+:attr:`WWMIFixerConfig.Shader.stashed`
+    )doc")
+        .def(py::init<>())
+        .def(py::init([](std::string role, int slot, std::string reg, std::string slotReg) {
+                 return AGRC::WWMIFixerConfig::Shader::Stashed{std::move(role), slot, std::move(reg), std::move(slotReg)};
+             }), py::arg("role"), py::arg("slot"), py::arg("reg") = "", py::arg("slotReg") = "")
+        .def_readwrite("role", &AGRC::WWMIFixerConfig::Shader::Stashed::role, py::doc(":class:`str`: The role captured, eg. ``\"glow\"``"))
+        .def_readwrite("slot", &AGRC::WWMIFixerConfig::Shader::Stashed::slot,
+                        py::doc(":class:`int`: The target slot whose draw the capture is made off (:attr:`WWMIFixerConfig.stashRegs`)"))
+        .def_readwrite("reg", &AGRC::WWMIFixerConfig::Shader::Stashed::reg, py::doc(R"doc(
+:class:`str`: The shader's register, eg. ``"ps-t4"``. Empty: the source's :class:`TextureRegisters` row for :attr:`role` on
+:attr:`WWMIFixerConfig.Shader.component` (:meth:`WWMIFixerConfig.withGameData`)
+        )doc"))
+        .def_readwrite("slotReg", &AGRC::WWMIFixerConfig::Shader::Stashed::slotReg, py::doc(R"doc(
+:class:`str`: The register of that slot's draw that is captured. Empty: the target's :class:`TextureRegisters` row for
+:attr:`role` on :attr:`slot` (:meth:`WWMIFixerConfig.withGameData`)
+        )doc"));
 
     py::class_<AGRC::WWMIFixerConfig::Shader::After>(shader, "After", R"doc(
 Which draws must come before a :class:`WWMIFixerConfig.Shader`'s component, on a pass -- see
@@ -385,19 +448,6 @@ A component the mod does not draw is left out of the count. **Default**: empty
         )doc"));
 
     shader
-        .def_static("lineRole", &AGRC::WWMIFixerConfig::Shader::lineRole, py::arg("line"), py::doc(R"doc(
-The role a line ``X = role <name>`` of :attr:`lines` names (:attr:`WWMINames.RoleLine`), or ``None`` for any other line
-
-Parameters
-----------
-line: Tuple[:class:`str`, :class:`str`]
-    The line
-
-Returns
--------
-Optional[:class:`str`]
-    The role, or ``None``
-        )doc"))
         .def(py::init<>())
         .def_readwrite("name", &AGRC::WWMIFixerConfig::Shader::name,
                         py::doc(":class:`str`: The name its files and sections are given, eg. ``\"LynaeFilm\"``"))
@@ -419,8 +469,29 @@ Dict[:class:`str`, List[:class:`int`]]: Register -> the constant buffer bound th
 words (four to a row), eg. ``"ps-cb4"``. Written as a ``R32G32B32A32_FLOAT`` buffer
         )doc"))
         .def_readwrite("lines", &AGRC::WWMIFixerConfig::Shader::lines, py::doc(R"doc(
-List[Tuple[:class:`str`, :class:`str`]]: Further lines of the ``CustomShader`` section, as they are
-written, eg. ``("ps-t5", "ref ps-t6")``
+List[Tuple[:class:`str`, :class:`str`]]: Further lines of the ``CustomShader`` section, written as they are,
+after :attr:`stashed` and :attr:`gameRoles`, eg. ``("ps-t5", "ref ps-t6")`` or a render state
+        )doc"))
+        .def_readwrite("component", &AGRC::WWMIFixerConfig::Shader::component, py::doc(R"doc(
+:class:`int`: The SOURCE component whose own draw the shader was read from: every register of :attr:`registers`,
+:attr:`gameRoles` and :attr:`stashed` left empty is the source's :class:`TextureRegisters` row for the role on it
+(:meth:`WWMIFixerConfig.withGameData`). **Default**: ``-1``, the component of the :attr:`WWMIFixerConfig.plan` entry the
+shader is on (a reroute's: the component it reroutes)
+        )doc"))
+        .def_readwrite("refRoles", &AGRC::WWMIFixerConfig::Shader::refRoles, py::doc(R"doc(
+List[:class:`str`]: Roles the shader reads off the target slot's own draw by ``ref``: :meth:`WWMIFixerConfig.withGameData`
+writes each first in :attr:`lines` as ``<the shader's register> = ref <the slot's register>``, both from
+:class:`TextureRegisters`. **Default**: empty
+        )doc"))
+        .def_readwrite("stashed", &AGRC::WWMIFixerConfig::Shader::stashed, py::doc(R"doc(
+List[:class:`WWMIFixerConfig.Shader.Stashed`]: Registers bound to a texture the target's OTHER slot holds
+while it draws -- captured off that slot's draw (:attr:`WWMIFixerConfig.stashRegs`). Written first.
+**Default**: empty
+        )doc"))
+        .def_readwrite("gameRoles", &AGRC::WWMIFixerConfig::Shader::gameRoles, py::doc(R"doc(
+List[Tuple[:class:`str`, :class:`str`]]: Register -> role: the shader's register bound to the texture of that
+role -- the mod's file, or the source's own game texture downloaded (a role with neither binds nothing).
+Written after :attr:`stashed`. **Default**: empty
         )doc"))
         .def_readwrite("passes", &AGRC::WWMIFixerConfig::Shader::passes, py::doc(R"doc(
 List[List[Tuple[:class:`str`, :class:`str`]]]: Draw the component once per entry, each with
@@ -600,24 +671,22 @@ What a :class:`WWMIFixerConfig.TexEdit`'s filter factory is told about the mod b
 Dict[:class:`str`, :class:`str`]: The file each role resolved to -- the mod's own, or the one its
 fallback download lands. A filter may need ANOTHER role's texture
         )doc"))
-        .def_readwrite("gameFileOfRole", &AGRC::WWMIFixerConfig::TexEditContext::gameFileOfRole, py::doc(R"doc(
-Dict[:class:`str`, :class:`str`]: The SOURCE character's own game texture for each role a
-:attr:`WWMIFixerConfig.TexEdit.sourceGameRoles` names, downloaded for the edit
-        )doc"))
-        .def("fileOrGame", &AGRC::WWMIFixerConfig::TexEditContext::fileOrGame, py::arg("role"), py::doc(R"doc(
-The file 'role' reads: the mod's own (:attr:`fileOfRole`), else the source's game texture
-(:attr:`gameFileOfRole`), else empty -- eg. the code map a bake of another role's texture is guided by
-
-Parameters
-----------
-role: :class:`str`
-    The role
-
-Returns
--------
-:class:`str`
-    The file, or empty
-        )doc"));
+        // settable, so a Python fixer hands its filters the context the compiled one does (the context keeps the
+        // ModType alive: it holds a plain pointer)
+        .def_property("source", py::cpp_function([](const AGRC::WWMIFixerConfig::TexEditContext& self) { return self.source; },
+                                                 py::return_value_policy::reference),
+                      py::cpp_function([](AGRC::WWMIFixerConfig::TexEditContext& self, const AGRC::ModType* type) { self.source = type; },
+                                       py::keep_alive<1, 2>()),
+                      py::doc("Optional[:class:`ModType`]: The character fixed from, or ``None`` outside a fix -- a filter reads the asset tables off it"))
+        .def_property("target", py::cpp_function([](const AGRC::WWMIFixerConfig::TexEditContext& self) { return self.target; },
+                                                 py::return_value_policy::reference),
+                      py::cpp_function([](AGRC::WWMIFixerConfig::TexEditContext& self, const AGRC::ModType* type) { self.target = type; },
+                                       py::keep_alive<1, 2>()),
+                      py::doc("Optional[:class:`ModType`]: The character fixed to, or ``None`` outside a fix"))
+        .def_readwrite("fromVersion", &AGRC::WWMIFixerConfig::TexEditContext::fromVersion,
+                       py::doc("Optional[:class:`Version`]: The run's version of the source"))
+        .def_readwrite("toVersion", &AGRC::WWMIFixerConfig::TexEditContext::toVersion,
+                       py::doc("Optional[:class:`Version`]: The run's version of the target"));
 
     py::class_<AGRC::WWMIFixerConfig::TexEdit>(fixerConfig, "TexEdit", R"doc(
 An edit the fix makes to a role's texture before binding it -- see :attr:`WWMIFixerConfig.texEdits`
@@ -655,11 +724,6 @@ mod's own geometry. The filter is handed the texture itself and edits it in plac
         .def_readwrite("compress", &AGRC::WWMIFixerConfig::TexEdit::compress, py::doc(R"doc(
 :class:`bool`: Whether to re-encode to the source's compressed format. **Default**: ``False``,
 because a mask is CODES and BCn would move them
-        )doc"))
-        .def_readwrite("sourceGameRoles", &AGRC::WWMIFixerConfig::TexEdit::sourceGameRoles, py::doc(R"doc(
-List[:class:`str`]: Roles whose SOURCE game texture this edit reads, each downloaded and handed to the
-filter in :attr:`WWMIFixerConfig.TexEditContext.gameFileOfRole`. Nothing binds the download.
-**Default**: empty
         )doc"));
 
     fixerConfig
@@ -667,16 +731,12 @@ filter in :attr:`WWMIFixerConfig.TexEditContext.gameFileOfRole`. Nothing binds t
         .def_readwrite("targetId", &AGRC::WWMIFixerConfig::targetId,
                         py::doc(":class:`ModTypeId`: The character fixed TO -- whose ``vb0`` hash, slot windows, vertex-group offsets and shape-key checksum the library's WuWa tables hold"))
         .def_readwrite("version", &AGRC::WWMIFixerConfig::version,
-                        py::doc(":class:`str`: The game version the library files both characters under, used when the ``.ini`` carries none. **Default**: ``\"2.5\"``"))
+                        py::doc(":class:`str`: The TARGET's game version, used when the run asks for none. Empty (the default) is the target's newest model -- the version of its newest ``vb0`` row -- so a fix follows the tables to a new model of the target without a change here"))
         .def_readwrite("slotPasses", &AGRC::WWMIFixerConfig::slotPasses, py::doc(R"doc(
 List[List[:class:`str`]]: Per TARGET slot, the pixel shaders that bind that slot's character
 textures -- read off a frame dump of the target. A slot's command list binds on every one of them
 and no other pass
         )doc"))
-        .def_readwrite("filterBase", &AGRC::WWMIFixerConfig::filterBase,
-                        py::doc(":class:`float`: The ``filter_index`` the first distinct shader of :attr:`slotPasses` is tagged with. **Default**: ``3381.91``"))
-        .def_readwrite("filterStep", &AGRC::WWMIFixerConfig::filterStep,
-                        py::doc(":class:`float`: How much higher each further shader's ``filter_index`` is. **Default**: ``0.01``"))
         .def_readwrite("plan", &AGRC::WWMIFixerConfig::plan, py::doc(R"doc(
 Dict[:class:`int`, :class:`WWMIFixerConfig.SourceComponent`]: Source component -> how it is drawn on
 the target. A source component the mod has a section for but this does not name is dropped. Several
@@ -689,11 +749,6 @@ rest of their component: the draws the parser picked out for one of its
 :attr:`WWMIParserConfig.drawSplits`. A component the parser picked no draws of is left whole.
 **Default**: none
         )doc"))
-        .def_readwrite("typeRoles", &AGRC::WWMIFixerConfig::typeRoles, py::doc(R"doc(
-Dict[:class:`int`, Dict[:class:`str`, :class:`str`]]: Source component ->
-``{"diffuse" | "mask" | "normal" -> role}``. Read for which components a role belongs to; what
-IDENTIFIES a mod's textures is :class:`WWMITextureFacts`, on the parser
-        )doc"))
         .def_readwrite("sourceTextures", &AGRC::WWMIFixerConfig::sourceTextures, py::doc(R"doc(
 :class:`WWMITextureFacts`: Every fact about the SOURCE character's own textures -- its hashes by
 role, its register layout per component, its pixel thumbprints, and where its game textures are
@@ -703,22 +758,14 @@ The same object :attr:`WWMIParserConfig.textures` takes, so a character states t
         )doc"))
         .def_readwrite("createdTextures", &AGRC::WWMIFixerConfig::createdTextures,
                         py::doc("List[:class:`WWMIFixerConfig.CreatedTexture`]: The textures the fix invents, each bound wherever a binding names its role"))
-        .def_readwrite("zeroShapeKeyStream", &AGRC::WWMIFixerConfig::zeroShapeKeyStream,
-                        py::doc(":class:`bool`: Whether every remapped draw binds a zero shape-key offset stream. **Default**: ``True``"))
-        .def_readwrite("shapeKeyStreamReg", &AGRC::WWMIFixerConfig::shapeKeyStreamReg,
-                        py::doc(":class:`str`: The register the game reads that stream from. **Default**: ``\"vb6\"``"))
-        .def_readwrite("shapeKeyStride", &AGRC::WWMIFixerConfig::shapeKeyStride,
-                        py::doc(":class:`int`: Bytes per vertex of that stream. **Default**: ``24``"))
+        .def_readwrite("zeroShapeKeyStream", &AGRC::WWMIFixerConfig::zeroShapeKeyStream, py::doc(R"doc(
+:class:`bool`: Whether every remapped draw binds a zero shape-key offset stream, at
+:attr:`IniKeywords.WWMIShapeKeyStreamReg`, :attr:`WWMINames.ShapeKeyStreamStride` bytes a vertex. **Default**: ``False``
+        )doc"))
         .def_readwrite("hiddenObjs", &AGRC::WWMIFixerConfig::hiddenObjs, py::doc(R"doc(
 List[:class:`str`]: The hash-only mod objects whose sections are commented out of the mod's own text
-and copied nowhere. **Default**: the two shape-key overrides
+and copied nowhere, eg. the two shape-key overrides when the mod's keys cannot be retargeted. **Default**: none
         )doc"))
-        .def_readwrite("blendReg", &AGRC::WWMIFixerConfig::blendReg,
-                        py::doc(":class:`str`: The register the mod's blend buffer is bound at. **Default**: ``\"vb4\"``"))
-        .def_readwrite("sharedResourcesList", &AGRC::WWMIFixerConfig::sharedResourcesList,
-                        py::doc(":class:`str`: The command list every slot section runs to bind the mod's buffers; the texture command list and the zero stream are added right after it. **Default**: ``\"CommandListOverrideSharedResources\"``"))
-        .def_readwrite("slotPrefix", &AGRC::WWMIFixerConfig::slotPrefix,
-                        py::doc(":class:`str`: The mod object prefix of a draw slot. **Default**: ``\"component\"``"))
         .def_readwrite("sourceLabels", &AGRC::WWMIFixerConfig::sourceLabels,
                         py::doc("Dict[:class:`int`, :class:`str`]: Source component -> a label for the log"))
         .def_readwrite("targetLabels", &AGRC::WWMIFixerConfig::targetLabels,
@@ -753,26 +800,27 @@ and binds the copies. Slots past the end (a mod's custom keys) are left alone. *
 unloaded on the target. Empty (the default) leaves them alone
         )doc"))
         .def_readwrite("filterIndices", &AGRC::WWMIFixerConfig::filterIndices, py::doc(R"doc(
-Dict[:class:`str`, :class:`str`]: Shader hash -> the ``filter_index`` to tag it with, overriding
-:attr:`filterBase` / :attr:`filterStep`. Both directions of a pair must agree on every shader they
-both tag, since 3dmigoto keys a ``[ShaderOverride]`` by its hash across every loaded ``.ini``
+Dict[:class:`str`, :class:`str`]: Shader hash -> the ``filter_index`` to tag it with, read off ``DrawPasses``' tags by
+:meth:`withGameData`; the fix refuses a pass shader with none (:meth:`ShaderFilterTags.addGiven`). Every fix tagging a
+shader must agree on its value, since 3dmigoto keys a ``[ShaderOverride]`` by its hash across every loaded ``.ini``
         )doc"))
         .def_readwrite("flatLeftToGame", &AGRC::WWMIFixerConfig::flatLeftToGame, py::doc(R"doc(
 Set[:class:`str`]: Roles of :attr:`WWMITextureFacts.regionRoles` whose refused file is left to the GAME
 rather than replaced by the source's own download
         )doc"))
-        .def_readwrite("mirroredComponents", &AGRC::WWMIFixerConfig::mirroredComponents, py::doc(R"doc(
-Set[:class:`int`]: Source components drawn a second time, wound the other way with their normals
-flipped, for single-layer cloth whose inside the target's shader lights differently
-        )doc"))
-        .def_readwrite("texRegPrefix", &AGRC::WWMIFixerConfig::texRegPrefix,
-                        py::doc(":class:`str`: The register family a mod binds its textures with. **Default**: ``ps-t``"))
-        .def_readwrite("vectorReg", &AGRC::WWMIFixerConfig::vectorReg,
-                        py::doc(":class:`str`: The register the vector (normal) buffer is bound at. **Default**: ``vb1``"))
         .def_readwrite("removedRegs", &AGRC::WWMIFixerConfig::removedRegs, py::doc(R"doc(
 List[:class:`WWMIFixerConfig.RegRemoval`]: Register lines a remapped section drops, on top of what
 the template removes anyway -- eg. the three ``Resource...Override = ref ...`` lines of a source past
-256 merged bones, which undo the remap, and RabbitFX's resource lines
+256 merged bones, which undo the remap, and RabbitFX's resource lines. **Default**: :meth:`gameRemovedRegs`
+        )doc"))
+        .def_static("gameRemovedRegs", &AGRC::WWMIFixerConfig::gameRemovedRegs, py::doc(R"doc(
+The lines every remapped section drops (:attr:`removedRegs`' default): the three ``Resource...Override = ref ...`` of a
+source past 256 bones, and RabbitFX's ``run = CommandList\RabbitFX\SetTextures`` and the six maps it reads
+
+Returns
+-------
+List[:class:`WWMIFixerConfig.RegRemoval`]
+    The lines
         )doc"))
         .def_readwrite("remappedSkeletonRemovals", &AGRC::WWMIFixerConfig::remappedSkeletonRemovals, py::doc(R"doc(
 List[:class:`WWMIFixerConfig.RegRemoval`]: Register lines a remapped section also drops when the TARGET is past 256
@@ -804,12 +852,8 @@ character draws, by their own ``vb0`` hash -- ``{mesh hash: {pass: bindings}}``
         )doc"))
         .def_readwrite("stashRegs", &AGRC::WWMIFixerConfig::stashRegs, py::doc(R"doc(
 Dict[:class:`int`, List[:class:`str`]]: Registers to capture off the GAME's draw of a target slot nothing of
-the mod is drawn through, on passes that bind ``o3``; a :attr:`Shader.lines` value ``stash <slot> <register>``
-binds the capture. **Default**: empty
-        )doc"))
-        .def_readwrite("stashRoles", &AGRC::WWMIFixerConfig::stashRoles, py::doc(R"doc(
-Dict[:class:`int`, List[:class:`str`]]: :attr:`stashRegs` by ROLE -- slot -> the roles to capture, each at the register
-the target's :class:`TextureRegisters` binds it (:meth:`withGameData`), eg. ``{4: ["glow", "flow", "noise"]}``
+the mod is drawn through, on passes that bind ``o3``; a :attr:`Shader.stashed` entry binds the capture, and
+:meth:`withGameData` adds each one's register here. **Default**: empty
         )doc"))
         .def_readwrite("hiddenMeshes", &AGRC::WWMIFixerConfig::hiddenMeshes, py::doc(R"doc(
 List[:class:`str`]: Other meshes the TARGET draws that a mod of her replaces, by their own ``vb0``
@@ -827,25 +871,16 @@ of the same type. **Default**: empty
 :class:`bool`: Bind the remapped sections to a CLEANED copy of the mod's texcoord buffer (a NaN
 second UV zeroed, a U in the next tile folded back). **Default**: ``False``
         )doc"))
-        .def_readwrite("texcoordReg", &AGRC::WWMIFixerConfig::texcoordReg,
-                        py::doc(":class:`str`: The register the texcoord buffer is bound at. **Default**: ``vb2``"))
         .def_readwrite("sourceVgMaps", &AGRC::WWMIFixerConfig::sourceVgMaps, py::doc(R"doc(
 Dict[:class:`int`, List[:class:`int`]]: The SOURCE's ``vg_map`` per component, for a mod from before
 WWMI's merged skeleton (its blend holds per-component LOCAL ids); without it such a mod is refused
         )doc"))
         .def_readwrite("mergedSkeletonSlots", &AGRC::WWMIFixerConfig::mergedSkeletonSlots,
                         py::doc(":class:`int`: The float4 slots of the merged skeleton buffers declared for a legacy mod. **Default**: ``768``"))
-        .def_readwrite("boneDataFilter", &AGRC::WWMIFixerConfig::boneDataFilter,
-                        py::doc(":class:`str`: WWMI's marker on the game's bone-data constant buffer. **Default**: ``3381.7777``"))
         .def_readwrite("carryByRegisterRole", &AGRC::WWMIFixerConfig::carryByRegisterRole, py::doc(R"doc(
 :class:`bool`: Carry a mod's own texture line that puts a texture into a register of a different kind by
 the REGISTER's role on the source rather than the texture's -- so a toggle that binds a diffuse into a
 ramp or detail slot keeps doing so on the target. **Default**: ``False``
-        )doc"))
-        .def_readwrite("copiesShareSkeleton", &AGRC::WWMIFixerConfig::copiesShareSkeleton, py::doc(R"doc(
-:class:`bool`: On a target past 256 bones, make every generated copy ``.ini`` share the mod's skeleton
-state: merge-only sections for the slots other files draw, and the bone-data marker and shape-key
-overrides in the mod's own file only. **Default**: ``False``
         )doc"))
         .def_readwrite("targetInfluences", &AGRC::WWMIFixerConfig::targetInfluences, py::doc(R"doc(
 :class:`int`: How many bone influences a vertex the TARGET's draws read, when it differs from the mod's
@@ -861,11 +896,7 @@ FEWER, each vertex keeps its heaviest slots, their weights scaled to the same to
 one whose CURRENT pose sits in ``vs-cb3`` -- merged into the main skeleton and bound the remapped main
 one -- as WWMI Tools' own template does. For a target with passes like that (Lynae's depth passes),
 where reading ``vs-cb3`` as the previous pose drops thin layered parts out. **Default**: ``False``
-        )doc"))
-        .def_readwrite("bindPrevPoseAlways", &AGRC::WWMIFixerConfig::bindPrevPoseAlways,
-                        py::doc(":class:`bool`: Bind the remapped PREVIOUS pose on every pass, not only where the second skeleton carries :attr:`boneDataFilter`. **Default**: ``True``"))
-        .def_readwrite("cleanupResourcesList", &AGRC::WWMIFixerConfig::cleanupResourcesList,
-                        py::doc(":class:`str`: The command list every slot section runs after its draw. **Default**: ``CommandListCleanupSharedResources``"));
+        )doc"));
 
     m.def("makeWWMIParser", [](const AGRC::WWMIParserConfig &config) {
         return PyIniParseFactory{AGRC::makeWWMIParser(config)};
@@ -876,24 +907,9 @@ Builds the parser for a mod of one Wuthering Waves character -- see :class:`WWMI
 :returns: A parser factory, for :meth:`CppStrategyOverrides.setParser` or the builder table
     )doc"));
 
-    m.def("makeWWMIFixer", [](const AGRC::WWMIFixerConfig &config, const py::object &steps) {
-        std::vector<std::shared_ptr<AGRC::BaseIniGraphGroupEdit<>>> list;
-        if (!steps.is_none()) {
-            for (auto item : steps) {
-                // a Python subclass's override has no C++ vtable entry, so a compiled fix would run the base's no-op
-                const py::detail::type_info* registered = py::detail::get_type_info(Py_TYPE(item.ptr()));
-                if (registered == nullptr || registered->type != Py_TYPE(item.ptr())) {
-                    throw py::type_error("makeWWMIFixer: a step of the list is a Python class; a fix runs only edits the "
-                                         "library binds (eg. GraphGroupEdit, ResRegCollect)");
-                }
-                list.push_back(item.cast<std::shared_ptr<AGRC::BaseIniGraphGroupEdit<>>>());
-            }
-            if (list.empty()) {
-                throw py::value_error("makeWWMIFixer: the list of steps is empty");
-            }
-        }
-        return PyIniFixFactory{AGRC::makeWWMIFixer(config, std::move(list))};
-    }, py::arg("config"), py::arg("steps") = py::none(), py::doc(R"doc(
+    m.def("makeWWMIFixer", [](const AGRC::WWMIFixerConfig &config) {
+        return PyIniFixFactory{AGRC::makeWWMIFixer(config)};
+    }, py::arg("config"), py::doc(R"doc(
 Builds the fixer that remaps a mod of one Wuthering Waves character onto another -- see
 :class:`WWMIFixerConfig`
 
@@ -902,60 +918,58 @@ The fourth fixer template, next to :func:`makeGIMICharFixer`, :func:`makeGIMICom
 every source component of the mod's ``.ini`` handled by it, the target's components being draw
 slots rather than mod types of their own
 
-The fix is a LIST of edits, the same for every mod: 'steps', or :func:`wwmiSteps` of 'config'. Change a fix by taking
-that list, editing it like any list, and handing it back:
+The fix is a LIST of edits, built for each ``.ini`` from 'config' and what the mod draws, each step named
+(:attr:`BaseIniGraphGroupEdit.name`): ``copies``, ``toggles``, ``slotRemap``, the edits on the target's objects by
+kind (``textureListCalls``, ``sharedBypass``, ``modTexLines``, ``additions``, ``rerouteFilters``, ``removedLines``,
+``rabbitFXPins``, ``slotValues``, ``hashes``, ``dispatchSize``, ``shapeKeyLists``, ``afterShaders``, ``markLines``,
+``overlays``, ``rerouteShaders``, ``offPasses``), ``blend``, ``rebind``, ``fixSections`` -- the fix's own sections,
+into graph ``(0, "", "fixSections")``, one step per kind of section after it (``textureLists``, ``glowLists``,
+``linkedState``, ``declaredFiles``, ``skeletonSections``, ``blendRemapSections``, ``bypassSections``,
+``hideSections``, ``stashResources``, ``passTags``, ``sharedMeshes``, ``hiddenMeshes``, ``shaderDraws``,
+``rabbitFXPinLists``), so one kind is read, removed or replaced as one step -- then
+``shaderFiles``, ``fixFiles``, ``latch`` and ``texEdits``. Change a fix by rewriting that list with
+:meth:`CppIniFixFactory.withList`:
 
 .. code-block:: python
 
-    config = FRB.WWMIFixerConfig.ofFactory(FRB.ModTypes["Lynae"].value.iniFixBuilder.factoryOf("Lynae", "LynaePeppermint"))
-    steps = FRB.wwmiSteps(config)
-    steps.insert([step.name for step in steps].index("fixSections") + 1, myEdit)
-    FRB.CppStrategyOverrides.setFixer("Lynae", "LynaePeppermint", FRB.makeWWMIFixer(config, steps))
+    factory = FRB.ModTypes["Lynae"].value.iniFixBuilder.factoryOf("Lynae", "LynaePeppermint")
+    def rewrite(steps):
+        at = max(i for i, step in enumerate(steps) if step.name == "fixSections") + 1
+        return steps[:at] + [myEdit] + steps[at:]
+    FRB.CppStrategyOverrides.setFixer("Lynae", "LynaePeppermint", factory.withList(rewrite))
 
 :param config: The pair's config
-:param steps: Optional[List[:class:`BaseIniGraphGroupEdit`]]: the list of edits each fixer runs -- edits the library
-    binds. **Default**: ``None``, :func:`wwmiSteps` of 'config'
 :returns: A fixer factory, for :meth:`CppStrategyOverrides.setFixer` or the builder table
     )doc"));
 
-    m.def("wwmiSlotRemapStep", [](const AGRC::WWMIFixerConfig &config) {
-        return AGRC::wwmiSlotRemapStep(config);
-    }, py::arg("config"), py::doc(R"doc(
-The ``slotRemap`` step of :func:`wwmiSteps`, a :class:`GraphGroupRemap` whose table (:attr:`GraphGroupRemap.remap`) is:
-each component the config's plan names, its source graph ``(0, "", <slotPrefix><component>)`` onto its target slot's
-graph. When the step runs, what the mod draws is added to it: the reroutes it draws, no target for a component whose
-section draws nothing, and its other hashed objects onto themselves
+    fixerConfig.def_readwrite("roleKinds", &AGRC::WWMIFixerConfig::roleKinds, py::doc(R"doc(
+Dict[:class:`str`, :class:`str`]: Each texture role -> its KIND: ``upperDiffuse``, ``lowerDiffuse`` and ``panelDiffuse`` all
+have the kind ``Diffuse``. :meth:`withGameData` fills it from both characters' :class:`TextureKinds` rows, and refuses a
+role the config names that has none. **Default**: empty
+        )doc"));
+    fixerConfig.def_static("mergedSkeletonSlotsFor", &AGRC::WWMIFixerConfig::mergedSkeletonSlotsFor, py::arg("bones"), R"doc(
+The size of a merged skeleton for ``bones`` bones, in float4 slots: three a bone, rounded up to WWMI Tools' steps
+(:attr:`WWMINames.MergedSkeletonStep`) -- what :meth:`withGameData` fills :attr:`mergedSkeletonSlots` with, for the
+target's :meth:`ModType.getMergedBoneCount`
 
-:param config: The pair's config
-:returns: :class:`GraphGroupRemap`: the step
-    )doc"));
+:param bones: The bones
+:returns: :class:`int`
+    )doc");
+    fixerConfig.def("componentOf", &AGRC::WWMIFixerConfig::componentOf, py::arg("key"), R"doc(
+The SOURCE component a :attr:`plan` entry draws: for a reroute's entry (:attr:`DrawReroute.as_`), the component it takes
+its draws from; else the entry's own key
 
-    m.def("wwmiSteps", [](const AGRC::WWMIFixerConfig &config) {
-        return AGRC::wwmiSteps(config);
-    }, py::arg("config"), py::doc(R"doc(
-THE WWMI FIX AS A LIST: the edits a fixer of 'config' runs, in order, each named (:attr:`BaseIniGraphGroupEdit.name`) --
-the same list for every mod. Each step builds its edits when it runs, from the ``.ini`` file it runs on: ``copies``,
-``toggles``, ``slotRemap``, the edits on the target's objects by kind (``textureListCalls``, ``sharedBypass``,
-``modTexLines``, ``drawTwins``, ``additions``, ``rerouteFilters``, ``removedLines``, ``rabbitFXPins``, ``slotValues``,
-``hashes``, ``dispatchSize``, ``shapeKeyLists``, ``afterShaders``, ``markLines``, ``overlays``, ``rerouteShaders``,
-``offPasses``), ``blend``, ``rebind``, ``fixSections`` (the fix's own sections, such as its texture lists, into graph
-``(0, "", "fixSections")``), then ``shaderFiles``, ``fixFiles``, ``latch`` and ``texEdits``. A step does nothing on a mod
-that has nothing for it
-
-:param config: The pair's config
-:returns: List[:class:`BaseIniGraphGroupEdit`]: the steps, for :func:`makeWWMIFixer`
-    )doc"));
-
-    fixerConfig.def_static("roleKind", &AGRC::WWMIFixerConfig::roleKind, py::arg("role"), R"doc(
-What a config's role name says the texture IS, with the part it belongs to stripped: ``upperDiffuse``,
-``lowerDiffuse`` and ``panelDiffuse`` all have the kind ``Diffuse``. The names are the config's own, so the
-convention is this library's -- empty for a name with no capital
+:param key: The plan entry
+:returns: :class:`int`
+    )doc");
+    fixerConfig.def("kindOf", &AGRC::WWMIFixerConfig::kindOf, py::arg("role"), R"doc(
+A role's kind (:attr:`roleKinds`): ``""`` for a role with no kind, or none known
 
 :param role: The role
 :returns: Its kind
     )doc");
-    fixerConfig.def_static("registerOf", &AGRC::WWMIFixerConfig::registerOf, py::arg("bindings"), py::arg("role"), R"doc(
-The register ``bindings`` bind ``role`` at: the first of its own, else the one they bind its KIND at (:meth:`roleKind`)
+    fixerConfig.def("registerOf", &AGRC::WWMIFixerConfig::registerOf, py::arg("bindings"), py::arg("role"), R"doc(
+The register ``bindings`` bind ``role`` at: the first of its own, else the one they bind its KIND at (:meth:`kindOf`)
 -- only where that is one register, since two roles of one kind (``irisDiffuse``, ``eyeDiffuse``) may sit at
 different ones. A ``null`` binding binds nothing
 
@@ -989,7 +1003,12 @@ pair's choices, and what the game draws with comes from the tables, so a fix run
 * a :class:`WWMIFixerConfig.CreatedTexture`'s colour, for one naming its :class:`MaterialColours` row
 * :attr:`sourceVgMaps`: the source's :class:`VGRemaps` rows from each component onto her merged skeleton (``""``), at her
   oldest ``vb0``'s version
-* :attr:`stashRegs`, from :attr:`stashRoles` and the target's :class:`TextureRegisters`
+* each :class:`Shader`'s registers left empty, from :class:`TextureRegisters`: the source's for the draw it was read
+  from (:attr:`Shader.component`), the target's for the slot it captures or refs off (:attr:`Shader.stashed`,
+  :attr:`Shader.refRoles`)
+* :attr:`stashRegs`, from the shaders' :attr:`Shader.stashed`
+* :attr:`sourceTextures`' download game folder, folder and prefix, when empty: the source's game and name
+* :attr:`roleKinds`, from both characters' :class:`TextureKinds` -- refusing a role the config names with no row
 * :attr:`sourceVersionByVb0`, when :attr:`sourceVersionFromVb0` (see :meth:`vb0VersionsOf`)
 
 A field the tables hold nothing for keeps the config's value. The compiled fixer calls this once per fix
@@ -1005,6 +1024,16 @@ Each ``vb0`` hash the library's hashes file a character's model under (lower cas
 
 :param source: :class:`ModType`: the character's mod type
 :returns: Dict[:class:`str`, :class:`str`]
+    )doc");
+    fixerConfig.def_static("newestVersionOf", &AGRC::WWMIFixerConfig::newestVersionOf, py::arg("target"), R"doc(
+The version a fix onto a character is made at when the run asks for none: the newest of her newest model (the version
+of her newest ``vb0`` row in the library's hashes) and the newest game version her :class:`DrawPasses` rows are filed
+at. A game update that rehashes her shaders and moves no model of hers (Wuthering Waves 3.8) is a newer
+:class:`DrawPasses` row, and a fix made by default reaches it; a lookup of a model table at that version still answers
+her newest model's row
+
+:param target: :class:`ModType`: the character's mod type
+:returns: Optional[:class:`Version`]
     )doc");
     // ---- what a fix decides from the mod ----
     fixerConfig.def("shaderDraws", &AGRC::WWMIFixerConfig::shaderDraws, py::arg("component"), py::arg("usesRabbitFX"), R"doc(
@@ -1176,12 +1205,10 @@ Which resources each :attr:`WWMIFixerConfig.texEdits` edit applies to -- see :me
                        "Dict[:class:`str`, Set[:class:`str`]]: role -> the resources (lower case) its edits apply to")
         .def_readwrite("rolesOf", &AGRC::WWMIFixerConfig::TexEditTargets::rolesOf,
                        "Dict[:class:`str`, List[:class:`str`]]: a resource (lower case) -> the roles edited from it, in the order they claimed it")
-        .def_readwrite("references", &AGRC::WWMIFixerConfig::TexEditTargets::references,
-                       "Dict[:class:`str`, :class:`WWMIFixerConfig.Download`]: role -> a source game texture an edit compares against: downloaded, never bound")
         .def_readwrite("notes", &AGRC::WWMIFixerConfig::TexEditTargets::notes,
                        "List[:class:`str`]: what the decision has to say, for the log, in order");
     fixerConfig.def("texEditTargets", &AGRC::WWMIFixerConfig::texEditTargets, py::arg("data"), py::arg("roles"),
-                    py::arg("drawn"), py::arg("ownShader"), py::arg("iniPath"), py::arg("sourceName"), R"doc(
+                    py::arg("drawn"), py::arg("ownShader"), py::arg("iniPath"), R"doc(
 Which resources each of :attr:`texEdits` applies to: the one its role resolves to (:meth:`RoleResources.shared`) and
 every other variant the mod's toggles bind the role as -- unless another role's edit of another kind claimed that file
 first, since a second claim would run that role's filter over it. An edit of a role with neither a file of the mod's nor
@@ -1192,7 +1219,6 @@ a stand-in download applies to nothing
 :param drawn: Set[:class:`int`]: the source components the mod draws
 :param ownShader: Set[:class:`int`]: the drawn components their own shader draws
 :param iniPath: The mod's ``.ini``
-:param sourceName: The source character's name
 :returns: :class:`WWMIFixerConfig.TexEditTargets`
     )doc");
 
@@ -1400,6 +1426,99 @@ for is dropped. There is always at least one group
 :returns: :class:`WWMIFixerConfig.FileGroups`
     )doc");
 
+    py::class_<AGRC::WWMIFixerConfig::OwnMesh>(fixerConfig, "OwnMesh", R"doc(
+A source component the mod draws from mesh files of its OWN: its section runs a ``<sharedResourcesList>.<suffix>`` list
+(:attr:`WWMINames.OverrideSharedResourcesList`) that binds an index, position and blend buffer of its own -- see
+:meth:`WWMIFixerConfig.drawnOf`
+    )doc")
+        .def(py::init<>())
+        .def_readwrite("list", &AGRC::WWMIFixerConfig::OwnMesh::list,
+                       ":class:`str`: the mod's own shared-resource list, as the section runs it")
+        .def_readwrite("blendResource", &AGRC::WWMIFixerConfig::OwnMesh::blendResource,
+                       ":class:`str`: the resource the list binds at the blend register (:attr:`IniKeywords.WWMIBlendReg`)")
+        .def_readwrite("blendFile", &AGRC::WWMIFixerConfig::OwnMesh::blendFile,
+                       ":class:`str`: that resource's file, as the ``.ini`` names it")
+        .def_readwrite("positionFile", &AGRC::WWMIFixerConfig::OwnMesh::positionFile,
+                       ":class:`str`: the file of the resource the list binds at ``vb0``, as the ``.ini`` names it")
+        .def_readwrite("vgOffset", &AGRC::WWMIFixerConfig::OwnMesh::vgOffset,
+                       ":class:`int`: the section's ``vg_offset``: where the component's bone ids start (``0`` when it has none "
+                       "or it is not a number)");
+
+    py::class_<AGRC::WWMIFixerConfig::Drawn>(fixerConfig, "Drawn", R"doc(
+What the mod draws, read off the parser's data -- see :meth:`WWMIFixerConfig.drawnOf`
+    )doc")
+        .def(py::init<>())
+        .def_readwrite("present", &AGRC::WWMIFixerConfig::Drawn::present,
+                       "Dict[:class:`int`, List[:class:`str`]]: each source component whose sections draw -> its sections, a "
+                       "reroute's ``as`` included (sharing its ``from``'s sections)")
+        .def_readwrite("silent", &AGRC::WWMIFixerConfig::Drawn::silent,
+                       "List[:class:`int`]: the source components whose sections draw nothing (:meth:`IniParseData.isUndrawn`), "
+                       "in the parser's order")
+        .def_readwrite("drawRanges", &AGRC::WWMIFixerConfig::Drawn::drawRanges,
+                       "Dict[:class:`int`, List[Tuple[:class:`int`, :class:`int`]]]: each drawn source component -> its "
+                       "``(index count, first index)`` draws, less the ones a reroute took; a reroute's ``as`` -> the draws it took")
+        .def_readwrite("rerouteFrom", &AGRC::WWMIFixerConfig::Drawn::rerouteFrom,
+                       "Dict[:class:`int`, :class:`int`]: each reroute (:attr:`WWMIFixerConfig.drawReroutes`) that took draws: "
+                       "its ``as`` -> its ``from``")
+        .def_readwrite("reroutedDraws", &AGRC::WWMIFixerConfig::Drawn::reroutedDraws,
+                       "Dict[:class:`int`, Set[Tuple[:class:`int`, :class:`int`]]]: each reroute that took draws: its ``as`` -> "
+                       "the draws it took")
+        .def_readwrite("drawn", &AGRC::WWMIFixerConfig::Drawn::drawn,
+                       "Set[:class:`int`]: the present components that are not a reroute's ``as``")
+        .def_readwrite("rabbitFX", &AGRC::WWMIFixerConfig::Drawn::rabbitFX,
+                       "Set[:class:`int`]: of :attr:`drawn`, the ones whose sections name RabbitFX (:meth:`IniParseData.libraries`)")
+        .def_readwrite("ownShader", &AGRC::WWMIFixerConfig::Drawn::ownShader,
+                       "Set[:class:`int`]: the present components their own :attr:`SourceComponent.shader` draws "
+                       "(:meth:`WWMIFixerConfig.shaderDraws`)")
+        .def_readwrite("overlaid", &AGRC::WWMIFixerConfig::Drawn::overlaid,
+                       "Set[:class:`int`]: the present components their :attr:`SourceComponent.overlay` is drawn over -- not one "
+                       "that hands its maps to RabbitFX while the overlay yields to it")
+        .def_readwrite("markLines", &AGRC::WWMIFixerConfig::Drawn::markLines,
+                       "Set[:class:`int`]: the present components whose :attr:`SourceComponent.markLines` are written -- not one "
+                       "whose shader yields to RabbitFX")
+        .def_readwrite("legacy", &AGRC::WWMIFixerConfig::Drawn::legacy,
+                       ":class:`bool`: whether the mod is from before WWMI's merged skeleton: none of its slot sections carries a "
+                       "``vg_offset``, so its blend holds each component's OWN bone indices")
+        .def_readwrite("hostResetsDetected", &AGRC::WWMIFixerConfig::Drawn::hostResetsDetected,
+                       ":class:`bool`: whether the mod's ``[Present]`` resets ``$object_detected`` each frame "
+                       "(``post $object_detected = 0``, anywhere in it; a ``[Present]`` written more than once is one section)")
+        .def_readwrite("ownMeshes", &AGRC::WWMIFixerConfig::Drawn::ownMeshes,
+                       "Dict[:class:`int`, :class:`WWMIFixerConfig.OwnMesh`]: each drawn component (not a reroute's ``as``) "
+                       "drawn from mesh files of its own -> those files")
+        .def_readwrite("error", &AGRC::WWMIFixerConfig::Drawn::error,
+                       ":class:`str`: why the mod is not remapped, or empty. When set, only :attr:`hostResetsDetected`, "
+                       ":attr:`watching` and what was read before the reason are filled")
+        .def_readwrite("watching", &AGRC::WWMIFixerConfig::Drawn::watching,
+                       "List[:class:`str`]: the sections the parser placed in its watching graph (:attr:`WWMIParseObjs.Watch`), "
+                       "in its order")
+        .def_readwrite("notes", &AGRC::WWMIFixerConfig::Drawn::notes,
+                       "List[:class:`str`]: what the reading has to say, for the log, in order");
+    fixerConfig.def("drawnOf", &AGRC::WWMIFixerConfig::drawnOf, py::arg("data"), py::arg("targets"), py::arg("sourceSlots"),
+                    py::arg("sourceName"), py::arg("sourceVb0"), py::arg("targetName"), R"doc(
+WHAT THE MOD DRAWS, off the parser's data and graphs:
+
+#. each slot graph (:meth:`WWMIParserConfig.slotWithPrefix` with :attr:`WWMINames.SlotPrefix`) of a source slot below
+   ``sourceSlots`` with sections is a source component: :attr:`Drawn.silent` when its sections draw nothing, else
+   :attr:`Drawn.present`, with its draws. With neither, the mod is not remapped (:attr:`Drawn.error`)
+#. whether the mod is :attr:`Drawn.legacy`; a legacy mod is not remapped when :attr:`sourceVgMaps` is empty
+#. the components drawn from mesh files of their own (:attr:`Drawn.ownMeshes`); one whose blend or position resource names
+   no file is left out, with a note
+#. each of :attr:`drawReroutes` whose ``from`` is present with draws, whose ``as`` is planned and not present, and whose
+   split picked draws: those draws move from ``from`` to ``as``, which is present from then on with ``from``'s sections
+#. which components keep RabbitFX, and which are drawn by their own shader, under an overlay or with mark lines
+   (:attr:`SourceComponent.shader`, :attr:`SourceComponent.overlay`, :attr:`SourceComponent.markLines`)
+
+:param data: :class:`IniParseData`: the parser's data of the mod's ``.ini``
+:param targets: List[Tuple[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]]: the parser's graphs and their sections,
+    in its order (``list(parser.sectionTargets.items())``)
+:param sourceSlots: How many draw slots the source has at the fix's source version; a slot graph at or past it is not a
+    component. ``-1`` for no limit
+:param sourceName: The source character's name, for the notes
+:param sourceVb0: The source's ``vb0`` hash at the fix's source version, for the notes
+:param targetName: The target character's name, for the notes
+:returns: :class:`WWMIFixerConfig.Drawn`
+    )doc");
+
     py::class_<AGRC::WWMIFixerConfig::BlendWidth>(fixerConfig, "BlendWidth", R"doc(
 Whether the target's merged skeleton needs WWMI's blend remap -- see :meth:`WWMIFixerConfig.blendWidth`
     )doc")
@@ -1445,7 +1564,7 @@ One of the mod's own texture-register lines and what the fix makes of it -- see 
                        ":class:`str`: what it binds there, unless :attr:`dropped`");
     fixerConfig.def("modTexLines", &AGRC::WWMIFixerConfig::modTexLines, py::arg("data"), py::arg("roles"), py::arg("lists"),
                     py::arg("drawn"), py::arg("rerouteFrom"), py::arg("ownShader"), R"doc(
-THE MOD'S OWN TEXTURE LINES, RE-KEYED BY ROLE. Each ``<texRegPrefix>N`` line of the mod's sections, for each drawn
+THE MOD'S OWN TEXTURE LINES, RE-KEYED BY ROLE. Each ``ps-tN`` line of the mod's sections, for each drawn
 component of the plan, goes to the register that component's bindings read its texture's role at
 (:meth:`registerOf`). The role is the parser's (:meth:`IniParseData.roleOfResource`).
 
@@ -1467,16 +1586,130 @@ A line left alone is not listed
     drops, in the order the mod first writes them
     )doc");
 
-    parserConfig.def("withGameData", &AGRC::WWMIParserConfig::withGameData, py::arg("modType"), R"doc(
+    parserConfig.def("withGameData", &AGRC::WWMIParserConfig::withGameData, py::arg("modType"), py::arg("version") = py::none(), R"doc(
 This config with the character's GAME DATA read off the versioned asset tables: her game textures' thumbprints
-(:attr:`WWMITextureFacts.textureThumbprints`, :class:`TextureThumbprints`, at her version) and, for a character whose skeleton was
+(:attr:`WWMITextureFacts.textureThumbprints`, :class:`TextureThumbprints`, at ``version``), each
+:class:`WWMIParserConfig.DrawSplit`'s ``flags`` named by its ``flag`` (:class:`MaterialCodes`, at ``version``) and, for a character whose skeleton was
 renumbered (her ``vb0`` rows in the library's hashes at two versions or more, each with a :class:`VGRemaps` row onto the
 newest), :attr:`skeletonNumberings` -- one per version, oldest first, with the bones that row moves -- and
 :attr:`referenceBoneCentroids` (:class:`BoneCentroids` at the newest). A field the tables hold nothing for keeps the
 config's value. The compiled parser calls this once per parse
 
 :param modType: :class:`ModType`: the character's mod type
+:param version: Optional[:class:`Version`]: the run's version of her (the mod's); ``None`` reads at :attr:`version`
 :returns: :class:`WWMIParserConfig`
+    )doc");
+
+    // WWMI's parser's readings of its rows, each a decision a GraphVarApply of the parser runs
+    parserConfig.def_static("slotSections", &AGRC::WWMIParserConfig::slotSections, py::arg("targets"), py::arg("sectionNames"), R"doc(
+Each draw slot the mod has sections for -> those sections: the roots of the slot graphs (the mod objects
+:meth:`slotWithPrefix` reads with :attr:`WWMINames.SlotPrefix`), in the order the ``.ini`` writes them, each once. A slot
+whose sections draw nothing (:meth:`IniParseData.isUndrawn`) is listed too, and a slot graph with no sections maps to an
+empty list. A section ``sectionNames`` does not name sorts after every one it does, in the parser's order
+
+:param targets: List[Tuple[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]]: the parser's graphs and their sections,
+    in its order (``list(parser.sectionTargets.items())``)
+:param sectionNames: List[:class:`str`]: the ``.ini``'s sections, in the order it writes them; empty keeps the parser's order
+:returns: Dict[:class:`int`, List[:class:`str`]]: draw slot -> its sections
+    )doc");
+    parserConfig.def_static("mergedSkeleton", &AGRC::WWMIParserConfig::mergedSkeleton, py::arg("objRows"), py::arg("targets"),
+                            py::arg("slots") = -1, R"doc(
+Whether the mod is written for WWMI's merged skeleton: a ``vg_offset`` row of ``objRows`` sits in a section of a slot
+graph (:meth:`slotSections`), the section's name matched ignoring case. A mod from before the merged skeleton carries no
+``vg_offset`` there
+
+:param objRows: List[:class:`GraphCollect.Row`]: the rows filed under :attr:`IniParseRows.Objs`
+:param targets: List[Tuple[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]]: the parser's graphs and their sections,
+    in its order (``list(parser.sectionTargets.items())``)
+:param slots: :class:`int`: how many draw slots count; a slot graph at or past it is not read. ``-1`` for no limit
+:returns: :class:`bool`
+    )doc");
+    parserConfig.def("resourceDataRules", &AGRC::WWMIParserConfig::resourceDataRules, py::arg("targets"), py::arg("sectionNames"),
+                     py::arg("onlyThisFile"), py::arg("log") = py::none(), R"doc(
+The rules :meth:`IniParseData.resourceDataOf` reads the mod's resource data by, as WWMI's parser hands them over: the rows
+the parser files under :attr:`IniParseRows.Objs`, :attr:`IniParseRows.Resources` and :attr:`IniParseRows.Sections`; the
+slot graphs as the roots; ``ps-t`` registers (:attr:`IniKeywords.TexRegPrefix`); no slot undrawn when every slot would be;
+RabbitFX as a library; a ``run =`` drawing when it calls a section ``sectionNames`` does not name outside WWMI's own namespace
+
+Unless ``onlyThisFile``, or this config has no textures, also the TOGGLES: the rows filed under
+:attr:`WWMINames.TextureTogglesRows`, read in the ``TextureOverride`` sections that are not a fix's, the texture graphs as
+their roots, and a lone ``this`` under ``$object_detected`` not a toggle
+
+:param targets: List[Tuple[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]]: the parser's graphs and their sections,
+    in its order (``list(parser.sectionTargets.items())``)
+:param sectionNames: List[:class:`str`]: the ``.ini``'s sections
+:param onlyThisFile: :class:`bool`: whether the rules are for a linked ``.ini`` a fix reads only the resource data of
+:param log: Optional[Callable[[:class:`str`], None]]: where the reading logs what it has to say; ``None`` for nowhere
+:returns: :class:`IniParseData.ResourceDataRules`
+    )doc");
+    parserConfig.def("replacesTexturesByHash", &AGRC::WWMIParserConfig::replacesTexturesByHash, py::arg("overrideRows"),
+                     py::arg("targets"), R"doc(
+Whether the mod replaces textures by HASH: a ``TextureOverride`` section that is no slot graph's root has a ``hash`` and a
+``this`` among ``overrideRows``. Its art then reaches every draw binding that texture, whatever the draw's own section
+binds -- :attr:`IniParseData.ResourceData.replacesTexturesByHash`
+
+:param overrideRows: List[:class:`GraphCollect.Row`]: the rows filed under :attr:`WWMINames.TextureOverridesRows`
+:param targets: List[Tuple[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]]: the parser's graphs and their sections,
+    in its order
+:returns: :class:`bool`
+    )doc");
+    parserConfig.def("roleFileRules", &AGRC::WWMIParserConfig::roleFileRules, py::arg("targets"), py::arg("sectionNames"),
+                     py::arg("modType"), py::arg("iniPath"), py::arg("iniFolder"), R"doc(
+The rules :meth:`IniParseData.roleFilesOf` reads which file each drawn slot takes for each texture role by, as WWMI's parser
+hands them over, or ``None`` when this config has no textures:
+
+#. the rows the parser files (:attr:`IniParseRows.Sections`, :attr:`IniParseRows.Declared`, :attr:`IniParseRows.Objs`,
+   :attr:`WWMINames.TextureOverridesRows`, :attr:`WWMINames.TextureRolesRows`, :attr:`WWMINames.CarriedRows`)
+#. the slots with sections (:meth:`slotSections`) as the objects, each slot's :attr:`WWMITextureFacts.registerRoles`, and
+   :attr:`WWMITextureFacts.regionRoles`
+#. a lone ``this`` under ``$object_detected`` not a toggle
+#. a hash's role: the character's :class:`Hashes` row typed by a role this config knows, else
+   :attr:`WWMITextureFacts.roles`; a file's game texture by its thumbprint (:meth:`TexThumbprint.identifyFile`); a hash's
+   age (:meth:`Hashes.age` over the library's hashes)
+#. a section a previous fix wrote (:meth:`IniNamingTools.looksRemapped` over the character's name and the mods she fixes)
+   is not the mod's use of a resource
+
+``linked`` and ``log`` are left for the caller. Every function in the rules holds its own copies of what it reads
+
+:param targets: List[Tuple[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]]: the parser's graphs and their sections,
+    in its order (``list(parser.sectionTargets.items())``)
+:param sectionNames: List[:class:`str`]: the ``.ini``'s sections, in the order it writes them
+:param modType: Optional[:class:`ModType`]: the character's mod type; ``None`` reads no hash off her hashes
+:param iniPath: :class:`str`: the ``.ini``'s path
+:param iniFolder: :class:`str`: the ``.ini``'s folder
+:returns: Optional[:class:`IniParseData.RoleFileRules`]
+    )doc");
+    parserConfig.def("skeletonNumbering", &AGRC::WWMIParserConfig::skeletonNumbering, py::arg("objRows"), py::arg("resourceRows"),
+                     py::arg("targets"), py::arg("iniFolder"), py::arg("log") = py::none(), R"doc(
+Which numbering of :attr:`skeletonNumberings` the mod's blend's bone ids are in, asked of its own geometry
+(:class:`SkeletonNumberingProbe`) -- the numbering's version, or ``None``. Not asked with fewer than two numberings or no
+:attr:`referenceBoneCentroids`, of a mod from before WWMI's merged skeleton (not :meth:`mergedSkeleton`), or of one
+whose resources name no position or blend buffer
+
+:param objRows: List[:class:`GraphCollect.Row`]: the rows filed under :attr:`IniParseRows.Objs`
+:param resourceRows: List[:class:`GraphCollect.Row`]: the rows filed under :attr:`IniParseRows.Resources`
+:param targets: List[Tuple[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]]: the parser's graphs and their sections,
+    in its order
+:param iniFolder: :class:`str`: the ``.ini``'s folder, which the resources' files are relative to
+:param log: Optional[Callable[[:class:`str`], None]]: where the probe's answer is logged; ``None`` for nowhere
+:returns: Optional[:class:`str`]
+    )doc");
+    parserConfig.def("splitDraws", &AGRC::WWMIParserConfig::splitDraws, py::arg("data"), py::arg("roles"), py::arg("targets"),
+                     py::arg("iniPath"), py::arg("iniFolder"), py::arg("log") = py::none(), R"doc(
+The resource data with each of :attr:`drawSplits`' draws added, or ``None`` when there are no splits, no data, or the
+resources name no index, texcoord or position buffer. A split reads the draws of its drawn slot (not undrawn, with draws and
+sections) off the material-code map the slot takes for :attr:`WWMIParserConfig.DrawSplit.codeRole` -- the mod's own when a
+resource of the ``.ini`` whose name is not a fix's names that file, else :attr:`WWMIParserConfig.DrawSplit.sourceFlags` --
+at the draws' vertices (:class:`DrawUVCoverage`), and files the draws it picks as the draw ranges of ``(split name, slot)``
+
+:param data: Optional[:class:`IniParseData.ResourceData`]: the resource data (:attr:`IniParseData.ResourceDataVar`)
+:param roles: Optional[:class:`IniParseData.RoleFileData`]: the role files (:attr:`IniParseData.RoleFilesVar`)
+:param targets: List[Tuple[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]]: the parser's graphs and their sections,
+    in its order
+:param iniPath: :class:`str`: the ``.ini``'s path
+:param iniFolder: :class:`str`: the ``.ini``'s folder, which the resources' files are relative to
+:param log: Optional[Callable[[:class:`str`], None]]: where a map that cannot be read is logged; ``None`` for nowhere
+:returns: Optional[:class:`IniParseData.ResourceData`]
     )doc");
     parserConfig.def_static("ofFactory", [](const PyIniParseFactory& factory) {
         return AGRC::WWMIParserConfig::ofFactory(factory.factory);

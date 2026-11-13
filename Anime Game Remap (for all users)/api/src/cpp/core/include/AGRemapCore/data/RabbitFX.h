@@ -48,9 +48,25 @@ namespace AGRemapCore {
             static inline const std::array<std::string, 4> FlagKeys = {"x187", "y187", "z187", "w187"};
 
             /**
+             * @brief The four registers ``SetTextures`` routes, in the order of #FlagKeys
+             */
+            static inline const std::array<std::string, 4> Registers = {"ps-t0", "ps-t1", "ps-t2", "ps-t3"};
+
+            /**
              * @brief The key a mod sets RabbitFX's glow map on a draw with
              */
             static inline const std::string GlowMapKey = std::string("Resource") + char(92) + "RabbitFX" + char(92) + "GlowMap";
+
+            /**
+             * @brief The keys RabbitFX's ``SetTextures`` reads a part's textures from (``Resource\RabbitFX\Diffuse``, ...)
+             */
+            static inline const std::array<std::string, 6> TextureKeys = {
+                std::string("Resource") + char(92) + "RabbitFX" + char(92) + "Diffuse",
+                std::string("Resource") + char(92) + "RabbitFX" + char(92) + "Lightmap",
+                std::string("Resource") + char(92) + "RabbitFX" + char(92) + "Normalmap",
+                std::string("Resource") + char(92) + "RabbitFX" + char(92) + "Materialmap",
+                std::string("Resource") + char(92) + "RabbitFX" + char(92) + "Cutoutmap",
+                std::string("Resource") + char(92) + "RabbitFX" + char(92) + "Specialmap"};
 
             /**
              * @brief

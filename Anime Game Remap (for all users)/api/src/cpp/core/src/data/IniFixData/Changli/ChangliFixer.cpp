@@ -16,41 +16,10 @@
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/Changli/ChangliTextures.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
-#include "AGRemapCore/model/files/TextureFile.h"
-#include "AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h"
 
-#include <algorithm>
-#include <array>
-#include <cmath>
-#include <cstdint>
-#include <vector>
 
 
 namespace AGRemapCore {
-    namespace {
-        // The skin's outline pass multiplies its ps-t0 by a per-material tint (vs-cb5 / ps-cb2 rows 23-24),
-        // and the skin's bangs material tints far darker than Changli's: (0.713, 0.586, 0.593) against her
-        // (1, 0.823, 0.835) -- the same ratio on every channel, read off two character-menu frame dumps. Her
-        // own outline map is brightened by that ratio in linear light, which puts it back to what her own
-        // material draws (her outline maps peak at ~0.47 linear, so nothing clips). Her long hair is kept
-        // off that pass instead (see the plan).
-        constexpr double BangsOutlineGain = 1.4035;
-
-        TexEditor::Filter outlineGainFilter(double gain) {
-            std::array<std::uint8_t, 256> lut{};
-            for (int v = 0; v < 256; ++v) {
-                double lin = std::min(1.0, std::pow(v / 255.0, 2.2) * gain);
-                lut[v] = static_cast<std::uint8_t>(std::nearbyint(255.0 * std::pow(lin, 1.0 / 2.2)));
-            }
-
-            ChannelMapFilter filter;
-            for (std::size_t c = 0; c < 3; ++c) {
-                filter.channels[c] = {static_cast<int>(c), std::vector<std::uint8_t>(lut.begin(), lut.end())};
-            }
-            return TexEditor::filterOf(std::move(filter));
-        }
-    }
-
     // Transcribed from Tools/Misc/Prototypes/changliNymphFix.py, which stays the oracle this is A/B'd
     // against. Pairing (per-component overlap of the two download folders' Position.buf, and shader
     // family, off character-menu dumps at 3.7.1): bangs, hair, face and eyes are the same mesh and the
@@ -62,7 +31,6 @@ namespace AGRemapCore {
     WWMIFixerConfig ChangliFixer::nymph2_4Config() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::ChangliNymph;
-        config.version = "2.4";
         config.sourceVersion = "1.4";
 
         // ---- three mesh generations: the hash lookups follow the mod's vb0, the blend's vertex group row
@@ -74,48 +42,45 @@ namespace AGRemapCore {
         // ---- the passes the TARGET draws each slot on (her Laurel Nymph dump, wwmiPassLayout.py) ----
         // slotPasses: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
-        // ---- every pass gated through its VERTEX shader, so RabbitFX's pixel-shader tags survive ----
-        // passVertexShaders: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
-        // ...but for the passes DrawPasses has no row for yet: the shared meshes' and her own shaders' (literal)
-        config.passVertexShaders = {
-            {"57661bc080f261c6", {"a434a95920c66e51"}},
-            {"705575a2e1b4a4b9", {"7148f95feba974ac"}},
-        };
+        // ---- every pass gated through its VERTEX shaders, each with its NAMED filter_index ----
+        // passVertexShaders and filterIndices: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData),
+        // its tags the values both directions of the pair share (a shader holds ONE filter_index across every loaded
+        // .ini; `Tools/Misc/Diagnostics/wwmiShaderTags.py` is the check). The literal entries this config carried for
+        // passes with no row went on 2026-11-12: on all 41 Chisa / ChisaParfait / Changli mods they changed no file,
+        // at 3.7 or 3.8.
 
         // ---- her blindfold: the skin draws its own, white lace on another mesh. Changli's is black,
         // so the skin's takes a recoloured copy of its own diffuse (the meshes' UVs differ, so hers
         // cannot be bound there), and a mod's own section on her blindfold acts on the skin's too ----
         config.sharedMeshes = {
-            {"646aa163", {{"57661bc080f261c6", {{"ps-t1", "blindfold"}}}}},
+            {"blindfoldMesh", {}},          // the skin's blindfold mesh: its passes and bindings off the tables
         };
-        config.meshCounterparts = {"blindfold"};
+        config.meshCounterparts = {"blindfoldMesh"};
 
         // ---- ...and every tag NAMED. A shader holds ONE filter_index across every loaded .ini, so the
         // shaders other pairs already tag keep their values (Sanhua's hair .91, Chisa's face .76 and
         // outlines .73 / .731, Lynae's eye shaders .625 / .718); the rest take 3381.51 up, a range no
         // other pair uses ----
         // filterIndices: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
-        // ...but for the passes DrawPasses has no row for yet: the shared meshes' and her own shaders' (literal)
-        config.filterIndices = {
-            {"7148f95feba974ac", "3381.513"},
-        };
+        // ...and her own passes' tags off her own rows
 
         // ---- source component -> target slot and the registers it binds there ----
         config.plan = {
             {0, {0, {{"ps-t0", "bangsMap"}, {"ps-t1", "bangsDiffuse"}, {"ps-t2", "bangsStrand"}}}},
             {1, {1, {{"ps-t0", "hairMap"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairStrand"}}}},
             {2, {2, {{"ps-t0", "faceMask"}, {"ps-t1", "faceDiffuse"}}}},
-            // her body shaders read normal / mask / diffuse at t0 / t1 / t2 as the skin's body shader does;
-            // the skin's t3 is its UV-mapped glow map, which her parts have no counterpart for
-            {3, {4, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDiffuse"}, {"ps-t3", "noGlow"}}}},
+            // her body shaders read normal / mask / diffuse at t0 / t1 / t2 as the skin's body shader does; the skin's
+            // t3 is left to the game (a shared effect texture its own body binds too: a made "no glow" one changed
+            // nothing in game, 2026-11-10)
+            {3, {4, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDiffuse"}}}},
             // her legs and her tattoo share slot 4 with her upper body: drawn from the mod's OWN file, where
             // the shape-keyed positions are computed (a copy computes none), as Lynae's lower body is
-            {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDiffuse"}, {"ps-t3", "noGlow"}}, true}},
+            {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDiffuse"}}, true}},
             // her coat, drapes and sashes go through the skin's BODY slot, in the body shader's layout with a
             // flat cloth mask: the skin's skirt slot (5) draws with the same shader as her coat in the
             // character menu, but in the overworld with a G-buffer shader whose skirt material cuts away
             // whatever the skirt is not -- every part of hers drawn there vanished outside the menu
-            {5, {4, {{"ps-t0", "coatNormal"}, {"ps-t1", "flatClothMask"}, {"ps-t2", "coatDiffuse"}, {"ps-t3", "noGlow"}}, true}},
+            {5, {4, {{"ps-t0", "coatNormal"}, {"ps-t1", "flatClothMask"}, {"ps-t2", "coatDiffuse"}}, true}},
             {6, {6, {{"ps-t0", "eyeIris"}, {"ps-t1", "eyeMask"}, {"ps-t2", "eyeDiffuse"}}}},
             // her chest flame tattoo, on the skin's body slot too, drawn by its OWN shader below (through the
             // skin's body shader the whole quad drew as a red rectangle on her sternum, in-game audit epoch 1)
@@ -126,7 +91,7 @@ namespace AGRemapCore {
         // through the gaps between strands as a second, darker copy of the hair (Changli9's "second shadow
         // ghost") -- darker on the skin, whose hair outline tint is (0.547, 0.450, 0.457) against her
         // (1, 0.823, 0.835), but visible even with her own tint restored (in game, 2026-10-24)
-        config.plan.at(1).offPasses = {"f8c96a270bf847dd"};
+        config.plan.at(1).offPasses = {"other"};
 
         // ---- her flame feathers' GLOW, from HER upper-body pass (9d4c7d96) drawn as an emissive OVERLAY. A part
         // of hers glows where its diffuse's alpha is above 230 (her shader's emissive is a colour times saturate((alpha -
@@ -143,13 +108,14 @@ namespace AGRemapCore {
         // cb2[43] with the skin's own dither -- since her own fade reads her material constants, from a menu dump ----
         WWMIFixerConfig::Shader upper = WWMIFixerConfig::Shader::ofGame("ChangliUpper");
         // (every texture as the mod's file or a download: the target draw's registers cannot be `ref`'d for them: the slot's OVERWORLD pass holds other textures there than the menu's (Changli's keeps bb73967a at t6 and the ramp at t7))
-        upper.registers = {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDiffuse"},
-                           {"ps-t3", "upperDetail"}, {"ps-t4", "upperRamp"}, {"ps-t5", "upperShared"},
-                           {"ps-t6", "upperSubsurface"}};
-        upper.lines = {{"depth_stencil_state_merge", "true"}, {"depth_func", "equal"},
-                       {"depth_write_mask", "zero"}, {"mask[1]", "0"}, {"mask[2]", "0"}, {"mask[3]", "0"},
-                       {"mask[4]", "0"}, {"mask[5]", "0"}, {"mask[6]", "0"}};
-        upper.onlyWith = "o3";
+        // (each at the register her own draw binds it: her TextureRegisters, read by withGameData)
+        upper.registers = {{"", "upperNormal"}, {"", "upperMask"}, {"", "upperDiffuse"},
+                           {"", "upperDetail"}, {"", "upperRamp"}, {"", "upperShared"},
+                           {"", "upperSubsurface"}};
+        upper.lines = {{IniKeywords::DepthStencilStateMerge, "true"}, {IniKeywords::DepthFunc, "equal"},
+                       {IniKeywords::DepthWriteMask, "zero"}, {IniKeywords::Mask + "[1]", "0"}, {IniKeywords::Mask + "[2]", "0"}, {IniKeywords::Mask + "[3]", "0"},
+                       {IniKeywords::Mask + "[4]", "0"}, {IniKeywords::Mask + "[5]", "0"}, {IniKeywords::Mask + "[6]", "0"}};
+        upper.onlyWith = IniKeywords::WWMIColourTarget;
         upper.yieldToRabbitFX = true;
         config.plan.at(3).overlay = std::move(upper);
 
@@ -159,63 +125,36 @@ namespace AGRemapCore {
         // registers (its material at b1, which the fix binds; the skin keeps per-object constants at b2, where her
         // tattoo draw has them at b1). Its two game textures are downloads, as the overlay's ----
         WWMIFixerConfig::Shader tattoo = WWMIFixerConfig::Shader::ofGame("ChangliTattoo");
-        tattoo.registers = {{"ps-t0", "glow"}, {"ps-t1", "tattooNoise"}, {"ps-t2", "tattooFlow"}};
-        tattoo.onlyWith = "o3";
+        tattoo.registers = {{"", "glow"}, {"", "tattooNoise"}, {"", "tattooFlow"}};
+        tattoo.onlyWith = IniKeywords::WWMIColourTarget;
         config.plan.at(7).shader = std::move(tattoo);
 
         // ---- a slot's OTHER passes: the outlines take a colour map at ps-t0, the eye's second pass sets
-        // ps-t1 only. The bangs take her own outline map, brightened for the skin's darker outline tint
-        // (outlineGainFilter) ----
+        // ps-t1 only. The bangs take her own outline map as it is: brightened for the skin's darker
+        // outline tint (x1.4035 in linear light), it changed nothing in game (2026-11-10) ----
         config.extraPassRegs = {
             {0, {{"other", {{"ps-t0", "bangsOutline"}}}}},
             {4, {{"other", {{"ps-t0", "upperDiffuse", 3}, {"ps-t0", "lowerDiffuse", 4}, {"ps-t0", "coatOutline", 5}}}}},
             {6, {{"other", {{"ps-t1", "eyeHighlight"}}}}},
         };
 
+        // (its colour: the skin's MaterialColours row -- cloth in her mask legend, which the skin's body shader reads
+        // as hers; her upper body binds her own)
         config.createdTextures = {
-            {"noGlow", Colour(249, 12, 4, 0)},
-            // cloth in her mask legend, which the skin's body shader reads as hers (her upper body binds her own)
-            {"flatClothMask", Colour(0, 128, 0, 255)},
+            {"flatClothMask", Colour(), 16, {"component4", "bodyMask.cloth"}},
         };
 
         config.sourceTextures = changliTextureFacts();
         // the masks a flat or aliased file is refused for are the source's: see WWMITextureFacts::regionRoles
 
-        config.texEdits = {
-            {"bangsOutline", "TintGain", [](const WWMIFixerConfig::TexEditContext&) {
-                 return outlineGainFilter(BangsOutlineGain);
-             }, false},
-        };
-
         // ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
-        config.removedRegs = {
-            {"ResourceBlendBufferOverride", "ref"},
-            {"ResourceMergedSkeletonOverride", "ref"},
-            {"ResourceExtraMergedSkeletonOverride", "ref"},
-            {"Resource\\RabbitFX\\Diffuse", ""},
-            {"Resource\\RabbitFX\\Lightmap", ""},
-            {"Resource\\RabbitFX\\Normalmap", ""},
-            {"Resource\\RabbitFX\\Materialmap", ""},
-            {"Resource\\RabbitFX\\Cutoutmap", ""},
-            {"Resource\\RabbitFX\\Specialmap", ""},
-            {"run", "commandlist\\rabbitfx\\settextures"},
-        };
 
         // ---- the shape keys are RETARGETED (the Chisa decision), in the skin's slot order
         // (Tools/Misc/Diagnostics/wwmiShapeKeyOrder.py Changli ChangliNymph), with its dispatch height ----
-        config.hiddenObjs = {};
-        config.zeroShapeKeyStream = false;
         // shapeKeyDispatchSize: read off ShapeKeyDispatchSizes at the run's versions (WWMIFixerConfig::withGameData)
         // shapeKeyOrder: read off ShapeKeyRemaps at the run's versions (WWMIFixerConfig::withGameData)
         config.cleanTexcoords = true;
         config.carryByRegisterRole = true;
-        // Changli13 draws from mod.ini and binds every texture from Textures/textures.ini
-        // the skin's slots reach bone 263 (264 x 3 float4 = 792), past the 768 default
-        config.mergedSkeletonSlots = 1536;
-        // INERT for every mod in hand: her slot-4 sources are drawn from the mod's own file
-        // (sameFileSection), so no copy .ini is written. Kept so that a copy, should a mod's shape ever
-        // produce one on this target past 256 bones, shares the mod's skeleton state
-        config.copiesShareSkeleton = true;
         // her blend is FOUR influences a vertex and the skin's draws read EIGHT: unwidened, every vertex
         // was read across its neighbour's bytes and the whole model drew as giant polygons in game
         config.targetInfluences = 8;

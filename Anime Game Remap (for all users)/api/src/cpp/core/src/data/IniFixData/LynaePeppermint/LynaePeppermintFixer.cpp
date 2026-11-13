@@ -13,8 +13,6 @@
 
 // ##### EndCredits
 
-#include <cstdint>
-#include <optional>
 #include <string>
 #include <vector>
 
@@ -22,36 +20,10 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.h"
-#include "AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
-#include "AGRemapCore/model/files/TextureFile.h"
-#include "AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h"
 
 
 namespace AGRemapCore {
-    namespace {
-        /**
-         * @brief A material mask of the skin's, repacked for Lynae's shaders
-         *
-         * The skin marks the region under a SHEER garment with R = 0 (the bikini under her see-through
-         * shirt, a coat's translucent panels); Lynae's masks are R = 255 almost everywhere, and her
-         * shaders do not draw an R = 0 texel as cloth -- a skin mod's coat vanished from Lynae. Every
-         * R = 0 becomes 255, the cloth both legends agree on. A is set to 0: the skin's is 255 over the
-         * translucent regions (40% of her jacket mask), Lynae's is 0 almost everywhere. G (how shiny a
-         * surface is, the author's to choose) and B stay.
-         */
-        TexEditor::Filter maskRepackFilter() {
-            ChannelMapFilter filter;
-            filter.data = true;                      // these bytes are data, not colour
-            std::vector<std::uint8_t> red(256);
-            for (int v = 0; v < 256; ++v) {
-                red[v] = v == 0 ? 255 : static_cast<std::uint8_t>(v);
-            }
-            filter.channels[0] = {0, std::move(red)};
-            filter.channels[3] = {3, ChannelMapFilter::constant(0)};
-            return TexEditor::filterOf(std::move(filter));
-        }
-    }
 
 
     // Transcribed from Tools/Misc/Prototypes/peppermintLynaeFix.py, which stays the oracle this is
@@ -66,7 +38,6 @@ namespace AGRemapCore {
     WWMIFixerConfig LynaePeppermintFixer::lynae3_7Config() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::Lynae;
-        config.version = "3.7";             // her live vb0 is 3.7's, and her bones are numbered as at 3.7
         config.sourceVersion = "3.7";
 
         // ---- the TARGET draws her early depth passes with her skeleton in vs-cb3 alone ----
@@ -78,22 +49,12 @@ namespace AGRemapCore {
 
         // ---- every pass gated through its VERTEX shaders, so RabbitFX's pixel-shader tags survive ----
         // passVertexShaders: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
-        // ...but for the passes DrawPasses has no row for yet: the shared meshes' and her own shaders' (literal)
-        config.passVertexShaders = {
-            {"9a01e7bd0aeff915", {"3b8be044e56e8c14"}},
-            {"bb718d7619295f25", {"99b91a71ed833cb8"}},
-        };
 
         // ---- ...and every tag NAMED. A shader holds ONE filter_index across every loaded .ini, so
         // every shader another pair tags keeps THAT value: Chisa's 3e7bb648 .71, 343a49bd .713,
         // 5fd6e5bb .718, 6a6650a9 .73, e4a3da6d .731, ChisaParfait -> Chisa's 7c0b4db3 .76, and this
         // pair's forward direction's .61x. The shaders only this direction tags take 3381.62x ----
         // filterIndices: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
-        // ...but for the passes DrawPasses has no row for yet: the shared meshes' and her own shaders' (literal)
-        config.filterIndices = {
-            {"3b8be044e56e8c14", "3381.627"},
-            {"99b91a71ed833cb8", "3381.626"},
-        };
 
         // ---- source component -> Lynae's slot and the registers it binds there ----
         config.plan = {
@@ -166,32 +127,33 @@ namespace AGRemapCore {
         // lower body's state -- its reversed-Z depth test above all: without it the default LESS test
         // throws away every pixel in front of the body. The shader reads her lighting ramp at ps-t6:
         // HERS, downloaded -- Lynae's slots hold the same game texture refilled with Lynae's ramp ----
+        // (a register of her shaders left empty is where her own draw binds the role: her TextureRegisters)
         WWMIFixerConfig::Shader sheerJacket = WWMIFixerConfig::Shader::ofGame("LynaePeppermintSheer");
+        sheerJacket.gameRoles = {{"", "ramp"}};
         sheerJacket.lines = {
-            {"ps-t6", "role ramp"},
-            {"depth_stencil_state_merge", "true"},
-            {"stencil_enable", "true"},
-            {"stencil_ref", "15"},                 // her 14, plus the body mark (bit 1) to test against
-            {"stencil_read_mask", "1"},
-            {"stencil_write_mask", "0x8a"},
+            {IniKeywords::DepthStencilStateMerge, "true"},
+            {IniKeywords::StencilEnable, "true"},
+            {IniKeywords::StencilRef, "15"},                 // her 14, plus the body mark (bit 1) to test against
+            {IniKeywords::StencilReadMask, "1"},
+            {IniKeywords::StencilWriteMask, "0x8a"},
             // TWO-SIDED: her shirt and coat draws use the rasterizer state her hair and effects do, which
             // Lynae's hair uses too, where Lynae's jacket and body slots cull back faces -- so the coat's
             // inside was never drawn, and its far wall showed through dark. The merge keeps the rest of
             // the slot's state: a `cull` alone builds one from defaults, and the defaults' winding turned
             // every face around (the whole coat came out deep blue)
-            {"rasterizer_state_merge", "true"},
-            {"cull", "none"},
+            {IniKeywords::RasterizerStateMerge, "true"},
+            {IniKeywords::Cull, "none"},
         };
         // The render-target masks are the SEE-THROUGH pass's alone. Where the shirt is solid it writes every
         // target, as her solid jacket pass does there: with the sheer masks, render targets 0 and 6 kept the
         // scene behind it, and the shirt's edge past her bust came out a translucent band with the sky
         // showing through, where hers is solid white
         sheerJacket.passes = {
-            {{"mask[0]", "0"}, {"mask[1]", "0x7"}, {"mask[2]", "0x7"}, {"mask[6]", "0"},
-             {"blend[3]", "ADD SRC_ALPHA INV_SRC_ALPHA"}, {"alpha[3]", "ADD ONE ZERO"},
-             {"stencil_front", "equal replace keep keep"}, {"stencil_back", "equal replace keep keep"}},
-            {{"mask[0]", "0xf"}, {"mask[1]", "0xf"}, {"mask[2]", "0xf"}, {"mask[6]", "0xf"},
-             {"stencil_front", "not_equal replace keep keep"}, {"stencil_back", "not_equal replace keep keep"}},
+            {{IniKeywords::Mask + "[0]", "0"}, {IniKeywords::Mask + "[1]", "0x7"}, {IniKeywords::Mask + "[2]", "0x7"}, {IniKeywords::Mask + "[6]", "0"},
+             {IniKeywords::BlendState + "[3]", "ADD SRC_ALPHA INV_SRC_ALPHA"}, {IniKeywords::Alpha + "[3]", "ADD ONE ZERO"},
+             {IniKeywords::StencilFront, "equal replace keep keep"}, {IniKeywords::StencilBack, "equal replace keep keep"}},
+            {{IniKeywords::Mask + "[0]", "0xf"}, {IniKeywords::Mask + "[1]", "0xf"}, {IniKeywords::Mask + "[2]", "0xf"}, {IniKeywords::Mask + "[6]", "0xf"},
+             {IniKeywords::StencilFront, "not_equal replace keep keep"}, {IniKeywords::StencilBack, "not_equal replace keep keep"}},
         };
         // ...and that OPAQUE pass with her SOLID jacket shader (efc2690a), as her own draw does first: drawn with
         // the see-through one, her lemon earrings, necklace and bag strap came out pale and half see-through --
@@ -209,7 +171,7 @@ namespace AGRemapCore {
         sheerJacket.after = afterBody;
         // only where the pass binds the G-buffer's base colour: the overworld's depth pre-pass draws the
         // shirt with the game's own pre-pass shader, as any other component
-        sheerJacket.onlyWith = "o3";
+        sheerJacket.onlyWith = IniKeywords::WWMIColourTarget;
 
         // ---- and her COAT is drawn the same way: a solid pass, then a see-through one (4470be47) that
         // blends over the body wherever the coat's material says so -- in her own frame it leaves 4120
@@ -221,12 +183,11 @@ namespace AGRemapCore {
         // saturated blue with dark bands -- the shirt's arrangement, its own section on the lower body's
         // draw, is the one that renders as the skin does ----
         WWMIFixerConfig::Shader sheerCoat = WWMIFixerConfig::Shader::ofGame("LynaePeppermintSheerCoat");
+        sheerCoat.gameRoles = sheerJacket.gameRoles;
         sheerCoat.lines = sheerJacket.lines;
         sheerCoat.passes = sheerJacket.passes;
-        WWMIFixerConfig::Shader::After afterBodyCoat = afterBody;
-        afterBodyCoat.carried = {"ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t9"};
-        sheerCoat.after = afterBodyCoat;
-        sheerCoat.onlyWith = "o3";
+        sheerCoat.after = afterBody;
+        sheerCoat.onlyWith = IniKeywords::WWMIColourTarget;
 
         config.plan.at(6).shader = std::move(sheerJacket);
         config.plan.at(5).shader = std::move(sheerCoat);
@@ -237,17 +198,17 @@ namespace AGRemapCore {
         // background's 128 into 14 -- and two-sided, as her own draw is ----
         WWMIFixerConfig::Shader lowerBody = WWMIFixerConfig::Shader::ofGame("LynaePeppermintLower");
         lowerBody.lines = {
-            {"depth_stencil_state_merge", "true"},
-            {"stencil_enable", "true"},
-            {"stencil_ref", "14"},
-            {"stencil_write_mask", "0x8e"},
-            {"stencil_front", "always replace keep keep"},
-            {"stencil_back", "always replace keep keep"},
-            {"rasterizer_state_merge", "true"},
-            {"cull", "none"},
-            {"ps-t9", "role ramp"},
+            {IniKeywords::DepthStencilStateMerge, "true"},
+            {IniKeywords::StencilEnable, "true"},
+            {IniKeywords::StencilRef, "14"},
+            {IniKeywords::StencilWriteMask, "0x8e"},
+            {IniKeywords::StencilFront, "always replace keep keep"},
+            {IniKeywords::StencilBack, "always replace keep keep"},
+            {IniKeywords::RasterizerStateMerge, "true"},
+            {IniKeywords::Cull, "none"},
         };
-        lowerBody.onlyWith = "o3";
+        lowerBody.gameRoles = {{"", "ramp"}};
+        lowerBody.onlyWith = IniKeywords::WWMIColourTarget;
         config.plan.at(4).shader = std::move(lowerBody);
 
         // ---- and her UPPER BODY through her own upper-body pass (ed4fe222). Drawn by Lynae's upper-body
@@ -258,79 +219,52 @@ namespace AGRemapCore {
         // her lower body: the shirt's see-through pass tests those bits ----
         WWMIFixerConfig::Shader upperBody = WWMIFixerConfig::Shader::ofGame("LynaePeppermintUpper");
         upperBody.lines = {
-            {"depth_stencil_state_merge", "true"},
-            {"stencil_enable", "true"},
-            {"stencil_ref", "14"},
-            {"stencil_write_mask", "0x8e"},
-            {"stencil_front", "always replace keep keep"},
-            {"stencil_back", "always replace keep keep"},
-            {"ps-t6", "role ramp"},
+            {IniKeywords::DepthStencilStateMerge, "true"},
+            {IniKeywords::StencilEnable, "true"},
+            {IniKeywords::StencilRef, "14"},
+            {IniKeywords::StencilWriteMask, "0x8e"},
+            {IniKeywords::StencilFront, "always replace keep keep"},
+            {IniKeywords::StencilBack, "always replace keep keep"},
         };
-        upperBody.registers = {{"ps-t4", "jacketNoise"}, {"ps-t5", "upperFoil"}};
-        upperBody.onlyWith = "o3";
+        upperBody.gameRoles = {{"", "ramp"}};
+        upperBody.registers = {{"", "jacketNoise"}, {"", "upperFoil"}};
+        upperBody.onlyWith = IniKeywords::WWMIColourTarget;
         config.plan.at(3).shader = std::move(upperBody);
 
         // ...and the body it is seen through marks itself (bit 1), where it is the visible surface
         const std::vector<std::pair<std::string, std::string>> bodyMark = {
-            {"depth_stencil_state_merge", "true"},
-            {"depth_func", "equal"},
-            {"depth_write_mask", "zero"},
-            {"stencil_enable", "true"},
-            {"stencil_ref", "1"},
-            {"stencil_write_mask", "1"},
-            {"stencil_read_mask", "0xff"},
-            {"stencil_front", "always replace keep keep"},
-            {"stencil_back", "always replace keep keep"},
+            {IniKeywords::DepthStencilStateMerge, "true"},
+            {IniKeywords::DepthFunc, "equal"},
+            {IniKeywords::DepthWriteMask, "zero"},
+            {IniKeywords::StencilEnable, "true"},
+            {IniKeywords::StencilRef, "1"},
+            {IniKeywords::StencilWriteMask, "1"},
+            {IniKeywords::StencilReadMask, "0xff"},
+            {IniKeywords::StencilFront, "always replace keep keep"},
+            {IniKeywords::StencilBack, "always replace keep keep"},
         };
         config.plan.at(3).markLines = bodyMark;
         // (the lower body draws two-sided now, so its mark does too, or its inner faces stay unmarked and
         // the shirt draws opaque over them)
         std::vector<std::pair<std::string, std::string>> lowerMark = bodyMark;
-        lowerMark.emplace_back("rasterizer_state_merge", "true");
-        lowerMark.emplace_back("cull", "none");
+        lowerMark.emplace_back(IniKeywords::RasterizerStateMerge, "true");
+        lowerMark.emplace_back(IniKeywords::Cull, "none");
         config.plan.at(4).markLines = lowerMark;
 
         // In the overworld only, Lynae also draws a black long-sleeved top under her shirt, its own mesh
         // (2679 vertices). The skin's body is slimmer at the neck and arms, so it showed through there as a
         // black collar and sleeves -- in the character menu it is not drawn at all. 8 of the 14 Lynae mods
         // skip it themselves (`FixBlackModel.ini`, `[TextureOverrideBlackShirt]`)
-        config.hiddenMeshes = {"34c0d81d"};
+        config.hiddenMeshes = {"blackShirt"};      // Lynae's HashData mesh type
 
-        // ---- every BODY mask Lynae's shaders read is repacked into her legend: see maskRepackFilter.
-        // Not the shirt's: the skin's own shader reads that one, in the skin's legend ----
-        config.texEdits = {
-            {"upperMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) { return maskRepackFilter(); }},
-
-            // ---- the body's material-code maps (ps-t2) mark skin with 0 on Lynae and 4 on the skin, so
-            // a map carried across unchanged shaded her body's skin as cloth -- whiter, with lavender
-            // shadows, under a warm face: see lynaeSkinCodeSwap. Not the lower body's: her own shader reads
-            // that one, in her codes ----
-            {"upperDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) {
-                return TexEditor::filterOf(ChannelMapFilter::codeMap(lynaeSkinCodeTable()));
-            }},
-        };
 
         // Masks mark regions: a flat one from a mod is replaced by HER game texture
         // the masks a flat or aliased file is refused for are the source's: see WWMITextureFacts::regionRoles
 
         // ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
-        config.removedRegs = {
-            {"ResourceBlendBufferOverride", "ref"},
-            {"ResourceMergedSkeletonOverride", "ref"},
-            {"ResourceExtraMergedSkeletonOverride", "ref"},
-            {"Resource\\RabbitFX\\Diffuse", ""},
-            {"Resource\\RabbitFX\\Lightmap", ""},
-            {"Resource\\RabbitFX\\Normalmap", ""},
-            {"Resource\\RabbitFX\\Materialmap", ""},
-            {"Resource\\RabbitFX\\Cutoutmap", ""},
-            {"Resource\\RabbitFX\\Specialmap", ""},
-            {"run", "commandlist\\rabbitfx\\settextures"},
-        };
 
         // ---- the shape keys are RETARGETED; a batched export's dispatch height is LYNAE's (her
         // Metadata.json's dispatch_y) ----
-        config.hiddenObjs = {};
-        config.zeroShapeKeyStream = false;
         // shapeKeyDispatchSize: read off ShapeKeyDispatchSizes at the run's versions (WWMIFixerConfig::withGameData)
 
         // ---- the game drives shape keys by SLOT, and the two skins number the same face keys
@@ -344,8 +278,6 @@ namespace AGRemapCore {
         // register and the toggle did nothing
         config.carryByRegisterRole = true;
 
-        // Lynae's merged skeleton is 401 slots (1203 float4), past the 768 default
-        config.mergedSkeletonSlots = 1536;
 
         // ---- a mod from before WWMI's merged skeleton: the skin was never renumbered ----
         // sourceVgMaps: read off VGRemaps (component -> "") at the run's versions (WWMIFixerConfig::withGameData)

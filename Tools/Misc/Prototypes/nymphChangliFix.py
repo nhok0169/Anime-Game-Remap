@@ -351,7 +351,6 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     config.carryByRegisterRole = True
     # her slots reach bone 275 (276 x 3 float4 = 828), past the 768 default
     config.mergedSkeletonSlots = 1536
-    config.copiesShareSkeleton = True
     # the skin's blend is EIGHT influences a vertex and Changli's draws read FOUR
     config.targetInfluences = 4
 

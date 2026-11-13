@@ -40,7 +40,6 @@ namespace AGRemapCore {
             // "THE REVERSE DIRECTION IS PROTOTYPED" for why the plan is what it is.
             WWMIFixerConfig config{};
             config.targetId = ModTypeId::Sanhua;
-            config.version = "2.5";
 
             // Sanhua's pixel shaders that bind CHARACTER textures, per draw slot, off a frame dump of
             // her (wwmiDrawTable.py). Her bangs slot has two of its own, and her bodice and skirt slots
@@ -88,16 +87,6 @@ namespace AGRemapCore {
             // mod extracted from a frame dump today carries. All of them are in
             // Data/Mod Downloads/WuWa/SanhuaExorcist/SanhuaExorcistHashLineage.json.
 
-            // A file named by component and type and by nothing else (Component4_NM.dds: the
-            // RabbitFX / WWMI-Tools export names)
-            config.typeRoles = {
-                {0, {{"diffuse", "bangsDiffuse"}, {"mask", "bangsMask"}}},
-                {1, {{"diffuse", "hairDiffuse"}, {"mask", "hairNormal"}, {"normal", "hairNormal"}}},
-                {2, {{"diffuse", "faceDiffuse"}, {"mask", "faceMask"}}},
-                {3, {{"diffuse", "torsoDiffuse"}, {"mask", "torsoMask"}, {"normal", "torsoNormal"}}},
-                {4, {{"diffuse", "lowerDiffuse"}, {"normal", "lowerNormal"}}},
-                {5, {{"diffuse", "irisDiffuse"}, {"mask", "eyeMask"}}},
-            };
 
             // Her own vg_map per component (WWMI-Assets' SanhuaSkin1 Metadata.json): that component's
             // bone indices to the merged skeleton's. Only a mod from before WWMI's merged skeleton needs
@@ -105,7 +94,7 @@ namespace AGRemapCore {
             // mod rather than remapping them as if they were merged (SanhuaExorcist3, 2026-09-19).
             // sourceVgMaps: read off VGRemaps (component -> "") at the run's versions (WWMIFixerConfig::withGameData)
 
-            config.createdTextures = {{ClothMask, Colour(0, 0, 0, 255), 16}};
+            config.createdTextures = {{ClothMask, Colour(), 16, {"component5", "skirtMask.cloth"}}};     // its colour: MaterialColours
 
             config.sourceTextures = sanhuaExorcistTextureFacts();
 
@@ -116,8 +105,9 @@ namespace AGRemapCore {
             // (Tools/Misc/Diagnostics/wwmiShapeKeyOrder.py: every key at its own index), so no
             // shapeKeyOrder; the asset remap moves the overrides' hashes and checksum, and a batched
             // export's dispatch height is the target's (its Metadata.json's dispatch_y) ----
-            config.hiddenObjs = {};
-            config.zeroShapeKeyStream = false;
+            // her mods' RabbitFX routing is kept (a RabbitFX cloak draws through it), and no source of hers is past
+            // 256 bones
+            config.removedRegs = {};
             // shapeKeyDispatchSize: read off ShapeKeyDispatchSizes at the run's versions (WWMIFixerConfig::withGameData)
 
 

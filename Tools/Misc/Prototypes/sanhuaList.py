@@ -13,7 +13,6 @@
 #
 #   py -3 sanhuaList.py <mod folder> [--fromVersion X] [--version Y] [--download normal]
 import argparse
-import itertools
 import os
 import sys
 import types
@@ -23,11 +22,14 @@ import src.py.FixRaidenBoss2 as FRB          # noqa: E402
 from wwmiSectionClassifier import WWMISectionClassifier    # noqa: E402
 
 K = FRB.IniKeywords
+# a slot's name and number, as the library spells them (WWMINames.SlotPrefix, WWMIParserConfig.slotWithPrefix)
+SLOT_PREFIX = FRB.WWMINames.SlotPrefix
+SLOT_NUM = lambda name: FRB.WWMIParserConfig.slotWithPrefix(("", name), SLOT_PREFIX)
 SOURCE, TARGET = "Sanhua", "SanhuaExorcist"
 S, T = FRB.ModTypes[SOURCE].value, FRB.ModTypes[TARGET].value
 Z3 = FRB.Z3Context()
 V = FRB.Version.parse
-NEWEST = lambda modType: modType.hashes.versionOf(modType.hashes.get([modType.name, "vb0"], None, False), [modType.name, "vb0"])   # her newest model
+NEWEST = lambda modType: modType.hashes.versionOf(modType.hashes.get([modType.name, K.Vb0], None, False), [modType.name, K.Vb0])   # her newest model
 FIX = "SanhuaExorcistRemapFix"                  # every section the fix writes ends with this
 
 
@@ -60,7 +62,7 @@ GAME_LEFT = ["faceMask", "eyeMask"]
 CREATED = {"SkinMask": (16, 16, "component3", "torsoMask.skin")}            # role -> (width, height, the skin's slot, its colour)
 
 # the buffers the mod's shared list rebinds, parked first and put back by the cleanup list
-BYPASSED = ["ib", "vb1", "vb2", "vb3", "vb4"]
+BYPASSED = [K.Ib] + ["vb" + str(n) for n in range(1, 5)]   # the mesh streams the shared list rebinds
 NOT_TOGGLES = [K.WWMIObjectDetected, K.WWMIObjectDetected + "==1"]     # conditions every section of a WWMI mod sits under
 
 # what SanhuaExorcist's slots draw, for the comment on a hidden one
@@ -107,15 +109,14 @@ def lists(FROM, TO):
     # ---- each texture list's registers: where the skin's slot draws each role (TextureRegisters)
     TEXTURES = {c: {need(T.getTextureRegister(SLOTS[c], role, TO), TARGET + " " + SLOTS[c] + " " + role): srcRole for srcRole, role in roles.items()}
                 for c, roles in ROLES_ON_TARGET.items()}
-    LINES = [(c, reg, role) for c, lines in TEXTURES.items() for reg, role in sorted(lines.items(), key = lambda line: int(line[0][len("ps-t"):]))]
+    LINES = [(c, reg, role) for c, lines in TEXTURES.items() for reg, role in sorted(lines.items(), key = lambda line: int(line[0][len(line[0].rstrip("0123456789")):]))]
 
     # ---- the skin's slots and each one's draw passes, by their vertex shaders' tags (DrawPasses): a texture list binds only
     #      on its slot's passes
-    TARGET_SLOTS = list(itertools.takewhile(lambda slot: T.indices.get([TARGET, "", slot], TO, False) is not None,
-                                            ("component" + str(n) for n in itertools.count())))
-    passNames = lambda slot: list(itertools.takewhile(lambda name: T.getDrawPass(slot, name, TO) is not None, ["main"] + ["main" + str(n) for n in range(2, 10)]))
-    shadersOf = lambda slot: [vs for name in passNames(slot) for vs in T.getDrawPass(slot, name, TO).split(",")]
-    tagsOf = lambda slot: [tag for name in passNames(slot) for tag in T.getDrawPass(slot, name + ".tags", TO).split(",")]
+    TARGET_SLOTS = [SLOT_PREFIX + str(n) for n in range(T.getComponentCount(SLOT_PREFIX, TO))]
+    passNames = lambda slot: list(T.getDrawPassNames(slot, "main", TO))
+    shadersOf = lambda slot: [vs for name in passNames(slot) for vs in T.getDrawPassShaders(slot, name, TO)]
+    tagsOf = lambda slot: [tag for name in passNames(slot) for tag in T.getDrawPassTags(slot, name, TO)]
     PASSES = {vs: tag for slot in TARGET_SLOTS for vs, tag in zip(shadersOf(slot), tagsOf(slot))}
     GUARDS = {slot: " || ".join("vs == " + tag for tag in dict.fromkeys(tagsOf(slot))) for slot in TARGET_SLOTS}
 
@@ -290,10 +291,10 @@ def lists(FROM, TO):
                              (TARGET, "watch"): [FRB.RegAssetRemap({K.Hash: (S.hashes, K.HashNotFound)}, TARGET, SOURCE, FROM, TO)]}], everyGroup = True),
 
         # each SanhuaExorcist slot nothing of the mod lands on: skipped, its bones still merged
-        *[FRB.GraphCreate((0, TARGET, "hide" + slot), z3 = Z3, onlyWith = [(TARGET, s) for s in TARGET_SLOTS], onlyWithout = (TARGET, slot), sectionsOf = lambda group, slot = slot, n = slot[len("component"):]: [
+        *[FRB.GraphCreate((0, TARGET, "hide" + slot), z3 = Z3, onlyWith = [(TARGET, s) for s in TARGET_SLOTS], onlyWithout = (TARGET, slot), sectionsOf = lambda group, slot = slot, n = str(SLOT_NUM(slot)): [
             FRB.SectionText(Z3, K.TextureOverride + TARGET + slot.capitalize() + K.Remap + "Hide")
                .prefix("; nothing of the mod is drawn through " + TARGET + "'s " + TARGET_LABELS[slot] + " slot: the skin's own geometry is skipped and its bones still merged")
-               .keys([(K.Hash, T.hashes.get([TARGET, "vb0"], TO, False)), (K.MatchFirstIndex, str(T.indices.get([TARGET, "", slot], TO, False))),
+               .keys([(K.Hash, T.hashes.get([TARGET, K.Vb0], TO, False)), (K.MatchFirstIndex, str(T.indices.get([TARGET, "", slot], TO, False))),
                       (K.MatchIndexCount, str(T.indexCounts.get([TARGET, "", slot], TO, False))), (K.WWMIObjectDetected, "1")])
                .open(K.WWMIModEnabled).key(K.Local + " " + K.WWMIStateId + "_" + n).open(K.WWMIStateId + "_" + n + " != " + K.WWMIStateId)
                .keys([(K.WWMIStateId + "_" + n, K.WWMIStateId), (K.WWMIVgOffset, str(T.vgOffsets.get([TARGET, "", slot], TO, False))),
@@ -302,7 +303,7 @@ def lists(FROM, TO):
           for slot in TARGET_SLOTS],
 
         # the blend, through Sanhua's vertex group row onto SanhuaExorcist's, in every file
-        FRB.ResRegCollect({(0, TARGET, slot): "vb4" for slot in TARGET_SLOTS},
+        FRB.ResRegCollect({(0, TARGET, slot): K.WWMIBlendReg for slot in TARGET_SLOTS},
                           {"blend": FRB.VGRemapBlendReplace((0, "", "blend"), S, FROM, TO, row = S.getVGRemap(TARGET, FROM, TO),
                                                             elements = lambda srcPath: FRB.BlendFile.byteElements(4))},
                           resPredicates = {(0, TARGET, slot): FRB.ResRegCollect.skipsKeywords() for slot in TARGET_SLOTS}, everyGroup = True),
@@ -322,7 +323,7 @@ LISTS = {}      # the lists per run's versions
 
 def at(ini_):
     """The lists at an .ini's run's versions: the ones the run was asked for, else her and the skin's newest"""
-    FROM, TO = ini_.fromVersion or NEWEST(S), ini_.toVersion or NEWEST(T)
+    FROM, TO = ini_.fromVersion or NEWEST(S), ini_.toVersion or FRB.WWMIFixerConfig.newestVersionOf(T)   # the skin's newest game version (WWMIFixer::toVersion)
     key = (FROM.toString(), TO.toString())
     if key not in LISTS:
         LISTS[key] = lists(FROM, TO)

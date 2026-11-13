@@ -92,10 +92,7 @@ namespace AGRemapCore {
         // ---- a role the mod ships no file for falls back to HER game texture ----
         // The eye textures are the same hashes on both skins, and her face map and mask are not bound
         // on Lynae, so none of the five has a fallback.
-        facts.downloadGameFolder = "WuWa";
-        facts.downloadCharFolder = "LynaePeppermint";
         facts.downloadVersionFolder = "3_7";
-        facts.downloadPrefix = "LynaePeppermint";
         facts.fallbackTextures = {
             {"bangsDiffuse", "180c8e8a"},
             {"bangsMask", "59324a0f"},

@@ -227,6 +227,17 @@ TextureThumbprints
 
 :raw-html:`<br />`
 
+TextureKinds
+------------
+
+.. cppattributetable:: AGRemapCore::TextureKinds
+
+.. doxygenclass:: AGRemapCore::TextureKinds
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 TextureRegisters
 ----------------
 
@@ -3023,6 +3034,17 @@ GuidedScaleFilter
 .. cppattributetable:: AGRemapCore::GuidedScaleFilter
 
 .. doxygenclass:: AGRemapCore::GuidedScaleFilter
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RegionFilter
+------------
+
+.. cppattributetable:: AGRemapCore::RegionFilter
+
+.. doxygenclass:: AGRemapCore::RegionFilter
     :members:
     :protected-members:
 

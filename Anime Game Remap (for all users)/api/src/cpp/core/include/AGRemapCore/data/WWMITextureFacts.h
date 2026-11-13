@@ -59,15 +59,6 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         Roles by WWMI Tools' ``Component<N>_<Type>`` naming, as ``component -> {type -> role}``,
-         for a file no hash names
-         @endrst
-         */
-        std::map<int, std::unordered_map<std::string, std::string>> typeRoles;
-
-        /**
-         * @brief
-         @rst
          A 16 x 16 grayscale box average of each of the character's game textures, keyed by hash --
          pixel identity for a file no hash and no name places :raw-html:`<br />` :raw-html:`<br />`
 
@@ -96,15 +87,6 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         Identifies a texture file by hand, in place of the thumbprints -- for a test, or a
-         character whose thumbprints are not generated yet
-         @endrst
-         */
-        std::function<std::optional<std::string>(const std::string& file)> identifyTexture;
-
-        /**
-         * @brief
-         @rst
          Which role each register binds, per source component, as ``component -> {register -> role}``
          :raw-html:`<br />` :raw-html:`<br />`
 
@@ -119,19 +101,20 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         The game folder under ``Data/Mod Downloads`` this character's textures are fetched from.
-         **Default**: ``"WuWa"``
+         The game folder under ``Data/Mod Downloads`` this character's textures are fetched from. Empty (the default):
+         her game's name, filled by :cpp:func:`WWMIFixerConfig::withGameData`
          @endrst
          */
-        std::string downloadGameFolder = "WuWa";
+        std::string downloadGameFolder;
 
         /**
          * @brief
          @rst
          This character's download folder, version folder and file prefix under
          :cpp:member:`downloadGameFolder` -- ``Sanhua`` / ``2_5`` / ``Sanhua`` for
-         ``WuWa/Sanhua/2_5/SanhuaTexture<hash>.dds``. Empty (the default) registers no fallback
-         download at all :raw-html:`<br />` :raw-html:`<br />`
+         ``WuWa/Sanhua/2_5/SanhuaTexture<hash>.dds``. The folder and the prefix are her name, filled by
+         :cpp:func:`WWMIFixerConfig::withGameData` when empty; an empty version folder registers no fallback download
+         at all :raw-html:`<br />` :raw-html:`<br />`
 
          Beside the roles rather than on the fixer's config for the reason
          :cpp:member:`GIMICharParserConfig::downloadCharFolder` is: they describe the character a

@@ -82,6 +82,10 @@ def fixConfigs():
             except Exception:
                 continue
             if config is not None:
+                # a config's target version is the run's, else the target's newest model (WWMIFixerConfig.version)
+                T = F.ModTypes[tgt].value
+                vb0 = [T.name, F.IniKeywords.Vb0]
+                config.version = config.version or str(T.hashes.versionOf(T.hashes.get(vb0, None, False), vb0))
                 yield src, tgt, config.withGameData(S, F.ModTypes[tgt].value, F.Version.parse(config.sourceVersion or config.version),
                                                     F.Version.parse(config.version))
 
@@ -96,7 +100,7 @@ def tagsOf(config):
     tags = F.ShaderFilterTags()
     tagged = lambda shader: list(config.passVertexShaders[shader]) if config.passVertexShaders else [shader]
     passes = [shader for slot in config.slotPasses for shader in slot] + [shader for extra in config.extraPassRegs.values() for shader in extra]
-    tags.addNumbered([vs for shader in passes for vs in tagged(shader)], dict(config.filterIndices), config.filterBase, config.filterStep)
+    tags.addGiven([vs for shader in passes for vs in tagged(shader)], dict(config.filterIndices))
     return {vs: tags.filterIndexOf(vs) for shader in passes for vs in tagged(shader)}, tagged
 
 
@@ -115,9 +119,51 @@ def drawPassRows():
                 out.append(row(config.version, tgt, component, name, ",".join(vs)))
                 out.append(row(config.version, tgt, component, name + ".ps", ps))
                 out.append(row(config.version, tgt, component, name + ".tags", ",".join(tagOf[v] for v in vs)))
+    out.extend(offPassRows())
+    out.extend(sharedMeshRows()[0])
     out.append("        // what a character's own draws bind at ps-t0..t3 (DRAW_BINDINGS: read off her frame dumps)")
     out.extend(drawBindingRows())
     return out
+
+
+def offPassRows():
+    """A pass a part is kept OFF (SourceComponent.offPasses) that its slot has no row for: the slot's next "other" pass, its
+    vertex shaders and their tags as the fix tags them"""
+    out = []
+    for src, tgt, config in fixConfigs():
+        tagOf, tagged = tagsOf(config)
+        for key, entry in sorted(config.plan.items()):
+            component = "component" + str(entry.slot)
+            known = {ps for ps in config.extraPassRegs.get(entry.slot, {})}
+            for i, ps in enumerate(p for p in entry.offPasses if p not in known):
+                name = "other" if not known and i == 0 else "other" + str(len(known) + i + 1)
+                vs = tagged(ps)
+                out.append("        // " + tgt + "'s " + component + " pass a part of " + src + "'s is kept off (" + src + " -> " + tgt + ")")
+                out += [row(config.version, tgt, component, name, ",".join(vs)), row(config.version, tgt, component, name + ".ps", ps),
+                        row(config.version, tgt, component, name + ".tags", ",".join(config.filterIndices.get(v, tagOf.get(v, "")) for v in vs))]
+    return out
+
+
+def sharedMeshRows():
+    """A mesh of the target's own besides its slots (WWMIFixerConfig.sharedMeshes), filed under the hash type HashData gives
+    its vb0: its passes (DrawPasses) and what each binds (TextureRegisters)"""
+    passes, registers = [], []
+    for src, tgt, config in fixConfigs():
+        T = F.ModTypes[tgt].value
+        for mesh, byPass in config.sharedMeshes.items():
+            names = [hashType for names in T.hashes.repo.toNestedDict().values() for hashType, value in names.get(tgt, {}).items() if value.lower() == mesh.lower()]
+            if not names:
+                print("shared mesh", mesh, "of", tgt, "has no HashData row")
+                continue
+            for i, (ps, bindings) in enumerate(byPass.items()):
+                name = "main" if i == 0 else "main" + str(i + 1)
+                vs = list(config.passVertexShaders.get(ps, []))
+                passes.append("        // " + tgt + "'s " + names[0] + " mesh (" + src + " -> " + tgt + "'s sharedMeshes)")
+                passes += [row(config.version, tgt, names[0], name, ",".join(vs)), row(config.version, tgt, names[0], name + ".ps", ps),
+                           row(config.version, tgt, names[0], name + ".tags", ",".join(config.filterIndices.get(v, "") for v in vs))]
+                # a pass past the first binds as '<role>@<pass>' (ModType.getTextureRole's drawPass)
+                registers += [(tgt, config.version, names[0], b.role + ("" if i == 0 else "@" + name), b.reg) for b in bindings]
+    return passes, registers
 
 
 # Registers no config names as a role: (character, component, register) -> the role. LynaePeppermint's hip pouch reads its
@@ -168,6 +214,8 @@ def textureRegisterRows():
 
     for (char, slot, reg), role in TARGET_ONLY_ROLES.items():
         add(char, slot, role, reg, "TARGET_ONLY_ROLES")
+    for (char, slot, reg), role in OTHER_PASS_ROLES.items():
+        add(char, slot, role + "@other", reg, "OTHER_PASS_ROLES")
     for src, tgt, config in fixConfigs():
         _, targetRoles = tables[tgt]
         if (src, tgt) in PLAN_LAYOUTS:
@@ -175,12 +223,12 @@ def textureRegisterRows():
                 for b in entry.bindings:
                     add(tgt, entry.slot, PLAN_LAYOUTS[(src, tgt)].get(b.role, b.role), b.reg, src + " -> " + tgt + "'s plan " + str(key))
         for key, entry in config.plan.items():
-            if entry.shader is not None and key < 100:            # a reroute's shader is its source component's
-                for b in entry.shader.registers:
-                    add(src, key, b.role, b.reg, src + "'s " + entry.shader.name)
-                for reg, value in entry.shader.lines:             # a game texture it reads by role (her ramp)
+            for shader in [s for s in (entry.shader, entry.overlay) if s is not None and key < 100]:   # a reroute's shader is its source's
+                for b in shader.registers:
+                    add(src, key, b.role, b.reg, src + "'s " + shader.name)
+                for reg, value in shader.lines:                   # a game texture it reads by role (her ramp)
                     if value.startswith("role "):
-                        add(src, key, value[len("role "):], reg, src + "'s " + entry.shader.name)
+                        add(src, key, value[len("role "):], reg, src + "'s " + shader.name)
         # a pair's other passes are written all or none: a partial set would read as the whole of what the pass binds
         rows, problems = {}, []
         for slot, passes in config.extraPassRegs.items():
@@ -205,6 +253,9 @@ def textureRegisterRows():
             for (char, slot, type_), reg in rows.items():
                 extra[char][(slot, type_)] = reg
 
+    for tgt, version, mesh, role, reg in sharedMeshRows()[1]:
+        out.append("        // " + tgt + "'s " + mesh + " mesh: what its pass binds")
+        out.append(row(version, tgt, mesh, role, reg))
     for char in CHARS:
         version, roles = tables[char]
         if not roles and not extra[char]:
@@ -230,6 +281,14 @@ def textureRegisterRows():
 PLAN_LAYOUTS = {("Sanhua", "SanhuaExorcist"): {"skinNormal": "torsoNormal", "SkinMask": "torsoMask", "skinDiffuse": "torsoDiffuse",
                                                "bodiceNormal": "torsoNormal", "bodiceMask": "torsoMask", "bodiceDiffuse": "torsoDiffuse",
                                                "skirtNormal": "torsoNormal", "skirtMask": "torsoMask", "skirtDiffuse": "torsoDiffuse"}}
+
+
+# What a character's slot's OTHER pass reads, where no fix's plan names it under the character's own role (so it does not
+# derive): (character, slot, register) -> the role. ChangliNymph's outline pass (f8c96a27) reads each part's outline or
+# diffuse at ps-t0, on her bangs and her body; her eyes' second pass (e04f4df8) the highlight at ps-t1 (the Changli ->
+# ChangliNymph fix's extraPassRegs)
+OTHER_PASS_ROLES = {("ChangliNymph", 0, "ps-t0"): "bangsOutline", ("ChangliNymph", 4, "ps-t0"): "bodyDiffuse",
+                    ("ChangliNymph", 6, "ps-t1"): "eyeHighlight"}
 
 
 TARGET_ONLY_ROLES_OF = lambda char, slot: {reg: role for (c, s, reg), role in TARGET_ONLY_ROLES.items() if c == char and s == slot}
@@ -321,8 +380,8 @@ def numberingRows():
 # What a character's code maps' bits mean (MaterialCodes): (character, version, component, type) -> value. Read off the
 # fixes that use them: Lynae's code maps keep a material number in the low nibble and flags above it -- her film is flag
 # 0x10 (LynaeFixer.cpp's drawReroutes, LynaePropsFilmFlags.cpp), her tights and shorts 0x80 (offPasses) -- and the
-# skin's hip pouch draws everything as its plain material 15 (LynaeSkinCodes.cpp's lynaePropsPlainCodeTable, which these
-# rows rebuild exactly: --check)
+# skin's hip pouch draws everything as its plain material 15 (Lynae's props code table in LynaeFixer.cpp is built from
+# these rows)
 MATERIAL_CODES = {
     ("Lynae", "3.6", "component4", "lowerDetail.flags.tights"): "0x80",
     ("Lynae", "3.6", "component5", "jacketDetail.flags.film"): "0x10",
@@ -335,6 +394,15 @@ MATERIAL_CODES = {
 # skin in SanhuaExorcist's torso mask, measured (SanhuaFixer.cpp's created skin mask)
 MATERIAL_COLOURS = {
     ("SanhuaExorcist", "2.5", "component3", "torsoMask.skin"): "Colour(255, 77, 0, 255)",
+    # ChangliNymph's body draw: a mask reading as plain cloth (ChangliFixer.cpp's made flatClothMask)
+    ("ChangliNymph", "2.4", "component4", "bodyMask.cloth"): "Colour(0, 128, 0, 255)",
+    # Changli's upper body, for the skin's sheer dress drawn there: a mask reading as plain cloth and a flat detail map
+    # (ChangliNymphFixer.cpp's made flatClothMask and flatDetail)
+    ("Changli", "1.1", "component3", "upperMask.cloth"): "Colour(0, 128, 0, 255)",
+    ("Changli", "1.1", "component3", "upperDetail.flat"): "Colour(70, 70, 70, 0)",
+    # Sanhua's skirt mask: her plain-cloth code, 96% of her own bodice mask and 75% of her skirt's (SanhuaExorcistFixer.cpp's
+    # made ClothMask, for the Exorcist's slot 4 whose shader reads no mask)
+    ("Sanhua", "2.5", "component5", "skirtMask.cloth"): "Colour(0, 0, 0, 255)",
 }
 
 
@@ -444,9 +512,22 @@ def missingHashRows():
     return out
 
 
+KEPT = re.compile(r"        // ===== KEPT BY HAND: ([^(=\n]*?)(?: \([^)\n]*\))? =====\n.*?        // ===== END KEPT BY HAND: \1 =====\n", re.S)
+
+
+def keptBlocks(path):
+    """The blocks of rows a data file keeps by hand (a later game version's rows read off frame dumps, which no config
+    holds): kept as they are when the file is rewritten"""
+    if not os.path.exists(path):
+        return []
+    text = open(path, "rb").read().decode("utf-8").replace("\r\n", "\n")
+    return [m.group(0).rstrip("\n") for m in KEPT.finditer(text)]
+
+
 def writeData(name, rows, includes = (), extra = ""):
-    text = HEADER.format(name = name, rows = "\n".join(rows), includes = "\n".join(includes) + extra)
     path = os.path.join(DATA, name + ".cpp")
+    rows = list(rows) + keptBlocks(path)
+    text = HEADER.format(name = name, rows = "\n".join(rows), includes = "\n".join(includes) + extra)
     with open(path, "w", encoding = "utf-8", newline = "\r\n") as f:
         f.write(text)
     print("wrote", path, len(rows), "lines")
@@ -559,19 +640,6 @@ namespace {
                     row = F.ModTypes[char].value.getVGRemap(char, F.Version.parse(version), F.Version.parse(version), "component" + str(slot), "")
                     if row is None or [row.remap[i] for i in range(len(groups))] != list(groups):
                         print("VGRemaps (vg maps)", char, version, slot); bad += 1
-        # her parts' RabbitFX tags, from what her draws bind and how the game creates it, are the fix config's
-        config = F.WWMIFixerConfig.ofFactory(F.ModTypes["Lynae"].value.iniFixBuilder.factoryOf("Lynae", "LynaePeppermint"))
-        for (char, version), components in DRAW_BINDINGS.items():
-            C, ver = F.ModTypes[char].value, F.Version.parse(version)
-            for component, hashes in components.items():
-                derived = [F.RabbitFX.tagOf(*C.getTextureDesc(C.getDrawPass(component, "main.ps-t" + str(k), ver), ver)) for k in range(4)]
-                literal = [dict(config.plan[int(component[len("component"):])].rabbitFX.gameTags).get("ps-t" + str(k), 0) for k in range(4)]
-                if derived != literal:
-                    print("RabbitFX tags", char, component, derived, literal); bad += 1
-        # the rows rebuild Lynae's props code table: a film code kept, any other's material made the pouch's plain one
-        L, P, V36, V37 = F.ModTypes["Lynae"].value, F.ModTypes["LynaePeppermint"].value, F.Version.parse("3.6"), F.Version.parse("3.7")
-        film, material = L.getMaterialCode("component6", "propsDetail.flags.film", V36), L.getMaterialCode("component6", "propsDetail.material", V36)
-        plain = P.getMaterialCode("component5", "pouchDetail.material.plain", V37)
-        if [c if c & film else (c & ~material) | plain for c in range(256)] != list(F.LynaeData.propsPlainCodeTable()):
-            print("MaterialCodes: the rows do not rebuild lynaePropsPlainCodeTable"); bad += 1
+        # (her parts' RabbitFX tags are filled from these rows by withGameData since 2026-11-09, so they are not re-checked here)
+        # (Lynae's props code table is built from the MaterialCodes rows by her fix itself since 2026-11-09)
         print("CHECK", "OK" if bad == 0 else str(bad) + " MISMATCHES")

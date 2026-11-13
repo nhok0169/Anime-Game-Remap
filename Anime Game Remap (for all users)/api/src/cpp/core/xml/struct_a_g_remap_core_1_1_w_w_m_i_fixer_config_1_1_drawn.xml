@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::Drawn</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a0949c1bf2a53831499eef8989c8f08b5" prot="public" static="no" mutable="no">
+        <type>std::map&lt; int, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;int, std::vector&lt;std::string&gt; &gt; AGRemapCore::WWMIFixerConfig::Drawn::present</definition>
+        <argsstring></argsstring>
+        <name>present</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::present</qualifiedname>
+        <briefdescription>
+<para>Each source component whose sections draw -&gt; its sections, a reroute&apos;s <computeroutput>as</computeroutput> included (sharing its <computeroutput>from</computeroutput>&apos;s sections). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2299" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1abe04c15f1e3db11537bd62b5cefab82b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; AGRemapCore::WWMIFixerConfig::Drawn::silent</definition>
+        <argsstring></argsstring>
+        <name>silent</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::silent</qualifiedname>
+        <briefdescription>
+<para>The source components whose sections draw nothing (:cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_data_1af3de6823e0065d8cc7b3f1603a65e14e" kindref="member">IniParseData::isUndrawn</ref></computeroutput>), in the parser&apos;s order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2304" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1afd8ddb04f99915124a691ae91414fab8" prot="public" static="no" mutable="no">
+        <type>std::map&lt; int, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a1e70e1054daca9630b3ccdc1513b097d" kindref="member">DrawRange</ref> &gt; &gt;</type>
+        <definition>std::map&lt;int, std::vector&lt;DrawRange&gt; &gt; AGRemapCore::WWMIFixerConfig::Drawn::drawRanges</definition>
+        <argsstring></argsstring>
+        <name>drawRanges</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::drawRanges</qualifiedname>
+        <briefdescription>
+<para>Each drawn source component -&gt; its draws, less the ones a reroute took; a reroute&apos;s <computeroutput>as</computeroutput> -&gt; the draws it took. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2309" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1af01fe5688c95e9aee67b0cc5eec7911b" prot="public" static="no" mutable="no">
+        <type>std::map&lt; int, int &gt;</type>
+        <definition>std::map&lt;int, int&gt; AGRemapCore::WWMIFixerConfig::Drawn::rerouteFrom</definition>
+        <argsstring></argsstring>
+        <name>rerouteFrom</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::rerouteFrom</qualifiedname>
+        <briefdescription>
+<para>Each reroute (:cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a3d78c9fb2d4207ff7dc0b7961971ebf8" kindref="member">drawReroutes</ref></computeroutput>) that took draws: its <computeroutput>as</computeroutput> -&gt; its <computeroutput>from</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2314" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1afa6e265e87a7302102b7f4e2563dace0" prot="public" static="no" mutable="no">
+        <type>std::map&lt; int, std::set&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a1e70e1054daca9630b3ccdc1513b097d" kindref="member">DrawRange</ref> &gt; &gt;</type>
+        <definition>std::map&lt;int, std::set&lt;DrawRange&gt; &gt; AGRemapCore::WWMIFixerConfig::Drawn::reroutedDraws</definition>
+        <argsstring></argsstring>
+        <name>reroutedDraws</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::reroutedDraws</qualifiedname>
+        <briefdescription>
+<para>Each reroute that took draws: its <computeroutput>as</computeroutput> -&gt; the draws it took. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2319" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a9a5f972429749457cd605a10d5370220" prot="public" static="no" mutable="no">
+        <type>std::set&lt; int &gt;</type>
+        <definition>std::set&lt;int&gt; AGRemapCore::WWMIFixerConfig::Drawn::drawn</definition>
+        <argsstring></argsstring>
+        <name>drawn</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::drawn</qualifiedname>
+        <briefdescription>
+<para>The present components that are not a reroute&apos;s <computeroutput>as</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2324" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1ad44a545010bbb61f64edb037f9cf4525" prot="public" static="no" mutable="no">
+        <type>std::set&lt; int &gt;</type>
+        <definition>std::set&lt;int&gt; AGRemapCore::WWMIFixerConfig::Drawn::rabbitFX</definition>
+        <argsstring></argsstring>
+        <name>rabbitFX</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::rabbitFX</qualifiedname>
+        <briefdescription>
+<para>Of <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a9a5f972429749457cd605a10d5370220" kindref="member">drawn</ref>, the ones whose sections name <ref refid="class_a_g_remap_core_1_1_rabbit_f_x" kindref="compound">RabbitFX</ref> (:cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_data_1afba5daead2b199ce9b2121ad76f3d28d" kindref="member">IniParseData::libraries</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2329" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a1dc3f53854c2bb6958db146e19b6477a" prot="public" static="no" mutable="no">
+        <type>std::set&lt; int &gt;</type>
+        <definition>std::set&lt;int&gt; AGRemapCore::WWMIFixerConfig::Drawn::ownShader</definition>
+        <argsstring></argsstring>
+        <name>ownShader</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::ownShader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The present components their own :cpp:member:`SourceComponent::shader` draws (:cpp:func:`shaderDraws`)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2337" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a99f45a5c275da7bc0b0ae0a6e701b896" prot="public" static="no" mutable="no">
+        <type>std::set&lt; int &gt;</type>
+        <definition>std::set&lt;int&gt; AGRemapCore::WWMIFixerConfig::Drawn::overlaid</definition>
+        <argsstring></argsstring>
+        <name>overlaid</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::overlaid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The present components their :cpp:member:`SourceComponent::overlay` is drawn over -- not one that hands its
+maps to RabbitFX while the overlay yields to it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2346" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1aceaee2bcb95ebb42b8eeda20cb1125c8" prot="public" static="no" mutable="no">
+        <type>std::set&lt; int &gt;</type>
+        <definition>std::set&lt;int&gt; AGRemapCore::WWMIFixerConfig::Drawn::markLines</definition>
+        <argsstring></argsstring>
+        <name>markLines</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::markLines</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The present components whose :cpp:member:`SourceComponent::markLines` are written -- not one whose shader
+yields to RabbitFX
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2355" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a72f0b013c249db63d97ef579db9dad9a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::WWMIFixerConfig::Drawn::legacy</definition>
+        <argsstring></argsstring>
+        <name>legacy</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::legacy</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the mod is from before WWMI&apos;s merged skeleton: none of its slot sections carries a
+``vg_offset`` (:cpp:member:`IniKeywords::WWMIVgOffset`), so its blend holds each component&apos;s OWN bone indices
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2364" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1abee6c58a72b0f50f9d9a5ef08ed39527" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::WWMIFixerConfig::Drawn::hostResetsDetected</definition>
+        <argsstring></argsstring>
+        <name>hostResetsDetected</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::hostResetsDetected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the mod&apos;s ``[Present]`` resets ``$object_detected`` each frame (``post $object_detected = 0``,
+anywhere in it; a ``[Present]`` written more than once is one section)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2373" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a902ba1d45e398b53947c45f30177c6cd" prot="public" static="no" mutable="no">
+        <type>std::map&lt; int, <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_own_mesh" kindref="compound">OwnMesh</ref> &gt;</type>
+        <definition>std::map&lt;int, OwnMesh&gt; AGRemapCore::WWMIFixerConfig::Drawn::ownMeshes</definition>
+        <argsstring></argsstring>
+        <name>ownMeshes</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::ownMeshes</qualifiedname>
+        <briefdescription>
+<para>Each drawn component (not a reroute&apos;s <computeroutput>as</computeroutput>) drawn from mesh files of its own -&gt; those files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2378" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a5a89318791d2e7efd3d47ee688ea6685" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::Drawn::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Why the mod is not remapped, or empty. When set, only #hostResetsDetected, #watching and what was read before
+the reason are filled
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2387" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1ad00d5e645b630787f75f85d53da0ee1b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::Drawn::watching</definition>
+        <argsstring></argsstring>
+        <name>watching</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::watching</qualifiedname>
+        <briefdescription>
+<para>The sections the parser placed in its watching graph (:cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_objs_1a3e21730c5d3feebaa685d4856a8989af" kindref="member">WWMIParseObjs::Watch</ref></computeroutput>), in its order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2392" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2392" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a27f9322f7cf79fd34aa2cbf8aa54c021" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::Drawn::notes</definition>
+        <argsstring></argsstring>
+        <name>notes</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Drawn::notes</qualifiedname>
+        <briefdescription>
+<para>What the reading has to say, for the log, in order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2397" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2397" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What the mod draws, read off the parser&apos;s data <ndash/> see <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1abf364d0e8a491c957f27ffbd48c5681c" kindref="member">drawnOf</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2295" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2295" bodyend="2398"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a9a5f972429749457cd605a10d5370220" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>drawn</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1afd8ddb04f99915124a691ae91414fab8" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>drawRanges</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a5a89318791d2e7efd3d47ee688ea6685" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>error</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1abee6c58a72b0f50f9d9a5ef08ed39527" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>hostResetsDetected</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a72f0b013c249db63d97ef579db9dad9a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>legacy</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1aceaee2bcb95ebb42b8eeda20cb1125c8" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>markLines</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a27f9322f7cf79fd34aa2cbf8aa54c021" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>notes</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a99f45a5c275da7bc0b0ae0a6e701b896" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>overlaid</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a902ba1d45e398b53947c45f30177c6cd" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>ownMeshes</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a1dc3f53854c2bb6958db146e19b6477a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>ownShader</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1a0949c1bf2a53831499eef8989c8f08b5" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>present</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1ad44a545010bbb61f64edb037f9cf4525" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>rabbitFX</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1afa6e265e87a7302102b7f4e2563dace0" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>reroutedDraws</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1af01fe5688c95e9aee67b0cc5eec7911b" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>rerouteFrom</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1abe04c15f1e3db11537bd62b5cefab82b" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>silent</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_drawn_1ad00d5e645b630787f75f85d53da0ee1b" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Drawn</scope><name>watching</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

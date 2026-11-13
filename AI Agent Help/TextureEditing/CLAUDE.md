@@ -260,11 +260,10 @@ without retyping them as numpy. Fourteen are now two general filters plus the ch
 * **`GuidedScaleFilter`**: each pixel's RGB scaled by one of 256 factors a GUIDE texture's channel chooses at the
   same UV (nearest texel; `linear` scales the sRGB-decoded colour). What a texel is comes from the guide (a code map,
   a normal map's alpha), never from its own colour. A missing guide leaves the texture.
-* `TexEditor::filterOf(filter)` makes either an edit; `WWMIFixerConfig::TexEditContext::fileOrGame(role)` is the
-  mod's file for a guide role, else the source's game file.
+* `TexEditor::filterOf(filter)` makes either an edit; `WWMIFixerConfig::TexEditContext::fileOfRole` holds the
+  mod's file for a guide role.
 
-The character keeps only its tables (`LynaeSkinCodes`: `lynaeSkinCodeTable`, `lynaeShadeBandFactors`, ...; bound as
-`LynaeData`). Left as they were, being a different kind: Chisa's `maskFilter` (decides skin by the DIFFUSE's colour --
+The character keeps only its tables (`LynaeSkinCodes`, gone since 2026-11-09 with the edits that read it). Left as they were, being a different kind: Chisa's `maskFilter` (decides skin by the DIFFUSE's colour --
 see the no-diffuse-classification rule) and `gradeFilter` (a UV-island mask). Proved byte-identical on the 174-folder
 WWMI sweep before and after.
 

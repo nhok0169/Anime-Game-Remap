@@ -22,6 +22,38 @@ def pixelsOf(tf):
     return [tuple(px[i:i + 4]) for i in range(0, len(px), 4)]
 
 
+class RegionFilterTest(BaseUnitTest):
+    """:class:`RegionFilter`: another filter run on one region of a texture"""
+
+    def test_onlyTheRegionChanges(self):
+        tf = texOf([(1, 2, 3, 4), (5, 6, 7, 8), (9, 10, 11, 12)])
+        inner = FRB.ChannelMapFilter()
+        inner.setChannel(0, 0, FRB.ChannelMapFilter.constant(255))
+        sizes = []
+
+        def region(width, height):
+            sizes.append((width, height))
+            return [False, True, False]
+
+        FRB.RegionFilter(inner, region).transform(tf)
+        self.assertEqual(pixelsOf(tf), [(1, 2, 3, 4), (255, 6, 7, 8), (9, 10, 11, 12)])
+        self.assertEqual(sizes, [(3, 1)])
+
+    def test_anEmptyOrMissizedRegion_leavesTheTexture(self):
+        for region in (lambda w, h: [], lambda w, h: [True]):
+            tf = texOf([(1, 2, 3, 4), (5, 6, 7, 8)])
+            inner = FRB.ChannelMapFilter()
+            inner.setChannel(0, 0, FRB.ChannelMapFilter.constant(255))
+            FRB.RegionFilter(inner, region).transform(tf)
+            self.assertEqual(pixelsOf(tf), [(1, 2, 3, 4), (5, 6, 7, 8)])
+
+    def test_noFilterOrRegion_isANoOp(self):
+        tf = texOf([(1, 2, 3, 4)])
+        FRB.RegionFilter().transform(tf)
+        FRB.RegionFilter(FRB.ChannelMapFilter()).transform(tf)
+        self.assertEqual(pixelsOf(tf), [(1, 2, 3, 4)])
+
+
 class ChannelMapFilterTest(BaseUnitTest):
     """:class:`ChannelMapFilter`: each output channel written from a channel of the same pixel through a table"""
 

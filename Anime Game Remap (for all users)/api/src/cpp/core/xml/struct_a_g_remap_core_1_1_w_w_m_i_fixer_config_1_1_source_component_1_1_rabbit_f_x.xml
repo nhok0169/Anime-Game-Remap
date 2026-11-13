@@ -15,12 +15,14 @@
         <detaileddescription>
 <para><verbatim>embed:rst 
 ``ps-t0`` .. ``ps-t3`` -&gt; the tag RabbitFX gives the SOURCE&apos;s own game texture there
-(3 for 1718.3, 4 for 1718.4, 5 for 1718.5, 6 for 1718.6, 0 for none)
+(3 for 1718.3, 4 for 1718.4, 5 for 1718.5, 6 for 1718.6, 0 for none). Empty: :cpp:func:`withGameData`
+fills it at the run&apos;s version, from what her draw of the component binds (:cpp:class:`DrawPasses`&apos;
+``main.ps-tN``) and how the game creates that texture (:cpp:class:`TextureDescs`, :cpp:func:`RabbitFX::tagOf`)
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="439" column="26" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="439" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="612" column="26" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="612" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -47,7 +49,7 @@ where the target slot samples the same roles in the same order as the source&apo
 **Default**: none, RabbitFX&apos;s lines are removed as :cpp:member:`removedRegs` says
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="431" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="431" bodyend="440"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="602" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="602" bodyend="613"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1_1_rabbit_f_x_1a11319d1a5c0761cc779fed3586045bc9" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SourceComponent::RabbitFX</scope><name>gameTags</name></member>
     </listofallmembers>

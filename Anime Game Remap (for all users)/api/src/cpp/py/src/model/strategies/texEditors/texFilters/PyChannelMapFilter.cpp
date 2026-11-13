@@ -11,6 +11,7 @@
 
 // ##### EndCredits
 
+#include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
@@ -23,6 +24,7 @@
 #include "AGRemapCore/model/strategies/texEditors/texFilters/BaseTexFilter.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/GuidedScaleFilter.h"
+#include "AGRemapCore/model/strategies/texEditors/texFilters/RegionFilter.h"
 #include "PyTexFilterCommon.h"
 
 namespace py = pybind11;
@@ -137,6 +139,51 @@ Returns
             syncTextureFileToImg(texFileObj);
         }, py::arg("texFile"), py::doc(R"doc(
 Writes the channels of 'texFile'
+
+Parameters
+----------
+texFile: :class:`CppTextureFile`
+    The texture to be edited
+        )doc"));
+}
+
+
+void initCppRegionFilter(pybind11::module_ &m) {
+    py::class_<AGRC::RegionFilter, AGRC::BaseTexFilter, py::smart_holder>(m, "RegionFilter", R"doc(
+This class inherits from :class:`CppBaseTexFilter`
+
+Runs another filter on one region of a texture and leaves every other texel as it was: a channel set on the part of
+an atlas some triangles paint (:meth:`DrawUVCoverage.region`), a colour grade on one UV island
+:raw-html:`<br />` :raw-html:`<br />`
+
+The region is asked for at the texture's size when the filter runs. An empty region, or one of the wrong size,
+leaves the texture as it is -- no region found is better than an edit of the whole texture. A change the inner
+filter makes to the texture's gamma applies to the whole texture
+
+Parameters
+----------
+filter: Optional[:class:`CppBaseTexFilter`]
+    The filter run on the region :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
+region: Optional[Callable[[:class:`int`, :class:`int`], List[:class:`bool`]]]
+    The region of a texture of the given width and height: for each texel, row by row, whether it is edited
+    :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+    )doc")
+        .def(py::init<std::shared_ptr<AGRC::BaseTexFilter>, AGRC::RegionFilter::Region>(),
+             py::arg("filter") = nullptr, py::arg("region") = nullptr)
+        .def_readwrite("filter", &AGRC::RegionFilter::filter, py::doc("Optional[:class:`CppBaseTexFilter`]: The filter run on the region"))
+        .def_readwrite("region", &AGRC::RegionFilter::region,
+            py::doc("Optional[Callable[[:class:`int`, :class:`int`], List[:class:`bool`]]]: The region of a texture of the given width and height"))
+        .def("transform", [](AGRC::RegionFilter &self, py::object texFileObj) {
+            AGRC::TextureFile &texFile = syncTextureFileFromImg(texFileObj);
+            self.transform(texFile);
+            syncTextureFileToImg(texFileObj);
+        }, py::arg("texFile"), py::doc(R"doc(
+Runs the filter on the region of 'texFile'
 
 Parameters
 ----------

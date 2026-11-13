@@ -46,6 +46,7 @@ add_library(AGRemapCore STATIC
     src/data/MaterialColourData.cpp
     src/data/TextureDescData.cpp
     src/data/TextureThumbprintData.cpp
+    src/data/TextureKindData.cpp
     src/data/VGRemapData.cpp
     src/data/ModDataAssets.cpp
     src/data/IniParseBuilderData.cpp
@@ -150,7 +151,6 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Lynae/LynaeHairShader.cpp
     src/data/IniFixData/Lynae/LynaeLowerShader.cpp
     src/data/IniFixData/Lynae/LynaePropsFilmFlags.cpp
-    src/data/IniFixData/Lynae/LynaeSkinCodes.cpp
     src/data/IniFixData/Lynae/LynaeTextures.cpp
     src/data/IniFixData/Lynae/LynaeUpperShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp
@@ -287,6 +287,7 @@ add_library(AGRemapCore STATIC
     src/model/assets/MaterialColours.cpp
     src/model/assets/TextureDescs.cpp
     src/model/assets/TextureThumbprints.cpp
+    src/model/assets/TextureKinds.cpp
     src/model/strategies/ModType.cpp
     src/model/strategies/iniClassifiers/IniClassifyStats.cpp
     src/model/strategies/iniClassifiers/BaseIniClassifier.cpp
@@ -393,6 +394,7 @@ add_library(AGRemapCore STATIC
     src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp
     src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp
     src/model/strategies/texEditors/texFilters/ChannelMapFilter.cpp
+    src/model/strategies/texEditors/texFilters/RegionFilter.cpp
     src/model/strategies/texEditors/texFilters/GuidedScaleFilter.cpp
     src/model/strategies/texEditors/texFilters/HueAdjust.cpp
     src/model/strategies/texEditors/texFilters/PixelFilter.cpp
@@ -505,6 +507,7 @@ set(AGREMAP_UNITY_EXCLUDE
     "src/model/assets/MaterialColours.cpp"
     "src/model/assets/TextureDescs.cpp"
     "src/model/assets/TextureThumbprints.cpp"
+    "src/model/assets/TextureKinds.cpp"
     "src/model/buffers/BufFloat.cpp"
     "src/model/buffers/BufUnorm.cpp"
     "src/model/iftemplate/IfPredParser.cpp"

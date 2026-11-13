@@ -31,12 +31,17 @@ class WWMIHelpersTest(BaseUnitTest):
         for hashType in ("bodyDiffuseLive2", "hairDiffuse", "Live", "bodyNormalOld"):
             self.assertIsNone(role(hashType, roles), hashType)
 
-    def test_shaderLineRole_onlyARoleLine(self):
-        lineRole = FRB.WWMIFixerConfig.Shader.lineRole
-        self.assertEqual(lineRole(("ps-t5", "role ramp")), "ramp")
-        self.assertEqual(lineRole(("ps-t5", "  role   ramp  ")), "ramp")
-        for value in ("ref ps-t8", "stash 4 ps-t4", "role", "roles ramp"):
-            self.assertIsNone(lineRole(("ps-t5", value)), value)
+    def test_shader_gameRolesAndStashesAreFieldsOfTheirOwn(self):
+        # what a CustomShader binds is typed: a game texture by role, a capture off another slot, and plain lines
+        shader = FRB.WWMIFixerConfig.Shader()
+        shader.gameRoles = [("ps-t5", "ramp")]
+        stash = FRB.WWMIFixerConfig.Shader.Stashed()
+        stash.reg, stash.slot, stash.slotReg = "ps-t4", 4, "ps-t4"
+        shader.stashed = [stash]
+        shader.lines = [("ps-t6", "ref ps-t8")]
+        self.assertEqual(list(shader.gameRoles), [("ps-t5", "ramp")])
+        self.assertEqual([(s.reg, s.slot, s.slotReg) for s in shader.stashed], [("ps-t4", 4, "ps-t4")])
+        self.assertEqual(list(shader.lines), [("ps-t6", "ref ps-t8")])
 
     def test_slotOf_theSlotsNumber_underTheConfigsPrefix(self):
         config = FRB.WWMIParserConfig()
@@ -44,8 +49,8 @@ class WWMIHelpersTest(BaseUnitTest):
         self.assertIsNone(config.slotOf(("texture", "component3")))
         self.assertIsNone(config.slotOf(("", "component")))
         self.assertIsNone(config.slotOf(("", "head")))
-        config.slotPrefix = "slot"
-        self.assertEqual(config.slotOf(("", "slot12")), 12)
+        self.assertEqual(FRB.WWMIParserConfig.slotWithPrefix(("", "slot12"), "slot"), 12)
+        self.assertIsNone(FRB.WWMIParserConfig.slotWithPrefix(("", "slot5x"), "slot"))
 
     # ---- what a fix decides from the mod (WWMIFixerConfig) ----
 
@@ -75,8 +80,8 @@ class WWMIHelpersTest(BaseUnitTest):
         plan = config.plan
         shader = FRB.WWMIFixerConfig.Shader()
         shader.registers = [B("PS-T1", "hairStrand"), B("ps-t4", "foil")]
-        shader.lines = [("ps-t5", "role ramp"), ("ps-t6", "ref ps-t8")]
-        shader.passes = [[("ps-t7", "role glow")]]
+        shader.gameRoles = [("ps-t5", "ramp"), ("ps-t7", "glow")]
+        shader.lines = [("ps-t6", "ref ps-t8")]
         plan[0].shader = shader
         config.plan = plan
         pairs = lambda bindings: [(binding.reg, binding.role) for binding in bindings]
@@ -242,5 +247,4 @@ class WWMIHelpersTest(BaseUnitTest):
     def test_names_areTheStringsTheFixWrites(self):
         self.assertEqual(FRB.WWMINames.TextureOverridesRows, "WWMIParser.textureOverrides")
         self.assertEqual(FRB.WWMINames.MergeWindowList, "CommandListMergeWindow")
-        self.assertEqual(FRB.WWMINames.RoleLine, "role")
         self.assertEqual(FRB.WWMINames.LiveSuffix, "Live")

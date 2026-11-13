@@ -11,6 +11,10 @@ namespace Data {
 
 const std::vector<std::pair<std::vector<std::string>, std::string>>& getTextureRegisterDataRows() {
     static const std::vector<std::pair<std::vector<std::string>, std::string>> rows = {
+        // ChangliNymph's blindfold mesh: what its pass binds
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "blindfoldMesh", "blindfold"}, "ps-t1"},
+        // Changli's blindfold mesh: what its pass binds
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "blindfoldMesh", "blindfold"}, "ps-t1"},
         // Sanhua (2.5): where her own draws bind each role (RabbitFX's keys as <role>@rabbitfx)
         {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "component0", "bangsDiffuse@rabbitfx"}, "Resource\\RabbitFX\\Diffuse"},
         {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "component0", "bangsMask@rabbitfx"}, "Resource\\RabbitFX\\Lightmap"},
@@ -292,6 +296,8 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getTextureR
         {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "component6", "eyeDiffuse"}, "ps-t2"},
         {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "component7", "glow"}, "ps-t0"},
         // ...what her own game shaders read besides, and each other pass of her slots (<role>@<pass>)
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "component3", "upperShared"}, "ps-t5"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "component3", "upperSubsurface"}, "ps-t6"},
         {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "component7", "tattooFlow"}, "ps-t2"},
         {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "component7", "tattooNoise"}, "ps-t1"},
         // ChangliNymph (2.4): where her own draws bind each role (RabbitFX's keys as <role>@rabbitfx)
@@ -332,12 +338,38 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getTextureR
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component7", "shawlNormal"}, "ps-t0"},
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component7", "shawlDiffuse"}, "ps-t1"},
         // ...what her own game shaders read besides, and each other pass of her slots (<role>@<pass>)
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component0", "bangsOutline@other"}, "ps-t0"},
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component3", "sheerDetail"}, "ps-t2"},
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component3", "sheerNoise"}, "ps-t3"},
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component3", "sheerRamp"}, "ps-t4"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component4", "bodyDiffuse@other"}, "ps-t0"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component6", "eyeHighlight@other"}, "ps-t1"},
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component7", "sheerDetail"}, "ps-t2"},
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component7", "sheerNoise"}, "ps-t3"},
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component7", "sheerRamp"}, "ps-t4"},
+        // ===== KEPT BY HAND: Wuthering Waves 3.8 (genWWMIAssetData.py keeps this block) =====
+        // The game's 3.8 update moved these roles: the texture the draw sets there now sits at another
+        // register (Tools/Misc/Diagnostics/wwmiUpdateRows.py). A role not listed is where it was
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::Lynae), "component0", "ramp"}, "ps-t7"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::Lynae), "component1", "ramp"}, "ps-t7"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::Lynae), "component3", "matcap"}, "ps-t5"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::Lynae), "component4", "filmFoil"}, "ps-t8"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::Lynae), "component4", "lowerSheer"}, "ps-t9"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::Lynae), "component4", "ramp"}, "ps-t10"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::Lynae), "component5", "filmFoil"}, "ps-t5"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::Lynae), "component5", "ramp"}, "ps-t6"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::Changli), "component3", "upperDetail"}, "ps-t4"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::Changli), "component3", "upperRamp"}, "ps-t5"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::Changli), "component3", "upperShared"}, "ps-t6"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::Changli), "component3", "upperSubsurface"}, "ps-t7"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component3", "sheerDetail"}, "ps-t3"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component3", "sheerNoise"}, "ps-t4"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component3", "sheerRamp"}, "ps-t5"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component4", "glow"}, "ps-t5"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component7", "sheerDetail"}, "ps-t3"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component7", "sheerNoise"}, "ps-t4"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component7", "sheerRamp"}, "ps-t5"},
+        // ===== END KEPT BY HAND: Wuthering Waves 3.8 =====
     };
     return rows;
 }

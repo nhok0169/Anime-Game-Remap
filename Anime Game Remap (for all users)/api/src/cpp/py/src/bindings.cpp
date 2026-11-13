@@ -57,6 +57,7 @@ void initCppMaterialCodes(pybind11::module_ &m);
 void initCppMaterialColours(pybind11::module_ &m);
 void initCppTextureDescs(pybind11::module_ &m);
 void initCppTextureThumbprints(pybind11::module_ &m);
+void initCppTextureKinds(pybind11::module_ &m);
 void initCppConstantEnums(pybind11::module_ &m);
 void initCppConstantStrings(pybind11::module_ &m);
 void initCppGameTypeId(pybind11::module_ &m);
@@ -186,6 +187,7 @@ void initCppInvertAlphaFilter(pybind11::module_ &m);
 void initCppMaterialBandRemapFilter(pybind11::module_ &m);
 void initCppChannelMapFilter(pybind11::module_ &m);
 void initCppGuidedScaleFilter(pybind11::module_ &m);
+void initCppRegionFilter(pybind11::module_ &m);
 void initCppHueAdjust(pybind11::module_ &m);
 void initCppPixelFilter(pybind11::module_ &m);
 void initCppBaseTexEditor(pybind11::module_ &m);
@@ -296,6 +298,7 @@ PYBIND11_MODULE(core, m) {
     initCppMaterialColours(m);
     initCppTextureDescs(m);
     initCppTextureThumbprints(m);
+    initCppTextureKinds(m);
     initCppGameTypeId(m);
     initCppModTypeId(m);
     initCppModTypeIdData(m);
@@ -438,6 +441,7 @@ PYBIND11_MODULE(core, m) {
     initCppMaterialBandRemapFilter(m); // must come after initCppBaseTexFilter (registers its base)
     initCppChannelMapFilter(m);        // must come after initCppBaseTexFilter (registers its base)
     initCppGuidedScaleFilter(m);       // after initCppChannelMapFilter (uses its Read)
+    initCppRegionFilter(m);            // after initCppBaseTexFilter (registers its base)
     initCppHueAdjust(m); // must come after initCppBaseTexFilter (registers its base)
     initCppPixelFilter(m); // must come after initCppBaseTexFilter/initCppBasePixelTransform
     initCppBaseTexEditor(m); // must come after initCppTextureFile (its 'fix' method signature references it)

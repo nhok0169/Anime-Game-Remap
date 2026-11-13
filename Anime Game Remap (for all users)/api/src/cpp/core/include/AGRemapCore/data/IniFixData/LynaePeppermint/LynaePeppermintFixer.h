@@ -27,15 +27,12 @@ namespace AGRemapCore {
 
      * **two source components share one target slot.** Lynae's props slot renders through a
        special-material (glass / foil) layer that ordinary cloth barely reaches, so the skin's coat and
-       her shirt / jacket / shoes both go through Lynae's jacket slot, the second in a generated copy
-       ``.ini``. On a target past 256 merged bones that copy has to share the mod's skeleton state
-       (:cpp:member:`WWMIFixerConfig::copiesShareSkeleton`), and the slot's outline pass binds each
-       source's own diffuse (:cpp:member:`WWMIFixerConfig::Binding::srcComponent`)
+       her shirt / jacket / shoes both go through Lynae's lower-body slot, drawn as further sections of the
+       mod's own ``.ini`` (:cpp:member:`WWMIFixerConfig::SourceComponent::sameFileSection`: a copy ``.ini`` never
+       fills the shape-keyed positions), and the slot's outline pass binds each source's own diffuse
+       (:cpp:member:`WWMIFixerConfig::Binding::srcComponent`)
      * **Lynae draws passes with her skeleton in ``vs-cb3`` alone** (her early depth passes), which
        the merge list reads as the current pose (:cpp:member:`WWMIFixerConfig::currentPoseInCb3Only`)
-     * **the skin's material masks mark the cloth under a sheer garment with R = 0**, which Lynae's
-       shaders do not draw as cloth, so every body mask is repacked into her legend
-       (:cpp:member:`WWMIFixerConfig::texEdits`)
      @endrst
      */
     class LynaePeppermintFixer {

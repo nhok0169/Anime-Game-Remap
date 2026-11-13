@@ -18,7 +18,6 @@
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeFilmShader.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeHairShader.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeLowerShader.h"
-#include "AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeUpperShader.h"
 
@@ -35,7 +34,7 @@ namespace {
 void initCppLynaeData(pybind11::module_ &m) {
     py::class_<LynaeData>(m, "LynaeData", R"doc(
 Lynae's data from WuWa, as her fix and parser are built from it: the game shaders it carries onto her skin, her
-texture facts, her skeleton's numbering and shape-key order, and the tables of her texture edits. Each is the data a
+props film flags and her texture facts. Each is the data a
 :class:`WWMIFixerConfig` or :class:`WWMIParserConfig` for Lynae is given; nothing here is built
     )doc")
         .def_static("bangsShader", &AGRC::lynaeBangsShader, ":class:`WWMIFixerConfig.Shader`: Lynae's bangs pass")
@@ -45,15 +44,5 @@ texture facts, her skeleton's numbering and shape-key order, and the tables of h
         .def_static("lowerShader", &AGRC::lynaeLowerShader, ":class:`WWMIFixerConfig.Shader`: Lynae's lower-body pass")
         .def_static("propsFilmFlags", &AGRC::lynaePropsFilmFlags,
             ":class:`WWMIParserConfig.DrawSplit.FlagMask`: Where Lynae's own props code map carries her film flag")
-        .def_static("textureFacts", &AGRC::lynaeTextureFacts, ":class:`WWMITextureFacts`: Lynae's texture roles and registers (her thumbprints are her :class:`TextureThumbprints` rows)")
-        .def_static("skinCodeTable", &AGRC::lynaeSkinCodeTable,
-            "List[:class:`int`]: The table that swaps the skin code between Lynae's and LynaePeppermint's body code maps, for :meth:`ChannelMapFilter.codeMap`")
-        .def_static("filmCodeTable", &AGRC::lynaeFilmCodeTable,
-            "List[:class:`int`]: The table that moves Lynae's coat film code to LynaePeppermint's, for :meth:`ChannelMapFilter.codeMap`")
-        .def_static("propsPlainCodeTable", &AGRC::lynaePropsPlainCodeTable,
-            "List[:class:`int`]: The table that moves Lynae's plain props materials to LynaePeppermint's plain hip-pouch material, for :meth:`ChannelMapFilter.codeMap`")
-        .def_static("shadeBandFactors", &AGRC::lynaeShadeBandFactors,
-            "List[Tuple[:class:`float`, :class:`float`, :class:`float`]]: Lynae's lower-body shading bands, as :class:`GuidedScaleFilter` factors guided by the normal map's alpha, in linear colour")
-        .def_static("filmFactors", &AGRC::lynaeFilmFactors,
-            "List[Tuple[:class:`float`, :class:`float`, :class:`float`]]: Lynae's coat film colour, as :class:`GuidedScaleFilter` factors guided by a jacket code map's codes");
+        .def_static("textureFacts", &AGRC::lynaeTextureFacts, ":class:`WWMITextureFacts`: Lynae's texture roles and registers (her thumbprints are her :class:`TextureThumbprints` rows)");
 }

@@ -1,7 +1,8 @@
 r"""Which components are OPEN SHEETS, and so can show the inside a back-face twin exists to fix?
 
-`WWMIFixerConfig::mirroredComponents` costs a draw and two buffers, so it belongs on the components
-that can actually show their inside. A closed solid -- a head, an arm -- never does: every edge of
+`WWMIFixerConfig::mirroredComponents` is gone (the back-face twin it drew was removed from the
+library), so this is a measurement only. A twin costs a draw and two buffers, so it would belong on
+the components that can actually show their inside. A closed solid -- a head, an arm -- never does: every edge of
 it is shared by two triangles. An open sheet has a BORDER, and that is where its inside becomes
 visible, which is exactly where ChisaParfait's skirt drew dark quadrilaterals.
 

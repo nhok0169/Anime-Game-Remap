@@ -34,7 +34,7 @@ FIX = FRB.WWMIFixerConfig.ofFactory(SOURCE_TYPE.iniFixBuilder.factoryOf(SOURCE, 
 FROM_VERSION = FRB.Version.parse(FIX.sourceVersion or PARSE.version)
 TO_VERSION = FRB.Version.parse(FIX.version)
 FIX = FIX.withGameData(SOURCE_TYPE, TARGET_TYPE, FROM_VERSION, TO_VERSION)     # its game data, off the tables
-PREFIX = PARSE.slotPrefix
+PREFIX = FRB.WWMINames.SlotPrefix
 PLAN = {c: entry.slot for c, entry in FIX.plan.items()}                       # source object -> target slot
 SAME_FILE = [c for c, entry in FIX.plan.items() if entry.sameFileSection]
 REGISTERS = {c: [(b.reg, b.role) for b in entry.bindings] for c, entry in FIX.plan.items()}   # its texture list's lines
@@ -88,8 +88,7 @@ DISPATCH = ({K.WWMIShapeKeyDispatchSizeYOriginalBatch + n: FIX.shapeKeyDispatchS
 Z3 = FRB.Z3Context()
 TAGS = FRB.ShaderFilterTags()
 TAGGED = lambda shader: list(FIX.passVertexShaders[shader]) if FIX.passVertexShaders else [shader]
-TAGS.addNumbered([vs for passes in FIX.slotPasses for shader in passes for vs in TAGGED(shader)], dict(FIX.filterIndices),
-                 FIX.filterBase, FIX.filterStep)
+TAGS.addGiven([vs for passes in FIX.slotPasses for shader in passes for vs in TAGGED(shader)], dict(FIX.filterIndices))
 GUARD = {slot: TAGS.condition("vs" if FIX.passVertexShaders else "ps", list(dict.fromkeys(t for p in passes for t in TAGGED(p))))
          for slot, passes in enumerate(FIX.slotPasses)}
 RESTORE = RENAME(K.CommandList + "RestoreSharedResources")
@@ -126,7 +125,7 @@ for _, names in SOURCE_TYPE.hashes.repo.toNestedDict().items():
 HASH_ONLY_TYPES = {hashType: ("", obj) for hashType, obj in PARSE.hashOnlyObjs}
 TEXTURE_TYPES = {hashType: (TEXTURE, role) for hashType in HASH_TYPES if hashType not in HASH_ONLY_TYPES
                  for role in [FRB.WWMITextureFacts.roleOfHashType(hashType, set(ROLES))] if role is not None}
-WATCHED = HASH_TYPES.get(PARSE.slotHashType, set())
+WATCHED = HASH_TYPES.get(K.Vb0, set())
 isFixSection = lambda name: name.lower().endswith(K.RemapFix.lower())
 CLASSIFIERS = {}                         # version -> (its objects, its classify function)
 
@@ -143,7 +142,7 @@ def classifierOf(version):
         slots.append(("", PREFIX + str(len(slots))))
     objs = list(dict.fromkeys(slots + list(HASH_ONLY_TYPES.values()) + list(TEXTURE_TYPES.values()) + [TEXTURE_ANY, WATCH]))
     classifier = FRB.GIMISectionClassifier({**HASH_ONLY_TYPES, **TEXTURE_TYPES}, SOURCE_TYPE.hashes,
-                                           {PARSE.slotHashType: {obj: obj for obj in slots}},
+                                           {K.Vb0: {obj: obj for obj in slots}},
                                            SOURCE_TYPE.indices, version, [SOURCE, None], [SOURCE, None, None])
 
     def classify(parser, name, section, disjoint, part, kvps):
@@ -206,7 +205,7 @@ def resourceData(rows, linked):
     """IniParseData.resourceDataOf, with the source's rules"""
     rules = FRB.IniParseData.ResourceDataRules()
     rules.rows, rules.resources, rules.sections = FRB.IniParseRows.Objs, FRB.IniParseRows.Resources, FRB.IniParseRows.Sections
-    rules.texRegPrefix = PARSE.texRegPrefix
+    rules.texRegPrefix = K.TexRegPrefix
     rules.noneUndrawnWhenAll = True
     rules.libraries = [(FRB.RabbitFX.Name, FRB.RabbitFX.names)]
     rules.runDraws = lambda called: ini().getSection(called) is None and K.WWMINamespace.lstrip("$").lower() + "\\" not in called.lower()
@@ -271,7 +270,7 @@ def readSteps(linked):
         if obj[0] == TEXTURE:
             if obj[1] != "":
                 roleKeys[graphOf(obj)] = [K.This]
-            toggleKeys[graphOf(obj)] = lambda key: key.strip().lower() == K.This or key.strip().lower().startswith(PARSE.texRegPrefix)
+            toggleKeys[graphOf(obj)] = lambda key: key.strip().lower() == K.This or key.strip().lower().startswith(K.TexRegPrefix)
         elif slotOf(obj) in REGISTER_ROLES:
             roleKeys[graphOf(obj)] = lambda key, regs = list(REGISTER_ROLES[slotOf(obj)]): any(FRB.IniNamingTools.sameKey(key, reg) for reg in regs)
 
@@ -444,7 +443,7 @@ def influences():
 # the section of a slot nothing is remapped onto, the bypass of the shared lists, and -- for a target past what one id
 # byte names -- the merged skeleton, its remap, a merge list per slot and the blend remap. (The mod's own skeleton
 # sections are a different scheme -- one remap per component -- so they are not copied.)
-DETECTED, FILTER = K.WWMIObjectDetected, FIX.boneDataFilter
+DETECTED, FILTER = K.WWMIObjectDetected, FRB.WWMINames.BoneDataFilter
 MERGE_LIST = {slot: RENAME(K.CommandList + "MergeSlot" + str(slot)) for slot in range(len(SLOTS))}
 MERGE_WINDOW = RENAME(FRB.WWMINames.MergeWindowList)
 REMAP_SKELETON = RENAME(K.CommandList + "RemapMergedSkeleton")
@@ -466,7 +465,7 @@ def hideSection(slot):
     text = (FRB.SectionText(Z3, K.TextureOverride + TARGET + "Component" + str(slot) + K.Remap + "Hide")
             .prefix("; nothing of the mod is drawn through " + TARGET + "'s " + FIX.targetLabels.get(slot, str(slot))
                     + " slot: the skin's own geometry is skipped and its bones still merged")
-            .keys([(K.Hash, TARGET_TYPE.hashes.get([TARGET, PARSE.slotHashType], TO_VERSION, False)),
+            .keys([(K.Hash, TARGET_TYPE.hashes.get([TARGET, K.Vb0], TO_VERSION, False)),
                    (K.MatchFirstIndex, first), (K.MatchIndexCount, count)])
             .key(DETECTED, "1")
             .open(K.WWMIModEnabled))
@@ -530,9 +529,9 @@ def skeletonSections(latched):
             text = text.open(condition).keys(merges(cb, rw)).key(cb, remapped).close()
         if cb3Only:
             text = text.open(CB3_ONLY + " == 1").keys(merges(extra, SK["MergedSkeletonRW"])).key(extra, SK["RemappedSkeleton"]).close()
-        if FIX.bindPrevPoseAlways:
-            text = (text.open(CB3_ONLY + " == 0").key(extra, SK["ExtraRemappedSkeleton"]).close() if cb3Only
-                    else text.key(extra, SK["ExtraRemappedSkeleton"]))
+        # the remapped previous pose on every pass, as WWMISections.skeletonSections writes it
+        text = (text.open(CB3_ONLY + " == 0").key(extra, SK["ExtraRemappedSkeleton"]).close() if cb3Only
+                else text.key(extra, SK["ExtraRemappedSkeleton"]))
         sections.append(text.build())
     return sections
 
@@ -563,7 +562,7 @@ def blendRemapSections():
                            (K.WWMIBlendRemapperVertexVGReg, REF_ + vertexVG), (blendRW, COPY + noStride),
                            (K.WWMIBlendRemapperOutReg, REF_ + blendRW), (K.Run, K.WWMIBlendRemapper),
                            (blendOut, COPY + blendRW), (blendOut, K.CopyDesc + " " + strided), (ready, "1")])
-                    .close().key(FIX.blendReg, blendOut).build())
+                    .close().key(K.WWMIBlendReg, blendOut).build())
     return sections
 
 
@@ -605,9 +604,9 @@ STEPS = [
     # ---- the shared lists each object runs: a buffer the mod's list rebinds is parked first (once), and the cleanup list
     #      runs the list that puts them back ----
     FRB.GraphGroupEdit([{SRC(c): [FRB.RegPartEdit(FRB.RegAnchorAdd([reg], lambda key, value, b = bypass, r = reg: [(b, REF_ + r)],
-                                                                   FRB.RegAnchorAdd.Placement.Before, None, True, True), IN_SECTION(FIX.sharedResourcesList))
+                                                                   FRB.RegAnchorAdd.Placement.Before, None, True, True), IN_SECTION(FRB.WWMINames.OverrideSharedResourcesList))
                                   for reg, bypass in BYPASSES]
-                                 + [FRB.RegPartEdit(FRB.RegAdd([(K.Run, RESTORE)], True, True), IN_SECTION(FIX.cleanupResourcesList))]
+                                 + [FRB.RegPartEdit(FRB.RegAdd([(K.Run, RESTORE)], True, True), IN_SECTION(FRB.WWMINames.CleanupSharedResourcesList))]
                          for c in PLAN}]),
 
     # ---- each remapped section drops the lines the pair says (REMOVED) ----
@@ -655,7 +654,7 @@ STEPS = [
     #      the shared list (by now under the fix's name); the hashes onto the target's ----
     FRB.GraphGroupEdit([{obj: [FRB.RegNewVals(dict(zip(SLOT_KEYS, SLOTS[slot])))] for obj, slot in TARGET_OBJS}], everyGroup = True),
     *([FRB.GraphGroupEdit([{obj: [FRB.RegSurroundedAdd([(K.Run, MERGE_LIST[slot]), (K.Run, BLEND_INIT)],
-                                                       {K.Run: lambda value: value.strip().lower() == RENAME(FIX.sharedResourcesList).lower()}, {}, False)]
+                                                       {K.Run: lambda value: value.strip().lower() == RENAME(FRB.WWMINames.OverrideSharedResourcesList).lower()}, {}, False)]
                             for obj, slot in TARGET_OBJS}], everyGroup = True)] if PAST256 else []),
     FRB.GraphGroupEdit([{**{obj: [HASHES] for obj, _ in TARGET_OBJS},
                          **{("", obj): [HASHES] + ([FRB.RegNewVals(DISPATCH)] if DISPATCH else []) for obj in HASH_ONLY}}],
@@ -666,7 +665,7 @@ STEPS = [
       for slot in range(len(SLOTS))],
 
     # ---- the blend, through the vertex group row (past 256 bones: in local ids, with its tables), in every file ----
-    FRB.ResRegCollect({(0,) + obj: FIX.blendReg for obj, _ in TARGET_OBJS},
+    FRB.ResRegCollect({(0,) + obj: K.WWMIBlendReg for obj, _ in TARGET_OBJS},
                       {"blend": FRB.VGRemapBlendReplace(
                           (0, "", "blend"), SOURCE_TYPE, FROM_VERSION, TO_VERSION, row = COMPACT[0] if PAST256 else ROW,
                           anchorChains = dict(FIX.anchorChains), influences = FIX.targetInfluences,

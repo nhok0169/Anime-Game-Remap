@@ -223,41 +223,6 @@ namespace AGRemapCore {
              */
             GraphGroups& edit(GraphGroups& graphGroups, const ModType* modType, const std::string& modName = "") override;
 
-            /**
-             * @brief
-             @rst
-             Given #remap and what the edit runs on, the table to remap with on this run
-             @endrst
-             */
-            using RemapAtRun = std::function<RemapList(const RemapList& remap, GraphGroups& graphGroups, IniFile* ini,
-                                                       const ModType* modType, const std::string& modName)>;
-
-            /**
-             * @brief
-             @rst
-             What the mod being fixed adds to #remap: called with #remap when the edit runs from an ``.ini`` file
-             (#editFromIni), it returns the table to remap with on that run -- eg. #remap with a target added for what
-             this mod draws, or an entry for an object only this mod has. #remap itself is left as it is. An empty
-             ``std::function`` (the default) remaps with #remap
-             @endrst
-             */
-            RemapAtRun remapAtRun;
-
-            /**
-             * @brief
-             @rst
-             As #edit, with the table #remapAtRun returns for this run when it is set
-             @endrst
-             *
-             * @param graphGroups The group of graphs to remap, modified in place
-             * @param ini The .ini file being fixed. **Nullable**
-             * @param modType The type of mod to fix. **Nullable**
-             * @param modName The name of the mod to fix to. **Default**: ``""``
-             *
-             * @return The same groups that were passed in, after remapping
-             */
-            GraphGroups& editFromIni(GraphGroups& graphGroups, IniFile* ini, const ModType* modType,
-                                     const std::string& modName = "") override;
     };
 }
 

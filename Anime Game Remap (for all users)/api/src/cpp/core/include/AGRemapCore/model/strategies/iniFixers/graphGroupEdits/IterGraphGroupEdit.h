@@ -125,26 +125,6 @@ namespace AGRemapCore {
             EditFactory makeEdits;
 
             /**
-             * @brief
-             @rst
-             Builds the edits to run ONCE, over all the groups, from what the edit is run on: the groups, the ``.ini``
-             file, the mod type and the mod being fixed to. Returns no edits to do nothing
-             @endrst
-             */
-            using RunFactory = std::function<GroupEdits(GraphGroups& graphGroups, IniFile* ini, const ModType* modType,
-                                                        const std::string& modName)>;
-
-            /**
-             * @brief
-             @rst
-             The factory that builds the edits run once over all the groups, before #makeEdits' per-group ones -- for a
-             step of a list that is the same for every mod, whose edits come from the mod it runs on. An empty
-             ``std::function`` (the default) builds nothing
-             @endrst
-             */
-            RunFactory makeRunEdits;
-
-            /**
              * @brief Constructs a new edit run on every group
              *
              * @param makeEdits The factory that builds each group's edits
@@ -154,7 +134,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Runs the edits #makeRunEdits builds, then calls #makeEdits for each group, in order of the ``.ini`` file
+             Calls #makeEdits for each group, in order of the ``.ini`` file
              index, and runs the edits it builds with ``editFromIni`` :raw-html:`<br />` :raw-html:`<br />`
 
              The groups are counted once, before the first one is edited, so a group an edit adds is

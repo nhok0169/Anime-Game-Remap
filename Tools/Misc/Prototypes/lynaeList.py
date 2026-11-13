@@ -18,7 +18,6 @@
 #
 #   py -3 lynaeList.py <mod folder> [--fromVersion X] [--version Y] [--download normal]
 import argparse
-import itertools
 import os
 import struct
 import sys
@@ -30,17 +29,19 @@ import src.py.FixRaidenBoss2 as FRB          # noqa: E402
 from wwmiSectionClassifier import WWMISectionClassifier    # noqa: E402
 
 K = FRB.IniKeywords
+# a slot's name and number, as the library spells them (WWMINames.SlotPrefix, WWMIParserConfig.slotWithPrefix)
+SLOT_PREFIX = FRB.WWMINames.SlotPrefix
+SLOT_NUM = lambda name: FRB.WWMIParserConfig.slotWithPrefix(("", name), SLOT_PREFIX)
 SOURCE, TARGET = "Lynae", "LynaePeppermint"
 S, T = FRB.ModTypes[SOURCE].value, FRB.ModTypes[TARGET].value
 Z3 = FRB.Z3Context()
 V = FRB.Version.parse
-NEWEST = lambda modType: modType.hashes.versionOf(modType.hashes.get([modType.name, "vb0"], None, False), [modType.name, "vb0"])   # her newest model
+NEWEST = lambda modType: modType.hashes.versionOf(modType.hashes.get([modType.name, K.Vb0], None, False), [modType.name, K.Vb0])   # her newest model
 RENAME = lambda name: FRB.IniNamingTools.getRemapFixName(name, TARGET)
 CAPITAL = lambda role: role[:1].upper() + role[1:]
 # a mod from before WWMI's merged skeleton (no vg_offset): its blend names each component's OWN bones, lifted into the merged
 # skeleton through her older vg_maps (WWMIBlend.LegacyLift)
 MERGED = lambda: any(row.key.strip().lower() == K.WWMIVgOffset.lower() for row in data().collected(FRB.IniParseRows.Objs))
-CUSTOM_SHADER = "CustomShader"                  # (not yet an IniKeywords constant)
 
 
 def need(value, what):
@@ -124,9 +125,9 @@ OFF_OTHER = ["component104"]                                            # a rero
 
 SRC = lambda c: REROUTES[c][0] if c in REROUTES else c                  # the source component a target section is drawn from
 SLOT_OF = {**SLOTS, **{r: v[1] for r, v in REROUTES.items()}}           # every target section's slot
-TARGET_OBJ = {c: (TARGET, slot + "_" + c[len("component"):]) if c in SAME_FILE or c in REROUTES else (TARGET, slot) for c, slot in SLOT_OF.items()}
+TARGET_OBJ = {c: (TARGET, slot + "_" + str(SLOT_NUM(c))) if c in SAME_FILE or c in REROUTES else (TARGET, slot) for c, slot in SLOT_OF.items()}
 REROUTES_OF = lambda c: [r for r, v in REROUTES.items() if v[0] == c]
-REROUTE_RENAME = lambda r: (lambda name: RENAME(name + "Reroute" + r[len("component"):]))
+REROUTE_RENAME = lambda r: (lambda name: RENAME(name + "Reroute" + str(SLOT_NUM(r))))
 
 # RABBITFX ON A PART HER OWN SHADER DRAWS: a mod may hand a part's maps to RabbitFX (its SetTextures), which routes them by
 # the kind of texture at ps-t0..t3 -- on the skin's slot, other files. So the mod's RabbitFX lines are kept and the routing
@@ -136,7 +137,7 @@ REROUTE_RENAME = lambda r: (lambda name: RENAME(name + "Reroute" + r[len("compon
 RABBITFX = ["component0", "component1", "component3", "component4", "component5"]
 RABBITFX_LINES = [reg for reg, _ in [("Resource\\RabbitFX\\Diffuse", ""), ("Resource\\RabbitFX\\Lightmap", ""), ("Resource\\RabbitFX\\Normalmap", ""),
                                      ("Resource\\RabbitFX\\Materialmap", ""), ("Resource\\RabbitFX\\Cutoutmap", ""), ("Resource\\RabbitFX\\Specialmap", "")]]
-PIN = lambda c: RENAME(K.CommandList + "RabbitFXPin" + c[len("component"):])
+PIN = lambda c: RENAME(K.CommandList + "RabbitFXPin" + str(SLOT_NUM(c)))
 
 # what the shader draws set, saved and put back around them
 BACKUP = lambda reg: K.Resource + RENAME("ShaderBackup" + FRB.IniNamingTools.getRegTag(reg))
@@ -150,13 +151,13 @@ TARGET_LABELS = {"component0": "bangs", "component1": "hair", "component2": "fac
 
 # the buffers the mod's shared list rebinds, parked first and put back by the cleanup list; and the lines a remapped
 # section drops (WWMI's blend remap of the SOURCE, its skeleton merge, RabbitFX's)
-BYPASSABLE = ["ib"] + ["vb" + str(n) for n in range(1, 10)]          # vb0 the mod parks itself
+BYPASSABLE = [K.Ib] + ["vb" + str(n) for n in range(1, 10)]          # vb0 the mod parks itself
 BYPASSED = lambda: [reg for reg in BYPASSABLE if any(row.section.lower() == SHARED.lower() and row.key.strip().lower() == reg
                                                      for row in data().collected(FRB.IniParseRows.Objs))]
-REMOVED = [("ResourceBlendBufferOverride", "ref"), ("ResourceMergedSkeletonOverride", "ref"), ("ResourceExtraMergedSkeletonOverride", "ref"),
-           (K.Run, "commandlistmergeskeleton"), ("CheckTextureOverride", "vs-cb3"),
-           ("CheckTextureOverride", "vs-cb4"), ("vs-cb3", "resourceextramergedskeleton"), ("vs-cb4", "resourcemergedskeleton"),
-           ("vs-cb3", "resourcemergedskeleton")]
+REMOVED = [(K.WWMIBlendBufferOverride, "ref"), ("ResourceMergedSkeletonOverride", "ref"), ("ResourceExtraMergedSkeletonOverride", "ref"),
+           (K.Run, "commandlistmergeskeleton"), ("CheckTextureOverride", K.WWMIExtraBoneDataCb),
+           ("CheckTextureOverride", K.WWMIBoneDataCb), (K.WWMIExtraBoneDataCb, "resourceextramergedskeleton"), (K.WWMIBoneDataCb, "resourcemergedskeleton"),
+           (K.WWMIExtraBoneDataCb, "resourcemergedskeleton")]
 SHARED, CLEANUP = "CommandListOverrideSharedResources", "CommandListCleanupSharedResources"   # the mod's lists around a draw
 
 
@@ -173,7 +174,7 @@ def plainProps(FROM, TO):
 TEX_EDITS = {("component6", "propsDetail"): ("PropsDetailPlain", plainProps)}
 
 # the skeleton the fix merges and remaps: per bone-data buffer (vs-cb4, vs-cb3), its merged and remapped buffers
-FILTER = "3381.7777"
+FILTER = FRB.WWMINames.BoneDataFilter
 SK = lambda name: K.Resource + RENAME(name)
 CBS = [(K.WWMIBoneDataCb, "MergedSkeleton", "RemappedSkeleton"), (K.WWMIExtraBoneDataCb, "ExtraMergedSkeleton", "ExtraRemappedSkeleton")]
 SHAPE_KEYS = [("ShapeKeyVertexId", "DXGI_FORMAT_R32_UINT", "4"), ("ShapeKeyVertexOffset", "DXGI_FORMAT_R16_FLOAT", "2"),
@@ -225,12 +226,12 @@ def lists(FROM, TO):
 
     # ---- the skin's slots and each one's draw passes, by their vertex shaders' tags (DrawPasses): a list binds only on its
     #      slot's passes
-    TARGET_SLOTS = list(itertools.takewhile(lambda slot: T.indices.get([TARGET, "", slot], TO, False) is not None,
-                                            ("component" + str(n) for n in itertools.count())))
-    passNames = lambda slot, kind: list(itertools.takewhile(lambda name: T.getDrawPass(slot, name, TO) is not None,
-                                                            [kind] + [kind + str(n) for n in range(2, 10)]))
-    shadersOf = lambda slot, kind: [vs for name in passNames(slot, kind) for vs in T.getDrawPass(slot, name, TO).split(",")]
-    tagsOf = lambda slot, kind: [tag for name in passNames(slot, kind) for tag in T.getDrawPass(slot, name + ".tags", TO).split(",")]
+    TARGET_SLOTS = [FRB.WWMINames.SlotPrefix + str(n) for n in range(T.getComponentCount(FRB.WWMINames.SlotPrefix, TO))]
+    # the merged skeleton the fix supplies a legacy mod: three float4 a bone of the target's, in WWMI Tools' steps
+    SKELETON_SLOTS = str(FRB.WWMIFixerConfig.mergedSkeletonSlotsFor(T.getMergedBoneCount(FRB.WWMINames.SlotPrefix, TO)))
+    passNames = lambda slot, kind: list(T.getDrawPassNames(slot, kind, TO))
+    shadersOf = lambda slot, kind: [vs for name in passNames(slot, kind) for vs in T.getDrawPassShaders(slot, name, TO)]
+    tagsOf = lambda slot, kind: [tag for name in passNames(slot, kind) for tag in T.getDrawPassTags(slot, name, TO)]
     PASSES = {vs: tag for kind in ("main", "other") for slot in TARGET_SLOTS for vs, tag in zip(shadersOf(slot, kind), tagsOf(slot, kind))}
     GUARDS = {slot: " || ".join("vs == " + tag for tag in dict.fromkeys(tagsOf(slot, "main"))) for slot in TARGET_SLOTS}
     PASS0_GUARDS = {slot: " || ".join("vs == " + tag for tag in dict.fromkeys(tagsOf(slot, "other"))) for slot in TARGET_SLOTS if tagsOf(slot, "other")}
@@ -251,7 +252,11 @@ def lists(FROM, TO):
     SHADERS = {c: (name, [(regOf(SOURCE, comp, read), supply[SHADER_READS[read]](c, read)) for read in shaderReads], cull, game)
                for c, (name, game, comp, cull, shaderReads) in OWN_SHADERS.items()}
     SHADER_CODE = {c: need(S.getGameShader(game, FROM), game) for c, (*_, game) in SHADERS.items()}
-    SHADER_CB4 = {c: [int(word, 16) for word in need(S.getGameShader(game + ".ps-cb4", FROM), game + ".ps-cb4").split(",")]
+    # each shader's constant buffer: its GameShaders row "<shader>.<register>" (one each)
+    CB_REG = {c: need(next(iter(sorted({rowType[len(game) + 1:] for names in S.gameShaders.repo.toNestedDict().values()
+                                        for rowType in names.get(SOURCE, {}).get("", {}) if rowType.startswith(game + ".")})), None), game + "'s constants")
+              for c, (*_, game) in SHADERS.items()}
+    SHADER_CB4 = {c: list(need(S.getGameShaderBuffer(game, CB_REG[c], FROM), game + "." + CB_REG[c]))
                   for c, (*_, game) in SHADERS.items()}
 
     # ---- where her own draws bind each role, as her mods write it (her register layout, and RabbitFX's keys)
@@ -262,12 +267,12 @@ def lists(FROM, TO):
     # ---- her skeleton's numberings: one per model of hers (her vb0's versions), each onto the newest (VGRemaps); a mod's
     #      blend is in one of them, read off its geometry against her bones' rest-pose centroids (BoneCentroids)
     VB0 = {value.lower(): version for version, names in S.hashes.repo.toNestedDict().items() for kind, value in names.get(SOURCE, {}).items()
-           if kind == "vb0"}
+           if kind == K.Vb0}
     VERSIONS = sorted(set(VB0.values()), key = V)
     REFERENCE = VERSIONS[-1]
     # each of her components' vertex groups in her merged skeleton at a version (VGRemaps, component -> ""): a mod from
     # before WWMI's merged skeleton is an export of her first model, so its blend is lifted through her oldest
-    VG_MAPS = lambda version: {int(c[len("component"):]): [row.remap[i] for i in range(len(row.remap))]
+    VG_MAPS = lambda version: {SLOT_NUM(c): [row.remap[i] for i in range(len(row.remap))]
                                for c in SLOTS for row in [need(S.getVGRemap(SOURCE, V(version), V(version), c, ""), SOURCE + " " + c + " vg_map at " + version)]}
     NUMBERINGS = [FRB.SkeletonNumberingProbe.Numbering(version, {k: v for k, v in need(S.getVGRemap(SOURCE, V(version), V(REFERENCE)),
                                                                                          SOURCE + " " + version + " numbering").remap.items() if k != v})
@@ -283,9 +288,10 @@ def lists(FROM, TO):
     DRAWN = lambda c: KEPT(SRC(c)) and bool(DRAWS_OF(c))                    # a target section with a draw
 
     # what the shader draws set, saved and put back around them: the constant buffer, and each drawn shader's registers
-    SHADER_REGS = lambda: ["ps-cb4"] + sorted({reg for c, (_, lines, _, _) in SHADERS.items() if DRAWN(c) for reg, _ in lines},
-                                              key = lambda reg: int(reg[len("ps-t"):]))
-    CB4 = lambda c: K.Resource + RENAME(SHADERS[c][0] + "Pscb4")
+    REG_ORDER = lambda reg: (reg.rstrip("0123456789"), int(reg[len(reg.rstrip("0123456789")):] or 0))
+    SHADER_REGS = lambda: list(dict.fromkeys(CB_REG[c] for c in SHADERS if DRAWN(c))) + sorted(
+        {reg for c, (_, lines, _, _) in SHADERS.items() if DRAWN(c) for reg, _ in lines}, key = REG_ORDER)
+    CB4 = lambda c: K.Resource + RENAME(SHADERS[c][0] + FRB.IniNamingTools.getRegTag(CB_REG[c]))
 
     BONES = lambda: str(len(set(VG_ROW(NUMBERING()).remap.values())))       # the bones the mod's blend remap names
 
@@ -368,11 +374,10 @@ def lists(FROM, TO):
         """RabbitFX's x187..w187 for a component: per register ps-t0..t3, the tag of what she has there -- the mod's own file when
         the component binds the register itself (untoggled), else the mod's `this` over her game texture of the role, else her
         game texture's tag"""
-        bound = lambda k: need(S.getDrawPass(c, "main.ps-t" + str(k), FROM), SOURCE + " " + c + " main.ps-t" + str(k))
-        tags = [FRB.RabbitFX.tagOf(*need(S.getTextureDesc(bound(k), FROM), SOURCE + " texture " + bound(k))) for k in range(4)]
+        bound = lambda reg: need(S.getDrawPass(c, "main." + reg, FROM), SOURCE + " " + c + " main." + reg)
+        tags = [FRB.RabbitFX.tagOf(*need(S.getTextureDesc(bound(reg), FROM), SOURCE + " texture " + bound(reg))) for reg in FRB.RabbitFX.Registers]
         tagOf = lambda resource: (lambda file: FRB.RabbitFX.textureTag(ABS(file)) if file and os.path.isfile(ABS(file)) else None)(FILE(OWN(resource)))
-        for k in range(4):
-            reg = "ps-t" + str(k)
+        for k, reg in enumerate(FRB.RabbitFX.Registers):
             role = SOURCE_REGISTERS.get(c, {}).get(reg)
             if role is None:
                 continue
@@ -394,17 +399,17 @@ def lists(FROM, TO):
         what it sets, and draws as the mod does elsewhere (a reroute kept off a pass: not there); and the CustomShader itself.
         A shader with her own render state (a cull) runs only where the draw has a render target (o3)"""
         name, lines, cull, _ = SHADERS[c]
-        custom, regs = DRAW(c, i).replace(K.CommandList, CUSTOM_SHADER, 1), ["ps-cb4"] + [reg for reg, _ in lines]
-        offPass = RENAME(K.CommandList + "OffPass" + c[len("component"):] + "Draw" + "_".join(value.replace(" ", "").split(",")[:2]))
+        custom, regs = DRAW(c, i).replace(K.CommandList, K.CustomShader, 1), [CB_REG[c]] + [reg for reg, _ in lines]
+        offPass = RENAME(K.CommandList + "OffPass" + str(SLOT_NUM(c)) + "Draw" + "_".join(map(str, FRB.IniParseData.drawRangeOf(value))))
         plain = [(K.Run, offPass)] if c in OFF_PASSES else [(K.DrawIndexed, value)]
         text = FRB.SectionText(Z3, DRAW(c, i))
-        text = text.open("o3 !== null") if cull else text
+        text = text.open(K.WWMIColourTarget + " !== " + K.Null) if cull else text
         text = (text.open(GUARDS[SLOT_OF[c]]).keys([(BACKUP(reg), K.Ref + " " + reg) for reg in regs]).key(K.Run, custom)
                 .keys([(reg, K.Ref + " " + BACKUP(reg)) for reg in regs]).orElse().keys(plain).close())
         text = text.orElse().keys(plain).close() if cull else text
-        state = [("blend", "disable"), ("rasterizer_state_merge", "true"), ("cull", cull)] if cull else []
-        sections = [text.build(), FRB.SectionText(Z3, custom).keys([("ps", BESIDE_MESH(FRB.IniNamingTools.getRemapElementName("", name, TARGET) + ".hlsl")),
-                                                                    ("ps-cb4", CB4(c)), *lines, *state, (K.DrawIndexed, value)]).build()]
+        state = [(K.BlendState, "disable"), (K.RasterizerStateMerge, "true"), (K.Cull, cull)] if cull else []
+        sections = [text.build(), FRB.SectionText(Z3, custom).keys([(K.Ps, BESIDE_MESH(FRB.IniNamingTools.getRemapElementName("", name, TARGET) + ".hlsl")),
+                                                                    (CB_REG[c], CB4(c)), *lines, *state, (K.DrawIndexed, value)]).build()]
         if c in OFF_PASSES:
             sections.append(FRB.SectionText(Z3, offPass).open(OFF_PASSES[c]).key(K.DrawIndexed, value).close().build())
         return sections
@@ -452,9 +457,9 @@ def lists(FROM, TO):
             else:
                 continue
             coverage = coverage or FRB.DrawUVCoverage.ofMesh(ABS(index), ABS(texcoord), os.path.getsize(ABS(position)) // FRB.WWMIBlend.PositionStride)
-            ranges = [tuple(int(n) for n in v.split(",")[:2]) for v in draws(c)]
+            ranges = [FRB.IniParseData.drawRangeOf(v) for v in draws(c)]
             taken = set(map(tuple, coverage.coveredRanges(ranges, w, h, test, share)))
-            found[r] = [v for v in draws(c) if tuple(int(n) for n in v.split(",")[:2]) in taken]
+            found[r] = [v for v in draws(c) if FRB.IniParseData.drawRangeOf(v) in taken]
         return found
 
 
@@ -540,10 +545,10 @@ def lists(FROM, TO):
     draws = lambda c: sorted(dict.fromkeys(row.value.strip() for row in data().collected(FRB.IniParseRows.Objs)
                                            if tuple(row.graphId[1:]) == ("", c) and row.key.strip().lower() == K.DrawIndexed
                                            and row.section == row.rootSection),
-                             key = lambda value: tuple(int(n) for n in value.split(",")[:2]))
-    MERGE = lambda slot: RENAME(K.CommandList + "MergeSlot" + slot[len("component"):])
+                             key = lambda value: FRB.IniParseData.drawRangeOf(value))
+    MERGE = lambda slot: RENAME(K.CommandList + "MergeSlot" + str(SLOT_NUM(slot)))
     DRAW_NAMES = lambda c: {DRAW(c, i) for i in range(len(DRAWS_OF(c)))} if c in SHADERS else set()
-    DRAW = lambda c, i: RENAME(K.CommandList + SHADERS[c][0] + c[len("component"):] + "Draw" + str(i))
+    DRAW = lambda c, i: RENAME(K.CommandList + SHADERS[c][0] + str(SLOT_NUM(c)) + "Draw" + str(i))
     MESHES = lambda: os.path.dirname((FILE(K.WWMIBlendBuffer) or "").replace("\\", "/"))   # where the mod's mesh is
     BESIDE_MESH = lambda name: "/".join(part for part in (MESHES(), name) if part)
 
@@ -572,8 +577,8 @@ def lists(FROM, TO):
                 makeBytes = lambda which = {"ShapeKeyOffset": "offsets", "ShapeKeyVertexId": "vertexIds", "ShapeKeyVertexOffset": "vertexOffsets"}[name]: reordered(which))
                 for name, fmt, stride in SHAPE_KEYS}
         SHADER_BUFFERS.files = {CB4(c): FRB.FileAddCreate.File(
-            keys = [(K.Type, K.Buffer), (K.Format, "DXGI_FORMAT_R32G32B32A32_FLOAT")],
-            file = BESIDE_MESH(FRB.IniNamingTools.getRemapElementName("", SHADERS[c][0] + "Pscb4", TARGET) + ".buf"),
+            keys = [(K.Type, K.Buffer), (K.Format, K.FormatR32G32B32A32FloatDxgi)],
+            file = BESIDE_MESH(FRB.IniNamingTools.getRemapElementName("", SHADERS[c][0] + FRB.IniNamingTools.getRegTag(CB_REG[c]), TARGET) + ".buf"),
             bytes = struct.pack("<%dI" % len(SHADER_CB4[c]), *SHADER_CB4[c]))
             for c in SHADERS if DRAWN(c)}
         SHADER_SOURCES.files = {BESIDE_MESH(FRB.IniNamingTools.getRemapElementName("", SHADERS[c][0], TARGET) + ".hlsl"): SHADER_CODE[c].encode("utf-8")
@@ -582,7 +587,7 @@ def lists(FROM, TO):
         vertexVG = FILE(K.Resource + "BlendRemapVertexVGBuffer")
         if blend and position:
             index = FILE(K.WWMIIndexBuffer)
-            ranges = {int(c[len("component"):]): [(int(v.split(",")[0]), int(v.split(",")[1])) for v in draws(c)] for c in SLOTS}
+            ranges = {SLOT_NUM(c): [FRB.IniParseData.drawRangeOf(v) for v in draws(c)] for c in SLOTS}
             legacy = None if MERGED() or not index else FRB.WWMIBlend.LegacyLift(abs_(index), ranges, VG_MAPS(VERSIONS[0]))
             BLEND_INPUTS[abs_(blend)] = (abs_(position), abs_(vertexVG) if vertexVG else "", VG_ROW(NUMBERING()), legacy)
         # the texcoords, CLEANED for the target's passes: a NaN in the second UV (the skin's shader reads it, hers does not)
@@ -598,7 +603,7 @@ def lists(FROM, TO):
             cleaned = stats.cleared > 0 or stats.folded > 0
             fmt = data().firstCollected(FRB.IniParseRows.Declared, K.WWMITexcoordBuffer, K.Format)
             TEXCOORD_FILE.files = {TEXCOORD: FRB.FileAddCreate.File(
-                keys = [(K.Type, K.Buffer), (K.Format, fmt.value.strip() if fmt is not None else "DXGI_FORMAT_R16G16_FLOAT"), (K.Stride, str(stride))],
+                keys = [(K.Type, K.Buffer), (K.Format, fmt.value.strip() if fmt is not None else K.FormatR16G16Float), (K.Stride, str(stride))],
                 file = BESIDE_MESH(TARGET + K.Remap + "Texcoord.buf"),
                 makeBytes = lambda path = abs_(texcoord): (lambda copy: (copy.clean(keep), copy.read())[1])(
                     FRB.TexcoordFile(path, FRB.TexcoordFile.halfElements(stride))))} if cleaned else {}
@@ -620,7 +625,7 @@ def lists(FROM, TO):
         from before WWMI's merged skeleton, which declares none) -- and what it stashes, stashed"""
         text = (FRB.SectionText(Z3, K.TextureOverride + TARGET + CAPITAL(slot) + K.Remap + "Hide")
                 .prefix("; nothing of the mod is drawn through " + TARGET + "'s " + TARGET_LABELS[slot] + " slot: the skin's own geometry is skipped and its bones still merged")
-                .keys([(K.Hash, T.hashes.get([TARGET, "vb0"], TO, False)), (K.MatchFirstIndex, str(T.indices.get([TARGET, "", slot], TO, False))),
+                .keys([(K.Hash, T.hashes.get([TARGET, K.Vb0], TO, False)), (K.MatchFirstIndex, str(T.indices.get([TARGET, "", slot], TO, False))),
                        (K.MatchIndexCount, str(T.indexCounts.get([TARGET, "", slot], TO, False))), (K.WWMIObjectDetected, "1")])
                 .open(K.WWMIModEnabled))
         if MERGED():
@@ -628,9 +633,9 @@ def lists(FROM, TO):
                                (K.Run, RENAME(FRB.WWMINames.MergeWindowList))])
                     .open(K.Resource + "MergedSkeleton !== " + K.Null).key(K.Handling, K.Skip).close())
         else:
-            text = text.keys([(K.Run, RENAME(K.CommandList + "MergeSlot" + slot[len("component"):])), (K.Handling, K.Skip)])
+            text = text.keys([(K.Run, RENAME(K.CommandList + "MergeSlot" + str(SLOT_NUM(slot)))), (K.Handling, K.Skip)])
         if slot in STASHED and any(DRAWN(c) for c in STASHED[slot][0]):
-            text = text.open("o3 !== null").keys([(STASH(reg), K.Ref + " " + reg) for reg in STASH_REGS[slot]]).close()
+            text = text.open(K.WWMIColourTarget + " !== " + K.Null).keys([(STASH(reg), K.Ref + " " + reg) for reg in STASH_REGS[slot]]).close()
         return text.close().build()
 
 
@@ -646,7 +651,7 @@ def lists(FROM, TO):
 
         # ---- per source component: its texture list first thing; its merge and the blend remap after the shared list; its
         #      other pass's list before each draw, and each draw through her own shader
-        FRB.GraphGroupEdit([{("", c): [FRB.RegSurroundedAdd([(K.Run, RENAME(K.CommandList + "MergeSlot" + SLOTS[c][len("component"):])),
+        FRB.GraphGroupEdit([{("", c): [FRB.RegSurroundedAdd([(K.Run, RENAME(K.CommandList + "MergeSlot" + str(SLOT_NUM(SLOTS[c])))),
                                                              (K.Run, RENAME(K.CommandList + "BlendRemap"))],
                                                             {K.Run: lambda value: value.strip().lower() == SHARED.lower()}, {}, False),
                                        FRB.RegPartEdit(FRB.RegAnchorAdd([K.DrawIndexed], lambda key, value, c = c: (lambda r: [(K.Run, DRAW(r, DRAWS_OF(r).index(value.strip())))] if r
@@ -690,7 +695,7 @@ def lists(FROM, TO):
             *[FRB.SectionText(Z3, STASH(reg)).build() for slot, (cs, _) in STASHED.items() if any(DRAWN(c) for c in cs) for reg in STASH_REGS[slot]],
             *[FRB.SectionText(Z3, SK(merged)).build() for _, merged, _ in CBS],
             *[FRB.SectionText(Z3, SK(merged + "RW")).keys([(K.Type, K.RWBuffer), (K.Format, K.FormatR32G32B32A32Float),
-                                                             (K.Array, "1536")]).build() for _, merged, _ in CBS],
+                                                             (K.Array, SKELETON_SLOTS)]).build() for _, merged, _ in CBS],
             *[FRB.SectionText(Z3, SK(name)).build() for _, _, remapped in CBS for name in (remapped,)],
             *[FRB.SectionText(Z3, SK(remapped + "RW")).build() for _, _, remapped in CBS],
             FRB.SectionText(Z3, RENAME(K.CommandList + "RemapMergedSkeleton")).keys(
@@ -708,8 +713,8 @@ def lists(FROM, TO):
                     [(K.WWMIVgOffset, offset), (K.WWMIVgCount, count), (K.WWMICustomMeshScale, "1.00"), (K.WWMIMergerBonesReg, K.Ref + " " + K.WWMIExtraBoneDataCb),
                      (K.WWMIMergerSkeletonReg, SK("ExtraMergedSkeletonRW")), (K.Run, K.WWMISkeletonMerger), (K.WWMIExtraBoneDataCb, SK("ExtraRemappedSkeleton"))]).close())
               for slot in range(len(TARGET_SLOTS))
-              for offset, count in [(str(T.vgOffsets.get([TARGET, "", "component" + str(slot)], TO, False)),
-                                     str(T.vgCounts.get([TARGET, "", "component" + str(slot)], TO, False)))]],
+              for offset, count in [(str(T.vgOffsets.get([TARGET, "", SLOT_PREFIX + str(slot)], TO, False)),
+                                     str(T.vgCounts.get([TARGET, "", SLOT_PREFIX + str(slot)], TO, False)))]],
             FRB.SectionText(Z3, RENAME(FRB.WWMINames.MergeWindowList)).key(K.WWMICustomMeshScale, "1.00")
                .open(K.WWMIBoneDataCb + " == " + FILTER).keys([(K.WWMIMergerBonesReg, K.Ref + " " + K.WWMIBoneDataCb), (K.WWMIMergerSkeletonReg, SK("MergedSkeletonRW")),
                                                               (K.Run, K.WWMISkeletonMerger)]).close()
@@ -735,7 +740,7 @@ def lists(FROM, TO):
                  (SK("RemappedBlendBufferRW"), K.Copy + " " + SK("BlendNoStride")), (K.WWMIBlendRemapperOutReg, K.Ref + " " + SK("RemappedBlendBufferRW")),
                  (K.Run, K.WWMIBlendRemapper), (SK("RemappedBlendBuffer"), K.Copy + " " + SK("RemappedBlendBufferRW")),
                  (SK("RemappedBlendBuffer"), K.CopyDesc + " " + SK("BlendStrided")), ("$blendRemapReady", "1")]).close()
-               .key("vb4", SK("RemappedBlendBuffer")).build()]),
+               .key(K.WWMIBlendReg, SK("RemappedBlendBuffer")).build()]),
 
         # ---- each component's texture lists, guarded by the passes of the slot it goes to
         *[FRB.GraphCreate(LIST(c, kind), z3 = Z3, onlyWith = ("", SRC(c)), sectionsOf = lambda group, c = c, kind = kind: [
@@ -783,10 +788,10 @@ def lists(FROM, TO):
         # ---- the cleaned texcoords, when the clean changed anything: bound after the blend remap, in every remapped section
         FRB.GraphCreate(CLEANED, z3 = Z3, sectionsOf = lambda group: [FRB.SectionText(Z3, "").build()]
                         if group == 0 and data().variables()["fixFiles"]["texcoordCleaned"] else None),
-        FRB.GraphGroupEdit([{("", c): [FRB.RegSurroundedAdd([("vb2", TEXCOORD)], {K.Run: lambda value: value.strip().lower() == RENAME(K.CommandList + "BlendRemap").lower()},
+        FRB.GraphGroupEdit([{("", c): [FRB.RegSurroundedAdd([(K.WWMITexcoordReg, TEXCOORD)], {K.Run: lambda value: value.strip().lower() == RENAME(K.CommandList + "BlendRemap").lower()},
                                                             {}, False)]
                              for c in SLOTS}], onlyWith = CLEANED[1:]),
-        FRB.ResRegCollect({(0, "", c): "vb2" for c in SLOTS}, {"texcoord": TEXCOORD_FILE},
+        FRB.ResRegCollect({(0, "", c): K.WWMITexcoordReg for c in SLOTS}, {"texcoord": TEXCOORD_FILE},
                           resPredicates = {(0, "", c): lambda reg, value, d: value.strip() == TEXCOORD for c in SLOTS}),
 
         # ---- the stand-ins have given the lists their lines: the download builds each one's section
@@ -818,13 +823,13 @@ def lists(FROM, TO):
           for (c, role), (name, texFilter) in TEX_EDITS.items()],
 
         # ---- her shaders' code and constants, beside the mod's mesh
-        FRB.ResRegCollect({SHADER(c): "ps-cb4" for c in SHADERS}, {"shaderBuffer": SHADER_BUFFERS}, resPredicates = {SHADER(c): FRB.ResRegCollect.skipsKeywords() for c in SHADERS}),
+        FRB.ResRegCollect({SHADER(c): CB_REG[c] for c in SHADERS}, {"shaderBuffer": SHADER_BUFFERS}, resPredicates = {SHADER(c): FRB.ResRegCollect.skipsKeywords() for c in SHADERS}),
         FRB.ResRegCollect({SHADER(c): "ps" for c in SHADERS}, {"shaderSource": SHADER_SOURCES}, resPredicates = {SHADER(c): FRB.ResRegCollect.skipsKeywords() for c in SHADERS}),
 
         # ---- the shape keys in LynaePeppermint's order: the mod's shape-key lists bind the fix's reordered buffers
         FRB.GraphGroupEdit([{("", "shapekeyOffsets"): [FRB.RegNewVals({reg: K.Resource + RENAME(name + "Buffer")
-                                                                        for reg, name in (("cs-t33", "ShapeKeyOffset"), ("cs-t0", "ShapeKeyVertexId"), ("cs-t1", "ShapeKeyVertexOffset"))})]}]),
-        FRB.ResRegCollect({(0, "", "shapekeyOffsets"): ["cs-t33", "cs-t0", "cs-t1"]}, {"shapeKeys": SHAPE_KEY_FILES}),
+                                                                        for reg, name in ((K.WWMIShapeKeyOffsetReg, "ShapeKeyOffset"), (K.WWMIShapeKeyVertexIdReg, "ShapeKeyVertexId"), (K.WWMIShapeKeyVertexOffsetReg, "ShapeKeyVertexOffset"))})]}]),
+        FRB.ResRegCollect({(0, "", "shapekeyOffsets"): [K.WWMIShapeKeyOffsetReg, K.WWMIShapeKeyVertexIdReg, K.WWMIShapeKeyVertexOffsetReg]}, {"shapeKeys": SHAPE_KEY_FILES}),
 
         # ---- each component onto its target slot (two onto one slot: another file, but SAME_FILE in the mod's own); the
         #      hash-only objects onto themselves (the shape keys in the mod's own file only); the fix's own graphs into every file
@@ -901,12 +906,12 @@ def lists(FROM, TO):
                            everyGroup = True, onlyWith = RESETS[1:]),
 
         # ---- the blend, through Lynae's vertex group row onto LynaePeppermint's, in the remap's local ids, in every file
-        FRB.ResRegCollect({(0,) + TARGET_OBJ[c]: "vb4" for c in SLOT_OF},
+        FRB.ResRegCollect({(0,) + TARGET_OBJ[c]: K.WWMIBlendReg for c in SLOT_OF},
                           {"blend": FRB.VGRemapBlendReplace((0, "", "blend"), S, FROM, TO, row = VG_ROW(REFERENCE),
                                                             elements = lambda srcPath: FRB.BlendFile.byteElements(8), fixFunc = writeBlendRemap)},
                           resPredicates = {(0,) + TARGET_OBJ[c]: FRB.ResRegCollect.skipsKeywords() for c in SLOT_OF}, everyGroup = True),
         FRB.GraphGroupRemap({(0, "", "blend"): [(0, "", "blend", lambda name: name, True)]}),
-        FRB.GraphGroupEdit([{TARGET_OBJ[c]: [FRB.RegPartEdit(FRB.RegNewVals({"vb4": FRB.IniNamingTools.getRemapBlendResourceName("", TARGET) + "Buffer"}),
+        FRB.GraphGroupEdit([{TARGET_OBJ[c]: [FRB.RegPartEdit(FRB.RegNewVals({K.WWMIBlendReg: FRB.IniNamingTools.getRemapBlendResourceName("", TARGET) + "Buffer"}),
                                                              lambda section: section.lower().startswith(SHARED.lower()))]   # a reroute's copy too
                              for c in SLOT_OF}], everyGroup = True),
 
@@ -926,7 +931,7 @@ LISTS = {}      # the lists per run's versions
 
 def at(ini_):
     """The lists at an .ini's run's versions: the ones the run was asked for, else her and the skin's newest"""
-    FROM, TO = ini_.fromVersion or NEWEST(S), ini_.toVersion or NEWEST(T)
+    FROM, TO = ini_.fromVersion or NEWEST(S), ini_.toVersion or FRB.WWMIFixerConfig.newestVersionOf(T)   # the skin's newest game version (WWMIFixer::toVersion)
     key = (FROM.toString(), TO.toString())
     if key not in LISTS:
         LISTS[key] = lists(FROM, TO)

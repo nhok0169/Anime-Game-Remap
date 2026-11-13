@@ -203,7 +203,10 @@ that changes.
   full-resolution shot.
 - **Dump only when the picture cannot answer.** A GIMI dump is ~4 GB and 90 s. `--options "dump_ib
   txt"` (or any `analyse_options`) makes a small one for a narrow question, and the tool restores
-  `d3dx.ini` byte-for-byte. Label every dump the maintainer's way (`FrameAnalysis-<What>-<time>`),
+  `d3dx.ini` byte-for-byte. **`--options "log"` writes only `log.txt` (every draw's shaders, buffers and texture
+  hashes) and small `.dsc` files: ~1-2.5 MB, which is what makes an OVERWORLD dump safe on WuWa** (2026-11-12: four
+  such dumps of Changli standing in the field, no hang; it is enough for `wwmiUpdateRows.py` and any draw table, not
+  for asset extraction). Label every dump the maintainer's way (`FrameAnalysis-<What>-<time>`),
   and **never dump a character with a mod of that character installed** when the dump is for asset
   extraction: see [Vertex Group Remaps](../VGRemaps/CLAUDE.md). `mods ... only` with an empty
   selection is how you get there, and `mods ... restore` is how you come back.

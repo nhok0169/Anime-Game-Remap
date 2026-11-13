@@ -1,5 +1,7 @@
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeFixer.h"
 
+#include <stdexcept>
+
 // ##### Credits
 
 // ===== Anime Game Remap (AG Remap) =====
@@ -15,12 +17,11 @@
 
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
-#include "AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
+#include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h"
-#include "AGRemapCore/model/strategies/texEditors/texFilters/GuidedScaleFilter.h"
 
 
 namespace AGRemapCore {
@@ -29,11 +30,10 @@ namespace AGRemapCore {
     // shader family): 0-4 and 7 one to one (the face and eyes are the same mesh), her jacket (5)
     // onto the skin's jacket (6), her props (6) onto the skin's hip pouch (5) -- same register order,
     // and her props' glass / foil passes do not carry; the pouch's own foil MATERIAL is moved off them
-    // (lynaePropsPlainCode).
+    // (her props edit, from MaterialCodes).
     WWMIFixerConfig LynaeFixer::peppermint3_7Config() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::LynaePeppermint;
-        config.version = "3.7";
 
         // Hers, for a mod whose vb0 is not in sourceVersionByVb0. Both skins share cb4 f02baf77,
         // which at 3.6 only Lynae has
@@ -103,8 +103,11 @@ namespace AGRemapCore {
         // draw it as post-lighting translucency (a depth prepass, a separate translucency target and a
         // fullscreen composite), which nothing the skin draws before lighting can host, so those draws
         // take her jacket shader too. Her jacket shader reads the code at t2.x, as the props' R8 map has it ----
+        // (every register of her shaders below that is left empty is where her own draw binds the role: her
+        // TextureRegisters, read by withGameData -- this one is her JACKET's draw, so its component is 5 on the props too)
         WWMIFixerConfig::Shader filmShader = WWMIFixerConfig::Shader::ofGame("LynaeFilm");
-        filmShader.lines = {{"ps-t5", "role ramp"}};
+        filmShader.component = 5;
+        filmShader.gameRoles = {{"", "ramp"}};
         config.plan.at(105).shader = filmShader;
         config.plan.at(106).shader = filmShader;
 
@@ -133,41 +136,42 @@ namespace AGRemapCore {
         // at her normal-map sample, and leaves her diffuse alone unless the mod hands it a Materialmap ----
         const auto ownState = [](const std::string& cull, std::vector<std::pair<std::string, std::string>> lines) {
             for (const auto& line : std::vector<std::pair<std::string, std::string>>{
-                     {"blend", "disable"},
-                     {"rasterizer_state_merge", "true"},
-                     {"cull", cull}}) {
+                     {IniKeywords::BlendState, "disable"},
+                     {IniKeywords::RasterizerStateMerge, "true"},
+                     {IniKeywords::Cull, cull}}) {
                 lines.push_back(line);
             }
             return lines;
         };
         const auto own = [&ownState](WWMIFixerConfig::Shader shader, const std::string& cull,
-                                     std::vector<std::pair<std::string, std::string>> lines) {
-            shader.lines = ownState(cull, std::move(lines));
-            shader.onlyWith = "o3";
+                                     std::vector<std::pair<std::string, std::string>> gameRoles) {
+            shader.gameRoles = std::move(gameRoles);
+            shader.lines = ownState(cull, {});
+            shader.onlyWith = IniKeywords::WWMIColourTarget;
             return shader;
         };
 
         // her jacket on the skin's jacket slot: her register order (detail at t2, diffuse at t3), her foil
-        WWMIFixerConfig::Shader jacket = own(WWMIFixerConfig::Shader::ofGame("LynaeFilm"), "back", {{"ps-t5", "role ramp"}});
+        WWMIFixerConfig::Shader jacket = own(WWMIFixerConfig::Shader::ofGame("LynaeFilm"), "back", {{"", "ramp"}});
         jacket.name = "LynaeJacket";
-        jacket.registers = {{"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}, {"ps-t4", "filmFoil"}};
+        jacket.registers = {{"", "jacketDetail"}, {"", "jacketDiffuse"}, {"", "filmFoil"}};
         config.plan.at(5).shader = std::move(jacket);
 
         // her hair and bangs, two-sided as her own draws are
-        config.plan.at(0).shader = own(WWMIFixerConfig::Shader::ofGame("LynaeBangs"), "none", {{"ps-t6", "role ramp"}});
-        config.plan.at(1).shader = own(WWMIFixerConfig::Shader::ofGame("LynaeHair"), "none", {{"ps-t6", "role ramp"}});
+        config.plan.at(0).shader = own(WWMIFixerConfig::Shader::ofGame("LynaeBangs"), "none", {{"", "ramp"}});
+        config.plan.at(1).shader = own(WWMIFixerConfig::Shader::ofGame("LynaeHair"), "none", {{"", "ramp"}});
 
-        // her upper body: her matcap at t4 (a texture both skins share, at t8 on the skin's slot) and her ramp at t5
-        config.plan.at(3).shader = own(WWMIFixerConfig::Shader::ofGame("LynaeUpper"), "back", {{"ps-t4", "ref ps-t8"}, {"ps-t5", "role ramp"}});
+        // her upper body: her matcap (a texture both skins share) read off the skin's slot, and her ramp
+        WWMIFixerConfig::Shader upper = own(WWMIFixerConfig::Shader::ofGame("LynaeUpper"), "back", {{"", "ramp"}});
+        upper.refRoles = {"matcap"};
+        config.plan.at(3).shader = std::move(upper);
 
         // her lower body (on the skin's upper-body slot): three game textures off the skin's lower-body draw
-        WWMIFixerConfig::Shader lower = own(WWMIFixerConfig::Shader::ofGame("LynaeLower"), "back",
-                                            {{"ps-t4", "stash 4 ps-t4"}, {"ps-t5", "stash 4 ps-t5"}, {"ps-t6", "stash 4 ps-t6"},
-                                             {"ps-t9", "role ramp"}});
-        lower.registers = {{"ps-t7", "filmFoil"}, {"ps-t8", "lowerSheer"}};
+        WWMIFixerConfig::Shader lower = own(WWMIFixerConfig::Shader::ofGame("LynaeLower"), "back", {{"", "ramp"}});
+        lower.stashed = {{"glow", 4}, {"flow", 4}, {"noise", 4}};
+        lower.registers = {{"", "filmFoil"}, {"", "lowerSheer"}};
         config.plan.at(104).shader = lower;
         config.plan.at(4).shader = std::move(lower);
-        config.stashRoles = {{4, {"glow", "flow", "noise"}}};     // at the registers her TextureRegisters give
         // which draws go is her parser's (WWMIParserConfig::drawSplits, in LynaeParser.cpp)
         // (Lynae9's hat brim and shorts, in codes of bit 0x80 her own maps never use, came out lime here and were
         // sent through the skin's shader for a while. The lime was the slot's outline pass -- see offPasses below
@@ -187,12 +191,10 @@ namespace AGRemapCore {
         // map), anything else none. Read off RabbitFX's own `dump = desc` (a frame dump of Lynae11 on her card
         // logs the flags it set: x187 0 / y187 0 / w187 1 on her lower body, where the mod's own files sit) ----
         using RabbitFX = WWMIFixerConfig::SourceComponent::RabbitFX;
-        config.plan.at(0).rabbitFX = RabbitFX{{{"ps-t0", 0}, {"ps-t1", 3}, {"ps-t2", 3}, {"ps-t3", 0}}};
-        config.plan.at(1).rabbitFX = RabbitFX{{{"ps-t0", 0}, {"ps-t1", 3}, {"ps-t2", 0}, {"ps-t3", 0}}};
-        config.plan.at(3).rabbitFX = RabbitFX{{{"ps-t0", 3}, {"ps-t1", 0}, {"ps-t2", 4}, {"ps-t3", 3}}};
-        config.plan.at(4).rabbitFX = RabbitFX{{{"ps-t0", 3}, {"ps-t1", 0}, {"ps-t2", 4}, {"ps-t3", 3}}};
-        config.plan.at(5).rabbitFX = RabbitFX{{{"ps-t0", 3}, {"ps-t1", 0}, {"ps-t2", 4}, {"ps-t3", 3}}};
-        config.plan.at(104).rabbitFX = config.plan.at(4).rabbitFX;
+        // (her game textures' tags: withGameData, from DrawPasses and TextureDescs)
+        for (int part : {0, 1, 3, 4, 5, 104}) {
+            config.plan.at(part).rabbitFX = RabbitFX{};
+        }
 
         // ---- HER TIGHTS ARE KEPT OFF THE SLOT'S OUTLINE PASS (f8c96a27). The skin's outline shader draws
         // the shell of her tights through the shorts over them, lime (Lynae9, 2026-10-15: a frame dump put
@@ -200,7 +202,7 @@ namespace AGRemapCore {
         // 0x80 (Lynae9's tights and shorts), rerouted to plan 104 (2026-10-16): the rest of her lower body
         // keeps its outline, which some mods draw with -- Lynae2's torn top is dark only through the outline
         // shell of the fabric under the skin, and with the whole lower body off the pass it came out pale ----
-        config.plan.at(104).offPasses = {"f8c96a270bf847dd"};
+        config.plan.at(104).offPasses = {"other"};
 
         // ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
         // pass sets ps-t0 only ----
@@ -215,63 +217,30 @@ namespace AGRemapCore {
 
         config.sourceTextures = lynaeTextureFacts();
 
-        // THE TEXTURE EDITS: the general filters with Lynae's tables (LynaeSkinCodes)
-        const auto codeMap = [](std::vector<std::uint8_t> table) {
-            return [table](const WWMIFixerConfig::TexEditContext&) { return TexEditor::filterOf(ChannelMapFilter::codeMap(table)); };
-        };
-        const auto redFull = [](const WWMIFixerConfig::TexEditContext&) {
-            ChannelMapFilter filter;                 // a mask is codes: its G and B as the shader reads them
-            filter.read = ChannelMapFilter::Read::ShaderValue;
-            filter.data = true;
-            filter.channels[0] = {0, ChannelMapFilter::constant(255)};
-            filter.channels[1] = {1, {}};
-            filter.channels[2] = {2, {}};
-            return TexEditor::filterOf(std::move(filter));
-        };
-
-        // ---- the body's material-code maps (ps-t2) mark skin with 0 on Lynae and 4 on the skin, so
-        // a map carried across unchanged shaded her body's skin as cloth -- whiter, with lavender
-        // shadows, under a warm face: see lynaeSkinCodeTable ----
-        config.texEdits = {
-            {"upperDetail", "SkinCode", codeMap(lynaeSkinCodeTable())},
-            {"lowerDetail", "SkinCode", codeMap(lynaeSkinCodeTable())},
-            // ...and her lower-body / jacket masks' red channel, which her shaders ignore and the skin's
-            // reads as a dark material (Lynae10's suit, R = 0, came out navy): R full
-            {"lowerMask", "Red", redFull},
-            {"jacketMask", "Red", redFull},
-        };
-
-        // ---- her lower-body shader shades by the normal map's alpha, the skin's does not: the bands are
-        // baked into the diffuse, guided by the mod's normal map (else hers), see lynaeShadeBandFactors ----
-        WWMIFixerConfig::TexEdit sheer{"lowerDiffuse", "Sheer", [](const WWMIFixerConfig::TexEditContext& ctx) {
-            GuidedScaleFilter filter;
-            filter.guide = ctx.fileOrGame("lowerNormal");
-            filter.channel = 3;
-            filter.factors = lynaeShadeBandFactors();
-            filter.linear = true;
-            return TexEditor::filterOf(std::move(filter));
-        }};
-        sheer.sourceGameRoles = {"lowerNormal"};
-        config.texEdits.push_back(std::move(sheer));
-
-        // ---- her coat lining is a film (code 4 of the jacket's code map) the skin draws as plain cyan
-        // diffuse: the code moves to the skin's film code and the texels under it take the measured tint
-        // (see lynaeFilmCodeTable / lynaeFilmFactors) ----
-        config.texEdits.push_back({"jacketDetail", "Film", codeMap(lynaeFilmCodeTable())});
-        WWMIFixerConfig::TexEdit film{"jacketDiffuse", "Film", [](const WWMIFixerConfig::TexEditContext& ctx) {
-            GuidedScaleFilter filter;
-            filter.guide = ctx.fileOrGame("jacketDetail");
-            filter.read = ChannelMapFilter::Read::ShaderCode;
-            filter.factors = lynaeFilmFactors();
-            return TexEditor::filterOf(std::move(filter));
-        }};
-        film.sourceGameRoles = {"jacketDetail"};
-        config.texEdits.push_back(std::move(film));
-
+        // THE TEXTURE EDITS. Her own shaders draw her upper and lower body and her jacket from the mod's art as it is
+        // (an edit never reaches a component its own shader draws), so only her props are edited ----
         // ---- her props land on the skin's hip pouch, whose shader draws every material her props maps
-        // use as its holographic foil (Lynae14's red dress: blue-violet rims): all but her film (flag
-        // 0x10) become its plain material 15, see lynaePropsPlainCodeTable. The mod's diffuse is left as it is ----
-        config.texEdits.push_back({"propsDetail", "Plain", codeMap(lynaePropsPlainCodeTable())});
+        // use as its holographic foil (Lynae14's red dress: blue-violet rims): all but her film become its plain
+        // material -- her code map's film flag and material field and the pouch's plain material read off
+        // MaterialCodes at the run's versions. The mod's diffuse is left as it is ----
+        config.texEdits = {{"propsDetail", "Plain", [](const WWMIFixerConfig::TexEditContext& ctx) {
+            const auto code = [](const ModType* modType, const std::string& component, const std::string& type,
+                                 const std::optional<Version>& version) {
+                const std::optional<long long> value = modType != nullptr ? modType->getMaterialCode(component, type, version) : std::nullopt;
+                if (!value.has_value()) {
+                    throw std::runtime_error("Lynae's props edit: no MaterialCodes row " + component + " " + type);
+                }
+                return *value;
+            };
+            const long long film = code(ctx.source, "component6", "propsDetail.flags.film", ctx.fromVersion);
+            const long long material = code(ctx.source, "component6", "propsDetail.material", ctx.fromVersion);
+            const long long plain = code(ctx.target, "component5", "pouchDetail.material.plain", ctx.toVersion);
+            std::vector<std::uint8_t> table(256);
+            for (long long c = 0; c < 256; ++c) {
+                table[c] = static_cast<std::uint8_t>((c & film) ? c : ((c & ~material) | plain));
+            }
+            return TexEditor::filterOf(ChannelMapFilter::codeMap(table));
+        }}};
 
         // Masks mark regions, and her own are flat in places on purpose (her hair mask is one value
         // over the whole texture, her lower-body and jacket masks R = 255 throughout), so a flat mask
@@ -280,24 +249,10 @@ namespace AGRemapCore {
         // the masks a flat or aliased file is refused for are the source's: see WWMITextureFacts::regionRoles
 
         // ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
-        config.removedRegs = {
-            {"ResourceBlendBufferOverride", "ref"},
-            {"ResourceMergedSkeletonOverride", "ref"},
-            {"ResourceExtraMergedSkeletonOverride", "ref"},
-            {"Resource\\RabbitFX\\Diffuse", ""},
-            {"Resource\\RabbitFX\\Lightmap", ""},
-            {"Resource\\RabbitFX\\Normalmap", ""},
-            {"Resource\\RabbitFX\\Materialmap", ""},
-            {"Resource\\RabbitFX\\Cutoutmap", ""},
-            {"Resource\\RabbitFX\\Specialmap", ""},
-            {"run", "commandlist\\rabbitfx\\settextures"},
-        };
 
         // ---- the shape keys are RETARGETED: the overrides keep firing and the asset remap moves
         // their hashes and checksum onto the skin's; a batched export's dispatch height is the skin's
         // (her Metadata.json's dispatch_y), or WWMI loads too few of the mod's offsets on her draws ----
-        config.hiddenObjs = {};
-        config.zeroShapeKeyStream = false;
         // shapeKeyDispatchSize: read off ShapeKeyDispatchSizes at the run's versions (WWMIFixerConfig::withGameData)
 
         // ---- the game drives shape keys by SLOT, and the two skins number the same face keys
@@ -311,9 +266,6 @@ namespace AGRemapCore {
         // register and the toggle did nothing
         config.carryByRegisterRole = true;
 
-        // The fix's own merged skeleton is sized for the TARGET: LynaePeppermint's slots reach bone 314
-        // (315 x 3 float4 = 945), past the 768 default
-        config.mergedSkeletonSlots = 1536;
 
         // ---- a mod from before WWMI's merged skeleton: every such mod of hers is a 3.6 export ----
         // sourceVgMaps: read off VGRemaps (component -> "") at the run's versions (WWMIFixerConfig::withGameData)

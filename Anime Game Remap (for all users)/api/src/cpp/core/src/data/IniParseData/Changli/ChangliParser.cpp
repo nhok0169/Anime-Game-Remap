@@ -30,7 +30,7 @@ namespace AGRemapCore {
         // the numberings her skeleton has had and her own bones' centroids: read off VGRemaps and BoneCentroids
         // (WWMIParserConfig::withGameData) -- see WWMIParserConfig::skeletonNumberings
         // her blindfold, which several mods hide: its sections go to a graph of their own for the fix to copy
-        config.hashOnlyObjs.emplace_back("blindfold", "blindfold");
+        config.hashOnlyObjs.emplace_back("blindfoldMesh", "blindfoldMesh");
         return config;
     }
 

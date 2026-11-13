@@ -152,6 +152,16 @@ namespace AGRemapCore {
             std::function<std::vector<Section*>(std::size_t group)> sectionsOf;
 
             /**
+             * @brief
+             @rst
+             Whether a graph built from \ref sectionsOf is ADDED TO the graph already under \ref graphId's object in that
+             group (its `sections`_ first, then these) rather than replacing it -- so several edits, each named for what it
+             writes, can write one graph between them. **Default**: ``false``
+             @endrst
+             */
+            bool append = false;
+
+            /**
              * @brief How a graph built from \ref sectionsOf follows ``run =``. **Default**: :cpp:func:`runCalls`
              */
             IfTemplateRunConfig<K, V> runConfig = runCalls();

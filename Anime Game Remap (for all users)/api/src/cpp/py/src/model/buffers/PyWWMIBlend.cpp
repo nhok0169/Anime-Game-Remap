@@ -649,6 +649,8 @@ so the flags the source's draw would have had are worked out from the source's t
     )doc");
 
     rabbitFX.attr("FlagKeys") = py::cast(AGRC::RabbitFX::FlagKeys);
+    rabbitFX.attr("Registers") = py::cast(AGRC::RabbitFX::Registers);
+    rabbitFX.attr("TextureKeys") = py::cast(AGRC::RabbitFX::TextureKeys);
     rabbitFX.attr("Name") = py::str(AGRC::RabbitFX::Name);
     rabbitFX.attr("GlowMapKey") = py::str(AGRC::RabbitFX::GlowMapKey);
 
@@ -879,6 +881,67 @@ Returns
 Tuple[:class:`int`, :class:`int`]
     (x, y)
     )doc");
+
+    coverage.def("triangles", &AGRC::DrawUVCoverage::triangles, py::arg("ranges"), R"doc(
+The triangles of 'ranges', in order: every three indices of each range, skipping a triangle with an index past the
+end of the index list or a vertex at or past the mesh's vertex count
+
+Parameters
+----------
+ranges: List[Tuple[:class:`int`, :class:`int`]]
+    The ranges, each ``(index count, first index)``
+
+Returns
+-------
+List[List[:class:`int`]]
+    The triangles, each as its three vertices)doc");
+
+    coverage.def_static("islands", &AGRC::DrawUVCoverage::islands, py::arg("triangles"), R"doc(
+The connected pieces of a mesh: triangles that share a vertex are in one piece. A piece is what a modeller lays out as
+one UV island, so it is how a fix names a part of a texture by the geometry that paints it
+
+Parameters
+----------
+triangles: List[List[:class:`int`]]
+    The triangles
+
+Returns
+-------
+List[:class:`int`]
+    For each triangle, the number of its piece, from 0, in the order the pieces are first met)doc");
+
+    coverage.def("region", &AGRC::DrawUVCoverage::region, py::arg("triangles"), py::arg("accepted"), py::arg("width"),
+                 py::arg("height"), py::arg("grow") = 0, R"doc(
+The texels of a texture of 'width' x 'height' the accepted triangles cover and no other triangle of 'triangles'
+does, grown 'grow' texels into the texels no triangle covers -- the part of an atlas a set of triangles paints, and
+the gutter round it, never a texel a neighbouring part also paints :raw-html:`<br />` :raw-html:`<br />`
+
+A texel is covered when its centre lies in the triangle at the vertices' UVs. A triangle is wrapped into the
+texture the way a sampler in wrap mode reads it, and a UV that is not a finite number is read as ``0``
+
+Parameters
+----------
+triangles: List[List[:class:`int`]]
+    The triangles, eg. from :meth:`triangles`
+
+accepted: List[:class:`bool`]
+    For each triangle, whether its texels are in the region. A triangle past its end is not
+
+width: :class:`int`
+    The texture's width
+
+height: :class:`int`
+    Its height
+
+grow: :class:`int`
+    How many texels to grow the region into the uncovered texels round it :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``0``
+
+Returns
+-------
+List[:class:`bool`]
+    For each texel, row by row, whether it is in the region)doc");
 
     coverage.def("count", &AGRC::DrawUVCoverage::count, py::arg("firstIndex"), py::arg("indexCount"), py::arg("width"),
                  py::arg("height"), py::arg("test"), R"doc(

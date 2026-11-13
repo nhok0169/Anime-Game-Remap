@@ -21,7 +21,7 @@ The split&apos;s name: the parser files the draws it picks as the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="176" column="25" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="176" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="197" column="25" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="197" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1a1ad96a3c6b2247047a6427599fd5a204" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -37,7 +37,7 @@ The split&apos;s name: the parser files the draws it picks as the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="181" column="17" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="181" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="202" column="17" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="202" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1afc81fe07b361539753534d7008a1fa87" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -52,7 +52,7 @@ The split&apos;s name: the parser files the draws it picks as the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="186" column="25" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="186" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="207" column="25" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="207" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1a2d86c9aae6867357796d0350cc961fff" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -72,7 +72,7 @@ of the texels under its vertices carry any of them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="196" column="17" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="196" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="217" column="17" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="217" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1ae37f09eee8525b4b7f8983bf329d0e61" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1_1_flag_mask" kindref="compound">FlagMask</ref></type>
@@ -92,7 +92,7 @@ such a mod&apos;s slot is not split
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="232" column="22" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="232" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="253" column="22" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="253" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1af5909370048bbe7732dfd05f57bafa18" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -112,7 +112,26 @@ The share of a draw&apos;s texels that must carry :cpp:member:`flags` for the dr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="242" column="20" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="242" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="263" column="20" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1a97c2e382f596b99089c31e9181869f3a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIParserConfig::DrawSplit::flag</definition>
+        <argsstring></argsstring>
+        <name>flag</name>
+        <qualifiedname>AGRemapCore::WWMIParserConfig::DrawSplit::flag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The :cpp:class:`MaterialCodes` row naming :cpp:member:`flags`: ``&lt;codeRole&gt;.flags.&lt;flag&gt;`` on the slot,
+eg. ``film`` for ``jacketDetail.flags.film``. :cpp:func:`WWMIParserConfig::withGameData` reads it into
+:cpp:member:`flags` (and refuses a name with no row). **Default**: ``&quot;&quot;``, :cpp:member:`flags` as given
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="273" column="25" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="273" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -133,10 +152,11 @@ The share of a draw&apos;s texels that must carry :cpp:member:`flags` for the dr
         <link refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1_1_flag_mask"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="168" column="9" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="168" bodyend="243"/>
+    <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="189" column="9" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="189" bodyend="274"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1afc81fe07b361539753534d7008a1fa87" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig::DrawSplit</scope><name>codeRole</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1a1ad96a3c6b2247047a6427599fd5a204" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig::DrawSplit</scope><name>component</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1a97c2e382f596b99089c31e9181869f3a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig::DrawSplit</scope><name>flag</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1a2d86c9aae6867357796d0350cc961fff" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig::DrawSplit</scope><name>flags</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1a55f1361f6c19006fa060d563da3da123" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig::DrawSplit</scope><name>name</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1_1_draw_split_1af5909370048bbe7732dfd05f57bafa18" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig::DrawSplit</scope><name>share</name></member>

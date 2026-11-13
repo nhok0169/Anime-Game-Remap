@@ -20,7 +20,7 @@ The fix&apos;s name of one of the draw&apos;s sections, from its kind (``Command
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="315" column="31" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="315" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="305" column="31" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="305" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a93b9458690b855a3ba612a64ed5144e1" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -35,7 +35,7 @@ The fix&apos;s name of one of the draw&apos;s sections, from its kind (``Command
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="320" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="320" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="310" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="310" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a08272eb748f36ebf73079a4049dd3a18" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -50,7 +50,7 @@ The fix&apos;s name of one of the draw&apos;s sections, from its kind (``Command
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="325" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="325" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="315" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="315" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a62cbc2ef314f859a8e1d522553cb518f" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -65,7 +65,7 @@ The fix&apos;s name of one of the draw&apos;s sections, from its kind (``Command
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="330" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="330" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="320" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="320" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a3b33b3451e5bf276e66d1637464e01dc" prot="public" static="no" mutable="no">
         <type>std::pair&lt; std::string, std::string &gt;</type>
@@ -80,7 +80,7 @@ The fix&apos;s name of one of the draw&apos;s sections, from its kind (``Command
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="336" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="336" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="326" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="326" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a5d5644609db7cc3673f76bf06958f862" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a675ecded5d1d9f3a59dc48ae0ee1017d" kindref="member">KVPs</ref> &gt;</type>
@@ -98,7 +98,7 @@ Each pass&apos;s ``CustomShader`` lines, before its ``drawindexed``: the first p
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="345" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="345" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="335" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="335" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a9dce5a4fa8fcc19bdec7c9451006fc8c" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a675ecded5d1d9f3a59dc48ae0ee1017d" kindref="member">KVPs</ref></type>
@@ -113,7 +113,7 @@ Each pass&apos;s ``CustomShader`` lines, before its ``drawindexed``: the first p
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="351" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="351" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="341" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="341" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a3e553bf6f599fa879bfa638e0b9c7eb7" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a675ecded5d1d9f3a59dc48ae0ee1017d" kindref="member">KVPs</ref></type>
@@ -131,7 +131,7 @@ the runs -- eg. the textures an overlay drawn over the mod&apos;s own draw reads
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="360" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="360" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="350" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="350" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a93096bbf9834dfe7da6af9cbe72113e8" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -149,7 +149,7 @@ another (a render target), or empty to draw at once
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="369" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="369" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="359" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="359" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a9449a567f96d349c87120545c855aa87" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -165,7 +165,7 @@ another (a render target), or empty to draw at once
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="374" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="374" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="364" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="364" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a6a18a840efd27698ae621bbf37f8aafc" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -180,7 +180,7 @@ another (a render target), or empty to draw at once
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="379" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="379" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="369" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="369" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -188,7 +188,7 @@ another (a render target), or empty to draw at once
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="307" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="307" bodyend="380"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="297" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="297" bodyend="370"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a6a18a840efd27698ae621bbf37f8aafc" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::ShaderDraw</scope><name>afterCarried</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a9449a567f96d349c87120545c855aa87" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::ShaderDraw</scope><name>afterDraws</name></member>

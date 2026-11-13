@@ -15,6 +15,8 @@
 // ##### EndCredits
 
 #include <cstdint>
+#include <functional>
+#include <map>
 #include <optional>
 #include <string>
 #include <utility>
@@ -24,6 +26,7 @@
 #include "AGRemapCore/data/WWMITextureFacts.h"
 #include "AGRemapCore/model/buffers/SkeletonNumberingProbe.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
 
 
 namespace AGRemapCore {
@@ -69,8 +72,9 @@ namespace AGRemapCore {
          * @brief
          @rst
          This config with the character's GAME DATA read off the versioned asset tables: her game textures'
-         thumbprints (:cpp:member:`WWMITextureFacts::textureThumbprints`, :cpp:class:`TextureThumbprints`, at her
-         version) and, for a character whose skeleton was renumbered (her ``vb0`` rows in :cpp:class:`HashData` at two versions or more, each with a
+         thumbprints (:cpp:member:`WWMITextureFacts::textureThumbprints`, :cpp:class:`TextureThumbprints`, at
+         'version'), each :cpp:struct:`DrawSplit`'s :cpp:member:`DrawSplit::flags` named by :cpp:member:`DrawSplit::flag`
+         (:cpp:class:`MaterialCodes`, at 'version') and, for a character whose skeleton was renumbered (her ``vb0`` rows in :cpp:class:`HashData` at two versions or more, each with a
          :cpp:class:`VGRemaps` row onto the newest), :cpp:member:`skeletonNumberings` -- one per version, oldest first,
          with the bones that row moves -- and :cpp:member:`referenceBoneCentroids` (:cpp:class:`BoneCentroids` at the
          newest). A field the tables hold nothing for keeps the config's value. The compiled parser calls this once per
@@ -78,10 +82,11 @@ namespace AGRemapCore {
          @endrst
          *
          * @param self The character's mod type
+         * @param version The run's version of her (the mod's) -- ``std::nullopt`` reads at :cpp:member:`version`
          *
          * @return The filled config
          */
-        WWMIParserConfig withGameData(const ModType& self) const;
+        WWMIParserConfig withGameData(const ModType& self, const std::optional<Version>& version = std::nullopt) const;
 
         /**
          * @brief
@@ -93,19 +98,9 @@ namespace AGRemapCore {
         std::string version = "2.5";
 
         /**
-         * @brief The hash type every draw slot section matches. **Default**: ``"vb0"``
-         */
-        std::string slotHashType = "vb0";
-
-        /**
-         * @brief The ``type`` the library files a draw slot's index rows under, followed by the slot number. **Default**: ``"component"``
-         */
-        std::string slotPrefix = "component";
-
-        /**
          * @brief
          @rst
-         The draw slot a slot's mod object names: ``("", <slotPrefix><n>)`` is slot ``n``
+         The draw slot a slot's mod object names: ``("", <WWMINames::SlotPrefix><n>)`` is slot ``n``
          @endrst
          *
          * @param obj The mod object
@@ -115,9 +110,190 @@ namespace AGRemapCore {
         std::optional<int> slotOf(const std::pair<std::string, std::string>& obj) const;
 
         /**
-         * @brief The register family a mod binds its textures with. **Default**: ``"ps-t"``
+         * @brief
+         @rst
+         The number a slot's mod object names under 'prefix': ``("", <prefix><n>)`` is ``n``, for digits only -- what
+         :cpp:func:`slotOf` reads with :cpp:member:`WWMINames::SlotPrefix`
+         @endrst
+         *
+         * @param obj The mod object
+         * @param prefix The slot prefix, eg. ``component``
+         *
+         * @return The number, or ``std::nullopt`` for any other mod object
          */
-        std::string texRegPrefix = "ps-t";
+        static std::optional<int> slotWithPrefix(const std::pair<std::string, std::string>& obj, const std::string& prefix);
+
+        /**
+         * @brief
+         @rst
+         The parser's graphs and the sections it placed in each, in the parser's order
+         (:cpp:type:`IniParseData::SectionTargets`), as the parser's reading functions below take it
+         @endrst
+         */
+        using SectionTargets = IniParseData::SectionTargets;
+
+        /**
+         * @brief A row a :cpp:class:`GraphCollect` of the parser filed (:cpp:type:`IniParseData::CollectedRow`)
+         */
+        using Row = IniParseData::CollectedRow;
+
+        /**
+         * @brief
+         @rst
+         Each draw slot the mod has sections for -> those sections: the roots of the slot graphs (the mod objects
+         :cpp:func:`slotWithPrefix` reads with :cpp:member:`WWMINames::SlotPrefix`), in the order the ``.ini`` writes them,
+         each once. A slot whose sections draw nothing (:cpp:func:`IniParseData::isUndrawn`) is listed too, and a slot graph
+         with no sections maps to an empty list. A section 'sectionNames' does not name sorts after every one it does, in
+         the parser's order
+         @endrst
+         *
+         * @param targets The parser's graphs and their sections, in its order (:cpp:func:`GIMIParser::sectionTargets`)
+         * @param sectionNames The ``.ini``'s sections, in the order it writes them; empty keeps the parser's order
+         *
+         * @return Draw slot -> its sections
+         */
+        static std::map<int, std::vector<std::string>> slotSections(const SectionTargets& targets, const std::vector<std::string>& sectionNames);
+
+        /**
+         * @brief
+         @rst
+         Whether the mod is written for WWMI's merged skeleton: a ``vg_offset`` row of 'objRows' sits in a section of a slot
+         graph (:cpp:func:`slotSections`), the section's name matched ignoring case. A mod from before the merged skeleton
+         carries no ``vg_offset`` there
+         @endrst
+         *
+         * @param objRows The rows filed under :cpp:member:`IniParseRows::Objs`
+         * @param targets The parser's graphs and their sections, in its order (:cpp:func:`GIMIParser::sectionTargets`)
+         * @param slots How many draw slots count; a slot graph at or past it is not read. ``-1`` for no limit
+         *
+         * @return Whether it is a merged-skeleton mod
+         */
+        static bool mergedSkeleton(const std::vector<Row>& objRows, const SectionTargets& targets, int slots = -1);
+
+        /**
+         * @brief
+         @rst
+         The rules :cpp:func:`IniParseData::resourceDataOf` reads the mod's resource data by, as WWMI's parser hands them over:
+         the rows the parser files under :cpp:member:`IniParseRows::Objs`, :cpp:member:`IniParseRows::Resources` and
+         :cpp:member:`IniParseRows::Sections`; the slot graphs as the roots; ``ps-t`` registers
+         (:cpp:member:`IniKeywords::TexRegPrefix`); no slot undrawn when every slot would be; RabbitFX as a library; a ``run =``
+         drawing when it calls a section 'sectionNames' does not name outside WWMI's own namespace
+         (:cpp:member:`IniKeywords::WWMINamespace`) :raw-html:`<br />` :raw-html:`<br />`
+
+         Unless 'onlyThisFile', or this config has no textures (:cpp:member:`WWMITextureFacts::roles` and
+         :cpp:member:`WWMITextureFacts::registerRoles` both empty), also the TOGGLES: the rows filed under
+         :cpp:member:`WWMINames::TextureTogglesRows`, read in the ``TextureOverride`` sections that are not a fix's (a name
+         ending :cpp:member:`IniKeywords::RemapFix`), the texture graphs as their roots, and a lone ``this`` under
+         :cpp:member:`IniKeywords::WWMIObjectDetected` (or ``$object_detected==1``) not a toggle
+         @endrst
+         *
+         * @param targets The parser's graphs and their sections, in its order (:cpp:func:`GIMIParser::sectionTargets`)
+         * @param sectionNames The ``.ini``'s sections
+         * @param onlyThisFile Whether the rules are for a linked ``.ini`` a fix reads only the resource data of
+         * @param log Where the reading logs what it has to say. **Default**: nowhere
+         *
+         * @return The rules
+         */
+        IniParseData::ResourceDataRules resourceDataRules(const SectionTargets& targets, const std::vector<std::string>& sectionNames,
+                                                          bool onlyThisFile, std::function<void(const std::string&)> log = {}) const;
+
+        /**
+         * @brief
+         @rst
+         Whether the mod replaces textures by HASH: a ``TextureOverride`` `section`_ that is no slot graph's root has a
+         ``hash`` and a ``this`` among 'overrideRows'. Its art then reaches every draw binding that texture, whatever the
+         draw's own section binds -- :cpp:member:`IniParseData::ResourceData::replacesTexturesByHash`
+         @endrst
+         *
+         * @param overrideRows The rows filed under :cpp:member:`WWMINames::TextureOverridesRows`
+         * @param targets The parser's graphs and their sections, in its order (:cpp:func:`GIMIParser::sectionTargets`)
+         *
+         * @return Whether it does
+         */
+        bool replacesTexturesByHash(const std::vector<Row>& overrideRows, const SectionTargets& targets) const;
+
+        /**
+         * @brief
+         @rst
+         The rules :cpp:func:`IniParseData::roleFilesOf` reads which file each drawn slot takes for each texture role by, as
+         WWMI's parser hands them over, or ``std::nullopt`` when this config has no textures (:cpp:member:`WWMITextureFacts::roles`
+         and :cpp:member:`WWMITextureFacts::registerRoles` both empty):
+
+         #. the rows the parser files (:cpp:member:`IniParseRows::Sections`, :cpp:member:`IniParseRows::Declared`,
+            :cpp:member:`IniParseRows::Objs`, :cpp:member:`WWMINames::TextureOverridesRows`,
+            :cpp:member:`WWMINames::TextureRolesRows`, :cpp:member:`WWMINames::CarriedRows`)
+         #. the slots with sections (#slotSections) as the objects, each slot's :cpp:member:`WWMITextureFacts::registerRoles`, and
+            :cpp:member:`WWMITextureFacts::regionRoles`
+         #. a lone ``this`` under ``$object_detected`` (or ``$object_detected==1``) not a toggle
+         #. a hash's role: the character's :cpp:class:`Hashes` row typed by a role this config knows, else
+            :cpp:member:`WWMITextureFacts::roles`; a file's game texture by its thumbprint
+            (:cpp:func:`TexThumbprint::identifyFile` over :cpp:member:`WWMITextureFacts::textureThumbprints`); a hash's age
+            (:cpp:func:`Hashes::age` over the library's hashes)
+         #. a section a previous fix wrote (:cpp:func:`IniNamingTools::looksRemapped` over the character's name and the mods
+            she fixes) is not the mod's use of a resource
+
+         :cpp:member:`IniParseData::RoleFileRules::linked` and :cpp:member:`IniParseData::RoleFileRules::log` are left for the
+         caller. Every function in the rules holds its own copies of what it reads, so the rules may outlive this config
+         and 'self'
+         @endrst
+         *
+         * @param targets The parser's graphs and their sections, in its order (:cpp:func:`GIMIParser::sectionTargets`)
+         * @param sectionNames The ``.ini``'s sections, in the order it writes them
+         * @param self The character's mod type, or ``nullptr`` for none: no hash is then read off her :cpp:class:`Hashes`
+         * @param iniPath The ``.ini``'s path
+         * @param iniFolder The ``.ini``'s folder
+         *
+         * @return The rules
+         */
+        std::optional<IniParseData::RoleFileRules> roleFileRules(const SectionTargets& targets, const std::vector<std::string>& sectionNames,
+                                                                 const ModType* self, const std::string& iniPath,
+                                                                 const std::string& iniFolder) const;
+
+        /**
+         * @brief
+         @rst
+         Which numbering of :cpp:member:`skeletonNumberings` the mod's blend's bone ids are in, asked of its own geometry
+         (:cpp:class:`SkeletonNumberingProbe`) -- the numbering's version, or ``std::nullopt``. Not asked with fewer than two
+         numberings or no :cpp:member:`referenceBoneCentroids`, of a mod from before WWMI's merged skeleton (not
+         #mergedSkeleton), or of one whose resources name no position or blend buffer
+         @endrst
+         *
+         * @param objRows The rows filed under :cpp:member:`IniParseRows::Objs`
+         * @param resourceRows The rows filed under :cpp:member:`IniParseRows::Resources`
+         * @param targets The parser's graphs and their sections, in its order (:cpp:func:`GIMIParser::sectionTargets`)
+         * @param iniFolder The ``.ini``'s folder, which the resources' files are relative to
+         * @param log Where the probe's answer is logged. **Default**: nowhere
+         *
+         * @return The version of the numbering
+         */
+        std::optional<std::string> skeletonNumbering(const std::vector<Row>& objRows, const std::vector<Row>& resourceRows,
+                                                     const SectionTargets& targets, const std::string& iniFolder,
+                                                     std::function<void(const std::string&)> log = {}) const;
+
+        /**
+         * @brief
+         @rst
+         The resource data with each of :cpp:member:`drawSplits`' draws added, or ``std::nullopt`` when there are no splits,
+         no data, or the resources name no index, texcoord or position buffer. A split reads the draws of its drawn slot (not
+         undrawn, with draws and sections) off the material-code map the slot takes for :cpp:member:`DrawSplit::codeRole` --
+         the mod's own when a resource of the ``.ini`` whose name is not a fix's names that file, else
+         :cpp:member:`DrawSplit::sourceFlags` -- at the draws' vertices (:cpp:class:`DrawUVCoverage`), and files the draws
+         it picks as the draw ranges of ``(split name, slot)``
+         @endrst
+         *
+         * @param data The resource data (:cpp:member:`IniParseData::ResourceDataVar`), or ``nullptr``
+         * @param roles The role files (:cpp:member:`IniParseData::RoleFilesVar`), or ``nullptr``
+         * @param targets The parser's graphs and their sections, in its order (:cpp:func:`GIMIParser::sectionTargets`)
+         * @param iniPath The ``.ini``'s path
+         * @param iniFolder The ``.ini``'s folder, which the resources' files are relative to
+         * @param log Where a map that cannot be read is logged. **Default**: nowhere
+         *
+         * @return The resource data with the splits' draws
+         */
+        std::optional<IniParseData::ResourceData> splitDraws(const IniParseData::ResourceData* data, const IniParseData::RoleFileData* roles,
+                                                             const SectionTargets& targets, const std::string& iniPath,
+                                                             const std::string& iniFolder,
+                                                             std::function<void(const std::string&)> log = {}) const;
 
         /**
          * @brief
@@ -259,6 +435,16 @@ namespace AGRemapCore {
              @endrst
              */
             double share = 0.5;
+
+            /**
+             * @brief
+             @rst
+             The :cpp:class:`MaterialCodes` row naming :cpp:member:`flags`: ``<codeRole>.flags.<flag>`` on the slot,
+             eg. ``film`` for ``jacketDetail.flags.film``. :cpp:func:`WWMIParserConfig::withGameData` reads it into
+             :cpp:member:`flags` (and refuses a name with no row). **Default**: ``""``, :cpp:member:`flags` as given
+             @endrst
+             */
+            std::string flag;
         };
 
         /**
@@ -316,7 +502,7 @@ namespace AGRemapCore {
          * @brief
          @rst
          ``("", "watch")``: a `section`_ that only WATCHES the character -- it matches her
-         :cpp:member:`WWMIParserConfig::slotHashType` hash at any version, and has no ``match_first_index``, so it
+         :cpp:member:`IniKeywords::Vb0` hash at any version, and has no ``match_first_index``, so it
          draws nothing and is there to set a variable while she is on screen (a help overlay, a key menu)
          @endrst
          */

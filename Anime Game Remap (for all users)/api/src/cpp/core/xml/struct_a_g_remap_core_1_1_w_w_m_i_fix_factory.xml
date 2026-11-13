@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2305" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2305" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2423" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2423" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2310" column="25" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="4828" bodyend="4831"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2428" column="25" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="4685" bodyend="4688"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -54,7 +54,8 @@
     <detaileddescription>
 <para><verbatim>embed:rst 
 What :cpp:func:`makeWWMIFixer` returns, as an :cpp:type:`IniFixBuilder::Factory`: the pair&apos;s config and the call that
-builds a fixer from it -- so the config can be read back (:cpp:func:`WWMIFixerConfig::ofFactory`)
+builds a fixer from it -- so the config can be read back
+(:cpp:func:`WWMIFixerConfig::ofFactory`)
 </verbatim> </para>
     </detaileddescription>
     <collaborationgraph>
@@ -77,7 +78,7 @@ builds a fixer from it -- so the config can be read back (:cpp:func:`WWMIFixerCo
         <link refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2301" column="5" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2301" bodyend="2312"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2419" column="5" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2419" bodyend="2430"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fix_factory_1a232f17b171ea0f850b618e0ce796c9f2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixFactory</scope><name>config</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fix_factory_1a3d42836bdb26cf1356b28f2f44f02406" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixFactory</scope><name>operator()</name></member>

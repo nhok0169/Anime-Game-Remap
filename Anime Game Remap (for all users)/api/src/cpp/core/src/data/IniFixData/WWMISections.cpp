@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/constants/WWMINames.h"
 #include "AGRemapCore/model/IniSectionText.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 
@@ -18,9 +19,7 @@ namespace AGRemapCore {
             .keys({{IniKeywords::Hash, hide.vb0Hash},
                    {IniKeywords::MatchFirstIndex, hide.indexOffset},
                    {IniKeywords::MatchIndexCount, hide.indexCount}});
-        if (!hide.mergeOnly) {
-            text.key(IniKeywords::WWMIObjectDetected, "1");
-        }
+        text.key(IniKeywords::WWMIObjectDetected, "1");
         text.open(IniKeywords::WWMIModEnabled);
 
         if (!hide.legacyMergeList.empty()) {
@@ -44,15 +43,13 @@ namespace AGRemapCore {
                     .close();
             }
 
-            if (!hide.mergeOnly) {
-                text.open("ResourceMergedSkeleton !== null")
-                    .key(IniKeywords::Handling, IniKeywords::Skip)
-                    .close();
-            }
+            text.open(IniKeywords::WWMIMergedSkeleton + " !== " + IniKeywords::Null)
+                .key(IniKeywords::Handling, IniKeywords::Skip)
+                .close();
         }
 
         if (!hide.stashed.empty()) {
-            text.open("o3 !== null").keys(hide.stashed).close();
+            text.open(IniKeywords::WWMIColourTarget + " !== " + IniKeywords::Null).keys(hide.stashed).close();
         }
 
         return text.close().build();
@@ -67,10 +64,10 @@ namespace AGRemapCore {
     // marker, so a pass with something else in that slot cannot merge junk into the skeleton.
     std::vector<std::unique_ptr<WWMISections::Section>> WWMISections::skeletonSections(Z3Context& z3, const Skeleton& skeleton) {
         std::vector<std::unique_ptr<Section>> sections;
-        const std::string merged = skeleton.name(IniKeywords::Resource + std::string("MergedSkeleton"));
-        const std::string mergedRW = skeleton.name(IniKeywords::Resource + std::string("MergedSkeletonRW"));
-        const std::string extra = skeleton.name(IniKeywords::Resource + std::string("ExtraMergedSkeleton"));
-        const std::string extraRW = skeleton.name(IniKeywords::Resource + std::string("ExtraMergedSkeletonRW"));
+        const std::string merged = skeleton.name(IniKeywords::WWMIMergedSkeleton);
+        const std::string mergedRW = skeleton.name(IniKeywords::WWMIMergedSkeleton + "RW");
+        const std::string extra = skeleton.name(IniKeywords::WWMIExtraMergedSkeleton);
+        const std::string extraRW = skeleton.name(IniKeywords::WWMIExtraMergedSkeleton + "RW");
         sections.push_back(SectionText(z3, merged).build());
         sections.push_back(SectionText(z3, extra).build());
         for (const std::string& name : {mergedRW, extraRW}) {
@@ -84,7 +81,7 @@ namespace AGRemapCore {
         sections.push_back(SectionText(z3, skeleton.name("TextureOverrideMarkBoneDataCB"))
                    .keys({{IniKeywords::Hash, skeleton.cb4Hash},
                           {IniKeywords::MatchPriority, "0"},
-                          {IniKeywords::FilterIndex, skeleton.boneDataFilter}})
+                          {IniKeywords::FilterIndex, WWMINames::BoneDataFilter}})
                    .build());
 
         // The private skeleton a blend remap needs, gathered right after the merge:
@@ -132,10 +129,10 @@ namespace AGRemapCore {
             // and accumulates, so at any draw it holds every window from this frame or the last, and
             // a remap taken at any point reads a COMPLETE skeleton. That is what moving it out of
             // the per-draw path was for, and it survives a mod that keeps no frame counter.
-            SectionText remap(z3, skeleton.name("CommandListRemapMergedSkeleton"));
+            SectionText remap(z3, skeleton.name(WWMINames::RemapMergedSkeletonList));
             for (const auto& cb : {std::make_tuple(mergedRW, merged, remappedRW, remapped),
                                    std::make_tuple(extraRW, extra, extraRemappedRW, extraRemapped)}) {
-                remap.keys({{std::get<1>(cb), "copy " + std::get<0>(cb)},
+                remap.keys({{std::get<1>(cb), IniKeywords::Copy + " " + std::get<0>(cb)},
                                 {IniKeywords::WWMIRemapperForwardReg, skeleton.blendRemapForward},
                                 {IniKeywords::WWMIBlendRemapId, "0"},
                                 {IniKeywords::WWMIVgCount, std::to_string(skeleton.blendRemapBones)},
@@ -144,10 +141,10 @@ namespace AGRemapCore {
                                 // resource bound to `cs-u5` has no backing buffer: the dispatch writes
                                 // nowhere, the `copy` below then finds no source, and binding that null
                                 // UNBINDS the slot -- invisible rather than wrong.
-                                {std::get<2>(cb), "copy " + std::get<0>(cb)},
+                                {std::get<2>(cb), IniKeywords::Copy + " " + std::get<0>(cb)},
                                 {IniKeywords::WWMIRemapperOutReg, std::get<2>(cb)},
                                 {IniKeywords::Run, IniKeywords::WWMISkeletonRemapper},
-                                {std::get<3>(cb), "copy " + std::get<2>(cb)}});
+                                {std::get<3>(cb), IniKeywords::Copy + " " + std::get<2>(cb)}});
             }
 
             sections.push_back(remap.build());
@@ -163,11 +160,11 @@ namespace AGRemapCore {
         //
         // Merge only, no bind: the caller sets vg_offset / vg_count and the draw is skipped.
         if (skeleton.remapped) {
-            SectionText window(z3, skeleton.name("CommandListMergeWindow"));
+            SectionText window(z3, skeleton.name(WWMINames::MergeWindowList));
             window.key(IniKeywords::WWMICustomMeshScale, "1.00");
             for (const auto& cb : {std::make_pair(IniKeywords::WWMIBoneDataCb, mergedRW),
                                    std::make_pair(IniKeywords::WWMIExtraBoneDataCb, extraRW)}) {
-                window.open(cb.first + " == " + skeleton.boneDataFilter)
+                window.open(cb.first + " == " + WWMINames::BoneDataFilter)
                       .keys({{IniKeywords::WWMIMergerBonesReg, IniKeywords::Ref + " " + cb.first},
                              {IniKeywords::WWMIMergerSkeletonReg, cb.second},
                              {IniKeywords::Run, IniKeywords::WWMISkeletonMerger}})
@@ -183,7 +180,7 @@ namespace AGRemapCore {
             if (skeleton.remapped && !skeleton.latched) {
                 // Only without a frame latch (see latchEdits): a remap here runs before
                 // EVERY slot's merge and so reads a buffer whose windows differ in age.
-                mergeList.key(IniKeywords::Run, skeleton.name("CommandListRemapMergedSkeleton"));
+                mergeList.key(IniKeywords::Run, skeleton.name(WWMINames::RemapMergedSkeletonList));
             }
 
             // see WWMIFixerConfig::currentPoseInCb3Only. Decided BEFORE anything is rebound: a
@@ -193,7 +190,7 @@ namespace AGRemapCore {
             if (skeleton.currentPoseInCb3Only) {
                 mergeList.key(IniKeywords::Local + " " + Cb3Only)
                          .key(Cb3Only, "0")
-                         .open("vs-cb3 == " + skeleton.boneDataFilter + " && vs-cb4 != " + skeleton.boneDataFilter)
+                         .open(IniKeywords::WWMIExtraBoneDataCb + " == " + WWMINames::BoneDataFilter + " && " + IniKeywords::WWMIBoneDataCb + " != " + WWMINames::BoneDataFilter)
                          .key(Cb3Only, "1")
                          .close();
             }
@@ -201,7 +198,7 @@ namespace AGRemapCore {
             for (const auto& cb : {std::make_tuple(IniKeywords::WWMIBoneDataCb, mergedRW, merged, remappedRW, remapped),
                                    std::make_tuple(IniKeywords::WWMIExtraBoneDataCb, extraRW, extra, extraRemappedRW, extraRemapped)}) {
                 const bool cb3 = std::get<0>(cb) == IniKeywords::WWMIExtraBoneDataCb;
-                mergeList.open(std::get<0>(cb) + " == " + skeleton.boneDataFilter
+                mergeList.open(std::get<0>(cb) + " == " + WWMINames::BoneDataFilter
                                + (cb3 && skeleton.currentPoseInCb3Only ? " && " + Cb3Only + " == 0" : ""))
                          .keys({{IniKeywords::WWMIVgOffset, s.first},
                                 {IniKeywords::WWMIVgCount, s.second},
@@ -218,7 +215,7 @@ namespace AGRemapCore {
                 } else {
                     // The snapshot the two branches used to share, kept here so a legacy mod writes
                     // exactly the lines it wrote before.
-                    mergeList.keys({{std::get<2>(cb), "copy " + std::get<1>(cb)},
+                    mergeList.keys({{std::get<2>(cb), IniKeywords::Copy + " " + std::get<1>(cb)},
                                     {std::get<0>(cb), std::get<2>(cb)}});
                 }
 
@@ -237,7 +234,7 @@ namespace AGRemapCore {
                 if (skeleton.remapped) {
                     mergeList.key(IniKeywords::WWMIExtraBoneDataCb, remapped);
                 } else {
-                    mergeList.keys({{merged, "copy " + mergedRW}, {IniKeywords::WWMIExtraBoneDataCb, merged}});
+                    mergeList.keys({{merged, IniKeywords::Copy + " " + mergedRW}, {IniKeywords::WWMIExtraBoneDataCb, merged}});
                 }
 
                 mergeList.close();
@@ -257,14 +254,12 @@ namespace AGRemapCore {
             // motion vectors; both clear the smear in game, and this one does not flatten
             // the character's motion blur to zero. On a pass that does carry the marker the
             // guarded block above has already bound the same resource, so this is a no-op.
-            if (skeleton.bindPrevPoseAlways) {
-                if (skeleton.currentPoseInCb3Only) {
-                    mergeList.open(Cb3Only + " == 0")
-                             .key(IniKeywords::WWMIExtraBoneDataCb, skeleton.remapped ? extraRemapped : extra)
-                             .close();
-                } else {
-                    mergeList.key(IniKeywords::WWMIExtraBoneDataCb, skeleton.remapped ? extraRemapped : extra);
-                }
+            if (skeleton.currentPoseInCb3Only) {
+                mergeList.open(Cb3Only + " == 0")
+                         .key(IniKeywords::WWMIExtraBoneDataCb, skeleton.remapped ? extraRemapped : extra)
+                         .close();
+            } else {
+                mergeList.key(IniKeywords::WWMIExtraBoneDataCb, skeleton.remapped ? extraRemapped : extra);
             }
 
             sections.push_back(mergeList.build());
@@ -277,9 +272,9 @@ namespace AGRemapCore {
     // buffer with the blend's stride.
     std::vector<std::unique_ptr<WWMISections::Section>> WWMISections::blendRemapSections(Z3Context& z3, const BlendRemap& blendRemap) {
         std::vector<std::unique_ptr<Section>> sections;
-        const std::string vertexVG = blendRemap.name(IniKeywords::Resource + std::string("BlendRemapVertexVGBuffer"));
-        const std::string forward = blendRemap.name(IniKeywords::Resource + std::string("BlendRemapForwardBuffer"));
-        const std::string reverse = blendRemap.name(IniKeywords::Resource + std::string("BlendRemapReverseBuffer"));
+        const std::string vertexVG = blendRemap.name(IniKeywords::WWMIBlendRemapVertexVGBuffer);
+        const std::string forward = blendRemap.name(IniKeywords::WWMIBlendRemapForwardBuffer);
+        const std::string reverse = blendRemap.name(IniKeywords::WWMIBlendRemapReverseBuffer);
         const std::string noStride = blendRemap.name(IniKeywords::Resource + std::string("BlendNoStride"));
         const std::string strided = blendRemap.name(IniKeywords::Resource + std::string("BlendStrided"));
         const std::string blendRW = blendRemap.name(IniKeywords::Resource + std::string("RemappedBlendBufferRW"));
@@ -317,11 +312,11 @@ namespace AGRemapCore {
                           {IniKeywords::WWMIBlendRemapId, "0"},
                           {IniKeywords::WWMIBlendRemapperReverseReg, IniKeywords::Ref + " " + reverse},
                           {IniKeywords::WWMIBlendRemapperVertexVGReg, IniKeywords::Ref + " " + vertexVG},
-                          {blendRW, "copy " + noStride},
+                          {blendRW, IniKeywords::Copy + " " + noStride},
                           {IniKeywords::WWMIBlendRemapperOutReg, IniKeywords::Ref + " " + blendRW},
                           {IniKeywords::Run, IniKeywords::WWMIBlendRemapper},
-                          {blendOut, "copy " + blendRW},
-                          {blendOut, "copy_desc " + strided},
+                          {blendOut, IniKeywords::Copy + " " + blendRW},
+                          {blendOut, IniKeywords::CopyDesc + " " + strided},
                           {"$blendRemapReady", "1"}})
                    .close()
                    .key(blendRemap.blendReg, blendOut)
@@ -372,7 +367,7 @@ namespace AGRemapCore {
                                                                                           CustomShaderBackups& backups) {
         std::vector<std::unique_ptr<Section>> sections;
         const std::size_t passCount = std::max<std::size_t>(1, draw.passes.size());
-        const std::string custom = draw.name("CustomShader", "");
+        const std::string custom = draw.name(IniKeywords::CustomShader, "");
         const auto passName = [&custom](std::size_t p) {
             return p == 0 ? custom : custom + "Pass" + std::to_string(p);
         };
@@ -409,7 +404,7 @@ namespace AGRemapCore {
             const auto carried = [&draw](const std::string& reg) {
                 return draw.name(IniKeywords::Resource, "Carried" + IniNamingTools::getRegTag(reg));
             };
-            const KVPs reset{{frame, "time"}, {seen, "null"}, {pending, "null"}, {count, "0"}};
+            const KVPs reset{{frame, "time"}, {seen, IniKeywords::Null}, {pending, IniKeywords::Null}, {count, "0"}};
             const std::string total = std::to_string(draw.afterDraws);
             const std::string ready = seen + " === " + target + " && " + count + " >= " + total;
 
@@ -422,7 +417,7 @@ namespace AGRemapCore {
             for (const auto& run : runs) {
                 release.push_back(run);
             }
-            release.emplace_back(pending, "null");
+            release.emplace_back(pending, IniKeywords::Null);
 
             list.open(frame + " != time").keys(reset).close()
                 .open(target + " === null");

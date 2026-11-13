@@ -18,7 +18,7 @@ class GameDataTablesTest(BaseUnitTest):
     they carried
     """
 
-    V36, V37 = FRB.Version.parse("3.6"), FRB.Version.parse("3.7")
+    V36, V37, V38 = FRB.Version.parse("3.6"), FRB.Version.parse("3.7"), FRB.Version.parse("3.8")
 
     def modType(self, name):
         return FRB.ModTypes[name].value
@@ -26,11 +26,13 @@ class GameDataTablesTest(BaseUnitTest):
     def fixConfig(self, src, tgt):
         return FRB.WWMIFixerConfig.ofFactory(self.modType(src).iniFixBuilder.factoryOf(src, tgt))
 
-    def filledConfig(self, src, tgt):
-        """A pair's fix config with its game data read off the tables, at its own versions"""
+    def filledConfig(self, src, tgt, toVersion = None):
+        """A pair's fix config with its game data read off the tables, at its own versions -- made for the 3.7 game unless
+        'toVersion' says otherwise, the game the values pinned here describe"""
         config = self.fixConfig(src, tgt)
-        return config.withGameData(self.modType(src), self.modType(tgt), FRB.Version.parse(config.sourceVersion or config.version),
-                                   FRB.Version.parse(config.version))
+        toVersion = toVersion if toVersion is not None else self.V37
+        return config.withGameData(self.modType(src), self.modType(tgt), FRB.Version.parse(config.sourceVersion) if config.sourceVersion else toVersion,
+                                   toVersion)
 
     def filledParseConfig(self, name):
         return FRB.WWMIParserConfig.ofFactory(self.modType(name).iniParseBuilder.factoryOf(name)).withGameData(self.modType(name))
@@ -59,7 +61,34 @@ class GameDataTablesTest(BaseUnitTest):
 
     def test_drawPasses_aLaterVersionReadsTheNewestRowBelowIt(self):
         target = self.modType("LynaePeppermint")
-        self.assertEqual(target.getDrawPass("component3", "main", FRB.Version.parse("9.9")), target.getDrawPass("component3", "main", self.V37))
+        self.assertEqual(target.getDrawPass("component3", "main", FRB.Version.parse("9.9")), target.getDrawPass("component3", "main", self.V38))
+        self.assertEqual(target.getDrawPass("component3", "main", FRB.Version.parse("3.7.5")), target.getDrawPass("component3", "main", self.V37))
+
+    def test_drawPasses_theGame38UpdateIsANewerRow(self):
+        # 3.8 rehashed every pass shader and moved no model: the 3.7 rows stay for a fix made for 3.7
+        target = self.modType("LynaePeppermint")
+        self.assertEqual(target.getDrawPass("component3", "main", self.V37), "1f324d354402418c")
+        self.assertEqual(target.getDrawPass("component3", "main", self.V38), "2b1664133319ac36")
+
+    # =========================== the version a fix is made at ===========================
+
+    def test_newestVersionOf_isTheNewestDrawPassesRowPastHerNewestModel(self):
+        for name in ["Sanhua", "Chisa", "ChisaParfait", "Lynae", "LynaePeppermint", "Changli", "ChangliNymph"]:
+            self.assertEqual(str(FRB.WWMIFixerConfig.newestVersionOf(self.modType(name))), "3.8", name)
+
+    def test_newestVersionOf_aCharacterWithNoTablesIsNone(self):
+        self.assertIsNone(FRB.WWMIFixerConfig.newestVersionOf(self.modType("Amber")))
+
+    def test_withGameData_aLaterGameMovesTheConfigsRegistersByRole(self):
+        # LynaePeppermint -> Lynae binds her lower body's noise and foil at ps-t7 / t8 of Lynae's 3.7 layout; 3.8 put one
+        # more texture before them, and her TextureRegisters move both roles one register on
+        at37 = {component: [(b.reg, b.role) for b in entry.bindings] for component, entry in self.filledConfig("LynaePeppermint", "Lynae").plan.items()}
+        at38 = {component: [(b.reg, b.role) for b in entry.bindings] for component, entry in self.filledConfig("LynaePeppermint", "Lynae", self.V38).plan.items()}
+        self.assertIn(("ps-t7", "jacketNoise"), at37[4])
+        self.assertIn(("ps-t8", "jacketFoil"), at37[4])
+        self.assertIn(("ps-t8", "jacketNoise"), at38[4])
+        self.assertIn(("ps-t9", "jacketFoil"), at38[4])
+        self.assertEqual(at37[3], at38[3])          # her upper body's registers did not move
 
     def test_drawPasses_noRowIsNone(self):
         self.assertIsNone(self.modType("LynaePeppermint").getDrawPass("component3", "noSuchPass", self.V37))
@@ -183,13 +212,14 @@ class GameDataTablesTest(BaseUnitTest):
     # =========================== MaterialCodes / MaterialColours ===========================
 
     def test_materialCodes_rebuildHerPropsCodeTable(self):
-        # her film flag kept, any other code's material made the pouch's plain one: the table the fix had carried
+        # her film flag kept, any other code's material made the pouch's plain one: the table the fix had carried (LynaeFixer
+        # builds it from these rows since 2026-11-09)
         lynae, skin = self.modType("Lynae"), self.modType("LynaePeppermint")
         film = lynae.getMaterialCode("component6", "propsDetail.flags.film", self.V36)
         material = lynae.getMaterialCode("component6", "propsDetail.material", self.V36)
         plain = skin.getMaterialCode("component5", "pouchDetail.material.plain", self.V37)
         self.assertEqual((film, material, plain), (0x10, 0x0F, 15))
-        self.assertEqual([c if c & film else (c & ~material) | plain for c in range(256)], list(FRB.LynaeData.propsPlainCodeTable()))
+        self.assertEqual([c if c & film else (c & ~material) | plain for c in range(256)], [c if c & 0x10 else (c & 0xF0) | 0x0F for c in range(256)])
 
     def test_materialCodes_noRowIsNone(self):
         self.assertIsNone(self.modType("Lynae").getMaterialCode("component6", "propsDetail.flags.noSuchFlag", self.V36))
@@ -217,8 +247,10 @@ class GameDataTablesTest(BaseUnitTest):
         self.assertEqual([list(p) for p in config.slotPasses],
                          [["0f1752e476c3804d", "394feb3747bda7a0"], ["0f1752e476c3804d"], ["ed1c0f8b2ba08ac4"], ["fbe2f2f061949559"],
                           ["348ac69e57e38686"], ["0512a7e61d6bd01d"]])
+        # the target's passes' tags, and the SOURCE's own (Sanhua's, which her mod's sections may carry)
         self.assertEqual(dict(config.filterIndices), {"02f5c4b333a78fa0": "3381.94", "15a2c90dd35b8c07": "3381.95", "4ce754b5b9574b1a": "3381.769",
-                                                      "7c0b4db32cee62d3": "3381.76", "a695e6d5f9d489cf": "3381.91", "a79e471015b2a16c": "3381.96"})
+                                                      "7c0b4db32cee62d3": "3381.76", "a695e6d5f9d489cf": "3381.91", "a79e471015b2a16c": "3381.96",
+                                                      "0b25e6cbdb8cc86f": "3381.83", "ad59bcdcf9ce68fa": "3381.84"})
         self.assertEqual(list(config.passVertexShaders["ed1c0f8b2ba08ac4"]), ["7c0b4db32cee62d3", "4ce754b5b9574b1a"])
 
     def test_withGameData_anOtherPassNamedIsItsShader(self):
@@ -261,6 +293,44 @@ class GameDataTablesTest(BaseUnitTest):
         self.assertEqual((created.role, tuple(created.material), tuple(created.colour.getTuple())),
                          ("SkinMask", ("component3", "torsoMask.skin"), (255, 77, 0, 255)))
 
+    def test_typedGetters_passNamesShadersTagsAndBuffers(self):
+        target = self.modType("LynaePeppermint")
+        self.assertEqual(list(target.getDrawPassShaders("component3", "other", self.V37)), ["6a6650a9db8983ce", "e4a3da6d1d1068b9"])
+        self.assertEqual(list(target.getDrawPassShaders("component3", "noSuchPass", self.V37)), [])
+        self.assertEqual(target.getDrawPassNames("component3", "other", self.V37)[0], "other")
+        self.assertEqual(len(target.getDrawPassTags("component3", "main", self.V37)), len(target.getDrawPassShaders("component3", "main", self.V37)))
+        lynae = self.modType("Lynae")
+        self.assertEqual(list(lynae.getGameShaderBuffer("LynaeUpper", "ps-cb4", self.V37)),
+                         [int(w, 16) for w in lynae.getGameShader("LynaeUpper.ps-cb4", self.V37).split(",")])
+        self.assertIsNone(lynae.getGameShaderBuffer("LynaeUpper", "ps-cb9", self.V37))
+
+    def test_textureKinds_aRolesKind_onItsSlotElseTheCharacters(self):
+        lynae = self.modType("Lynae")
+        self.assertEqual(lynae.getTextureKind("component3", "upperDiffuse", self.V36), "Diffuse")
+        self.assertEqual(lynae.getTextureKind("component3", "ramp", self.V36), "")          # a game texture: no kind
+        self.assertIsNone(lynae.getTextureKind("component3", "noSuchRole", self.V36))
+        self.assertEqual(lynae.getTextureKinds(self.V36)["jacketDetail"], "Detail")
+
+    def test_withGameData_fillsTheRoleKinds_andRefusesARoleWithNoRow(self):
+        self.assertEqual(self.filledConfig("Lynae", "LynaePeppermint").kindOf("lowerSheer"), "Sheer")
+        config = self.fixConfig("Sanhua", "SanhuaExorcist")
+        plan = config.plan
+        plan[0].bindings = list(plan[0].bindings) + [FRB.WWMIFixerConfig.Binding("ps-t9", "noSuchRole")]
+        config.plan = plan
+        self.assertRaises(ValueError, config.withGameData, self.modType("Sanhua"), self.modType("SanhuaExorcist"))
+
+    def test_withGameData_fillsAShadersRegistersFromItsOwnDraw(self):
+        # a copied shader's empty registers are where its own draw binds each role (the source's TextureRegisters), and
+        # a capture's / a ref's slot register the target's
+        plan = self.filledConfig("Lynae", "LynaePeppermint").plan
+        lower = plan[4].shader
+        self.assertEqual([(s.role, s.slot, s.reg, s.slotReg) for s in lower.stashed],
+                         [("glow", 4, "ps-t4", "ps-t4"), ("flow", 4, "ps-t5", "ps-t5"), ("noise", 4, "ps-t6", "ps-t6")])
+        self.assertEqual([(b.reg, b.role) for b in lower.registers], [("ps-t7", "filmFoil"), ("ps-t8", "lowerSheer")])
+        self.assertEqual(list(lower.gameRoles), [("ps-t9", "ramp")])
+        self.assertEqual(list(plan[3].shader.lines)[0], ("ps-t4", "ref ps-t8"))     # her matcap, off the skin's slot
+        self.assertEqual(list(plan[106].shader.gameRoles), [("ps-t5", "ramp")])   # her jacket's shader, on the props
+
     def test_withGameData_sourceVersionFromVb0(self):
         self.assertEqual(dict(self.filledConfig("Lynae", "LynaePeppermint").sourceVersionByVb0), {"0c33d628": "3.6", "7e400733": "3.7"})
         self.assertEqual(dict(self.filledConfig("Sanhua", "SanhuaExorcist").sourceVersionByVb0), {})
@@ -292,9 +362,9 @@ class GameDataTablesTest(BaseUnitTest):
 
     def test_rabbitFXTags_ofHerDrawsAreTheConfigs(self):
         # what her own draws bind (DrawPasses' main.ps-tN), described (TextureDescs), tagged (RabbitFX.tagOf): the tags her
-        # fix config had carried as numbers
+        # fix config had carried as numbers, and withGameData fills them from
         lynae = self.modType("Lynae")
-        config = self.fixConfig("Lynae", "LynaePeppermint")
+        config = self.filledConfig("Lynae", "LynaePeppermint")
         for slot in (0, 1, 3, 4, 5):
             component = "component" + str(slot)
             tags = [FRB.RabbitFX.tagOf(*lynae.getTextureDesc(lynae.getDrawPass(component, "main.ps-t" + str(k), self.V37), self.V37)) for k in range(4)]

@@ -756,6 +756,17 @@ GuidedScaleFilter
 
 :raw-html:`<br />`
 
+RegionFilter
+============
+
+.. attributetable:: FixRaidenBoss2.RegionFilter
+
+.. autoclass:: FixRaidenBoss2.RegionFilter
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CppPixelFilter
 ==============
 
@@ -2525,6 +2536,17 @@ TextureThumbprints
 .. attributetable:: FixRaidenBoss2.TextureThumbprints
 
 .. autoclass:: FixRaidenBoss2.TextureThumbprints
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TextureKinds
+============
+
+.. attributetable:: FixRaidenBoss2.TextureKinds
+
+.. autoclass:: FixRaidenBoss2.TextureKinds
     :members:
     :private-members:
 

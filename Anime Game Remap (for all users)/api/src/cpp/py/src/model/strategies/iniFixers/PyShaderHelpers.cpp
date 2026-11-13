@@ -56,10 +56,10 @@ EVERY loaded .ini, so two fixes that tag the same shader must give it the same v
         .def_readonly("filterIndex", &Tags::Tag::filterIndex, py::doc(R"doc(:class:`str`: The ``filter_index`` it is given)doc"));
 
     cls.def(py::init<>())
-       .def("addNumbered", &Tags::addNumbered, py::arg("shaderHashes"), py::arg("given"), py::arg("base"), py::arg("step"),
-            py::doc(R"doc(
-Tags each of ``shaderHashes`` not tagged yet, in order: with its value in ``given`` when it has one, else with the next of
-a numbered run -- ``base``, ``base + step``, ``base + 2 step``, ... -- which only the shaders without a given value advance
+       .def("addGiven", &Tags::addGiven, py::arg("shaderHashes"), py::arg("given"), py::doc(R"doc(
+Tags each of ``shaderHashes`` not tagged yet, in order, with its value in ``given``. A value is never made up: 3dmigoto
+keys a ``[ShaderOverride]`` by its hash across every loaded ``.ini``, so every fix tagging a shader has to agree on its
+value, which only a value read off one table (``DrawPasses``' tags) can promise
 
 Parameters
 ----------
@@ -67,13 +67,12 @@ shaderHashes: List[:class:`str`]
     The shaders, in the order they are tagged
 
 given: Dict[:class:`str`, :class:`str`]
-    The values some of them must have -- one another fix also tags, which has to agree
+    Each shader's value
 
-base: :class:`float`
-    The run's first value
-
-step: :class:`float`
-    The run's step
+Raises
+------
+:class:`ValueError`
+    A shader of ``shaderHashes`` that is not tagged yet and has no value in ``given``
 )doc"))
        .def("add", &Tags::add, py::arg("shaderHash"), py::arg("filterIndex"), py::doc(R"doc(
 Tags a shader, unless it is tagged already (its first value stays)
@@ -114,8 +113,8 @@ List[:class:`ShaderFilterTags.Tag`]
         )doc"))
        .def("condition", &Tags::condition, py::arg("reg"), py::arg("shaderHashes"), py::arg("none") = false, py::doc(R"doc(
 The .ini condition true on a draw by any of 'shaderHashes' -- ``<reg> == <index> || ...`` -- or, with 'none', by none of
-them -- ``<reg> != <index> && ...``. Each shader is named once, in the order given; a shader that is not tagged is left
-out
+them -- ``<reg> != <index> && ...``. Each index is named once, in the order given (two shaders that share an index
+share its test); a shader that is not tagged is left out
 
 Parameters
 ----------

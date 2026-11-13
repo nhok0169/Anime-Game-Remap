@@ -110,6 +110,9 @@ namespace AGRemapCore {
 
         std::vector<GroupEdit*> steps = this->graphGroupEdits;
         steps.push_back(fixSectionsStep());
+        for (const std::string& kind : fixSectionKinds_) {
+            steps.push_back(fixSectionsStep(kind));
+        }
         steps.insert(steps.end(), fixSectionEdits.begin(), fixSectionEdits.end());
         return steps;
     }
@@ -255,22 +258,53 @@ namespace AGRemapCore {
         fixVariables_.sections(group.has_value() ? fixSectionsVariable(*group) : fixSectionsVariable()).add(std::move(section));
     }
 
+    std::string TemplateFixer::fixSectionsVariable(const std::string& kind, std::optional<std::size_t> group) {
+        if (kind.empty()) {
+            return group.has_value() ? fixSectionsVariable(*group) : fixSectionsVariable();
+        }
+        return fixSectionsVariable() + "." + kind + (group.has_value() ? "." + std::to_string(*group) : std::string());
+    }
+
+    void TemplateFixer::addFixSection(const std::string& kind, std::unique_ptr<Section> section, std::optional<std::size_t> group) {
+        if (!kind.empty() && std::find(fixSectionKinds_.begin(), fixSectionKinds_.end(), kind) == fixSectionKinds_.end()) {
+            fixSectionKinds_.push_back(kind);
+        }
+        fixVariables_.sections(fixSectionsVariable(kind, group)).add(std::move(section));
+    }
+
+    void TemplateFixer::declareFixSectionKinds(const std::vector<std::string>& kinds) {
+        std::vector<std::string> ordered;
+        for (const std::string& kind : kinds) {
+            if (!kind.empty() && std::find(ordered.begin(), ordered.end(), kind) == ordered.end()) {
+                ordered.push_back(kind);
+            }
+        }
+        for (const std::string& kind : fixSectionKinds_) {
+            if (std::find(ordered.begin(), ordered.end(), kind) == ordered.end()) {
+                ordered.push_back(kind);
+            }
+        }
+        fixSectionKinds_ = std::move(ordered);
+    }
+
     GraphRemove<std::string, std::string>::GraphId TemplateFixer::fixSectionsGraphId(std::size_t group) {
         return GraphRemove<std::string, std::string>::GraphId(group, "", "fixSections");
     }
 
-    TemplateFixer::GroupEdit* TemplateFixer::fixSectionsStep() {
-        // each group's graph: the sections added with no group (into the first group, or every copy too), then the
-        // group's own
-        if (createEdit_ == nullptr) {
-            createEdit_ = std::make_unique<GraphCreate<std::string, std::string>>(fixSectionsGraphId(0), nullptr);
-            createEdit_->runConfig = sectionRunConfig();
-            createEdit_->name = "fixSections";
-            createEdit_->sectionsOf = [this](std::size_t group) {
+    TemplateFixer::GroupEdit* TemplateFixer::fixSectionsStep(const std::string& kind) {
+        // each group's graph: the kind's sections added with no group (into the first group, or every copy too), then the
+        // group's own -- the sections of no kind making the graph, each kind's added to it
+        std::unique_ptr<GraphCreate<std::string, std::string>>& edit = createEdits_[kind];
+        if (edit == nullptr) {
+            edit = std::make_unique<GraphCreate<std::string, std::string>>(fixSectionsGraphId(0), nullptr);
+            edit->runConfig = sectionRunConfig();
+            edit->name = kind.empty() ? "fixSections" : kind;
+            edit->append = !kind.empty();
+            edit->sectionsOf = [this, kind](std::size_t group) {
                 std::vector<Section*> sections;
                 for (const std::string& name : group == 0 || fixSectionsInCopies
-                         ? std::vector<std::string>{fixSectionsVariable(), fixSectionsVariable(group)}
-                         : std::vector<std::string>{fixSectionsVariable(group)}) {
+                         ? std::vector<std::string>{fixSectionsVariable(kind, std::nullopt), fixSectionsVariable(kind, group)}
+                         : std::vector<std::string>{fixSectionsVariable(kind, group)}) {
                     if (const GraphEditVariables::Sections* variable = fixVariables_.findSections(name)) {
                         for (Section* section : variable->list()) {
                             sections.push_back(section);
@@ -282,8 +316,8 @@ namespace AGRemapCore {
         }
 
         // fixSectionsZ3 is set by the time a list is asked for: in the fixer's constructor
-        createEdit_->z3 = fixSectionsZ3;
-        return createEdit_.get();
+        edit->z3 = fixSectionsZ3;
+        return edit.get();
     }
 
     void TemplateFixer::giveUp(const std::string& logLine) {

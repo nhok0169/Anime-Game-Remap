@@ -49,12 +49,22 @@ namespace AGRemapCore {
             for (std::size_t g = 0; g < count; ++g) {
                 std::unordered_map<std::string, Section*> byName;
                 std::vector<std::string> names;
-                for (Section* section : sectionsOf(g)) {
+                std::vector<Section*> sections = sectionsOf(g);
+                const Graph* existing = append && g < graphGroups.size() ? graphGroups.getGraph(g, graphId.modObj) : nullptr;
+                if (existing != nullptr && !sections.empty()) {
+                    for (const std::string& name : existing->targetSectionNames()) {
+                        const auto found = existing->sections().find(name);
+                        if (found != existing->sections().end() && byName.emplace(name, found->second).second) {
+                            names.push_back(name);
+                        }
+                    }
+                }
+                for (Section* section : sections) {
                     if (section != nullptr && byName.emplace(section->name, section).second) {
                         names.push_back(section->name);
                     }
                 }
-                if (names.empty()) {
+                if (names.empty() || (existing != nullptr && sections.empty())) {
                     continue;
                 }
                 if (g == graphGroups.size()) {

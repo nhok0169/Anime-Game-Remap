@@ -70,9 +70,7 @@ namespace AGRemapCore {
         // textureThumbprints: read off TextureThumbprints (WWMIParserConfig::withGameData, WWMIFixerConfig::withGameData)
 
         // ---- a role the mod ships no file for falls back to HER game texture ----
-        facts.downloadCharFolder = "Chisa";
         facts.downloadVersionFolder = "2_8";
-        facts.downloadPrefix = "Chisa";
         facts.fallbackTextures = {
             {"accessoryDiffuse", "019c268e"},
             {"accessoryNormal", "40528957"},

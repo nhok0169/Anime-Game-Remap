@@ -40,7 +40,8 @@ namespace AGRemapCore {
                       std::shared_ptr<GameShaders> gameShaders, std::shared_ptr<ShapeKeyDispatchSizes> shapeKeyDispatchSizes,
                       std::shared_ptr<BoneCentroids> boneCentroids, std::shared_ptr<ShapeKeyRemaps> shapeKeyRemaps,
                       std::shared_ptr<MaterialCodes> materialCodes, std::shared_ptr<MaterialColours> materialColours,
-                      std::shared_ptr<TextureDescs> textureDescs, std::shared_ptr<TextureThumbprints> textureThumbprints):
+                      std::shared_ptr<TextureDescs> textureDescs, std::shared_ptr<TextureThumbprints> textureThumbprints,
+                      std::shared_ptr<TextureKinds> textureKinds):
         gameTypeId(gameTypeId), modTypeId(modTypeId), name(name), aliases(aliases),
         hashes(std::move(hashes)), indices(std::move(indices)), vertexCounts(std::move(vertexCounts)),
         vgRemaps(std::move(vgRemaps)),
@@ -48,7 +49,7 @@ namespace AGRemapCore {
         drawPasses(std::move(drawPasses)), textureRegisters(std::move(textureRegisters)), gameShaders(std::move(gameShaders)),
         shapeKeyDispatchSizes(std::move(shapeKeyDispatchSizes)), boneCentroids(std::move(boneCentroids)), shapeKeyRemaps(std::move(shapeKeyRemaps)),
         materialCodes(std::move(materialCodes)), materialColours(std::move(materialColours)), textureDescs(std::move(textureDescs)),
-        textureThumbprints(std::move(textureThumbprints)),
+        textureThumbprints(std::move(textureThumbprints)), textureKinds(std::move(textureKinds)),
         iniParseBuilder(std::move(iniParseBuilder)), iniFixBuilder(std::move(iniFixBuilder)), iniRemoveBuilder(std::move(iniRemoveBuilder)) {
         // The four WWMI-only tables default as hashes does: a fresh, fully-populated table each.
         if (this->indexCounts == nullptr) {
@@ -94,6 +95,9 @@ namespace AGRemapCore {
         }
         if (this->textureThumbprints == nullptr) {
             this->textureThumbprints = std::make_shared<TextureThumbprints>();
+        }
+        if (this->textureKinds == nullptr) {
+            this->textureKinds = std::make_shared<TextureKinds>();
         }
 
         // Mirrors the pure-Python original's own "if (hashes is None): hashes = Hashes()". Note a
@@ -282,6 +286,78 @@ namespace AGRemapCore {
         return std::nullopt;
     }
 
+    namespace {
+        std::vector<std::string> splitCommas(const std::string& text) {
+            std::vector<std::string> parts;
+            if (text.empty()) {
+                return parts;
+            }
+            std::size_t start = 0;
+            for (std::size_t i = 0; i <= text.size(); ++i) {
+                if (i == text.size() || text[i] == ',') {
+                    parts.push_back(text.substr(start, i - start));
+                    start = i + 1;
+                }
+            }
+            return parts;
+        }
+    }
+
+    std::size_t ModType::getComponentCount(const std::string& prefix, const std::optional<Version>& version) const {
+        std::size_t count = 0;
+        while (getVGOffset(prefix + std::to_string(count), "", version).has_value()) {
+            ++count;
+        }
+        return count;
+    }
+
+    long long ModType::getMergedBoneCount(const std::string& prefix, const std::optional<Version>& version) const {
+        long long bones = 0;
+        for (std::size_t slot = 0, count = getComponentCount(prefix, version); slot < count; ++slot) {
+            const std::string component = prefix + std::to_string(slot);
+            const std::optional<std::string> offset = getVGOffset(component, "", version);
+            const std::optional<std::string> vgCount = getVGCount(component, "", version);
+            if (offset.has_value() && vgCount.has_value()) {
+                bones = std::max(bones, std::stoll(*offset) + std::stoll(*vgCount));
+            }
+        }
+        return bones;
+    }
+
+    std::vector<std::string> ModType::getDrawPassNames(const std::string& component, const std::string& kind, const std::optional<Version>& version) const {
+        std::vector<std::string> names;
+        for (std::size_t i = 0;; ++i) {
+            const std::string name = i == 0 ? kind : kind + std::to_string(i + 1);
+            if (!getDrawPass(component, name + ".ps", version).has_value() && !getDrawPass(component, name, version).has_value()) {
+                return names;
+            }
+            names.push_back(name);
+        }
+    }
+
+    std::vector<std::string> ModType::getDrawPassShaders(const std::string& component, const std::string& pass, const std::optional<Version>& version) const {
+        const std::optional<std::string> value = getDrawPass(component, pass, version);
+        return value.has_value() ? splitCommas(*value) : std::vector<std::string>{};
+    }
+
+    std::vector<std::string> ModType::getDrawPassTags(const std::string& component, const std::string& pass, const std::optional<Version>& version) const {
+        const std::optional<std::string> value = getDrawPass(component, pass + ".tags", version);
+        return value.has_value() ? splitCommas(*value) : std::vector<std::string>{};
+    }
+
+    std::optional<std::vector<std::uint32_t>> ModType::getGameShaderBuffer(const std::string& shader, const std::string& reg,
+                                                                           const std::optional<Version>& version) const {
+        const std::optional<std::string> value = getGameShader(shader + "." + reg, version);
+        if (!value.has_value()) {
+            return std::nullopt;
+        }
+        std::vector<std::uint32_t> words;
+        for (const std::string& word : splitCommas(*value)) {
+            words.push_back(static_cast<std::uint32_t>(std::stoul(word, nullptr, 16)));
+        }
+        return words;
+    }
+
     std::optional<std::string> ModType::getGameShader(const std::string& type, const std::optional<Version>& version) const {
         return gameShaders == nullptr ? std::nullopt : gameShaders->get({name, "", type}, version, false);
     }
@@ -365,6 +441,33 @@ namespace AGRemapCore {
         }
         return std::make_tuple(parts[0], static_cast<std::uint32_t>(std::stoul(parts[1])), static_cast<std::uint32_t>(std::stoul(parts[2])),
                                static_cast<std::uint32_t>(std::stoul(parts[3])));
+    }
+
+    std::optional<std::string> ModType::getTextureKind(const std::string& component, const std::string& role, const std::optional<Version>& version) const {
+        if (textureKinds == nullptr) {
+            return std::nullopt;
+        }
+        std::optional<std::string> own = textureKinds->get({name, component, role}, version, false);
+        return own.has_value() || component.empty() ? own : textureKinds->get({name, "", role}, version, false);
+    }
+
+    std::map<std::string, std::string> ModType::getTextureKinds(const std::optional<Version>& version) const {
+        std::map<std::string, std::string> out;
+        if (textureKinds == nullptr) {
+            return out;
+        }
+        std::set<std::pair<std::string, std::string>> rows;          // (slot, role)
+        textureKinds->getRepo().forEachEntry([this, &rows](const std::vector<std::string>& key, const Version&, const std::string&) {
+            if (key.size() >= 3 && key[0] == name) {
+                rows.emplace(key[1], key[2]);
+            }
+        });
+        for (const auto& [component, role] : rows) {
+            if (const std::optional<std::string> kind = textureKinds->get({name, component, role}, version, false)) {
+                out.emplace(role, *kind);
+            }
+        }
+        return out;
     }
 
     std::unordered_map<std::string, std::vector<std::uint8_t>> ModType::getTextureThumbprints(const std::optional<Version>& version) const {

@@ -27,6 +27,12 @@ class ShaderFilterTagsTest(BaseUnitTest):
     def test_condition_any_eachShaderOnce_untaggedLeftOut(self):
         self.assertEqual(self.tags().condition("ps", ["bbbb", "cccc", "aaaa", "bbbb"]), "ps == 1.2 || ps == 1.1")
 
+    def test_condition_twoShadersOneIndex_namedOnce(self):
+        tags = self.tags()
+        tags.add("dddd", "1.2")
+        self.assertEqual(tags.condition("vs", ["bbbb", "dddd", "aaaa"]), "vs == 1.2 || vs == 1.1")
+        self.assertEqual(tags.condition("vs", ["dddd", "bbbb"], none = True), "vs != 1.2")
+
     def test_condition_none(self):
         self.assertEqual(self.tags().condition("vs", ["aaaa", "bbbb"], none = True), "vs != 1.1 && vs != 1.2")
 
@@ -46,13 +52,13 @@ class ShaderFilterTagsTest(BaseUnitTest):
             self.tags().section(5, "ShaderOverrideMissing")
 
 
-    def test_addNumbered_givenValuesElseTheNextOfTheRun(self):
+    def test_addGiven_theGivenValues_andRefusesAShaderWithNone(self):
         tags = FRB.ShaderFilterTags()
         tags.add("aa", "1.5")
-        # "aa" is tagged already and keeps its value; only the shaders WITHOUT a given value advance the run
-        tags.addNumbered(["aa", "bb", "cc", "bb", "dd"], {"cc": "9"}, 100.0, 0.25)
-        self.assertEqual([(tag.shaderHash, tag.filterIndex) for tag in tags.tags()],
-                         [("aa", "1.5"), ("bb", "100"), ("cc", "9"), ("dd", "100.25")])
+        # "aa" is tagged already and keeps its value
+        tags.addGiven(["aa", "bb", "cc", "bb"], {"aa": "7", "bb": "100", "cc": "9"})
+        self.assertEqual([(tag.shaderHash, tag.filterIndex) for tag in tags.tags()], [("aa", "1.5"), ("bb", "100"), ("cc", "9")])
+        self.assertRaises(ValueError, tags.addGiven, ["dd"], {"cc": "9"})
 
 
 class CustomShaderBackupsTest(BaseUnitTest):

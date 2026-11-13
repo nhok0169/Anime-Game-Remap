@@ -1084,7 +1084,7 @@ caller/callee graphs for `sections`_ related to download resources :raw-html:`<b
             return self.ctxImpl.groups.graphToPy(self.globalGraph());
         }, py::doc(R"doc(Optional[:class:`IniSectionGraph`]: The graph for the entire .ini file)doc"))
 
-       .def_property_readonly("_sectionTargets", [](PyGIMIParser &self) {
+       .def_property_readonly("sectionTargets", [](PyGIMIParser &self) {
             py::dict result;
             for (const auto &entry : self.sectionTargets()) {
                 py::list names;

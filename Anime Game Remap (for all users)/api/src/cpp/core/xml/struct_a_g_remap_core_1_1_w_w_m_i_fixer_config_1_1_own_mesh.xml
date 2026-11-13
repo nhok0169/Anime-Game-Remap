@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_own_mesh" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::OwnMesh</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_own_mesh_1a8dab0929ccc79f77119a9f42b7362427" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::OwnMesh::list</definition>
+        <argsstring></argsstring>
+        <name>list</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::OwnMesh::list</qualifiedname>
+        <briefdescription>
+<para>The mod&apos;s own shared-resource list, as the section runs it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2269" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_own_mesh_1a0a1a78f8f4697393165d057f329cc4da" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::OwnMesh::blendResource</definition>
+        <argsstring></argsstring>
+        <name>blendResource</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::OwnMesh::blendResource</qualifiedname>
+        <briefdescription>
+<para>The resource the list binds at the blend register (:cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a005776511c7c73a424d27bcab63fce5f" kindref="member">IniKeywords::WWMIBlendReg</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2274" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_own_mesh_1a6eff573a9391e50f8d6549701c202f30" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::OwnMesh::blendFile</definition>
+        <argsstring></argsstring>
+        <name>blendFile</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::OwnMesh::blendFile</qualifiedname>
+        <briefdescription>
+<para>That resource&apos;s file, as the <computeroutput>.ini</computeroutput> names it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2279" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_own_mesh_1a7b637272fa2deba687497599f93c1931" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::OwnMesh::positionFile</definition>
+        <argsstring></argsstring>
+        <name>positionFile</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::OwnMesh::positionFile</qualifiedname>
+        <briefdescription>
+<para>The file of the resource the list binds at <computeroutput>vb0</computeroutput>, as the <computeroutput>.ini</computeroutput> names it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2284" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_own_mesh_1ad37f1a4ca8984b20ac058334f6055471" prot="public" static="no" mutable="no">
+        <type>long long</type>
+        <definition>long long AGRemapCore::WWMIFixerConfig::OwnMesh::vgOffset</definition>
+        <argsstring></argsstring>
+        <name>vgOffset</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::OwnMesh::vgOffset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The section&apos;s <computeroutput>vg_offset</computeroutput>: where the component&apos;s bone ids start (<computeroutput>0</computeroutput> when it has none or it is not a number). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2289" column="23" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A source component the mod draws from mesh files of its OWN: its section runs a
+``&lt;sharedResourcesList&gt;.&lt;suffix&gt;`` list (:cpp:member:`WWMINames::OverrideSharedResourcesList`) that binds an index,
+position and blend buffer of its own -- see #drawnOf
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2265" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2265" bodyend="2290"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_own_mesh_1a6eff573a9391e50f8d6549701c202f30" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::OwnMesh</scope><name>blendFile</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_own_mesh_1a0a1a78f8f4697393165d057f329cc4da" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::OwnMesh</scope><name>blendResource</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_own_mesh_1a8dab0929ccc79f77119a9f42b7362427" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::OwnMesh</scope><name>list</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_own_mesh_1a7b637272fa2deba687497599f93c1931" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::OwnMesh</scope><name>positionFile</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_own_mesh_1ad37f1a4ca8984b20ac058334f6055471" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::OwnMesh</scope><name>vgOffset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -290,8 +290,14 @@ Grading
        | register is left to the game and a mod that recolours the foil is not followed. The one
        | channel Chisa could use is her own matcap already.
        |
-       | - The hair's detail map is repacked into Chisa's channel layout. One of Chisa's channels has
-       | no counterpart in the skin's art and is written flat.
+       | - The hair's detail map is the mod's own, bound where Chisa's hair reads it, without a repack
+       | into Chisa's channel layout: an in-game comparison with and without the repack showed no
+       | difference.
+       |
+       | - ChisaParfait's lower-body mask marks the top of her thighs, under her skirt, as cloth; Chisa's
+       | shader draws a dark edge where that marking changes, a scalloped line across both thighs that
+       | nothing covers on Chisa. The fix marks as skin the part of each leg's UV island at or above the
+       | skirt's hem, read off the mod's own mesh, so a stocking lower on the leg keeps its marking.
        |
        | - Checked in game on three mods, including the character's own model as a mod. No fault seen
        | at rest or in motion, from any angle.

@@ -1947,6 +1947,8 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         //   on hand). Every index window of those mods equals the 3.7 dump's, and so do cb4 and
         //   both shape-key hashes, which therefore resolve from this bucket at 3.7 too.
         {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "vb0"}, "0c33d628"},
+        // her black long-sleeved top, a mesh of its own she draws in the overworld only (LynaePeppermint -> Lynae's hiddenMeshes)
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "blackShirt"}, "34c0d81d"},
         {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "cb4"}, "f02baf77"},
         {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "shapekey_offsets"}, "50e226d7"},
         {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "shapekey_scale"}, "3ed03673"},
@@ -1969,7 +1971,7 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         // Her blindfold, a mesh of its own that several mods hide (WWMIFixerConfig::meshCounterparts). Filed at
         // her first version because the fix has always matched it whatever the mod's version; when it was
         // first drawn on this hash is not recorded
-        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "blindfold"}, "baaa6262"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "blindfoldMesh"}, "baaa6262"},
         // Changli (1.2): rehashed, one bone fewer in component 5 (WWMI-Assets' 1.3 Metadata.json)
         {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "vb0"}, "5f8aac45"},
         {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_offsets"}, "1ccb8008"},
@@ -2012,7 +2014,9 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "shapekey_offsets"}, "a90413a7"},
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "shapekey_scale"}, "05d2029d"},
         // the skin's blindfold, her own mesh as Changli's is (WWMIFixerConfig::meshCounterparts)
-        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "blindfold"}, "646aa163"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "blindfoldMesh"}, "646aa163"},
+        // ChisaParfait's hair ribbon, a mesh of its own beside her slots (the Chisa -> ChisaParfait fix's sharedMeshes)
+        {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "hairRibbon"}, "b00403dc"},
         // CHANGLINYMPH'S OLDER TEXTURES, TYPED BY THE ROLE EACH PLAYS (2026-10-20): WWMI-Assets' ChangliSkin1
         //   generation from 2.4 to 2.5, each row a rename git records at its "2.6 diff" whose old register in that
         //   commit's TextureUsage.json is the one its successor's role reads today (wwmiAssetLineage.py). Not
@@ -2183,6 +2187,7 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "faceMaskLive"}, "bf16c0c7"},
         {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "faceDiffuseLive"}, "d2765954"},
         {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "skinNormalLive"}, "7aee2f16"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::Sanhua), "skinNormalLive"}, "634e2c1d"},
         {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "skinDiffuseLive"}, "fa792b59"},
         {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "t5RampLive"}, "091a8707"},
         {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "bodiceNormalLive"}, "8141e933"},
@@ -2330,6 +2335,7 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"2.7", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "bodyMask"}, "b4ef021f"},
         {{"2.7", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "bodyMaskOld"}, "c4daa4c2"},
         {{"2.7", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "bodyNormalLive"}, "4caadf2f"},
+        {{"3.8", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "bodyNormalLive"}, "1676c989"},
         {{"2.7", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "eyeDiffuseLive"}, "f0536df1"},
         {{"2.7", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "eyeHighlight"}, "a32859fe"},
         {{"2.7", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "eyeIris"}, "6bf7a371"},

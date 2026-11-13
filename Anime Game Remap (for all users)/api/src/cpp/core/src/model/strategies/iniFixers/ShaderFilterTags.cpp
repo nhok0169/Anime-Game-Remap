@@ -17,7 +17,6 @@
 
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/iftemplate/IfContentPart.h"
-#include "AGRemapCore/tools/NumTools.h"
 
 
 namespace AGRemapCore {
@@ -30,20 +29,16 @@ namespace AGRemapCore {
         return true;
     }
 
-    void ShaderFilterTags::addNumbered(const std::vector<std::string>& shaderHashes, const std::map<std::string, std::string>& given,
-                                       double base, double step) {
-        std::size_t next = 0;
+    void ShaderFilterTags::addGiven(const std::vector<std::string>& shaderHashes, const std::map<std::string, std::string>& given) {
         for (const std::string& shader : shaderHashes) {
             if (filterIndexOf(shader).has_value()) {
                 continue;
             }
             const auto value = given.find(shader);
-            if (value != given.end()) {
-                add(shader, value->second);
-            } else {
-                add(shader, NumTools::formatDouble(base + step * static_cast<double>(next)));
-                ++next;
+            if (value == given.end()) {
+                throw std::invalid_argument("ShaderFilterTags: no filter_index for shader " + shader);
             }
+            add(shader, value->second);
         }
     }
 
@@ -61,11 +56,12 @@ namespace AGRemapCore {
         std::string out;
         for (const std::string& hash : shaderHashes) {
             const std::optional<std::string> index = filterIndexOf(hash);
-            if (!index.has_value() || std::find(named.begin(), named.end(), hash) != named.end()) {
+            // the condition tests the INDEX, so two shaders sharing one (a menu and an overworld variant of a pass) name it once
+            if (!index.has_value() || std::find(named.begin(), named.end(), *index) != named.end()) {
                 continue;
             }
 
-            named.push_back(hash);
+            named.push_back(*index);
             out += (out.empty() ? "" : (none ? " && " : " || ")) + reg + (none ? " != " : " == ") + *index;
         }
         return out;

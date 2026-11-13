@@ -33,7 +33,6 @@ namespace AGRemapCore {
     WWMIFixerConfig ChangliNymphFixer::changli1_4Config() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::Changli;
-        config.version = "1.4";            // her live vb0 is 1.4's, and her bones are numbered as at 1.4
         config.sourceVersion = "2.4";
 
         // a mod from before WWMI's merged skeleton (WWMI BETA-2 exports with no vg_offset) holds each
@@ -50,9 +49,9 @@ namespace AGRemapCore {
         // so hers takes a recoloured copy of her own diffuse (the meshes' UVs differ, so the skin's cannot be
         // bound there), and a mod's own section on the skin's blindfold acts on hers too ----
         config.sharedMeshes = {
-            {"baaa6262", {{"7f639abb370f996d", {{"ps-t1", "blindfold"}}}}},
+            {"blindfoldMesh", {}},          // Changli's blindfold mesh: its passes and bindings off the tables
         };
-        config.meshCounterparts = {"blindfold"};
+        config.meshCounterparts = {"blindfoldMesh"};
 
         // ---- and every tag NAMED: the values the forward direction and the other pairs already give a
         // shader, and 3381.521 up for the vertex shaders only Changli's own draws use ----
@@ -77,8 +76,8 @@ namespace AGRemapCore {
             {7, {5, {{"ps-t0", "shawlNormal"}, {"ps-t1", "shawlDiffuse"}}, true}},
         };
         // neither her sheer dress nor her shawl has an outline pass on her own draws
-        config.plan.at(3).offPasses = {"f8c96a270bf847dd"};
-        config.plan.at(7).offPasses = {"705575a2e1b4a4b9"};
+        config.plan.at(3).offPasses = {"other"};
+        config.plan.at(7).offPasses = {"other"};
 
         // ---- her sheer dress and her shawl drawn by HER see-through passes (d5572b1c, 43b49727). Changli has no
         // see-through shader, and through her opaque ones the dress, its skirt panels (and a mod's opacity toggles
@@ -95,15 +94,16 @@ namespace AGRemapCore {
         // fade is per-object data hers leaves off), with their own material bound at b5 ----
         WWMIFixerConfig::Shader sheer = WWMIFixerConfig::Shader::ofGame("ChangliNymphSheer");
         // (the ramp as a download too: the target draw's registers cannot be `ref`'d for them: the slot's OVERWORLD pass holds other textures there than the menu's (Changli's keeps bb73967a at t6 and the ramp at t7))
-        sheer.registers = {{"ps-t0", "sheerNormal"}, {"ps-t1", "sheerDiffuse"}, {"ps-t2", "sheerDetail"}, {"ps-t3", "sheerNoise"},
-                           {"ps-t4", "sheerRamp"}};
-        sheer.onlyWith = "o3";
+        // (each at the register her own draw binds it: her TextureRegisters, read by withGameData)
+        sheer.registers = {{"", "sheerNormal"}, {"", "sheerDiffuse"}, {"", "sheerDetail"}, {"", "sheerNoise"},
+                           {"", "sheerRamp"}};
+        sheer.onlyWith = IniKeywords::WWMIColourTarget;
         config.plan.at(3).shader = std::move(sheer);
 
         WWMIFixerConfig::Shader shawl = WWMIFixerConfig::Shader::ofGame("ChangliNymphShawl");
-        shawl.registers = {{"ps-t0", "shawlNormal"}, {"ps-t1", "shawlDiffuse"}, {"ps-t2", "sheerDetail"}, {"ps-t3", "sheerNoise"},
-                           {"ps-t4", "sheerRamp"}};
-        shawl.onlyWith = "o3";
+        shawl.registers = {{"", "shawlNormal"}, {"", "shawlDiffuse"}, {"", "sheerDetail"}, {"", "sheerNoise"},
+                           {"", "sheerRamp"}};
+        shawl.onlyWith = IniKeywords::WWMIColourTarget;
         config.plan.at(7).shader = std::move(shawl);
 
         // ---- a slot's OTHER passes: her outlines bind the part's own DIFFUSE at ps-t0 (Changli binds
@@ -116,39 +116,22 @@ namespace AGRemapCore {
             {6, {{"other", {{"ps-t1", "eyeHighlight"}}}}},
         };
 
-        config.createdTextures = {
-            {"flatClothMask", Colour(0, 128, 0, 255)},
-            {"flatDetail", Colour(70, 70, 70, 0)},
+        config.createdTextures = {          // their colours: Changli's MaterialColours rows
+            {"flatClothMask", Colour(), 16, {"component3", "upperMask.cloth"}},
+            {"flatDetail", Colour(), 16, {"component3", "upperDetail.flat"}},
         };
 
         config.sourceTextures = changliNymphTextureFacts();
         // the masks a flat or aliased file is refused for are the source's: see WWMITextureFacts::regionRoles
 
         // ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
-        config.removedRegs = {
-            {"ResourceBlendBufferOverride", "ref"},
-            {"ResourceMergedSkeletonOverride", "ref"},
-            {"ResourceExtraMergedSkeletonOverride", "ref"},
-            {"Resource\\RabbitFX\\Diffuse", ""},
-            {"Resource\\RabbitFX\\Lightmap", ""},
-            {"Resource\\RabbitFX\\Normalmap", ""},
-            {"Resource\\RabbitFX\\Materialmap", ""},
-            {"Resource\\RabbitFX\\Cutoutmap", ""},
-            {"Resource\\RabbitFX\\Specialmap", ""},
-            {"run", "commandlist\\rabbitfx\\settextures"},
-        };
 
         // ---- the shape keys are RETARGETED, in Changli's slot order (wwmiShapeKeyOrder.py ChangliNymph
         // Changli: her slots 0-71 take the skin's keys 14-85 by content, 72-85 nothing), with her dispatch height ----
-        config.hiddenObjs = {};
-        config.zeroShapeKeyStream = false;
         // shapeKeyDispatchSize: read off ShapeKeyDispatchSizes at the run's versions (WWMIFixerConfig::withGameData)
         // shapeKeyOrder: read off ShapeKeyRemaps at the run's versions (WWMIFixerConfig::withGameData)
         config.cleanTexcoords = true;
         config.carryByRegisterRole = true;
-        // her slots reach bone 275 (276 x 3 float4 = 828), past the 768 default
-        config.mergedSkeletonSlots = 1536;
-        config.copiesShareSkeleton = true;
         // the skin's blend is EIGHT influences a vertex and Changli's draws read FOUR
         config.targetInfluences = 4;
 

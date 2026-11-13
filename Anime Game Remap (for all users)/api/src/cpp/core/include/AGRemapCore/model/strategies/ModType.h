@@ -38,6 +38,7 @@
 #include "AGRemapCore/model/assets/MaterialColours.h"
 #include "AGRemapCore/model/assets/TextureDescs.h"
 #include "AGRemapCore/model/assets/TextureThumbprints.h"
+#include "AGRemapCore/model/assets/TextureKinds.h"
 #include "AGRemapCore/model/textures/Colour.h"
 #include "AGRemapCore/model/assets/VertexCounts.h"
 #include "AGRemapCore/model/assets/VGCounts.h"
@@ -185,7 +186,8 @@ namespace AGRemapCore {
                               std::shared_ptr<MaterialCodes> materialCodes = nullptr,
                               std::shared_ptr<MaterialColours> materialColours = nullptr,
                               std::shared_ptr<TextureDescs> textureDescs = nullptr,
-                              std::shared_ptr<TextureThumbprints> textureThumbprints = nullptr);
+                              std::shared_ptr<TextureThumbprints> textureThumbprints = nullptr,
+                              std::shared_ptr<TextureKinds> textureKinds = nullptr);
 
             /**
              * @brief The id for the game this type of mod belongs to
@@ -376,6 +378,11 @@ namespace AGRemapCore {
             std::shared_ptr<TextureThumbprints> textureThumbprints;
 
             /**
+             * @brief What each of the mod's texture roles IS -- see :cpp:class:`TextureKinds`, #getTextureKind and #getTextureKinds
+             */
+            std::shared_ptr<TextureKinds> textureKinds;
+
+            /**
              * @brief
              @rst
              The builder that builds the parser for a ``.ini`` file of this type of mod
@@ -546,8 +553,84 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             How many components the mod has (WuWa): ``<prefix>0``, ``<prefix>1``, ... while :cpp:class:`VGOffsets` has a row
+             @endrst
+             *
+             * @param prefix The prefix of the components' names
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return The count
+             */
+            std::size_t getComponentCount(const std::string& prefix = "component", const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             How many bones the mod's merged skeleton holds: the furthest any of its components reaches into it
+             (:cpp:class:`VGOffsets` + :cpp:class:`VGCounts`, WuWa)
+             @endrst
+             *
+             * @param prefix The prefix of the components' names
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return The bones; ``0`` when the mod has no rows
+             */
+            long long getMergedBoneCount(const std::string& prefix = "component", const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             The names of a draw slot's passes of one kind (#drawPasses), in order: ``main``, ``main2``, ... or ``other``,
+             ``other2``, ... -- every pass with a row
+             @endrst
+             *
+             * @param component The draw slot, eg. ``component3``
+             * @param kind ``main`` or ``other``
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return The names; empty when the slot has no such pass
+             */
+            std::vector<std::string> getDrawPassNames(const std::string& component, const std::string& kind = "main",
+                                                      const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             A pass's vertex shaders (:cpp:func:`getDrawPass`'s ``<pass>``), as a list
+             @endrst
+             *
+             * @param component The draw slot, eg. ``component3``
+             * @param pass The pass, eg. ``main``, ``other2``
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return The shaders' hashes; empty when the pass has none
+             */
+            std::vector<std::string> getDrawPassShaders(const std::string& component, const std::string& pass,
+                                                        const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             Each of a pass's vertex shaders' ``filter_index`` (:cpp:func:`getDrawPass`'s ``<pass>.tags``), in
+             :cpp:func:`getDrawPassShaders`' order
+             @endrst
+             *
+             * @param component The draw slot, eg. ``component3``
+             * @param pass The pass, eg. ``main``, ``other2``
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return The values; empty when the pass has none
+             */
+            std::vector<std::string> getDrawPassTags(const std::string& component, const std::string& pass,
+                                                     const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
              One of #drawPasses' values for a draw slot: ``<pass>`` (its vertex shaders, comma-separated),
-             ``<pass>.ps`` (its pixel shader) or ``<pass>.tags`` (each vertex shader's ``filter_index``)
+             ``<pass>.ps`` (its pixel shader), ``<pass>.tags`` (each vertex shader's ``filter_index``) or
+             ``<pass>.<register>`` (the texture its draw binds there) -- #getDrawPassNames, #getDrawPassShaders and
+             #getDrawPassTags read the lists typed
              @endrst
              *
              * @param component The draw slot, eg. ``component3``
@@ -607,6 +690,21 @@ namespace AGRemapCore {
              * @return The value, or ``std::nullopt`` when the mod has no such row
              */
             std::optional<std::string> getGameShader(const std::string& type, const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             A constant buffer a game shader's draw read (:cpp:func:`getGameShader`'s ``<shader>.<register>``), as its 32-bit words
+             @endrst
+             *
+             * @param shader The shader's row, eg. ``LynaeUpper``
+             * @param reg The register, eg. ``ps-cb4``
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return The words (four to a row), or ``std::nullopt`` when the mod has no such row
+             */
+            std::optional<std::vector<std::uint32_t>> getGameShaderBuffer(const std::string& shader, const std::string& reg,
+                                                                          const std::optional<Version>& version = std::nullopt) const;
 
             /**
              * @brief The height WWMI dispatches the mod's shape keys with (#shapeKeyDispatchSizes)
@@ -687,6 +785,31 @@ namespace AGRemapCore {
              */
             std::unordered_map<std::string, std::vector<std::uint8_t>> getTextureThumbprints(
                 const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             The KIND of one of the mod's texture roles (#textureKinds), eg. ``Diffuse`` for ``upperDiffuse``: its row on
+             the slot, else its row with no slot (``""``)
+             @endrst
+             *
+             * @param component The draw slot, eg. ``component3``
+             * @param role The role, eg. ``upperDiffuse``
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return The kind (``""`` for a role with no kind), or ``std::nullopt`` when the mod has no row of the role
+             */
+            std::optional<std::string> getTextureKind(const std::string& component, const std::string& role,
+                                                      const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief Every texture role the mod has a row of (#textureKinds), on any slot, -> its kind
+             *
+             * @param version The game version wanted -- see #getDrawPass
+             *
+             * @return Role -> kind (``""`` for a role with no kind); empty when the mod has no rows
+             */
+            std::map<std::string, std::string> getTextureKinds(const std::optional<Version>& version = std::nullopt) const;
 
             /**
              * @brief The help text describing this mod type, as the CLI prints it

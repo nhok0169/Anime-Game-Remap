@@ -16,6 +16,7 @@
 
 #include <sstream>
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
+#include "AGRemapCore/data/IniParseData/WWMIParser.h"
 
 #include <cctype>
 #include <map>
@@ -38,26 +39,21 @@
 
 
 namespace AGRemapCore {
-    std::string WWMIFixerConfig::roleKind(const std::string& role) {
-        for (std::size_t i = 0; i < role.size(); ++i) {
-            if (std::isupper(static_cast<unsigned char>(role[i])) != 0) {
-                return role.substr(i);
+    int WWMIFixerConfig::componentOf(int key) const {
+        for (const DrawReroute& reroute : drawReroutes) {
+            if (reroute.as == key) {
+                return reroute.from;
             }
         }
-        return "";
+        return key;
     }
 
-    std::optional<std::string> WWMIFixerConfig::Shader::lineRole(const std::pair<std::string, std::string>& line) {
-        std::istringstream words{std::string(StringTools::strip(line.second))};
-        std::string word;
-        std::string role;
-        if (!(words >> word) || word != WWMINames::RoleLine || !(words >> role)) {
-            return std::nullopt;
-        }
-        return role;
+    std::string WWMIFixerConfig::kindOf(const std::string& role) const {
+        const auto found = roleKinds.find(role);
+        return found != roleKinds.end() ? found->second : std::string();
     }
 
-    std::optional<std::string> WWMIFixerConfig::registerOf(const std::vector<Binding>& bindings, const std::string& role) {
+    std::optional<std::string> WWMIFixerConfig::registerOf(const std::vector<Binding>& bindings, const std::string& role) const {
         std::map<std::string, std::string> regOfRole;
         for (const Binding& binding : bindings) {
             if (binding.role != IniKeywords::Null) {
@@ -68,10 +64,10 @@ namespace AGRemapCore {
             return found->second;
         }
 
-        const std::string kind = roleKind(role);
+        const std::string kind = kindOf(role);
         std::optional<std::string> byKind;
         for (const auto& [rowRole, reg] : regOfRole) {
-            if (kind.empty() || roleKind(rowRole) != kind) {
+            if (kind.empty() || kindOf(rowRole) != kind) {
                 continue;
             }
             if (byKind.has_value() && *byKind != reg) {
@@ -115,17 +111,9 @@ namespace AGRemapCore {
         if (planned == plan.end() || !planned->second.shader.has_value()) {
             return roles;
         }
-        const Shader& shader = *planned->second.shader;
-        const auto collect = [&roles](const std::vector<std::pair<std::string, std::string>>& lines) {
-            for (const auto& line : lines) {
-                if (std::optional<std::string> role = Shader::lineRole(line)) {
-                    roles.push_back(*role);
-                }
-            }
-        };
-        collect(shader.lines);
-        for (const auto& pass : shader.passes) {
-            collect(pass);
+        for (const auto& [reg, role] : planned->second.shader->gameRoles) {
+            (void)reg;
+            roles.push_back(role);
         }
         return roles;
     }
@@ -235,7 +223,7 @@ namespace AGRemapCore {
         std::set<std::string> usedNames;
         std::set<std::string> saidAmbiguous;
         const auto assignRole = [&](const std::string& role, int component) {
-            const IniParseData::RoleFile* chosen = data.roleFile(role, {"", slotPrefix + std::to_string(component)});
+            const IniParseData::RoleFile* chosen = data.roleFile(role, {"", WWMINames::SlotPrefix + std::to_string(component)});
             if (chosen == nullptr || result.ofSlotRole.count({role, component}) > 0) {
                 return;
             }
@@ -364,7 +352,7 @@ namespace AGRemapCore {
             return alias != rerouteFrom.end() ? alias->second : component;
         };
         const auto slotObj = [this, &sourceOf](int component) {
-            return std::pair<std::string, std::string>("", slotPrefix + std::to_string(sourceOf(component)));
+            return std::pair<std::string, std::string>("", WWMINames::SlotPrefix + std::to_string(sourceOf(component)));
         };
         const auto bindings = [this, &ownShader](int component) {
             return bindingsOf(component, ownShader.count(component) > 0);
@@ -416,7 +404,7 @@ namespace AGRemapCore {
             } else if (planGameResource(role)) {
                 downloaded.push_back(role);
             } else {
-                result.notes.push_back("the draws " + slotPrefix + " sections make before binding anything need " + sourceName
+                result.notes.push_back("the draws " + WWMINames::SlotPrefix + " sections make before binding anything need " + sourceName
                                        + "'s own " + role + ", and fallbackTextures has no hash for it -- those draws keep"
                                        " the target's texture at the mod's UVs");
             }
@@ -461,13 +449,13 @@ namespace AGRemapCore {
                         continue;               // bound unconditionally, or some other way (a `this` override)
                     }
                     if (!planGameResource(binding.role)) {
-                        result.notes.push_back(slotPrefix + std::to_string(component) + " binds its " + binding.role
+                        result.notes.push_back(WWMINames::SlotPrefix + std::to_string(component) + " binds its " + binding.role
                                                + " only under a toggle, and fallbackTextures has no hash for " + sourceName
                                                + "'s own -- the mod's file stays bound in every branch");
                         continue;
                     }
                     result.toggled[{binding.role, component}] = result.of(binding.role, component, ownShader.count(component) > 0);
-                    result.notes.push_back(slotPrefix + std::to_string(component) + " binds its " + binding.role
+                    result.notes.push_back(WWMINames::SlotPrefix + std::to_string(component) + " binds its " + binding.role
                                            + " only under a toggle; elsewhere " + sourceName + "'s own is bound, as the game does");
                 }
             }
@@ -477,8 +465,7 @@ namespace AGRemapCore {
 
     WWMIFixerConfig::TexEditTargets WWMIFixerConfig::texEditTargets(const IniParseData& data, const RoleResources& roles,
                                                                     const std::set<int>& drawn, const std::set<int>& ownShader,
-                                                                    const std::string& iniPath,
-                                                                    const std::string& sourceName) const {
+                                                                    const std::string& iniPath) const {
         TexEditTargets result;
 
         // which file each of the mod's resources names, so an edit reaches every variant a toggle binds
@@ -499,17 +486,6 @@ namespace AGRemapCore {
             const std::optional<std::string> was = roles.shared(edit.role, drawn, ownShader);
             if (!edit.makeFilter || !was.has_value()) {
                 continue;
-            }
-
-            // the source's own textures the edit compares against -- downloaded, never bound
-            for (const std::string& role : edit.sourceGameRoles) {
-                const auto hash = sourceTextures.fallbackTextures.find(role);
-                if (!sourceTextures.downloadCharFolder.empty() && hash != sourceTextures.fallbackTextures.end()) {
-                    result.references.emplace(role, downloadOf(TextTools::capitalize(role) + WWMINames::GameSuffix, hash->second));
-                } else {
-                    result.notes.push_back("the " + edit.name + " edit of " + edit.role + " reads " + sourceName + "'s own "
-                                           + role + ", and fallbackTextures has no hash for it");
-                }
             }
 
             // the mod's own file, or -- for a role it has none for -- the one the stand-in download lands
@@ -534,8 +510,8 @@ namespace AGRemapCore {
                     }
                     const auto claimed = result.rolesOf.find(StringTools::toLower(variant));
                     if (claimed != result.rolesOf.end()
-                            && std::any_of(claimed->second.begin(), claimed->second.end(), [&edit](const std::string& by) {
-                                   return by == edit.role || roleKind(by) != roleKind(edit.role);
+                            && std::any_of(claimed->second.begin(), claimed->second.end(), [this, &edit](const std::string& by) {
+                                   return by == edit.role || kindOf(by) != kindOf(edit.role);
                                })) {
                         continue;
                     }
@@ -602,7 +578,7 @@ namespace AGRemapCore {
             // the draws its section makes before it binds anything (a reroute reads its source component's)
             const auto alias = rerouteFrom.find(component);
             const int own = alias != rerouteFrom.end() ? alias->second : component;
-            if (!data.lateBindings(std::pair<std::string, std::string>("", slotPrefix + std::to_string(own))).empty() && !defaults.ofRole.empty()) {
+            if (!data.lateBindings(std::pair<std::string, std::string>("", WWMINames::SlotPrefix + std::to_string(own))).empty() && !defaults.ofRole.empty()) {
                 TextureList game{"game", component, "", 0, {}};
                 for (const Binding& binding : bindings) {
                     if (binding.role != IniKeywords::Null && defaults.ofRole.count(binding.role) > 0) {
@@ -761,7 +737,7 @@ namespace AGRemapCore {
         if (!result.dropped.empty()) {
             std::string names;
             for (const int component : result.dropped) {
-                names += (names.empty() ? "" : ", ") + slotPrefix + std::to_string(component);
+                names += (names.empty() ? "" : ", ") + WWMINames::SlotPrefix + std::to_string(component);
                 const auto label = sourceLabels.find(component);
                 if (label != sourceLabels.end() && !label->second.empty()) {
                     names += " (" + label->second + ")";
@@ -772,6 +748,213 @@ namespace AGRemapCore {
                                    + names + " that " + sourceName + "'s plan has no target slot for -- "
                                    + (one ? "it is" : "they are") + " not remapped");
         }
+        return result;
+    }
+
+    WWMIFixerConfig::Drawn WWMIFixerConfig::drawnOf(const IniParseData& data, const SectionTargets& targets, int sourceSlots,
+                                                    const std::string& sourceName, const std::string& sourceVb0,
+                                                    const std::string& targetName) const {
+        using Row = IniParseData::CollectedRow;
+        Drawn result;
+        const auto sectionsOf = [&targets](const std::pair<std::string, std::string>& obj) -> const std::vector<std::string>* {
+            for (const auto& entry : targets) {
+                if (entry.first == obj) {
+                    return &entry.second;
+                }
+            }
+            return nullptr;
+        };
+        // the first value of 'key' in a section's own lines, stripped
+        const auto ownVal = [&data](const std::string& section, const std::string& key) -> std::optional<std::string> {
+            for (const Row* row : data.sectionRows(IniParseRows::Sections, section)) {
+                if (row->key == key) {
+                    return std::string(StringTools::strip(row->value));
+                }
+            }
+            return std::nullopt;
+        };
+
+        // the host's [Present] resets `$object_detected`: WWMI Tools' `post $object_detected = 0`, anywhere in it
+        for (const std::string& section : data.collectedSections(IniParseRows::Sections)) {
+            if (!StringTools::equalsIgnoreCase(section, IniKeywords::Present)) {
+                continue;
+            }
+            for (const Row* row : data.sectionRows(IniParseRows::Sections, section)) {
+                if (StringTools::startsWith(StringTools::toLower(row->key), IniKeywords::Post + " " + IniKeywords::WWMIObjectDetected)
+                        && StringTools::strip(row->value) == "0") {
+                    result.hostResetsDetected = true;
+                }
+            }
+        }
+
+        if (const std::vector<std::string>* watching = sectionsOf({"", WWMIParseObjs::Watch})) {
+            result.watching = *watching;
+        }
+
+        // ---- each source component with sections (WWMIParserConfig::slotSections, in the parser's order): drawing, or hidden ----
+        for (const auto& [component, sections] : WWMIParserConfig::slotSections(targets, {})) {
+            if (sections.empty() || (sourceSlots >= 0 && component >= sourceSlots)) {
+                continue;
+            }
+
+            const std::pair<std::string, std::string> obj("", WWMINames::SlotPrefix + std::to_string(component));
+            if (data.isUndrawn(obj)) {
+                result.silent.push_back(component);
+                continue;
+            }
+
+            result.present[component] = sections;
+            if (!data.drawRanges(obj).empty()) {
+                result.drawRanges[component] = data.drawRanges(obj);
+            }
+        }
+
+        if (result.present.empty() && result.silent.empty()) {
+            result.error = "no [" + IniKeywords::TextureOverride + TextTools::capitalize(WWMINames::SlotPrefix) + "*] section on any"
+                           " vb0 hash the library files under " + sourceName + " (" + sourceVb0 + " at the version asked)";
+            return result;
+        }
+
+        // ---- a mod from before WWMI's merged skeleton (WWMIParserConfig::mergedSkeleton): no slot section of it carries a vg_offset ----
+        result.legacy = !WWMIParserConfig::mergedSkeleton(data.collected(IniParseRows::Objs), targets, sourceSlots);
+
+        if (result.legacy) {
+            if (sourceVgMaps.empty()) {
+                result.error = "this mod is from before WWMI's merged skeleton (no `" + IniKeywords::WWMIVgOffset + "` in any of its sections), "
+                               "so its blend holds each component's OWN bone indices -- and " + sourceName
+                               + "'s config carries no sourceVgMaps to lift them with. Remapping them as merged indices would "
+                                 "scramble every bone of the body, so this mod is left alone";
+                return result;
+            }
+
+            result.notes.push_back("this mod is from before WWMI's merged skeleton: its blend is read per component and lifted "
+                                   "through " + sourceName + "'s vg_map, and the fix supplies the merged skeleton it lacks");
+        }
+
+        // ---- the components drawn from mesh files of their own: a `run =` of a `<sharedResourcesList>.<suffix>` list
+        // binding an index, position and blend buffer of its own ----
+        const std::string prefix = StringTools::toLower(WWMINames::OverrideSharedResourcesList) + ".";
+        const auto bound = [&ownVal](const std::string& list, const std::string& reg) -> std::string {
+            const std::optional<std::string> value = ownVal(list, reg);
+            return value.has_value() ? std::string(StringTools::strip(IniNamingTools::removeRefPrefix(*value))) : std::string();
+        };
+        for (const auto& [component, sections] : result.present) {
+            for (const std::string& section : sections) {
+                for (const Row* row : data.sectionRows(IniParseRows::Sections, section)) {
+                    const std::string list(StringTools::strip(row->value));
+                    if (!StringTools::equalsIgnoreCase(row->key, IniKeywords::Run)
+                            || !StringTools::startsWith(StringTools::toLower(list), prefix)) {
+                        continue;
+                    }
+
+                    const std::string ib = bound(list, IniKeywords::Ib);
+                    const std::string blend = bound(list, IniKeywords::WWMIBlendReg);
+                    const std::string position = bound(list, IniKeywords::Vb0);
+                    if (ib.empty() || StringTools::equalsIgnoreCase(ib, IniKeywords::WWMIIndexBuffer)
+                            || blend.empty() || position.empty()) {
+                        continue;
+                    }
+
+                    OwnMesh mesh;
+                    mesh.list = list;
+                    mesh.blendResource = blend;
+                    mesh.blendFile = data.resourceFile(blend).value_or("");
+                    mesh.positionFile = data.resourceFile(position).value_or("");
+                    try {
+                        mesh.vgOffset = std::stoll(ownVal(section, IniKeywords::WWMIVgOffset).value_or("0"));
+                    } catch (const std::exception&) {
+                        mesh.vgOffset = 0;
+                    }
+
+                    if (mesh.blendFile.empty() || mesh.positionFile.empty()) {
+                        result.notes.push_back("[" + section + "] draws from its own mesh (" + list + "), but its blend or position"
+                                               " buffer names no file, so that component is not remapped");
+                        continue;
+                    }
+
+                    result.ownMeshes[component] = mesh;
+                }
+            }
+        }
+
+        // ---- the reroutes: which draws of a component the parser picked for a reroute's split ----
+        for (const DrawReroute& reroute : drawReroutes) {
+            if (result.present.count(reroute.from) == 0 || plan.count(reroute.as) == 0
+                    || result.drawRanges.count(reroute.from) == 0 || result.present.count(reroute.as) > 0) {
+                continue;
+            }
+
+            const std::vector<IniParseData::DrawRange>& picked =
+                data.drawRanges({reroute.split, WWMINames::SlotPrefix + std::to_string(reroute.from)});
+            const std::set<DrawRange> taken(picked.begin(), picked.end());
+            if (taken.empty()) {
+                continue;
+            }
+
+            result.rerouteFrom[reroute.as] = reroute.from;
+            result.reroutedDraws[reroute.as] = taken;
+            result.present[reroute.as] = result.present.at(reroute.from);
+            for (const DrawRange& range : taken) {
+                result.drawRanges[reroute.as].push_back(range);
+            }
+
+            std::vector<DrawRange>& own = result.drawRanges[reroute.from];
+            own.erase(std::remove_if(own.begin(), own.end(), [&taken](const DrawRange& r) { return taken.count(r) > 0; }),
+                      own.end());
+
+            result.notes.push_back(std::to_string(taken.size()) + " of " + WWMINames::SlotPrefix + std::to_string(reroute.from)
+                                   + "'s draws are in the split " + reroute.split + ", and go through target slot "
+                                   + std::to_string(plan.at(reroute.as).slot) + " instead");
+        }
+
+        // ---- RabbitFX, the components' own shaders, overlays and mark lines ----
+        // whether the mod's sections of a component (a reroute's: its source's) name RabbitFX
+        const auto usesRabbitFX = [&result, &data](int component) {
+            if (result.present.count(component) == 0) {
+                return false;
+            }
+            const auto alias = result.rerouteFrom.find(component);
+            const int slot = alias != result.rerouteFrom.end() ? alias->second : component;
+            return data.libraries({"", WWMINames::SlotPrefix + std::to_string(slot)}).count(RabbitFX::Name) > 0;
+        };
+        for (const auto& entry : result.present) {
+            if (result.rerouteFrom.count(entry.first) == 0) {
+                result.drawn.insert(entry.first);
+                if (usesRabbitFX(entry.first)) {
+                    result.rabbitFX.insert(entry.first);
+                }
+            }
+        }
+
+        for (const auto& [component, planned] : plan) {
+            if (result.present.count(component) == 0) {
+                continue;
+            }
+
+            // SourceComponent::overlay -- a RabbitFX mod keeps its look: RabbitFX patches the target's game shader, which
+            // the overlay would draw over
+            if (planned.overlay.has_value()) {
+                if (planned.overlay->yieldToRabbitFX && usesRabbitFX(component)) {
+                    result.notes.push_back("component " + std::to_string(component) + " hands its maps to RabbitFX, so "
+                                           + planned.overlay->name + " is not drawn over it");
+                } else {
+                    result.overlaid.insert(component);
+                }
+            }
+            if (planned.shader.has_value()) {
+                // Shader::yieldToRabbitFX: the component keeps the target's own shader, and its mark lines are not written
+                if (!shaderDraws(component, usesRabbitFX(component))) {
+                    result.notes.push_back("component " + std::to_string(component) + " hands its maps to RabbitFX, so it keeps "
+                                           + targetName + "'s own shader rather than " + planned.shader->name);
+                    continue;
+                }
+                result.ownShader.insert(component);
+            }
+            if (!planned.markLines.empty()) {
+                result.markLines.insert(component);
+            }
+        }
+
         return result;
     }
 
@@ -818,6 +1001,17 @@ namespace AGRemapCore {
         return result;
     }
 
+    std::vector<WWMIFixerConfig::RegRemoval> WWMIFixerConfig::gameRemovedRegs() {
+        std::vector<RegRemoval> lines = {{IniKeywords::WWMIBlendBufferOverride, IniKeywords::Ref},
+                                         {IniKeywords::WWMIMergedSkeletonOverride, IniKeywords::Ref},
+                                         {IniKeywords::WWMIExtraMergedSkeletonOverride, IniKeywords::Ref}};
+        for (const std::string& key : RabbitFX::TextureKeys) {
+            lines.push_back({key, ""});
+        }
+        lines.push_back({IniKeywords::Run, IniKeywords::RabbitFXSetTexturesPath});
+        return lines;
+    }
+
     std::map<int, std::vector<WWMIFixerConfig::RegRemoval>> WWMIFixerConfig::removedLines(
             bool targetPast256, const std::set<int>& components, const std::set<int>& keepsRabbitFX) const {
         std::vector<RegRemoval> all = removedRegs;
@@ -849,15 +1043,7 @@ namespace AGRemapCore {
 
         // the source component of one of the parser's slot objects
         const auto componentOf = [this](const std::pair<std::string, std::string>& obj) -> std::optional<int> {
-            if (!obj.first.empty() || !StringTools::startsWith(obj.second, slotPrefix)) {
-                return std::nullopt;
-            }
-            try {
-                const int component = std::stoi(obj.second.substr(slotPrefix.size()));
-                return component >= 0 ? std::optional<int>(component) : std::nullopt;
-            } catch (const std::exception&) {
-                return std::nullopt;
-            }
+            return WWMIParserConfig::slotWithPrefix(obj, WWMINames::SlotPrefix);
         };
         const std::vector<std::string> passOnly = passOnlyRoles(drawn);
         const auto bindsRole = [&](int component, const std::string& role) {
@@ -869,7 +1055,7 @@ namespace AGRemapCore {
             return std::find(passOnly.begin(), passOnly.end(), role) != passOnly.end();
         };
         const std::string refPrefix = StringTools::toLower(IniKeywords::Ref) + " ";
-        const std::string prefix = StringTools::toLower(texRegPrefix);
+        const std::string prefix = StringTools::toLower(IniKeywords::TexRegPrefix);
 
         for (const auto& [component, planned] : plan) {
             (void)planned;
@@ -895,7 +1081,7 @@ namespace AGRemapCore {
                 const auto source = sourceRoleAt.find(reg);
                 const auto target = targetRoleAt.find(reg);
                 return source != sourceRoleAt.end() && target != targetRoleAt.end()
-                    && roleKind(source->second) == roleKind(target->second);
+                    && kindOf(source->second) == kindOf(target->second);
             };
 
             // the registers the component's own list binds (a line running a toggle binds its register too)
@@ -909,7 +1095,7 @@ namespace AGRemapCore {
                 }
             }
 
-            const std::pair<std::string, std::string> ownObj("", slotPrefix + std::to_string(ownSource));
+            const std::pair<std::string, std::string> ownObj("", WWMINames::SlotPrefix + std::to_string(ownSource));
             // the line in this one's place: no answer leaves it alone, an empty line drops it
             const auto fateOf = [&](const std::string& key, const std::string& value) -> std::optional<std::optional<std::pair<std::string, std::string>>> {
                 using Line = std::optional<std::pair<std::string, std::string>>;
@@ -927,7 +1113,7 @@ namespace AGRemapCore {
                 // a texture put into another kind of slot on purpose goes by the slot
                 if (role.has_value() && carryByRegisterRole) {
                     const auto slotRole = sourceRoleAt.find(key);
-                    if (slotRole == sourceRoleAt.end() || roleKind(slotRole->second) != roleKind(*role)) {
+                    if (slotRole == sourceRoleAt.end() || kindOf(slotRole->second) != kindOf(*role)) {
                         const std::optional<std::string> slotReg =
                             slotRole != sourceRoleAt.end() ? registerOf(rowBindings, slotRole->second) : std::nullopt;
                         if (slotReg.has_value() && !StringTools::equalsIgnoreCase(*slotReg, key)) {
@@ -983,15 +1169,8 @@ namespace AGRemapCore {
 
         // the source component a line's graph is a slot of
         const auto componentOf = [this, &drawn](const std::pair<std::string, std::string>& obj) -> std::optional<int> {
-            if (!obj.first.empty() || !StringTools::startsWith(obj.second, slotPrefix)) {
-                return std::nullopt;
-            }
-            try {
-                const int component = std::stoi(obj.second.substr(slotPrefix.size()));
-                return drawn.count(component) > 0 ? std::optional<int>(component) : std::nullopt;
-            } catch (const std::exception&) {
-                return std::nullopt;
-            }
+            const std::optional<int> component = WWMIParserConfig::slotWithPrefix(obj, WWMINames::SlotPrefix);
+            return component.has_value() && drawn.count(*component) > 0 ? component : std::nullopt;
         };
 
         // the linked files, in the order their first line was read, and the variables their conditions read
@@ -1118,7 +1297,7 @@ namespace AGRemapCore {
             if (drawn.count(component) == 0) {
                 return false;
             }
-            const std::pair<std::string, std::string> obj("", slotPrefix + std::to_string(component));
+            const std::pair<std::string, std::string> obj("", WWMINames::SlotPrefix + std::to_string(component));
             const auto& rows = data.collected(IniParseRows::Objs);
             return std::any_of(rows.begin(), rows.end(), [&obj](const IniParseData::CollectedRow& row) {
                 return row.graphId.modObj == obj && row.key == IniKeywords::Run
@@ -1138,8 +1317,8 @@ namespace AGRemapCore {
 
             const auto regs = sourceTextures.registerRoles.find(source);
             std::array<int, 4> tags{0, 0, 0, 0};
-            for (int k = 0; k < 4; ++k) {
-                const std::string reg = "ps-t" + std::to_string(k);
+            for (int k = 0; k < static_cast<int>(RabbitFX::Registers.size()); ++k) {
+                const std::string& reg = RabbitFX::Registers[static_cast<std::size_t>(k)];
                 const auto game = planned.rabbitFX->gameTags.find(reg);
                 tags[static_cast<std::size_t>(k)] = game != planned.rabbitFX->gameTags.end() ? game->second : 0;
                 if (regs == sourceTextures.registerRoles.end()) {

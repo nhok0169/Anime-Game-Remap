@@ -162,21 +162,15 @@ class PythonParityTest(unittest.TestCase):
         for line in ("hash = b101dcf3", "match_first_index = 10", "run = CommandListMergeSkeletonXRemapFix", "handling = skip"):
             self.assertIn(line, text)
 
-    def test_wwmiSections_hideMergeOnly_mergesTheWindowWithoutSkipping(self):
+    def test_wwmiSections_hideMergeWindow_mergesTheWindowAndSkips(self):
         merge = FRB.WWMISections.Hide()
-        merge.name, merge.comment, merge.vb0Hash = "TextureOverrideXComponent2RemapMerge", "; merged", "b101dcf3"
+        merge.name, merge.comment, merge.vb0Hash = "TextureOverrideXComponent2RemapHide", "; hidden", "b101dcf3"
         merge.indexOffset, merge.indexCount, merge.vgOffset, merge.vgCount = "10", "20", "127", "63"
-        merge.mergeWindowList, merge.mergeOnly = "CommandListMergeWindowRemapFix", True
+        merge.mergeWindowList = "CommandListMergeWindowRemapFix"
         text = FRB.WWMISections.hideSection(FRB.Z3Context(), merge).toStr()
-        for line in ("hash = b101dcf3", "match_first_index = 10", "vg_offset = 127", "run = CommandListMergeWindowRemapFix"):
+        for line in ("hash = b101dcf3", "match_first_index = 10", "vg_offset = 127", "run = CommandListMergeWindowRemapFix",
+                     "handling = skip", "$object_detected = 1"):
             self.assertIn(line, text)
-        self.assertNotIn("handling = skip", text)
-        self.assertNotIn("$object_detected", text)
-
-        merge.mergeOnly = False
-        text = FRB.WWMISections.hideSection(FRB.Z3Context(), merge).toStr()
-        self.assertIn("handling = skip", text)
-        self.assertIn("$object_detected = 1", text)
 
     def test_wwmiSections_mergeListNameGoesThroughTheSkeletonsName(self):
         skeleton = FRB.WWMISections.Skeleton()
@@ -246,18 +240,22 @@ class PythonParityTest(unittest.TestCase):
         self.assertEqual(FRB.WWMISections.shaderDrawConstants(draw),
                          [("global $XShader5Draw0FrameRemapFix", "-1"), ("global $XShader5Draw0CountRemapFix", "0")])
 
-    def test_wwmiFixerConfig_roleKind_andRegisterOf(self):
+    def test_wwmiFixerConfig_kindOf_andRegisterOf(self):
         Config = FRB.WWMIFixerConfig
-        self.assertEqual(Config.roleKind("panelDiffuse"), "Diffuse")
-        self.assertEqual(Config.roleKind("ramp"), "")
+        config = Config()
+        config.roleKinds = {"panelDiffuse": "Diffuse", "upperDiffuse": "Diffuse", "irisDiffuse": "Diffuse", "eyeDiffuse": "Diffuse",
+                            "upperNormal": "Normal", "lowerNormal": "Normal", "ramp": ""}
+        self.assertEqual(config.kindOf("panelDiffuse"), "Diffuse")
+        self.assertEqual(config.kindOf("ramp"), "")
+        self.assertEqual(config.kindOf("unknownRole"), "")                          # no row, no kind
 
         bindings = [Config.Binding("ps-t0", "upperNormal"), Config.Binding("ps-t3", "upperDiffuse"),
                     Config.Binding("ps-t5", "null"), Config.Binding("ps-t1", "irisDiffuse")]
-        self.assertEqual(Config.registerOf(bindings, "upperNormal"), "ps-t0")
-        self.assertEqual(Config.registerOf(bindings, "lowerNormal"), "ps-t0")      # by kind
-        self.assertIsNone(Config.registerOf(bindings, "eyeDiffuse"))                # two registers bind a Diffuse
-        self.assertIsNone(Config.registerOf(bindings, "ramp"))                      # no kind, no role of its own
-        self.assertIsNone(Config.registerOf(bindings, "null"))                      # a null binding binds nothing
+        self.assertEqual(config.registerOf(bindings, "upperNormal"), "ps-t0")
+        self.assertEqual(config.registerOf(bindings, "lowerNormal"), "ps-t0")      # by kind
+        self.assertIsNone(config.registerOf(bindings, "eyeDiffuse"))                # two registers bind a Diffuse
+        self.assertIsNone(config.registerOf(bindings, "ramp"))                      # no kind, no role of its own
+        self.assertIsNone(config.registerOf(bindings, "null"))                      # a null binding binds nothing
 
     def test_resRegCollect_skipsKeywords_skipsARef(self):
         skips = FRB.ResRegCollect.skipsKeywords()
@@ -307,31 +305,16 @@ class PythonParityTest(unittest.TestCase):
         # a tweaked factory wraps the template's: it is not one of makeWWMIFixer's, so it holds no config to read back
         self.assertIsNone(FRB.WWMIFixerConfig.ofFactory(tweaked))
 
-    def test_wwmiSteps_aPlainListTheSameForEveryMod(self):
+    def test_makeWWMIFixer_oneWayToTweak(self):
+        # the WWMI fix is tweaked through withList alone: its list is the edits a fixer built for one .ini
         lynae = FRB.ModTypes["Lynae"].value
         config = FRB.WWMIFixerConfig.ofFactory(lynae.iniFixBuilder.factoryOf("Lynae", "LynaePeppermint"))
-        steps = FRB.wwmiSteps(config)
-        names = [step.name for step in steps]
-        self.assertEqual(names[:3], ["copies", "toggles", "slotRemap"])
-        self.assertEqual(names[-7:], ["blend", "rebind", "fixSections", "shaderFiles", "fixFiles", "latch", "texEdits"])
-
-        # the slot remap is a GraphGroupRemap whose table is the config's plan, read and set like any edit's
-        remap = steps[2]
-        self.assertIsInstance(remap, FRB.GraphGroupRemap)
-        self.assertEqual(remap.remap.keys(), FRB.wwmiSlotRemapStep(config).remap.keys())
-        self.assertIn((0, "", "component0"), remap.remap)
-        self.assertEqual(remap.remap[(0, "", "component0")][0][:3], (0, "LynaePeppermint", "component0"))
-
-        # a list goes back in as it is; a factory made from it still reads back its config
-        factory = FRB.makeWWMIFixer(config, steps + [FRB.GraphGroupEdit([])])
+        factory = FRB.makeWWMIFixer(config)
         self.assertEqual(FRB.WWMIFixerConfig.ofFactory(factory).targetId, config.targetId)
-
-        class Mine(FRB.GraphGroupEdit):
-            pass
+        self.assertIsInstance(factory.withList(lambda steps: steps), FRB.CppIniFixFactory)
+        self.assertFalse(hasattr(FRB, "wwmiSteps"))
         with self.assertRaises(TypeError):
-            FRB.makeWWMIFixer(config, [Mine([])])
-        with self.assertRaises(ValueError):
-            FRB.makeWWMIFixer(config, [])
+            FRB.makeWWMIFixer(config, [FRB.GraphGroupEdit([])])
 
     def test_withList_theWholeListRunsWithEditsBuiltInPython(self):
         # the shipped AmberCN -> Amber fix, its list rewritten with edits built in Python: they run in the compiled fix

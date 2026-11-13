@@ -62,11 +62,6 @@ namespace AGRemapCore {
                 std::string cb4Hash;
 
                 /**
-                 * @brief The `filter_index` the fix marks that buffer with
-                 */
-                std::string boneDataFilter;
-
-                /**
                  * @brief How many bones the merged skeleton holds
                  */
                 int mergedSkeletonSlots = 0;
@@ -86,11 +81,6 @@ namespace AGRemapCore {
                  * @brief Whether a draw with its current pose in `vs-cb3` alone merges into the MAIN skeleton
                  */
                 bool currentPoseInCb3Only = false;
-
-                /**
-                 * @brief Whether `vs-cb3` gets the previous pose after every merge, whatever the marker says
-                 */
-                bool bindPrevPoseAlways = false;
 
                 /**
                  * @brief The blend remap's bone count, for the remap
@@ -230,12 +220,6 @@ namespace AGRemapCore {
                  * @brief Lines that capture the game's own bindings on the slot, run while a pixel shader is bound
                  */
                 std::vector<std::pair<std::string, std::string>> stashed;
-
-                /**
-                 * @brief Only merge the slot's window (#mergeWindowList), for a file whose skeleton needs the bones of a slot
-                 * another file draws: no `$object_detected` and no skip
-                 */
-                bool mergeOnly = false;
             };
 
             /**

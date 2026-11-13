@@ -207,25 +207,6 @@ namespace AGRemapCore {
         });
     }
 
-    template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    typename GraphGroupRemap<K, V, KeyHash, KeyEqual>::GraphGroups& GraphGroupRemap<K, V, KeyHash, KeyEqual>::editFromIni(
-            GraphGroups& graphGroups, IniFile* ini, const ModType* modType, const std::string& modName) {
-        if (!remapAtRun) {
-            return edit(graphGroups, modType, modName);
-        }
-
-        // this run's table in place of #remap, which is restored however the run ends
-        RemapList table = remapAtRun(remap, graphGroups, ini, modType, modName);
-        std::swap(remap, table);
-        try {
-            edit(graphGroups, modType, modName);
-        } catch (...) {
-            std::swap(remap, table);
-            throw;
-        }
-        std::swap(remap, table);
-        return graphGroups;
-    }
 }
 
 #endif

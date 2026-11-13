@@ -13,6 +13,10 @@ namespace Data {
 const std::vector<std::pair<std::vector<std::string>, std::string>>& getMaterialColourDataRows() {
     static const std::vector<std::pair<std::vector<std::string>, std::string>> rows = {
         {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "component3", "torsoMask.skin"}, MaterialColours::valueOf(Colour(255, 77, 0, 255))},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "component4", "bodyMask.cloth"}, MaterialColours::valueOf(Colour(0, 128, 0, 255))},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "component3", "upperMask.cloth"}, MaterialColours::valueOf(Colour(0, 128, 0, 255))},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "component3", "upperDetail.flat"}, MaterialColours::valueOf(Colour(70, 70, 70, 0))},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Sanhua), "component5", "skirtMask.cloth"}, MaterialColours::valueOf(Colour(0, 0, 0, 255))},
     };
     return rows;
 }

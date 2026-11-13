@@ -639,7 +639,7 @@ class ModFiles():
         self.iniFolder = ini.folder
         self.present: List[int] = []         # source components the mod has a section for
         self.draws: Dict[int, int] = {}      # source component -> its number of drawindexed / custom-shader draws
-        targets = parser._sectionTargets
+        targets = parser.sectionTargets
         for i in range(len(source["components"])):
             names = targets.get(("", f"{SlotPrefix}{i}")) or []
             if (not names):

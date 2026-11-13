@@ -2,24 +2,15 @@
 
 #include "AGRemapCore/data/RabbitFX.h"
 #include "AGRemapCore/model/assets/Hashes.h"
-#include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
-#include "AGRemapCore/model/buffers/DrawUVCoverage.h"
 #include "AGRemapCore/model/buffers/SkeletonNumberingProbe.h"
-#include "AGRemapCore/model/buffers/WWMIBlend.h"
-#include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/IniNamingTools.h"
-#include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
 #include "AGRemapCore/data/IniParseData/TemplateParser.h"
-#include "AGRemapCore/data/IniParseData/GIMITemplateParser.h"
-#include "AGRemapCore/constants/FileExt.h"
-#include "AGRemapCore/model/textures/TexThumbprint.h"
 #include "AGRemapCore/tools/files/FileService.h"
-#include "AGRemapCore/tools/ListTools.h"
 
 // ##### Credits
 
@@ -35,17 +26,14 @@
 // ##### EndCredits
 
 #include <algorithm>
-#include <filesystem>
+#include <stdexcept>
 #include <functional>
 #include <map>
 #include <memory>
 #include <set>
-#include <cmath>
 #include <cstdint>
-#include <sstream>
 #include <optional>
 #include <string>
-#include <tuple>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -57,7 +45,6 @@
 #include "AGRemapCore/data/HashData.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/model/IniNamingTools.h"
-#include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/strategies/ModType.h"
@@ -73,15 +60,12 @@ namespace AGRemapCore {
         using Classifier = Parser::Classifier;
         using ModObj = Parser::ModObj;
 
-        // The keys the fixer reads back off a slot section: its identity, and the window it draws.
-        const std::string MatchIndexCountKey = IniKeywords::MatchIndexCount;
-
 
         /**
          * A GIMIParser that owns its context and its classifier -- the same ownership story as
          * GIMICharGIMIParser, minus the downloads a WuWa character does not register (yet).
          *
-         * The draw slots are read off the character's OWN index rows here, at parse time, and not
+         * The draw slots are counted off the character's OWN mod type here (ModType::getComponentCount), at parse time, and not
          * when the builder table is assembled: the mod type registry the table's factories could ask
          * is still empty then, and a parser built with no slot objects classifies every slot section
          * as nothing while the hash-only ones still work -- which is exactly how it failed first.
@@ -97,27 +81,30 @@ namespace AGRemapCore {
                                std::optional<Version> version, bool onlyThisFile = false):
                     Parser(iniFile, modTypeId), config_(config), version_(version), modTypeId_(modTypeId), onlyThisFile_(onlyThisFile) {
                     this->disjointModObjs = false;
-                    // the character's game data off the versioned asset tables (WWMIParserConfig::withGameData)
-                    if (const std::optional<ModType> own = modTypeId_.has_value() ? ModTypeIdTools::getModType(*modTypeId_) : std::nullopt) {
-                        config_ = config_.withGameData(*own);
+                    // the character's game data off the versioned asset tables (WWMIParserConfig::withGameData) -- a
+                    // linked file's parser (readOther) is handed its parent's config, already filled at the same version
+                    const std::optional<ModType> own = modTypeId_.has_value() ? ModTypeIdTools::getModType(*modTypeId_) : std::nullopt;
+                    if (own.has_value() && !onlyThisFile_) {
+                        config_ = config_.withGameData(*own, version_);
                     }
-                    this->keysToTrack = std::unordered_set<std::string>{IniKeywords::Hash, IniKeywords::MatchFirstIndex, MatchIndexCountKey};
+                    this->keysToTrack = std::unordered_set<std::string>{IniKeywords::Hash, IniKeywords::MatchFirstIndex, IniKeywords::MatchIndexCount};
 
-                    // The slots: every Indices row typed component0, component1, ... the character has.
+                    // The slots: component0, component1, ... as many as the .ini's own mod type has (ModType::getComponentCount).
                     const std::string ownName = ctx_.modTypeName();
                     std::vector<ModObj> modObjs;
                     Classifier::IndexModObjs slotObjs;
-                    if (ctx_.modTypeIndices() != nullptr && !ownName.empty()) {
-                        while (true) {
-                            const std::string slot = config.slotPrefix + std::to_string(slotObjs.size());
-                            if (!ctx_.modTypeIndices()->get({ownName, "", slot}, version, false).has_value()) {
-                                break;
-                            }
-
-                            const ModObj obj("", slot);
-                            modObjs.push_back(obj);
-                            slotObjs[Classifier::IndexKey("", slot)] = obj;
-                        }
+                    const ModType* modType = nullptr;
+                    if (IniFile* ini = ctx_.getIniFile(); ini != nullptr && modTypeId_.has_value()) {
+                        const auto found = ini->getModTypes().find(*modTypeId_);
+                        modType = found != ini->getModTypes().end() ? &found->second : nullptr;
+                    }
+                    const std::size_t slots = ctx_.modTypeIndices() != nullptr && modType != nullptr && !ownName.empty()
+                        ? modType->getComponentCount(WWMINames::SlotPrefix, version) : 0;
+                    for (std::size_t i = 0; i < slots; ++i) {
+                        const std::string slot = WWMINames::SlotPrefix + std::to_string(i);
+                        const ModObj obj("", slot);
+                        modObjs.push_back(obj);
+                        slotObjs[Classifier::IndexKey("", slot)] = obj;
                     }
 
                     std::unordered_map<std::string, ModObj> hashOnly;
@@ -159,7 +146,7 @@ namespace AGRemapCore {
 
                         // the sections that only watch her: her slot hash, at any version, and no index window
                         for (const auto& row : Data::getHashDataRows()) {
-                            if (row.first.size() >= 3 && row.first[1] == ownName && row.first[2] == config.slotHashType) {
+                            if (row.first.size() >= 3 && row.first[1] == ownName && row.first[2] == IniKeywords::Vb0) {
                                 watchHashes_.insert(StringTools::toLower(row.second));
                             }
                         }
@@ -172,7 +159,7 @@ namespace AGRemapCore {
                     // through the NEWEST bucket holding the value, and `0` (component 0's index) is
                     // every GI head's index too, filed at 6.1 -- that bucket holds no WuWa row, so
                     // component 0 classified as nothing until the version was handed over.
-                    std::unordered_map<std::string, Classifier::IndexModObjs> indexMap{{config.slotHashType, std::move(slotObjs)}};
+                    std::unordered_map<std::string, Classifier::IndexModObjs> indexMap{{IniKeywords::Vb0, std::move(slotObjs)}};
                     classifier_ = &this->ownClassifier(std::make_unique<Classifier>(
                         std::move(hashOnly), ctx_.modTypeHashes(), std::move(indexMap), ctx_.modTypeIndices(), std::move(version)));
 
@@ -222,63 +209,14 @@ namespace AGRemapCore {
                 using Row = IniParseData::CollectedRow;
 
 
-                bool isSlotObj(const ModObj& obj) const {
-                    return obj.first.empty() && StringTools::startsWith(obj.second, config_.slotPrefix);
+                // The parser's graphs and the sections it placed in each, in its order (IniParseData::SectionTargets)
+                IniParseData::SectionTargets targetList() const {
+                    return IniParseData::sectionTargetsOf(this->sectionTargets());
                 }
 
-                // the slot a slot's mod object names
-                std::optional<int> slotOf(const ModObj& obj) const {
-                    return config_.slotOf(obj);
-                }
-
-                // Where each section sits in the file: the order the .ini is written in, for rows found in another order
-                // (a row's own `position` places it within its section)
-                std::size_t sectionAt(const std::string& name) const {
-                    if (sectionAt_.empty()) {
-                        std::size_t at = 0;
-                        for (const std::string& each : const_cast<IniFileParseContext&>(ctx_).sectionNames()) {
-                            sectionAt_.emplace(each, at++);
-                        }
-                    }
-
-                    const auto found = sectionAt_.find(name);
-                    return found == sectionAt_.end() ? sectionAt_.size() : found->second;
-                }
-
-                // A section's rows, in the order they are written
-                void sortAsWritten(std::vector<const Row*>& rows) const {
-                    std::stable_sort(rows.begin(), rows.end(), [this](const Row* a, const Row* b) {
-                        return std::make_tuple(a->position, a->line) < std::make_tuple(b->position, b->line);
-                    });
-                }
-
-                // The sections each graph is rooted at (the parser's classification), for the graphs 'keep' takes
-                std::unordered_map<std::string, std::vector<ModObj>> rootsOf(const std::function<bool(const ModObj&)>& keep) const {
-                    std::unordered_map<std::string, std::vector<ModObj>> result;
-                    for (const auto& [obj, sections] : this->sectionTargets()) {
-                        if (!keep(obj)) {
-                            continue;
-                        }
-
-                        for (const std::string& name : sections) {
-                            result[name].push_back(obj);
-                        }
-                    }
-                    return result;
-                }
-
-                // A collect's rows found in a section's OWN parts, when the section is a root of the row's graph
-                static std::unordered_map<std::string, std::vector<const Row*>> ownRows(
-                        const std::vector<Row>& rows, const std::unordered_map<std::string, std::vector<ModObj>>& roots) {
-                    std::unordered_map<std::string, std::vector<const Row*>> result;
-                    for (const Row& row : rows) {
-                        const auto root = roots.find(row.section);
-                        if (root != roots.end()
-                                && std::find(root->second.begin(), root->second.end(), row.graphId.modObj) != root->second.end()) {
-                            result[row.section].push_back(&row);
-                        }
-                    }
-                    return result;
+                // Where the parser's reading logs
+                std::function<void(const std::string&)> logger() {
+                    return [this](const std::string& message) { ctx_.log(message); };
                 }
 
                 /**
@@ -313,7 +251,7 @@ namespace AGRemapCore {
                     roles->withConditions = true;
                     auto toggles = std::make_unique<Collect>();
                     toggles->name = TextureTogglesCollect;
-                    const std::string regPrefix = StringTools::toLower(config_.texRegPrefix);
+                    const std::string regPrefix = StringTools::toLower(IniKeywords::TexRegPrefix);
                     const bool readsTextures = !config_.textures.roles.empty() || !config_.textures.registerRoles.empty();
                     for (const ModObj& obj : readsTextures ? this->modObjs() : std::vector<ModObj>{}) {
                         const GraphId id(0, obj.first, obj.second);
@@ -328,7 +266,7 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        const std::optional<int> slot = slotOf(obj);
+                        const std::optional<int> slot = config_.slotOf(obj);
                         const auto layout = slot.has_value() ? config_.textures.registerRoles.find(*slot) : config_.textures.registerRoles.end();
                         if (layout != config_.textures.registerRoles.end()) {
                             std::vector<std::string> regs;
@@ -380,7 +318,7 @@ namespace AGRemapCore {
                     auto slots = std::make_unique<Collect>();
                     slots->name = SlotsCollect;
                     for (const ModObj& obj : this->modObjs()) {
-                        if (isSlotObj(obj)) {
+                        if (config_.slotOf(obj).has_value()) {
                             slots->keyMatches.insert_or_assign(GraphId(0, obj.first, obj.second), anyKey);
                         }
                     }
@@ -419,7 +357,7 @@ namespace AGRemapCore {
                     carried->name = CarriedCollect;
                     carried->withConditions = true;
                     for (const ModObj& obj : onlyThisFile_ && readsTextures ? this->modObjs() : std::vector<ModObj>{}) {
-                        if (slotOf(obj).has_value()) {
+                        if (config_.slotOf(obj).has_value()) {
                             carried->keyMatches.insert_or_assign(GraphId(0, obj.first, obj.second), [](const std::string& key) {
                                 return IniNamingTools::sameKey(key, RabbitFX::GlowMapKey);
                             });
@@ -451,157 +389,36 @@ namespace AGRemapCore {
                 }
 
                 // ---- WWMI's reading of the rows: the mod's resource data, as WWMIFixer asks for it ----
-                //
-                // The policies here are WWMI's: a slot is undrawn when its sections draw nothing and skip the
-                // game's draw (unless every slot is, a mod this reading does not understand); a texture register
-                // bound after a draw is late, unless the mod replaces textures by hash (its art reaches those
-                // draws anyway); a `run =` this file cannot resolve draws, unless it is WWMI's own library.
+                // (WWMIParserConfig::resourceDataRules, WWMIParserConfig::replacesTexturesByHash)
                 std::optional<GraphEditVariables::Value> resourceData(const GraphEditVariables& rows) {
-                    std::unordered_set<std::string> slotRoots;
-                    IniParseData::ResourceDataRules rules;
-                    rules.rows = SlotsCollect;
-                    rules.resources = IniParseRows::Resources;
-                    rules.sections = IniParseRows::Sections;
-                    rules.texRegPrefix = config_.texRegPrefix;
-                    rules.noneUndrawnWhenAll = true;
-                    rules.libraries = {{RabbitFX::Name, [](const std::string& text) { return RabbitFX::names(text); }}};
-                    rules.runDraws = [this](const std::string& called) {
-                        return ctx_.getSection(called) == nullptr && StringTools::toLower(called).find("\\wwmiv1\\") == std::string::npos;
-                    };
-                    rules.log = [this](const std::string& message) { ctx_.log(message); };
-                    for (const auto& [obj, sections] : this->sectionTargets()) {
-                        if (isSlotObj(obj)) {
-                            slotRoots.insert(sections.begin(), sections.end());
-                            rules.roots.emplace_back(obj, sections);
-                        }
-                    }
+                    const WWMIParserConfig::SectionTargets targets = targetList();
+                    const IniParseData::ResourceDataRules rules = config_.resourceDataRules(
+                        targets, ctx_.sectionNames(), onlyThisFile_, logger());
 
-                    // THE TOGGLES: which of the mod's own resources a texture override binds in SEVERAL VARIANTS. A
-                    // toggle mod writes `if $hair == 0 / this = X / else / this = XA`, and a single `<reg> = <resource>`
-                    // line in a fix can carry only one of them. One `this` under `$object_detected` alone is not a
-                    // toggle (every Sanhua mod wraps its one `this` that way); under any other condition it is a toggle
-                    // of one variant (Lynae3's `if $Hairs == 1`). Only for the file a fix reads its textures from
-                    if (!onlyThisFile_ && !(config_.textures.roles.empty() && config_.textures.registerRoles.empty())) {
-                        rules.toggles = TextureTogglesCollect;
-                        rules.togglesIn = [](const std::string& section) {
-                            return StringTools::startsWith(section, IniKeywords::TextureOverride) && !isFixSection(section);
-                        };
-                        rules.notToggles = {IniKeywords::WWMIObjectDetected, IniKeywords::WWMIObjectDetected + "==1"};
-                        for (const auto& [obj, sections] : this->sectionTargets()) {
-                            if (obj.first == IniGraphModObjKeywords::Texture) {
-                                rules.textureRoots.emplace_back(obj, sections);
-                            }
-                        }
-                    }
-
-                    // DOES THE MOD REPLACE TEXTURES BY HASH? A texture override (not a slot's) with a hash and a
-                    // `this =`: its art then reaches every draw binding that texture, whatever the draw's own
-                    // section binds.
                     IniParseData::ResourceData start;
-                    std::map<std::string, std::pair<bool, bool>> hashAndThis;
                     const std::vector<Row>* overrideRows = rows.find<std::vector<Row>>(TextureOverridesCollect);
-                    for (const auto& row : overrideRows == nullptr ? std::vector<Row>{} : *overrideRows) {
-                        if (!StringTools::startsWith(row.section, IniKeywords::TextureOverride) || slotRoots.count(row.section) > 0) {
-                            continue;
-                        }
-
-                        auto& has = hashAndThis[row.section];
-                        has.first = has.first || row.key == IniKeywords::Hash;
-                        has.second = has.second || row.key == IniKeywords::This;
-                        if (has.first && has.second) {
-                            start.replacesTexturesByHash = true;
-                        }
-                    }
-
+                    start.replacesTexturesByHash = overrideRows != nullptr && config_.replacesTexturesByHash(*overrideRows, targets);
                     return GraphEditVariables::Value::of(IniParseData::resourceDataOf(rules, rows, std::move(start)));
                 }
 
-                // THE TEXTURE ROLES (IniParseData::roleFilesOf), when the character's config carries textures to sort
-                // by. WWMI's policy is what the rules hold: the drawn slots and the registers each binds a role at
-                // (WWMITextureFacts::registerRoles), a hash's role and age from HashData, a file's game texture by
-                // its thumbprint, and the linked .ini files, each read by this parser in its only-this-file mode
+                // THE TEXTURE ROLES (IniParseData::roleFilesOf) by WWMIParserConfig::roleFileRules, and the linked .ini
+                // files, each read by this parser in its only-this-file mode
                 std::optional<GraphEditVariables::Value> textureRoleFiles(const GraphEditVariables& rows) {
-                    if (config_.textures.roles.empty() && config_.textures.registerRoles.empty()) {
-                        return std::nullopt;
-                    }
-
                     IniFile* ini = ctx_.getIniFile();
                     if (ini == nullptr) {
                         return std::nullopt;
                     }
 
-                    IniParseData::RoleFileRules rules;
-                    rules.iniPath = ini->getFile().value_or(std::string());
-                    rules.folder = ini->getFolder();
-                    rules.sections = IniParseRows::Sections;
-                    rules.declared = DeclaredCollect;
-                    rules.overrides = TextureOverridesCollect;
-                    rules.roleRows = TextureRolesCollect;
-                    rules.carriedRows = CarriedCollect;
-                    rules.objRows = SlotsCollect;
-                    for (const auto& [slot, sections] : drawnSlots()) {
-                        rules.objs.emplace_back(slotObj(slot), sections);
+                    // her mod type: her hashes, her name and the mods she fixes
+                    const std::optional<ModType> own = modTypeId_.has_value() ? ModTypeIdTools::getModType(*modTypeId_) : std::nullopt;
+                    std::optional<IniParseData::RoleFileRules> made = config_.roleFileRules(
+                        targetList(), ctx_.sectionNames(), own.has_value() ? &*own : nullptr,
+                        ini->getFile().value_or(std::string()), ini->getFolder());
+                    if (!made.has_value()) {
+                        return std::nullopt;
                     }
-                    for (const auto& [slot, layout] : config_.textures.registerRoles) {
-                        rules.registerRoles[slotObj(slot)] = layout;
-                    }
-                    rules.regionRoles = config_.textures.regionRoles;
-                    rules.notToggles = {StringTools::toLower(IniKeywords::WWMIObjectDetected),
-                                        StringTools::toLower(IniKeywords::WWMIObjectDetected) + "==1"};
-
-                    // the role a hash of the character plays: HashData first, the config's table after it
-                    const auto* hashes = ctx_.modTypeHashes();
-                    const std::string ownName = ctx_.modTypeName();
-                    std::unordered_set<std::string> knownRoles;
-                    for (const auto& entry : config_.textures.roles) {
-                        knownRoles.insert(entry.second);
-                    }
-                    for (const auto& comp : config_.textures.registerRoles) {
-                        for (const auto& reg : comp.second) {
-                            knownRoles.insert(reg.second);
-                        }
-                    }
-                    rules.roleOfHash = [this, hashes, ownName, knownRoles](const std::string& hash) -> std::optional<std::string> {
-                        if (hashes != nullptr && !ownName.empty()) {
-                            const std::optional<std::vector<std::string>> key = hashes->getKey(hash, std::nullopt, {ownName, std::nullopt}, false);
-                            if (key.has_value() && key->size() > 1 && knownRoles.count((*key)[1]) > 0) {
-                                return (*key)[1];
-                            }
-                        }
-                        const auto it = config_.textures.roles.find(hash);
-                        return it == config_.textures.roles.end() ? std::optional<std::string>() : std::optional<std::string>(it->second);
-                    };
-
-                    // A FILE NO HASH AND NO REGISTER NAMED MAY STILL BE THE GAME'S OWN TEXTURE, AND ITS PIXELS SAY SO:
-                    // a mod that ships a texture dumped straight out of the game declares neither (ChisaParfait1's
-                    // panelMask and panelNormal were downloaded over before this)
-                    rules.identify = [this](const std::string& file) -> std::optional<std::string> {
-                        std::optional<std::string> hash;
-                        if (config_.textures.identifyTexture) {
-                            hash = config_.textures.identifyTexture(file);
-                        }
-                        if (!hash.has_value()) {
-                            hash = TexThumbprint::identifyFile(file, config_.textures.textureThumbprints, config_.textures.thumbprintSize,
-                                                               config_.textures.identityMin, config_.textures.identityGap);
-                        }
-                        return hash;
-                    };
-
-                    // HOW OLD A HASH IS: the versions HashData files it at, newest first, and within one version the
-                    // current hash before its `Live` and `Old`, `Old2`, ... generations
-                    rules.hashAge = [ownName, hashes = std::make_shared<Hashes>()](const std::string& hash) {
-                        return hashes->age(ownName, hash);
-                    };
-
-                    // a section a previous fix wrote is not the mod's use of a resource
-                    std::vector<std::string> fixNames{ownName};
-                    if (const std::optional<ModType> own = modTypeId_.has_value() ? ModTypeIdTools::getModType(*modTypeId_) : std::nullopt) {
-                        for (const std::string& name : own->getModsToFix()) {
-                            fixNames.push_back(name);
-                        }
-                    }
-                    rules.fixSection = [fixNames](const std::string& section) { return IniNamingTools::looksRemapped(section, fixNames); };
-                    rules.log = [this](const std::string& message) { ctx_.log(message); };
+                    IniParseData::RoleFileRules& rules = *made;
+                    rules.log = logger();
 
                     // the files LINKED to this one (IniFile::linkedInis: a namespace one references, a resource file both
                     // name), wherever they are, each parsed by this character's parser in its only-this-file mode
@@ -618,11 +435,8 @@ namespace AGRemapCore {
                     return GraphEditVariables::Value::of(IniParseData::roleFilesOf(rules, rows));
                 }
 
-                // ---- WWMIParserConfig::skeletonNumberings ----
-                // Which numbering the blend's bone ids are in, asked of the mod's own geometry
-                // (SkeletonNumberingProbe), from the slot rows and the resource rows -- the version, or nothing.
-                // Not asked of a mod with no vg_offset on any slot section: one from before WWMI's merged skeleton,
-                // whose ids are each component's own.
+                // Which numbering the blend's bone ids are in (WWMIParserConfig::skeletonNumbering), from the slot rows
+                // and the resource rows -- the version, or nothing
                 std::optional<GraphEditVariables::Value> skeletonNumbering(const std::vector<const GraphEditVariables::Value*>& inputs) {
                     static const std::vector<Row> none;
                     const auto rowsOf = [](const GraphEditVariables::Value* value) -> const std::vector<Row>& {
@@ -631,168 +445,34 @@ namespace AGRemapCore {
                     };
 
                     IniFile* ini = ctx_.getIniFile();
-                    if (ini == nullptr || config_.skeletonNumberings.size() < 2 || config_.referenceBoneCentroids.empty()) {
+                    if (ini == nullptr) {
                         return std::nullopt;
                     }
 
-                    bool merged = false;
-                    for (const auto& entry : ownRows(rowsOf(inputs[0]), rootsOf([this](const ModObj& obj) { return isSlotObj(obj); }))) {
-                        for (const Row* row : entry.second) {
-                            merged = merged || row->key == IniKeywords::WWMIVgOffset;
-                        }
-                    }
-
-                    const std::map<std::string, std::string> files = IniParseData::resourceFilesOf(rowsOf(inputs[1]));
-                    const auto fileOf = [&files](const std::string& section) -> std::optional<std::string> {
-                        const auto found = files.find(StringTools::toLower(section));
-                        return found == files.end() ? std::nullopt : std::optional<std::string>(found->second);
-                    };
-                    const std::optional<std::string> position = fileOf(IniKeywords::WWMIPositionBuffer);
-                    const std::optional<std::string> blend = fileOf(IniKeywords::WWMIBlendBuffer);
-                    if (!merged || !position.has_value() || !blend.has_value()) {
+                    const std::optional<std::string> numbering = config_.skeletonNumbering(
+                        rowsOf(inputs[0]), rowsOf(inputs[1]), targetList(), ini->getFolder(), logger());
+                    if (!numbering.has_value()) {
                         return std::nullopt;
                     }
-
-                    // the remapped skeleton's own 16-bit ids: the first resource, by name, naming them
-                    std::optional<std::string> vertexVG;
-                    for (const auto& [section, file] : files) {
-                        std::string name = section;
-                        name.erase(std::remove(name.begin(), name.end(), '_'), name.end());
-                        if (name.find("blendremapvertexvg") != std::string::npos) {
-                            vertexVG = file;
-                            break;
-                        }
-                    }
-
-                    const std::string folder = ini->getFolder();
-                    const auto pathOf = [&folder](const std::string& rel) {
-                        return FileService::absPathOfRelPath(FileService::iniPathToRel(rel), folder);
-                    };
-                    const std::optional<SkeletonNumberingProbe::Result> found = SkeletonNumberingProbe::probe(
-                        pathOf(*position), pathOf(*blend), vertexVG.has_value() ? std::optional<std::string>(pathOf(*vertexVG)) : std::nullopt,
-                        config_.skeletonNumberings, config_.referenceBoneCentroids);
-                    if (!found.has_value()) {
-                        return std::nullopt;
-                    }
-
-                    std::ostringstream how;
-                    for (std::size_t n = 0; n < found->medians.size(); ++n) {
-                        how << (n == 0 ? "" : ", ") << config_.skeletonNumberings[n].version << " "
-                            << static_cast<long long>(std::lround(found->medians[n] * 100)) / 100.0;
-                    }
-
-                    const std::string& version = config_.skeletonNumberings[found->best].version;
-                    ctx_.log("its bone ids are " + version + "'s numbering (" + std::to_string(found->vertices)
-                             + " vertices on renumbered bones; median distance to the bone by version: " + how.str() + ")");
-                    return GraphEditVariables::Value::of<std::string>(version);
+                    return GraphEditVariables::Value::of<std::string>(*numbering);
                 }
 
-                // ---- WWMIParserConfig::drawSplits ----
-                // Which draws of a slot carry a split's flags, read off the code map the mod draws the slot with
-                // at the draws' vertices (DrawUVCoverage): the resource data (inputs[0]) with them added as the draw
-                // ranges of `(split name, slot)`, read with the role files (inputs[1])
+                // The resource data (inputs[0]) with the draw splits' draws added (WWMIParserConfig::splitDraws), read
+                // with the role files (inputs[1])
                 std::optional<GraphEditVariables::Value> drawSplits(const std::vector<const GraphEditVariables::Value*>& inputs) {
                     const IniParseData::ResourceData* data = inputs[0] == nullptr ? nullptr : inputs[0]->as<IniParseData::ResourceData>();
                     const IniParseData::RoleFileData* roleData = inputs[1] == nullptr ? nullptr : inputs[1]->as<IniParseData::RoleFileData>();
-                    const auto fileOf = [data](const std::string& section) -> std::optional<std::string> {
-                        const auto found = data->resourceFiles.find(StringTools::toLower(section));
-                        return found == data->resourceFiles.end() ? std::nullopt : std::optional<std::string>(found->second);
-                    };
-
                     IniFile* ini = ctx_.getIniFile();
-                    if (config_.drawSplits.empty() || ini == nullptr || data == nullptr) {
-                        return std::nullopt;
-                    }
-                    const std::optional<std::string> index = fileOf(IniKeywords::WWMIIndexBuffer);
-                    const std::optional<std::string> texcoord = fileOf(IniKeywords::WWMITexcoordBuffer);
-                    const std::optional<std::string> position = fileOf(IniKeywords::WWMIPositionBuffer);
-                    if (!index.has_value() || !texcoord.has_value() || !position.has_value()) {
+                    if (ini == nullptr) {
                         return std::nullopt;
                     }
 
-                    IniParseData::ResourceData result = *data;
-                    const std::string folder = ini->getFolder();
-                    const std::string iniPath = ini->getFile().value_or(std::string());
-                    const std::map<int, std::vector<std::string>> drawn = drawnSlots();
-                    for (const WWMIParserConfig::DrawSplit& split : config_.drawSplits) {
-                        const ModObj obj = slotObj(split.component);
-                        const auto drawRanges = data->drawRanges.find(obj);
-                        const auto sections = drawn.find(split.component);
-                        if (drawRanges == data->drawRanges.end() || drawRanges->second.empty() || data->undrawn.count(obj) > 0
-                                || sections == drawn.end() || sections->second.empty()) {
-                            continue;
-                        }
-                        const std::vector<IniParseData::DrawRange>& ranges = drawRanges->second;
-
-                        // the MOD's own map, when a resource of this .ini names the file chosen for the role (one a
-                        // previous fix declared is no evidence about the mod) -- else the character's own game map,
-                        // which DrawSplit::sourceFlags stands in for
-                        std::optional<std::string> codesPath;
-                        const IniParseData::RoleFile* chosen = nullptr;
-                        if (roleData != nullptr) {
-                            const auto chosenAt = roleData->roleFiles.find({split.codeRole, obj});
-                            chosen = chosenAt == roleData->roleFiles.end() ? nullptr : &chosenAt->second;
-                        }
-                        const TextureRoles* roles = roleData == nullptr || !roleData->roles.has_value() ? nullptr : &*roleData->roles;
-                        if (chosen != nullptr && roles != nullptr) {
-                            for (const auto& [resource, file] : roles->resourcesOf(iniPath)) {
-                                if (file == chosen->file) {
-                                    if (!IniNamingTools::looksRemapped(resource, {})) {
-                                        codesPath = FileService::absPathOfRelPath(file, folder);
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-
-                        const WWMIParserConfig::DrawSplit::FlagMask& mask = split.sourceFlags;
-                        const bool useMask = !codesPath.has_value();
-                        if (useMask && (mask.width <= 0 || mask.height <= 0
-                                        || mask.bits.size() * 8 < static_cast<std::size_t>(mask.width) * static_cast<std::size_t>(mask.height))) {
-                            continue;
-                        }
-
-                        std::vector<IniParseData::DrawRange> taken;
-                        try {
-                            std::vector<std::uint8_t> codes;
-                            long long w = mask.width;
-                            long long h = mask.height;
-                            if (!useMask) {
-                                TextureFile map{*codesPath};
-                                map.open();
-                                if (!map.hasImage()) {
-                                    continue;
-                                }
-                                codes = map.shaderChannel(0);
-                                w = map.getWidth();
-                                h = map.getHeight();
-                            }
-
-                            // the mesh's vertices are its Position.buf's lines
-                            const std::size_t vertices = static_cast<std::size_t>(std::filesystem::file_size(
-                                FileService::strToPath(FileService::absPathOfRelPath(*position, folder))) / WWMIBlend::PositionStride);
-                            const DrawUVCoverage coverage = DrawUVCoverage::ofMesh(FileService::absPathOfRelPath(*index, folder),
-                                                                                   FileService::absPathOfRelPath(*texcoord, folder), vertices);
-
-                            const DrawUVCoverage::TexelTest marked = [&](long long x, long long y) {
-                                const auto at = static_cast<std::size_t>(y * w + x);
-                                if (useMask) {
-                                    return ((mask.bits[at / 8] >> (at % 8)) & 1) != 0;
-                                }
-                                return at < codes.size() && (codes[at] & split.flags) != 0;
-                            };
-
-                            taken = coverage.coveredRanges(ranges, w, h, marked, split.share);
-                        } catch (const std::exception& e) {
-                            ctx_.log("could not read which draws of " + obj.second + " carry the " + split.codeRole + " flags: " + e.what());
-                            continue;
-                        }
-
-                        for (const IniParseData::DrawRange& range : taken) {
-                            result.drawRanges[ModObj(split.name, obj.second)].push_back(range);
-                        }
+                    std::optional<IniParseData::ResourceData> split = config_.splitDraws(
+                        data, roleData, targetList(), ini->getFile().value_or(std::string()), ini->getFolder(), logger());
+                    if (!split.has_value()) {
+                        return std::nullopt;
                     }
-                    return GraphEditVariables::Value::of(std::move(result));
+                    return GraphEditVariables::Value::of(std::move(*split));
                 }
 
                 // A section a previous fix wrote: its name ends `<target>RemapFix`
@@ -840,29 +520,6 @@ namespace AGRemapCore {
                     return true;
                 }
 
-                // slot -> the sections that draw it, in the order they are written: the slot graphs' roots
-                std::map<int, std::vector<std::string>> drawnSlots() const {
-                    std::map<int, std::vector<std::string>> result;
-                    for (const auto& [obj, sections] : this->sectionTargets()) {
-                        if (const std::optional<int> slot = slotOf(obj)) {
-                            std::vector<std::string>& into = result[*slot];
-                            into.insert(into.end(), sections.begin(), sections.end());
-                        }
-                    }
-
-                    for (auto& [slot, sections] : result) {
-                        (void)slot;
-                        std::stable_sort(sections.begin(), sections.end(),
-                                         [this](const std::string& a, const std::string& b) { return sectionAt(a) < sectionAt(b); });
-                        sections.erase(std::unique(sections.begin(), sections.end()), sections.end());
-                    }
-                    return result;
-                }
-
-                ModObj slotObj(int slot) const {
-                    return ModObj("", config_.slotPrefix + std::to_string(slot));
-                }
-
                 // ---- another .ini of the mod, read through a parser of its own ----
 
                 // Another .ini of the mod, as this character's: the same mod types, forced, and version
@@ -887,7 +544,6 @@ namespace AGRemapCore {
                 std::optional<Version> version_;
                 std::optional<int> modTypeId_;
                 bool onlyThisFile_ = false;
-                mutable std::unordered_map<std::string, std::size_t> sectionAt_;
         };
     }
 
@@ -905,13 +561,28 @@ namespace AGRemapCore {
         return WWMIParseFactory{std::move(config)};
     }
 
-    WWMIParserConfig WWMIParserConfig::withGameData(const ModType& self) const {
+    WWMIParserConfig WWMIParserConfig::withGameData(const ModType& self, const std::optional<Version>& version) const {
         WWMIParserConfig config = *this;
+        const std::optional<Version> at = version.has_value() ? version : Version::parse(config.version);
 
         // her game textures' thumbprints, at her version
-        std::unordered_map<std::string, std::vector<std::uint8_t>> thumbprints = self.getTextureThumbprints(Version::parse(config.version));
+        std::unordered_map<std::string, std::vector<std::uint8_t>> thumbprints = self.getTextureThumbprints(at);
         if (!thumbprints.empty()) {
             config.textures.textureThumbprints = std::move(thumbprints);
+        }
+
+        // each draw split's flags, by name off her code map's MaterialCodes rows
+        for (DrawSplit& split : config.drawSplits) {
+            if (split.flag.empty()) {
+                continue;
+            }
+            const std::string component = WWMINames::SlotPrefix + std::to_string(split.component);
+            const std::string type = split.codeRole + ".flags." + split.flag;
+            const std::optional<long long> code = self.getMaterialCode(component, type, at);
+            if (!code.has_value()) {
+                throw std::invalid_argument("WWMIParserConfig: no MaterialCodes row for " + self.name + " " + component + " " + type);
+            }
+            split.flags = static_cast<int>(*code);
         }
 
         std::vector<Version> versions;

@@ -71,18 +71,17 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Tags each of 'shaderHashes' not tagged yet, in order: with its value in 'given' when it has one, else with
-             the next of a numbered run -- 'base', 'base' + 'step', 'base' + 2 'step', ... -- which only the shaders
-             without a given value advance
+             Tags each of 'shaderHashes' not tagged yet, in order, with its value in 'given'. A value is never made
+             up: 3dmigoto keys a ``[ShaderOverride]`` by its hash across every loaded ``.ini``, so every fix tagging a
+             shader has to agree on its value, which only a value read off one table (``DrawPasses``' tags) can promise
              @endrst
              *
              * @param shaderHashes The shaders, in the order they are tagged
-             * @param given The values some of them must have -- one another fix also tags, which has to agree
-             * @param base The run's first value
-             * @param step The run's step
+             * @param given Each shader's value
+             *
+             * @throw std::invalid_argument A shader of 'shaderHashes' that is not tagged yet and has no value in 'given'
              */
-            void addNumbered(const std::vector<std::string>& shaderHashes, const std::map<std::string, std::string>& given,
-                             double base, double step);
+            void addGiven(const std::vector<std::string>& shaderHashes, const std::map<std::string, std::string>& given);
 
             /**
              * @brief The ``filter_index`` of a shader, or ``std::nullopt`` when it is not tagged
@@ -102,8 +101,8 @@ namespace AGRemapCore {
              * @brief
              @rst
              The ``.ini`` condition true on a draw by any of 'shaderHashes' -- ``<reg> == <index> || ...`` -- or, with
-             'none', by none of them -- ``<reg> != <index> && ...``. Each shader is named once, in the order given; a
-             shader that is not tagged is left out
+             'none', by none of them -- ``<reg> != <index> && ...``. Each index is named once, in the order given (two
+             shaders that share an index share its test); a shader that is not tagged is left out
              @endrst
              *
              * @param reg The register a shader's ``filter_index`` is read from: ``ps`` or ``vs``

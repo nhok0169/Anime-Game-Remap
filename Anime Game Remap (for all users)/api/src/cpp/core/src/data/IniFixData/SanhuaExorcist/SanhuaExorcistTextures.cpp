@@ -57,9 +57,7 @@ namespace AGRemapCore {
         // role, downloaded from her folder -- the mod's UVs are hers, so the target's texture is
         // wrong by construction. eyeMask (c88cc1fc) and faceMask (46177147) are the same texture on
         // both skins, and so is the iris (1dcc0f1d): they need no entry.
-        facts.downloadCharFolder = "SanhuaExorcist";
         facts.downloadVersionFolder = "2_5";
-        facts.downloadPrefix = "SanhuaExorcist";
         facts.fallbackTextures = {
             {"bangsDiffuse", "f8d5c991"}, {"bangsMask", "63c807fe"}, {"t5Ramp", "4478285f"},
             {"hairDiffuse", "11171f1c"}, {"hairNormal", "9febd992"}, {"faceDiffuse", "c98e83cd"},

@@ -5,6 +5,12 @@
     <includes local="no">array</includes>
     <includes local="no">cstdint</includes>
     <includes local="no">string</includes>
+    <includedby refid="_changli_fixer_8cpp" local="yes">src/data/IniFixData/Changli/ChangliFixer.cpp</includedby>
+    <includedby refid="_changli_nymph_fixer_8cpp" local="yes">src/data/IniFixData/ChangliNymph/ChangliNymphFixer.cpp</includedby>
+    <includedby refid="_chisa_fixer_8cpp" local="yes">src/data/IniFixData/Chisa/ChisaFixer.cpp</includedby>
+    <includedby refid="_chisa_parfait_fixer_8cpp" local="yes">src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp</includedby>
+    <includedby refid="_lynae_fixer_8cpp" local="yes">src/data/IniFixData/Lynae/LynaeFixer.cpp</includedby>
+    <includedby refid="_lynae_peppermint_fixer_8cpp" local="yes">src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp</includedby>
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <includedby refid="_w_w_m_i_fixer_configs_8cpp" local="yes">src/data/IniFixData/WWMIFixerConfigs.cpp</includedby>
     <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
@@ -42,20 +48,56 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
       </node>
       <node id="2">
+        <label>src/data/IniFixData/Changli/ChangliFixer.cpp</label>
+        <link refid="_changli_fixer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/data/IniFixData/ChangliNymph/ChangliNymphFixer.cpp</label>
+        <link refid="_changli_nymph_fixer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/IniFixData/Chisa/ChisaFixer.cpp</label>
+        <link refid="_chisa_fixer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp</label>
+        <link refid="_chisa_parfait_fixer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/data/IniFixData/Lynae/LynaeFixer.cpp</label>
+        <link refid="_lynae_fixer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp</label>
+        <link refid="_lynae_peppermint_fixer_8cpp"/>
+      </node>
+      <node id="8">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
-      <node id="3">
+      <node id="9">
         <label>src/data/IniFixData/WWMIFixerConfigs.cpp</label>
         <link refid="_w_w_m_i_fixer_configs_8cpp"/>
       </node>
-      <node id="4">
+      <node id="10">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
-      <node id="5">
+      <node id="11">
         <label>src/data/RabbitFX.cpp</label>
         <link refid="_rabbit_f_x_8cpp"/>
       </node>
@@ -96,23 +138,33 @@
 <codeline lineno="44"><highlight class="normal"></highlight></codeline>
 <codeline lineno="48" refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7db3af6ee18fb7741818ac5813a78f93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;std::string,<sp/>4&gt;<sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7db3af6ee18fb7741818ac5813a78f93" kindref="member">FlagKeys</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;x187&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;y187&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;z187&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;w187&quot;</highlight><highlight class="normal">};</highlight></codeline>
 <codeline lineno="49"><highlight class="normal"></highlight></codeline>
-<codeline lineno="53" refid="class_a_g_remap_core_1_1_rabbit_f_x_1acd69e0a602c81d9323cd1c7f37472ba5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1acd69e0a602c81d9323cd1c7f37472ba5" kindref="member">GlowMapKey</ref><sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Resource&quot;</highlight><highlight class="normal">)<sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;RabbitFX&quot;</highlight><highlight class="normal"><sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;GlowMap&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="class_a_g_remap_core_1_1_rabbit_f_x_1a357e9206096100dad21b45aa1b0aa383" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;std::string,<sp/>4&gt;<sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a357e9206096100dad21b45aa1b0aa383" kindref="member">Registers</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ps-t3&quot;</highlight><highlight class="normal">};</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"></highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c78f788dff06e424c24bbb11a2ae2c6" kindref="member">textureTag</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c958f4ccc45125a0a1fc531fb4acf2e" kindref="member">tagOf</ref>(std::uint32_t<sp/>dxgiFormat,<sp/>std::uint32_t<sp/>width,<sp/>std::uint32_t<sp/>height,<sp/>std::uint32_t<sp/>mips);</highlight></codeline>
+<codeline lineno="58" refid="class_a_g_remap_core_1_1_rabbit_f_x_1acd69e0a602c81d9323cd1c7f37472ba5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1acd69e0a602c81d9323cd1c7f37472ba5" kindref="member">GlowMapKey</ref><sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;Resource&quot;</highlight><highlight class="normal">)<sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;RabbitFX&quot;</highlight><highlight class="normal"><sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;GlowMap&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="class_a_g_remap_core_1_1_rabbit_f_x_1aa00cb041ab944c9444acbaf0245f9606" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;std::string,<sp/>6&gt;<sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1aa00cb041ab944c9444acbaf0245f9606" kindref="member">TextureKeys</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string(</highlight><highlight class="stringliteral">&quot;Resource&quot;</highlight><highlight class="normal">)<sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;RabbitFX&quot;</highlight><highlight class="normal"><sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;Diffuse&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string(</highlight><highlight class="stringliteral">&quot;Resource&quot;</highlight><highlight class="normal">)<sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;RabbitFX&quot;</highlight><highlight class="normal"><sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;Lightmap&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string(</highlight><highlight class="stringliteral">&quot;Resource&quot;</highlight><highlight class="normal">)<sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;RabbitFX&quot;</highlight><highlight class="normal"><sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;Normalmap&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string(</highlight><highlight class="stringliteral">&quot;Resource&quot;</highlight><highlight class="normal">)<sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;RabbitFX&quot;</highlight><highlight class="normal"><sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;Materialmap&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string(</highlight><highlight class="stringliteral">&quot;Resource&quot;</highlight><highlight class="normal">)<sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;RabbitFX&quot;</highlight><highlight class="normal"><sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;Cutoutmap&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string(</highlight><highlight class="stringliteral">&quot;Resource&quot;</highlight><highlight class="normal">)<sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;RabbitFX&quot;</highlight><highlight class="normal"><sp/>+<sp/>char(92)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;Specialmap&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c78f788dff06e424c24bbb11a2ae2c6" kindref="member">textureTag</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c958f4ccc45125a0a1fc531fb4acf2e" kindref="member">tagOf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>format,<sp/>std::uint32_t<sp/>width,<sp/>std::uint32_t<sp/>height,<sp/>std::uint32_t<sp/>mips);</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"></highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::array&lt;int,<sp/>4&gt;<sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1ac74c6108b22de6d1a3c049c3e1620adc" kindref="member">routingFlags</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;int,<sp/>4&gt;&amp;<sp/>tags);</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight></codeline>
-<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1ad8c161164f1abf7e2bd5d12a09834a25" kindref="member">names</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"></highlight></codeline>
-<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c34bf70df98798eff673071afa293c5" kindref="member">isOwnKVP</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value);</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="135"><highlight class="normal"></highlight></codeline>
-<codeline lineno="136"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c958f4ccc45125a0a1fc531fb4acf2e" kindref="member">tagOf</ref>(std::uint32_t<sp/>dxgiFormat,<sp/>std::uint32_t<sp/>width,<sp/>std::uint32_t<sp/>height,<sp/>std::uint32_t<sp/>mips);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c958f4ccc45125a0a1fc531fb4acf2e" kindref="member">tagOf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>format,<sp/>std::uint32_t<sp/>width,<sp/>std::uint32_t<sp/>height,<sp/>std::uint32_t<sp/>mips);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::array&lt;int,<sp/>4&gt;<sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1ac74c6108b22de6d1a3c049c3e1620adc" kindref="member">routingFlags</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;int,<sp/>4&gt;&amp;<sp/>tags);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1ad8c161164f1abf7e2bd5d12a09834a25" kindref="member">names</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c34bf70df98798eff673071afa293c5" kindref="member">isOwnKVP</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/RabbitFX.h"/>
   </compounddef>

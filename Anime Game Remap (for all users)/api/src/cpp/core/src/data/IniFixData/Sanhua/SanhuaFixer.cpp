@@ -40,7 +40,6 @@ namespace AGRemapCore {
             // with LOD folders. See WWMIFixerConfig for what each field does.
             WWMIFixerConfig config{};
             config.targetId = ModTypeId::SanhuaExorcist;
-            config.version = "2.5";
 
             // The target's pixel shaders that bind CHARACTER textures, per draw slot, off a frame
             // dump of SanhuaExorcist (wwmiDrawTable.py). Slot 0 (the bangs) has two -- the hair
@@ -69,7 +68,7 @@ namespace AGRemapCore {
             // ended up gated on a draw nobody sees (2026-10-01).
             // passVertexShaders: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
-            // Every value named rather than derived from filterBase/filterStep: a derived value is
+            // Every value named rather than derived: a derived value is
             // numbered in map-iteration order, so adding a pass renumbers every shader after it and
             // silently breaks the agreement these shaders are under. The face pair must match
             // ChisaParfait's and LynaePeppermint's values -- a Chisa mod and a Sanhua mod installed
@@ -99,18 +98,6 @@ namespace AGRemapCore {
             // mods were exported from (Data/Mod Downloads/WuWa/Sanhua/SanhuaHashLineage.json, each pair
             // measured by pixel identity or taken from the community's hash maps).
 
-            // A file named by component and type and by nothing else (Component4_NM.dds: the
-            // RabbitFX / WWMI-Tools export names). cef6494f reads as a mask by its pixels; the
-            // "hairNormal" label is historical.
-            config.typeRoles = {
-                {0, {{"diffuse", "bangsDiffuse"}, {"mask", "bangsMask"}}},
-                {1, {{"diffuse", "hairDiffuse"}, {"mask", "hairNormal"}, {"normal", "hairNormal"}}},
-                {2, {{"diffuse", "faceDiffuse"}, {"mask", "faceMask"}}},
-                {3, {{"diffuse", "skinDiffuse"}, {"normal", "skinNormal"}}},
-                {4, {{"diffuse", "bodiceDiffuse"}, {"mask", "bodiceMask"}, {"normal", "bodiceNormal"}}},
-                {5, {{"diffuse", "skirtDiffuse"}, {"mask", "skirtMask"}, {"normal", "skirtNormal"}}},
-                {6, {{"diffuse", "irisDiffuse"}, {"mask", "eyeMask"}}},
-            };
 
             config.createdTextures = {{SkinMask, Colour(), 16, {"component3", "torsoMask.skin"}}};     // its colour: MaterialColours
 
@@ -123,8 +110,9 @@ namespace AGRemapCore {
             // (Tools/Misc/Diagnostics/wwmiShapeKeyOrder.py: every key at its own index), so no
             // shapeKeyOrder; the asset remap moves the overrides' hashes and checksum, and a batched
             // export's dispatch height is the target's (its Metadata.json's dispatch_y) ----
-            config.hiddenObjs = {};
-            config.zeroShapeKeyStream = false;
+            // her mods' RabbitFX routing is kept (a RabbitFX cloak draws through it), and no source of hers is past
+            // 256 bones
+            config.removedRegs = {};
             // shapeKeyDispatchSize: read off ShapeKeyDispatchSizes at the run's versions (WWMIFixerConfig::withGameData)
 
 

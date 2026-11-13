@@ -30,14 +30,19 @@ namespace AGRemapCore {
         config.textures = lynaeTextureFacts();
         // the numberings her skeleton has had and her own bones' centroids: read off VGRemaps and BoneCentroids
         // (WWMIParserConfig::withGameData) -- see WWMIParserConfig::skeletonNumberings
-        // the draws LynaeFixer's drawReroutes send elsewhere: her jacket's and props' film (flag 0x10; Lynae9 draws
-        // its props with the game's code map, hence the mask), and any draw of her lower body with a real share
-        // of 0x80 -- Lynae9 draws legs, tights and shorts in one range whose majority is skin (see LynaeFixer)
-        WWMIParserConfig::DrawSplit propsFilm{"propsFilm", 6, "propsDetail", 0x10};
+        // the draws LynaeFixer's drawReroutes send elsewhere: her jacket's and props' film (Lynae9 draws its props
+        // with the game's code map, hence the mask), and any draw of her lower body with a real share of her
+        // tights -- Lynae9 draws legs, tights and shorts in one range whose majority is skin (see LynaeFixer). Each
+        // flag's bits are her code maps' MaterialCodes rows (WWMIParserConfig::withGameData)
+        WWMIParserConfig::DrawSplit jacketFilm{"jacketFilm", 5, "jacketDetail"};
+        jacketFilm.flag = "film";
+        WWMIParserConfig::DrawSplit propsFilm{"propsFilm", 6, "propsDetail"};
+        propsFilm.flag = "film";
         propsFilm.sourceFlags = lynaePropsFilmFlags();
-        WWMIParserConfig::DrawSplit lowerTights{"lowerTights", 4, "lowerDetail", 0x80};
+        WWMIParserConfig::DrawSplit lowerTights{"lowerTights", 4, "lowerDetail"};
+        lowerTights.flag = "tights";
         lowerTights.share = 0.01;
-        config.drawSplits = {{"jacketFilm", 5, "jacketDetail", 0x10}, std::move(propsFilm), std::move(lowerTights)};
+        config.drawSplits = {std::move(jacketFilm), std::move(propsFilm), std::move(lowerTights)};
         return config;
     }
 

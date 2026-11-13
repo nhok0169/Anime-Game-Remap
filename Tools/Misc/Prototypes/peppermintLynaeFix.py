@@ -34,7 +34,8 @@
 #     merge-only sections for the slots other files draw (its own skeleton was otherwise zero there),
 #     and the bone-data marker and shape-key overrides go in the mod's own file only (a copy repeating
 #     them drew the whole model as giant polygons). Both are WWMIFixerConfig::copiesShareSkeleton,
-#     opt-in so ChisaParfait -> Chisa's in-game-confirmed copies stay as they were.
+#     opt-in so ChisaParfait -> Chisa's in-game-confirmed copies stay as they were. (Gone since 2026-11-09:
+#     inert on all 107 mods once the jacket moved into the mod's own file.)
 #
 # ---- The pairing, measured (2026-10-05) ----
 #
@@ -295,7 +296,8 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     sheer.name = sheerData["name"]
     sheer.ps = sheerData["ps"]
     sheer.constantBuffers = sheerData["constantBuffers"]
-    sheer.lines = [("ps-t6", "role ramp"), ("depth_stencil_state_merge", "true"), ("stencil_enable", "true"),
+    sheer.gameRoles = [("ps-t6", "ramp")]
+    sheer.lines = [("depth_stencil_state_merge", "true"), ("stencil_enable", "true"),
                    ("stencil_ref", "15"), ("stencil_read_mask", "1"), ("stencil_write_mask", "0x8a"),
                    # two-sided, as her own shirt and coat draws are (core's LynaePeppermintFixer)
                    ("rasterizer_state_merge", "true"), ("cull", "none")]
@@ -351,7 +353,8 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     lower.lines = [("depth_stencil_state_merge", "true"), ("stencil_enable", "true"), ("stencil_ref", "14"),
                    ("stencil_write_mask", "0x8e"), ("stencil_front", "always replace keep keep"),
                    ("stencil_back", "always replace keep keep"),
-                   ("rasterizer_state_merge", "true"), ("cull", "none"), ("ps-t9", "role ramp")]
+                   ("rasterizer_state_merge", "true"), ("cull", "none")]
+    lower.gameRoles = [("ps-t9", "ramp")]
     lower.onlyWith = "o3"
     plan[4].shader = lower
     # ---- and her UPPER BODY through her own upper-body pass (ed4fe222): drawn by Lynae's upper-body shader with her
@@ -367,7 +370,8 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     upper.constantBuffers = upperData["constantBuffers"]
     upper.lines = [("depth_stencil_state_merge", "true"), ("stencil_enable", "true"), ("stencil_ref", "14"),
                    ("stencil_write_mask", "0x8e"), ("stencil_front", "always replace keep keep"),
-                   ("stencil_back", "always replace keep keep"), ("ps-t6", "role ramp")]
+                   ("stencil_back", "always replace keep keep")]
+    upper.gameRoles = [("ps-t6", "ramp")]
     upper.registers = [B("ps-t4", "jacketNoise"), B("ps-t5", "upperFoil")]
     upper.onlyWith = "o3"
     plan[3].shader = upper
@@ -396,30 +400,8 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
         return run
       return make
 
-    E = FRB.WWMIFixerConfig.TexEdit
-    # (not the shirt's or the coat's: the skin's own shaders read those, in the skin's legend)
-    config.texEdits = [E(role, "Repack", maskFilter(0)) for role in ("upperMask",)]
-
-    # ---- the body's material-code maps (ps-t2) mark skin with material 0 on Lynae and 4 on the skin
-    # (low four bits; the high four are flags), so a map carried across unchanged shaded the body's
-    # skin as cloth -- whiter, with lavender shadows, under a warm face. 0 and 4 are exchanged, the same
-    # rule both ways (core's lynaeSkinCodeSwap) ----
-    def _swapCode(v):
-        lo, hi = v & 0x0F, v & 0xF0
-        return hi | (4 if lo == 0 else 0 if lo == 4 else lo)
-    _codeTable = bytes(_swapCode(v) for v in range(256))
-    def skinCodeSwap(ctx):
-        def run(tex):
-            tex.gamma = None                     # these bytes are codes, not colour
-            px = bytearray(tex.getPixels())
-            red = bytes(px[0::4]).translate(_codeTable)
-            px[0::4] = red
-            px[1::4] = red
-            px[2::4] = red
-            tex.setPixels(bytes(px), tex.width, tex.height)
-        return run
-    # (not the lower body's: her own shader reads that one, in her codes)
-    config.texEdits = list(config.texEdits) + [E(role, "SkinCode", skinCodeSwap) for role in ("upperDetail",)]
+    # (the upper body's mask repack and its skin-code swap went on 2026-11-09: her own shaders draw those parts, and
+    # an edit never reaches a component its own shader draws -- they changed nothing on any mod)
 
     # Masks mark regions: a flat one from a mod is replaced by HER game texture
 

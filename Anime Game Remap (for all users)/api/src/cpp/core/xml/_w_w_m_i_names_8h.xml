@@ -1,0 +1,637 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_w_w_m_i_names_8h" kind="file" language="C++">
+    <compoundname>WWMINames.h</compoundname>
+    <includes local="no">string</includes>
+    <includes refid="_hashes_8h" local="yes">AGRemapCore/model/assets/Hashes.h</includes>
+    <includedby refid="_w_w_m_i_fixer_8h" local="yes">include/AGRemapCore/data/IniFixData/WWMIFixer.h</includedby>
+    <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
+    <includedby refid="_w_w_m_i_fixer_configs_8cpp" local="yes">src/data/IniFixData/WWMIFixerConfigs.cpp</includedby>
+    <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
+    <includedby refid="_w_w_m_i_parser_configs_8cpp" local="yes">src/data/IniParseData/WWMIParserConfigs.cpp</includedby>
+    <includedby refid="_w_w_m_i_texture_facts_8cpp" local="yes">src/data/WWMITextureFacts.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/constants/WWMINames.h</label>
+        <link refid="_w_w_m_i_names_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore/model/assets/Hashes.h</label>
+        <link refid="_hashes_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>AGRemapCore/model/assets/ModDictAssets.h</label>
+        <link refid="_mod_dict_assets_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore/model/assets/ModMappedAssets.h</label>
+        <link refid="_mod_mapped_assets_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>AGRemapCore/model/assets/Row.h</label>
+        <link refid="_row_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>ModDictAssets.tpp</label>
+      </node>
+      <node id="17">
+        <label>ModMappedAssets.tpp</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>stdexcept</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>utility</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/constants/WWMINames.h</label>
+        <link refid="_w_w_m_i_names_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/data/IniFixData/Changli/ChangliFixer.h</label>
+        <link refid="_changli_fixer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/AGRemapCore/data/IniFixData/Changli/ChangliTattooShader.h</label>
+        <link refid="_changli_tattoo_shader_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/AGRemapCore/data/IniFixData/Changli/ChangliUpperShader.h</label>
+        <link refid="_changli_upper_shader_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphFixer.h</label>
+        <link refid="_changli_nymph_fixer_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphShawlShader.h</label>
+        <link refid="_changli_nymph_shawl_shader_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphSheerShader.h</label>
+        <link refid="_changli_nymph_sheer_shader_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/AGRemapCore/data/IniFixData/Chisa/ChisaFixer.h</label>
+        <link refid="_chisa_fixer_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h</label>
+        <link refid="_chisa_parfait_fixer_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeBangsShader.h</label>
+        <link refid="_lynae_bangs_shader_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeFilmShader.h</label>
+        <link refid="_lynae_film_shader_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeFixer.h</label>
+        <link refid="_lynae_fixer_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeHairShader.h</label>
+        <link refid="_lynae_hair_shader_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeLowerShader.h</label>
+        <link refid="_lynae_lower_shader_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeUpperShader.h</label>
+        <link refid="_lynae_upper_shader_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h</label>
+        <link refid="_lynae_peppermint_fixer_8h"/>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.h</label>
+        <link refid="_lynae_peppermint_lower_shader_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.h</label>
+        <link refid="_lynae_peppermint_sheer_coat_shader_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.h</label>
+        <link refid="_lynae_peppermint_sheer_shader_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSolidShader.h</label>
+        <link refid="_lynae_peppermint_solid_shader_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.h</label>
+        <link refid="_lynae_peppermint_upper_shader_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>include/AGRemapCore/data/IniFixData/Sanhua/SanhuaFixer.h</label>
+        <link refid="_sanhua_fixer_8h"/>
+        <childnode refid="47" relation="include">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>include/AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.h</label>
+        <link refid="_sanhua_exorcist_fixer_8h"/>
+        <childnode refid="49" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/data/IniFixData/WWMIFixer.h</label>
+        <link refid="_w_w_m_i_fixer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/data/GameShaderData.cpp</label>
+        <link refid="_game_shader_data_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/IniFixData/Changli/ChangliFixer.cpp</label>
+        <link refid="_changli_fixer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/data/IniFixData/Changli/ChangliTattooShader.cpp</label>
+        <link refid="_changli_tattoo_shader_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/data/IniFixData/Changli/ChangliUpperShader.cpp</label>
+        <link refid="_changli_upper_shader_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/data/IniFixData/ChangliNymph/ChangliNymphFixer.cpp</label>
+        <link refid="_changli_nymph_fixer_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/data/IniFixData/ChangliNymph/ChangliNymphShawlShader.cpp</label>
+        <link refid="_changli_nymph_shawl_shader_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/data/IniFixData/ChangliNymph/ChangliNymphSheerShader.cpp</label>
+        <link refid="_changli_nymph_sheer_shader_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/data/IniFixData/Chisa/ChisaFixer.cpp</label>
+        <link refid="_chisa_fixer_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp</label>
+        <link refid="_chisa_parfait_fixer_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/data/IniFixData/Lynae/LynaeBangsShader.cpp</label>
+        <link refid="_lynae_bangs_shader_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/data/IniFixData/Lynae/LynaeFilmShader.cpp</label>
+        <link refid="_lynae_film_shader_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/data/IniFixData/Lynae/LynaeFixer.cpp</label>
+        <link refid="_lynae_fixer_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/data/IniFixData/Lynae/LynaeHairShader.cpp</label>
+        <link refid="_lynae_hair_shader_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/data/IniFixData/Lynae/LynaeLowerShader.cpp</label>
+        <link refid="_lynae_lower_shader_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/data/IniFixData/Lynae/LynaePropsFilmFlags.cpp</label>
+        <link refid="_lynae_props_film_flags_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/data/IniFixData/Lynae/LynaeUpperShader.cpp</label>
+        <link refid="_lynae_upper_shader_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp</label>
+        <link refid="_lynae_peppermint_fixer_8cpp"/>
+      </node>
+      <node id="37">
+        <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.cpp</label>
+        <link refid="_lynae_peppermint_lower_shader_8cpp"/>
+      </node>
+      <node id="39">
+        <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.cpp</label>
+        <link refid="_lynae_peppermint_sheer_coat_shader_8cpp"/>
+      </node>
+      <node id="41">
+        <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.cpp</label>
+        <link refid="_lynae_peppermint_sheer_shader_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintSolidShader.cpp</label>
+        <link refid="_lynae_peppermint_solid_shader_8cpp"/>
+      </node>
+      <node id="45">
+        <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.cpp</label>
+        <link refid="_lynae_peppermint_upper_shader_8cpp"/>
+      </node>
+      <node id="47">
+        <label>src/data/IniFixData/Sanhua/SanhuaFixer.cpp</label>
+        <link refid="_sanhua_fixer_8cpp"/>
+      </node>
+      <node id="49">
+        <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp</label>
+        <link refid="_sanhua_exorcist_fixer_8cpp"/>
+      </node>
+      <node id="50">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/data/IniFixData/WWMIFixerConfigs.cpp</label>
+        <link refid="_w_w_m_i_fixer_configs_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/data/IniParseData/Lynae/LynaeParser.cpp</label>
+        <link refid="_lynae_parser_8cpp"/>
+      </node>
+      <node id="52">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/data/IniParseData/WWMIParserConfigs.cpp</label>
+        <link refid="_w_w_m_i_parser_configs_8cpp"/>
+      </node>
+      <node id="54">
+        <label>src/data/WWMITextureFacts.cpp</label>
+        <link refid="_w_w_m_i_texture_facts_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_names" prot="public">AGRemapCore::WWMINames</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_WWMINames_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_WWMINames_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_hashes_8h" kindref="compound">AGRemapCore/model/assets/Hashes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="struct_a_g_remap_core_1_1_w_w_m_i_names" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names" kindref="compound">WWMINames</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>the<sp/>rows<sp/>a<sp/>WWMI<sp/>parser<sp/>files<sp/>(IniParseData::collected),<sp/>besides<sp/>IniParseRows<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a2ee032327853890e06b43f064da6eb66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a2ee032327853890e06b43f064da6eb66" kindref="member">TextureOverridesRows</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;WWMIParser.textureOverrides&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a44a49263e8ad9264d1efb4187dc4e99c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a44a49263e8ad9264d1efb4187dc4e99c" kindref="member">TextureRolesRows</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;WWMIParser.textureRoles&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1afdc5bd6decba66a56c3bf88a8f4c9b14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1afdc5bd6decba66a56c3bf88a8f4c9b14" kindref="member">TextureTogglesRows</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;WWMIParser.textureToggles&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ae4ac93954c3cc06131ebc967ef0e6d8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ae4ac93954c3cc06131ebc967ef0e6d8b" kindref="member">CarriedRows</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;WWMIParser.carried&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>the<sp/>parts<sp/>of<sp/>the<sp/>names<sp/>a<sp/>WWMI<sp/>fixer<sp/>gives<sp/>its<sp/>sections,<sp/>lists<sp/>and<sp/>files<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1c66b8c8fa35adf74bf421f60ab8bfd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1c66b8c8fa35adf74bf421f60ab8bfd3" kindref="member">Draw</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Draw&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ae1c5fdd815aa395136592a61d4f37965" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ae1c5fdd815aa395136592a61d4f37965" kindref="member">DrawAfter</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;DrawAfter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ab1cfe76823107832aca1ca405ccd87dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ab1cfe76823107832aca1ca405ccd87dc" kindref="member">Pass</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Pass&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1ec8968a8870ade1eb026ed06dbb3f14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1ec8968a8870ade1eb026ed06dbb3f14" kindref="member">OffPass</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;OffPass&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1c9257657954f05c521d1078a2492c8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1c9257657954f05c521d1078a2492c8c" kindref="member">Reroute</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Reroute&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1af28342946bdcd698d039723e3281c68e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1af28342946bdcd698d039723e3281c68e" kindref="member">Overlay</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Overlay&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a75ce0e325b6d7920270d70c2bdac93e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a75ce0e325b6d7920270d70c2bdac93e2" kindref="member">Mark</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Mark&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a4824ffa46ccb0068912b7072290a8332" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a4824ffa46ccb0068912b7072290a8332" kindref="member">Glow</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Glow&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a9ccc93f7e53c724ace686e014f9bfa7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a9ccc93f7e53c724ace686e014f9bfa7e" kindref="member">Carried</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Carried&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a2bf082915d4812212a4b7816bb28bc2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a2bf082915d4812212a4b7816bb28bc2a" kindref="member">Latch</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Latch&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a4796698b15da009bcdf913dc14f9ad3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a4796698b15da009bcdf913dc14f9ad3f" kindref="member">MergeWindowList</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandListMergeWindow&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a0080c11823604c70c8d3f681272a9dd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a0080c11823604c70c8d3f681272a9dd6" kindref="member">ShapeKeyZero</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ShapeKeyZero&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aac29c1ebe9bfec131d83015e19c3cd6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aac29c1ebe9bfec131d83015e19c3cd6d" kindref="member">GameSuffix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Game&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a98841672aad56b99a9c5611ca2bb4243" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a98841672aad56b99a9c5611ca2bb4243" kindref="member">TexcoordNoNaN</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;TexcoordNoNaN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1acaa51e67d880281f4a622765f6fe61ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1acaa51e67d880281f4a622765f6fe61ff" kindref="member">RemapMergedSkeletonList</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandListRemapMergedSkeleton&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1afba036c416ae027e8e02b3f4c3472d69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1afba036c416ae027e8e02b3f4c3472d69" kindref="member">MergeSkeletonList</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandListMergeSkeleton&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ab3853287948befc76fdad6fb576c5283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ab3853287948befc76fdad6fb576c5283" kindref="member">ShaderOverridePass</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ShaderOverridePass&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a9ff72ad7a7c598936d4781fd5942c752" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a9ff72ad7a7c598936d4781fd5942c752" kindref="member">OwnMeshSkin</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;OwnMeshSkin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1abfcf7a52e6fd3589dbc309f2c0cb069b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1abfcf7a52e6fd3589dbc309f2c0cb069b" kindref="member">Stash</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Stash&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a24415c0b1a4aada5e5996104d7f6c9f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a24415c0b1a4aada5e5996104d7f6c9f1" kindref="member">ShaderBackup</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ShaderBackup&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a922c3148f624c91529af58eef4c198cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a922c3148f624c91529af58eef4c198cd" kindref="member">BoneDataFilter</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;3381.7777&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a11dc7016faa69aadb92d3758eb2c627f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a11dc7016faa69aadb92d3758eb2c627f" kindref="member">MergedSkeletonStep</ref><sp/>=<sp/>768;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aec30d5e77c6e85895b506ceddbea875f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aec30d5e77c6e85895b506ceddbea875f" kindref="member">SlotPrefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;component&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1a23a3e7bc44df05199f26235e8ae5b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1a23a3e7bc44df05199f26235e8ae5b9" kindref="member">OverrideSharedResourcesList</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandListOverrideSharedResources&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aecec552c2db24a4277bfb249518232d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aecec552c2db24a4277bfb249518232d3" kindref="member">CleanupSharedResourcesList</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandListCleanupSharedResources&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a709ad7882b0185192210f3e46c75c0a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a709ad7882b0185192210f3e46c75c0a5" kindref="member">ShapeKeyStreamStride</ref><sp/>=<sp/>24;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ac49706c994fe7d2aa4fb4c64aefaee43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ac49706c994fe7d2aa4fb4c64aefaee43" kindref="member">BoneDataHash</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cb4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1adefea7dfc79b32e809b24ad89071bb9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1adefea7dfc79b32e809b24ad89071bb9c" kindref="member">ShapeKeysHash</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shapekeys&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a0b1d8708dd128f0631171486b4c07e8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a0b1d8708dd128f0631171486b4c07e8b" kindref="member">ShapeKeyOffsetsObj</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shapekeyOffsets&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a0a0d8423e9b4503e0c38f82fd45768ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a0a0d8423e9b4503e0c38f82fd45768ed" kindref="member">ShapeKeyScaleObj</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shapekeyScale&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aa20cc8f44c98fafd9aaa0ad45696e03c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aa20cc8f44c98fafd9aaa0ad45696e03c" kindref="member">BlendRemap</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;BlendRemap&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1acace6d0b105d537863b3313ef9b6c250" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1acace6d0b105d537863b3313ef9b6c250" kindref="member">ChecksumNotFound</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ChecksumNotFound&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>the<sp/>hash<sp/>types<sp/>HashData<sp/>files<sp/>a<sp/>WuWa<sp/>texture<sp/>under<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1afe9e6bb9c6a93ad01b47cde9f18ea508" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1afe9e6bb9c6a93ad01b47cde9f18ea508" kindref="member">LiveSuffix</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_hashes_1aa5b47d829d44de81224c125ded257d78" kindref="member">Hashes::LiveSuffix</ref>;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aa0839c22a0a7036e38acfb4cf7ceccaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aa0839c22a0a7036e38acfb4cf7ceccaf" kindref="member">OldSuffix</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_hashes_1a5b4b91dcd6897a55ee509414de0131a3" kindref="member">Hashes::OldSuffix</ref>;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>the<sp/>words<sp/>of<sp/>a<sp/>WWMIFixerConfig::Shader<sp/>line&apos;s<sp/>value<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/constants/WWMINames.h"/>
+  </compounddef>
+</doxygen>

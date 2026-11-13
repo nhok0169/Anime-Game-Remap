@@ -25,6 +25,12 @@
 
 
 namespace AGRemapCore {
+    // An overload rather than a default argument: GCC rejects ResourceData() as a default argument inside the class that
+    // encloses ResourceData, whose members have default initializers (MSVC accepts it).
+    IniParseData::ResourceData IniParseData::resourceDataOf(const ResourceDataRules& rules, const GraphEditVariables& rows) {
+        return resourceDataOf(rules, rows, ResourceData());
+    }
+
     IniParseData::ResourceData IniParseData::resourceDataOf(const ResourceDataRules& rules, const GraphEditVariables& rows, ResourceData start) {
         IniParseData scratch;
         for (const std::string& name : rows.names()) {

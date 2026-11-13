@@ -1105,7 +1105,17 @@ namespace AGRemapCore {
              *
              * @return The resource data, which the getters above read from the variable #ResourceDataVar
              */
-            static ResourceData resourceDataOf(const ResourceDataRules& rules, const GraphEditVariables& rows, ResourceData start = ResourceData());
+            static ResourceData resourceDataOf(const ResourceDataRules& rules, const GraphEditVariables& rows, ResourceData start);
+
+            /**
+             * @brief #resourceDataOf, starting from an empty ResourceData
+             *
+             * @param rules What to read, and how
+             * @param rows The variables it reads: the rows of each collect 'rules' names, by its name (see #variables)
+             *
+             * @return The resource data, which the getters above read from the variable #ResourceDataVar
+             */
+            static ResourceData resourceDataOf(const ResourceDataRules& rules, const GraphEditVariables& rows);
 
             /**
              * @brief The name of the variable holding the #ResourceData every getter of it reads

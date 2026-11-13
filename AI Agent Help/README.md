@@ -92,6 +92,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8D%8B%E2%8F%B3%20The%20Epoch%20Warden-1-%23facc15?style=flat-square&labelColor=%230f766e)
 - ![Static Badge](https://img.shields.io/badge/%E2%9A%96%EF%B8%8F%F0%9F%A7%A3%20The%20Drape%20Share%20Balancer-1-%23e879f9?style=plastic&labelColor=%231e1b4b)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%94%A5%F0%9F%8E%AD%20The%20Borrowed%20Shader%20Smith-1-%23f97316?style=plastic&labelColor=%233b0764)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%BE%F0%9F%8E%9B%EF%B8%8F%20The%20Edit%20List%20Unraveller-1-%234ade80?style=flat-square&labelColor=%23312e81)
 
 <br>
 

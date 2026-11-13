@@ -26,6 +26,15 @@ build/test/doc pipelines from scratch when they're already written down.
 | Vertex Group Remaps | [`AI Agent Help/VGRemaps/CLAUDE.md`](AI%20Agent%20Help/VGRemaps/CLAUDE.md) | touching `data/VGRemapData.cpp`, `Data/RemapDrafts/`, `Tools/VGRemapFinder`, or a **"the model is warped / kinked in game"** bug -- where the blend-weight table sits in the maintainer's 8-step remap process, the rule that **every source vertex group must map somewhere** (an unmapped one becomes a *negative* bone index, not nothing), which geometry copy matches the library's versions, and the two recipes: a new character's remap end to end, and diagnosing a deformed model in minutes |
 | Game View | [`AI Agent Help/GameView/CLAUDE.md`](AI%20Agent%20Help/GameView/CLAUDE.md) | about to **ask the maintainer for an in-game screenshot, a frame dump, or "does it look right now?"** -- don't; `Tools/GameView` takes screenshots, drives keyboard and mouse, reloads 3DMigoto and reports the reload's warnings per mod, takes labelled frame dumps, and parks / restores mod folders. Covers the elevated helper the USER starts (Genshin runs as admin, and Windows silently drops input from anything that is not), the per-mod verification loop, how to get a character on screen, and the rules: **never click anything that spends or sends, and never press Enter in the overworld (it opens chat)**. Also read it before **changing how GameView reads `d3d11_log.txt`** (a bug report against `reload` / `log`): the log is buffered, 3DMigoto goes silent while it loads Resource files, and `Tools/GameView/tests/` has the replay and parser tests |
 
+**BEFORE ANY DESIGN, READ [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'S "DESIGN BEFORE CODE" (2026-11-13).** The
+WWMI fixer refactor took about two weeks, and most of it went on design mistakes the maintainer had to correct one at a
+time, each costing a build and an ~80-minute check to add and again to remove. They are now eleven questions to answer
+in the proposal before writing code: which layer it is, whether the API already does it, what a new edit does to the
+graph, one decision / one source, visible list steps, no hard-coded game data, both languages, does anything read it,
+and measure instead of arguing. Plus how to size a check to a change. **For any WuWa remap, read
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "A WUWA REMAP NOW" first**: config = choices, game data
+= versioned tables, three scenes per epoch (studio, overworld, TEAM MENU), and staging with a `file://` download URL.
+
 **AGENTS CAN LOOK AT THE GAME THEMSELVES NOW (2026-09-23).** Every in-game check used to be a
 round trip through the maintainer, and they asked for that to stop: an agent given a remap and the
 mod / asset folders should be able to run the whole pipeline alone. `Tools/GameView` is the game
@@ -387,7 +396,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is over a hundred short habits (137 as of 2026-10-27), none of
+feature or bug request here: the habits that pay" first.** It is over a hundred short habits (140 as of 2026-11-13), none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you

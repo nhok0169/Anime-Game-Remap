@@ -9,6 +9,56 @@ Read [Architecture](../Architecture/CLAUDE.md) first if you have never touched
 
 <br>
 
+## A WUWA REMAP NOW: WHAT THE 2026 REFACTOR LEFT YOU, AND WHAT TO DO WITH IT (2026-11-13)
+
+Read this first for any WuWa remap request: a new pair, a bug in a pair, or a game update. It is the short version
+of the sections after it.
+
+**The shape of a compiled WuWa fix.** A `WWMIFixerConfig` holds only the pair's CHOICES (which component goes on
+which slot, which source role lands on which target role, which parts the target's own shader draws). Everything
+about the game -- passes, shader hashes and tags, registers, texture kinds, thumbprints, colours, skeleton numberings
+-- is in versioned asset tables, filled at the RUN's versions by `withGameData`. The fixer is a named list of generic
+edits. A user (or you) tweaks it with `CppIniFixFactory.withList(fn)`, and which slot a component goes to has one
+source, `config.plan[c].slot`. To prototype a new pair, copy the literal lists (`Tools/Misc/Prototypes/lynaeList.py`,
+`sanhuaList.py`, `changliList.py`): the same generic edits in Python, reading the same tables.
+
+**A new pair:**
+
+- Fill the tables FIRST: `HashData`, `DrawPasses`, `TextureRegisters`, `TextureKinds`, `TextureThumbprints`,
+  `MaterialColours`, ... (`genWWMIAssetData.py` generates most from frame dumps; `--check` must pass). Then write a
+  config of choices.
+- A value you want to type into the config is either a choice or a missing table row. If it is not a choice, add
+  the row.
+- Then the pipeline as written (RemapDraft, prototype, port, audits, in-game epochs).
+
+**A WuWa game update:**
+
+- Diff the SHADERS and the register LAYOUT before anything else. 3.8 moved no model and broke every remap by
+  rehashing shaders.
+- Take mod-free dumps in all THREE scenes:
+  - the character menu: a normal dump;
+  - the overworld: log-only, `dump --options "log"`;
+  - the team menu: log-only (`esc` -> Team, plus the "Select the Resonator(s)" preview).
+- Derive the rows with `wwmiUpdateRows.py`. A menu dump is paired with an old menu dump. An overworld or team dump
+  is given with NO old dump (`<Char>=<new>:`): pairing it with a menu dump assigns the wrong tags.
+- Every remap a player already installed is stale until it is fixed again.
+
+**Every in-game epoch on WuWa covers three scenes.** The character studio, the overworld, and the TEAM MENU. Since
+3.8 the team menu draws the party as 3D models with shaders of its own; a remapped Changli rendered orange there
+while the studio and overworld were right.
+
+**Staging copies for an epoch:**
+
+- Fix each copy in its own process with the build you mean to test.
+- Set `AGREMAP_DOWNLOAD_FOLDER` as a `file://` URL. A plain path fails every download silently (Overview habit
+  138).
+- Run `check_dangling.py` on every copy before the game agent starts.
+- Brief the game agent with the exact question the build changed, the "not faults", and the hard rules (Game View).
+  Ask it for numbers AND crops, and look at the crops yourself (Overview habit 140).
+
+**Before you design anything in the fixer or the API** (a new edit, a new field, a new class), answer Overview's
+"DESIGN BEFORE CODE" questions. Every one of them was a correction the maintainer had to make during the refactor.
+
 ## A WWMI PAIR'S GAME DATA IS IN VERSIONED TABLES, AND ITS CONFIG HOLDS ONLY CHOICES (2026-11-08)
 
 The maintainer's rule: no hardcoded game data in a fix or a list. "What if the game version changes ... what if a user

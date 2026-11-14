@@ -27,6 +27,7 @@
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
+#include "AGRemapCore/constants/Colours.h"
 #include "AGRemapCore/model/textures/Colour.h"
 
 
@@ -36,7 +37,6 @@ namespace AGRemapCore {
         // Ganyu's yellow. Which of the two a character wants is not derivable; it is whatever her
         // shader was built to read, and the pure-Python row is the only record of it.
         const int NormalMapSize = 1024;
-        const Colour NormalMapBlue(128, 128, 255);
 
         // 1, not 0. Alpha 0 is fully transparent and 1 is very nearly so -- the difference matters
         // to a shader that treats 0 as "no mask at all".
@@ -100,7 +100,7 @@ namespace AGRemapCore {
         // declares one for every source object, and the collectors are built per group, so one
         // entry produces one texture per source -- named after that source's own resource.
         config.texAdds = {{"head", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapBlue)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapBlue)}};
 
         // The body is bound to nothing: everything it draws is coming through the head above.
         config.objNewRegVals = {{"body", {{IniKeywords::Ib, "null"}}}};

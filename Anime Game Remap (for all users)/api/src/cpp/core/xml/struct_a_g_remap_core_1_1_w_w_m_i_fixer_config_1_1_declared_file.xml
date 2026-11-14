@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_declared_file" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::DeclaredFile</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_declared_file_1a25c3f0c42c2baa6d9145ac21e2c1fff8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::DeclaredFile::file</definition>
+        <argsstring></argsstring>
+        <name>file</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::DeclaredFile::file</qualifiedname>
+        <briefdescription>
+<para>The file, as the parser names it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1579" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1579" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_declared_file_1a8d8dc390e1a72771b7cc63fce2135900" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::DeclaredFile::rel</definition>
+        <argsstring></argsstring>
+        <name>rel</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::DeclaredFile::rel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The file relative to the ``.ini``&apos;s folder, as the ``filename =`` line writes it -- empty for the fix to
+compute it from #file
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1588" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1588" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_declared_file_1a37529eb7369f86d93dacd713b54a6fd4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::DeclaredFile::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::DeclaredFile::resource</qualifiedname>
+        <briefdescription>
+<para>The resource section&apos;s name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1593" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1593" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A resource the fix declares for one of the mod&apos;s files that no resource of the ``.ini`` names (or that
+only a previous fix named): ``[Resource&lt;Role&gt;&lt;Target&gt;RemapRef]`` -- RemapRef, since an undo deletes the
+files a RemapFix section names
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1575" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1575" bodyend="1594"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_declared_file_1a25c3f0c42c2baa6d9145ac21e2c1fff8" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DeclaredFile</scope><name>file</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_declared_file_1a8d8dc390e1a72771b7cc63fce2135900" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DeclaredFile</scope><name>rel</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_declared_file_1a37529eb7369f86d93dacd713b54a6fd4" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DeclaredFile</scope><name>resource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

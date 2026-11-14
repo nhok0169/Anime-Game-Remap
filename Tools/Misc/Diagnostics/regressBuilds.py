@@ -22,6 +22,11 @@ a user runs: with downloads on, a mod missing a component can take a different p
 (Overview habit 122). For any folder that moved, re-check it with `--download normal` before calling it
 a user-visible change either way.
 
+`--ini-unordered` compares an .ini file as the MULTISET of its sections rather than by md5: each section
+with the comment lines right above it and without trailing blank lines, the preamble before the first
+section kept in place. For a change that only moves where the fix writes its sections, which 3dmigoto does
+not care about -- a SAME then still says every section's text is the same, and nothing else moved.
+
 Read every DIFF; a SAME is proof. Then run the Integration Tester too (habit 119): its hand-written
 fixtures hold shapes no real library has.
 """
@@ -43,17 +48,53 @@ print("fixed", len(s.stats.ini.fixed), "skipped", len(s.stats.ini.skipped))
 '''
 
 
-def tree(folder):
+def iniSections(data):
+    """An .ini file's text as (its preamble, the sorted list of its sections, its tail) -- see --ini-unordered.
+    Blank lines are ignored; a comment block touching a section's header belongs to that section, any
+    other comment to what it follows."""
+    lines = data.decode("utf-8", errors = "replace").splitlines()
+    preamble, sections, current, pending = [], [], None, []
+
+    def flush():
+        (current if current is not None else preamble).extend(pending)
+        pending.clear()
+
+    for line in lines:
+        stripped = line.strip()
+        if stripped == "":
+            flush()
+        elif stripped.startswith("["):
+            if current is not None:
+                sections.append(current)
+            current = list(pending) + [line]
+            pending.clear()
+        elif stripped.startswith(";"):
+            pending.append(line)
+        else:
+            flush()
+            (current if current is not None else preamble).append(line)
+
+    tail = list(pending)
+    if current is not None:
+        sections.append(current)
+    newline = chr(10)
+    return newline.join(preamble), sorted(newline.join(s) for s in sections), newline.join(tail)
+
+
+def tree(folder, iniUnordered = False):
     result = {}
     for dirpath, _dirs, files in os.walk(folder):
         for name in files:
             path = os.path.join(dirpath, name)
             with open(path, "rb") as f:
-                result[os.path.relpath(path, folder)] = hashlib.md5(f.read()).hexdigest()
+                data = f.read()
+            if iniUnordered and name.lower().endswith(".ini"):
+                data = repr(iniSections(data)).encode("utf-8")
+            result[os.path.relpath(path, folder)] = hashlib.md5(data).hexdigest()
     return result
 
 
-def one(src, work, pkgs, download):
+def one(src, work, pkgs, download, iniUnordered = False):
     name = os.path.basename(src.rstrip("/\\"))
     if not os.path.isdir(src):
         return f"MISSING {src}"
@@ -68,7 +109,7 @@ def one(src, work, pkgs, download):
         if run.returncode != 0:
             err = run.stderr.strip().splitlines()
             return f"ERR  {name} [{side}] {err[-1] if err else run.returncode}"
-        results[side] = (tree(dst), run.stdout.strip())
+        results[side] = (tree(dst, iniUnordered), run.stdout.strip())
 
     a, b = results["A"][0], results["B"][0]
     diff = sorted(k for k in set(a) | set(b) if a.get(k) != b.get(k))
@@ -90,6 +131,8 @@ def main():
     parser.add_argument("--b", required = True, help = "folder containing the NEW build's FixRaidenBoss2")
     parser.add_argument("--jobs", type = int, default = 3)
     parser.add_argument("--download", default = "disabled", choices = ["disabled", "normal", "always"])
+    parser.add_argument("--ini-unordered", action = "store_true",
+                        help = "compare an .ini as the multiset of its sections, ignoring where each one is written")
     args = parser.parse_args()
 
     pkgs = {"A": os.path.abspath(args.a), "B": os.path.abspath(args.b)}
@@ -102,7 +145,7 @@ def main():
 
     os.makedirs(args.work, exist_ok = True)
     with cf.ThreadPoolExecutor(args.jobs) as pool:
-        for line in pool.map(lambda folder: one(folder, args.work, pkgs, args.download), folders):
+        for line in pool.map(lambda folder: one(folder, args.work, pkgs, args.download, args.ini_unordered), folders):
             print(line, flush = True)
 
 

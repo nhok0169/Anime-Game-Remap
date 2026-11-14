@@ -26,6 +26,8 @@
 #include <variant>
 #include <vector>
 
+#include <tsl/ordered_map.h>
+
 #include "AGRemapCore/model/iftemplate/IfContentPart.h"
 #include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateNode.h"
@@ -33,6 +35,7 @@
 #include "AGRemapCore/model/iftemplate/IfTemplateTree.h"
 #include "AGRemapCore/tools/parsing/ParseContext.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
+#include "AGRemapCore/tools/ObjectLifetime.h"
 
 
 namespace AGRemapCore {
@@ -168,6 +171,11 @@ namespace AGRemapCore {
             IfTemplate(IfTemplate&&) = default;
             IfTemplate& operator=(IfTemplate&&) = default;
 
+            // Read through plain pointers by graphs and by the Python binding -- see ObjectLifetime
+            ~IfTemplate() {
+                ObjectLifetime::released(this);
+            }
+
             /**
              * @brief
              @rst
@@ -234,6 +242,32 @@ namespace AGRemapCore {
             const std::unordered_map<size_t, std::vector<std::string>>& calledSubCommands() const;
 
             /**
+             * @brief
+             @rst
+             The first value of 'key' in this `section`_'s own parts, in the order they are written: whatever branch it
+             sits in, and without following ``run =``. A ``std::string`` value comes back stripped
+             @endrst
+             *
+             * @param key The key to look up
+             *
+             * @return The value, or ``std::nullopt`` when no part has the key
+             */
+            std::optional<V> firstVal(const K& key) const;
+
+            /**
+             * @brief
+             @rst
+             Like #firstVal, for the first key 'match' accepts in each part -- for a key whose spelling varies, such
+             as one a mod's author wrote (see :cpp:func:`IniNamingTools::sameKey`)
+             @endrst
+             *
+             * @param match Whether a key is the one wanted
+             *
+             * @return The value, or ``std::nullopt`` when no part has such a key
+             */
+            std::optional<V> firstValMatching(const std::function<bool(const K&)>& match) const;
+
+            /**
              * @brief The domain customization points this instance uses
              */
             const IfTemplateRunConfig<K, V>& runConfig() const;
@@ -247,6 +281,18 @@ namespace AGRemapCore {
              * @brief Updates the parse tree and the reference to other `sections`_ that this object calls
              */
             void rebuild();
+
+            /**
+             * @brief
+             @rst
+             Removes every ``if`` block with no line in any of its branches -- ``if`` to ``endif``, and an outer block
+             left empty by an inner one's removal too -- and #rebuild\s when one went. Eg. after the lines of a
+             `section`_ copied elsewhere were cut down to the ones the copy needs
+             @endrst
+             *
+             * @return Whether a block was removed
+             */
+            bool removeEmptyBlocks();
 
             /**
              * @brief
@@ -359,11 +405,17 @@ namespace AGRemapCore {
 
              'visited' collects the names of the `sections`_ already checked, and
              'sectionsKeyFullCover' records the result for each checked `section`_ (this one
-             included)
+             included) :raw-html:`<br />` :raw-html:`<br />`
+
+             'countMissingElse' asks whether 'key' is set on every PATH through the `section`_: an
+             ``if`` / ``else if`` chain with no ``else`` then has one more path, the one where none of
+             its conditions holds, and that path sets nothing. Without it, only the branches the
+             `section`_ writes are asked
              @endrst
              */
             bool isKeyFullyCover(const K& key, const std::unordered_map<std::string, IfTemplate<K, V, KeyHash, KeyEqual>*>& sections,
-                                  std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover) const;
+                                  std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover,
+                                  bool countMissingElse = false) const;
 
             /**
              * @brief
@@ -395,7 +447,8 @@ namespace AGRemapCore {
 
             bool isKeyFullyCoverNode(NodeType& node, const K& key,
                 const std::unordered_map<std::string, IfTemplate<K, V, KeyHash, KeyEqual>*>& sections,
-                std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover) const;
+                std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover,
+                bool countMissingElse) const;
 
             std::pair<std::set<ContentPart*>, bool> getKeyMissingPartsNode(NodeType& node, const K& key,
                 const std::unordered_map<std::string, IfTemplate<K, V, KeyHash, KeyEqual>*>& sections,
@@ -404,6 +457,17 @@ namespace AGRemapCore {
                 std::unordered_map<std::string, bool>& sectionAllBranchesMissing) const;
     };
 
+}
+
+namespace AGRemapCore {
+    /**
+     * @brief
+     @rst
+     A ``.ini`` file's `sections`_ by name, in the order the file declares them -- what
+     :cpp:func:`IniFile::getIfTemplates` holds
+     @endrst
+     */
+    using IfTemplates = tsl::ordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>;
 }
 
 #include "IfTemplate.tpp"

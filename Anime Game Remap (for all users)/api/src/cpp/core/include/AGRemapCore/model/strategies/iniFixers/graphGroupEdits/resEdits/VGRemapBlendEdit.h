@@ -14,13 +14,17 @@
 
 // ##### EndCredits
 
+#include <functional>
+#include <map>
 #include <memory>
 #include <optional>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/model/VGRemap.h"
 #include "AGRemapCore/model/Version.h"
+#include "AGRemapCore/model/buffers/BufElementType.h"
 #include "AGRemapCore/model/iniresources/RemapBlendResource.h"
 #include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h"
@@ -152,6 +156,16 @@ namespace AGRemapCore {
             std::optional<std::string> rowModName;
 
             /**
+             * @brief
+             @rst
+             The vertex group row given outright, used in place of looking one up in :cpp:member:`modType`'s
+             asset tables -- a table the caller built, eg. a row composed with another map. **Default**:
+             ``std::nullopt``, the row is looked up
+             @endrst
+             */
+            std::optional<VGRemap> row;
+
+            /**
              * @brief The version of the ``.ini`` file being fixed
              */
             std::optional<Version> fromVersion;
@@ -164,8 +178,94 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             What fixes the built resource in place of :cpp:class:`RemapBlendResource`'s own remap -- eg. a
+             blend whose true bone ids live in another buffer. It is handed the resource, and returns whether
+             the fixed file was written :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: an empty function, the resource's own remap
+             @endrst
+             */
+            std::function<bool(RemapBlendResource&)> fixFunc;
+
+            /**
+             * @brief
+             @rst
+             Vertex groups that move as one part: each key is a ROOT group of the source, and every group
+             in its list is remapped to whatever the root is remapped to -- a chain the target has no
+             counterpart for, pinned to the bone it hangs from. A root the remap has no entry for leaves its
+             chain as the remap has it :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: empty
+             @endrst
+             */
+            std::map<long long, std::vector<long long>> anchorChains;
+
+            /**
+             * @brief
+             @rst
+             The line layout of the source ``Blend.buf``, decided from its path -- eg. a layout whose
+             number of bone influences per vertex is read off the file's size. Given the source file's
+             path :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: an empty function, :cpp:class:`BlendFile`'s default layout
+             @endrst
+             */
+            std::function<std::vector<std::unique_ptr<BufElementType>>(const std::string& srcPath)> elements;
+
+            /**
+             * @brief
+             @rst
+             A buffer of bone ids beside the fixed ``Blend.buf`` that names the bones for it, and keeps the same
+             slots when \ref influences changes the blend's width
+             @endrst
+             */
+            struct PairedIds {
+                /**
+                 * @brief The path to the buffer
+                 */
+                std::string path;
+
+                /**
+                 * @brief The bytes of one id
+                 */
+                std::size_t idBytes = 2;
+            };
+
+            /**
+             * @brief
+             @rst
+             How many (weight, index) slots each vertex of the fixed ``Blend.buf`` carries -- the width the target's
+             draws read -- or 0 to keep the source's :raw-html:`<br />` :raw-html:`<br />`
+
+             After the blend is remapped (by \ref fixFunc or the resource's own remap) it is made this wide with
+             :cpp:func:`BlendFile::setInfluences`, the buffers \ref pairedIds names keep the same slots
+             (:cpp:func:`BlendFile::keepSlots`), and the generated resource `section`_ declares the new ``stride``. A
+             source already this wide is left alone, and its section gets no ``stride`` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             **Default**: ``0``
+             @endrst
+             */
+            std::size_t influences = 0;
+
+            /**
+             * @brief
+             @rst
+             The id buffers beside the fixed ``Blend.buf`` that follow its slots when \ref influences changes its
+             width, given the source file's path. The first names the bones the blend's slots are merged by
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: an empty function, none
+             @endrst
+             */
+            std::function<std::vector<PairedIds>(const std::string& srcPath)> pairedIds;
+
+            /**
+             * @brief
+             @rst
              Builds a real :cpp:class:`RemapBlendResource`, carrying the vertex group remap
-             :cpp:func:`ModType::getVGRemap` gives for this pair of mods :raw-html:`<br />`
+             :cpp:func:`ModType::getVGRemap` gives for this pair of mods (with \\ref anchorChains pinned),
+             \\ref fixFunc and the line layout \\ref elements gives :raw-html:`<br />`
              :raw-html:`<br />`
 
              The resource's ``type`` is this edit's own ``resType``, not the 'resType' argument --
@@ -181,6 +281,24 @@ namespace AGRemapCore {
              */
             void buildResModel(const std::string& resType, const std::string& srcPath, const std::string& fixedPath,
                                 const std::string& modName, const std::string& fileKey, Context& ctx) override;
+
+        protected:
+            /**
+             * @brief
+             @rst
+             :cpp:member:`ResEditConfig::extraKVPs`, and the new ``stride`` when \ref influences changes the width of
+             the file at 'srcPath'
+             @endrst
+             *
+             * @param srcPath The absolute file path to the original resource
+             *
+             * @return The `KVPs`_
+             */
+            std::vector<std::pair<K, V>> fileKVPs(const std::string& srcPath) const override;
+
+        private:
+            // The source's width and the fixed line's bytes at \ref influences, from \ref elements
+            std::pair<std::size_t, std::size_t> widths(const std::string& srcPath) const;
     };
 }
 

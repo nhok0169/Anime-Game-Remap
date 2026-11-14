@@ -149,6 +149,8 @@ def textureFacts() -> "FRB.WWMITextureFacts":
                               if role not in NoFallback and os.path.isfile(os.path.join(Downloads, f"ChangliNymphTexture{h}.dds"))}
     # not a game texture: Changli's own blindfold diffuse in the skin's white lace (changliNymphBlindfold.py)
     facts.fallbackTextures = {**facts.fallbackTextures, "blindfold": "BlindfoldOnChangli"}
+    facts.regionRoles = {"bodyMask", "faceMask"}
+    facts.readInisBelow = True
     # ...and the two game textures her see-through dress pass (d5572b1c) reads at t2 / t3 beside the mod's maps,
     # which no draw of Changli's binds (core's ChangliNymphTextures)
     facts.fallbackTextures = {**facts.fallbackTextures, "sheerDetail": "24d13e57", "sheerNoise": "308e6e5e",
@@ -326,7 +328,6 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
                               created("flatDetail", FRB.CppColour(70, 70, 70, 0))]
 
     config.sourceTextures = facts
-    config.flatFallsBackToSource = {"bodyMask", "faceMask"}
 
 
     # ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
@@ -348,10 +349,8 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     config.shapeKeyOrder = list(range(14, 86)) + [-1] * 14
     config.cleanTexcoords = True
     config.carryByRegisterRole = True
-    config.readInisBelow = True
     # her slots reach bone 275 (276 x 3 float4 = 828), past the 768 default
     config.mergedSkeletonSlots = 1536
-    config.copiesShareSkeleton = True
     # the skin's blend is EIGHT influences a vertex and Changli's draws read FOUR
     config.targetInfluences = 4
 

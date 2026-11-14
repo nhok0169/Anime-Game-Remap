@@ -20,12 +20,17 @@
 
 
 namespace AGRemapCore {
-    IniParseBuilder::Factory IniParseBuilderFuncs::sanhuaExorcist2_5() {
+    WWMIParserConfig SanhuaExorcistParser::v2_5Config() {
         WWMIParserConfig config{};
         config.version = "2.5";
         // Her own textures, so a mod of hers is sorted into roles at PARSE time.
         config.textures = sanhuaExorcistTextureFacts();
-        return makeWWMIParser(std::move(config));
+        return config;
+    }
+
+
+    IniParseBuilder::Factory IniParseBuilderFuncs::sanhuaExorcist2_5() {
+        return makeWWMIParser(SanhuaExorcistParser::v2_5Config());
     }
 
 

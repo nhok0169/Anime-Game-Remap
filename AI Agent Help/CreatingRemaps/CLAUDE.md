@@ -9,6 +9,245 @@ Read [Architecture](../Architecture/CLAUDE.md) first if you have never touched
 
 <br>
 
+## A WUWA REMAP NOW: WHAT THE 2026 REFACTOR LEFT YOU, AND WHAT TO DO WITH IT (2026-11-13)
+
+Read this first for any WuWa remap request: a new pair, a bug in a pair, or a game update. It is the short version
+of the sections after it.
+
+**The shape of a compiled WuWa fix.** A `WWMIFixerConfig` holds only the pair's CHOICES (which component goes on
+which slot, which source role lands on which target role, which parts the target's own shader draws). Everything
+about the game -- passes, shader hashes and tags, registers, texture kinds, thumbprints, colours, skeleton numberings
+-- is in versioned asset tables, filled at the RUN's versions by `withGameData`. The fixer is a named list of generic
+edits. A user (or you) tweaks it with `CppIniFixFactory.withList(fn)`, and which slot a component goes to has one
+source, `config.plan[c].slot`. To prototype a new pair, copy the literal lists (`Tools/Misc/Prototypes/lynaeList.py`,
+`sanhuaList.py`, `changliList.py`): the same generic edits in Python, reading the same tables.
+
+**A new pair:**
+
+- Fill the tables FIRST: `HashData`, `DrawPasses`, `TextureRegisters`, `TextureKinds`, `TextureThumbprints`,
+  `MaterialColours`, ... (`genWWMIAssetData.py` generates most from frame dumps; `--check` must pass). Then write a
+  config of choices.
+- A value you want to type into the config is either a choice or a missing table row. If it is not a choice, add
+  the row.
+- Then the pipeline as written (RemapDraft, prototype, port, audits, in-game epochs).
+
+**A WuWa game update:**
+
+- Diff the SHADERS and the register LAYOUT before anything else. 3.8 moved no model and broke every remap by
+  rehashing shaders.
+- Take mod-free dumps in all THREE scenes:
+  - the character menu: a normal dump;
+  - the overworld: log-only, `dump --options "log"`;
+  - the team menu: log-only (`esc` -> Team, plus the "Select the Resonator(s)" preview).
+- Derive the rows with `wwmiUpdateRows.py`. A menu dump is paired with an old menu dump. An overworld or team dump
+  is given with NO old dump (`<Char>=<new>:`): pairing it with a menu dump assigns the wrong tags.
+- Every remap a player already installed is stale until it is fixed again.
+
+**Every in-game epoch on WuWa covers three scenes.** The character studio, the overworld, and the TEAM MENU. Since
+3.8 the team menu draws the party as 3D models with shaders of its own; a remapped Changli rendered orange there
+while the studio and overworld were right.
+
+**Staging copies for an epoch:**
+
+- Fix each copy in its own process with the build you mean to test.
+- Set `AGREMAP_DOWNLOAD_FOLDER` as a `file://` URL. A plain path fails every download silently (Overview habit
+  138).
+- Run `check_dangling.py` on every copy before the game agent starts.
+- Brief the game agent with the exact question the build changed, the "not faults", and the hard rules (Game View).
+  Ask it for numbers AND crops, and look at the crops yourself (Overview habit 140).
+
+**Before you design anything in the fixer or the API** (a new edit, a new field, a new class), answer Overview's
+"DESIGN BEFORE CODE" questions. Every one of them was a correction the maintainer had to make during the refactor.
+
+## A WWMI PAIR'S GAME DATA IS IN VERSIONED TABLES, AND ITS CONFIG HOLDS ONLY CHOICES (2026-11-08)
+
+The maintainer's rule: no hardcoded game data in a fix or a list. "What if the game version changes ... what if a user
+wants to apply a fix based on a previous version of the game?" So everything the GAME decides lives in a versioned asset
+table on the character's `ModType`. A lookup answers with the newest row at or below the version asked; below the oldest
+row it answers the oldest. A `WWMIFixerConfig` / `WWMIParserConfig` keeps only the pair's choices: which component goes
+to which slot, which role lands where, reroutes, anchors, texture edits.
+
+| Game data | Table (getter on `ModType`) | Config field it fills |
+| --- | --- | --- |
+| each slot's passes, their vertex shaders and `filter_index` tags | `DrawPasses` (`main`, `main2`, `other`, ... with `.ps` / `.tags`) | `slotPasses`, `passVertexShaders`, `filterIndices`; the keys of `extraPassRegs` / `extraPassNoDraw` |
+| what each draw binds at `ps-t0..t3` | `DrawPasses` (`main.ps-tN`) | (the lists' RabbitFX tags) |
+| where a role is bound (`<role>`, `<role>@rabbitfx`, `<role>@other`) | `TextureRegisters` | a `Shader`'s registers left empty (`registers`, `gameRoles`, `stashed`, `refRoles`: its own draw's, `Shader::component`), and `stashRegs` from its `stashed` |
+| a game shader's code and constant buffers | `GameShaders` | `Shader::ps` / `constantBuffers` (`Shader::game`, `Shader::ofGame`); a pass's own code (`Shader::passGame`) |
+| shape-key dispatch height / key order | `ShapeKeyDispatchSizes` / `ShapeKeyRemaps` | `shapeKeyDispatchSize` / `shapeKeyOrder` |
+| a code map's bits / a mask's material colour | `MaterialCodes` / `MaterialColours` | `CreatedTexture::colour` (`CreatedTexture::material`) |
+| how the game creates a texture | `TextureDescs` | (the lists' RabbitFX tags) |
+| a texture's 16 x 16 thumbprint | `TextureThumbprints` | `WWMITextureFacts::textureThumbprints` (fixer and parser) |
+| what a texture role IS (its kind: `upperDiffuse` -> `Diffuse`) | `TextureKinds` (kept by hand; a config role with no row is refused) | `roleKinds` (`kindOf`, `registerOf`) |
+| a component's vertex groups in the merged skeleton | `VGRemaps` (component -> `""`), at her OLDEST `vb0` | `sourceVgMaps` |
+| a renumbered skeleton | `VGRemaps` self-rows (older -> newest, newest -> itself) + `BoneCentroids` | parser `skeletonNumberings` / `referenceBoneCentroids` |
+| her models' versions | `HashData`'s `vb0` rows (`WWMIFixerConfig::vb0VersionsOf`) | `sourceVersionByVb0` (`sourceVersionFromVb0 = true`) |
+
+**`withGameData` fills a config from them.** The compiled `WWMIFixer` calls `WWMIFixerConfig::withGameData(source, target,
+fromVersion, toVersion)` once per fix, at the run's versions, as soon as it knows both characters. `WWMIParser` calls
+`WWMIParserConfig::withGameData(self)` in its constructor. Both are bound. A table with no row for a field leaves the
+config's value. A row the config names but the table lacks is an ERROR, never silence: a `Shader::game` with no
+`GameShaders` row, a `CreatedTexture::material` with no colour, a `Shader` role with no register, an `other` pass with
+no `.ps`. **Python that reads a config's fields must fill it first.** `ofFactory` hands back the bare config, whose
+`slotPasses` is empty. `editList.py`, `sanhuaExorcistEdits.py` and `genWWMIAssetData.py` call `withGameData` at the config's
+own versions.
+
+**Moving the eight configs changed no fix.** Filled at their own versions, all eight fix configs and all eight parser
+configs equal the literal configs from before the move, field by field. Checked with a JSON dump of each, before and after.
+The 174-folder WWMI sweep and the 97-folder GI/ZZZ sweep against the build before the move are all SAME.
+
+**`genWWMIAssetData.py` is a fixed point now.** It reads the FILLED configs, so re-running it rewrites the tables as they
+are, and a row added to a data file by hand survives. Proof: a run changed no byte of any table. A new character's
+thumbprints are `wwmiTextureThumbs.py <folder> --name X --version V`, which prints her `TextureThumbprintData.cpp` rows.
+Her other rows go into the generator's literals (`TARGET_ONLY_ROLES`, `DRAW_BINDINGS`, `TEXTURE_DESCS`, `MATERIAL_*`) or
+straight into a data file.
+
+Three traps:
+
+* **An other pass is NAMED in a config.** Write `{1, {{"other", {...}}}}`, and `withGameData` turns `other` into the pass's
+  pixel shader. A key that is a shader hash stays as it is, so the bindings follow the shader the table names. Keying the
+  same pass both ways throws. `lynaeBangsOnHair.py` was the one user and is updated.
+* **`DrawPasses` holds a slot's own passes, not every pass a fix tags.** The shared meshes' passes (Changli, Chisa) and
+  the passes of a source's own shaders (ChisaParfait -> Chisa, LynaePeppermint -> Lynae) are still literal
+  `passVertexShaders` / `filterIndices` entries in those four configs, under a comment saying so. A first strip removed them
+  and the before/after dump caught it.
+* **The `extraPassRegs` other-pass rows exist only where they derive.** The `TextureRegisters` `<role>@other` rows are
+  missing for four pairs whose other-pass bindings do not derive: Chisa, LynaePeppermint -> Lynae, Changli, and
+  ChangliNymph -> Changli. A LIST of those pairs needs them read off a dump first. The compiled fix does not: its
+  `extraPassRegs` bindings are the config's choices.
+
+**Still literal, game data with no table yet:**
+
+* `sharedMeshes`, `hiddenMeshes`, `meshCounterparts`
+* the register ids in `plan`'s bindings, and `removedRegs`
+* `WWMITextureFacts`' role tables and `typeRoles`
+* `drawReroutes`, and the texture-edit code tables still in `LynaeData`
+* the invented flat textures' colours, all but Sanhua's skin mask
+
+The deleted `<Char>Skeleton.cpp` and `<Char>Thumbprints.cpp` are in git history. `changliPortTables.py` /
+`nymphPortTables.py` still write them, and nothing compiles their output.
+
+<br>
+
+## A GAME UPDATE THAT REHASHES SHADERS: WUTHERING WAVES 3.8 (2026-11-12)
+
+The 2026-11-11 maintenance moved no model and no texture of the eight WuWa characters (`vb0`, `ib` and texture hashes are
+the same; two Ultra-High "live" texture hashes did change, below), and it broke the texture of every remap: **every pass
+shader was rehashed**, so every `if vs == <tag>` gate the fixes write matched nothing. It also changed **register layouts**:
+the material shaders of Sanhua, SanhuaExorcist, Chisa, Lynae, Changli and ChangliNymph gained one texture (`99527ecc`, a
+256 x 256 global the skins ChisaParfait and LynaePeppermint already read at 3.7), so every register the draw sets after it
+moved one on (Lynae's lower-body film foil `ps-t7` -> `ps-t8`, Changli's upper-body detail `ps-t3` -> `ps-t4`, ...).
+LynaePeppermint's face shader was re-laid outright.
+
+**What was done, and the rule for the next update:**
+
+* **New rows at the new version, never an overwrite.** `DrawPassData.cpp` and `TextureRegisterData.cpp` carry a block
+  `KEPT BY HAND: Wuthering Waves 3.8`, read off mod-free character-menu dumps (`FrameAnalysis-Upd<Char>-2026-11-12`)
+  against the 3.7 ones, draw by draw: a draw is paired by (`vb0`, start, count) and the textures it binds, each row's
+  shaders mapped to its component's new ones, the tags kept (one per new vertex shader: where two 3.7 eye vertex shaders
+  became one, the smaller tag). A role moves only where the draw SETS its texture at a new register; an inherited register
+  is assumed unmoved. `genWWMIAssetData.py` keeps such blocks when it rewrites a file (it fills its configs at their own,
+  older versions, so it cannot regenerate them). **The pairing is a diagnostic:**
+  `Tools/Misc/Diagnostics/wwmiUpdateRows.py --version <new> --pair <Char>=<new dump>:<old dumps> ... --check | --write`
+  derives both blocks from the dumps (every character in one run; its header holds the 3.8 command line), and its
+  `--check` reproduces the committed 3.8 block row for row -- run it so on the next update before `--write`.
+* **A fix reaches the new rows by default: `WWMIFixerConfig::newestVersionOf`.** The run's target version used to default
+  to the target's newest `vb0` -- a model version -- and a shader-only update moves no model, so a 3.8 row was never read.
+  It now defaults to the newest of that and her newest `DrawPasses` row (`WWMIFixer::toVersion`, the lists' `TO`, the
+  mirror's `TARGET_VERSION`). A model table read at 3.8 still answers her newest model's row.
+* **The source's draw passes are read at the fix's version** (a pass runs in the game being fixed for), not the mod's.
+* **A config's literal registers are the target's layout at her newest model.** `withGameData`, for a fix made for a later
+  version, moves each plan / `extraPassRegs` register to where the target's `TextureRegisters` put the role there. A
+  register no role of hers names stays -- so a register a config binds on a moved pass needs a role row first.
+* **What a copied game shader reads stays at the source's (mod's) version**, matching the 3.7 code `GameShaders` holds.
+
+**The overworld dumps (2026-11-12, `dump --options "log"`: log.txt and `.dsc` files only, ~2 MB, safe in the
+overworld).** The menu dumps miss draws the overworld makes, and a 3.8 gate that misses them leaves a remap's part with
+the game's textures there. Three findings, all in the 3.8 block now:
+
+* **The face's second vertex shader (`4ce754b5` at 3.7) is `2c08d8bc` at 3.8**, drawn only in the overworld; every
+  character's face row carries it (the shared-pass rule: same old and new pixel shaders on any character's draw).
+* **The overworld draws the eyes with the MENU's pixel shaders and other vertex shaders** at 3.8 (`8d816b58` with
+  `4f13cf6f`, `a12576d4` with `493c4694`), where 3.7's overworld used other pixel shaders -- so no 3.7 draw pairs them.
+  `wwmiUpdateRows.py` adds every vertex shader a NEW dump draws a component's pass with; Laurel Nymph's rows have both.
+  On 2026-11-13 the other characters' overworld dumps (`Upd38SanhuaOW`, `Upd38ChisaOW`, `Upd38LynaeOW`, each in the
+  outfit she WORE: base Sanhua, base Chisa, LynaePeppermint) added Sanhua's eye pass `736d5678` and LynaePeppermint's
+  eye (`4f13cf6f`, `493c4694`) and face (`51ead92c`) shaders; Chisa's drew nothing new. A dump with no old dump of
+  the same scene is given as `<Char>=<new>:` and only adds vertex shaders -- pairing an OVERWORLD dump with an old MENU
+  dump maps the menu's shaders onto the overworld's and gives them the wrong tags. **Open:** the outfits nobody wore
+  (SanhuaExorcist, ChisaParfait, Lynae's base, Changli's base) have no overworld dump; Changli's eye pass uses
+  `8d816b58` too, so hers very likely matches. Two shaders sharing a tag are tested once (`ShaderFilterTags::condition`
+  names each INDEX once).
+* **ChisaParfait's `32414b55` / `e499aaad` passes are a SHADOW-MAP pass** (0 render targets, a depth view): drawn in
+  33 dumps of 2026-09-19 .. 10-03, in none after, menu or overworld -- most likely a shadow setting changed then. Their
+  rows stay 3.7's; a dump with that setting back settles them (the maintainer's setting). `259b766b` / `ced9a47f` are
+  in no dump since 3.7 (dead rows, as `hairRibbon`'s were). **The blindfold meshes** (`646aa163`, `baaa6262`) were drawn
+  in no 3.8 menu or still-standing overworld dump; at 3.7 only overworld dumps drew them (combat or idle, likely).
+
+The config literals `passVertexShaders` / `filterIndices` of `ChisaFixer` / `ChisaParfaitFixer` / `ChangliFixer` went
+(2026-11-12): emptied in Python, all 41 Chisa / ChisaParfait / Changli mods fixed byte-identically at 3.7 and at 3.8 (a
+control moving one plan slot changed both identity mods). The copied game shaders' code is
+3.7's (`wwmiShaderData.py` needs a hunting-mode HLSL capture -- the material constant buffers of Lynae's and Changli's
+draws changed in 25% of their words, so their shaders were rebuilt). Checked in game on 2026-11-12, Changli's tattoo and
+feather glow and ChangliNymph's blindfold rendered right on the new build all the same.
+The two live hashes that moved -- Sanhua `skinNormalLive` (`7aee2f16` -> `634e2c1d`) and ChangliNymph `bodyNormalLive`
+(`4caadf2f` -> `1676c989`, both at `ps-t0` of the body draw in the 3.8 menu dumps) -- have 3.8 `HashData` rows and
+texture-facts entries beside the 3.7 ones, and `SanhuaLiveHashes.json` / `ChangliNymphLiveHashes.json` now give the 3.8
+twin to `wwmiTextureFix.py --live` (the game no longer binds the 3.7 one).
+
+**After an update, a player's INSTALLED remaps are stale until re-fixed (2026-11-12).** The maintainer's live Changli2
+rendered her whole skin and dress orange-pink on Laurel Nymph: it had been fixed in October by the pre-update build, so
+its gates and registers were 3.7's. The same mod fixed by the new build matched the original. Two traps came with it.
+"Re-fixed" in a report about scratch copies is not what F10 reloads -- say which folder the game reads, and replace the
+installed one only on the maintainer's word, with a backup. And an ORIGINAL can be stale in a different way: their
+`ChangliRestored\Changli2Restored` is a Changli **1.2** mod (`vb0` `5f8aac45`, 1.2 shape-key hashes, draw ranges and bone
+numbering), so it drew her vanilla outfit on its own character after 3.8. The library still remaps it correctly, because
+it reads 1.2 mods; to SEE the original, a copy needed its hashes, `match_first_index` / `match_index_count` and
+`Blend.buf` (through the "Changli 1.2 -> 1.4" `VGRemapData` self-row) brought to the current model. Judge a remap only
+against an original that renders.
+
+<br>
+
+## CHANGLI'S TWO ACCEPTANCE TESTS, AND WHAT A LITERAL LIST HAS TO GET RIGHT (2026-11-08)
+
+`changliAcceptance.py` (the pair's configs built in Python, run through `makeWWMIParser` / `makeWWMIFixer`) and
+`changliList.py` (a literal list of generic edits) both match the compiled fix on all 27 Changli / ChangliNymph mods. The
+A/B fixes two scratch copies of each mod (`changliAcceptance.py --compiled` for the shipped fix) and compares every file
+by md5 -- the `.ini` files of the literal list by `Tools/Misc/Diagnostics/abFixBindings.py` -- with downloads ON and
+`AGREMAP_DOWNLOAD_FOLDER` pointed at `Data/Mod Downloads`.
+**`abFixBindings.py` compares REGISTER bindings only** -- a carried `Resource\RabbitFX\GlowMap` line or a copied
+`[Constants]` is invisible to it, so diff those sections as text too.
+
+What the compiled fix does that a list has to state, each now a visible step of `changliList.py`:
+
+* **A file no hash names is identified by thumbprint** (`TexThumbprint.identifyFile`, `WWMITextureFacts`' default
+  thresholds), only for a role nothing else found and no toggle covers.
+* **Several overrides of one hash: 3DMigoto applies the last** (highest `match_priority`, then the last section name).
+* **Some of her roles are always the game's** (`upperShared`, `upperSubsurface`, `tattooNoise`, `tattooFlow`), and an overlay
+  yields to any RabbitFX call (`RabbitFX.names`).
+* **Downloads come from her NEWEST texture rows' folder** (`3_7`), not each row's own version.
+* **A part drawn from its OWN mesh files** (Changli13's coat and tattoo: a run of `<shared list>.<part>`) gets its own blend
+  remapped (`WWMIBlend.componentBlend`), bound after its list in place of the blend remap -- and the shared list's `vb4`
+  rebinding must skip those per-part copies.
+* **A LINKED `.ini`** (Changli13's `textures.ini`) is read by a second parser (`LINKED_PARSE`, `withConditions`). A role
+  `mod.ini` binds nowhere takes the linked file's file, the variant showing at the linked file's starting values
+  (`IniParseData.startingValues`), declared as `Resource<Role><Target>RemapRef`. What the target never reaches -- RabbitFX's
+  glow map, a role under a condition -- goes into `CommandList<Source>Component<N>Glow`, run after the blend remap, its
+  conditions on a renamed copy of the linked file's state (`IniFile.varState`, `GraphVarRename.renameIn`).
+
+Four traps, each cost a run:
+
+1. **A resource collect into a graph that already exists keeps it, EMPTY or not** (`ResIdentity` / `ResRegCollect`:
+   first come). Drop the empty role graphs (`GraphFilter(..., removeEmptied = True)`) before a later fallback collect.
+2. **A callable a resource runs after the list gets paths RELATIVE to the `.ini`** (`VGRemapBlendReplace`'s `elements`):
+   resolve them against the folder (`blendInputs()`).
+3. **A second parser's row conditions live in ITS Z3 context**: `row.condition & start` raised `Sort mismatch`. Combine
+   them with `GraphCollect.anyUnder([row], query, z3)`.
+4. **A file that draws her parts but declares no mesh** (a linked texture file) must write NOTHING, and must not run the
+   steps that set a shared `FileAddCreate.files` -- it emptied the meshed file's own-mesh blends and wrote 22 downloads
+   into `Textures\`. Remove its graphs at the TOP of the fix (`GraphGroupRemove(onlyWith = NO_MESH)`). **A file that only
+   WATCHES her** (`ShadersChangli.ini`, a `$chan = 1` on her hash) draws nothing and is NOT such a file: its watcher goes
+   onto the skin's hash. (The per-`.ini` `files` gap is the general fix.)
+
 ## THE FIX'S OWN FILES GO WHERE THE MOD KEEPS ITS OWN (2026-09-30)
 
 `WWMIFixer` writes a blend remap, a zero shape-key stream, created textures, fallback downloads and a
@@ -38,7 +277,8 @@ should name only the mods the prediction did.
 (case-insensitively -- one mod spells it `ResourceTexCoordBuffer`), which is right. Each was
 *initialised* to `Meshes/<Name>.buf`, so a mod declaring no such section was read at an invented path.
 All four start empty now, which also makes `straddlingVertices`' existing `indexFile_.empty()` test
-reachable -- it could never have been true.
+reachable -- it could never have been true. (Since 2026-11-06 the fixer keeps no copy of them: it asks the
+parser, `WWMIFixer::modBuffer` over `IniParseData::resourceFile`; only `blendSourceFile_` is still a member.)
 
 Every one of the 82 WWMI character `.ini` files in the corpus declares all four, so this fires for
 none of them. Exercise it with `Tools/Misc/Diagnostics/noPositionProbe.py <mod>`, which deletes the
@@ -144,10 +384,36 @@ that works on the mods you happened to test.
 **A texture is identified by a HASH and a REGISTER** -- the hash being the texture's own (the section
 IS that texture, and `this =` names the file) or the MESH's (the section is a draw
 `GIMISectionClassifier` placed, and the register says what it binds). That is section classification,
-so **the parser does it** (`WWMIParser::buildRoles` -> `WWMITextureRoles`) and the fixer asks through
-the `WWMIParseFacts` seam, the way `GIMIComponentParseFacts` already works. It holds for both games;
+so **the parser does it** (`IniParseData::roleFilesOf` -> `TextureRoles`, `roleFile`) and the fixer asks through
+the parser's `IniParseData` (`BaseIniParser::parseData`, 2026-10-28; every parser owns one, and it
+replaced the three per-template `*Facts` interfaces a fixer used to `dynamic_cast` for). The parser
+also CHOOSES the file each slot takes per role (refusals for `WWMITextureFacts::regionRoles`, then the per-slot
+ranking), so a fixer only names and binds it. It holds for both games;
 GI uses the mesh-hash form and WuWa almost always the texture's own -- 609 files against 31 over this
 corpus -- and the mesh route is kept because a future mod could be written that way.
+
+**WHICH FILE A ROLE TAKES IS READ OFF WHAT THE .ini STATES, NEVER OFF A FILE NAME (2026-11-04).** The choice is
+`IniParseData::roleFilesOf` (a library reader, run by a `GraphVarApply`; `WWMIParser` only hands it WWMI's rules: the register table, HashData's
+role and AGE of a hash, the thumbprints, the linked files). It replaced `TextureRoleChooser`, whose ranking ended in
+"declared resource, folders up, path length, path text". Measured first (a logging build over the 137 WuWa folders,
+2589 (folder, role) choices): the first two NEVER decided anything, and path length / path text decided 19 choices in
+8 mods -- each one a question the `.ini` answers. The tiers now, after "declared by its hash as another role" and
+"bound here / here and elsewhere / nowhere / only elsewhere": its own hash > a register > its pixels; of two hashes of
+one role the NEWEST (Chisa8: 3.1's `662f126a` over 3.0's `2970cef1`); of two sections of ONE hash the one 3DMigoto
+applies LAST -- it runs every section of a hash sorted by `match_priority`, then section name (case-sensitive), so
+the last `this =` stands (`DirectX11/IniHandler.cpp` `ParseTextureOverrideSections`, `ResourceHash.cpp`
+`TextureOverrideLess`); then the resource declared first, reported as a tie. A register bound to several resources
+under conditions THROUGH `run =` (ChisaParfait2's `CommandListComponent4`, two `if`s) or in a LINKED `.ini`
+(Changli13's `textures.ini`) is a toggle too, and the first is filed as a register toggle so the fixer edits every
+variant. What it changed: Chisa13 had its hair DIFFUSE file chosen -- and repacked -- as the hair normal, because two
+sections state `d8ed7611` and the old tie-break was alphabetical; Sanhua6, Changli9's restored copy, Chisa8,
+ChisaParfait2/4 as above. **A toggle the reader finds itself defaults to the variant that shows at the STARTING VALUES**
+(the maintainer's choice, 2026-11-04): `IniParseData::startingValues` is the file's `[Constants]` as one condition
+(`$x == <value>`, `0` when declared with none) and `GraphCollect::valueUnder` picks the branch that can hold with it.
+It matters most for a LINKED file's toggle, whose lines the fixer never carries, so the list binds that one variant
+always: "the first-named" bound Changli13's `C3DBreak` where `$break` starts at 0 and the mod shows `C3D`. A toggle the
+file's own texture overrides state (`thisToggleOf` / `registerToggleOf` before the reader) keeps its first-named
+variant -- the fixer carries its lines, so the default is overridden in game anyway.
 
 **What it replaced walked the mod's FOLDER**, climbing up to three parents, and guessed each `.dds`
 from a hash inside its filename, its pixels, or a `Component 1 Diffuse` naming convention. Three
@@ -326,6 +592,19 @@ look at **every angle of every mod and every toggle variant**, comparing **the o
 check-and-approve step. It is NOT the place where the remap's bugs are found -- every bug they find there is one the
 remap agent could have found with the same tools, and costs them a round of their time and energy.
 
+**ON WUWA THE TEAM MENU IS A THIRD SCENE, SINCE 3.8 (the maintainer, 2026-11-13).** The 3.8 update turned the team
+menu (`esc` -> **Team**) from card images into the characters' **3D models**, and it draws them with shaders of its
+own. The maintainer's installed Changli2, refixed with the 3.8 gates and right in the studio, renders **orange** on
+the Laurel Nymph in the team menu: her upper and lower body draw there with vertex shaders `db32afc6` / `4dbd830e`,
+which the 3.8 rows now carry (team-menu log dumps `Upd38TeamT4` / `Upd38TeamT4b` / `Upd38TeamSanhua`, in
+`wwmiUpdateRows.py`'s header; Lynae's, Chisa's and Sanhua's team-menu shaders were already gated; epoch 4 clean on all
+eight test mods). So the scenes a WuWa remap is checked in are **the character studio, the
+overworld AND the team menu**, every epoch, and the team menu's draws are a third set to gate: take a log-only dump
+there (`dump --options "log"`, Game View's dump rules) and derive its rows with
+`Tools/Misc/Diagnostics/wwmiUpdateRows.py` exactly as for the overworld (a dump with no old dump: `<Char>=<new>:`).
+Changing teams there is free, but restore the team, order and active character afterwards, and the ESC menu shows
+the UID (GameView masks it; crop anything else).
+
 **Why this exists (LynaePeppermint -> Lynae, 2026-10-04 .. 10-13).** That pipeline was rammed through in under a
 day without thorough in-game checks, and then took days of back-and-forth in which the maintainer found nearly
 every bug: a see-through shirt that was opaque, then too see-through, then see-through to the body's back in the
@@ -418,7 +697,8 @@ The items it found are in the LYNAE section. These are the lessons about RUNNING
   an impression.
 - **A rule that routes draws by a threshold moves other mods.** `DrawReroute` took a draw when more than half of
   its texels carried a flag. Lynae9 draws legs, tights and shorts in ONE range that is mostly skin, so the majority
-  rule left her tights where they did not belong. `DrawReroute::share` (`0.01` there) is the knob. After changing
+  rule left her tights where they did not belong. `DrawSplit::share` (`0.01` there; the split is the parser's,
+  `WWMIParserConfig::drawSplits`, since 2026-10-31) is the knob. After changing
   any such rule, re-check every mod an earlier fix of that rule was for.
 - **Tell the game agent what is NOT a fault, in the brief.** Otherwise it re-flags these every epoch:
   - Each card plays its OWN idle pose. A sleeve clipping on one card and not the other, or an arm held
@@ -1241,7 +1521,8 @@ overworld is a stale shape-key buffer (START HERE's first row). What this pair t
   (the first "fix", a849d576) only turned the ghost dark red. Brightening her outline map by the ratio in linear light
   (×1.829) made the shells pale, and the maintainer still saw the ghost: so her LONG HAIR is kept off the outline
   pass (`plan.at(1).offPasses`), which removes it (`ChangliNymphHairOutlineOff.png`: left column off, right on;
-  `ChangliNymphHairFixed.png`). The bangs keep their outline, brightened ×1.4035 (`outlineGainFilter`). When a
+  `ChangliNymphHairFixed.png`). The bangs keep their outline (brightened ×1.4035 until 2026-11-10, when an A/B in game showed
+  the gain changed nothing and it went). When a
   user says a ghost is still there after a tint fix, remove the shells; matching the tint is not enough for them. How it was settled, worth reusing: the skeleton reached the outline draw (log), so not geometry; binding
   Changli's own `vs-cb5` / `vs-cb6` there (a hand edit behind a `VK_INSERT` toggle, so both states are shot in ONE
   pose -- the menu camera turns by different amounts after every reload, and the hair sways) cleared it; painting
@@ -1255,6 +1536,10 @@ overworld is a stale shape-key buffer (START HERE's first row). What this pair t
   `WWMIFixerConfig::targetInfluences` widens (forward, 4 -> 8) and NARROWS (reverse, 8 -> 4: each vertex keeps its
   heaviest slots after merging slots that name one bone, weights scaled to the same total; under 1% of the skin's
   vertices use more than four). Check `Blend.buf` size / `Position.buf` count on BOTH identity mods for every pair.
+  Since 2026-10-31 the width is a general capability, not WuWa code: `BlendFile::setInfluences` (either direction,
+  any weight type, returns the slots kept) and `BlendFile::keepSlots` for an id buffer beside the blend, driven by
+  `VGRemapBlendReplace::influences` / `pairedIds` (the edit also writes the new `stride`). `WWMIBlend::widen` /
+  `narrow` are gone; a GI or ZZZ pair with different widths sets the same two fields.
 * **A mod's older texture hashes are in WWMI-Assets' own git history.** Most Changli mods predate her 2.6 rehash, so
   the fix downloaded the GAME's texture over their art (Changli1: 13 of its roles). WWMI-Assets keeps
   `Components-N t=<hash>.dds`, so a rehash is a git RENAME: `Tools/Misc/Diagnostics/wwmiAssetLineage.py --char <Name>
@@ -1263,7 +1548,8 @@ overworld is a stale shape-key buffer (START HERE's first row). What this pair t
   pixel correlation; a hash several characters share (`c235c6a7`, 27 of them) is not filed, and an "old" hash whose
   successor is the CURRENT asset hash belongs in the config's roles, not in HashData.
 * **A mod may bind its textures from an `.ini` in a SUBFOLDER** (`Textures/textures.ini` on the same draws).
-  `WWMIFixerConfig::readInisBelow` (default off) reads those too; the old search looked beside and above only.
+  It is read when it is LINKED to the mesh's (`IniFile::linkedInis`: Changli's `textures.ini` references the mesh's `entei`
+  namespace), wherever it is; `WWMITextureFacts::readInisBelow` and the folder searches went on 2026-11-02 (root CLAUDE.md).
 * **One texture file, two resource sections: name it by the one a section USES.** Changli1 declares
   `[ResourceTexture19]` on its body diffuse and binds that file only as `[Resource-1]` inside a `$sawpvarA` toggle,
   so taking the first declaration lost the toggle. And the "used" scan must skip this pair's OWN previous fix
@@ -1389,6 +1675,19 @@ overworld is a stale shape-key buffer (START HERE's first row). What this pair t
   renamed `$<name><Target>RemapRef`. Proved in game by forcing the flag on in both files and pointing the break
   texture at a colour-rotated copy: both cards switched identically. The mod's OWN coat-hide on break never fires,
   on Changli either (mod.ini's `$break` is never set) -- the mod's bug, left alone.
+* **On the refactored fixer (merged from master into `add-miyabi`, 2026-11-06) the three above are API, not fixer
+  code.** The own-mesh blend is a fix file whose bytes are `WWMIBlend::componentBlend` (with `WWMIBlend::reverseOf`,
+  the same reverse map `writeRemap` writes), bound for Python; the main blend collect skips that blend. The linked
+  file's lines are a PARSER answer: `IniParseData::linkedLines` (`RoleFileData::carried`, one `LinkedLine` each: object,
+  key or role, condition rendered by `IfPredPart::getIfPredStr`, value, file, linked `.ini`), read in the same
+  `roleFilesOf` pass that reads that file's bindings, from a `WWMIParser.carried` collect of `RabbitFX::GlowMapKey`.
+  The fixer's `planLinkedLines` builds the `...Glow` lists, and `copyLinkedState` takes the linked file's
+  [Constants] / [Present] / key / trigger state from `IniFile::varState` (copies of only the sections that hold it,
+  cut to it) and renames its variables with the new graph edit `GraphVarRename` (in the fix's Z3 context) -- where
+  master rebuilt them as text. A glow line names the mod.ini's own resource when it declares that file (`ResourceBodyFX`), and
+  a renamed variable is lower-cased (`$breakcheck...`; 3DMigoto's names are case-insensitive). The overlay
+  (`SourceComponent::overlay`) is a `WWMISections::ShaderDraw` with no fallback and `before` lines binding the mod's
+  files, as a mark is.
 
 Open: Changli3 keys its sections on the bone-data buffer only
 and is not classified; the overworld was not checked in either direction (the skins were never WORN -- that is the
@@ -1517,7 +1816,9 @@ the mod on its own card. What it found:
   bone-data marker and the shape-key overrides on the game's hashes drew the whole model as giant polygons (found by
   bisecting the copy section by section), so those stay in the mod's own file. Off by default, because
   ChisaParfait -> Chisa makes copies too and its output is confirmed in game: all 36 Chisa / Sanhua regression mods
-  are byte-identical with the flag off.
+  are byte-identical with the flag off. **Superseded (2026-11-09):** the pair now draws coat and shirt as further
+  sections of the mod's own `.ini` on Lynae's lower-body slot (`sameFileSection`: a copy never fills the shape-keyed
+  positions), so no copy is written; the flag and the `copyMerges` step were removed after changing nothing on 107 mods.
 * **`Binding.srcComponent` existed in C++ and was never bound to Python**, so no prototype could set it, and the
   audit's first finding -- the coat's outline drawing with the JACKET's diffuse, because the two merged sources' rows
   landed in one list -- was unfixable from Python. Bound now (`Binding(reg, role, srcComponent = -1)`). **When an audit
@@ -1640,8 +1941,8 @@ the mod on its own card. What it found:
   "A RAINBOW-RIMMED DRESS" below: the pastel was the hip pouch's foil MATERIAL, and a grade aimed by the diffuse put
   an inverted copy of her foil sweater into Lynae14's new art.)** `lynaePropsGrade` (Lynae -> LynaePeppermint) moved
   every texel of component 6's UV island to `own + 1.5 (mod - own)`, `own` her game texture, downloaded through
-  the new `WWMIFixerConfig::TexEdit::sourceGameRoles` (handed to the filter in `TexEditContext::gameFileOfRole`,
-  bound by nothing). **1.5, judged on the SLEEVES and over every recolour on hand** -- 2.5, picked on one
+  `WWMIFixerConfig::TexEdit::sourceGameRoles` (handed to the filter in `TexEditContext::gameFileOfRole`,
+  bound by nothing; both removed 2026-11-10 with nothing left to use them). **1.5, judged on the SLEEVES and over every recolour on hand** -- 2.5, picked on one
   variant, the maintainer called too red. Over the torso the film shows the skin's own warmer skin shading,
   which no strength fixes (the bare belly is warmer too), so judge where the film lies over the black gloves.
   Checked at 1.5 against Lynae on all five of Lynae9's `Ctrl+X` variants (pink, cyan, yellow-green, purple)
@@ -1829,7 +2130,8 @@ the mod on its own card. What it found:
   render without the violet rims; state 0 is the jacket film, not her pale props glass. Two things it needed, both
   general: **a mod that binds no code map of its own for the role draws with the GAME's** (Lynae9's `A.dds` replaces
   her lower-body and jacket maps, `950acc22` / `6d5f71f9`, and leaves the props on `c49bec43`), so
-  `DrawReroute::sourceFlags` holds a 256 x 256 block-majority mask of the source's game map, generated by
+  `DrawSplit::sourceFlags` (on the PARSER's config since 2026-10-31, `WWMIParserConfig::drawSplits`; the fixer's
+  `DrawReroute` only names the split) holds a 256 x 256 block-majority mask of the source's game map, generated by
   `Tools/Misc/Diagnostics/wwmiFlagMask.py` (Lynae9's sweater 75% flagged, every other props draw 0% -- the same
   decision as the full-resolution map). A download cannot be read at parse time, and fetching one there would ignore
   the run's download mode. And **a shader reroute binds the raw DOWNLOAD**, not the texture edit of it
@@ -1893,8 +2195,9 @@ the mod on its own card. What it found:
   the body's skin shaded as cloth: whiter, with grey-lavender shadows, beside a face (a different shader) that stayed
   warm. The original on Lynae and vanilla Peppermint are both warm all over, which is what said "the remap". A hand
   edit (swap 0 and 4, bind the copy) settled it in one round before any code: thigh saturation 0.072 -> 0.110
-  (original 0.101). Now `lynaeSkinCodeSwap` (`Lynae/LynaeSkinCodes.h`), a `texEdit` on `upperDetail` / `lowerDetail`
-  in BOTH directions -- the swap is its own inverse. NOT on the jacket or props maps: there code 0 is cloth (71% of her
+  (original 0.101). That was `lynaeSkinCodeSwap`, a `texEdit` on `upperDetail` / `lowerDetail` in BOTH directions --
+  the swap is its own inverse (gone since 2026-11-09: her own shaders draw those parts on the skin, and an edit
+  never reaches a component its own shader draws). NOT on the jacket or props maps: there code 0 is cloth (71% of her
   jacket), so a legend is per SHADER, not per character. **`TextureFile` could not read these at all**: an 8-bit
   single-channel `.dds` (legacy luminance or DX10 `R8_UNORM`) is not something Compressonator loads, so `open()`
   answered "no image" and any edit of such a role did nothing -- it reads them by hand now, as `(v, v, v, 255)`, and
@@ -2336,12 +2639,12 @@ audit then found the same bug in six shapes. All are fixed on every GI template 
 | Mod shape | What went wrong | Where it is handled now |
 | --- | --- | --- |
 | an object the mod has no section for, ib skipped | game ib downloaded and drawn (Fischl -> FischlHighness: the dress) | `GIMICharParser::dropUndrawnObjDownloads`, `GIMIComponentParser::findUndrawnSlots` |
-| the skip sits in `CommandList<Char>IB` (every merged master) | the skip test read only the ib section's own lines | both read `handling` with `ModBranches::valsThroughRun`, any branch |
+| the skip sits in `CommandList<Char>IB` (every merged master) | the skip test read only the ib section's own lines | both read `handling` through `run =`, any branch (`GraphCollect::rowsOf` over `IniFile::sectionGraph`) |
 | a variant that only says `handling = skip` | `drawindexed = auto` filled into the skip branch (Ayaka9/10: shards in 4 of 7) | the classic draw fill skips a `handling = skip` part |
 | a variant that switches the mod off (`$vision`, a vanilla variant) | the target's own model drawn with the source's ib (ShenheFrostFlower, CherryHutao5) | `dropUnneededObjDownloads`: Z3 keeps an ib download only if some state draws without the mod's ib |
 | a skin slot drawn in some variants, skipped in others | the merge used the download for EVERY branch | `GIMIMergeFixer` drops downloads from a slot's ib list when the mod has its own |
 | a state the component fixer never split | an EMPTY split ib bound before `drawindexed = auto` | bound as `ib = null` (`nullDownloadSplits_`) |
-| one object's section in a SIBLING `.ini` | vanilla copies and the game's buffers on the target's hashes | the file that binds the buffers ADOPTS the section (`TextureOverrides::adopt`) |
+| one object's section in a SIBLING `.ini` | vanilla copies and the game's buffers on the target's hashes | the file that binds the buffers ADOPTS the section (`GIMITemplateParser::adoptSection`) |
 
 **The check that names it without the game:** `Tools/Misc/Diagnostics/checkUndrawnDL.py <fixed folder>` -- every
 remapped draw that can use a `Resource...RemapDL` ib in a file whose mod skips its own. It reports the pre-fix
@@ -3122,14 +3425,15 @@ raw source-named sections after the header, counted as a fixed `.ini`; after, no
 and the folder's file count unchanged. The `.ini` is still counted as fixed -- a skip would be more
 honest about a real failure, and is not what was asked for.
 
-**The branch machinery is shared now: `data/IniFixData/ModBranches.{h,cpp}`.** It owns the
-`Z3Context` and everything that reads a value together with its condition -- `valsThroughRun`,
-`localQuery`, `branchIndexOf`, `pick`, `anyCompatible`, the resource readers -- plus
-`replacePerBranch` (a `RegBranchAdd` that SETS a key per branch, which is how both directions write
-a per-branch `draw`) and `states`. It knows nothing of blends, slots or direction, deliberately:
+**The branch machinery is the library's.** A value together with its condition is
+`GraphCollect::rowsOf` over `IniFile::sectionGraph` (in the file's own `Z3Context`); which of them holds
+under a query is `GraphCollect::valueUnder` / `onlyUnder` / `anyUnder`; the states are
+`GraphCollect::states`; and a key SET or removed per branch -- how both directions write a per-branch
+`draw` -- is `RegBranchAdd::perBranchReplacements` / `perBranchRemovals`. Until 2026-11-02 all of this was one
+class, `ModBranches`, which repeated the graph walk and is gone. None of it knows blends, slots or direction, deliberately:
 single <-> multi exists only because Yelan and Bennett are old, simple models, and the thing this
 is for is a multi-component -> multi-component fixer (every WuWa character, every future GI one).
-Declare it as the fixer's FIRST member, for the Z3 member-order reason. `VGSplitGroupResBuilder`
+`VGSplitGroupResBuilder`
 took a per-group resolver to match `VGMergeGroupResBuilder`'s, since the split needs every drawn
 object's index buffer OF THAT GROUP'S STATE and one config hands every state the first one's -- which
 the group's own `ib` member is then not one of, and the split throws.
@@ -3139,10 +3443,10 @@ blend alone, which is right for a master whose every `CommandList` is one `$swap
 HuoHuo-over-Bennett mod ships an eleven-frame **animation** master that binds ONE blend for the
 whole frame range (`if $swapvar >= $frameStart && $swapvar <= $frameEnd`) and a different index
 buffer per frame: by the blend there is one state, by the index buffers there are eleven.
-`ModBranches::states` refines the states by every per-branch list in turn -- a state splits into one
+`GraphCollect::states` refines the states by every per-branch list in turn -- a state splits into one
 per value satisfiable with it -- so the result is every combination that can actually be selected
 (`2 hats x 3 coats` is six). That mod's frames happen to keep identical vertices, so its output
-cannot tell the two enumerations apart; `core/tests/ModBranches_States_test.cpp` can, and asserts the
+cannot tell the two enumerations apart; `core/tests/GraphCollect_States_test.cpp` can, and asserts the
 blend-only enumeration's one state beside the real eleven. The per-branch `draw` of a blend branch
 is the LARGEST of the states it is drawn in.
 
@@ -3218,7 +3522,7 @@ Check these in order; the first is not a code problem at all, and it is the one 
    standard shape of this bug.
 3. **Are the STATES right?** The mod's states are not any one register's branches: an animated
    master binds one blend over its whole frame range and a different ib per frame
-   (`ModBranches::states`, "And the FORWARD direction" above).
+   (`GraphCollect::states`, "And the FORWARD direction" above).
 4. **Did a variant name files the author never shipped?** A stale `DISABLED` master whose variants
    reference missing `.buf` files is skipped with the file named; that is correct, not a regression.
 
@@ -3337,7 +3641,7 @@ files match by content. What the port needed, in order of how much it matters:
   buffer in an `if $swapvar == 0 / else if == 1` chain with no `else`, so the parser covers the path where
   neither holds with the GAME's buffer as a download, referenced UNCONDITIONALLY at the top of the root
   section -- where the chain, run after it, overrides it on every real path. But a branch list reads root
-  first and `ModBranches::pick` takes the first compatible value, so the download was every state's
+  first and `GraphCollect::valueUnder` takes the first compatible value, so the download was every state's
   answer. In the default `Normal` mode downloads are fetched in `fixResources`, AFTER the fixer reads
   them, so a first run threw `Unable to open file ...RemapDL.ib` and skipped the master (`Citlali4`);
   with the download on disk (a Bennett master on any later run) the split quietly remapped the game's
@@ -3738,7 +4042,7 @@ dress, a Citlali mod's disabled variant that binds only a normal map and leaves 
 the game).
 
 **5. A mod with NO mesh sections is two different things, and the merge template now tells them
-apart** (`GIMIComponentParseFacts`, reached by the fixer through `dynamic_cast` on its parser):
+apart** (`IniParseData::hasRemappableContent`, read by the fixer off its parser's `parseData()`):
 
 - **A texture-only recolour** (`hash = <the skin's texture> / this = Resource...`, CharlotteHurlock3):
   every buffer comes from downloads, and the recolour applies wherever the GAME binds that texture --
@@ -3815,7 +4119,7 @@ mod's merged vertices. Those indices count in the GAME's vertex order, which a r
 keep, so each triangle joined three arbitrary vertices. Commenting out the two `run =` lines in the
 fixed `.ini` cleared it in game before any code changed. The rule is now in
 `GIMIComponentParser::findUndrawnSlots`, exposed to the merge as
-`GIMIComponentParseFacts::isSlotUndrawn`: **a component the mod carries buffers for AND skips gets no
+`IniParseData::isUndrawn`: **a component the mod carries buffers for AND skips gets no
 download and no merge member for a slot it declares no section for.** A component the mod does not
 carry (texture-only mods, a missing Eye) keeps its downloads, and so does one it does not skip, since
 there the game really does draw the slot over the mod's buffers. CharlotteHurlock2 (no D) was the only
@@ -3854,7 +4158,7 @@ character's position buffer, the classic parser keeps only that file's own objec
 as nothing to remap, because a merge needs every component's buffers in ONE file -- so on the merge and
 component templates the part that file carries is still not drawn on the target (no synthetic or real mod
 has needed more yet). **Since 2026-10-12 the file that binds the position buffer ADOPTS the sibling's
-section** (`TextureOverrides::adopt`, called by `GIMIComponentParser::adoptSiblingSlots` and
+section** (`GIMITemplateParser::adoptSection`, called by `GIMIComponentParser::adoptSiblingSlots` and
 `GIMICharParser::adoptSiblingObjs`): the section, every command list of the sibling it runs, and each
 resource it binds -- declared again under a `RemapRef` name with ALL its keys (an ib declared with only
 `filename` loses its `format` and is misread; the first build did that). Only for an object this file
@@ -3892,7 +4196,7 @@ What each piece does now:
   characters list) and a face two skins share still identify nobody. Pinned by
   `IniClassifierPopulation_test`'s `testARecolourClassifiesByItsTextureHash`.
 - **Both parsers bind the override in place of the download** for every object the texture is filed
-  under (`TextureOverrides::keysOf`: Yelan's body and dress share one diffuse, YelanTranquil's Body B
+  under (`GIMITemplateParser::textureKeysOf`: Yelan's body and dress share one diffuse, YelanTranquil's Body B
   and C one atlas), at the register that object's download would have used, so every later register
   edit of the fixer treats it exactly like a texture the mod bound itself. A role this parser has no
   download for (a shadow ramp, a metal map) is not carried.
@@ -3913,7 +4217,7 @@ What each piece does now:
 - **The component fixer fetches a recolour's downloads itself**, before its split
   (`GIMIComponentFixerImpl::fetchDownloads`), because the split reads the buffers while the fixer is
   built and `fixResources` fetches them afterwards. The parser says the file is a recolour through
-  `TextureOverrideFacts`, reached by `dynamic_cast` the way `GIMIComponentParseFacts` is.
+  `IniParseData::isRecolourOnly`, read off the parser's `parseData()` like every other parse answer.
 - **Three skins had no slot texture rows**: YelanTranquil (off her `hash.json`), BennettAdventure and
   CitlaliWhisperofStars (off their frame dumps through `giDrawTable.py`, each value seen in two passes of
   different register layouts). A skin without `tex_<slot>_<role>` rows remaps a recolour as the plain skin.
@@ -4002,7 +4306,8 @@ above, Hu Tao stayed black. Two in-game experiments decided the design before an
   author's `[KeySwap3]` in HuTaoCherry.ini, which cycles an undeclared `$color` (`Undeclared variable
   $color` in the log, so dead on its own skin), came alive the moment one was declared.
 
-So `GIMICharParser` keeps the override's `if` (`TextureOverrides::Override::branches`): a toggled override
+So `GIMICharParser` keeps the override's condition (its row's `condition`, written back with
+`IfPredPart::getIfPredStr` as ONE `if`): a toggled override
 keeps the object's download and is bound after it at the top of the section, `ps-tN = <download>` then
 `if $colorRemapRef == 0 / ps-tN = <recolour> / endif`, so every later register shift and texture edit sees
 both. A SIBLING's variable is carried as `$<name>RemapRef`: declared in a `[Constants]` and cycled by a copy
@@ -4100,7 +4405,7 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    Neuvillette4's second variant nulls the dress: the dress group's file still carried the component's vertex
    count as its `draw` (fixed to `0,0` per group) AND its unconverted `vb0` / `vb1` -- the SOURCE's raw buffers on
    the skin's Main hashes. Whichever file ran last fed the draw his layout, and the variant shattered.
-   `RegBranchAdd::Branch::removals` / `ModBranches::removePerBranch` take those bindings out.
+   `RegBranchAdd::Branch::removals` / `RegBranchAdd::perBranchRemovals` take those bindings out.
    `ResEditConfig::filePerSection` gives two sections naming one source file their own fixed files (a shared
    `.ib` over different blends) -- defensive: here the two splits happened to be identical.
 5. **A copy (`<ini>RemapFix<N>.ini`) must DECLARE the downloads it binds.** 3DMigoto resolves a resource per
@@ -4572,7 +4877,8 @@ the second line is a key of that section. `IniFile` asked for a `]` on the same 
 the Body section above, which then also held the BangsIB section's hash, skip and draw: the remapped Body lost its draw
 into a section with `hash = HashNotFound`, kept bindings outside its guard, and the game drew the body with the
 downloaded normal map where NNFix reads the diffuse -- flat green with red patches, which reads exactly like a doubled
-fix call. `IniFile::isSectionHeaderLine` / `getSectionNameFromLine` and `IniScan` follow 3DMigoto's rule now
+fix call. `IniFile::isSectionHeaderLine` / `getSectionNameFromLine` follow 3DMigoto's rule now (and `IniScan`, the flat
+reader that also did, was retired on 2026-11-01: a file beside the one being fixed is read with `IniFile`)
 (`core/tests/IniFile_SectionHeader_test.cpp`, seen to fail 8 ways against the old rule). Two things that made it quick:
 `check_dangling.py` named the one outfit (two references into files the fix never wrote), and **the region-check
 master shows only the outfit for the region you stand in** -- the screenshot was in Nod-Krai, so it was that outfit,
@@ -7120,7 +7426,7 @@ where it is hidden under clothing on her own model -- a mask-driven outline term
 faces are the same mesh; the two BODIES are not (component 4 is IoU 0.35 between them), so leaving
 the register to the game would sample Chisa's own mask at ChisaParfait's UVs -- the wrong-UVs bug.
 The fix this wants is a REPACK, and **this direction has no mask repack at all**: `texEdits` is
-`hairNormalFilter` alone, so `upperMask`, `lowerMask`, `panelMask` and `propMask` all reach Chisa's
+empty (its `hairNormalFilter` repack went on 2026-11-10: it changed nothing in game), so `upperMask`, `lowerMask`, `panelMask` and `propMask` all reach Chisa's
 shaders in ChisaParfait's packing. The forward direction's `MaskTranslations` is the model; its
 inverse has to be measured (render both skins' masks' channels beside their diffuses, and ask the
 diffuse which value means skin) and then checked in game, so it is its own piece of work.
@@ -7193,6 +7499,9 @@ double-sided" -- and is not what happened. Adding `blend = ADD ZERO ZERO` to the
 the WHOLE skirt black, so the block's render state does reach the draw and `cull` alone is being
 ignored. **When a render-state probe reports no effect, put a second piece of state in the same
 block that you know is visible**; otherwise "no effect" and "not applied" are the same picture.
+
+**(The twin was taken out on 2026-10-03 -- see below -- and its machinery, `mirroredComponents` / `vectorReg`, deleted on
+2026-11-09. A pair that needs one builds it as a step of its list from `IbFile::windingReversed` and `BufFile`.)**
 
 **AND IT IS COMPILED (2026-10-02).** `WWMIFixerConfig::mirroredComponents` names the source
 components drawn a second time; ChisaParfait sets `{5}`, her frilled panel. The fixer resolves the
@@ -7397,6 +7706,10 @@ strands and never along the shadow boundary. The three-state picture
 what settles it, and a statistic that cannot fail is habit 34 in its other form.
 
 ### ...AND EXTENDING THAT RULE TO THE DOWNLOAD WAS WRONG (2026-09-26, RETRACTED SAME DAY)
+
+(2026-10-28: `flatFallsBackToSource` is now the source's `WWMITextureFacts::regionRoles`, together with the
+`flatLeftToGame` roles, and the refusals run in the PARSER's role reader (`IniParseData::roleFilesOf` since 2026-11-04); the fixer keeps only
+`flatLeftToGame`, to decide that a refused role is left to the game. The mechanism below is unchanged.)
 
 The mechanism written up here is real: `flatLeftToGame` and `flatFallsBackToSource` run over
 `byRole`, which only ever holds the MOD's own candidates, so a role the mod ships no file for takes
@@ -8149,6 +8462,17 @@ and different resources (`d01fdd4f -> ResourceTexture16`, `35b4ef7f -> ResourceT
 mod is confirmed in game, so concatenating there would have changed a working texture binding on a
 guess. `ConcatenatedSections` is the explicit set (today: `Constants`), and everything else keeps
 the previous reading until a case proves the semantics.
+
+**THE CASE IS PROVED NOW, BY 3DMIGOTO'S OWN SOURCE, AND `IniFile` FOLLOWS IT (2026-10-29).** Every mod
+`.ini` is an INCLUDED file with a namespace (`DirectX11/IniHandler.cpp`, `ParseIniSectionLine`). A section
+whose name starts with one of 3DMigoto's prefixes (`ShaderOverride`, `ShaderRegex`, `TextureOverride`,
+`CustomShader`, `CommandList`, `BuiltIn...`, `Resource`, `Key`, `Preset`, `Include`) is namespaced and a
+repeat is REJECTED (`Duplicate section found`) -- the first runs, which is why Chisa6's second
+`[TextureOverrideTexture202]` never mattered. Any other name (`[Constants]`, `[Present]`, `[Clear...]`) cannot
+be namespaced, and a repeat is APPENDED to the first. Both compare names without regard to case.
+`IniFile::mergesRepeatedSection` is the rule and `getIfTemplates` applies it, so a fixer reads one merged
+`[Present]` or `[Constants]` rather than re-scanning the text (`WWMIFixer` did, for Changli4's three
+`[Present]`). `chisaParfaitFix.py`'s `ConcatenatedSections` is the prototype's older, narrower copy.
 
 The blast radius was measured before the change rather than after: of the Chisa mods, five repeat a
 name, and comparing the two readings on exactly the lookups the fix performs showed **only**
@@ -10016,7 +10340,11 @@ went from pale hair and smeared pink arms to its own art. One of them, `SanhuaEx
 before and after, because none of the parts on screen used the overrides that changed. **A single
 before/after that matches proves nothing; pick a mod whose visible parts are bound by the overrides
 the tool moved.** Both characters' OLDER generations are filed in `HashData` now, ChisaParfait's
-shape: older hashes only, never the current or live ones, which would make them remappable. Over the
+shape. (Their current and live hashes were kept out at first, "which would make them remappable"; since
+2026-10-28 every role-table hash is filed -- current as `<role>`, live as `<role>Live`, undated older ones as
+`<role>Old` -- so `WWMIParser` classifies a texture override into the `("texture", <role>)` graph by its
+hash, and an override of a hash nobody filed into the catch-all `("texture", "")`. Nothing remaps them: the
+fix's `hash` remap runs over the slot sections only.) Over the
 13 mods' pristine copies the remap output did not move, because the configs' role tables already
 held every one of them.
 **Check the dump's `vb0` before reading it**: the first attempt was taken with the outfit menu
@@ -10026,8 +10354,9 @@ And the RabbitFX cloak mod (`Sanhua3`) found the second half the same day. Its m
 no textures. A namespaced `SanhuaCloak.ini` one folder up overrides the SAME draws (source `vb0`
 hash plus `match_first_index`) and hands its bangs, hair and bodice art to RabbitFX by name. The
 parser has only read the `.ini`'s own files since 2026-09-29, so those roles fell back to
-downloading Sanhua's GAME textures. `WWMIFixer::readSameDrawInis` now reads loaded `.ini` files beside
-the mesh's and up to two folders above it, takes only sections on one of this file's own draws, and
+downloading Sanhua's GAME textures. The parser now reads the `.ini` files LINKED to the mesh's (since 2026-11-02:
+the LOD files reference the cloak's `sanhuacloak` namespace; until then, the files beside it and two folders up),
+takes only sections on one of this file's own draws, and
 only the registers `WWMITextureFacts::registerRoles` names. Sanhua's facts gained the RabbitFX
 names (her `Lightmap` is the mask; component 6 is left out, its "Diffuse" is the ramp). Only Sanhua3
 moved among the eight Sanhua mods.
@@ -10734,22 +11063,24 @@ nothing was ever written.
 
 #### Hand-built, for what the config cannot express
 
-A `ResRegCollect` over the graph, collecting the register, with a **`TexEditorReplace`**
-(`resEdits/TexEditorEdit.h`):
+A `ResRegCollect` over the graph, collecting the register, with a **`TexReplace`**
+(`resEdits/TexEdit.h`; this was `TexEditorReplace` until 2026-11-01, when it was merged into its base):
 
 ```cpp
-faceReplace_ = std::make_unique<TexEditorReplace<>>(
-    faceResGraph, TexEditor({[](TextureFile& tf) { TexEditor::setTransparency(tf, 1); }}),
+faceReplace_ = std::make_unique<TexReplace<>>(
+    faceResGraph,
+    std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{[](TextureFile& tf) { TexEditor::setTransparency(tf, 1); }}),
     makeResEditConfig(), "resourceRemapTexEdit", std::string("FaceDiffuse"));
 
 faceCollect_.srcRegs  = {{faceGraph, "ps-t0"}};
 faceCollect_.resEdits = {{"face", faceReplace_.get()}};
 ```
 
-- **`TexReplace` alone writes nothing from C++.** Exactly like `RemapBlendReplace`, it names
-  everything correctly and does not override `buildResModel`, because the editor that does the work
-  reaches it from Python. `TexEditorReplace` exists for that; using the base gives you a correct
-  `.ini` file naming a texture that was never created. From Python it does write: `TexReplace(
+- **`TexReplace` used to write nothing from C++.** Exactly like `RemapBlendReplace`, it named
+  everything correctly and did not override `buildResModel`, because the editor that did the work
+  reached it from Python; `TexEditorReplace` was written for that, and using the base gave a correct
+  `.ini` file naming a texture that was never created. Since 2026-11-01 the base holds the editor and
+  builds the resource itself (`TexReplace::makeResModel`), and `TexEditorReplace` is gone. From Python it does write: `TexReplace(
   resModObj, editor, fixFunc = f)` where `f` runs a Pillow-engine `TexEditor` over
   `resource.srcPath` into `resource.fixedPath` is how `yelanTranquilFix.py` edits its textures.
   The file is named per SOURCE texture (`YelanHeadDiffuseRemapTex.dds`, no target in it), so one

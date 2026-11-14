@@ -5,103 +5,107 @@
     <includes local="no">cstddef</includes>
     <includes local="no">memory</includes>
     <includes local="no">string</includes>
+    <includes local="no">utility</includes>
     <includes local="no">vector</includes>
     <includes refid="_buf_element_type_8h" local="yes">AGRemapCore/model/buffers/BufElementType.h</includes>
     <includes refid="_binary_file_8h" local="yes">AGRemapCore/model/files/BinaryFile.h</includes>
     <includes refid="_buf_file_8h" local="yes">AGRemapCore/model/files/BufFile.h</includes>
     <includedby refid="_g_i_m_i_component_fixer_8cpp" local="yes">src/data/IniFixData/GIMIComponentFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
-    <includedby refid="_mod_branches_8cpp" local="yes">src/data/IniFixData/ModBranches.cpp</includedby>
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
+    <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
     <includedby refid="_v_g_component_split_8cpp" local="yes">src/model/buffers/VGComponentSplit.cpp</includedby>
+    <includedby refid="_w_w_m_i_blend_8cpp" local="yes">src/model/buffers/WWMIBlend.cpp</includedby>
     <includedby refid="_ib_file_8cpp" local="yes">src/model/files/IbFile.cpp</includedby>
     <includedby refid="_v_g_merge_group_resource_8cpp" local="yes">src/model/iniresources/VGMergeGroupResource.cpp</includedby>
     <includedby refid="_v_g_split_group_resource_8cpp" local="yes">src/model/iniresources/VGSplitGroupResource.cpp</includedby>
     <incdepgraph>
-      <node id="8">
+      <node id="9">
         <label>AGRemapCore/model/buffers/BufDataType.h</label>
         <link refid="_buf_data_type_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>AGRemapCore/model/buffers/BufElementType.h</label>
         <link refid="_buf_element_type_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
       </node>
-      <node id="9">
+      <node id="10">
         <label>AGRemapCore/model/buffers/BufType.h</label>
         <link refid="_buf_type_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="10">
+      <node id="11">
         <label>AGRemapCore/model/buffers/BufValue.h</label>
         <link refid="_buf_value_8h"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="14">
+      <node id="15">
         <label>AGRemapCore/model/files/BinaryFile.h</label>
         <link refid="_binary_file_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="15">
+      <node id="16">
         <label>AGRemapCore/model/files/BufFile.h</label>
         <link refid="_buf_file_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -117,36 +121,41 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
         </childnode>
       </node>
       <node id="2">
         <label>cstddef</label>
       </node>
-      <node id="11">
+      <node id="12">
         <label>cstdint</label>
       </node>
-      <node id="7">
+      <node id="8">
         <label>functional</label>
       </node>
       <node id="3">
         <label>memory</label>
       </node>
-      <node id="16">
+      <node id="17">
         <label>optional</label>
       </node>
       <node id="4">
         <label>string</label>
       </node>
-      <node id="12">
+      <node id="13">
         <label>unordered_map</label>
       </node>
-      <node id="13">
+      <node id="5">
+        <label>utility</label>
+      </node>
+      <node id="14">
         <label>variant</label>
       </node>
-      <node id="5">
+      <node id="6">
         <label>vector</label>
       </node>
     </incdepgraph>
@@ -158,8 +167,6 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
@@ -170,6 +177,10 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
@@ -179,27 +190,31 @@
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
-      <node id="4">
-        <label>src/data/IniFixData/ModBranches.cpp</label>
-        <link refid="_mod_branches_8cpp"/>
-      </node>
       <node id="5">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
       <node id="6">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
+      </node>
+      <node id="7">
         <label>src/model/buffers/VGComponentSplit.cpp</label>
         <link refid="_v_g_component_split_8cpp"/>
       </node>
-      <node id="7">
+      <node id="8">
+        <label>src/model/buffers/WWMIBlend.cpp</label>
+        <link refid="_w_w_m_i_blend_8cpp"/>
+      </node>
+      <node id="9">
         <label>src/model/files/IbFile.cpp</label>
         <link refid="_ib_file_8cpp"/>
       </node>
-      <node id="8">
+      <node id="10">
         <label>src/model/iniresources/VGMergeGroupResource.cpp</label>
         <link refid="_v_g_merge_group_resource_8cpp"/>
       </node>
-      <node id="9">
+      <node id="11">
         <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
         <link refid="_v_g_split_group_resource_8cpp"/>
       </node>
@@ -230,42 +245,50 @@
 <codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight></codeline>
-<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_element_type_8h" kindref="compound">AGRemapCore/model/buffers/BufElementType.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_binary_file_8h" kindref="compound">AGRemapCore/model/files/BinaryFile.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_file_8h" kindref="compound">AGRemapCore/model/files/BufFile.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_element_type_8h" kindref="compound">AGRemapCore/model/buffers/BufElementType.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_binary_file_8h" kindref="compound">AGRemapCore/model/files/BinaryFile.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_file_8h" kindref="compound">AGRemapCore/model/files/BufFile.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="26"><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight></codeline>
-<codeline lineno="51" refid="class_a_g_remap_core_1_1_ib_file" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ib_file_1a29d5e145961ea9cfa70833c5167d1e1b" kindref="member">IbFile</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref><sp/>{</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"></highlight></codeline>
-<codeline lineno="57" refid="class_a_g_remap_core_1_1_ib_file_1a037aa612e0eb074f7e142ecaa753321c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1a037aa612e0eb074f7e142ecaa753321c" kindref="member">TriangleBufElementKey</ref>;</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="62" refid="class_a_g_remap_core_1_1_ib_file_1ac4ed5afbc45d6968463a3b7b7474af30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1ac4ed5afbc45d6968463a3b7b7474af30" kindref="member">VerticesPerTriangle</ref>;</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1a29d5e145961ea9cfa70833c5167d1e1b" kindref="member">IbFile</ref>(<ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref><sp/>src,<sp/>std::size_t<sp/>bytesPerIndex<sp/>=<sp/>4);</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"></highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1ac15d40fa72b7aa4ca5907b582b032377" kindref="member">bytesPerIndexOf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dxgiFormat);</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"></highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1a3b8a7a130cc408af68512e34a20eaa13" kindref="member">getTriangleCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="87"><highlight class="normal"></highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1afb7190fd3ca2553cf53578f028a63d3f" kindref="member">getIndexCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"></highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1a3d50a736fbdc1e8d7b3e7ed610801244" kindref="member">makeDumpHeader</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>firstIndex<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="class_a_g_remap_core_1_1_ib_file" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ib_file_1a29d5e145961ea9cfa70833c5167d1e1b" kindref="member">IbFile</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="class_a_g_remap_core_1_1_ib_file_1a037aa612e0eb074f7e142ecaa753321c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1a037aa612e0eb074f7e142ecaa753321c" kindref="member">TriangleBufElementKey</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="class_a_g_remap_core_1_1_ib_file_1ac4ed5afbc45d6968463a3b7b7474af30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1ac4ed5afbc45d6968463a3b7b7474af30" kindref="member">VerticesPerTriangle</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1a29d5e145961ea9cfa70833c5167d1e1b" kindref="member">IbFile</ref>(<ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref><sp/>src,<sp/>std::size_t<sp/>bytesPerIndex<sp/>=<sp/>4);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1ac15d40fa72b7aa4ca5907b582b032377" kindref="member">bytesPerIndexOf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dxgiFormat);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1a3b8a7a130cc408af68512e34a20eaa13" kindref="member">getTriangleCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1afb7190fd3ca2553cf53578f028a63d3f" kindref="member">getIndexCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;long<sp/>long&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1ab4a6017550fa30ba1a6d4e552ae5d384" kindref="member">getIndices</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="108"><highlight class="normal"></highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1abec1ed566b1f76501edbbca6c8d4af15" kindref="member">getDumpStr</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>firstIndex<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"></highlight></codeline>
-<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1a5827d7fff2e968a22ac8635162a198dd" kindref="member">readDumpStr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
-<codeline lineno="141"><highlight class="normal"></highlight></codeline>
-<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::unique_ptr&lt;BufElementType&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1a07f2ebada7a81cf8adf1d2c56b969d33" kindref="member">defaultElements</ref>(std::size_t<sp/>bytesPerIndex<sp/>=<sp/>4);</highlight></codeline>
-<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="146"><highlight class="normal"></highlight></codeline>
-<codeline lineno="147"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1a25cd872c33f311a9f33a309a6d430c60" kindref="member">windingReversed</ref>(std::size_t<sp/>firstIndex,<sp/>std::size_t<sp/>indexCount)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::pair&lt;std::size_t,<sp/>std::size_t&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1aec4e259d08e92db91796d2feb9fa2838" kindref="member">remapDrawRange</ref>(std::size_t<sp/>indexCount,<sp/>std::size_t<sp/>firstIndex,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::size_t&gt;&amp;<sp/>keptTriangleIds);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1a3d50a736fbdc1e8d7b3e7ed610801244" kindref="member">makeDumpHeader</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>firstIndex<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1abec1ed566b1f76501edbbca6c8d4af15" kindref="member">getDumpStr</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>firstIndex<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1a5827d7fff2e968a22ac8635162a198dd" kindref="member">readDumpStr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::unique_ptr&lt;BufElementType&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ib_file_1a07f2ebada7a81cf8adf1d2c56b969d33" kindref="member">defaultElements</ref>(std::size_t<sp/>bytesPerIndex<sp/>=<sp/>4);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/files/IbFile.h"/>
   </compounddef>

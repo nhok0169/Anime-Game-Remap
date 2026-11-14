@@ -18,6 +18,7 @@
 #include <memory>
 #include <optional>
 #include <set>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -59,6 +60,23 @@ namespace AGRemapCore {
                 part.addKVPs(kvps);
             }
         };
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    bool RegFillMissing<K, V, KeyHash, KeyEqual>::partHasKVP(const ContentPart& part, const std::pair<K, V>& kvp) {
+        for (const V& val : part.getVals(kvp.first)) {
+            if constexpr (std::is_same_v<V, std::string>) {
+                if (StringTools::equalsIgnoreCase(StringTools::strip(val), kvp.second)) {
+                    return true;
+                }
+            } else {
+                if (val == kvp.second) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
@@ -298,12 +316,12 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::addCover(
             Graph& graph, const K& reg, const FillMissingFunc& fillMissing, const PartSelection& selection,
-            const std::unordered_set<std::string>* skipRoots) {
+            const std::unordered_set<std::string>* skipRoots, bool countMissingElse) {
         if (!fillMissing) {
             return graph;
         }
 
-        std::unordered_map<std::string, bool> covered = graph.rootsAreFullyCovered(reg);
+        std::unordered_map<std::string, bool> covered = graph.rootsAreFullyCovered(reg, countMissingElse);
 
         bool needCover = false;
         for (const auto& entry : covered) {
@@ -431,12 +449,12 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::addBottomCover(
             Graph& graph, const K& reg, const FillMissingFunc& fillMissing, const PartSelection& selection,
-            const std::unordered_set<std::string>* skipRoots) {
+            const std::unordered_set<std::string>* skipRoots, bool countMissingElse) {
         if (!fillMissing) {
             return graph;
         }
 
-        std::unordered_map<std::string, bool> covered = graph.rootsAreFullyCovered(reg);
+        std::unordered_map<std::string, bool> covered = graph.rootsAreFullyCovered(reg, countMissingElse);
 
         bool needCover = false;
         for (const auto& entry : covered) {
@@ -542,12 +560,22 @@ namespace AGRemapCore {
         }
         const std::unordered_set<std::string>* skip = skipRoots.empty() ? nullptr : &skipRoots;
 
+        // A part carrying skipWhen's KVP is never handed to the filler.
+        FillMissingFunc fill = fillMissing;
+        if (skipWhen.has_value() && fill) {
+            fill = [inner = fillMissing, kvp = *skipWhen](ContentPart& part) {
+                if (!partHasKVP(part, kvp)) {
+                    inner(part);
+                }
+            };
+        }
+
         if (fillMode == RegFillMissingMode::TopdownCover) {
-            addCover(graph, reg, fillMissing, selection, skip);
+            addCover(graph, reg, fill, selection, skip, countMissingElse);
         } else if (fillMode == RegFillMissingMode::BottomCover) {
-            addBottomCover(graph, reg, fillMissing, selection, skip);
+            addBottomCover(graph, reg, fill, selection, skip, countMissingElse);
         } else if (fillMode == RegFillMissingMode::FillMissing) {
-            fillMissingGraph(graph, reg, fillMissing, selection);
+            fillMissingGraph(graph, reg, fill, selection);
         }
 
         return graph;

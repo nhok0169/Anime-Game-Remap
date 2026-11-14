@@ -4,6 +4,84 @@ What this project is, how the repo is laid out, and the operating norms that don
 under Building/Testing/Documentation/Architecture. Read this one first if you're new to the repo;
 it's the map the other [AI Agent Help](../README.md) files assume you have.
 
+## DESIGN BEFORE CODE: THE QUESTIONS THE WWMI REFACTOR HAD TO BE TAUGHT ONE AT A TIME (2026-11-13)
+
+The WWMI fixer refactor (`add-miyabi`, late October to 2026-11-13) took about two weeks. Most of that time was NOT
+the problem's difficulty: it was design mistakes the maintainer had to catch and correct one by one, each costing a
+build, a doc splice and a sweep to add and again to remove. The full check is about 80 minutes. Every question below
+was taught at least once and usually twice. **Answer all of them in the proposal, BEFORE the first line of code**,
+and show the answers. When you cannot answer one, you do not understand the task yet: read more code, not less.
+
+1. **Which LAYER is this?** An *edit* (it changes the `.ini` graph), a *buffer / texture capability* (math on a
+   `BlendFile`, `TextureFile`, `DrawUVCoverage`, ...), *parser data* (`GraphCollect` rows, `IniParseData`
+   variables), *game data* (a versioned asset table), or *a pair's choice* (a config field). Most wrong designs
+   put something in the wrong one of these, usually a game rule in a library class or buffer math in an "edit".
+2. **Does the API already do it?** Grep `core.pyi` and `core/include` for the primitive (habit 53), and read what
+   you find. Four classes (`IniScan`, `ModBranches`, `TextureOverrides`, the Python `DownloadData`) were each built
+   beside an existing class, bound, and then retired. If something does the core of it, extend that.
+3. **If it is a new edit: what does it do to the GRAPH that no composition of existing edits can?** If the honest
+   answer is "nothing", it is not an edit. `DrawTexelSplit`, `SkeletonNumberingRead` and `ParseDataStep` each read
+   rows and then did buffer math. Each cost a build and a sweep to add and to remove.
+4. **Is it general, or a game rule behind a library name?** A class named after a game or a template whose body is
+   generic moves to a generic class (`BlendFile::byteElements`, `VGRemap::compact`, `Hashes::age`). A game's policy
+   (which component, which flag) stays in that game's config or tables. Ask "would a Python user understand the
+   difference between `WWMISections.X` and `GISections.X`?" If not, it is a black box.
+5. **ONE decision, ONE source.** When a fact is decided in two places, a user's tweak of one silently fails to steer
+   the other. The compiled `slotRemap` step and `config.plan[c].slot` disagreed until `plan` became the only
+   source. Test it the user's way: change the value in ONE place and read the fixed `.ini` (not the log).
+6. **Is the fix VISIBLE?** A user tweaks a fix by reading its list of edits. No second list of proxy steps, no stage
+   built lazily at run time, no "switch" field that branches inside the template: a switch is a step that is
+   present or absent. If a tweak means reading the internals, the design failed (the maintainer's test: "component 0
+   onto slot 3, her body all blue").
+7. **Is any game data hard-coded?** Versions come from the RUN. Hashes, shaders, registers, colours, counts come from
+   the versioned asset tables. A value with no table gets a table, and you propose it to the maintainer first.
+   A literal `3.7`, a shader hash or `cs-t0` in a list or config is the bug the maintainer will find.
+8. **Both languages.** A C++ capability is bound in the same change, and a capability that exists only in a Python
+   override is a C++ gap. One class per job, bound once.
+9. **Is this progress, or relocation?** Moving a loop into a data module or a helper, still doing the same thing, is
+   not progress. A slice is judged by how much fixer LOGIC becomes configured edits plus data.
+10. **Does anything READ it?** Before binding, documenting or keeping a field, grep for a reader. `typeRoles` was
+    bound in one round and found read by nothing in the next.
+11. **Can you MEASURE it instead of arguing?** Take a step out with `withList`, or edit a config in Python, fix
+    copies, and compare md5s. That takes about 30 minutes and settles what a day of design debate does not. On
+    2026-11-09 it showed that 4 of 19 suspect features changed nothing.
+
+**When the maintainer asks "why does X exist" or "what does X do that Y cannot", answer the question literally.** In
+this refactor the honest answer was "nothing" more often than not, and the right move was to remove X, not to
+defend it. And when they state a rule once ("use the API first", "a fixer is a list of edits"), it applies to
+every later design in the session. Check each new proposal against every rule they have stated so far. Do not wait
+to be reminded.
+
+**Testing is the expensive part, so plan it with the design:**
+
+- **Batch, then check once.** Build several slices, keep each slice's build so a difference can be bisected, and run
+  the full check once.
+- **Run only the stages a change can affect.** Sweeps when C++ changed. The Python-mirror A/B when the mirror or
+  the C++ it mirrors changed. Data-only rows need the table check (`genWWMIAssetData.py --check`), the Unit
+  Tester, a sample A/B and a targeted epoch, not the 80-minute check.
+- **Run the sweeps and the A/B in parallel.** They share nothing.
+- **Run the mirror A/B with EVERY batch that touches mirrored C++.** It drifted three ways at once when it was
+  skipped for a few batches.
+- **A refactor branch compares against a `master` build, not against itself.** Its own sweeps say SAME while it
+  lacks everything `master` gained.
+
+## USE THE API FIRST, EVERYWHERE -- AND ADD TO IT ONLY WHAT IT TRULY LACKS (the maintainer, 2026-11-01)
+
+The maintainer's most repeated rule, now written for the library and not only for prototypes: before writing a
+helper or a class -- in a fixer, a parser, a binding, core code or a tool -- search the whole API (`core.pyi`,
+`core/include`) for what you need. Use it when it is there. When nothing in the API satisfies the problem, add a
+GENERAL capability to the API (core, binding, tests, docs) and use that. Never build a second version beside the
+first.
+
+What breaking it cost, measured on 2026-11-01: a proposal to bind four "unbound helpers" turned out to be four
+duplicates -- `IniScan` of `IniFile`, `ModBranches` of `GraphCollect` rows plus `IniSectionGraph`, `TextureOverrides`
+of rows plus `IniParseData`, and the pure-Python `DownloadData` of the C++ one -- each being retired instead
+(`ModBranches` and `TextureOverrides` last, on 2026-11-02, by giving each of their jobs to the class that owns it --
+see the root CLAUDE.md).
+Before
+proposing anything, audit every item yourself: what bound class already does it, who calls it, whether it is sugar,
+and whether a game rule hides behind a library name. The section below is how to do that audit.
+
 ## AUDITING FOR "DOES THIS REPEAT THE LIBRARY" IS A READ, NOT A GREP (2026-09-30)
 
 `WWMIFixer.cpp` was audited three times in one session and declared clean twice, and the maintainer
@@ -572,7 +650,7 @@ and `py/` and confirm a real consumer exists.
 **3. When a C++ path is inert, suspect the pybind layer took the override.** Whole halves of the
 fixer layer were only ever reached from Python: the core class does the naming and the `Py*`
 subclass does the work. This has now bitten twice in the same way (`RemapBlendReplace` needed
-`VGRemapBlendReplace`; `TexReplace` needed `TexEditorReplace`). Before using any `resEdits/` or
+`VGRemapBlendReplace`; `TexReplace` needed `TexEditorReplace`, since merged back into `TexReplace`). Before using any `resEdits/` or
 `graphGroupEdits/` class from plain C++, check whether its `Py*` counterpart overrides something
 core does not. See [Creating Remaps](../CreatingRemaps/CLAUDE.md)'s "Seams that work from Python and
 do nothing from C++".
@@ -2226,6 +2304,25 @@ ending in a `ps-t2 =` line that names the mod's `.jpg` code map, after the fix's
 Walk the section top to bottom, step into every `run =` where it appears, and write down what each
 register holds at each `drawindexed`. It costs minutes, it is the only check that sees ORDER, and it names
 the line to probe.
+
+**138. A STAGED COPY IS ONLY AS GOOD AS ITS RUN'S ENVIRONMENT: `AGREMAP_DOWNLOAD_FOLDER` IS A `file://` URL
+(2026-11-13).** Epoch 3 of the 3.8 work staged eight mods with the variable set to a plain Windows path. libcurl
+rejects that as a malformed URL, so every download failed, and the run still exited 0. The summary line ("downloaded 0
+files ... skipped 5 downloads") prints only with a logger. A game agent then spent an hour of the epoch on a face
+rendered dark maroon (its face diffuse download was missing). Set
+`file:///C:/.../Data/Mod%20Downloads`, and run `Tools/Misc/Diagnostics/check_dangling.py` on EVERY staged copy before
+a game agent touches it: zero dangling references, or do not start the epoch.
+
+**139. SIZE THE CHECK TO THE CHANGE, AND SAY WHAT IT DID NOT COVER (2026-11-13).** Two `DrawPasses` rows do not need
+the 80-minute check. They need the table check, the Unit Tester, an A/B of a sample (it must differ ONLY where the
+rows say), and an epoch aimed at the scene they gate. The reverse holds too: an epoch aimed at one scene is not a
+full epoch. When reporting "clean", say which mods, toggles, scenes and angles were covered and which were not, so
+the maintainer knows what their final check still has to look at.
+
+**140. READ A GAME AGENT'S NUMBER AGAINST ITS PICTURE BEFORE ACTING ON IT (2026-11-13).** Epoch 4 reported Changli's
+dress as "lilac" (187 189 214) against the original's 238 237 241. One look at the two crops showed a white dress
+under the team screen's blue light. An agent's mean RGB is a measurement of a mask under a light; open the image
+before believing either a finding or a "clean" that hangs on a number.
 
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 

@@ -14,6 +14,7 @@
     <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
     <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/Raiden/RaidenFixer.cpp</includedby>
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
+    <includedby refid="_z_z_m_i_fixer_8cpp" local="yes">src/data/IniFixData/ZZMIFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_api_normalizer_8cpp" local="yes">src/model/files/GIMIApiNormalizer.cpp</includedby>
     <incdepgraph>
       <node id="28">
@@ -398,6 +399,8 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
       </node>
       <node id="6">
         <label>src/data/IniFixData/GIMICharFixer.cpp</label>
@@ -424,6 +427,10 @@
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
       <node id="9">
+        <label>src/data/IniFixData/ZZMIFixer.cpp</label>
+        <link refid="_z_z_m_i_fixer_8cpp"/>
+      </node>
+      <node id="10">
         <label>src/model/files/GIMIApiNormalizer.cpp</label>
         <link refid="_g_i_m_i_api_normalizer_8cpp"/>
       </node>
@@ -479,14 +486,16 @@
 <codeline lineno="81"><highlight class="normal"></highlight></codeline>
 <codeline lineno="87" refid="class_a_g_remap_core_1_1_reg_remap_1ad5660e4fef4275e92d47bfb19bd2ce1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_reg_remap_1ad5660e4fef4275e92d47bfb19bd2ce1f" kindref="member">RegRemap</ref>(std::vector&lt;std::pair&lt;K,<sp/>KeyRemapValue&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_reg_remap_1a55cbdf103840fd1aad3728828a228df5" kindref="member">keyRemap</ref><sp/>=<sp/>{});</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="104" refid="class_a_g_remap_core_1_1_reg_remap_1aa21905f7d9ce2b51fbed7cb125bd889d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_reg_remap_1a01ee883edb8072b4d94eabaed3784870" kindref="member">ContentPart</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_reg_remap_1aa21905f7d9ce2b51fbed7cb125bd889d" kindref="member">edit</ref>(<ref refid="class_a_g_remap_core_1_1_reg_remap_1a01ee883edb8072b4d94eabaed3784870" kindref="member">ContentPart</ref>&amp;<sp/>part,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sectionName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/>modType<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_reg_remap_1a02ea9753d45355aa20e564e0d6da361e" kindref="member">OrderRanges</ref>*<sp/>partRanges<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"></highlight></codeline>
-<codeline lineno="109"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;RegRemap.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="110"><highlight class="normal"></highlight></codeline>
-<codeline lineno="111"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="97" refid="class_a_g_remap_core_1_1_reg_remap_1a69d5dc6d7d2e89eb596bc91a45d8dd9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::pair&lt;K,<sp/>KeyRemapValue&gt;<sp/><ref refid="class_a_g_remap_core_1_1_reg_remap_1a69d5dc6d7d2e89eb596bc91a45d8dd9c" kindref="member">renameRule</ref>(K<sp/>from,<sp/>std::vector&lt;K&gt;<sp/>to);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="class_a_g_remap_core_1_1_reg_remap_1aa21905f7d9ce2b51fbed7cb125bd889d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_reg_remap_1a01ee883edb8072b4d94eabaed3784870" kindref="member">ContentPart</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_reg_remap_1aa21905f7d9ce2b51fbed7cb125bd889d" kindref="member">edit</ref>(<ref refid="class_a_g_remap_core_1_1_reg_remap_1a01ee883edb8072b4d94eabaed3784870" kindref="member">ContentPart</ref>&amp;<sp/>part,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sectionName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/>modType<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_reg_remap_1a02ea9753d45355aa20e564e0d6da361e" kindref="member">OrderRanges</ref>*<sp/>partRanges<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;RegRemap.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h"/>
   </compounddef>

@@ -17,6 +17,7 @@
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/GIMICharFixer.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
+#include "AGRemapCore/constants/Colours.h"
 #include "AGRemapCore/model/textures/Colour.h"
 
 
@@ -26,7 +27,6 @@ namespace AGRemapCore {
         // Colours.NormalMapYellow -- the flat yellow Ganyu and KiraraBoots are given too, at the
         // 1024x1024 every RegTexAdd in the pure-Python tables uses.
         const int NormalMapSize = 1024;
-        const Colour NormalMapYellow(128, 128, 0);
     }
 
 
@@ -41,7 +41,7 @@ namespace AGRemapCore {
                                          {"ps-t2", {{"ps-t3"}}, true}}}};
 
         config.texAdds = {{"body", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapYellow)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapYellow)}};
 
         // ---- what this row does with the 6.1-era defaults ----
         config.swapFaceRegs = false;
@@ -78,7 +78,7 @@ namespace AGRemapCore {
                                          {"ps-t2", {{"ps-t3"}}, true}}}};
 
         config.texAdds = {{"body", "ps-t0", "NormMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapYellow)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapYellow)}};
 
         // ---- what this row does with the 6.1-era defaults ----
         config.swapFaceRegs = false;
@@ -119,7 +119,7 @@ namespace AGRemapCore {
                                          {"ps-t2", {"ps-t3"}}}}};
 
         config.texAdds = {{"body", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapYellow)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapYellow)}};
 
         // ORFix on the body because it now HAS a normal map -- ORFix is the normal-map library --
         // and TexFx alongside, naming ps-t1 as the diffuse's home now that the shift has put it

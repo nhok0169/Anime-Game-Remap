@@ -247,7 +247,7 @@ Applies \ref keyRemap to &apos;part&apos;, by forwarding straight to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="104" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="114" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_reg_edit_1a6abe7383ceb199aa774a8afcab9090e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_remap_1a01ee883edb8072b4d94eabaed3784870" kindref="member">ContentPart</ref> &amp;</type>
@@ -388,6 +388,51 @@ The ranges that indicate the valid order indices to process for &apos;part&apos;
         <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
     </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_remap_1a69d5dc6d7d2e89eb596bc91a45d8dd9c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; K, <ref refid="class_a_g_remap_core_1_1_reg_remap_1a7801e24d9a78cecd117cc1712802ba56" kindref="member">KeyRemapValue</ref> &gt;</type>
+        <definition>static std::pair&lt; K, KeyRemapValue &gt; AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;::renameRule</definition>
+        <argsstring>(K from, std::vector&lt; K &gt; to)</argsstring>
+        <name>renameRule</name>
+        <qualifiedname>AGRemapCore::RegRemap::renameRule</qualifiedname>
+        <param>
+          <type>K</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; K &gt;</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>One rule of <ref refid="class_a_g_remap_core_1_1_reg_remap_1a55cbdf103840fd1aad3728828a228df5" kindref="member">keyRemap</ref> <ndash/> &apos;from&apos; becomes every key of &apos;to&apos;, unconditionally. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key renamed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What it becomes <ndash/> several keys copy its lines to each</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The rule </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="97" column="30"/>
+      </memberdef>
+    </sectiondef>
     <sectiondef kind="protected-static-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_reg_edit_1a8a91f054bda96df86a050433d03c992d" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ae5d1c6a6be300c91788ed43aedae5481" kindref="member">RangeSpec</ref> &gt;</type>
@@ -516,7 +561,7 @@ Bulk-renames the register keys for some :cpp:class:`IfContentPart`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="43" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="43" bodyend="106"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="43" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="43" bodyend="116"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_remap_1a147bf1b1d7cbb98b5446bf87bed2d5aa" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::RegRemap</scope><name>clear</name></member>
@@ -528,6 +573,7 @@ Bulk-renames the register keys for some :cpp:class:`IfContentPart`
       <member refid="class_a_g_remap_core_1_1_reg_remap_1a02ea9753d45355aa20e564e0d6da361e" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>OrderRanges</name></member>
       <member refid="class_a_g_remap_core_1_1_base_reg_edit_1ae5d1c6a6be300c91788ed43aedae5481" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>RangeSpec</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_remap_1ad5660e4fef4275e92d47bfb19bd2ce1f" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>RegRemap</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_remap_1a69d5dc6d7d2e89eb596bc91a45d8dd9c" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>renameRule</name></member>
       <member refid="class_a_g_remap_core_1_1_base_reg_edit_1a8a91f054bda96df86a050433d03c992d" prot="protected" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>toRangeSpec</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::RegRemap</scope><name>~BaseIniPartEdit</name></member>
     </listofallmembers>

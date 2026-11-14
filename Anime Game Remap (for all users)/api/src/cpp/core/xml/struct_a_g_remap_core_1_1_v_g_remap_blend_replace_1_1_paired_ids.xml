@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_v_g_remap_blend_replace_1_1_paired_ids" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::VGRemapBlendReplace::PairedIds</compoundname>
+    <includes refid="_v_g_remap_blend_edit_8h" local="no">VGRemapBlendEdit.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_remap_blend_replace_1_1_paired_ids_1a095938f4e8ceaff33d8d850b40400c4f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;::PairedIds::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>AGRemapCore::VGRemapBlendReplace::PairedIds::path</qualifiedname>
+        <briefdescription>
+<para>The path to the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="215" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_remap_blend_replace_1_1_paired_ids_1a524631086cc9853168a59347d862e11e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;::PairedIds::idBytes</definition>
+        <argsstring></argsstring>
+        <name>idBytes</name>
+        <qualifiedname>AGRemapCore::VGRemapBlendReplace::PairedIds::idBytes</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>The bytes of one id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="220" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A buffer of bone ids beside the fixed ``Blend.buf`` that names the bones for it, and keeps the same
+slots when \ref influences changes the blend&apos;s width
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="211" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="211" bodyend="221"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_v_g_remap_blend_replace_1_1_paired_ids_1a524631086cc9853168a59347d862e11e" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace::PairedIds</scope><name>idBytes</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_remap_blend_replace_1_1_paired_ids_1a095938f4e8ceaff33d8d850b40400c4f" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace::PairedIds</scope><name>path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

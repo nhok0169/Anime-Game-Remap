@@ -36,8 +36,18 @@ add_library(AGRemapCore STATIC
     src/data/VGOffsetData.cpp
     src/data/VGCountData.cpp
     src/data/ShapeKeyChecksumData.cpp
+    src/data/DrawPassData.cpp
+    src/data/TextureRegisterData.cpp
+    src/data/GameShaderData.cpp
+    src/data/ShapeKeyDispatchSizeData.cpp
+    src/data/BoneCentroidData.cpp
+    src/data/ShapeKeyRemapData.cpp
+    src/data/MaterialCodeData.cpp
+    src/data/MaterialColourData.cpp
+    src/data/TextureDescData.cpp
+    src/data/TextureThumbprintData.cpp
+    src/data/TextureKindData.cpp
     src/data/VGRemapData.cpp
-    src/data/WWMITextureRoles.cpp
     src/data/ModDataAssets.cpp
     src/data/IniParseBuilderData.cpp
     src/data/IniFixBuilderData.cpp
@@ -120,33 +130,28 @@ add_library(AGRemapCore STATIC
     src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp
     src/data/IniFixData/GIMIComponentFixer.cpp
     src/data/IniFixData/WWMIFixer.cpp
+    src/data/IniFixData/WWMISections.cpp
     src/data/IniFixData/Chisa/ChisaFixer.cpp
     src/data/IniFixData/Chisa/ChisaTextures.cpp
-    src/data/IniFixData/Chisa/ChisaThumbprints.cpp
     src/data/IniFixData/Changli/ChangliFixer.cpp
     src/data/IniFixData/Changli/ChangliTattooShader.cpp
     src/data/IniFixData/Changli/ChangliUpperShader.cpp
-    src/data/IniFixData/Changli/ChangliSkeleton.cpp
     src/data/IniFixData/Changli/ChangliTextures.cpp
-    src/data/IniFixData/Changli/ChangliThumbprints.cpp
     src/data/IniFixData/ChangliNymph/ChangliNymphFixer.cpp
     src/data/IniFixData/ChangliNymph/ChangliNymphSheerShader.cpp
     src/data/IniFixData/ChangliNymph/ChangliNymphShawlShader.cpp
-    src/data/IniFixData/ChangliNymph/ChangliNymphSkeleton.cpp
     src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp
-    src/data/IniFixData/ChangliNymph/ChangliNymphThumbprints.cpp
     src/data/IniFixData/Miyabi/MiyabiFixer.cpp
     src/data/IniFixData/ZZMIFixer.cpp
+    src/data/IniParseData/ZZMIParser.cpp
+    src/data/IniParseData/Miyabi/MiyabiParser.cpp
     src/data/IniFixData/Lynae/LynaeFixer.cpp
     src/data/IniFixData/Lynae/LynaeBangsShader.cpp
     src/data/IniFixData/Lynae/LynaeFilmShader.cpp
     src/data/IniFixData/Lynae/LynaeHairShader.cpp
     src/data/IniFixData/Lynae/LynaeLowerShader.cpp
     src/data/IniFixData/Lynae/LynaePropsFilmFlags.cpp
-    src/data/IniFixData/Lynae/LynaeSkeleton.cpp
-    src/data/IniFixData/Lynae/LynaeSkinCodes.cpp
     src/data/IniFixData/Lynae/LynaeTextures.cpp
-    src/data/IniFixData/Lynae/LynaeThumbprints.cpp
     src/data/IniFixData/Lynae/LynaeUpperShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.cpp
@@ -154,18 +159,13 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintSolidShader.cpp
-    src/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp
-    src/data/IniFixData/LynaePeppermint/LynaePeppermintThumbprints.cpp
     src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp
     src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp
-    src/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.cpp
     src/data/IniFixData/Sanhua/SanhuaFixer.cpp
     src/data/IniFixData/Sanhua/SanhuaTextures.cpp
     src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp
     src/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.cpp
-    src/data/IniFixData/SanhuaExorcist/SanhuaExorcistThumbprints.cpp
-    src/data/IniFixData/Sanhua/SanhuaThumbprints.cpp
     src/data/IniParseData/WWMIParser.cpp
     src/data/IniParseData/Chisa/ChisaParser.cpp
     src/data/IniParseData/Changli/ChangliParser.cpp
@@ -175,13 +175,11 @@ add_library(AGRemapCore STATIC
     src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp
     src/data/IniParseData/Sanhua/SanhuaParser.cpp
     src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp
-    src/data/IniFixData/ModBranches.cpp
     src/data/IniFixData/Yelan/YelanFixer.cpp
     src/data/IniFixData/GIMIMergeFixer.cpp
     src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp
     src/data/IniParseData/Yelan/YelanParser.cpp
     src/data/IniParseData/GIMIComponentParser.cpp
-    src/data/IniParseData/TextureOverrides.cpp
     src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp
     src/data/IniParseData/Bennett/BennettParser.cpp
     src/data/IniFixData/Bennett/BennettFixer.cpp
@@ -262,6 +260,7 @@ add_library(AGRemapCore STATIC
     src/tools/idGenerator/UuidIdGenerator.cpp
     src/model/iftemplate/IfTemplatePart.cpp
     src/model/iftemplate/IfTemplateRender.cpp
+    src/model/iftemplate/ListValue.cpp
     src/model/iftemplate/SympyParser.cpp
     src/model/iftemplate/IfPredParser.cpp
     src/model/iftemplate/IfPredZ3Generator.cpp
@@ -278,6 +277,17 @@ add_library(AGRemapCore STATIC
     src/model/assets/VGOffsets.cpp
     src/model/assets/VGCounts.cpp
     src/model/assets/ShapeKeyChecksums.cpp
+    src/model/assets/DrawPasses.cpp
+    src/model/assets/TextureRegisters.cpp
+    src/model/assets/GameShaders.cpp
+    src/model/assets/ShapeKeyDispatchSizes.cpp
+    src/model/assets/BoneCentroids.cpp
+    src/model/assets/ShapeKeyRemaps.cpp
+    src/model/assets/MaterialCodes.cpp
+    src/model/assets/MaterialColours.cpp
+    src/model/assets/TextureDescs.cpp
+    src/model/assets/TextureThumbprints.cpp
+    src/model/assets/TextureKinds.cpp
     src/model/strategies/ModType.cpp
     src/model/strategies/iniClassifiers/IniClassifyStats.cpp
     src/model/strategies/iniClassifiers/BaseIniClassifier.cpp
@@ -291,6 +301,11 @@ add_library(AGRemapCore STATIC
     src/model/buffers/VGComponentSplit.cpp
     src/model/buffers/InnerLayerOutline.cpp
     src/model/buffers/VGComponentMerge.cpp
+    src/model/buffers/DrawUVCoverage.cpp
+    src/model/buffers/WWMIBlend.cpp
+    src/model/buffers/WWMIShapeKeys.cpp
+    src/model/buffers/SkeletonNumberingProbe.cpp
+    src/data/RabbitFX.cpp
     src/model/files/BufFileErrors.cpp
     src/model/files/BinaryFile.cpp
     src/model/files/BufFile.cpp
@@ -298,14 +313,29 @@ add_library(AGRemapCore STATIC
     src/model/VGRemap.cpp
     src/model/files/BlendFile.cpp
     src/model/files/PositionFile.cpp
+    src/model/files/TexcoordFile.cpp
     src/model/files/IbFile.cpp
     src/model/files/VbFile.cpp
     src/model/strategies/bufEditors/BaseBufEditor.cpp
     src/model/strategies/bufEditors/BufEditor.cpp
     src/model/strategies/iniParsers/IniParseBuilder.cpp
+    src/model/strategies/iniParsers/IniParseData.cpp
+    src/model/strategies/iniParsers/TextureRoles.cpp
+    src/model/strategies/iniParsers/IniParseDataRoleFiles.cpp
+    src/data/WWMITextureFacts.cpp
+    src/data/IniFixData/WWMIFixerConfigs.cpp
+    src/data/IniParseData/WWMIParserConfigs.cpp
     src/model/strategies/iniFixers/IniFixBuilder.cpp
     src/model/strategies/iniFixers/IniFileFixContext.cpp
+    src/data/IniFixData/TemplateFixer.cpp
+    src/model/strategies/iniFixers/GraphEditVariables.cpp
+    src/model/strategies/iniFixers/ShaderFilterTags.cpp
+    src/model/strategies/iniFixers/CustomShaderBackups.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/GraphVarTake.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/GraphVarApply.cpp
     src/model/strategies/iniParsers/IniFileParseContext.cpp
+    src/data/IniParseData/GIMITemplateParser.cpp
+    src/data/IniParseData/TemplateParser.cpp
     src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp
     src/model/strategies/iniFixers/graphGroupEdits/ResGroupCollectInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEditInstantiation.cpp
@@ -313,6 +343,7 @@ add_library(AGRemapCore STATIC
     src/model/strategies/iniRemovers/IniRemoveBuilder.cpp
     src/model/strategies/iniFixers/BaseIniPartEdit.cpp
     src/model/files/IniFile.cpp
+    src/model/files/IniSharedState.cpp
     src/model/IniNamingTools.cpp
     src/model/IniSectionGraphInstantiation.cpp
     src/model/strategies/iniRemovers/RemapIniRemoverInstantiation.cpp
@@ -327,7 +358,9 @@ add_library(AGRemapCore STATIC
     src/model/strategies/iniFixers/graphEdits/BaseIniGraphEditInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemapInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/GraphGroupEditInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/IterGraphGroupEditInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/ResRegCollectInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/GraphCollectInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEditInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEditInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroupsInstantiation.cpp
@@ -346,7 +379,6 @@ add_library(AGRemapCore STATIC
     src/model/textures/TexThumbprint.cpp
     src/model/files/TexCache.cpp
     src/model/files/TextureFile.cpp
-    src/model/files/IniScan.cpp
     src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp
     src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp
     src/model/strategies/texEditors/pixelTransforms/ColourReplace.cpp
@@ -361,6 +393,9 @@ add_library(AGRemapCore STATIC
     src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp
     src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp
     src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp
+    src/model/strategies/texEditors/texFilters/ChannelMapFilter.cpp
+    src/model/strategies/texEditors/texFilters/RegionFilter.cpp
+    src/model/strategies/texEditors/texFilters/GuidedScaleFilter.cpp
     src/model/strategies/texEditors/texFilters/HueAdjust.cpp
     src/model/strategies/texEditors/texFilters/PixelFilter.cpp
     src/model/strategies/texEditors/BaseTexEditor.cpp
@@ -462,6 +497,17 @@ set(AGREMAP_UNITY_EXCLUDE
     "src/model/assets/VGOffsets.cpp"
     "src/model/assets/VGCounts.cpp"
     "src/model/assets/ShapeKeyChecksums.cpp"
+    "src/model/assets/DrawPasses.cpp"
+    "src/model/assets/TextureRegisters.cpp"
+    "src/model/assets/GameShaders.cpp"
+    "src/model/assets/ShapeKeyDispatchSizes.cpp"
+    "src/model/assets/BoneCentroids.cpp"
+    "src/model/assets/ShapeKeyRemaps.cpp"
+    "src/model/assets/MaterialCodes.cpp"
+    "src/model/assets/MaterialColours.cpp"
+    "src/model/assets/TextureDescs.cpp"
+    "src/model/assets/TextureThumbprints.cpp"
+    "src/model/assets/TextureKinds.cpp"
     "src/model/buffers/BufFloat.cpp"
     "src/model/buffers/BufUnorm.cpp"
     "src/model/iftemplate/IfPredParser.cpp"

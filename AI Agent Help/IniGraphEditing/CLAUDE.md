@@ -1,5 +1,117 @@
 # Ini Graph Editing
 
+## A new edit has to do something to the GRAPH (the maintainer, 2026-10-31)
+
+**The edit families are graph capabilities, and a game question dressed as an edit is how the old pure-Python API
+became GI-only.** `SkeletonNumberingRead` (a parse step that probes which skeleton numbering a WuWa blend uses) and a
+proposed `DrawTexelSplit` (which draws of a component carry a material-code flag) were both edits that added nothing
+to the graph side: the keys and resource filenames they look for are already `GraphCollect` rows, and the rest is
+buffer math (`SkeletonNumberingProbe`, `DrawUVCoverage`). Both are `GraphVarApply` steps of `WWMIParser` now (the first
+retired, the second never built), with the one general piece -- the value a shader reads off a texture channel -- as
+`TextureFile::shaderChannel`. That is the shape for such a read: a `GraphVarApply` over the variables the collects
+filed (see "Edits pass data to each other through VARIABLES" below; until 2026-11-06 it was a function in the parser's
+`parseReaders` / `deferredParseReaders`, which are gone). `ParseDataStep` was not wrong
+for carrying a function: the maintainer's objection was that the parser was built of them INSTEAD of edits, doing by
+hand what collects do. A `GraphVarApply` reads only variables, so the graph reading stays in the collects. Or a
+fixer step) over the rows, calling a bound capability of the buffer / texture class, with the game's choices in the
+game's config. Before proposing an edit, write down what it does to the graphs that `GraphCollect`, `ResRegCollect`,
+`GraphCopy`, `RegNewVals` and the rest cannot -- if that sentence is empty, it is not an edit.
+
+**The shared readers a parser starts from (2026-10-31):** `GIMIParser::rowSteps` (on `TemplateParser` until
+2026-11-02, when it moved down so the Python `GIMIParser` has it too) builds the standard row sets
+(`IniParseRows`: every bound resource's file, every declaration, every key of every section, every key of chosen
+objects) as edits and RETURNS them -- until 2026-11-05 it was `addRowSteps` and appended them out of sight, which
+left a parser with no one list to read (the maintainer asked where "the list of edits" was). A parser writes its
+steps as ONE explicit list, `commandEdits = [*rowSteps(rows), ...its own collects, ...its GraphVarApply steps]`, with
+`deferCommandEdits = true` when they only read and may open many files (WWMI, ZZMI: they then run on the first ask
+of the parse data). **`commandEdits` IS the list (2026-11-06)**: it was one edit beside two step lists
+(`parseSteps`, `deferredParseSteps`), which the maintainer had asked to fold into one list and an agent left undone
+for a day; `rowSteps` is a factory of edits for that list, not a list of its own; and `IniParseData::resourceDataOf` reads draws, draw parts (`GraphCollectRow::position`), late bindings,
+libraries and hidden objects off those rows, with the game's choices in `IniParseData::ResourceDataRules`. WWMIParser is
+built on both; the GI parsers are next. Reach for these before writing a reader of your own.
+**Which file each object takes per texture role is `IniParseData::roleFilesOf` (2026-11-04; `roleFiles` until 2026-11-06)**, the same kind of reader
+over collected rows: `TextureRoleChooser` and `WWMIParser`'s gathering went into it, and the Python mirror hands it the
+same `RoleFileRules` (see Creating Remaps' "WHICH FILE A ROLE TAKES"). **It was `fileAnatomy` / `AnatomyRules` until 2026-11-03** (the maintainer found the name misleading -- it reads
+nothing of another file). The same day it took over the texture TOGGLES WWMIParser had read by hand
+(`ResourceDataRules::toggles`, `textureRoots`, `togglesIn`, `notToggles` -> `thisToggleOf` / `registerToggleOf`):
+-160 lines in `WWMIParser.cpp`, -66 in the Python mirror.
+
+## Edits pass data to each other through VARIABLES: `GraphEditVariables` (2026-10-31)
+
+**When one edit has to hand data to a later one, keep it in a named variable rather than a new holder class.**
+`GraphEditVariables` (`model/strategies/iniFixers/`) holds named variables, each one graph's worth of data; today a
+variable holds `sections`, in order, with places `reserve` can hold open. Two graph-group edits use it:
+`GraphVarTake` copies named sections of a graph into a variable (optionally keeping the place held when the edit
+was made) and removes the graph, and `GraphCreate::sectionsOf` writes them out as a graph in each group (a callable
+hands, per group, the sections of its graph -- a variable's `list()`). `VarSectionsCreate` did the second until
+2026-11-02 and was folded into `GraphCreate`: it was `GraphCreate` per group over a graph built from sections, which
+edited the graph no way `GraphCreate` could not. `TemplateFixer`'s own sections are the variables `fixSections`
+(no group) and `fixSections.<g>` (one group). All of it is bound to Python, so a fixer built on the Python
+`GIMIFixer` has the same thing.
+
+**A variable holds ANY value, and the parser owns variables too (2026-11-06, the maintainer: "why does
+GraphEditVariables necessarily need to be restricted to only a list of sections ... And why is it only restricted
+to the fixer?").** Neither restriction had a reason beyond the first use. A value is type-erased
+(`GraphEditVariables::Value`, sharing its object, so `Sections` -- which cannot be copied -- is one value type among
+others); `set` / `find<T>` / `get<T>` / `has` / `erase` / `names`, and `sections(name)` as before. The parser's are
+`IniParseData::variables()`: every `GraphCollect` files its rows into the variable named after it (that map was
+`collected_`, and `collected(name)` is now a typed read of the variable), and `blendVersion()` reads the string in
+`IniParseData::BlendVersion`. **`GraphEditVariables::apply(inputs, fn, into)`** makes a variable from others -- value
+in, value out, `into` REPLACED (a write of sections adds; a function's output is a new value), nothing returned
+leaves it -- and **`GraphVarApply`** is the edit that runs it in a parser's step list, the scheduling wrapper as
+`GraphVarTake` is for taking sections: all the logic is in the store. **In a FIXER's list it takes the fixer's own
+variables (`variables =`, 2026-11-06) and applies when the edit runs**, so a fix's decision is a visible step and the
+stages after it read its variable -- an `IterGraphGroupEdit` builds a stage's edits when the list reaches it (a stage
+that runs once returns its edits for group 0 only). That is how a user tweaks a fix: change what a step reads, replace
+its function, or add a step that edits its variable (see the root guide's transparency paragraph). It reads ONLY variables, so whatever a graph
+says is collected into one first. **It replaced the parser's readers, and `parseReaders` / `deferredParseReaders`
+are gone (2026-11-06)**: a parser is ONE list of edits. `WWMIParser`'s four are the skeleton numbering (slot rows +
+resource rows -> `BlendVersion`), the resource data (rows -> `IniParseData::ResourceDataVar`, an
+`IniParseData::ResourceData`), the role files (rows + the resource data -> `RoleFilesVar`, an
+`IniParseData::RoleFileData`) and the draw splits (resource data + role files -> the resource data, its draw ranges
+added). The two result types are plain values holding what the 18 private fields of `IniParseData` used to; every
+getter and setter stayed and reads or writes them through the variable, so no fixer moved. `resourceDataOf(rules, rows,
+start)` and `roleFilesOf(rules, rows)` are STATIC: handed the rows as a `GraphEditVariables` (`GraphEditVariables::of(names,
+inputs)` names an apply's inputs), they run the algorithm over a scratch `IniParseData` and return the value. A
+register toggle the role files find through `run =` lives in `RoleFileData::registerToggles`, which `registerToggleOf`
+reads after the resource data's. **A setter writes into the variable without running the deferred steps, and a
+`GraphVarApply` REPLACES the variable** -- a parser that called setters before its deferred steps would lose those
+writes when the step runs (none does: `GIMIComponentParser`'s `addUndrawn` is the only setter outside the readers).
+Python: `variables[name]`; a value crosses as the first type both sides know (`str` / `bool` / `int` / `float`, a
+list of `GraphCollect.Row`, an `IniParseData.ResourceData` / `RoleFileData` as a COPY, a `Sections`), anything else
+stays a Python object -- so a Python function returning a `str` into `BlendVersion` is what C++ reads. A copy means a
+Python apply edits the value it is handed and returns it, as the mirror's draw splits do.
+
+The older rule that a variable is about ONE graph, and a `GraphGroupEditVariables` waits for a use case, is
+superseded by the above: the parse data's variables span every graph of the `.ini`. A per-group piece of data is still
+one variable per group (as `fixSections.<g>` is), and which groups a variable is written into is the writing edit's
+choice. **A variable is a snapshot** -- an edit that changes a graph later does not change what was saved from it.
+
+**Before adding a holder for some edit's data, use a variable.** A first try at this was a `FixSections` class --
+the fix's sections plus two edits, bound -- and it was replaced the same day, because it was one more class for what is
+one idea: a named place an edit saves graph content into, and reads or writes back later.
+
+## A section copied from another `.ini` reads that file's variables: `GraphVarRename` (2026-11-06)
+
+A file with no `namespace =` names its variables after its PATH, so a section copied out of it (a linked file's
+[Present], a trigger on a game texture's hash) cannot read them in its new file. `GraphVarRename(renames, z3)` renames
+`$name` everywhere in a graph's sections -- keys (`global persist $x`, `post $x`), values and `if` conditions -- with
+`IniNamingTools::varsIn` / `renameVars` deciding what a `$name` is (a namespaced `$\ns\x` is another file's and is
+left alone; GI's sibling-toggle carrying uses the same two functions). Given a `Z3Context`, every condition of the
+section is parsed again in it, so a copy shares the context of the sections it now sits beside -- leave a copied
+condition in its old file's context and a later graph walk that conjoins predicates across sections mixes two
+contexts. `renameIn(section, renames, z3)` does one section, for a copy not yet in a graph (WWMIFixer's
+`copyLinkedState`). After cutting a copy's lines, `IfTemplate::removeEmptyBlocks` drops the `if` blocks left empty.
+
+**WHICH sections to copy is `IniFile::varState(vars)` (2026-11-06)**: the file's `[Constants]` declarations of the
+variables, every other section assigning them (`[Present]`, a key, a trigger on a hash; never a draw or a resource),
+closed over what those lines read, each cut to its state -- a key keeps every line but other variables' assignments
+(`key`, `type`, `back`, ...), a trigger its `hash` / `match_...` / `condition` -- plus the variables no `[Constants]`
+declares. It READS every section first and deep-copies only the ones that keep a line: a deep copy is expensive, and the
+fixer's first version copied every candidate and threw most away. Python takes the copies with `takeSections()`.
+GI's sibling-toggle carrying (`GIMICharParser::carryCondition` / `carrySections`) is the same job built as text, and the
+candidate to move onto it -- left to the GI refactor so the two branches do not collide.
+
 ## `RegNewVals` can write a value computed FROM the old one (2026-09-29)
 
 **The whole `regEdits` family moves a `KVP` around; until this, none of them could turn a value into

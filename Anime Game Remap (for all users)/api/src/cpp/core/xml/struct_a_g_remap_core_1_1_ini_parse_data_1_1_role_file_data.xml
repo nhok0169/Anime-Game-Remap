@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniParseData::RoleFileData</compoundname>
+    <includes refid="_ini_parse_data_8h" local="no">IniParseData.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1a3d8a071b04753bf088b078cbe0268d7a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_texture_roles" kindref="compound">TextureRoles</ref> &gt;</type>
+        <definition>std::optional&lt;TextureRoles&gt; AGRemapCore::IniParseData::RoleFileData::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFileData::roles</qualifiedname>
+        <briefdescription>
+<para>What role each texture plays, or <computeroutput>std::nullopt</computeroutput> for none recorded <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a32dfeb1ba85f17401612eb9d94e51ddf" kindref="member">textureRoles</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="896" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="896" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1a53482af2b9472efda03bdc139550d21d" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; &gt; AGRemapCore::IniParseData::RoleFileData::candidates</definition>
+        <argsstring></argsstring>
+        <name>candidates</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFileData::candidates</qualifiedname>
+        <briefdescription>
+<para><computeroutput>role -&gt; (file, how)</computeroutput> <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a75582e64b30beb27af957dab2aa65d20" kindref="member">roleCandidates</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="901" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="901" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1af76e5aab578d81f865aa0aff2c7d206a" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::pair&lt; std::string, <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a6cb548cc937d71c3706ea1ad617351aa" kindref="member">ModObj</ref> &gt;, <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file" kindref="compound">RoleFile</ref> &gt;</type>
+        <definition>std::map&lt;std::pair&lt;std::string, ModObj&gt;, RoleFile&gt; AGRemapCore::IniParseData::RoleFileData::roleFiles</definition>
+        <argsstring></argsstring>
+        <name>roleFiles</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFileData::roleFiles</qualifiedname>
+        <briefdescription>
+<para><computeroutput>(role, mod object) -&gt; the file it takes</computeroutput> <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a30ba00626f2bd409c7759c4bc4b884fc" kindref="member">roleFile</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="906" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="906" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1aba5661ad96afeda44aea00b4db8bd202" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_rejection" kindref="compound">Rejection</ref> &gt;</type>
+        <definition>std::vector&lt;Rejection&gt; AGRemapCore::IniParseData::RoleFileData::rejections</definition>
+        <argsstring></argsstring>
+        <name>rejections</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFileData::rejections</qualifiedname>
+        <briefdescription>
+<para>Every file refused for a role, in the order refused <ndash/> see <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1aba5661ad96afeda44aea00b4db8bd202" kindref="member">rejections</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="911" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="911" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1aea3e3d54334be7654897d200c5278ce7" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; AGRemapCore::IniParseData::RoleFileData::textureResources</definition>
+        <argsstring></argsstring>
+        <name>textureResources</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFileData::textureResources</qualifiedname>
+        <briefdescription>
+<para><computeroutput>lowercased resource -&gt; the texture file it names</computeroutput> <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a141a1658c04b597b78fb07502222d87e" kindref="member">rolesOfResource</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="916" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="916" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1a83659fd2c6abb6fbf0c7640821570c37" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; AGRemapCore::IniParseData::RoleFileData::fileResources</definition>
+        <argsstring></argsstring>
+        <name>fileResources</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFileData::fileResources</qualifiedname>
+        <briefdescription>
+<para><computeroutput>file -&gt; the resource the mod uses for it</computeroutput> <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a2fabe2d8597007de8ad59d7fe9f331c1" kindref="member">resourceOfFile</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="921" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="921" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1a7b430d83af9e74c9424f88b5578d450d" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle" kindref="compound">TextureToggle</ref> &gt;</type>
+        <definition>std::map&lt;std::string, TextureToggle&gt; AGRemapCore::IniParseData::RoleFileData::registerToggles</definition>
+        <argsstring></argsstring>
+        <name>registerToggles</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFileData::registerToggles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+``lowercased resource -&gt; toggle``: the register toggles found only through ``run =``, which
+#registerToggleOf reads after :cpp:member:`ResourceData::registerToggles`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="930" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="930" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1addf3fee22792cc24e48cc23976d8e502" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line" kindref="compound">LinkedLine</ref> &gt;</type>
+        <definition>std::vector&lt;LinkedLine&gt; AGRemapCore::IniParseData::RoleFileData::carried</definition>
+        <argsstring></argsstring>
+        <name>carried</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFileData::carried</qualifiedname>
+        <briefdescription>
+<para>What the linked <computeroutput>.ini</computeroutput> files set on this file&apos;s draws, in the order read <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a0c56eb5cb18dabc4539cbeb046fea6e3" kindref="member">linkedLines</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="935" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="935" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Which file each mod object takes for each texture role, as #roleFilesOf chooses it: one value, held in the
+variable #RoleFilesVar, which #textureRoles, #roleCandidates, #roleFile, #rejections and the other getters
+of it read
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="892" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="892" bodyend="936"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1a53482af2b9472efda03bdc139550d21d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileData</scope><name>candidates</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1addf3fee22792cc24e48cc23976d8e502" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileData</scope><name>carried</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1a83659fd2c6abb6fbf0c7640821570c37" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileData</scope><name>fileResources</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1a7b430d83af9e74c9424f88b5578d450d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileData</scope><name>registerToggles</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1aba5661ad96afeda44aea00b4db8bd202" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileData</scope><name>rejections</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1af76e5aab578d81f865aa0aff2c7d206a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileData</scope><name>roleFiles</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1a3d8a071b04753bf088b078cbe0268d7a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileData</scope><name>roles</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_data_1aea3e3d54334be7654897d200c5278ce7" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFileData</scope><name>textureResources</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

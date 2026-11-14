@@ -128,6 +128,127 @@ ShapeKeyChecksums
 
 :raw-html:`<br />`
 
+BoneCentroids
+-------------
+
+.. cppattributetable:: AGRemapCore::BoneCentroids
+
+.. doxygenclass:: AGRemapCore::BoneCentroids
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+DrawPasses
+----------
+
+.. cppattributetable:: AGRemapCore::DrawPasses
+
+.. doxygenclass:: AGRemapCore::DrawPasses
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GameShaders
+-----------
+
+.. cppattributetable:: AGRemapCore::GameShaders
+
+.. doxygenclass:: AGRemapCore::GameShaders
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ShapeKeyDispatchSizes
+---------------------
+
+.. cppattributetable:: AGRemapCore::ShapeKeyDispatchSizes
+
+.. doxygenclass:: AGRemapCore::ShapeKeyDispatchSizes
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ShapeKeyRemaps
+--------------
+
+.. cppattributetable:: AGRemapCore::ShapeKeyRemaps
+
+.. doxygenclass:: AGRemapCore::ShapeKeyRemaps
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+MaterialCodes
+-------------
+
+.. cppattributetable:: AGRemapCore::MaterialCodes
+
+.. doxygenclass:: AGRemapCore::MaterialCodes
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+MaterialColours
+---------------
+
+.. cppattributetable:: AGRemapCore::MaterialColours
+
+.. doxygenclass:: AGRemapCore::MaterialColours
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TextureDescs
+------------
+
+.. cppattributetable:: AGRemapCore::TextureDescs
+
+.. doxygenclass:: AGRemapCore::TextureDescs
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TextureThumbprints
+------------------
+
+.. cppattributetable:: AGRemapCore::TextureThumbprints
+
+.. doxygenclass:: AGRemapCore::TextureThumbprints
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TextureKinds
+------------
+
+.. cppattributetable:: AGRemapCore::TextureKinds
+
+.. doxygenclass:: AGRemapCore::TextureKinds
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TextureRegisters
+----------------
+
+.. cppattributetable:: AGRemapCore::TextureRegisters
+
+.. doxygenclass:: AGRemapCore::TextureRegisters
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 VertexCounts
 ------------
 
@@ -365,6 +486,17 @@ BufUnSignedInt
 
 :raw-html:`<br />`
 
+DrawUVCoverage
+--------------
+
+.. cppattributetable:: AGRemapCore::DrawUVCoverage
+
+.. doxygenclass:: AGRemapCore::DrawUVCoverage
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 IbFile
 ------
 
@@ -393,6 +525,17 @@ PositionFile
 .. cppattributetable:: AGRemapCore::PositionFile
 
 .. doxygenclass:: AGRemapCore::PositionFile
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TexcoordFile
+------------
+
+.. cppattributetable:: AGRemapCore::TexcoordFile
+
+.. doxygenclass:: AGRemapCore::TexcoordFile
     :members:
     :protected-members:
 
@@ -492,6 +635,39 @@ VGRemap
 .. cppattributetable:: AGRemapCore::VGRemap
 
 .. doxygenclass:: AGRemapCore::VGRemap
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+WWMIBlend
+---------
+
+.. cppattributetable:: AGRemapCore::WWMIBlend
+
+.. doxygenclass:: AGRemapCore::WWMIBlend
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+WWMIShapeKeys
+-------------
+
+.. cppattributetable:: AGRemapCore::WWMIShapeKeys
+
+.. doxygenclass:: AGRemapCore::WWMIShapeKeys
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+SkeletonNumberingProbe
+----------------------
+
+.. cppattributetable:: AGRemapCore::SkeletonNumberingProbe
+
+.. doxygenclass:: AGRemapCore::SkeletonNumberingProbe
     :members:
     :protected-members:
 
@@ -600,6 +776,17 @@ GIBuilder
 .. cppattributetable:: AGRemapCore::GIBuilder
 
 .. doxygenclass:: AGRemapCore::GIBuilder
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GlobalIniClassifiers
+--------------------
+
+.. cppattributetable:: AGRemapCore::GlobalIniClassifiers
+
+.. doxygenclass:: AGRemapCore::GlobalIniClassifiers
     :members:
     :protected-members:
 
@@ -770,6 +957,17 @@ ModDataAssets
     :protected-members:
 
 :raw-html:`<br />`
+
+RabbitFX
+--------
+
+.. cppattributetable:: AGRemapCore::RabbitFX
+
+.. doxygenclass:: AGRemapCore::RabbitFX
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
 :raw-html:`<br />`
 
 Graph Edits
@@ -794,6 +992,17 @@ GraphRename
 .. cppattributetable:: AGRemapCore::GraphRename
 
 .. doxygenclass:: AGRemapCore::GraphRename
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GraphVarRename
+--------------
+
+.. cppattributetable:: AGRemapCore::GraphVarRename
+
+.. doxygenclass:: AGRemapCore::GraphVarRename
     :members:
     :protected-members:
 
@@ -838,6 +1047,17 @@ RegFillMissing
 .. cppattributetable:: AGRemapCore::RegFillMissing
 
 .. doxygenclass:: AGRemapCore::RegFillMissing
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RegIfTemplateAdd
+----------------
+
+.. cppattributetable:: AGRemapCore::RegIfTemplateAdd
+
+.. doxygenclass:: AGRemapCore::RegIfTemplateAdd
     :members:
     :protected-members:
 
@@ -904,12 +1124,100 @@ FileAddCreate
 
 :raw-html:`<br />`
 
+FileDownloadCreate
+------------------
+
+.. cppattributetable:: AGRemapCore::FileDownloadCreate
+
+.. doxygenclass:: AGRemapCore::FileDownloadCreate
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 FileRefAdd
 ----------
 
 .. cppattributetable:: AGRemapCore::FileRefAdd
 
 .. doxygenclass:: AGRemapCore::FileRefAdd
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GraphCollect
+------------
+
+.. cppattributetable:: AGRemapCore::GraphCollect
+
+.. doxygenclass:: AGRemapCore::GraphCollect
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GraphEditVariables
+------------------
+
+.. cppattributetable:: AGRemapCore::GraphEditVariables
+
+.. doxygenclass:: AGRemapCore::GraphEditVariables
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GraphVarApply
+-------------
+
+.. cppattributetable:: AGRemapCore::GraphVarApply
+
+.. doxygenclass:: AGRemapCore::GraphVarApply
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GraphVarTake
+---------------
+
+.. cppattributetable:: AGRemapCore::GraphVarTake
+
+.. doxygenclass:: AGRemapCore::GraphVarTake
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ShaderFilterTags
+----------------
+
+.. cppattributetable:: AGRemapCore::ShaderFilterTags
+
+.. doxygenclass:: AGRemapCore::ShaderFilterTags
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+CustomShaderBackups
+-------------------
+
+.. cppattributetable:: AGRemapCore::CustomShaderBackups
+
+.. doxygenclass:: AGRemapCore::CustomShaderBackups
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GraphCollectRow
+---------------
+
+.. cppattributetable:: AGRemapCore::GraphCollectRow
+
+.. doxygenstruct:: AGRemapCore::GraphCollectRow
     :members:
     :protected-members:
 
@@ -1025,6 +1333,17 @@ IniResEditContext
 
 :raw-html:`<br />`
 
+IterGraphGroupEdit
+------------------
+
+.. cppattributetable:: AGRemapCore::IterGraphGroupEdit
+
+.. doxygenclass:: AGRemapCore::IterGraphGroupEdit
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 RemapBlendReplace
 -----------------
 
@@ -1119,6 +1438,17 @@ VGMergeGroupResBuilder
 .. cppattributetable:: AGRemapCore::VGMergeGroupResBuilder
 
 .. doxygenclass:: AGRemapCore::VGMergeGroupResBuilder
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGRemapBlendReplace
+-------------------
+
+.. cppattributetable:: AGRemapCore::VGRemapBlendReplace
+
+.. doxygenclass:: AGRemapCore::VGRemapBlendReplace
     :members:
     :protected-members:
 
@@ -1257,6 +1587,28 @@ IfTemplateTree
 .. cppattributetable:: AGRemapCore::IfTemplateTree
 
 .. doxygenclass:: AGRemapCore::IfTemplateTree
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ListValue
+---------
+
+.. cppattributetable:: AGRemapCore::ListValue
+
+.. doxygenclass:: AGRemapCore::ListValue
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+SectionText
+-----------
+
+.. cppattributetable:: AGRemapCore::SectionText
+
+.. doxygenclass:: AGRemapCore::SectionText
     :members:
     :protected-members:
 
@@ -1600,12 +1952,55 @@ RemapIniFixContext
 
 :raw-html:`<br />`
 
+TemplateFixer
+-------------
+
+.. cppattributetable:: AGRemapCore::TemplateFixer
+
+.. doxygenclass:: AGRemapCore::TemplateFixer
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+WWMIFixFactory
+--------------
+
+.. cppattributetable:: AGRemapCore::WWMIFixFactory
+
+.. doxygenstruct:: AGRemapCore::WWMIFixFactory
+    :members:
+
+:raw-html:`<br />`
+
 WWMIFixerConfig
 ---------------
 
 .. cppattributetable:: AGRemapCore::WWMIFixerConfig
 
 .. doxygenstruct:: AGRemapCore::WWMIFixerConfig
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+WWMINames
+---------
+
+.. cppattributetable:: AGRemapCore::WWMINames
+
+.. doxygenstruct:: AGRemapCore::WWMINames
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+WWMISections
+------------
+
+.. cppattributetable:: AGRemapCore::WWMISections
+
+.. doxygenclass:: AGRemapCore::WWMISections
     :members:
     :protected-members:
 
@@ -1661,6 +2056,17 @@ GIMIComponentParserConfig
 
 :raw-html:`<br />`
 
+GIMITemplateParser
+------------------
+
+.. cppattributetable:: AGRemapCore::GIMITemplateParser
+
+.. doxygenclass:: AGRemapCore::GIMITemplateParser
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 GIMIParser
 ----------
 
@@ -1678,6 +2084,17 @@ GIMISectionClassifier
 .. cppattributetable:: AGRemapCore::GIMISectionClassifier
 
 .. doxygenclass:: AGRemapCore::GIMISectionClassifier
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IParseResult
+------------
+
+.. cppattributetable:: AGRemapCore::IParseResult
+
+.. doxygenclass:: AGRemapCore::IParseResult
     :members:
     :protected-members:
 
@@ -1705,12 +2122,56 @@ IniParseContext
 
 :raw-html:`<br />`
 
+IniParseData
+------------
+
+.. cppattributetable:: AGRemapCore::IniParseData
+
+.. doxygenclass:: AGRemapCore::IniParseData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniParseRows
+------------
+
+.. cppattributetable:: AGRemapCore::IniParseRows
+
+.. doxygenstruct:: AGRemapCore::IniParseRows
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 IniParseDownloadData
 --------------------
 
 .. cppattributetable:: AGRemapCore::IniParseDownloadData
 
 .. doxygenclass:: AGRemapCore::IniParseDownloadData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TemplateParser
+--------------
+
+.. cppattributetable:: AGRemapCore::TemplateParser
+
+.. doxygenclass:: AGRemapCore::TemplateParser
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TextureRoles
+------------
+
+.. cppattributetable:: AGRemapCore::TextureRoles
+
+.. doxygenclass:: AGRemapCore::TextureRoles
     :members:
     :protected-members:
 
@@ -1737,6 +2198,16 @@ makeWWMIParser
 
 :raw-html:`<br />`
 
+WWMIParseFactory
+----------------
+
+.. cppattributetable:: AGRemapCore::WWMIParseFactory
+
+.. doxygenstruct:: AGRemapCore::WWMIParseFactory
+    :members:
+
+:raw-html:`<br />`
+
 WWMIParserConfig
 ----------------
 
@@ -1745,6 +2216,24 @@ WWMIParserConfig
 .. doxygenstruct:: AGRemapCore::WWMIParserConfig
     :members:
     :protected-members:
+
+:raw-html:`<br />`
+
+WWMIParseObjs
+-------------
+
+.. cppattributetable:: AGRemapCore::WWMIParseObjs
+
+.. doxygenstruct:: AGRemapCore::WWMIParseObjs
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+makeZZMIParser
+--------------
+
+.. doxygenfunction:: AGRemapCore::makeZZMIParser
 
 :raw-html:`<br />`
 :raw-html:`<br />`
@@ -1887,6 +2376,17 @@ IniResourceModel
 .. cppattributetable:: AGRemapCore::IniResourceModel
 
 .. doxygenclass:: AGRemapCore::IniResourceModel
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniSharedState
+--------------
+
+.. cppattributetable:: AGRemapCore::IniSharedState
+
+.. doxygenclass:: AGRemapCore::IniSharedState
     :members:
     :protected-members:
 
@@ -2202,6 +2702,17 @@ RegRemove
 
 :raw-html:`<br />`
 
+RegAnchorAdd
+------------
+
+.. cppattributetable:: AGRemapCore::RegAnchorAdd
+
+.. doxygenclass:: AGRemapCore::RegAnchorAdd
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 RegRestrict
 -----------
 
@@ -2385,6 +2896,28 @@ ColourRange
 
 :raw-html:`<br />`
 
+ColourRanges
+------------
+
+.. cppattributetable:: AGRemapCore::ColourRanges
+
+.. doxygenstruct:: AGRemapCore::ColourRanges
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+Colours
+-------
+
+.. cppattributetable:: AGRemapCore::Colours
+
+.. doxygenstruct:: AGRemapCore::Colours
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 ColourReplace
 -------------
 
@@ -2479,6 +3012,39 @@ MaterialBandRemapFilter
 .. cppattributetable:: AGRemapCore::MaterialBandRemapFilter
 
 .. doxygenclass:: AGRemapCore::MaterialBandRemapFilter
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ChannelMapFilter
+----------------
+
+.. cppattributetable:: AGRemapCore::ChannelMapFilter
+
+.. doxygenclass:: AGRemapCore::ChannelMapFilter
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GuidedScaleFilter
+-----------------
+
+.. cppattributetable:: AGRemapCore::GuidedScaleFilter
+
+.. doxygenclass:: AGRemapCore::GuidedScaleFilter
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RegionFilter
+------------
+
+.. cppattributetable:: AGRemapCore::RegionFilter
+
+.. doxygenclass:: AGRemapCore::RegionFilter
     :members:
     :protected-members:
 
@@ -2922,6 +3488,17 @@ NumTools
 .. cppattributetable:: AGRemapCore::NumTools
 
 .. doxygenclass:: AGRemapCore::NumTools
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ObjectLifetime
+==============
+
+.. cppattributetable:: AGRemapCore::ObjectLifetime
+
+.. doxygenclass:: AGRemapCore::ObjectLifetime
     :members:
     :protected-members:
 

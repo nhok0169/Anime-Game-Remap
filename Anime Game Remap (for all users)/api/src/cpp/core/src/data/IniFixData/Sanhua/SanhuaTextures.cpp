@@ -12,7 +12,6 @@
 // ##### EndCredits
 
 #include "AGRemapCore/data/IniFixData/Sanhua/SanhuaTextures.h"
-#include "AGRemapCore/data/IniFixData/Sanhua/SanhuaThumbprints.h"
 
 
 namespace AGRemapCore {
@@ -47,6 +46,8 @@ namespace AGRemapCore {
                 {"8141e933", "bodiceNormal"}, {"02746d45", "bodiceMask"}, {"fcecfdcb", "bodiceDiffuse"},
                 {"01ef7c05", "skirtNormal"}, {"0b5be4da", "skirtMask"}, {"1cd3181e", "skirtDiffuse"},
                 {"5764478b", "irisDiffuse"}, {"d0524bfb", "eyeMask"},
+                // 3.8 (2026-11-12 menu dump) rehashed one live texture; the 3.7 one is kept above.
+                {"634e2c1d", "skinNormal"},
             };
 
         // ---- which role each register binds, per component ----
@@ -74,16 +75,14 @@ namespace AGRemapCore {
         // the file is. Read by the PARSER (`WWMIParser::buildRoles`), which is what identifies a
         // mod's textures; they sat on the fixer's config until 2026-09-29, where nothing read them
         // any more, and the parser's pass matched against an empty table on every mod.
-        facts.textureThumbprints = sanhuaTextureThumbprints();
+        // textureThumbprints: read off TextureThumbprints (WWMIParserConfig::withGameData, WWMIFixerConfig::withGameData)
 
         // A planned role a mod ships no file for is bound to Sanhua's OWN texture of that role,
         // downloaded from her folder (the mod's UVs are hers). The red-camellia mod carries no
         // bodice or skirt mask, and the Exorcist's mask sampled at its UVs shaded cloth as skin: a
         // reddish hue over the whole body (2026-09-19). eyeMask (c88cc1fc) and faceMask (46177147)
         // are bound under the same hash on both skins, so they need no entry.
-        facts.downloadCharFolder = "Sanhua";
         facts.downloadVersionFolder = "2_5";
-        facts.downloadPrefix = "Sanhua";
         facts.fallbackTextures = {
             {"bangsDiffuse", "ae6e9014"}, {"bangsMask", "1c0c8b91"}, {"t5Ramp", "1035197c"},
             {"hairDiffuse", "68ca7071"}, {"hairNormal", "cef6494f"}, {"faceDiffuse", "881c236d"},

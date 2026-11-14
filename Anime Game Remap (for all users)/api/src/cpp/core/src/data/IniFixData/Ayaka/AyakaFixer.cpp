@@ -22,6 +22,7 @@
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h"
+#include "AGRemapCore/constants/Colours.h"
 #include "AGRemapCore/model/textures/Colour.h"
 
 
@@ -30,7 +31,6 @@ namespace AGRemapCore {
         // The flat normal map a 4.0-era row invents, matching that row's
         // TexCreator(1024, 1024, colour = Colours.NormalMapYellow) exactly.
         const int NormalMapSize4_0 = 1024;
-        const Colour NormalMapYellow4_0(128, 128, 0);
     }
 
 
@@ -46,7 +46,6 @@ namespace AGRemapCore {
         // AyakaSpringbloom's normal map is a muted purple, Colours.NormalMapPurple1 -- NOT the flat
         // (128, 128, 255) blue most characters use. A normal map is a direction field, so the
         // colour IS the data.
-        const Colour NormalMapPurple1(128, 98, 128);
 
         // Nearly transparent rather than fully: 1 and not 0, for the reason XianglingFixer records
         // -- a 0 can be optimised away by the encoder where a 1 survives the BC7 round trip.
@@ -101,9 +100,9 @@ namespace AGRemapCore {
                            {"dress", "ps-t0", "OpaqueDiffuse", &makeDressOpaque}};
 
         config.texAdds = {{"head", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple1)},
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapPurple1)},
                           {"body", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple1)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapPurple1)}};
 
         // ---- the 6.1-era defaults, and 5.x's own draw-call move ----
         config.swapFaceRegs = false;
@@ -143,9 +142,9 @@ namespace AGRemapCore {
 
         // PURPLE from 5.6 on, where ayaka4_0 invents a yellow one.
         config.texAdds = {{"head", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple1)},
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapPurple1)},
                           {"body", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple1)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapPurple1)}};
 
         // ---- the 6.1-era defaults, and 5.x's own draw-call move ----
         config.swapFaceRegs = false;
@@ -185,9 +184,9 @@ namespace AGRemapCore {
 
         // PURPLE from 5.6 on, where ayaka4_0 invents a yellow one.
         config.texAdds = {{"head", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple1)},
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapPurple1)},
                           {"body", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple1)}};
+                            TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapPurple1)}};
 
         // ---- the 6.1-era defaults, and 5.x's own draw-call move ----
         config.swapFaceRegs = false;
@@ -231,9 +230,9 @@ namespace AGRemapCore {
                            {"dress", "ps-t0", "OpaqueDiffuse", &makeDressOpaque}};
 
         config.texAdds = {{"head", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize4_0, NormalMapSize4_0, NormalMapYellow4_0)},
+                            TexCreator(NormalMapSize4_0, NormalMapSize4_0, Colours::NormalMapYellow)},
                           {"body", "ps-t0", "NormalMap",
-                            TexCreator(NormalMapSize4_0, NormalMapSize4_0, NormalMapYellow4_0)}};
+                            TexCreator(NormalMapSize4_0, NormalMapSize4_0, Colours::NormalMapYellow)}};
 
         // ---- what this row does with the 6.1-era defaults ----
         config.swapFaceRegs = false;
@@ -283,8 +282,8 @@ namespace AGRemapCore {
                            {"dress", "ps-t0", "OpaqueDiffuse", &makeDressOpaque}};
 
         // ...and the normal map the skin reads on ps-t0, which Ayaka never had.
-        config.texAdds = {{"head", "ps-t0", "NormalMap", TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple1)},
-                          {"body", "ps-t0", "NormalMap", TexCreator(NormalMapSize, NormalMapSize, NormalMapPurple1)}};
+        config.texAdds = {{"head", "ps-t0", "NormalMap", TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapPurple1)},
+                          {"body", "ps-t0", "NormalMap", TexCreator(NormalMapSize, NormalMapSize, Colours::NormalMapPurple1)}};
 
         // ORFix for the two objects that now carry a normal map; the dress takes the default NNFix.
         config.objFixCalls = {{"head", {IniKeywords::ORFixPath}},

@@ -11,6 +11,11 @@ for it are misleading in a specific way documented below.
 See [Architecture](../Architecture/CLAUDE.md) for the generic pybind11 mechanics, and
 [Texture Editing](../TextureEditing/CLAUDE.md) for the sibling `.dds` pipeline.
 
+**A buffer's own fixes are capabilities of its file class (2026-10-31).** `BlendFile::setInfluences` / `keepSlots`
+change a blend's width, and `TexcoordFile` (`us`, `straddling`, `clean`) clears UV values that are not a number and
+folds a U at or above 1 back into [0, 1) except on a triangle that straddles a U tile -- what WWMIFixer's
+`cleanTexcoords` copy is. Both are bound. When a fixer needs to change a buffer, add it here, not in the fixer.
+
 ## Where this subsystem currently sits
 
 Nearly all of it is C++ now. As of 2026-09-04, under `api/src/py/FixRaidenBoss2/model/files/`

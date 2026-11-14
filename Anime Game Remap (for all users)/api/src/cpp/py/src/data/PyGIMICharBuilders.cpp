@@ -23,6 +23,7 @@
 
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixData/GIMICharFixer.h"
+#include "AGRemapCore/data/IniFixData/TemplateFixer.h"
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/data/IniParseData/GIMICharParser.h"
 #include "../model/strategies/texEditors/PyTexEditor.h"   // toTexFilter
@@ -436,8 +437,55 @@ Opaque: there is nothing to read off one. Build it with :func:`makeGIMICharParse
     py::class_<PyIniFixFactory>(m, "CppIniFixFactory", R"doc(
 A built fixer factory, ready to hand to :meth:`CppStrategyOverrides.setFixer`
 
-Opaque: there is nothing to read off one. Build it with :func:`makeGIMICharFixer`
-    )doc");
+Build it with a template's ``make...Fixer`` (:func:`makeGIMICharFixer`, :func:`makeWWMIFixer`, ...), or take a shipped one off its
+mod type's builder (:meth:`IniFixBuilder.factoryOf`)
+    )doc")
+        .def("withList", [](const PyIniFixFactory& self, py::function rewrite) {
+            auto held = std::shared_ptr<py::object>(new py::object(std::move(rewrite)), [](py::object* object) {
+                py::gil_scoped_acquire gil;
+                delete object;
+            });
+            return PyIniFixFactory{AGRC::TemplateFixer::withList(self.factory,
+                [held](AGRC::TemplateFixer& fixer, std::vector<AGRC::BaseIniGraphGroupEdit<>*> steps) {
+                    py::gil_scoped_acquire gil;
+                    py::list given;
+                    for (AGRC::BaseIniGraphGroupEdit<>* step : steps) {
+                        given.append(py::cast(step, py::return_value_policy::reference));
+                    }
+
+                    py::object result = (*held)(given);
+                    std::vector<AGRC::BaseIniGraphGroupEdit<>*> rewritten;
+                    for (auto item : result) {
+                        // a Python subclass's override has no C++ vtable entry, so a compiled fix would run the base's no-op
+                        const py::detail::type_info* registered = py::detail::get_type_info(Py_TYPE(item.ptr()));
+                        if (registered == nullptr || registered->type != Py_TYPE(item.ptr())) {
+                            throw py::type_error("withList: a step of the list is a Python class; a compiled fix runs only "
+                                                 "edits the library binds (eg. GraphGroupEdit, GraphVarApply)");
+                        }
+                        rewritten.push_back(item.cast<AGRC::BaseIniGraphGroupEdit<>*>());
+                    }
+
+                    // the list's own Python objects live as long as the fixer
+                    fixer.keepAlive(std::shared_ptr<void>(new py::object(result), [](void* object) {
+                        py::gil_scoped_acquire gil;
+                        delete static_cast<py::object*>(object);
+                    }));
+                    return rewritten;
+                })};
+        }, py::arg("rewrite"), R"doc(
+A factory that builds what this one builds and runs the list 'rewrite' returns in place of each fixer's own -- how a
+shipped fix is changed without rebuilding the library. 'rewrite' is given the fixer's WHOLE list, each step named by its
+:attr:`BaseIniGraphGroupEdit.name` (eg. a WWMI fix's ``"slotRemap"``, ``"textureListCalls"``, ``"removedLines"``,
+``"slotValues"``, ..., then ``"fixSections"`` -- which puts the sections the fix writes of its own, such as its texture
+command lists, into graph ``(0, "", "fixSections")`` -- and the steps that work on those, such as ``"texEdits"``), and
+returns the list to run: the same list edited, steps added, removed, replaced or reordered, or a list of your own -- which
+is then the whole fix. A :class:`GraphVarApply` given no ``variables`` reads and replaces the fixer's own. Every step must
+be an edit the library binds (a Python subclass of an edit does not run in a compiled fix)
+
+:param rewrite: Callable[[List[:class:`BaseIniGraphGroupEdit`]], List[:class:`BaseIniGraphGroupEdit`]]: given a fixer's
+    list, the list to run instead
+:returns: :class:`CppIniFixFactory`
+        )doc");
 
     m.def("makeGIMICharParser", [](const AGRC::GIMICharParserConfig &config) {
         return PyIniParseFactory{AGRC::makeGIMICharParser(config)};

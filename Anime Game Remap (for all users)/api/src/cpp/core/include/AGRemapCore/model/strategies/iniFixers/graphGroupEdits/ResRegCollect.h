@@ -24,8 +24,10 @@
 
 #include <tsl/ordered_map.h>
 
+#include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/SectionIterData.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h"
@@ -45,12 +47,18 @@ namespace AGRemapCore {
      Creates the :cpp:class:`IniSectionGraph` for a particular resource :raw-html:`<br />`
      :raw-html:`<br />`
 
-     Runs in three phases. First it **collects** every reference to the resource -- walking each
-     source graph named in \ref srcRegs and recording where the register naming the resource
-     appears. Then, optionally, it **remaps** those source graphs (see \ref remaps). Finally, for
+     Runs in three phases. First it **collects** every reference to the resource -- a
+     :cpp:class:`GraphCollect` of the registers named in \ref srcRegs, \ref extraSrcRegs and
+     \ref srcRegMatches, recording where each register naming the resource appears. Then, optionally, it **remaps** those source graphs (see \ref remaps). Finally, for
      each resource subtype in \ref resEdits, it works out the fixed name of every collected
      reference, rewrites it in place, and hands the collected set to that subtype's
      :cpp:class:`BaseResEdit` to build the resource's own graph and models
+
+     .. warning::
+        The references are collected once, from the graphs as they are when this edit runs, and the resource's
+        graph and models are built from that set. Nothing updates them afterwards: a later edit that renames,
+        copies, moves or removes a section holding one of the references leaves them describing where the
+        references used to be. Order it after the edits that reshape the graphs it reads
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -154,6 +162,41 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             More registers to search a graph for, besides its entry in \ref srcRegs -- a graph
+             named here and not there is searched for these alone :raw-html:`<br />` :raw-html:`<br />`
+
+             What it is for: one resource bound at SEVERAL registers of one graph, collected by ONE
+             edit. Each \ref resEdits entry builds its resources once per \ref edit, so a second
+             collect sharing the same edit would repoint its references at names nothing declares;
+             searching every register in one collect builds them all together. A \ref ResPredicate
+             is handed the register it is judging, so it can still tell the registers apart
+             @endrst
+             */
+            ByGraph<std::vector<K>> extraSrcRegs;
+
+            /**
+             * @brief A test of a register's name -- see \ref srcRegMatches
+             */
+            using RegMatch = std::function<bool(const K&)>;
+
+            /**
+             * @brief
+             @rst
+             Registers to search a graph for by a test of their NAME rather than the names themselves:
+             every key of the graph's `KVPs`_ the test accepts is searched as if \ref extraSrcRegs
+             named it, in the order the keys first appear :raw-html:`<br />` :raw-html:`<br />`
+
+             What it is for: a resource bound at whichever register of a family its role lands on --
+             eg. every texture register (``ps-t0``, ``ps-t1``, ...) of a list -- without listing every
+             register the family could use. A key \ref srcRegs or \ref extraSrcRegs already names for
+             the graph is searched once
+             @endrst
+             */
+            ByGraph<RegMatch> srcRegMatches;
+
+            /**
+             * @brief
+             @rst
              The key to bind the collected resource's fixed name to, instead of overwriting the one
              it was READ from -- empty for the usual behaviour :raw-html:`<br />` :raw-html:`<br />`
 
@@ -180,6 +223,20 @@ namespace AGRemapCore {
             tsl::ordered_map<std::string, ResEdit*> resEdits;
 
             /**
+             * @brief
+             @rst
+             Resources handed to every edit in \ref resEdits as if a register had named them, besides the ones
+             the registers do :raw-html:`<br />` :raw-html:`<br />`
+
+             What it is for: a file the fix needs that no line binds -- eg. a game texture a texture edit
+             compares against. A collect builds only what it finds, so such a file would never be made. Each
+             name is built under its fixed name (:cpp:func:`BaseResEdit::getFixResourceName`), and no line
+             is rewritten for it. **Default**: empty
+             @endrst
+             */
+            std::vector<V> extraResources;
+
+            /**
              * @brief Which order indices to collect from, keyed by which graph the predicate applies to
              */
             ByGraph<PartPredicate> partPredicates;
@@ -188,6 +245,19 @@ namespace AGRemapCore {
              * @brief Which references to collect, keyed by which graph the predicate applies to
              */
             ByGraph<ResPredicate> resPredicates;
+
+            /**
+             * @brief
+             @rst
+             A \ref ResPredicate that collects a reference only when its value is a resource NAME,
+             not a 3dmigoto statement opening with one of 'keywords' (see
+             :cpp:func:`IniNamingTools::hasKeywordPrefix`) -- ``ref ResourceX`` binds a resource already
+             declared, so collecting it as a file would look for a section called ``ref ResourceX``
+             @endrst
+             *
+             * @param keywords The statements to skip. **Default**: ``ref``
+             */
+            static ResPredicate skipsKeywords(std::vector<std::string> keywords = {IniKeywords::Ref});
 
             /**
              * @brief
@@ -224,6 +294,31 @@ namespace AGRemapCore {
              @endrst
              */
             ByGraph<std::optional<std::unordered_set<K, KeyHash, KeyEqual>>> keysToTrack;
+
+            /**
+             * @brief
+             @rst
+             Whether every setting keyed by a graph applies in EVERY group that holds that graph,
+             rather than only in the group its ``iniIndex`` names :raw-html:`<br />` :raw-html:`<br />`
+
+             When ``true``, each \ref edit first copies every entry of \ref srcRegs, \ref extraSrcRegs,
+             \ref srcRegMatches, \ref partPredicates, \ref resPredicates, \ref remaps, \ref trackKeys and
+             \ref keysToTrack once for each group holding the entry's graph (its component and mod
+             object), with that group's index, and runs on the copies. The configured index is
+             ignored, and the settings themselves are left as they were :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A target in \ref remaps is placed RELATIVE to its source: it lands as many groups after
+             the source's group as it was configured to, so a remap configured within one group is a
+             remap within each group. A target that would land before the first group is dropped
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             What it is for: a collect configured before the number of groups is known -- eg. in a
+             fixer whose edits make copies of the ``.ini`` -- that still builds each resource once
+             for all the groups together. **Default**: ``false``
+             @endrst
+             */
+            bool everyGroup = false;
 
             /**
              * @brief One collected reference to the resource
@@ -336,12 +431,28 @@ namespace AGRemapCore {
 
             using RemappedGraphs = ByGraph<tsl::ordered_map<std::string, RemappedGraph>>;
 
-            void collectFromGraphGroup(GraphGroups& graphGroups, const GraphId& srcModObj, const K& srcReg);
+            // The settings everyGroup copies per group
+            struct GraphSettings {
+                ByGraph<K> srcRegs;
+                ByGraph<std::vector<K>> extraSrcRegs;
+                ByGraph<RegMatch> srcRegMatches;
+                ByGraph<PartPredicate> partPredicates;
+                ByGraph<ResPredicate> resPredicates;
+                ByGraph<tsl::ordered_map<std::string, typename Remapper::RemapTarget>> remaps;
+                ByGraph<bool> trackKeys;
+                ByGraph<std::optional<std::unordered_set<K, KeyHash, KeyEqual>>> keysToTrack;
+            };
+
+            GraphSettings takeGraphSettings();
+            void putGraphSettings(GraphSettings settings);
+            GraphSettings inEveryGroup(const GraphSettings& configured, const GraphGroups& graphGroups) const;
+
             GraphGroups& remapGraphs(GraphGroups& graphGroups, RemappedGraphs* remappedGraphs);
             void collectResourceNames(const std::string& resSubType, ResEdit& resEdit,
                                        typename ResEdit::CollectedSections& collectedSections, GraphGroups& graphGroups,
                                        RemappedGraphs* remappedGraphs, bool editGraph, const std::string& modName);
             GraphGroups& editImpl(GraphGroups& graphGroups, Context* ctx, const ModType* modType, const std::string& modName);
+            GraphGroups& collectAndBuild(GraphGroups& graphGroups, Context* ctx, const std::string& modName);
     };
 }
 

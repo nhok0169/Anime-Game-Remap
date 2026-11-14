@@ -15,6 +15,7 @@
 // ##### EndCredits
 
 #include <functional>
+#include <memory>
 #include <optional>
 #include <string>
 #include <utility>
@@ -85,6 +86,31 @@ namespace AGRemapCore {
              * @param removeKeys Each key to remove, paired with its own optional check predicate
              */
             explicit RegRemove(std::vector<std::pair<K, std::optional<RemoveKeyCheck>>> removeKeys = {});
+
+            /**
+             * @brief An edit removing one key -- every line of it, or only those 'check' accepts
+             *
+             * @param key The key
+             * @param check Which of its lines go, asked with each line's index and value. **Default**: every line
+             *
+             * @return The edit
+             */
+            static std::unique_ptr<RegRemove> of(K key, std::optional<RemoveKeyCheck> check = std::nullopt);
+
+            /**
+             * @brief
+             @rst
+             A check accepting a line whose value starts with 'prefix', ignoring case and leading space -- or whose value
+             is ``ref`` followed by such a value, since a binding may name its resource either way (``vs-cb4 =
+             ResourceMergedSkeleton`` and ``vs-cb4 = ref ResourceMergedSkeleton``). A 'prefix' of ``ref`` itself
+             accepts every ``ref`` binding
+             @endrst
+             *
+             * @param prefix The start of the value, in any case
+             *
+             * @return The check
+             */
+            static RemoveKeyCheck valueStartsWith(std::string prefix);
 
             /**
              * @brief

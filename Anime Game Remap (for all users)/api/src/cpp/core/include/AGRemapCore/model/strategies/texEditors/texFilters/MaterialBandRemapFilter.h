@@ -14,6 +14,7 @@
 #ifndef MATERIAL_BAND_REMAP_FILTER_H
 #define MATERIAL_BAND_REMAP_FILTER_H
 
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <string>
@@ -137,8 +138,9 @@ namespace AGRemapCore {
              *      range contains a pixel's band is the one that applies
              * @param diffusePath The diffuse to read the gates against. If this names no readable
              *      file, every gate passes
+             * @param channel The channel holding the band -- see ef channel. **Default**: ``3`` (alpha)
              */
-            explicit MaterialBandRemapFilter(std::vector<Band> bands = {}, std::string diffusePath = "");
+            explicit MaterialBandRemapFilter(std::vector<Band> bands = {}, std::string diffusePath = "", std::size_t channel = 3);
 
             /**
              * @brief The moves to apply, all from the ORIGINAL alpha
@@ -149,6 +151,16 @@ namespace AGRemapCore {
              * @brief The diffuse to read the gates against
              */
             std::string diffusePath;
+
+            /**
+             * @brief
+             @rst
+             The channel of the light map that holds the band, ``0`` (red) to ``3`` (alpha). GI keeps
+             its band in the alpha, ZZZ in the red. The other three channels are never touched, and
+             a channel past ``3`` makes the filter a no-op
+             @endrst
+             */
+            std::size_t channel = 3;
 
             void transform(TextureFile &texFile) override;
 
@@ -192,8 +204,9 @@ namespace AGRemapCore {
              @endrst
              *
              * @param bands The moves to apply
+             * @param channel The channel holding the band -- see ef channel. **Default**: ``3`` (alpha)
              */
-            static std::function<TexEditor::Filter(const std::string&)> lightMapEdit(std::vector<Band> bands);
+            static std::function<TexEditor::Filter(const std::string&)> lightMapEdit(std::vector<Band> bands, std::size_t channel = 3);
     };
 }
 

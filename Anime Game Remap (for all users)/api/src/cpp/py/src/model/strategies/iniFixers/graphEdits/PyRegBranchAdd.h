@@ -30,9 +30,8 @@ namespace AGRC = AGRemapCore;
  The `pybind11`_-facing subclass of `AGRC::RegBranchAdd`\\<std::string, std::string\\>
  :raw-html:`<br />` :raw-html:`<br />`
 
- Holds the exact `Python`_ callable given for ``branchOf`` -- a ``std::function`` cannot be handed back
- to `Python`_ as the callable it was built from -- and re-wraps it as the core's \ref branchOf at the
- start of every ``edit`` (see #refresh), so assigning a new callable takes effect on the next edit
+ The ``branchOf`` given in `Python`_ is the core's \ref branchOf when the edit is built or the property is set -- so one
+ built in `Python`_ runs in a C++ fixer's list -- and reads back as the callable it was given
  @endrst
  */
 class PyRegBranchAdd: public AGRC::RegBranchAdd<std::string, std::string> {
@@ -44,11 +43,6 @@ class PyRegBranchAdd: public AGRC::RegBranchAdd<std::string, std::string> {
         using Core = AGRC::RegBranchAdd<std::string, std::string>;
 
         /**
-         * @brief The exact `Python`_ callable given for ``branchOf``, or ``None``
-         */
-        py::object branchOfObj;
-
-        /**
          * @brief Constructs a new branch-adding edit
          *
          * @param branchOfObj The Python callable deciding what belongs in each branch, or ``None``
@@ -56,9 +50,14 @@ class PyRegBranchAdd: public AGRC::RegBranchAdd<std::string, std::string> {
         explicit PyRegBranchAdd(py::object branchOfObj);
 
         /**
-         * @brief Re-wraps #branchOfObj as the core's \ref branchOf
+         * @brief Makes a Python callable (or ``None``) the core's \ref branchOf
          */
-        void refresh();
+        void setBranchOf(const py::object &branchOfObj);
+
+        /**
+         * @brief The core's \ref branchOf as Python: the callable it was given, else the C++ function wrapped, else ``None``
+         */
+        py::object branchOfToPy() const;
 };
 
 

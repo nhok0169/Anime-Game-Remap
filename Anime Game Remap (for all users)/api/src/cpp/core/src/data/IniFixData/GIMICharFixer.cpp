@@ -24,12 +24,12 @@
 
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/RegDelimitedAddMode.h"
-#include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
+#include "AGRemapCore/data/IniFixData/TemplateFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h"
@@ -39,8 +39,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/PositionEdit.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
@@ -52,16 +51,6 @@
 
 namespace AGRemapCore {
     namespace {
-        // The .ini register naming a resource's file, plus the identity conversions to and from a
-        // file path -- see RaidenFixer's own copy for why this is spelled out per fixer family.
-        BaseResEdit<>::ResEditConfig makeCharResEditConfig() {
-            return BaseResEdit<>::ResEditConfig{
-                IniKeywords::Filename,
-                [](const std::string& value) { return value; },
-                [](const std::string& file) { return file; }
-            };
-        }
-
         using Fixer = GIMIFixer<>;
         using ModObj = Fixer::ModObj;
         using ObjGroupEdit = GraphGroupEdit<>;
@@ -81,6 +70,9 @@ namespace AGRemapCore {
 
         // What a re-issued draw call draws. 3dmigoto works the count out itself.
         const std::string DrawIndexedAuto = "auto";
+
+        // A part that skips the draw: it draws nothing on the mod's own character, so it gets no draw call.
+        const std::string SkipHandling = "skip";
 
         // The mod objects every character of this shape has, whatever its drawn objects are.
         // The DRAWN ones are per character and arrive through GIMICharFixerConfig::drawnObjs.
@@ -208,30 +200,27 @@ namespace AGRemapCore {
          *     keep the draw call exactly where it is
          *  3. position and texcoord are remapped too
          */
-        class GIMICharFixerImpl: public Fixer {
+        class GIMICharFixerImpl: public TemplateFixer {
             public:
                 GIMICharFixerImpl(BaseIniParser<>* parser, const std::string& toModName,
                                    std::optional<int> modTypeId, GIMICharFixerConfig config):
-                    Fixer(parser, nullptr, {},
-                           toModName.empty() ? std::optional<std::vector<std::string>>(std::nullopt)
-                                             : std::optional<std::vector<std::string>>({toModName}),
-                           nullptr, makeConfig()),
-                    ctx_(parser != nullptr ? parser->getIniFile() : nullptr, modTypeId), toModName_(toModName),
-                    config_(std::move(config)) {
-                    this->setCtx(&ctx_);
-
+                    TemplateFixer(parser, toModName, modTypeId), config_(std::move(config)) {
                     // A SIBLING'S TOGGLE, IN EVERY FILE THIS FIX WRITES. A recolour carried from a
                     // sibling .ini is bound under that file's toggle, which this file can only read
                     // through a copy it declares and drives itself -- see
-                    // TextureOverrideFacts::carriedSections. A generated copy is a namespace of its own,
+                    // IniParseData::carriedSections. A generated copy is a namespace of its own,
                     // so it needs the declaration too.
-                    if (const auto* facts = dynamic_cast<const TextureOverrideFacts*>(parser)) {
-                        const std::string carried = facts->carriedSections();
-                        if (!carried.empty()) {
-                            this->appendedSections = carried;
-                            this->appendedSectionsInCopies = true;
-                        }
+                    if (parser != nullptr && !parser->parseData().carriedSections().empty()) {
+                        this->appendedSections = parser->parseData().carriedSections();
+                        this->appendedSectionsInCopies = true;
                     }
+
+                    // head and body are told apart by a match_first_index following the shared 'ib'
+                    // hash, so 'ib' is the one index-qualified hash type here. Built before the blend
+                    // collector, whose part predicate it supplies, and the index edits, whose windows
+                    // it supplies.
+                    objFilter_ = std::make_unique<ObjFilter>(ctx_.modTypeHashes(), ctx_.modTypeIndices(),
+                                                              ObjFilter::KeySet{IbHashKey}, ctx_.version());
 
                     // buildObjMap FIRST -- it is what works out groupCount_, and both collectors
                     // below build one instance per group.
@@ -319,21 +308,6 @@ namespace AGRemapCore {
                     this->hiddenModObjs.insert(FaceObj);
 
                     this->copyPreamble = config_.copyPreamble;
-                }
-
-            protected:
-                // GIMIFixer's own hands every group edit a nullptr .ini file, which stops
-                // ResRegCollect ever building anything -- see RaidenFixer for the full story.
-                void applyGraphGroupEdits(const std::string& modName) override {
-                    if (this->graphGroups() == nullptr) {
-                        return;
-                    }
-
-                    for (Fixer::GroupEdit* edit : this->graphGroupEdits) {
-                        if (edit != nullptr) {
-                            edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), nullptr, modName);
-                        }
-                    }
                 }
 
             private:
@@ -449,7 +423,7 @@ namespace AGRemapCore {
                 // ---- textures this fix rewrites ----
                 //
                 // The same three-part shape as the blend collector -- read buildBlendCollector
-                // first, and TexEditorReplace's own note on why the plain TexReplace silently
+                // first, and TexReplace's own note on why the plain TexReplace silently
                 // writes no file at all when driven from C++.
                 //
                 // One collector per edit rather than one shared: each names a resource graph of its
@@ -482,8 +456,8 @@ namespace AGRemapCore {
                             // (getFixResourceName), never from this graph's mod object.
                             const GraphId resGraph(group, "", texEdit.obj + "RemapTex" + texEdit.name);
 
-                            auto replace = std::make_unique<TexEditorReplace<>>(
-                                resGraph, TexEditor({texEdit.filter}, texEdit.compress), makeCharResEditConfig(),
+                            auto replace = std::make_unique<TexReplace<>>(
+                                resGraph, std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{texEdit.filter}, texEdit.compress), resEditConfig(),
                                 "resourceRemapTexEdit", texEdit.name);
 
                             // Which object this edit is for, so the file it writes is named per EDIT
@@ -529,17 +503,17 @@ namespace AGRemapCore {
                             texCollects_.push_back(std::move(collect));
                         }
 
-                        // The CREATED textures, same shape. TexCreatorCreate rather than the
+                        // The CREATED textures, same shape. TexCreate rather than the
                         // plain TexCreate for the same reason the edit above uses
-                        // TexEditorReplace: the core class names things correctly and builds
+                        // TexReplace: the core class names things correctly and builds
                         // no file, and is in fact abstract, since a created resource also has
                         // to build the section naming it.
                         for (const GIMICharFixerConfig::TexAdd& texAdd : config_.texAdds) {
                             const GraphId srcGraph(group, "", texAdd.obj);
                             const GraphId resGraph(group, "", texAdd.obj + "RemapTexAdd");
 
-                            auto create = std::make_unique<TexCreatorCreate<>>(
-                                resGraph, texAdd.name, texAdd.texCreator, makeCharResEditConfig());
+                            auto create = std::make_unique<TexCreate<>>(
+                                resGraph, texAdd.name, std::make_shared<TexCreator>(texAdd.texCreator), resEditConfig());
 
                             auto collect = std::make_unique<Collector>();
                             collect->srcRegs = {{srcGraph, texAdd.reg}};
@@ -549,12 +523,6 @@ namespace AGRemapCore {
                             texAddCollects_.push_back(std::move(collect));
                         }
                     }
-                }
-
-                static FixerConfig makeConfig() {
-                    FixerConfig config{};
-                    config.sectionToStr = &renderIfTemplate;
-                    return config;
                 }
 
                 // ONE COLLECTOR PER GROUP. A Collector is addressed by GraphId, and a GraphId's
@@ -567,20 +535,21 @@ namespace AGRemapCore {
                 // blend really is there -- and in game that half of the model draws with unremapped
                 // weights. Only reading the section's content catches it.
                 void buildBlendCollector() {
-                    IniFile* iniFile = ctx_.getIniFile();
-                    const std::optional<Version> toVersion = (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
+                    const std::optional<Version> toVersion = iniToVersion();
 
                     for (std::size_t group = 0; group < groupCount_; ++group) {
                         const GraphId blendGraph(group, BlendObj.first, BlendObj.second);
                         const GraphId blendResGraph(group, BlendObj.first, BlendObj.second + "RemapBlend");
 
                         auto replace = std::make_unique<VGRemapBlendReplace<>>(
-                            blendResGraph, makeCharResEditConfig(), ctx_.modType(), ctx_.version(), toVersion);
+                            blendResGraph, resEditConfig(), ctx_.modType(), ctx_.version(), toVersion);
 
                         auto collect = std::make_unique<Collector>();
                         collect->srcRegs = {{blendGraph, BlendReg}};
                         collect->resEdits = {{IniKeywords::Blend, replace.get()}};
-                        collect->partPredicates = {{blendGraph, blendHashParts()}};
+                        // Whole-part accept/reject, not a sub-part window -- the qualifying hash and
+                        // the vb1 are in different sections. See RaidenFixer for why that matters.
+                        collect->partPredicates = {{blendGraph, objFilter_->hashTypeParts(BlendHashKey)}};
 
                         collect->trackKeysIsGlobal = false;
                         collect->trackKeys = {{blendGraph, true}};
@@ -614,7 +583,7 @@ namespace AGRemapCore {
                                                         PositionObj.second + "RemapPosition");
 
                         auto replace = std::make_unique<PositionEditReplace<>>(
-                            positionResGraph, makeCharResEditConfig(), config_.positionEdit);
+                            positionResGraph, resEditConfig(), config_.positionEdit);
 
                         auto collect = std::make_unique<Collector>();
                         collect->srcRegs = {{positionGraph, IniKeywords::Vb0}};
@@ -623,36 +592,6 @@ namespace AGRemapCore {
                         positionReplaces_.push_back(std::move(replace));
                         positionCollects_.push_back(std::move(collect));
                     }
-                }
-
-                // Whole-part accept/reject, not a sub-part window -- the qualifying hash and the
-                // vb1 are in different sections. See RaidenFixer for why that matters.
-                Collector::PartPredicate blendHashParts() {
-                    return [this](const Collector::IterData& iterData) {
-                        const Collector::OrderRanges nothing(std::vector<Collector::OrderRanges::Range>{});
-                        if (iterData.colouring == nullptr) {
-                            return nothing;
-                        }
-
-                        Hashes* hashes = ctx_.modTypeHashes();
-                        if (hashes == nullptr) {
-                            return nothing;
-                        }
-
-                        std::optional<Version> version = ctx_.version();
-
-                        for (const auto& hashVal : iterData.colouring->getIndVals(IniKeywords::Hash)) {
-                            std::optional<std::vector<std::string>> hashKeyRow =
-                                hashes->getKey(hashVal.second, version,
-                                                std::vector<std::optional<std::string>>{}, false);
-
-                            if (hashKeyRow.has_value() && !hashKeyRow->empty() && hashKeyRow->back() == BlendHashKey) {
-                                return Collector::OrderRanges::createFull();
-                            }
-                        }
-
-                        return nothing;
-                    };
                 }
 
                 /**
@@ -751,15 +690,7 @@ namespace AGRemapCore {
 
                 // ---- every other graph and register edit ----
                 void buildEdits() {
-                    IniFile* iniFile = ctx_.getIniFile();
-                    const std::optional<Version> toVersion =
-                        (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
-
-                    // head and body are told apart by a match_first_index following the shared 'ib'
-                    // hash, so 'ib' is the one index-qualified hash type here. Built up here because
-                    // buildIndexEdits, called below, is the only thing that reads it.
-                    objFilter_ = std::make_unique<ObjFilter>(ctx_.modTypeHashes(), ctx_.modTypeIndices(),
-                                                              ObjFilter::KeySet{IbHashKey}, ctx_.version());
+                    const std::optional<Version> toVersion = iniToVersion();
 
                     // 1. Drop the mod's own calls into the external ORFix library. Both halves go:
                     //    the fix re-issues NNFix itself below, in the one place it belongs, and
@@ -803,8 +734,7 @@ namespace AGRemapCore {
 
                         // Case-insensitively, as 3DMigoto matches a CommandList path: a mod writing
                         // CommandList\Global\ORFix\ORFix kept its own call beside the re-issued one (2026-09-23).
-                        return StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::ORFixPath) ||
-                               StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::NNFixPath) ||
+                        return isFixLibraryCall(value) ||
                                reissuedTexFx.find(value) != reissuedTexFx.end();
                     };
 
@@ -812,16 +742,12 @@ namespace AGRemapCore {
                     // then simply does not carry it -- see GIMICharFixerConfig::removeSrcFixCalls
                     // for why a pre-6.x row declines.
                     if (config_.removeSrcFixCalls || config_.removeSrcTexFxCalls) {
-                        removeFixCalls_ = std::make_unique<RegRemove<>>(
-                            std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
-                                {IniKeywords::Run, RegRemove<>::RemoveKeyCheck(isFixCall)}});
+                        removeFixCalls_ = RegRemove<>::of(IniKeywords::Run, RegRemove<>::RemoveKeyCheck(isFixCall));
                     }
 
                     // 2. Take the shared draw call off ("", "ib"). Each remapped object now draws
                     //    its own geometry, so the single drawindexed they all ran into is wrong.
-                    removeDrawIndexed_ = std::make_unique<RegRemove<>>(
-                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
-                            {IniKeywords::DrawIndexed, std::nullopt}});
+                    removeDrawIndexed_ = RegRemove<>::of(IniKeywords::DrawIndexed);
 
                     // 3. Re-issue that draw call per object -- with RegFillMissing, which puts it
                     //    AFTER everything the object's CommandList sets up.
@@ -860,14 +786,8 @@ namespace AGRemapCore {
                     //    of an Ayaka mod's dress.
                     fillDrawIndexed_ = std::make_unique<RegFillMissing<>>(
                         IniKeywords::DrawIndexed,
-                        [](RegFillMissing<>::ContentPart& part) {
-                            for (const std::string& handling : part.getVals(IniKeywords::Handling)) {
-                                if (StringTools::equalsIgnoreCase(StringTools::strip(handling), "skip")) {
-                                    return;
-                                }
-                            }
-                            part.addKVP(IniKeywords::DrawIndexed, DrawIndexedAuto);
-                        });
+                        RegFillMissing<>::makeFillMissing(IniKeywords::DrawIndexed, DrawIndexedAuto));
+                    fillDrawIndexed_->skipWhen = std::make_pair(IniKeywords::Handling, SkipHandling);
 
                     // 4. Re-issuing the external libraries is per object now -- see the
                     //    objFixCalls loop below, which builds one RegDelimitedAdd per call. The rule
@@ -879,35 +799,19 @@ namespace AGRemapCore {
                     //    mod, the originals being untouched and coming back via the appended source
                     //    text. See RaidenFixer for the full story, including why the blend needs a
                     //    rename of its own using the blend naming convention.
-                    const std::string toModName = toModName_;
-                    renameGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& sectionName) {
-                            return IniNamingTools::getRemapFixName(sectionName, toModName);
-                        });
+                    renameGraph_ = remapRename(RemapName::Fix);
 
                     // Each resource kind has a naming convention of its own, and using the
                     // generic RemapFix one for all of them produces names no other tool recognises
                     // (…AmberIBAmberCNRemapFix where the convention is …AmberAmberCNRemapIB).
                     // IniNamingTools has one function per kind; there is nothing to invent here.
-                    renameBlendGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& sectionName) {
-                            return IniNamingTools::getRemapBlendName(sectionName, toModName);
-                        });
+                    renameBlendGraph_ = remapRename(RemapName::Blend);
 
-                    renamePositionGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& sectionName) {
-                            return IniNamingTools::getRemapPositionName(sectionName, toModName);
-                        });
+                    renamePositionGraph_ = remapRename(RemapName::Position);
 
-                    renameTexcoordGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& sectionName) {
-                            return IniNamingTools::getRemapTexcoordName(sectionName, toModName);
-                        });
+                    renameTexcoordGraph_ = remapRename(RemapName::Texcoord);
 
-                    renameIbGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& sectionName) {
-                            return IniNamingTools::getRemapIbName(sectionName, toModName);
-                        });
+                    renameIbGraph_ = remapRename(RemapName::Ib);
 
                     // The HASH only. Source and target are different models here, so a section
                     // still naming the source's own hash never triggers on the target -- and the
@@ -917,11 +821,7 @@ namespace AGRemapCore {
                     // The index is deliberately NOT here; see buildIndexEdits and RegAssetRemap's
                     // own warning. Reverse-looking-up "0" is ambiguous (it is every character's head
                     // index) and it simply fails, writing "IndexNotFound" into a numeric field.
-                    assetRemap_ = std::make_unique<RegAssetRemap<>>(
-                        std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
-                            {IniKeywords::Hash,
-                             RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes(), IniKeywords::HashNotFound)}},
-                        toModName_, ctx_.modTypeName().value_or(""), ctx_.version(), toVersion);
+                    assetRemap_ = hashRemap(ctx_.modTypeName().value_or(""), toVersion);
 
                     // The face's register swap -- a plain register edit, applied to every part of
                     // the face graph. Left null when the config declines it, and the edit list
@@ -950,10 +850,7 @@ namespace AGRemapCore {
                     //
                     // The same reasoning RaidenFixer applies by giving its face a rename and no
                     // asset remap at all -- RaidenBoss has no tex_face_diffuse row either.
-                    faceAssetRemap_ = std::make_unique<RegAssetRemap<>>(
-                        std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
-                            {IniKeywords::Hash, RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes())}},
-                        toModName_, ctx_.modTypeName().value_or(""), ctx_.version(), toVersion);
+                    faceAssetRemap_ = hashRemap(ctx_.modTypeName().value_or(""), toVersion, std::nullopt);
 
                     renameAdapter_ = std::make_unique<GraphPartEdit<>>(renameGraph_.get());
                     renameBlendAdapter_ = std::make_unique<GraphPartEdit<>>(renameBlendGraph_.get());
@@ -1271,8 +1168,6 @@ namespace AGRemapCore {
                     objEdits_ = ObjGroupEdit(std::move(perGroupEdits), false);
                 }
 
-                IniFileFixContext ctx_;
-                std::string toModName_;
                 GIMICharFixerConfig config_;
 
                 // The source's drawn objects, the target's, and the (source -> target) pairs
@@ -1313,8 +1208,8 @@ namespace AGRemapCore {
                 std::unordered_map<ModObj, std::unique_ptr<RegNewVals<>>, Fixer::ModObjHash> newRegVals_;
                 std::unordered_map<ModObj, std::unique_ptr<RegPartEdit<>>, Fixer::ModObjHash> newRegValAdapters_;
 
-                std::vector<std::unique_ptr<TexEditorReplace<>>> texReplaces_;
-                std::vector<std::unique_ptr<TexCreatorCreate<>>> texCreates_;
+                std::vector<std::unique_ptr<TexReplace<>>> texReplaces_;
+                std::vector<std::unique_ptr<TexCreate<>>> texCreates_;
                 std::vector<std::unique_ptr<Collector>> texAddCollects_;
                 std::vector<std::unique_ptr<Collector>> texCollects_;
 

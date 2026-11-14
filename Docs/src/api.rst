@@ -239,23 +239,23 @@ BinaryFile
 
 :raw-html:`<br />`
 
-BlendDownloadData
-=================
-
-.. attributetable:: FixRaidenBoss2.BlendDownloadData
-
-.. autoclass:: FixRaidenBoss2.BlendDownloadData
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 BlendFile
 =========
 
 .. attributetable:: FixRaidenBoss2.BlendFile
 
 .. autoclass:: FixRaidenBoss2.BlendFile
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BoneCentroids
+=============
+
+.. attributetable:: FixRaidenBoss2.BoneCentroids
+
+.. autoclass:: FixRaidenBoss2.BoneCentroids
     :members:
     :private-members:
 
@@ -734,6 +734,39 @@ CppMaterialBandRemapFilter
 
 :raw-html:`<br />`
 
+ChannelMapFilter
+================
+
+.. attributetable:: FixRaidenBoss2.ChannelMapFilter
+
+.. autoclass:: FixRaidenBoss2.ChannelMapFilter
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GuidedScaleFilter
+=================
+
+.. attributetable:: FixRaidenBoss2.GuidedScaleFilter
+
+.. autoclass:: FixRaidenBoss2.GuidedScaleFilter
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegionFilter
+============
+
+.. attributetable:: FixRaidenBoss2.RegionFilter
+
+.. autoclass:: FixRaidenBoss2.RegionFilter
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CppPixelFilter
 ==============
 
@@ -844,12 +877,45 @@ CppTransparencyAdjustFilter
 
 :raw-html:`<br />`
 
+DownloadTools
+=============
+
+.. attributetable:: FixRaidenBoss2.DownloadTools
+
+.. autoclass:: FixRaidenBoss2.DownloadTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 DownloadData
 ============
 
 .. attributetable:: FixRaidenBoss2.DownloadData
 
 .. autoclass:: FixRaidenBoss2.DownloadData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+DrawPasses
+==========
+
+.. attributetable:: FixRaidenBoss2.DrawPasses
+
+.. autoclass:: FixRaidenBoss2.DrawPasses
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+DrawUVCoverage
+==============
+
+.. attributetable:: FixRaidenBoss2.DrawUVCoverage
+
+.. autoclass:: FixRaidenBoss2.DrawUVCoverage
     :members:
     :private-members:
 
@@ -866,12 +932,45 @@ File
 
 :raw-html:`<br />`
 
+FileAddCreate
+=============
+
+.. attributetable:: FixRaidenBoss2.FileAddCreate
+
+.. autoclass:: FixRaidenBoss2.FileAddCreate
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 FileDownload
 ============
 
 .. attributetable:: FixRaidenBoss2.FileDownload
 
 .. autoclass:: FixRaidenBoss2.FileDownload
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+FileDownloadCreate
+==================
+
+.. attributetable:: FixRaidenBoss2.FileDownloadCreate
+
+.. autoclass:: FixRaidenBoss2.FileDownloadCreate
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+FileRefAdd
+==========
+
+.. attributetable:: FixRaidenBoss2.FileRefAdd
+
+.. autoclass:: FixRaidenBoss2.FileRefAdd
     :members:
     :private-members:
 
@@ -894,6 +993,17 @@ FromOldVal
 .. attributetable:: FixRaidenBoss2.FromOldVal
 
 .. autoclass:: FixRaidenBoss2.FromOldVal
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GameShaders
+===========
+
+.. attributetable:: FixRaidenBoss2.GameShaders
+
+.. autoclass:: FixRaidenBoss2.GameShaders
     :members:
     :private-members:
 
@@ -1039,12 +1149,99 @@ GIMISectionClassifier
 
 :raw-html:`<br />`
 
+GlobalIniClassifiers
+====================
+
+.. attributetable:: FixRaidenBoss2.GlobalIniClassifiers
+
+.. autoclass:: FixRaidenBoss2.GlobalIniClassifiers
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 GlobalRemapIniRemover
 =====================
 
 .. attributetable:: FixRaidenBoss2.GlobalRemapIniRemover
 
 .. autoclass:: FixRaidenBoss2.GlobalRemapIniRemover
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphCollect
+============
+
+.. attributetable:: FixRaidenBoss2.GraphCollect
+
+.. autoclass:: FixRaidenBoss2.GraphCollect
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphEditVariables
+==================
+
+.. attributetable:: FixRaidenBoss2.GraphEditVariables
+
+.. autoclass:: FixRaidenBoss2.GraphEditVariables
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+EditScope
+=========
+
+.. attributetable:: FixRaidenBoss2.EditScope
+
+.. autoclass:: FixRaidenBoss2.EditScope
+    :members:
+
+:raw-html:`<br />`
+
+GraphVarApply
+=============
+
+.. attributetable:: FixRaidenBoss2.GraphVarApply
+
+.. autoclass:: FixRaidenBoss2.GraphVarApply
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphVarTake
+===============
+
+.. attributetable:: FixRaidenBoss2.GraphVarTake
+
+.. autoclass:: FixRaidenBoss2.GraphVarTake
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ShaderFilterTags
+================
+
+.. attributetable:: FixRaidenBoss2.ShaderFilterTags
+
+.. autoclass:: FixRaidenBoss2.ShaderFilterTags
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CustomShaderBackups
+===================
+
+.. attributetable:: FixRaidenBoss2.CustomShaderBackups
+
+.. autoclass:: FixRaidenBoss2.CustomShaderBackups
     :members:
     :private-members:
 
@@ -1067,6 +1264,17 @@ GraphGroupEdit
 .. attributetable:: FixRaidenBoss2.GraphGroupEdit
 
 .. autoclass:: FixRaidenBoss2.GraphGroupEdit
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegPartEdit
+===========
+
+.. attributetable:: FixRaidenBoss2.RegPartEdit
+
+.. autoclass:: FixRaidenBoss2.RegPartEdit
     :members:
     :private-members:
 
@@ -1122,6 +1330,17 @@ GraphRename
 .. attributetable:: FixRaidenBoss2.GraphRename
 
 .. autoclass:: FixRaidenBoss2.GraphRename
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphVarRename
+==============
+
+.. attributetable:: FixRaidenBoss2.GraphVarRename
+
+.. autoclass:: FixRaidenBoss2.GraphVarRename
     :members:
     :private-members:
 
@@ -1292,6 +1511,28 @@ IfTemplateTree
 
 :raw-html:`<br />`
 
+ListValue
+=========
+
+.. attributetable:: FixRaidenBoss2.ListValue
+
+.. autoclass:: FixRaidenBoss2.ListValue
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+SectionText
+===========
+
+.. attributetable:: FixRaidenBoss2.SectionText
+
+.. autoclass:: FixRaidenBoss2.SectionText
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IndexCounts
 ===========
 
@@ -1457,6 +1698,39 @@ IniParseBuilder
 
 :raw-html:`<br />`
 
+IniParseData
+============
+
+.. attributetable:: FixRaidenBoss2.IniParseData
+
+.. autoclass:: FixRaidenBoss2.IniParseData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniParseDownloadData
+====================
+
+.. attributetable:: FixRaidenBoss2.IniParseDownloadData
+
+.. autoclass:: FixRaidenBoss2.IniParseDownloadData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniParseRows
+============
+
+.. attributetable:: FixRaidenBoss2.IniParseRows
+
+.. autoclass:: FixRaidenBoss2.IniParseRows
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IniRemovalContext
 =================
 
@@ -1512,6 +1786,17 @@ IniSectionGraph
 
 :raw-html:`<br />`
 
+IniSharedState
+==============
+
+.. attributetable:: FixRaidenBoss2.IniSharedState
+
+.. autoclass:: FixRaidenBoss2.IniSharedState
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IniSrcResourceModel
 ===================
 
@@ -1562,6 +1847,28 @@ InvertAlphaFilter
 .. attributetable:: FixRaidenBoss2.InvertAlphaFilter
 
 .. autoclass:: FixRaidenBoss2.InvertAlphaFilter
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IParseResult
+============
+
+.. attributetable:: FixRaidenBoss2.IParseResult
+
+.. autoclass:: FixRaidenBoss2.IParseResult
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IterGraphGroupEdit
+==================
+
+.. attributetable:: FixRaidenBoss2.IterGraphGroupEdit
+
+.. autoclass:: FixRaidenBoss2.IterGraphGroupEdit
     :members:
     :private-members:
 
@@ -1757,6 +2064,17 @@ PositionFile
 
 :raw-html:`<br />`
 
+RabbitFX
+========
+
+.. attributetable:: FixRaidenBoss2.RabbitFX
+
+.. autoclass:: FixRaidenBoss2.RabbitFX
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 RegAdd
 ======
 
@@ -1831,6 +2149,17 @@ RegFillMissing
 
 :raw-html:`<br />`
 
+RegIfTemplateAdd
+================
+
+.. attributetable:: FixRaidenBoss2.RegIfTemplateAdd
+
+.. autoclass:: FixRaidenBoss2.RegIfTemplateAdd
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 RegNewVals
 ==========
 
@@ -1859,6 +2188,17 @@ RegRemove
 .. attributetable:: FixRaidenBoss2.RegRemove
 
 .. autoclass:: FixRaidenBoss2.RegRemove
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegAnchorAdd
+============
+
+.. attributetable:: FixRaidenBoss2.RegAnchorAdd
+
+.. autoclass:: FixRaidenBoss2.RegAnchorAdd
     :members:
     :private-members:
 
@@ -2135,6 +2475,83 @@ ShapeKeyChecksums
 
 :raw-html:`<br />`
 
+ShapeKeyDispatchSizes
+=====================
+
+.. attributetable:: FixRaidenBoss2.ShapeKeyDispatchSizes
+
+.. autoclass:: FixRaidenBoss2.ShapeKeyDispatchSizes
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ShapeKeyRemaps
+==============
+
+.. attributetable:: FixRaidenBoss2.ShapeKeyRemaps
+
+.. autoclass:: FixRaidenBoss2.ShapeKeyRemaps
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+MaterialCodes
+=============
+
+.. attributetable:: FixRaidenBoss2.MaterialCodes
+
+.. autoclass:: FixRaidenBoss2.MaterialCodes
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+MaterialColours
+===============
+
+.. attributetable:: FixRaidenBoss2.MaterialColours
+
+.. autoclass:: FixRaidenBoss2.MaterialColours
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TextureDescs
+============
+
+.. attributetable:: FixRaidenBoss2.TextureDescs
+
+.. autoclass:: FixRaidenBoss2.TextureDescs
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TextureThumbprints
+==================
+
+.. attributetable:: FixRaidenBoss2.TextureThumbprints
+
+.. autoclass:: FixRaidenBoss2.TextureThumbprints
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TextureKinds
+============
+
+.. attributetable:: FixRaidenBoss2.TextureKinds
+
+.. autoclass:: FixRaidenBoss2.TextureKinds
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 SideMeshes
 ==========
 
@@ -2201,6 +2618,28 @@ TexCache
 
 :raw-html:`<br />`
 
+TexThumbprint
+=============
+
+.. attributetable:: FixRaidenBoss2.TexThumbprint
+
+.. autoclass:: FixRaidenBoss2.TexThumbprint
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TexcoordFile
+============
+
+.. attributetable:: FixRaidenBoss2.TexcoordFile
+
+.. autoclass:: FixRaidenBoss2.TexcoordFile
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 TexCreate
 =========
 
@@ -2262,6 +2701,28 @@ TextureFile
 .. attributetable:: FixRaidenBoss2.TextureFile
 
 .. autoclass:: FixRaidenBoss2.TextureFile
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TextureRegisters
+================
+
+.. attributetable:: FixRaidenBoss2.TextureRegisters
+
+.. autoclass:: FixRaidenBoss2.TextureRegisters
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TextureRoles
+============
+
+.. attributetable:: FixRaidenBoss2.TextureRoles
+
+.. autoclass:: FixRaidenBoss2.TextureRoles
     :members:
     :private-members:
 
@@ -2509,6 +2970,17 @@ VGRemap
 
 :raw-html:`<br />`
 
+VGRemapBlendReplace
+===================
+
+.. attributetable:: FixRaidenBoss2.VGRemapBlendReplace
+
+.. autoclass:: FixRaidenBoss2.VGRemapBlendReplace
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 VGRemaps
 ========
 
@@ -2526,6 +2998,28 @@ VGSplitGroupResource
 .. attributetable:: FixRaidenBoss2.VGSplitGroupResource
 
 .. autoclass:: FixRaidenBoss2.VGSplitGroupResource
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+WWMIBlend
+=========
+
+.. attributetable:: FixRaidenBoss2.WWMIBlend
+
+.. autoclass:: FixRaidenBoss2.WWMIBlend
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+WWMISections
+============
+
+.. attributetable:: FixRaidenBoss2.WWMISections
+
+.. autoclass:: FixRaidenBoss2.WWMISections
     :members:
     :private-members:
 
@@ -2559,6 +3053,50 @@ WWMIParserConfig
 .. attributetable:: FixRaidenBoss2.WWMIParserConfig
 
 .. autoclass:: FixRaidenBoss2.WWMIParserConfig
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+WWMIShapeKeys
+=============
+
+.. attributetable:: FixRaidenBoss2.WWMIShapeKeys
+
+.. autoclass:: FixRaidenBoss2.WWMIShapeKeys
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+SkeletonNumberingProbe
+======================
+
+.. attributetable:: FixRaidenBoss2.SkeletonNumberingProbe
+
+.. autoclass:: FixRaidenBoss2.SkeletonNumberingProbe
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+LynaeData
+=========
+
+.. attributetable:: FixRaidenBoss2.LynaeData
+
+.. autoclass:: FixRaidenBoss2.LynaeData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+WWMINames
+=========
+
+.. attributetable:: FixRaidenBoss2.WWMINames
+
+.. autoclass:: FixRaidenBoss2.WWMINames
     :members:
     :private-members:
 
@@ -2673,6 +3211,22 @@ ColourConsts
 ============
 
 .. autoclass:: FixRaidenBoss2.ColourConsts
+    :members:
+
+:raw-html:`<br />`
+
+ColourRanges
+============
+
+.. autoclass:: FixRaidenBoss2.ColourRanges
+    :members:
+
+:raw-html:`<br />`
+
+Colours
+=======
+
+.. autoclass:: FixRaidenBoss2.Colours
     :members:
 
 :raw-html:`<br />`
@@ -2819,6 +3373,14 @@ IniKeywords
 ===========
 
 .. autoclass:: FixRaidenBoss2.IniKeywords
+    :members:
+
+:raw-html:`<br />`
+
+IniComments
+===========
+
+.. autoclass:: FixRaidenBoss2.IniComments
     :members:
 
 :raw-html:`<br />`

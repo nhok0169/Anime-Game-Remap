@@ -13,16 +13,15 @@
 
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
 #include "AGRemapCore/data/IniFixData/TexFxLayout.h"
-#include "AGRemapCore/data/IniFixData/ModBranches.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/data/IniFixData/SideMeshes.h"
 #include "AGRemapCore/data/IniFixData/TexRegLayout.h"
-#include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstring>
 #include <filesystem>
 #include <functional>
 #include <memory>
@@ -37,12 +36,18 @@
 #include "AGRemapCore/constants/RegFillMissingMode.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/VGRemap.h"
+#include "AGRemapCore/model/buffers/BufElementType.h"
+#include "AGRemapCore/model/buffers/BufFloat.h"
+#include "AGRemapCore/model/buffers/BufUnorm.h"
 #include "AGRemapCore/model/buffers/VGComponentSplit.h"
 #include "AGRemapCore/model/files/BinaryFile.h"
 #include "AGRemapCore/model/files/BlendFile.h"
+#include "AGRemapCore/model/files/BufFile.h"
 #include "AGRemapCore/model/files/IbFile.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/files/TextureFile.h"
+#include "AGRemapCore/model/iftemplate/IfContentPart.h"
+#include "AGRemapCore/model/iftemplate/IfTemplate.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
 #include "AGRemapCore/model/iniresources/RemapIniResource.h"
 #include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
@@ -51,6 +56,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
+#include "AGRemapCore/data/IniFixData/TemplateFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h"
@@ -63,9 +69,10 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BufEdit.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h"
-#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
+#include "AGRemapCore/model/iftemplate/ListValue.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAnchorAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h"
@@ -137,44 +144,15 @@ namespace AGRemapCore {
         const std::string OverrideVertexCount = "override_vertex_count";
         const std::string DrawIndexedAuto = "auto";
 
-        // A rename rule: one register becoming the listed ones, unconditionally.
-        std::pair<std::string, RegRemap<>::KeyRemapValue> renameRule(const std::string& from, std::vector<std::string> to) {
-            RemapList<std::string, std::string> targets;
-            for (std::string& reg : to) {
-                targets.push_back(std::move(reg));
-            }
-
-            return {from, RegRemap<>::KeyRemapValue(std::move(targets))};
-        }
-
-
         const std::string FormatKey = "format";
         const std::string R32Format = "DXGI_FORMAT_R32_UINT";
         const std::string StrideKey = "stride";
 
 
-        // 'extras' are forced onto the generated resource section -- see ResEditConfig::extraKVPs.
-        // Empty for every buffer but the Texcoord, whose width the target decides.
-        BaseResEdit<>::ResEditConfig makeResEditConfig(std::vector<std::pair<std::string, std::string>> extras = {}) {
-            BaseResEdit<>::ResEditConfig config{
-                IniKeywords::Filename,
-                [](const std::string& value) { return value; },
-                [](const std::string& file) { return file; }
-            };
-            config.extraKVPs = std::move(extras);
-            return config;
-        }
-
-
-        // A file the PARSER registered as a download rather than one the mod ships, recognised by the
-        // RemapDL its name must carry, as the no-mesh check below recognises one.
-        bool isDownloadPath(const std::string& path) {
-            return FileService::pathToStr(FileService::strToPath(path).filename()).find(IniKeywords::RemapDL) != std::string::npos;
-        }
-
-        // ...and one not on disk (yet): downloads are fetched in fixResources, AFTER the fix reads them.
+        // A file the PARSER registered as a download (IniNamingTools::isDownloadFile) and not on disk
+        // (yet): downloads are fetched in fixResources, AFTER the fix reads them.
         bool isUnfetchedDownload(const std::string& path) {
-            if (!isDownloadPath(path)) {
+            if (!IniNamingTools::isDownloadFile(path)) {
                 return false;
             }
             std::error_code ec;
@@ -182,190 +160,8 @@ namespace AGRemapCore {
         }
 
 
-        // ---- a mod's own draw ranges, through the split (2026-09-21) ----
-        //
-        // A mod that draws for itself carries `drawindexed = <count>, <start>, <base>` lines, and a
-        // mod with toggles carries SEVERAL, each a range of its object's index buffer that one toggle
-        // shows or hides. The split removes triangles from that buffer -- the ones another component
-        // draws, and not only at its end (Citlali's eyes sit in the middle of her body) -- so the
-        // mod's own numbers overrun the written buffer and every range after a removal draws the
-        // wrong triangles. Measured on a real Citlali mod: a head draw of 23439 indices over a split
-        // buffer of 20451, and nine body ranges summing past the body's end by exactly the eyes' 864.
-        //
-        // Each range is remapped through the SOURCE index of every kept triangle (ascending): its new
-        // start is the number of kept triangles before it, its new count the number inside it. An
-        // `auto` draw is left alone. File-local: it needs the split, which only this template has.
-        //
-        // SEE-THROUGH RANGES (2026-09-26). With a DrawTranslucency, a range the mod's TexFx mask marks
-        // see-through is not drawn in place: its line becomes `run = CustomShader<...>`, and the section
-        // it names -- written to `sections` once per name -- blends the remapped draw into the colour
-        // target. See GIMIComponentFixerConfig::Component::texFxBlend.
-        struct DrawTranslucency {
-            std::function<bool(std::size_t firstIndex, std::size_t indexCount)> isTranslucent;
-            float factor = 0.0f;
-            std::string namePrefix;
-            std::string* sections = nullptr;
-            bool* sectionsInCopies = nullptr;
-            std::shared_ptr<std::unordered_set<std::string>> written = std::make_shared<std::unordered_set<std::string>>();
-        };
-
-        class DrawRangeRemap : public BaseRegEdit<> {
-            public:
-                explicit DrawRangeRemap(std::vector<std::size_t> keptIds, std::optional<DrawTranslucency> translucency = std::nullopt):
-                    keptIds_(std::move(keptIds)), translucency_(std::move(translucency)) {}
-
-                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
-                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
-                    (void)sectionName;
-                    (void)modType;
-                    (void)modName;
-
-                    const auto ranges = toRangeSpec(partRanges);
-                    const std::vector<std::pair<long long, std::string>> vals = part.getValsWithInds(IniKeywords::DrawIndexed, true, ranges);
-                    if (vals.empty()) {
-                        return part;
-                    }
-
-                    std::vector<std::string> remapped;
-                    std::vector<bool> seeThrough;
-                    bool changed = false;
-                    for (const auto& entry : vals) {
-                        std::optional<std::string> value = remap(entry.second);
-                        changed = changed || value.has_value();
-                        remapped.push_back(value.value_or(entry.second));
-
-                        const std::optional<std::vector<long long>> numbers = parse(entry.second);
-                        seeThrough.push_back(value.has_value() && translucency_.has_value() && numbers.has_value()
-                            && translucency_->isTranslucent(static_cast<std::size_t>((*numbers)[1]), static_cast<std::size_t>((*numbers)[0])));
-                    }
-
-                    if (changed) {
-                        part.replaceVals({{IniKeywords::DrawIndexed, ContentPart::ReplaceSpec(remapped)}}, false, ranges);
-                    }
-
-                    // Each see-through line swapped for a call, at the same position.
-                    if (std::find(seeThrough.begin(), seeThrough.end(), true) != seeThrough.end()) {
-                        const std::vector<std::pair<long long, std::string>> placed = part.getValsWithInds(IniKeywords::DrawIndexed, true, ranges);
-                        for (std::size_t i = 0; i < placed.size() && i < seeThrough.size(); ++i) {
-                            if (!seeThrough[i]) {
-                                continue;
-                            }
-
-                            const std::string name = customShaderName(remapped[i]);
-                            const std::size_t pos = static_cast<std::size_t>(placed[i].first);
-                            part.removeKVPAt(pos);
-                            part.addKVPAt(static_cast<long long>(pos), IniKeywords::Run, name);
-                            writeSection(name, remapped[i]);
-                        }
-                    }
-                    return part;
-                }
-
-            private:
-                std::vector<std::size_t> keptIds_;
-                std::optional<DrawTranslucency> translucency_;
-
-                std::string customShaderName(const std::string& drawValue) const {
-                    std::string suffix;
-                    for (char c : drawValue) {
-                        if (c >= '0' && c <= '9') {
-                            suffix += c;
-                        } else if (c == ',' && !suffix.empty() && suffix.back() != '_') {
-                            suffix += '_';
-                        }
-                    }
-                    return "CustomShader" + translucency_->namePrefix + suffix;
-                }
-
-                // The blend state: the game's shaders, the draw blended into o1 -- the G-buffer's colour --
-                // and every other target left as it was under the part.
-                void writeSection(const std::string& name, const std::string& drawValue) const {
-                    if (translucency_->sections == nullptr || !translucency_->written->insert(name).second) {
-                        return;
-                    }
-
-                    std::string factor = std::to_string(translucency_->factor);
-                    std::string text = "[" + name + "]\n";
-                    for (int target = 0; target < 8; ++target) {
-                        text += "blend[" + std::to_string(target) + "] = "
-                                + (target == 1 ? "ADD BLEND_FACTOR INV_BLEND_FACTOR" : "ADD ZERO ONE") + "\n";
-                    }
-                    for (int channel = 0; channel < 4; ++channel) {
-                        text += "blend_factor[" + std::to_string(channel) + "] = " + factor + "\n";
-                    }
-                    text += IniKeywords::DrawIndexed + " = " + drawValue + "\n";
-
-                    std::string& sections = *translucency_->sections;
-                    if (sections.empty()) {
-                        sections = "; The mod's see-through draws (its TexFx mask), through a blend state: TexFx does not\n"
-                                   "; serve the skin's shaders.\n";
-                    } else {
-                        sections += "\n";
-                    }
-                    sections += text;
-                    if (translucency_->sectionsInCopies != nullptr) {
-                        *translucency_->sectionsInCopies = true;
-                    }
-                }
-
-                // "count, start, base" -> its numbers, or nullopt for anything else (`auto`)
-                static std::optional<std::vector<long long>> parse(const std::string& value) {
-                    std::vector<long long> numbers;
-                    std::size_t pos = 0;
-                    while (pos <= value.size()) {
-                        std::size_t comma = value.find(',', pos);
-                        std::string field(StringTools::strip(value.substr(pos, comma == std::string::npos ? std::string::npos : comma - pos)));
-                        if (field.empty() || field.find_first_not_of("-0123456789") != std::string::npos) {
-                            return std::nullopt;
-                        }
-                        numbers.push_back(std::stoll(field));
-                        if (comma == std::string::npos) {
-                            break;
-                        }
-                        pos = comma + 1;
-                    }
-
-                    if (numbers.size() < 2 || numbers[0] < 0 || numbers[1] < 0) {
-                        return std::nullopt;
-                    }
-                    return numbers;
-                }
-
-                // "count, start, base" -> the remapped line, or nullopt for anything else (`auto`)
-                std::optional<std::string> remap(const std::string& value) const {
-                    std::vector<long long> numbers;
-                    std::size_t pos = 0;
-                    while (pos <= value.size()) {
-                        std::size_t comma = value.find(',', pos);
-                        std::string field(StringTools::strip(value.substr(pos, comma == std::string::npos ? std::string::npos : comma - pos)));
-                        if (field.empty() || field.find_first_not_of("-0123456789") != std::string::npos) {
-                            return std::nullopt;
-                        }
-                        numbers.push_back(std::stoll(field));
-                        if (comma == std::string::npos) {
-                            break;
-                        }
-                        pos = comma + 1;
-                    }
-
-                    if (numbers.size() < 2 || numbers[0] < 0 || numbers[1] < 0) {
-                        return std::nullopt;
-                    }
-
-                    const std::size_t first = static_cast<std::size_t>(numbers[1]) / 3;
-                    const std::size_t last = (static_cast<std::size_t>(numbers[1]) + static_cast<std::size_t>(numbers[0])) / 3;
-                    const auto begin = std::lower_bound(keptIds_.begin(), keptIds_.end(), first);
-                    const auto end = std::lower_bound(keptIds_.begin(), keptIds_.end(), last);
-                    const std::size_t start = static_cast<std::size_t>(begin - keptIds_.begin());
-                    const std::size_t count = static_cast<std::size_t>(end - begin);
-
-                    std::string out = std::to_string(count * 3) + ", " + std::to_string(start * 3);
-                    for (std::size_t i = 2; i < numbers.size(); ++i) {
-                        out += ", " + std::to_string(numbers[i]);
-                    }
-                    return out;
-                }
-        };
+        // One value a merged master's branch binds, with the condition it is taken under (GraphCollect::rowsOf)
+        using BranchRow = GraphCollectRow<>;
 
 
         // ---- what one mod's .ini names, read off the raw parsed sections ----
@@ -381,7 +177,7 @@ namespace AGRemapCore {
             // master names one variant's per $swapvar branch. A branch that nulls the object is kept,
             // as an entry with no file, so it can answer for itself -- see GIMIMergeFixer's
             // SlotFiles::ibs for what dropping it cost.
-            std::vector<BranchVal> ibs;
+            std::vector<BranchRow> ibs;
 
             std::string diffuse;
             std::string lightMap;
@@ -436,9 +232,9 @@ namespace AGRemapCore {
             bool skipsGameFace = false;
 
             // Every branch's -- see ModObjectFiles::ibs.
-            std::vector<BranchVal> positions;
-            std::vector<BranchVal> blends;
-            std::vector<BranchVal> texcoords;
+            std::vector<BranchRow> positions;
+            std::vector<BranchRow> blends;
+            std::vector<BranchRow> texcoords;
 
             std::vector<std::pair<std::string, ModObjectFiles>> objects;    // in the config's draw order
 
@@ -453,34 +249,21 @@ namespace AGRemapCore {
         };
 
 
-        // How a merged master's per-branch values are read and paired is shared with the merge --
-        // see ModBranches.
-        const auto firstVal = &ModBranches::firstVal;
-
-
-        std::size_t fileSize(const std::string& path) {
-            std::error_code ec;
-            const auto size = std::filesystem::file_size(FileService::strToPath(path), ec);
-            return ec ? 0 : static_cast<std::size_t>(size);
-        }
-
-
         /**
          * The multi-component fixer -- read GIMICharFixerImpl first, this is its shape with the
          * geometry split in the middle. One instance per (mod, target component).
          */
-        class GIMIComponentFixerImpl: public Fixer {
+        class GIMIComponentFixerImpl: public TemplateFixer {
             public:
                 GIMIComponentFixerImpl(BaseIniParser<>* parser, const std::string& toModName,
                                         std::optional<int> modTypeId, GIMIComponentFixerConfig config,
                                         std::string componentName):
-                    Fixer(parser, nullptr, {},
-                           toModName.empty() ? std::optional<std::vector<std::string>>(std::nullopt)
-                                             : std::optional<std::vector<std::string>>({toModName}),
-                           nullptr, makeConfig()),
-                    ctx_(parser != nullptr ? parser->getIniFile() : nullptr, modTypeId), toModName_(toModName),
+                    TemplateFixer(parser, toModName, modTypeId),
                     config_(std::move(config)), componentName_(std::move(componentName)) {
-                    this->setCtx(&ctx_);
+                    // A fixer that gave up withdraws the downloads too. They are the .ini file's rather
+                    // than this fixer's: this is right while every fixer over one file succeeds or fails
+                    // together, which holds here because each component's fixer reads the same files.
+                    this->withdrawDownloadsOnGiveUp = true;
 
                     for (const GIMIComponentFixerConfig::Component& c : config_.components) {
                         if (c.name == componentName_) {
@@ -488,8 +271,7 @@ namespace AGRemapCore {
                         }
                     }
 
-                    const auto* facts = dynamic_cast<const TextureOverrideFacts*>(parser);
-                    recolourOnly_ = facts != nullptr && facts->isRecolourOnly();
+                    recolourOnly_ = parser != nullptr && parser->parseData().isRecolourOnly();
 
                     // Nothing to build without the mod's own files: every edit below is keyed by
                     // what the component draws, which only the split knows.
@@ -548,7 +330,7 @@ namespace AGRemapCore {
                     if (anyFace && !files_.faceHash.empty()) {
                         IniFile* iniFile = ctx_.getIniFile();
                         Hashes* hashes = ctx_.modTypeHashes();
-                        const std::optional<Version> toVersion = (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
+                        const std::optional<Version> toVersion = iniToVersion();
                         std::optional<std::string> moved;
                         if (hashes != nullptr) {
                             moved = hashes->replace(files_.faceHash, ctx_.version(),
@@ -563,40 +345,7 @@ namespace AGRemapCore {
                     this->copyPreamble = config_.copyPreamble;
                 }
 
-            protected:
-                // GIMIFixer's own hands every group edit a nullptr .ini file, which stops a
-                // collect ever building anything -- see GIMICharFixerImpl.
-                void applyGraphGroupEdits(const std::string& modName) override {
-                    if (this->graphGroups() == nullptr) {
-                        return;
-                    }
-
-                    for (Fixer::GroupEdit* edit : this->graphGroupEdits) {
-                        if (edit != nullptr) {
-                            edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), nullptr, modName);
-                        }
-                    }
-
-                    // A fixer that gave up withdraws the downloads too. The parser registers one per
-                    // object it filled, at parse time, and fixResources fetches every one it finds
-                    // whether or not anything references it -- so writing nothing would still drop the
-                    // game's files into the mod's folder. They are the .ini file's rather than this
-                    // fixer's: this is right while every fixer over one file succeeds or fails
-                    // together, which holds here because each component's fixer reads the same files.
-                    if (gaveUp_ && ctx_.getIniFile() != nullptr) {
-                        ctx_.getIniFile()->getFileDownloads().clear();
-                    }
-                }
-
             private:
-                // Gives up: the fixer writes NOTHING. See GraphGroupRemove -- returning without this
-                // renders the mod's own sections again under their source names, which the remover
-                // cannot strip and every later run appends to, and the run counts the .ini as fixed.
-                void giveUp() {
-                    gaveUp_ = true;
-                    this->graphGroupEdits = {&removeEveryGroup_};
-                }
-
                 // ---- the mod's files ----
                 bool readFiles() {
                     IniFile* iniFile = ctx_.getIniFile();
@@ -612,18 +361,31 @@ namespace AGRemapCore {
                     const auto& templates = iniFile->getIfTemplates();
 
                     auto fileOf = [&](const std::string& resource) {
-                        return ModBranches::fileOf(templates, resource, folder);
+                        const auto found = resource.empty() ? templates.end() : templates.find(resource);
+                        const std::optional<std::string> file = (found == templates.end() || found->second == nullptr)
+                            ? std::nullopt : found->second->firstVal(IniKeywords::Filename);
+                        return (!file.has_value() || file->empty()) ? std::string() : FileService::absPathOfRelPath(*file, folder);
+                    };
+
+                    // How many bytes an index takes in the buffer this resource names -- see
+                    // IbFile::bytesPerIndexOf.
+                    auto bytesPerIndexOf = [&](const std::string& resource) -> std::size_t {
+                        const auto found = resource.empty() ? templates.end() : templates.find(resource);
+                        if (found == templates.end() || found->second == nullptr) {
+                            return 4;
+                        }
+                        return IbFile::bytesPerIndexOf(found->second->firstVal(IniKeywords::Format).value_or(""));
                     };
 
                     // THROUGH `run =`, every branch: a merged master's TextureOverride is nothing but
                     // hash, match_first_index and run, and read off the matched section alone every
                     // buffer of it came out empty and the whole .ini was skipped.
                     const auto filesThroughRun = [&](const std::string& section, const std::string& reg) {
-                        std::vector<BranchVal> out;
-                        for (const BranchVal& value : branches_.valsThroughRun(templates, section, reg)) {
-                            std::string file = fileOf(ModBranches::resourceOf(value.val));
+                        std::vector<BranchRow> out;
+                        for (const BranchRow& value : valsThroughRun(section, reg)) {
+                            std::string file = fileOf(IniNamingTools::boundResource(value.value));
                             if (!file.empty()) {
-                                out.push_back(BranchVal{std::move(file), value.query});
+                                out.push_back(BranchRow::conditioned(std::move(file), value.condition));
                             }
                         }
 
@@ -631,7 +393,7 @@ namespace AGRemapCore {
                     };
 
                     const auto firstFile = [&](const std::string& section, const std::string& reg) {
-                        return fileOf(ModBranches::resourceOf(branches_.firstValThroughRun(templates, section, reg)));
+                        return fileOf(IniNamingTools::boundResource(firstValThroughRun(section, reg)));
                     };
 
                     std::unordered_map<std::string, ModObjectFiles> objects;
@@ -642,7 +404,7 @@ namespace AGRemapCore {
                         }
 
                         const Template& tpl = *entry.second;
-                        std::optional<std::string> hashVal = firstVal(tpl, IniKeywords::Hash);
+                        std::optional<std::string> hashVal = tpl.firstVal(IniKeywords::Hash);
                         if (!hashVal.has_value()) {
                             continue;
                         }
@@ -656,14 +418,14 @@ namespace AGRemapCore {
 
                         const std::string& sectionName = entry.first;
                         const std::string& hashType = hashKey->back();
-                        const auto readBuffer = [&](std::vector<BranchVal>& branches, std::string& first, const std::string& reg) {
+                        const auto readBuffer = [&](std::vector<BranchRow>& branches, std::string& first, const std::string& reg) {
                             if (!branches.empty()) {
                                 return;
                             }
 
                             branches = filesThroughRun(sectionName, reg);
                             if (!branches.empty()) {
-                                first = branches.front().val;
+                                first = branches.front().value;
                             }
                         };
 
@@ -674,7 +436,7 @@ namespace AGRemapCore {
                         } else if (hashType == TexcoordHashKey) {
                             readBuffer(files_.texcoords, files_.texcoord, IniKeywords::Vb1);
                         } else if (hashType == FaceDiffuseHashKey) {
-                            const std::optional<std::string> handling = firstVal(tpl, IniKeywords::Handling);
+                            const std::optional<std::string> handling = tpl.firstVal(IniKeywords::Handling);
                             if (handling.has_value() && StringTools::equalsIgnoreCase(StringTools::strip(*handling), "skip")) {
                                 files_.skipsGameFace = true;
                             }
@@ -694,7 +456,7 @@ namespace AGRemapCore {
                                 }
                             }
                         } else if (hashType == IbHashKey) {
-                            std::optional<std::string> index = firstVal(tpl, IniKeywords::MatchFirstIndex);
+                            std::optional<std::string> index = tpl.firstVal(IniKeywords::MatchFirstIndex);
                             if (!index.has_value()) {
                                 continue;
                             }
@@ -718,33 +480,33 @@ namespace AGRemapCore {
                             }
 
                             ModObjectFiles objFiles;
-                            for (const BranchVal& rawIb : branches_.valsThroughRun(templates, sectionName, IniKeywords::Ib)) {
+                            for (const BranchRow& rawIb : valsThroughRun(sectionName, IniKeywords::Ib)) {
                                 // `ib = null` hides the object in THIS branch -- see ModObjectFiles::ibs.
-                                if (StringTools::equalsIgnoreCase(rawIb.val, IniKeywords::Null)) {
-                                    objFiles.ibs.push_back(BranchVal{std::string(), rawIb.query});
+                                if (StringTools::equalsIgnoreCase(rawIb.value, IniKeywords::Null)) {
+                                    objFiles.ibs.push_back(BranchRow::conditioned(std::string(), rawIb.condition));
                                     continue;
                                 }
 
-                                const std::string resource = ModBranches::resourceOf(rawIb.val);
+                                const std::string resource = IniNamingTools::boundResource(rawIb.value);
                                 std::string file = fileOf(resource);
                                 if (file.empty()) {
                                     continue;
                                 }
 
-                                files_.ibBytesPerIndex[file] = ModBranches::ibBytesPerIndexOf(templates, resource);
+                                files_.ibBytesPerIndex[file] = bytesPerIndexOf(resource);
                                 if (objFiles.ib.empty()) {
                                     objFiles.ib = file;
                                 }
 
-                                objFiles.ibs.push_back(BranchVal{std::move(file), rawIb.query});
+                                objFiles.ibs.push_back(BranchRow::conditioned(std::move(file), rawIb.condition));
                             }
 
                             // The first branch's textures: a band legend's diffuse gate is one
                             // filter per object, not per branch.
                             using SourceLayout = GIMIComponentFixerConfig::SourceLayout;
                             bool ownNNFix = false;
-                            for (const BranchVal& call : branches_.valsThroughRun(templates, sectionName, IniKeywords::Run)) {
-                                const std::string path(StringTools::strip(call.val));
+                            for (const BranchRow& call : valsThroughRun(sectionName, IniKeywords::Run)) {
+                                const std::string path(StringTools::strip(call.value));
                                 objFiles.ownORFix = objFiles.ownORFix || StringTools::equalsIgnoreCase(path, IniKeywords::ORFixPath);
                                 ownNNFix = ownNNFix || StringTools::equalsIgnoreCase(path, IniKeywords::NNFixPath);
                             }
@@ -782,8 +544,8 @@ namespace AGRemapCore {
                             // ps-t0..2 names exactly one role, no two the same. A mod in the game's own order
                             // (the case this is for) binds without a fix call and names its files plainly.
                             bool ownFixCall = objFiles.ownORFix;
-                            for (const BranchVal& call : branches_.valsThroughRun(templates, sectionName, IniKeywords::Run)) {
-                                ownFixCall = ownFixCall || StringTools::equalsIgnoreCase(StringTools::strip(call.val), IniKeywords::NNFixPath);
+                            for (const BranchRow& call : valsThroughRun(sectionName, IniKeywords::Run)) {
+                                ownFixCall = ownFixCall || StringTools::equalsIgnoreCase(StringTools::strip(call.value), IniKeywords::NNFixPath);
                             }
 
                             if (config_.texRegsByName && !ownFixCall) {
@@ -823,8 +585,8 @@ namespace AGRemapCore {
                                 if (objFiles.diffuseReg.empty()) {
                                     objFiles.diffuseReg = objFiles.normalMapLayout ? ShiftedDiffuseReg : DiffuseReg;
                                 }
-                                for (const BranchVal& raw : branches_.valsThroughRun(templates, sectionName, objFiles.diffuseReg)) {
-                                    const std::string resource = ModBranches::resourceOf(raw.val);
+                                for (const BranchRow& raw : valsThroughRun(sectionName, objFiles.diffuseReg)) {
+                                    const std::string resource = IniNamingTools::boundResource(raw.value);
                                     const std::string file = fileOf(resource);
                                     if (!file.empty()) {
                                         objFiles.diffuseResources.emplace_back(StringTools::toLower(resource), file);
@@ -840,26 +602,26 @@ namespace AGRemapCore {
                     // no `else`; the parser covers the path where neither holds by referencing the game's
                     // buffer as a download UNCONDITIONALLY at the top of the root section, where the
                     // chain's own binding, run after it, overrides it on every real path. But a branch
-                    // list reads root first, and ModBranches::pick takes the first compatible value, so
+                    // list reads root first, and GraphCollect::valueUnder takes the first compatible value, so
                     // the download answered for EVERY state: the split read it (a crash on a first run,
                     // before fixResources fetches it -- a Citlali merged master) or, once fetched,
                     // remapped the game's own buffer in place of the mod's. When a list holds any file
                     // of the mod's own, its downloads are dropped from it; a list of nothing but
                     // downloads (a mod missing that part outright) keeps them.
-                    const auto preferAuthored = [](std::vector<BranchVal>& list, std::string& first) {
-                        const bool anyAuthored = std::any_of(list.begin(), list.end(), [](const BranchVal& v) {
-                            return !v.val.empty() && !isDownloadPath(v.val);
+                    const auto preferAuthored = [](std::vector<BranchRow>& list, std::string& first) {
+                        const bool anyAuthored = std::any_of(list.begin(), list.end(), [](const BranchRow& v) {
+                            return !v.value.empty() && !IniNamingTools::isDownloadFile(v.value);
                         });
                         if (!anyAuthored) {
                             return;
                         }
-                        list.erase(std::remove_if(list.begin(), list.end(), [](const BranchVal& v) {
-                            return !v.val.empty() && isDownloadPath(v.val);
+                        list.erase(std::remove_if(list.begin(), list.end(), [](const BranchRow& v) {
+                            return !v.value.empty() && IniNamingTools::isDownloadFile(v.value);
                         }), list.end());
                         first.clear();
-                        for (const BranchVal& v : list) {
-                            if (!v.val.empty()) {
-                                first = v.val;
+                        for (const BranchRow& v : list) {
+                            if (!v.value.empty()) {
+                                first = v.value;
                                 break;
                             }
                         }
@@ -898,28 +660,25 @@ namespace AGRemapCore {
                     // EVERY index buffer have to be downloads for this to skip: a mod that ships only
                     // index buffers over the game's own vertices is a real kind of mod -- it hides
                     // parts of the model -- and still has something of its own to split.
-                    const auto isDownload = [](const std::string& path) {
-                        return FileService::pathToStr(FileService::strToPath(path).filename()).find(IniKeywords::RemapDL)
-                               != std::string::npos;
-                    };
+                    const auto isDownload = &IniNamingTools::isDownloadFile;
 
                     bool authored = false;
-                    for (const std::vector<BranchVal>* branches : {&files_.blends, &files_.positions, &files_.texcoords}) {
-                        for (const BranchVal& branch : *branches) {
-                            authored = authored || !isDownload(branch.val);
+                    for (const std::vector<BranchRow>* branches : {&files_.blends, &files_.positions, &files_.texcoords}) {
+                        for (const BranchRow& branch : *branches) {
+                            authored = authored || !isDownload(branch.value);
                         }
                     }
 
                     for (const auto& object : files_.objects) {
-                        for (const BranchVal& ib : object.second.ibs) {
-                            authored = authored || (!ib.val.empty() && !isDownload(ib.val));
+                        for (const BranchRow& ib : object.second.ibs) {
+                            authored = authored || (!ib.value.empty() && !isDownload(ib.value));
                         }
                     }
 
                     // ...UNLESS IT IS A RECOLOUR (2026-10-07). A mod that only replaces the character's
                     // textures by hash has no mesh to split and still has something to remap: its
                     // look is the GAME's model in its textures, and the parser has bound those in place
-                    // of the downloaded ones (TextureOverrideFacts). So the downloads ARE the mesh to
+                    // of the downloaded ones (IniParseData::isRecolourOnly). So the downloads ARE the mesh to
                     // split, and they are fetched here, ahead of fixResources, because the split reads
                     // them now. A file whose textures the target draws too, or whose mesh a sibling
                     // .ini draws, is not a recolour in this sense and still gets nothing.
@@ -979,7 +738,7 @@ namespace AGRemapCore {
 
                     const std::string srcName = ctx_.modTypeName().value_or("");
                     const std::optional<Version> fromVersion = ctx_.version();
-                    const std::optional<Version> toVersion = iniFile->toVersion;
+                    const std::optional<Version> toVersion = iniToVersion();
 
                     for (const GIMIComponentFixerConfig::Component& c : config_.components) {
                         std::optional<VGRemap> forward = modType->getVGRemap(config_.targetSkin, fromVersion, toVersion, "", c.name);
@@ -1034,11 +793,11 @@ namespace AGRemapCore {
                     // alone: an animated master binds one blend for its whole frame range and a
                     // different ib per frame. Identical states -- the same blend and index buffers
                     // under different conditions -- are split once.
-                    std::vector<const std::vector<BranchVal>*> lists{&files_.blends};
+                    std::vector<const std::vector<BranchRow>*> lists{&files_.blends};
                     for (const auto& object : files_.objects) {
                         lists.push_back(&object.second.ibs);
                     }
-                    states_ = branches_.states(lists);
+                    states_ = GraphCollect<>::states(lists, z3());
 
                     std::unordered_map<std::string, std::pair<std::size_t, std::vector<std::string>>> splitCache;
                     std::vector<std::string> drawnAny;
@@ -1049,9 +808,9 @@ namespace AGRemapCore {
                     bool anyAuthoredState = false;
                     for (std::size_t state = 0; state < states_.size(); ++state) {
                         std::vector<std::string> statePaths = ibsFor(states_[state]).second;
-                        statePaths.push_back(branches_.pick(files_.blends, files_.blend, states_[state]));
+                        statePaths.push_back(GraphCollect<>::valueUnder(files_.blends, files_.blend, states_[state], z3()));
                         for (const std::string& path : statePaths) {
-                            throughDownload[state] = throughDownload[state] || isDownloadPath(path);
+                            throughDownload[state] = throughDownload[state] || IniNamingTools::isDownloadFile(path);
                             throughUnfetched[state] = throughUnfetched[state] || isUnfetchedDownload(path);
                         }
                         anyAuthoredState = anyAuthoredState || !throughDownload[state];
@@ -1059,7 +818,7 @@ namespace AGRemapCore {
                     anyAuthoredState_ = anyAuthoredState;
 
                     for (std::size_t state = 0; state < states_.size(); ++state) {
-                        const std::string blendPath = branches_.pick(files_.blends, files_.blend, states_[state]);
+                        const std::string blendPath = GraphCollect<>::valueUnder(files_.blends, files_.blend, states_[state], z3());
                         const auto [names, paths] = ibsFor(states_[state]);
 
                         // A STATE THROUGH A PARSER DOWNLOAD IS NOT SPLIT (2026-09-22). A merged master
@@ -1102,8 +861,8 @@ namespace AGRemapCore {
                                     return false;
                                 }
 
-                                files_.positionStride = fileSize(files_.position) / files_.vertexCount;
-                                files_.texcoordStride = fileSize(files_.texcoord) / files_.vertexCount;
+                                files_.positionStride = FileService::fileSize(files_.position).value_or(0) / files_.vertexCount;
+                                files_.texcoordStride = FileService::fileSize(files_.texcoord).value_or(0) / files_.vertexCount;
                             }
 
                             if (!weights.empty() && !paths.empty()) {
@@ -1117,7 +876,7 @@ namespace AGRemapCore {
                                 VGComponentSplit split(std::move(weights), std::move(indices), std::move(ibs), specsFor(names));
                                 // The same geometry the buffers' writer reads (VGSplitGroupResource), so a skipped
                                 // inner-layer twin is missing from the .ini's counts as well as from the buffer.
-                                if (split.needsGeometry(componentName_) && !files_.position.empty() && fileSize(files_.position) > 0) {
+                                if (split.needsGeometry(componentName_) && !files_.position.empty() && FileService::fileSize(files_.position).value_or(0) > 0) {
                                     BinaryFile positions(files_.position);
                                     split.readGeometry(positions.read());
                                 }
@@ -1127,7 +886,7 @@ namespace AGRemapCore {
                                 // The kept triangles per object, for the mod's own draw ranges -- only
                                 // for a mod that does not branch: a merged master's ranges belong to
                                 // whichever variant's index buffer each branch binds, and are left as
-                                // they are (see DrawRangeRemap).
+                                // they are (see drawRangeRemap).
                                 if (states_.size() == 1) {
                                     for (std::size_t i = 0; i < names.size() && i < buffers.keptTriangleIds.size(); ++i) {
                                         keptTriangleIds_[names[i]] = buffers.keptTriangleIds[i];
@@ -1192,7 +951,7 @@ namespace AGRemapCore {
                 std::pair<std::vector<std::string>, std::vector<std::string>> ibsFor(const std::optional<Z3Predicate>& query) {
                     std::pair<std::vector<std::string>, std::vector<std::string>> out;
                     for (const auto& object : files_.objects) {
-                        const std::string path = branches_.pick(object.second.ibs, object.second.ib, query);
+                        const std::string path = GraphCollect<>::valueUnder(object.second.ibs, object.second.ib, query, z3());
                         if (!path.empty()) {
                             out.first.push_back(object.first);
                             out.second.push_back(path);
@@ -1291,9 +1050,9 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            auto replace = std::make_unique<TexEditorReplace<>>(
+                            auto replace = std::make_unique<TexReplace<>>(
                                 GraphId(group, "", component_.slot + "RemapTexDiffuse"),
-                                TexEditor({entry.second}, config_.compressTextures, config_.mipmaps), makeResEditConfig(),
+                                std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{entry.second}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                 "resourceRemapTexEdit", std::string("Diffuse"));
 
                             // TWO OBJECTS ON ONE DIFFUSE (2026-10-24): Aether9 draws his head and body from
@@ -1340,7 +1099,7 @@ namespace AGRemapCore {
                             // The resources a part binds at the diffuse register that name 'file'
                             const auto partDiffuseIs = [resources, diffuseReg](const auto& iterData, const std::string& file) {
                                 for (const auto& val : iterData.part->getValsWithInds(diffuseReg, true, std::nullopt)) {
-                                    const std::string resource = StringTools::toLower(ModBranches::resourceOf(val.second));
+                                    const std::string resource = StringTools::toLower(IniNamingTools::boundResource(val.second));
                                     for (const auto& entry : *resources) {
                                         if (entry.first == resource && StringTools::equalsIgnoreCase(entry.second, file)) {
                                             return true;
@@ -1357,9 +1116,9 @@ namespace AGRemapCore {
                                 }
 
                                 const std::string suffix = (i == 0) ? std::string() : ("Diffuse" + std::to_string(i));
-                                auto replace = std::make_unique<TexEditorReplace<>>(
+                                auto replace = std::make_unique<TexReplace<>>(
                                     GraphId(group, "", component_.slot + "RemapTexLightMap" + suffix),
-                                    TexEditor({filter}, config_.compressTextures, config_.mipmaps), makeResEditConfig(),
+                                    std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                     "resourceRemapTexEdit", std::string("LightMap") + suffix);
                                 if (i > 0) {
                                     replace->modObj = name + "LightMap" + std::to_string(i);
@@ -1400,8 +1159,8 @@ namespace AGRemapCore {
                         // The register shift: ps-t0 -> ps-t1 AND the scratch register, ps-t1 -> ps-t2,
                         // in one pass, on this group's slot graph only.
                         auto shift = std::make_unique<RegRemap<>>(std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>>{
-                            renameRule(DiffuseReg, {ShiftedDiffuseReg, ScratchNormalReg}),
-                            renameRule(LightMapReg, {ShiftedLightMapReg})});
+                            RegRemap<>::renameRule(DiffuseReg, {ShiftedDiffuseReg, ScratchNormalReg}),
+                            RegRemap<>::renameRule(LightMapReg, {ShiftedLightMapReg})});
                         auto shiftAdapter = std::make_unique<RegPartEdit<>>(shift.get());
 
                         // A section read as plain by its own NNFix binds something at ps-t2 that the
@@ -1409,9 +1168,7 @@ namespace AGRemapCore {
                         // first, in the same pass, so the shifted light map is the only ps-t2.
                         std::vector<ObjGroupEdit::PartEdit*> shiftParts{shiftAdapter.get()};
                         if (files != nullptr && files->plainByOwnCall) {
-                            auto dropOwn = std::make_unique<RegRemove<>>(
-                                std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
-                                    {ShiftedLightMapReg, std::nullopt}});
+                            auto dropOwn = RegRemove<>::of(ShiftedLightMapReg);
                             auto dropOwnAdapter = std::make_unique<RegPartEdit<>>(dropOwn.get());
                             shiftParts.insert(shiftParts.begin(), dropOwnAdapter.get());
                             regRemoves_.push_back(std::move(dropOwn));
@@ -1429,10 +1186,10 @@ namespace AGRemapCore {
                         shiftEdits_.push_back(std::move(shiftEdit));
 
                         // The flat normal map, created on the scratch register the shift filled.
-                        auto create = std::make_unique<TexCreatorCreate<>>(
+                        auto create = std::make_unique<TexCreate<>>(
                             GraphId(group, "", component_.slot + "RemapNormal"), "NormalMap",
-                            TexCreator(config_.flatNormalSize, config_.flatNormalSize, config_.flatNormal, true, config_.mipmaps),
-                            makeResEditConfig());
+                            std::make_shared<TexCreator>(config_.flatNormalSize, config_.flatNormalSize, config_.flatNormal, true, config_.mipmaps),
+                            resEditConfig());
 
                         auto collect = std::make_unique<Collector>();
                         collect->srcRegs = {{slot, ScratchNormalReg}};
@@ -1491,14 +1248,12 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        auto drop = std::make_unique<RegRemove<>>(
-                            std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
-                                {DiffuseReg, std::nullopt}});
+                        auto drop = RegRemove<>::of(DiffuseReg);
                         auto dropAdapter = std::make_unique<RegPartEdit<>>(drop.get());
 
                         auto shift = std::make_unique<RegRemap<>>(std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>>{
-                            renameRule(ShiftedDiffuseReg, {DiffuseReg}),
-                            renameRule(ShiftedLightMapReg, {LightMapReg})});
+                            RegRemap<>::renameRule(ShiftedDiffuseReg, {DiffuseReg}),
+                            RegRemap<>::renameRule(ShiftedLightMapReg, {LightMapReg})});
                         auto shiftAdapter = std::make_unique<RegPartEdit<>>(shift.get());
 
                         std::vector<ObjGroupEdit::IniEdits> shiftIniEdits(groupCount_);
@@ -1527,8 +1282,8 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        for (const BranchVal& ib : entry.second.ibs) {
-                            auto it = files_.ibBytesPerIndex.find(ib.val);
+                        for (const BranchRow& ib : entry.second.ibs) {
+                            auto it = files_.ibBytesPerIndex.find(ib.value);
                             if (it != files_.ibBytesPerIndex.end() && it->second == 2) {
                                 return true;
                             }
@@ -1567,7 +1322,7 @@ namespace AGRemapCore {
                         srcName + toModName_ + "Buffers",
                         [this, splitConfig](const Z3Predicate* query) {
                             VGSplitGroupConfig config = splitConfig;
-                            auto [names, paths] = ibsFor(branches_.localQuery(query));
+                            auto [names, paths] = ibsFor(localQuery(query));
                             config.ibPaths = std::move(paths);
                             config.specs = specsFor(names);
                             // The inner-outline objects by their POSITION in this state's list, like the mirrored ones
@@ -1622,7 +1377,7 @@ namespace AGRemapCore {
                             }
 
                             // One fixed file per section -- see ResEditConfig::filePerSection.
-                            BaseResEdit<>::ResEditConfig resConfig = makeResEditConfig(std::move(extras));
+                            BaseResEdit<>::ResEditConfig resConfig = resEditConfig(std::move(extras));
                             resConfig.filePerSection = true;
 
                             auto replace = std::make_unique<BufReplace<>>(
@@ -1752,7 +1507,7 @@ namespace AGRemapCore {
                     // 5.7, where the mod being fixed is a 4.0 Bennett. Asking the source's bucket
                     // finds nothing, and with errorOnNotFound false that is silent: the section is
                     // simply never written, which looks exactly like not having asked for one.
-                    const std::optional<Version> toVersion = (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
+                    const std::optional<Version> toVersion = iniToVersion();
                     std::string text;
 
                     for (const std::string& modTypeName : hidden) {
@@ -1769,9 +1524,8 @@ namespace AGRemapCore {
                         }
 
                         // Named with the Remap keyword like every other section a fix writes.
-                        text += "[TextureOverride" + modTypeName + "IB" + IniKeywords::Remap + "Hide]\n"
-                                "hash = " + *hash + "\n"
-                                "handling = skip\n";
+                        text += renderSection("TextureOverride" + modTypeName + "IB" + IniKeywords::Remap + "Hide",
+                                              {{IniKeywords::Hash, *hash}, {IniKeywords::Handling, "skip"}});
                     }
 
                     if (!text.empty()) {
@@ -1782,8 +1536,7 @@ namespace AGRemapCore {
 
                     // The skin's slots nothing is remapped onto withdraw a TexFx request -- see
                     // GIMIComponentFixerConfig::unremappedSlots. Only for a mod that calls TexFx.
-                    const bool callsTexFx = iniFile != nullptr
-                        && StringTools::containsIgnoreCase(iniFile->getFileTxt(), IniKeywords::TexFxFolder + "\\");
+                    const bool callsTexFx = iniCallsTexFx();
                     std::string guards;
                     for (const auto& [modTypeName, slotIndices] : (callsTexFx ? unremapped
                                                                               : decltype(unremapped){})) {
@@ -1793,10 +1546,8 @@ namespace AGRemapCore {
                         }
 
                         for (const std::string& slotIndex : slotIndices) {
-                            guards += "\n[TextureOverride" + modTypeName + slotIndex + IniKeywords::Remap + "TexFxGuard]\n"
-                                      "hash = " + *hash + "\n"
-                                      "match_first_index = " + slotIndex + "\n"
-                                      "$\\TexFx\\use_default_shader = -1\n";
+                            guards += "\n" + texFxGuardSection("TextureOverride" + modTypeName + slotIndex + IniKeywords::Remap + "TexFxGuard",
+                                                               *hash, slotIndex);
                         }
                     }
 
@@ -1823,6 +1574,9 @@ namespace AGRemapCore {
                         return;
                     }
 
+                    // AS APPENDED SECTIONS, NOT A GRAPH: they belong to no copied object, and they have to be
+                    // written even when this fixer ends with no group of its own to put a graph in (the Eye,
+                    // under a mod that paints its eyes on the head -- see GIMIFixer::appendedSections).
                     this->appendedSections = text;
                 }
 
@@ -1833,24 +1587,67 @@ namespace AGRemapCore {
                                              config_.sideMeshes, config_.targetSkin, toVersion);
                 }
 
-                // The see-through judgement for one drawn object's ranges, or nullopt -- see
-                // GIMIComponentFixerConfig::Component::texFxBlend. The mask, index buffer and texcoords are
-                // the SOURCE's (the ranges it is asked about are the mod's own numbers), read once, on the
-                // first question; any of them unreadable answers "opaque".
-                std::optional<DrawTranslucency> translucencyFor(const std::string& obj) {
+                // The see-through reroute for one drawn object's ranges, or empty -- see
+                // GIMIComponentFixerConfig::Component::texFxBlend. A range the mod's TexFx mask marks
+                // Decides whether a remapped range is drawn by a `run =` instead: takes the range as the MOD wrote it
+                // (first index, index count) and the remapped value, and returns the name to run, or nothing
+                using Reroute = std::function<std::optional<std::string>(std::size_t firstIndex, std::size_t indexCount,
+                                                                         const std::string& remapped)>;
+
+                // The mod's own `drawindexed = <count>, <first>[, ...]` lines through an index buffer that lost some
+                // triangles (IbFile::remapDrawRange), every later field kept; a line of fewer than two numbers, or a
+                // negative count or first -- `auto` -- is left alone. 'reroute' may replace a remapped line by a
+                // `run =` at the same place
+                static std::unique_ptr<RegAnchorAdd<>> drawRangeRemap(std::vector<std::size_t> keptTriangleIds, Reroute reroute) {
+                    return std::make_unique<RegAnchorAdd<>>(
+                        std::vector<std::string>{IniKeywords::DrawIndexed},
+                        [keptTriangleIds = std::move(keptTriangleIds), reroute = std::move(reroute)](
+                                const std::string& key, const std::string& value) -> std::optional<std::vector<std::pair<std::string, std::string>>> {
+                            ListValue range(value);
+                            const std::optional<std::vector<long long>> numbers = range.numbers();
+                            if (!numbers.has_value() || numbers->size() < 2 || (*numbers)[0] < 0 || (*numbers)[1] < 0) {
+                                return std::nullopt;
+                            }
+
+                            const auto [count, first] = IbFile::remapDrawRange(static_cast<std::size_t>((*numbers)[0]),
+                                                                               static_cast<std::size_t>((*numbers)[1]), keptTriangleIds);
+                            range.setNumber(0, static_cast<long long>(count));
+                            range.setNumber(1, static_cast<long long>(first));
+                            for (std::size_t i = 2; i < numbers->size(); ++i) {
+                                range.setNumber(static_cast<long long>(i), (*numbers)[i]);
+                            }
+
+                            const std::string remapped = range.str();
+                            if (reroute) {
+                                if (std::optional<std::string> run = reroute(static_cast<std::size_t>((*numbers)[1]),
+                                                                             static_cast<std::size_t>((*numbers)[0]), remapped)) {
+                                    return std::vector<std::pair<std::string, std::string>>{{IniKeywords::Run, *run}};
+                                }
+                            }
+                            return std::vector<std::pair<std::string, std::string>>{{key, remapped}};
+                        },
+                        RegAnchorAdd<>::Placement::Replace);
+                }
+
+                // see-through is not drawn in place: its line becomes `run = CustomShader<...>`, and the section
+                // it names -- written to appendedSections once per name -- blends the remapped draw into the
+                // colour target (o1, the G-buffer's colour), every other target left as it was under the part.
+                //
+                // The mask, index buffer and texcoords are the SOURCE's (the ranges it is asked about are the
+                // mod's own numbers), read once, on the first question; any of them unreadable answers "opaque".
+                Reroute translucencyFor(const std::string& obj) {
                     const ModObjectFiles* objFiles = objectFiles(obj);
                     if (component_.texFxBlend <= 0.0f || objFiles == nullptr || objFiles->texFxMask.empty()
                             || objFiles->ib.empty() || files_.texcoord.empty() || files_.texcoordStride < 12) {
-                        return std::nullopt;
+                        return {};
                     }
 
                     struct Source {
                         bool loaded = false;
-                        int width = 0;
-                        int height = 0;
-                        std::vector<std::uint8_t> mask;
+                        bool ok = false;
+                        std::unique_ptr<TextureFile> mask;
                         VGComponentSplit::Triangles triangles;
-                        ByteVec texcoords;
+                        std::vector<std::array<float, 2>> uvs;     // each vertex's first UV
                     };
                     auto source = std::make_shared<Source>();
                     const std::string maskPath = objFiles->texFxMask;
@@ -1860,37 +1657,54 @@ namespace AGRemapCore {
                     auto widthIt = files_.ibBytesPerIndex.find(ibPath);
                     const std::size_t ibWidth = (widthIt == files_.ibBytesPerIndex.end()) ? 4 : widthIt->second;
 
-                    DrawTranslucency result;
-                    result.factor = component_.texFxBlend;
-                    result.namePrefix = component_.modTypeName + IniKeywords::Remap + "SeeThrough";
-                    result.sections = &this->appendedSections;
-                    result.sectionsInCopies = &this->appendedSectionsInCopies;
-                    result.isTranslucent = [source, maskPath, ibPath, texcoordPath, stride, ibWidth](std::size_t firstIndex, std::size_t indexCount) {
+                    const auto isTranslucent = [source, maskPath, ibPath, texcoordPath, stride, ibWidth](std::size_t firstIndex, std::size_t indexCount) {
                         if (!source->loaded) {
                             source->loaded = true;
                             try {
-                                TextureFile mask(maskPath);
-                                mask.open();
-                                source->width = mask.getWidth();
-                                source->height = mask.getHeight();
-                                source->mask = mask.getPixels();
+                                source->mask = std::make_unique<TextureFile>(maskPath);
+                                source->mask->open();
                                 IbFile ib(ibPath, ibWidth);
                                 source->triangles = VGComponentSplit::readIb(ib);
-                                BinaryFile texcoords(texcoordPath);
-                                source->texcoords = texcoords.read();
+
+                                // The vertex colour, the first UV, and whatever the line carries after it
+                                std::vector<std::unique_ptr<BufElementType>> layout;
+                                layout.push_back(BufElementType::repeated("COLOR", 4, []() -> std::unique_ptr<BufDataType> {
+                                    return std::make_unique<BufUnorm>("UNORM", 1); }, "R8G8B8A8_UNORM"));
+                                layout.push_back(BufElementType::repeated("TEXCOORD", 2, []() -> std::unique_ptr<BufDataType> {
+                                    return std::make_unique<BufFloat>(); }, "R32G32_FLOAT"));
+                                if (stride > 12) {
+                                    layout.push_back(BufElementType::repeated("REST", stride - 12, []() -> std::unique_ptr<BufDataType> {
+                                        return std::make_unique<BufUnorm>("UNORM", 1); }));
+                                }
+                                BufFile texcoords(texcoordPath, std::move(layout), "Texcoord");
+                                const std::vector<double>* us = nullptr;
+                                const std::vector<double>* vs = nullptr;
+                                const std::vector<BufFile::BufColumnData> columns = texcoords.decodeAll();
+                                for (const BufFile::BufColumnData& column : columns) {
+                                    if (column.elementKey == "TEXCOORD") {
+                                        (column.valueInd == 0 ? us : vs) = &std::get<std::vector<double>>(column.values);
+                                    }
+                                }
+                                for (std::size_t vertex = 0; us != nullptr && vs != nullptr && vertex < us->size(); ++vertex) {
+                                    source->uvs.push_back({static_cast<float>((*us)[vertex]), static_cast<float>((*vs)[vertex])});
+                                }
+                                source->ok = true;
                             } catch (const std::exception&) {
-                                source->mask.clear();
+                                source->ok = false;
                             }
                         }
 
-                        const std::size_t w = static_cast<std::size_t>(source->width);
-                        const std::size_t h = static_cast<std::size_t>(source->height);
-                        if (source->mask.size() < w * h * 4 || w == 0 || h == 0) {
+                        if (!source->ok) {
+                            return false;
+                        }
+                        const std::size_t w = static_cast<std::size_t>(source->mask->getWidth());
+                        const std::size_t h = static_cast<std::size_t>(source->mask->getHeight());
+                        if (source->mask->getPixels().size() < w * h * 4 || w == 0 || h == 0) {
                             return false;
                         }
 
-                        // Each vertex once, its first UV (after the 4-byte vertex colour), wrapped into
-                        // [0, 1) as the sampler does; see-through when most sit on a mask code of 1-254.
+                        // Each vertex once, its first UV wrapped into [0, 1) as the sampler does; see-through
+                        // when most sit on a mask code of 1-254.
                         std::unordered_set<unsigned long long> vertices;
                         const std::size_t last = std::min(source->triangles.size(), (firstIndex + indexCount) / 3);
                         for (std::size_t t = firstIndex / 3; t < last; ++t) {
@@ -1900,23 +1714,66 @@ namespace AGRemapCore {
                         std::size_t sampled = 0;
                         std::size_t clear = 0;
                         for (unsigned long long vertex : vertices) {
-                            const std::size_t at = static_cast<std::size_t>(vertex) * stride + 4;
-                            if (at + 8 > source->texcoords.size()) {
+                            if (vertex >= source->uvs.size()) {
                                 continue;
                             }
-                            float uv[2];
-                            std::memcpy(uv, source->texcoords.data() + at, sizeof(uv));
+                            const std::array<float, 2>& uv = source->uvs[static_cast<std::size_t>(vertex)];
                             const float u = uv[0] - std::floor(uv[0]);
                             const float v = uv[1] - std::floor(uv[1]);
                             const std::size_t x = std::min(w - 1, static_cast<std::size_t>(u * static_cast<float>(w)));
                             const std::size_t y = std::min(h - 1, static_cast<std::size_t>(v * static_cast<float>(h)));
-                            const std::uint8_t red = source->mask[(y * w + x) * 4];
+                            const int red = source->mask->getPixel(static_cast<int>(x), static_cast<int>(y)).red;
                             ++sampled;
                             clear += (red >= 1 && red <= 254) ? 1 : 0;
                         }
                         return sampled > 0 && clear * 2 > sampled;
                     };
-                    return result;
+
+                    // The section a see-through range is drawn by, once per name: the game's shaders, the draw
+                    // blended into o1, every other target left as it was under the part.
+                    const std::string namePrefix = component_.modTypeName + IniKeywords::Remap + "SeeThrough";
+                    const std::string factor = std::to_string(component_.texFxBlend);
+                    auto written = std::make_shared<std::unordered_set<std::string>>();
+                    return [this, isTranslucent, namePrefix, factor, written](std::size_t firstIndex, std::size_t indexCount,
+                                                                            const std::string& remapped) -> std::optional<std::string> {
+                        if (!isTranslucent(firstIndex, indexCount)) {
+                            return std::nullopt;
+                        }
+
+                        std::string suffix;
+                        for (char c : remapped) {
+                            if (c >= '0' && c <= '9') {
+                                suffix += c;
+                            } else if (c == ',' && !suffix.empty() && suffix.back() != '_') {
+                                suffix += '_';
+                            }
+                        }
+                        const std::string name = "CustomShader" + namePrefix + suffix;
+                        if (!written->insert(name).second) {
+                            return name;
+                        }
+
+                        std::vector<std::pair<std::string, std::string>> kvps;
+                        for (int target = 0; target < 8; ++target) {
+                            kvps.emplace_back("blend[" + std::to_string(target) + "]",
+                                              target == 1 ? "ADD BLEND_FACTOR INV_BLEND_FACTOR" : "ADD ZERO ONE");
+                        }
+                        for (int channel = 0; channel < 4; ++channel) {
+                            kvps.emplace_back("blend_factor[" + std::to_string(channel) + "]", factor);
+                        }
+                        kvps.emplace_back(IniKeywords::DrawIndexed, remapped);
+
+                        std::string& sections = this->appendedSections;
+                        if (sections.empty()) {
+                            sections = "; The mod's see-through draws (its TexFx mask), through a blend state: TexFx does not\n"
+                                       "; serve the skin's shaders.\n";
+                        } else {
+                            sections += "\n";
+                        }
+                        sections += renderSection(name, kvps);
+                        this->appendedSectionsInCopies = true;
+                        return name;
+                    };
                 }
 
                 // The specs for one state's index buffers, named `names` in order: each component's
@@ -1953,24 +1810,7 @@ namespace AGRemapCore {
                     }
 
                     return [normalise, zeroUV, want](const ByteVec& line) {
-                        ByteVec out = line;
-
-                        // The target's width FIRST, so the edits below see the final line. Widening
-                        // zero-pads at the end, which is where TEXCOORD1 sits; narrowing drops it.
-                        if (want != 0 && out.size() != want) {
-                            out.resize(want, static_cast<std::uint8_t>(0));
-                        }
-
-                        if (normalise && out.size() >= 3) {
-                            out[1] = 128;
-                            out[2] = 128;
-                        }
-
-                        if (zeroUV && out.size() >= 20) {
-                            std::fill(out.begin() + 12, out.begin() + 20, static_cast<std::uint8_t>(0));
-                        }
-
-                        return out;
+                        return VGComponentSplit::fitTexcoordLine(line, want, normalise, zeroUV);
                     };
                 }
 
@@ -1990,30 +1830,8 @@ namespace AGRemapCore {
                     // A fade takes the offset to nothing by the height of the face -- see
                     // Component::positionOffsetFade. {0, 0} leaves it a plain translation.
                     const std::array<float, 2> fade = component_.positionOffsetFade;
-                    const bool fades = (fade[1] > fade[0]);
-
-                    return [offset, fade, fades](const ByteVec& line) {
-                        ByteVec out = line;
-                        if (out.size() < 3 * sizeof(float)) {
-                            return out;
-                        }
-
-                        // Scaled by the ORIGINAL height, read before any axis is written back.
-                        float scale = 1.0f;
-                        if (fades) {
-                            float y = 0.0f;
-                            std::memcpy(&y, out.data() + sizeof(float), sizeof(float));
-                            scale = (fade[1] - y) / (fade[1] - fade[0]);
-                            scale = std::min(1.0f, std::max(0.0f, scale));
-                        }
-
-                        for (std::size_t axis = 0; axis < 3; ++axis) {
-                            float value = 0.0f;
-                            std::memcpy(&value, out.data() + axis * sizeof(float), sizeof(float));
-                            value += offset[axis] * scale;
-                            std::memcpy(out.data() + axis * sizeof(float), &value, sizeof(float));
-                        }
-                        return out;
+                    return [offset, fade](const ByteVec& line) {
+                        return VGComponentSplit::offsetPositionLine(line, offset, fade);
                     };
                 }
 
@@ -2021,7 +1839,7 @@ namespace AGRemapCore {
                 void buildIndexEdits() {
                     IniFile* iniFile = ctx_.getIniFile();
                     Indices* indices = ctx_.modTypeIndices();
-                    const std::optional<Version> toVersion = (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
+                    const std::optional<Version> toVersion = iniToVersion();
 
                     objFilter_ = std::make_unique<ObjFilter>(ctx_.modTypeHashes(), ctx_.modTypeIndices(),
                                                               ObjFilter::KeySet{IbHashKey}, ctx_.version());
@@ -2072,44 +1890,29 @@ namespace AGRemapCore {
                 // ---- 5. everything else, per group ----
                 void buildEdits() {
                     IniFile* iniFile = ctx_.getIniFile();
-                    const std::optional<Version> toVersion = (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
-                    const std::string toModName = toModName_;
+                    const std::optional<Version> toVersion = iniToVersion();
 
-                    renameGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& n) { return IniNamingTools::getRemapFixName(n, toModName); });
-                    renameIbGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& n) { return IniNamingTools::getRemapIbName(n, toModName); });
-                    renameBlendGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& n) { return IniNamingTools::getRemapBlendName(n, toModName); });
+                    renameGraph_ = remapRename(RemapName::Fix);
+                    renameIbGraph_ = remapRename(RemapName::Ib);
+                    renameBlendGraph_ = remapRename(RemapName::Blend);
 
-                    assetRemap_ = std::make_unique<RegAssetRemap<>>(
-                        std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
-                            {IniKeywords::Hash, RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes(), IniKeywords::HashNotFound)}},
-                        toModName_, ctx_.modTypeName().value_or(""), ctx_.version(), toVersion);
+                    assetRemap_ = hashRemap(ctx_.modTypeName().value_or(""), toVersion);
 
                     // The face's own, lenient remap -- see GIMICharFixerImpl's faceAssetRemap_.
-                    faceAssetRemap_ = std::make_unique<RegAssetRemap<>>(
-                        std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
-                            {IniKeywords::Hash, RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes())}},
-                        toModName_, ctx_.modTypeName().value_or(""), ctx_.version(), toVersion);
+                    faceAssetRemap_ = hashRemap(ctx_.modTypeName().value_or(""), toVersion, std::nullopt);
 
                     faceRegSwap_ = std::make_unique<RegRemap<>>(std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>>{
-                        renameRule(DiffuseReg, {LightMapReg}),
-                        renameRule(LightMapReg, {DiffuseReg})});
+                        RegRemap<>::renameRule(DiffuseReg, {LightMapReg}),
+                        RegRemap<>::renameRule(LightMapReg, {DiffuseReg})});
 
                     auto isFixCall = [](long long, const std::string& value) {
                         // Case-insensitively, as 3DMigoto matches a CommandList path: a mod writing
                         // CommandList\Global\ORFix\ORFix kept its own call beside the re-issued one (2026-09-23).
-                        return StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::ORFixPath) ||
-                               StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::NNFixPath);
+                        return isFixLibraryCall(value);
                     };
-                    removeFixCalls_ = std::make_unique<RegRemove<>>(
-                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
-                            {IniKeywords::Run, RegRemove<>::RemoveKeyCheck(isFixCall)}});
+                    removeFixCalls_ = RegRemove<>::of(IniKeywords::Run, RegRemove<>::RemoveKeyCheck(isFixCall));
 
-                    removeDrawIndexed_ = std::make_unique<RegRemove<>>(
-                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
-                            {IniKeywords::DrawIndexed, std::nullopt}});
+                    removeDrawIndexed_ = RegRemove<>::of(IniKeywords::DrawIndexed);
 
                     // THE OLD REFLECTION-SUPPORT KEYS NAME THE SOURCE'S OBJECTS (2026-09-24). A pre-ORFix
                     // mod writes `$CharacterIB = N` and `ResourceRef<Obj>Diffuse = reference ps-t1` next
@@ -2181,7 +1984,7 @@ namespace AGRemapCore {
                         RegDelimitedAddMode::PerPath);
 
                     normalBack_ = std::make_unique<RegRemap<>>(std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>>{
-                        renameRule(ScratchNormalReg, {DiffuseReg})});
+                        RegRemap<>::renameRule(ScratchNormalReg, {DiffuseReg})});
 
                     // The vertex-limit raise: the target's own buffer is sized for its own vertex
                     // count, and the mod's kept vertices go through it. The LARGEST branch's, since
@@ -2271,7 +2074,7 @@ namespace AGRemapCore {
                     std::vector<std::vector<ObjGroupEdit::PartEdit*>> vbRemovalEdits(groupCount_);
                     for (std::size_t group = 0; files_.blends.size() > 1 && group < groupCount_; ++group) {
                         const std::string groupObj = (group < drawn_.size()) ? drawn_[group] : std::string();
-                        blendBranchDraws_.push_back(branches_.replacePerBranch(
+                        blendBranchDraws_.push_back(RegBranchAdd<>::perBranchReplacements(z3(), 
                             files_.blends, "blend",
                             [this, groupObj](std::size_t, const std::optional<Z3Predicate>& local) -> RegBranchAdd<>::Additions {
                                 // The largest of the states this blend branch is drawn in: several
@@ -2284,7 +2087,7 @@ namespace AGRemapCore {
                                         continue;
                                     }
                                     if (!states_[state].has_value() || !local.has_value()
-                                            || branches_.compatible(*states_[state], *local)) {
+                                            || compatible(*states_[state], *local)) {
                                         kept = std::max(kept, stateKept_[state]);
                                     }
                                 }
@@ -2312,7 +2115,7 @@ namespace AGRemapCore {
                         }
 
                         for (const std::string& reg : {std::string(IniKeywords::Vb0), std::string(IniKeywords::Vb1)}) {
-                            blendBranchDraws_.push_back(branches_.removePerBranch(
+                            blendBranchDraws_.push_back(RegBranchAdd<>::perBranchRemovals(z3(), 
                                 files_.blends, "vbs:" + reg,
                                 [this, groupObj, reg](std::size_t, const std::optional<Z3Predicate>& local) -> std::vector<std::string> {
                                     return groupKeptIn(groupObj, local) == 0 ? std::vector<std::string>{reg} : std::vector<std::string>{};
@@ -2369,12 +2172,13 @@ namespace AGRemapCore {
                             slotEdits.push_back(normalBackAdapter_.get());
                         }
 
-                        // The mod's own draw ranges, through the split -- see DrawRangeRemap. Group
-                        // `group` holds drawn_[group]'s graph.
+                        // The mod's own draw ranges, through the split -- see drawRangeRemap. Group
+                        // `group` holds drawn_[group]'s graph. Only for a mod that does not branch: a merged
+                        // master's ranges belong to whichever variant's index buffer each branch binds.
                         if (group < drawn_.size()) {
                             auto kept = keptTriangleIds_.find(drawn_[group]);
                             if (kept != keptTriangleIds_.end()) {
-                                drawRangeRemaps_.push_back(std::make_unique<DrawRangeRemap>(kept->second, translucencyFor(drawn_[group])));
+                                drawRangeRemaps_.push_back(drawRangeRemap(kept->second, translucencyFor(drawn_[group])));
                                 drawRangeAdapters_.push_back(std::make_unique<RegPartEdit<>>(drawRangeRemaps_.back().get()));
                                 slotEdits.push_back(drawRangeAdapters_.back().get());
                             }
@@ -2449,18 +2253,44 @@ namespace AGRemapCore {
                     mainEdits_ = ObjGroupEdit(std::move(perGroup), false);
                 }
 
-                static FixerConfig makeConfig() {
-                    FixerConfig config{};
-                    config.sectionToStr = &renderIfTemplate;
-                    return config;
+                // ---- the mod's branched values, read through the API ----
+
+                // The .ini file's own Z3 context: every condition read out of the mod's sections is in it
+                Z3Context* z3() {
+                    IniFile* iniFile = ctx_.getIniFile();
+                    return iniFile == nullptr ? nullptr : iniFile->getZ3Ctx();
                 }
 
-                // FIRST, so it is destroyed LAST: every Z3Predicate read out of the mod's sections
-                // belongs to its context -- see ModBranches.
-                ModBranches branches_;
+                // Whether two conditions can hold at the same time
+                bool compatible(const Z3Predicate& a, const Z3Predicate& b) {
+                    return ResGroupCollect<>::combineQueries(a, b, z3()).isSatisfiable();
+                }
 
-                IniFileFixContext ctx_;
-                std::string toModName_;
+                // A query brought into the file's context ONCE, for the many compatibility tests that follow
+                std::optional<Z3Predicate> localQuery(const Z3Predicate* query) {
+                    if (query == nullptr) {
+                        return std::nullopt;
+                    }
+                    return ResGroupCollect<>::combineQueries(*query, Z3Predicate::trueValue(*z3()), z3());
+                }
+
+                // Every value of 'key' in 'section' and in what it reaches through `run =`, each with its condition
+                // (GraphCollect::rowsOf over IniFile::sectionGraph)
+                std::vector<BranchRow> valsThroughRun(const std::string& section, const std::string& key) {
+                    IniFile* iniFile = ctx_.getIniFile();
+                    if (iniFile == nullptr) {
+                        return {};
+                    }
+                    auto graph = iniFile->sectionGraph(section);
+                    return GraphCollect<>::rowsOf(graph, key);
+                }
+
+                // The first of #valsThroughRun's values
+                std::optional<std::string> firstValThroughRun(const std::string& section, const std::string& key) {
+                    const std::vector<BranchRow> rows = valsThroughRun(section, key);
+                    return rows.empty() ? std::nullopt : std::optional<std::string>(rows.front().value);
+                }
+
                 GIMIComponentFixerConfig config_;
                 std::string componentName_;
                 GIMIComponentFixerConfig::Component component_;
@@ -2471,7 +2301,7 @@ namespace AGRemapCore {
                 // the owner's record of what EVERY component draws of this mod -- see buildHiddenComponents
                 std::unordered_map<std::string, std::vector<std::string>> drawnByComponent_;
                 std::size_t keptVertices_ = 0;                  // the largest state's
-                std::vector<std::optional<Z3Predicate>> states_;  // see ModBranches::states
+                std::vector<std::optional<Z3Predicate>> states_;  // see GraphCollect::states
                 // The most vertices any state compatible with 'local' keeps where 'obj' keeps triangles
                 // -- 0 when the object keeps none in any of them. An empty 'obj' asks about the component.
                 std::size_t groupKeptIn(const std::string& obj, const std::optional<Z3Predicate>& local) {
@@ -2482,7 +2312,7 @@ namespace AGRemapCore {
                             continue;
                         }
                         if (!states_[state].has_value() || !local.has_value()
-                                || branches_.compatible(*states_[state], *local)) {
+                                || compatible(*states_[state], *local)) {
                             kept = std::max(kept, stateKept_[state]);
                         }
                     }
@@ -2496,14 +2326,12 @@ namespace AGRemapCore {
 
                 bool authorsNoMesh_ = false;
                 bool recolourOnly_ = false;
-                bool gaveUp_ = false;
-                GraphGroupRemove<> removeEveryGroup_;
                 std::unique_ptr<SlotRemap> slotRemap_;
 
                 std::vector<Fixer::GroupEdit*> texGroupEdits_;
-                std::vector<std::unique_ptr<TexEditorReplace<>>> texReplaces_;
+                std::vector<std::unique_ptr<TexReplace<>>> texReplaces_;
                 std::vector<std::unique_ptr<Collector>> texCollects_;
-                std::vector<std::unique_ptr<TexCreatorCreate<>>> texCreates_;
+                std::vector<std::unique_ptr<TexCreate<>>> texCreates_;
                 std::vector<std::unique_ptr<Collector>> texAddCollects_;
                 std::vector<std::unique_ptr<RegRemap<>>> regRemaps_;
                 std::vector<std::unique_ptr<RegRemove<>>> regRemoves_;
@@ -2534,7 +2362,7 @@ namespace AGRemapCore {
                 std::unique_ptr<RegPartEdit<>> removeTexFxAdapter_;
                 std::unique_ptr<RegFillMissing<>> fillDrawIndexed_;
                 std::unordered_map<std::string, std::vector<std::size_t>> keptTriangleIds_;
-                std::vector<std::unique_ptr<DrawRangeRemap>> drawRangeRemaps_;
+                std::vector<std::unique_ptr<RegAnchorAdd<>>> drawRangeRemaps_;
                 std::vector<std::unique_ptr<RegPartEdit<>>> drawRangeAdapters_;
                 std::unique_ptr<RegDelimitedAdd<>> addFixCall_;
                 std::unique_ptr<RegRemap<>> normalBack_;

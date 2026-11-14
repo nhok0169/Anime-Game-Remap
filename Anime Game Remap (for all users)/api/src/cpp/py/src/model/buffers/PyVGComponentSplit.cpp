@@ -11,6 +11,7 @@
 
 #include "PyVGComponentSplit.h"
 
+#include <array>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -250,6 +251,60 @@ Returns
 -------
 :class:`bytes`
     The mirrored line
+        )doc"))
+        .def_static("offsetPositionLine", [](const py::bytes &line, const std::array<float, 3> &offset, const std::array<float, 2> &fade) {
+            return toBytes(AGRC::VGComponentSplit::offsetPositionLine(fromBytes(line), offset, fade));
+        }, py::arg("line"), py::arg("offset"), py::arg("fade") = std::array<float, 2>{0.0f, 0.0f}, py::doc(R"doc(
+A GIMI ``Position.buf`` line with its POSITION (the first three floats) moved by 'offset', optionally faded out
+with height: with ``fade = (full, none)`` and ``none > full``, the offset is whole at or below the height
+``full``, nothing at or above ``none``, and in proportion between them --- scaled by the line's ORIGINAL height.
+Any other 'fade' moves every line the whole 'offset'. The normal and the tangent are kept; a line shorter than a
+position comes back as it is
+
+Parameters
+----------
+line: :class:`bytes`
+    The source line
+
+offset: Tuple[:class:`float`, :class:`float`, :class:`float`]
+    How far to move the position, per axis, in model units
+
+fade: Tuple[:class:`float`, :class:`float`]
+    The heights ``(full, none)`` the offset fades between :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``(0, 0)``, no fade
+
+Returns
+-------
+:class:`bytes`
+    The moved line
+        )doc"))
+        .def_static("fitTexcoordLine", [](const py::bytes &line, std::size_t width, bool neutralColour, bool zeroSecondUV) {
+            return toBytes(AGRC::VGComponentSplit::fitTexcoordLine(fromBytes(line), width, neutralColour, zeroSecondUV));
+        }, py::arg("line"), py::arg("width"), py::arg("neutralColour"), py::arg("zeroSecondUV"), py::doc(R"doc(
+A GIMI ``Texcoord.buf`` line (``COLOR`` R8G8B8A8, ``TEXCOORD`` float2, then an optional ``TEXCOORD1`` float2)
+fitted for another character's shader: resized to 'width' bytes first when 'width' is not ``0`` (widening
+zero-pads at the end, narrowing drops the end), then with 'neutralColour' the vertex colour's green and blue set
+to ``128``, and with 'zeroSecondUV' ``TEXCOORD1`` (bytes 12 to 20) set to zeros when the line has it
+
+Parameters
+----------
+line: :class:`bytes`
+    The source line
+
+width: :class:`int`
+    The width of the line to write, in bytes, or ``0`` to keep its own
+
+neutralColour: :class:`bool`
+    Whether to set the vertex colour's green and blue to ``128``
+
+zeroSecondUV: :class:`bool`
+    Whether to zero ``TEXCOORD1``
+
+Returns
+-------
+:class:`bytes`
+    The fitted line
         )doc"))
         .def_static("keepLines", [](const py::bytes &src, std::size_t bytesPerLine, const std::vector<std::size_t> &lines) {
             return toBytes(AGRC::VGComponentSplit::keepLines(fromBytes(src), bytesPerLine, lines));

@@ -19,6 +19,7 @@
 //   whenever ANY binding header changed. A new binding adds its one-line declaration here, next to
 //   its call below; a mismatched signature is a link error, not a silent problem.
 void initCppListTools(pybind11::module_ &m);
+void initCppObjectLifetime(pybind11::module_ &m);
 void initCppIntTools(pybind11::module_ &m);
 void initCppBiMap(pybind11::module_ &m);
 void initCppAlgo(pybind11::module_ &m);
@@ -46,6 +47,17 @@ void initCppIndexCounts(pybind11::module_ &m);
 void initCppVGOffsets(pybind11::module_ &m);
 void initCppVGCounts(pybind11::module_ &m);
 void initCppShapeKeyChecksums(pybind11::module_ &m);
+void initCppDrawPasses(pybind11::module_ &m);
+void initCppTextureRegisters(pybind11::module_ &m);
+void initCppGameShaders(pybind11::module_ &m);
+void initCppShapeKeyDispatchSizes(pybind11::module_ &m);
+void initCppBoneCentroids(pybind11::module_ &m);
+void initCppShapeKeyRemaps(pybind11::module_ &m);
+void initCppMaterialCodes(pybind11::module_ &m);
+void initCppMaterialColours(pybind11::module_ &m);
+void initCppTextureDescs(pybind11::module_ &m);
+void initCppTextureThumbprints(pybind11::module_ &m);
+void initCppTextureKinds(pybind11::module_ &m);
 void initCppConstantEnums(pybind11::module_ &m);
 void initCppConstantStrings(pybind11::module_ &m);
 void initCppGameTypeId(pybind11::module_ &m);
@@ -60,6 +72,7 @@ void initCppGlobalModTypes(pybind11::module_ &m);
 void initCppGIMICharBuilders(pybind11::module_ &m);
 void initCppGIMIComponentBuilders(pybind11::module_ &m);
 void initCppWWMIBuilders(pybind11::module_ &m);
+void initCppLynaeData(pybind11::module_ &m);
 void initCppStrategyOverrides(pybind11::module_ &m);
 void initCppGIBuilder(pybind11::module_ &m);
 void initCppWWMIBuilder(pybind11::module_ &m);
@@ -84,6 +97,9 @@ void initCppIfPredPart(pybind11::module_ &m);
 void initCppIfTemplateNode(pybind11::module_ &m);
 void initCppIfTemplateTree(pybind11::module_ &m);
 void initCppIfTemplate(pybind11::module_ &m);
+void initCppListValue(pybind11::module_ &m);
+void initCppSectionText(pybind11::module_ &m);
+void initCppWWMISections(pybind11::module_ &m);
 void initCppCallGraph(pybind11::module_ &m);
 void initCppSectionIterData(pybind11::module_ &m);
 void initCppIniSectionGraph(pybind11::module_ &m);
@@ -95,18 +111,24 @@ void initCppRegNewVals(pybind11::module_ &m);
 void initCppRegRemap(pybind11::module_ &m);
 void initCppRegRemove(pybind11::module_ &m);
 void initCppRegRestrict(pybind11::module_ &m);
+void initCppRegAnchorAdd(pybind11::module_ &m);
 void initCppBaseIniGraphEdit(pybind11::module_ &m);
 void initCppGraphRename(pybind11::module_ &m);
+void initCppGraphVarRename(pybind11::module_ &m);
 void initCppRegFillMissing(pybind11::module_ &m);
 void initCppRegSurroundedAdd(pybind11::module_ &m);
 void initCppRegBottomAdd(pybind11::module_ &m);
+void initCppRegIfTemplateAdd(pybind11::module_ &m);
 void initCppRegDelimitedAdd(pybind11::module_ &m);
 void initCppRegBranchAdd(pybind11::module_ &m);
 void initCppGIMIObjPartFilter(pybind11::module_ &m);
 void initCppBaseIniGraphGroupEdit(pybind11::module_ &m);
 void initCppGraphRemove(pybind11::module_ &m);
+void initCppIterGraphGroupEdit(pybind11::module_ &m);
 void initCppGraphGroupRemove(pybind11::module_ &m);
 void initCppGraphCreate(pybind11::module_ &m);
+void initCppGraphFilter(pybind11::module_ &m);
+void initCppGraphCopy(pybind11::module_ &m);
 void initCppGraphInherit(pybind11::module_ &m);
 void initCppGraphGroupRemap(pybind11::module_ &m);
 void initCppGraphGroupEdit(pybind11::module_ &m);
@@ -115,7 +137,11 @@ void initCppRemapBlendReplace(pybind11::module_ &m);
 void initCppBufReplace(pybind11::module_ &m);
 void initCppTexCreate(pybind11::module_ &m);
 void initCppTexReplace(pybind11::module_ &m);
+void initCppFileEdits(pybind11::module_ &m);
+void initCppVGRemapBlendReplace(pybind11::module_ &m);
 void initCppResRegCollect(pybind11::module_ &m);
+void initCppIParseResult(pybind11::module_ &m);
+void initCppGraphCollect(pybind11::module_ &m);
 void initCppResGroupCollect(pybind11::module_ &m);
 void initCppHash64(pybind11::module_ &m);
 void initCppHash128(pybind11::module_ &m);
@@ -130,12 +156,19 @@ void initCppBinaryFile(pybind11::module_ &m);
 void initCppBufFile(pybind11::module_ &m);
 void initCppBlendFile(pybind11::module_ &m);
 void initCppPositionFile(pybind11::module_ &m);
+void initCppTexcoordFile(pybind11::module_ &m);
 void initCppIbFile(pybind11::module_ &m);
+void initCppWWMIBlend(pybind11::module_ &m);
+void initCppWWMIShapeKeys(pybind11::module_ &m);
+void initCppSkeletonNumberingProbe(pybind11::module_ &m);
+void initCppRabbitFX(pybind11::module_ &m);
+void initCppDrawUVCoverage(pybind11::module_ &m);
 void initCppVbFile(pybind11::module_ &m);
 void initCppBaseBufEditor(pybind11::module_ &m);
 void initCppBufEditor(pybind11::module_ &m);
 void initCppColour(pybind11::module_ &m);
 void initCppColourRange(pybind11::module_ &m);
+void initCppColours(pybind11::module_ &m);
 void initCppTexCache(pybind11::module_ &m);
 void initCppTextureFile(pybind11::module_ &m);
 void initCppBasePixelTransform(pybind11::module_ &m);
@@ -152,6 +185,9 @@ void initCppColourReplaceFilter(pybind11::module_ &m);
 void initCppTransparencyAdjustFilter(pybind11::module_ &m);
 void initCppInvertAlphaFilter(pybind11::module_ &m);
 void initCppMaterialBandRemapFilter(pybind11::module_ &m);
+void initCppChannelMapFilter(pybind11::module_ &m);
+void initCppGuidedScaleFilter(pybind11::module_ &m);
+void initCppRegionFilter(pybind11::module_ &m);
 void initCppHueAdjust(pybind11::module_ &m);
 void initCppPixelFilter(pybind11::module_ &m);
 void initCppBaseTexEditor(pybind11::module_ &m);
@@ -182,9 +218,15 @@ void initCppRemapBlendResource(pybind11::module_ &m);
 void initCppRemapTexAddResource(pybind11::module_ &m);
 void initCppRemapFileAddResource(pybind11::module_ &m);
 void initCppRemapTexEditResource(pybind11::module_ &m);
+void initCppTextureRoles(pybind11::module_ &m);
+void initCppIniParseData(pybind11::module_ &m);
 void initCppBaseIniParser(pybind11::module_ &m);
 void initCppGIMISectionClassifier(pybind11::module_ &m);
+void initCppDownloadData(pybind11::module_ &m);
 void initCppGIMIParser(pybind11::module_ &m);
+void initCppGraphEditVariables(pybind11::module_ &m);
+void initCppShaderFilterTags(pybind11::module_ &m);
+void initCppCustomShaderBackups(pybind11::module_ &m);
 void initCppBaseIniFixer(pybind11::module_ &m);
 void initCppGIMIFixer(pybind11::module_ &m);
 void initCppMultiModFixer(pybind11::module_ &m);
@@ -193,6 +235,7 @@ void initCppIniRemovalContext(pybind11::module_ &m);
 void initCppBaseIniRemover(pybind11::module_ &m);
 void initCppRemapIniRemover(pybind11::module_ &m);
 void initCppGlobalRemapIniRemover(pybind11::module_ &m);
+void initCppIniSharedState(pybind11::module_ &m);
 void initCppIniFile(pybind11::module_ &m);
 void initCppIniParseBuilder(pybind11::module_ &m);
 void initCppIniFixBuilder(pybind11::module_ &m);
@@ -244,6 +287,18 @@ PYBIND11_MODULE(core, m) {
     initCppVGOffsets(m);
     initCppVGCounts(m);
     initCppShapeKeyChecksums(m);
+    // the six game-data tables: ahead of ModType, whose constructor and members name them
+    initCppDrawPasses(m);
+    initCppTextureRegisters(m);
+    initCppGameShaders(m);
+    initCppShapeKeyDispatchSizes(m);
+    initCppBoneCentroids(m);
+    initCppShapeKeyRemaps(m);
+    initCppMaterialCodes(m);
+    initCppMaterialColours(m);
+    initCppTextureDescs(m);
+    initCppTextureThumbprints(m);
+    initCppTextureKinds(m);
     initCppGameTypeId(m);
     initCppModTypeId(m);
     initCppModTypeIdData(m);
@@ -260,6 +315,7 @@ PYBIND11_MODULE(core, m) {
     initCppGIMICharBuilders(m); // must come after initCppTexEditor (a TexEdit filter) and before initCppStrategyOverrides (which recognises its factories)
     initCppGIMIComponentBuilders(m); // must come after initCppGIMICharBuilders (shares its PyIniParseFactory/PyIniFixFactory wrappers)
     initCppWWMIBuilders(m); // same wrappers, same ordering; must come after initCppModTypeId and initCppColour (its configs hold a ModTypeId and a Colour)
+    initCppLynaeData(m); // must come after initCppWWMIBuilders (hands its configs' types across)
     initCppStrategyOverrides(m); // takes Python factories; no ordering constraint of its own
     initCppGIBuilder(m); // must come after initCppModType (its methods return ModType) and initCppModTypeId (uses the ModTypeId enum)
     initCppWWMIBuilder(m); // same constraints as initCppGIBuilder
@@ -284,6 +340,9 @@ PYBIND11_MODULE(core, m) {
     initCppIfTemplateNode(m); // reuses PyIfContentPart/AGRC::IfPredPart in its own method signatures, so registered after both
     initCppIfTemplateTree(m); // its 'root' property returns IfTemplateNode, so registered after initCppIfTemplateNode
     initCppIfTemplate(m); // its 'tree' property returns IfTemplateTree, so registered after initCppIfTemplateTree
+    initCppListValue(m);
+    initCppSectionText(m); // must come after initCppIfTemplate (what it builds) and initCppZ3Context (what it parses with)
+    initCppWWMISections(m); // the same two, for the same reason
     initCppCallGraph(m);
     initCppSectionIterData(m);
     initCppIniSectionGraph(m);
@@ -298,14 +357,17 @@ PYBIND11_MODULE(core, m) {
     initCppRegRemap(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegRemove(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegRestrict(m); // must come after initCppBaseRegEdit (registers its base)
+    initCppRegAnchorAdd(m); // must come after initCppBaseRegEdit (registers its base)
 
     // ----- iniFixers/graphEdits (full replacement of the pure-Python graphEdits package -- see
     // Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
     initCppBaseIniGraphEdit(m); // must come after initCppBaseRegEdit (registers BaseIniGraphPartEdit, its base) and initCppIniSectionGraph (the type it edits)
     initCppGraphRename(m); // must come after initCppBaseIniGraphEdit (registers its base)
+    initCppGraphVarRename(m); // must come after initCppBaseIniGraphEdit (registers its base)
     initCppRegFillMissing(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppIfContentPart (the parts it fills)
     initCppRegSurroundedAdd(m); // must come after initCppBaseIniGraphEdit (registers its base)
     initCppRegBottomAdd(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppRegSurroundedAdd (shares its parseAdditions/additionsToPy)
+    initCppRegIfTemplateAdd(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppIfTemplate (its template is one)
     initCppRegDelimitedAdd(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppRegSurroundedAdd (shares its parsers)
     initCppRegBranchAdd(m); // must come after initCppBaseIniGraphEdit (registers its base), initCppRegSurroundedAdd (shares its parseAdditions), initCppZ3Predicate and initCppSectionIterData (what branchOf is handed)
 
@@ -314,8 +376,11 @@ PYBIND11_MODULE(core, m) {
     initCppGIMIObjPartFilter(m); // must come after initCppModMappedAssets (the tables it borrows) and initCppSectionIterData (what its window function takes)
     initCppBaseIniGraphGroupEdit(m); // must come after initCppBaseRegEdit (registers BaseIniPartEdit, its base) and initCppIniSectionGraph/initCppIniGraphGroup (the types it edits)
     initCppGraphRemove(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
+    initCppIterGraphGroupEdit(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
     initCppGraphGroupRemove(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
     initCppGraphCreate(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppIniSectionGraph (its `graph` is one)
+    initCppGraphFilter(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppIfContentPart (its predicate is handed one)
+    initCppGraphCopy(m); // likewise
     initCppGraphInherit(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppRanges (its partFilter returns one)
     initCppGraphGroupRemap(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
     initCppGraphGroupEdit(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppBaseRegEdit (its isinstance target for register edits)
@@ -324,7 +389,13 @@ PYBIND11_MODULE(core, m) {
     initCppBufReplace(m); // must come after initCppResEdit (registers its base) and initCppRemapIniFixResource (the model it builds)
     initCppTexCreate(m); // must come after initCppResEdit (registers its base) and initCppRemapTexAddResource/initCppTexCreator (the model it builds)
     initCppTexReplace(m); // same ordering needs as initCppTexCreate above
+    initCppVGRemapBlendReplace(m); // must come after initCppResEdit, initCppModType and initCppVersion (its arguments)
     initCppResRegCollect(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppResEdit (its resEdits values)
+    initCppIParseResult(m);
+    initCppGraphCollect(m); // must come after initCppBaseIniGraphGroupEdit and initCppIParseResult (registers its bases)
+    initCppGraphEditVariables(m); // must come after initCppBaseIniGraphGroupEdit (its edits' base), the IfTemplate and Z3Context bindings
+    initCppShaderFilterTags(m); // must come after the IfTemplate binding (its sections)
+    initCppCustomShaderBackups(m); // must come after the IfTemplate binding (its sections)
     initCppResGroupCollect(m); // must come after initCppBaseIniGraphGroupEdit (registers its base), initCppResEdit and initCppIniGroupedResource (the groups it builds)
     initCppHash64(m);
     initCppHash128(m);
@@ -339,12 +410,19 @@ PYBIND11_MODULE(core, m) {
     initCppBufFile(m); // must come after initCppBinaryFile/initCppBufElementType (registers its base / constructor arg type)
     initCppBlendFile(m); // must come after initCppBufFile/initCppVGRemap
     initCppPositionFile(m); // must come after initCppBufFile
+    initCppTexcoordFile(m); // must come after initCppBufFile
     initCppIbFile(m); // must come after initCppBufFile (registers its base)
+    initCppWWMIBlend(m); // must come after initCppBufElementType and initCppVGRemap (hands both across)
+    initCppWWMIShapeKeys(m);
+    initCppSkeletonNumberingProbe(m);
+    initCppRabbitFX(m);
+    initCppDrawUVCoverage(m);
     initCppVbFile(m); // must come after initCppBufFile/initCppBufElementType (registers its base / constructor arg type)
     initCppBaseBufEditor(m); // must come after initCppBufFile (its 'fix' method signature references it)
     initCppBufEditor(m); // must come after initCppBaseBufEditor (registers its base)
     initCppColour(m);
     initCppColourRange(m); // must come after initCppColour (constructor arg type)
+    initCppColours(m); // must come after initCppColourRange (its attributes' types)
     initCppTexCache(m); // must come before initCppTextureFile (its 'setCache' signature references it)
     initCppTextureFile(m);
     initCppBasePixelTransform(m);
@@ -361,9 +439,13 @@ PYBIND11_MODULE(core, m) {
     initCppTransparencyAdjustFilter(m); // must come after initCppBaseTexFilter/initCppColourRange
     initCppInvertAlphaFilter(m); // must come after initCppBaseTexFilter (registers its base)
     initCppMaterialBandRemapFilter(m); // must come after initCppBaseTexFilter (registers its base)
+    initCppChannelMapFilter(m);        // must come after initCppBaseTexFilter (registers its base)
+    initCppGuidedScaleFilter(m);       // after initCppChannelMapFilter (uses its Read)
+    initCppRegionFilter(m);            // after initCppBaseTexFilter (registers its base)
     initCppHueAdjust(m); // must come after initCppBaseTexFilter (registers its base)
     initCppPixelFilter(m); // must come after initCppBaseTexFilter/initCppBasePixelTransform
     initCppBaseTexEditor(m); // must come after initCppTextureFile (its 'fix' method signature references it)
+    initCppFileEdits(m); // must come after initCppResEdit (registers its base) and initCppBaseTexEditor (a download's texEdit)
     initCppTexEditor(m); // must come after initCppBaseTexEditor (registers its base)
     initCppTexCreator(m); // must come after initCppBaseTexEditor (registers its base) and initCppColour (constructor arg type)
 
@@ -373,6 +455,7 @@ PYBIND11_MODULE(core, m) {
     initCppFileStats(m);
     initCppCachedFileStats(m); // must come after initCppFileStats (registers its base)
     initCppRemapStats(m); // must come after initCppFileStats/initCppCachedFileStats (its members are those types)
+    initCppIniSharedState(m); // before initCppRemapService: RemapService::getSharedState returns one
     initCppRemapService(m); // must come after initCppIniFile/initCppBaseLogger (its members/arguments are those types)
     initCppRemapServiceCLI(m); // must come after initCppRemapService (its constructor takes one) and initCppLogger
     initCppFileDownload(m);
@@ -398,8 +481,11 @@ PYBIND11_MODULE(core, m) {
 
     // ----- iniParsers (full replacement of the pure-Python BaseIniParser/GIMIParser pair --
     // see Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
-    initCppBaseIniParser(m);
+    initCppTextureRoles(m);
+    initCppIniParseData(m); // must come after initCppTextureRoles (hands it across)
+    initCppBaseIniParser(m); // must come after initCppIniParseData (its parseData)
     initCppGIMISectionClassifier(m); // must come after initCppHashes/initCppIndices (its assets) and initCppIfContentPartColour (what it classifies from)
+    initCppDownloadData(m); // must come after initCppIfTemplate/initCppIfContentPart (the parts it adds to), initCppFileDownload and initCppIniResource (what it builds)
     initCppGIMIParser(m); // must come after initCppBaseIniParser (registers its base), initCppIniGraphGroup/initCppIniSectionGraph (the graphs it builds) and initCppRemapIniDownload (the downloads it records)
 
     // ----- iniFixers (full replacement of the pure-Python BaseIniFixer/GIMIFixer pair) -----
@@ -431,4 +517,8 @@ PYBIND11_MODULE(core, m) {
 
     // ModType::fixIni takes a IniFile, so it can only be bound now that one exists.
     initCppModTypeLateBindings(m);
+
+    // Last: it reads the Python types of the classes it watches (IfTemplate, IfTemplatePart, IniSectionGraph) off
+    // the module
+    initCppObjectLifetime(m);
 }

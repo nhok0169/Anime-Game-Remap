@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_skeleton_numbering_probe_8h" kind="file" language="C++">
+    <compoundname>SkeletonNumberingProbe.h</compoundname>
+    <includes local="no">array</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="_w_w_m_i_parser_8h" local="yes">include/AGRemapCore/data/IniParseData/WWMIParser.h</includedby>
+    <includedby refid="_skeleton_numbering_probe_8cpp" local="yes">src/model/buffers/SkeletonNumberingProbe.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h</label>
+        <link refid="_skeleton_numbering_probe_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>array</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/data/IniParseData/WWMIParser.h</label>
+        <link refid="_w_w_m_i_parser_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h</label>
+        <link refid="_skeleton_numbering_probe_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/IniParseData/Changli/ChangliParser.cpp</label>
+        <link refid="_changli_parser_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/data/IniParseData/ChangliNymph/ChangliNymphParser.cpp</label>
+        <link refid="_changli_nymph_parser_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/data/IniParseData/Chisa/ChisaParser.cpp</label>
+        <link refid="_chisa_parser_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp</label>
+        <link refid="_chisa_parfait_parser_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/data/IniParseData/Lynae/LynaeParser.cpp</label>
+        <link refid="_lynae_parser_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/data/IniParseData/LynaePeppermint/LynaePeppermintParser.cpp</label>
+        <link refid="_lynae_peppermint_parser_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/data/IniParseData/Sanhua/SanhuaParser.cpp</label>
+        <link refid="_sanhua_parser_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp</label>
+        <link refid="_sanhua_exorcist_parser_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/model/buffers/SkeletonNumberingProbe.cpp</label>
+        <link refid="_skeleton_numbering_probe_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_skeleton_numbering_probe" prot="public">AGRemapCore::SkeletonNumberingProbe</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering" prot="public">AGRemapCore::SkeletonNumberingProbe::Numbering</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result" prot="public">AGRemapCore::SkeletonNumberingProbe::Result</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_SkeletonNumberingProbe_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_SkeletonNumberingProbe_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="class_a_g_remap_core_1_1_skeleton_numbering_probe" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_skeleton_numbering_probe" kindref="compound">SkeletonNumberingProbe</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49" refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering" kindref="compound">Numbering</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering_1a78a1a7530b698d9d6509e3b126f16fe0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering_1a78a1a7530b698d9d6509e3b126f16fe0" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering_1afc028bf34e65eb43806de9f838f549f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;long<sp/>long,<sp/>long<sp/>long&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering_1afc028bf34e65eb43806de9f838f549f5" kindref="member">toReference</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result" kindref="compound">Result</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1a98151774436552800890d027225ada86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1a98151774436552800890d027225ada86" kindref="member">best</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1abb6ac25e7ec1c7e041b5446241ea6d63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1abb6ac25e7ec1c7e041b5446241ea6d63" kindref="member">medians</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1a4874a92412725413b7ea88283ffcc991" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1a4874a92412725413b7ea88283ffcc991" kindref="member">vertices</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1acb53d6c180b964ad2f80eb670541c132" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1acb53d6c180b964ad2f80eb670541c132" kindref="member">MinVertices</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;Result&gt;<sp/><ref refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1a88efd66aa3b6c437ebe51e3f58a7b1bb" kindref="member">probe</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>positionFile,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blendFile,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>vertexVGFile,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Numbering&gt;&amp;<sp/>numberings,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal">,<sp/>std::array&lt;double,<sp/>3&gt;&gt;&amp;<sp/>centroids);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h"/>
+  </compounddef>
+</doxygen>

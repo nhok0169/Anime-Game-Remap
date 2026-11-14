@@ -14,8 +14,10 @@
 
 // ##### EndCredits
 
+#include <functional>
 #include <optional>
 #include <string>
+#include <utility>
 
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h"
@@ -191,11 +193,30 @@ namespace AGRemapCore {
             using Edit = BaseRegEdit<K, V, KeyHash, KeyEqual>;
 
             /**
+             * @brief Decides, from a `section`_'s name, whether the edit applies to its parts
+             */
+            using SectionFilter = std::function<bool(const std::string& sectionName)>;
+
+            /**
+             * @brief
+             @rst
+             The `sections`_ the edit applies to, by name -- eg. only a mod's override command list, among
+             every `section`_ its graph reaches. An empty function applies it to every `section`_
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: an empty function
+             @endrst
+             */
+            SectionFilter sectionFilter;
+
+            /**
              * @brief Constructs an adapter around a register edit
              *
              * @param edit The edit to adapt -- **borrowed**, and must outlive this adapter
+             * @param sectionFilter The `sections`_ the edit applies to, by name. **Default**: an empty function, every `section`_
              */
-            explicit RegPartEdit(Edit* edit): edit_(edit) {}
+            explicit RegPartEdit(Edit* edit, SectionFilter sectionFilter = nullptr):
+                sectionFilter(std::move(sectionFilter)), edit_(edit) {}
 
             /**
              * @brief The adapted edit -- borrowed, never owned
@@ -214,7 +235,7 @@ namespace AGRemapCore {
 
             void editPart(ContentPart& part, const std::string& sectionName, IniFile* ini, const ModType* modType,
                            const std::string& modName, const OrderRanges& partRanges) override {
-                if (edit_ == nullptr) {
+                if (edit_ == nullptr || (sectionFilter && !sectionFilter(sectionName))) {
                     return;
                 }
 

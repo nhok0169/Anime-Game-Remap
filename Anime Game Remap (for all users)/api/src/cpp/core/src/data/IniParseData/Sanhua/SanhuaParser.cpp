@@ -20,7 +20,7 @@
 
 
 namespace AGRemapCore {
-    IniParseBuilder::Factory IniParseBuilderFuncs::sanhua2_5() {
+    WWMIParserConfig SanhuaParser::v2_5Config() {
         // The WWMI shape -- see makeWWMIParser for what that means and for every mod object this
         // produces. Nothing is Sanhua-specific beyond her id: her seven draw slots come off the
         // library's Indices rows, her hashes off HashData.
@@ -28,7 +28,12 @@ namespace AGRemapCore {
         config.version = "2.5";
         // Her own textures, so a mod of hers is sorted into roles at PARSE time.
         config.textures = sanhuaTextureFacts();
-        return makeWWMIParser(std::move(config));
+        return config;
+    }
+
+
+    IniParseBuilder::Factory IniParseBuilderFuncs::sanhua2_5() {
+        return makeWWMIParser(SanhuaParser::v2_5Config());
     }
 
 

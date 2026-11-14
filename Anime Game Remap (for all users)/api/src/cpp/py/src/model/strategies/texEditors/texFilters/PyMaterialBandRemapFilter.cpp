@@ -139,9 +139,9 @@ negate: :class:`bool`
                                py::doc(":class:`bool`: Whether the move is conditioned on the diffuse"));
 
     cls
-        .def(py::init([](std::optional<std::vector<AGRC::MaterialBandRemapFilter::Band>> bands, std::string diffusePath) {
-            return AGRC::MaterialBandRemapFilter(bands.value_or(std::vector<AGRC::MaterialBandRemapFilter::Band>{}), std::move(diffusePath));
-        }), py::arg("bands") = py::none(), py::arg("diffusePath") = "", py::doc(R"doc(
+        .def(py::init([](std::optional<std::vector<AGRC::MaterialBandRemapFilter::Band>> bands, std::string diffusePath, std::size_t channel) {
+            return AGRC::MaterialBandRemapFilter(bands.value_or(std::vector<AGRC::MaterialBandRemapFilter::Band>{}), std::move(diffusePath), channel);
+        }), py::arg("bands") = py::none(), py::arg("diffusePath") = "", py::arg("channel") = 3, py::doc(R"doc(
 Constructs a new material band remap filter
 
 Parameters
@@ -156,12 +156,21 @@ diffusePath: :class:`str`
     The diffuse to read the gates against. If this names no readable file, every gate passes :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``""``
+
+channel: :class:`int`
+    The channel of the light map holding the band, ``0`` (red) to ``3`` (alpha) --- GI keeps its band in
+    the alpha, ZZZ in the red. The other channels are never touched; a channel past ``3`` makes the
+    filter a no-op :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``3``
         )doc"))
 
         .def_readwrite("bands", &AGRC::MaterialBandRemapFilter::bands,
                        py::doc("List[:class:`CppMaterialBandRemapFilter.Band`]: The moves to apply, all from the ORIGINAL alpha"))
         .def_readwrite("diffusePath", &AGRC::MaterialBandRemapFilter::diffusePath,
                        py::doc(":class:`str`: The diffuse to read the gates against"))
+        .def_readwrite("channel", &AGRC::MaterialBandRemapFilter::channel,
+                       py::doc(":class:`int`: The channel of the light map holding the band, ``0`` (red) to ``3`` (alpha)"))
 
         .def_static("skinColoured", &AGRC::MaterialBandRemapFilter::skinColoured, py::arg("red"), py::arg("green"), py::arg("blue"),
                     py::doc(R"doc(

@@ -14,21 +14,27 @@
 #include "PyRegRemove.h"
 
 #include <memory>
+#include <string>
 #include <utility>
+
+#include <pybind11/functional.h>
+
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h"
 
 
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
 
-PyRegRemove::PyRegRemove(py::object removeKeysObj): Core({}), removeKeysObj(std::move(removeKeysObj)) {}
-
-void PyRegRemove::refresh(const py::object &modType) {
-    (void)modType;
-
-    // parseRemoveKeys (PyIfContentPart.h) is the exact same helper IfContentPart.removeKeys' own
-    // binding uses.
-    removeKeys = parseRemoveKeys(py::cast<py::dict>(removeKeysObj));
+namespace {
+    // the C++ member as Python reads it: key -> its check, or None
+    py::dict removeKeysToPy(const PyRegRemove &edit) {
+        py::dict result;
+        for (const auto &[key, check] : edit.removeKeys) {
+            result[py::str(key)] = check.has_value() ? py::cast(*check) : py::none();
+        }
+        return result;
+    }
 }
 
 
@@ -40,21 +46,40 @@ Bulk-removes register keys for some :class:`IfContentPart`
 
 Parameters
 ----------
-removeKeys: Dict[Any, Optional[Callable[[:class:`int`, Any], :class:`bool`]]]
+removeKeys: Union[Dict[Any, Optional[Callable[[:class:`int`, Any], :class:`bool`]]], List[Tuple[Any, Optional[Callable[[:class:`int`, Any], :class:`bool`]]]]]
     Each key to remove, mapped to its own optional check predicate :raw-html:`<br />` :raw-html:`<br />`
 
     See :meth:`IfContentPart.removeKeys` for the full semantics of how the predicates decide
     which occurrences of a key actually get removed
     )doc");
 
+    // parseRemoveKeys (PyIfContentPart.h) is the exact same helper IfContentPart.removeKeys' own binding uses
     cls.def(py::init([](py::object removeKeys) {
-        return std::make_unique<PyRegRemove>(std::move(removeKeys));
+        return std::make_unique<PyRegRemove>(parseRemoveKeys(removeKeys));
     }), py::arg("removeKeys"));
 
+    cls.def_static("valueStartsWith", [](std::string prefix) {
+        return AGRC::RegRemove<>::valueStartsWith(std::move(prefix));
+    }, py::arg("prefix"), py::doc(R"doc(
+A check accepting a line whose value starts with 'prefix', ignoring case and leading space -- or whose value is ``ref``
+followed by such a value, since a binding may name its resource either way (``vs-cb4 = ResourceMergedSkeleton`` and
+``vs-cb4 = ref ResourceMergedSkeleton``). A 'prefix' of ``ref`` itself accepts every ``ref`` binding
+
+Parameters
+----------
+prefix: :class:`str`
+    The start of the value, in any case
+
+Returns
+-------
+Callable[[:class:`int`, :class:`str`], :class:`bool`]
+    The check, for :attr:`removeKeys`
+    )doc"));
+
     cls.def_property("removeKeys", [](const PyRegRemove &self) {
-        return self.removeKeysObj;
+        return removeKeysToPy(self);
     }, [](PyRegRemove &self, py::object removeKeys) {
-        self.removeKeysObj = std::move(removeKeys);
+        self.removeKeys = parseRemoveKeys(removeKeys);
     }, py::doc(R"doc(
 Dict[Any, Optional[Callable[[:class:`int`, Any], :class:`bool`]]]: Each key to remove, mapped to
 its own optional check predicate

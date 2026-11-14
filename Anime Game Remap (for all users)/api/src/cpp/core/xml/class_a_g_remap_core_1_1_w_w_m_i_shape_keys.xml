@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_w_w_m_i_shape_keys" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIShapeKeys</compoundname>
+    <includes refid="_w_w_m_i_shape_keys_8h" local="no">WWMIShapeKeys.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_files" prot="public">AGRemapCore::WWMIShapeKeys::Files</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_layout" prot="public">AGRemapCore::WWMIShapeKeys::Layout</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_bytes" prot="public">AGRemapCore::WWMIShapeKeys::Bytes</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1abd0c4c6edba5cb9bc49bbe2e71a3f77c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_layout" kindref="compound">Layout</ref></type>
+        <definition>WWMIShapeKeys::Layout AGRemapCore::WWMIShapeKeys::layoutOf</definition>
+        <argsstring>(const Files &amp;files)</argsstring>
+        <name>layoutOf</name>
+        <qualifiedname>AGRemapCore::WWMIShapeKeys::layoutOf</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_files" kindref="compound">Files</ref> &amp;</type>
+          <declname>files</declname>
+        </param>
+        <briefdescription>
+<para>Reads the layout off the three buffers&apos; bytes and sizes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>files</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The buffers</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The layout, with no slots when the sizes do not divide as this layout&apos;s do</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the offsets cannot be read </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" line="94" column="27" bodyfile="src/model/buffers/WWMIShapeKeys.cpp" bodystart="49" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1a641dd99713a182b8eb2c90d84495e437" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIShapeKeys::checkReorder</definition>
+        <argsstring>(const Files &amp;files, const std::vector&lt; long long &gt; &amp;order)</argsstring>
+        <name>checkReorder</name>
+        <qualifiedname>AGRemapCore::WWMIShapeKeys::checkReorder</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_files" kindref="compound">Files</ref> &amp;</type>
+          <declname>files</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; long long &gt; &amp;</type>
+          <declname>order</declname>
+        </param>
+        <briefdescription>
+<para>Why the buffers cannot be put in &apos;order&apos; <ndash/> empty when they can. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>files</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The buffers </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>order</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The order <ref refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1a87514d7e81592e4844753168a7d5aedb" kindref="member">reorder</ref> would be asked for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The reason, or <computeroutput>""</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" line="104" column="32" bodyfile="src/model/buffers/WWMIShapeKeys.cpp" bodystart="72" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1a87514d7e81592e4844753168a7d5aedb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::WWMIShapeKeys::reorder</definition>
+        <argsstring>(const Files &amp;files, const std::vector&lt; long long &gt; &amp;order, const Files &amp;out)</argsstring>
+        <name>reorder</name>
+        <qualifiedname>AGRemapCore::WWMIShapeKeys::reorder</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_files" kindref="compound">Files</ref> &amp;</type>
+          <declname>files</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; long long &gt; &amp;</type>
+          <declname>order</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_files" kindref="compound">Files</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Writes the buffers again with their slots in another order :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+``order[j]`` is the key whose entries go in slot ``j``, ``-1`` for a slot that takes
+none. Slots past the end of &apos;order&apos; keep their entries and position. A key of the first
+``order.size()`` that no slot takes is kept, its offsets zeroed, after the last ordered
+slot, so the number of entries does not change
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>files</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The buffers to read </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>order</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source key for each slot </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where the reordered buffers are written</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if a buffer cannot be read or written, or the reorder would change the number of entries </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" line="125" column="25" bodyfile="src/model/buffers/WWMIShapeKeys.cpp" bodystart="97" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1a5271d133b0da282d27bda8c440da6607" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_bytes" kindref="compound">Bytes</ref></type>
+        <definition>WWMIShapeKeys::Bytes AGRemapCore::WWMIShapeKeys::reordered</definition>
+        <argsstring>(const Files &amp;files, const std::vector&lt; long long &gt; &amp;order)</argsstring>
+        <name>reordered</name>
+        <qualifiedname>AGRemapCore::WWMIShapeKeys::reordered</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_files" kindref="compound">Files</ref> &amp;</type>
+          <declname>files</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; long long &gt; &amp;</type>
+          <declname>order</declname>
+        </param>
+        <briefdescription>
+<para>The buffers <ref refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1a87514d7e81592e4844753168a7d5aedb" kindref="member">reorder</ref> writes, as bytes <ndash/> for a caller that hands them to the fix&apos;s resources rather than writing them itself. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>files</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The buffers to read </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>order</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source key for each slot <ndash/> see <ref refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1a87514d7e81592e4844753168a7d5aedb" kindref="member">reorder</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if a buffer cannot be read, or the reorder would change the number of entries</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The reordered buffers </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" line="159" column="26" bodyfile="src/model/buffers/WWMIShapeKeys.cpp" bodystart="104" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The three shape-key buffers of a Wuthering Waves (WWMI) mod, as WWMI Tools writes them
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+* ``ShapeKeyOffset`` holds the FIRST entry of each key slot, one ``uint32`` a slot
+* ``ShapeKeyVertexId`` holds one ``uint32`` vertex id per entry
+* ``ShapeKeyVertexOffset`` holds one vertex offset of a fixed width per entry
+
+A slot&apos;s entries run to the next slot&apos;s first, the last slot&apos;s to the end :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The game drives a character&apos;s shape keys -- blinks, mouth shapes -- by SLOT, and two skins of
+one character can number the same keys differently, so a mod remapped between them has its
+keys put in the target&apos;s order by :cpp:func:`reorder`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" line="43" column="5" bodyfile="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" bodystart="43" bodyend="160"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1a641dd99713a182b8eb2c90d84495e437" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIShapeKeys</scope><name>checkReorder</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1abd0c4c6edba5cb9bc49bbe2e71a3f77c" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIShapeKeys</scope><name>layoutOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1a87514d7e81592e4844753168a7d5aedb" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIShapeKeys</scope><name>reorder</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys_1a5271d133b0da282d27bda8c440da6607" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIShapeKeys</scope><name>reordered</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

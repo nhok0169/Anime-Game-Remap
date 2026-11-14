@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_texcoord_file_8h" kind="file" language="C++">
+    <compoundname>TexcoordFile.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="_buf_element_type_8h" local="yes">AGRemapCore/model/buffers/BufElementType.h</includes>
+    <includes refid="_binary_file_8h" local="yes">AGRemapCore/model/files/BinaryFile.h</includes>
+    <includes refid="_buf_file_8h" local="yes">AGRemapCore/model/files/BufFile.h</includes>
+    <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
+    <includedby refid="_texcoord_file_8cpp" local="yes">src/model/files/TexcoordFile.cpp</includedby>
+    <incdepgraph>
+      <node id="8">
+        <label>AGRemapCore/model/buffers/BufDataType.h</label>
+        <link refid="_buf_data_type_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore/model/buffers/BufElementType.h</label>
+        <link refid="_buf_element_type_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>AGRemapCore/model/buffers/BufType.h</label>
+        <link refid="_buf_type_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>AGRemapCore/model/buffers/BufValue.h</label>
+        <link refid="_buf_value_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>AGRemapCore/model/files/BinaryFile.h</label>
+        <link refid="_binary_file_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>AGRemapCore/model/files/BufFile.h</label>
+        <link refid="_buf_file_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/files/TexcoordFile.h</label>
+        <link refid="_texcoord_file_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="16">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>variant</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/model/files/TexcoordFile.h</label>
+        <link refid="_texcoord_file_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/model/files/TexcoordFile.cpp</label>
+        <link refid="_texcoord_file_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_texcoord_file" prot="public">AGRemapCore::TexcoordFile</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_texcoord_file_1_1_clean_stats" prot="public">AGRemapCore::TexcoordFile::CleanStats</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_TexcoordFile_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_TexcoordFile_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_element_type_8h" kindref="compound">AGRemapCore/model/buffers/BufElementType.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_binary_file_8h" kindref="compound">AGRemapCore/model/files/BinaryFile.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_file_8h" kindref="compound">AGRemapCore/model/files/BufFile.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="class_a_g_remap_core_1_1_texcoord_file" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_texcoord_file_1a8537986b38f4e178457c9ca31c3bca3f" kindref="member">TexcoordFile</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49" refid="class_a_g_remap_core_1_1_texcoord_file_1a62fd5ef6526275001be4918ac9449d09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_texcoord_file_1a62fd5ef6526275001be4918ac9449d09" kindref="member">UVKey</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;TEXCOORD&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="struct_a_g_remap_core_1_1_texcoord_file_1_1_clean_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_texcoord_file_1_1_clean_stats" kindref="compound">CleanStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="58" refid="struct_a_g_remap_core_1_1_texcoord_file_1_1_clean_stats_1af2d6b1c4389e3901758d6c67c282a112" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_a_g_remap_core_1_1_texcoord_file_1_1_clean_stats_1af2d6b1c4389e3901758d6c67c282a112" kindref="member">cleared</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="struct_a_g_remap_core_1_1_texcoord_file_1_1_clean_stats_1a7ce0e06ce6435892fd16ecba6fdbad2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_a_g_remap_core_1_1_texcoord_file_1_1_clean_stats_1a7ce0e06ce6435892fd16ecba6fdbad2e" kindref="member">folded</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_texcoord_file_1a8537986b38f4e178457c9ca31c3bca3f" kindref="member">TexcoordFile</ref>(<ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref><sp/>src,<sp/>std::vector&lt;std::unique_ptr&lt;BufElementType&gt;&gt;<sp/>elements<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_texcoord_file_1a55477a76153879823c0a1ec5e97692f3" kindref="member">uvElement</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_texcoord_file_1a62fd5ef6526275001be4918ac9449d09" kindref="member">UVKey</ref>);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::unique_ptr&lt;BufElementType&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_texcoord_file_1a203da08d911f3d0e3998ff9df1337ce9" kindref="member">halfElements</ref>(std::size_t<sp/>stride);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="class_a_g_remap_core_1_1_texcoord_file_1a55477a76153879823c0a1ec5e97692f3" kindref="member">uvElement</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="class_a_g_remap_core_1_1_texcoord_file_1abf31869c10e04b332ddae6200f8f5b9b" kindref="member">us</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;bool&gt;<sp/><ref refid="class_a_g_remap_core_1_1_texcoord_file_1a021310a212c117ebfb7f4b416dffb360" kindref="member">straddling</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;long<sp/>long&gt;&amp;<sp/>indices)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CleanStats<sp/><ref refid="class_a_g_remap_core_1_1_texcoord_file_1af90954cbf903c5d9f352e36bb3b25f37" kindref="member">clean</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;bool&gt;&amp;<sp/>keep<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="129" refid="class_a_g_remap_core_1_1_texcoord_file_1a0f43b6e25fc105898246dc45c7f70a7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_texcoord_file_1a0f43b6e25fc105898246dc45c7f70a7e" kindref="member">uvElement_</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/model/files/TexcoordFile.h"/>
+  </compounddef>
+</doxygen>

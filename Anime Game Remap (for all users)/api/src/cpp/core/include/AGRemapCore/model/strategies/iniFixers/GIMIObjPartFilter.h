@@ -126,6 +126,15 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             What :cpp:member:`ResRegCollect::partPredicates` takes: the ranges of a part a collect may
+             read its registers from, decided from the part alone
+             @endrst
+             */
+            using PartPredicate = std::function<OrderRanges(const IterData&)>;
+
+            /**
+             * @brief
+             @rst
              The ``.ini``-domain customization points this class needs, for the same reason
              :cpp:class:`GIMISectionClassifier::ClassifierConfig` exists: ``K`` is not
              ``std::string`` for every instantiation, so the `KVP`_ keys cannot be spelled as
@@ -256,6 +265,41 @@ namespace AGRemapCore {
              * @param modObj The mod object to restrict an edit to
              */
             PartFilter filter(const ModObj& modObj) const;
+
+            /**
+             * @brief
+             @rst
+             Whether any ``hash`` value of 'colouring' is a hash of type 'hashType' -- the last index
+             column of its :cpp:class:`Hashes` row, eg. ``blend_vb`` -- as the WHOLE part, or nothing
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Unlike \\ref window this needs no ``match_first_index`` and ignores \\ref indexHashKeys: it
+             answers "is this part about that kind of buffer", for a register that lives in a different
+             `section`_ from its hash (a blend's ``vb1`` and the ``blend_vb`` hash it is bound under)
+             @endrst
+             *
+             * @param hashType The type of hash to look for
+             * @param colouring The current `KVP`_ state of the part
+             *
+             * @return The whole part when some ``hash`` resolves to 'hashType', empty ranges otherwise
+             * (and always when \\ref hashes is ``nullptr``)
+             */
+            OrderRanges hashTypeWindow(const K& hashType, const Colouring& colouring) const;
+
+            /**
+             * @brief
+             @rst
+             \\ref hashTypeWindow as a ready-made \\ref PartPredicate, for a
+             :cpp:member:`ResRegCollect::partPredicates` entry :raw-html:`<br />` :raw-html:`<br />`
+
+             The returned predicate **captures this object by pointer**, so it must not outlive it. A
+             part with no colouring (key tracking off) yields empty ranges -- the collect has to track
+             at least ``hash``
+             @endrst
+             *
+             * @param hashType The type of hash whose parts the collect may read
+             */
+            PartPredicate hashTypeParts(const K& hashType) const;
 
         private:
             Assets* hashes_;

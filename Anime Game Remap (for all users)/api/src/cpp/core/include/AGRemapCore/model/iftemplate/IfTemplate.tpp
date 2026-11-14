@@ -12,6 +12,9 @@
 // ##### EndCredits
 
 #include <algorithm>
+#include <type_traits>
+
+#include "AGRemapCore/tools/StringTools.h"
 #include <tuple>
 
 namespace AGRemapCore {
@@ -79,6 +82,56 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::optional<V> IfTemplate<K, V, KeyHash, KeyEqual>::firstVal(const K& key) const {
+        for (const auto& part : parts_) {
+            const auto* content = dynamic_cast<const ContentPart*>(part.get());
+            if (content == nullptr) {
+                continue;
+            }
+
+            std::vector<V> vals = content->getVals(key);
+            if (vals.empty()) {
+                continue;
+            }
+            if constexpr (std::is_same_v<V, std::string>) {
+                return std::string(StringTools::strip(vals.front()));
+            } else {
+                return vals.front();
+            }
+        }
+
+        return std::nullopt;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::optional<V> IfTemplate<K, V, KeyHash, KeyEqual>::firstValMatching(const std::function<bool(const K&)>& match) const {
+        for (const auto& part : parts_) {
+            const auto* content = dynamic_cast<const ContentPart*>(part.get());
+            if (content == nullptr) {
+                continue;
+            }
+
+            for (const K& candidate : content->getKeys()) {
+                if (!match(candidate)) {
+                    continue;
+                }
+
+                std::vector<V> vals = content->getVals(candidate);
+                if (vals.empty()) {
+                    continue;
+                }
+                if constexpr (std::is_same_v<V, std::string>) {
+                    return std::string(StringTools::strip(vals.front()));
+                } else {
+                    return vals.front();
+                }
+            }
+        }
+
+        return std::nullopt;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     const std::unordered_map<size_t, IfTemplatePart*>& IfTemplate<K, V, KeyHash, KeyEqual>::partsById() const {
         return partsById_;
     }
@@ -121,6 +174,54 @@ namespace AGRemapCore {
                 tree_ = IfTemplateNonEmptyNodeTree<K, V, KeyHash, KeyEqual>::construct(parts_);
                 break;
         }
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    bool IfTemplate<K, V, KeyHash, KeyEqual>::removeEmptyBlocks() {
+        auto& all = parts();
+        const auto isEmpty = [](const std::unique_ptr<IfTemplatePart>& part) {
+            if (dynamic_cast<const IfPredPart*>(part.get()) != nullptr) {
+                return true;
+            }
+            const auto* content = dynamic_cast<const ContentPart*>(part.get());
+            return content == nullptr || content->entries().empty();
+        };
+
+        bool removed = false;
+        for (bool again = true; again;) {
+            again = false;
+            for (std::size_t i = 0; i < all.size() && !again; ++i) {
+                const auto* open = dynamic_cast<const IfPredPart*>(all[i].get());
+                if (open == nullptr || open->type != IfPredPartType::If) {
+                    continue;
+                }
+
+                // its `endif`, counting the blocks inside it
+                int depth = 0;
+                std::size_t end = i;
+                for (std::size_t j = i; j < all.size(); ++j) {
+                    if (const auto* pred = dynamic_cast<const IfPredPart*>(all[j].get())) {
+                        depth += pred->type == IfPredPartType::If ? 1 : pred->type == IfPredPartType::EndIf ? -1 : 0;
+                        if (depth == 0) {
+                            end = j;
+                            break;
+                        }
+                    }
+                }
+
+                const auto first = all.begin() + static_cast<long long>(i);
+                const auto last = all.begin() + static_cast<long long>(end) + 1;
+                if (end > i && std::all_of(first, last, isEmpty)) {
+                    all.erase(first, last);
+                    again = removed = true;
+                }
+            }
+        }
+
+        if (removed) {
+            rebuild();
+        }
+        return removed;
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
@@ -320,10 +421,38 @@ namespace AGRemapCore {
     bool IfTemplate<K, V, KeyHash, KeyEqual>::isKeyFullyCoverNode(
             NodeType& node, const K& key,
             const std::unordered_map<std::string, IfTemplate<K, V, KeyHash, KeyEqual>*>& sections,
-            std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover) const {
+            std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover,
+            bool countMissingElse) const {
         bool result = node.hasKey(key);
         if (result) {
             return result;
+        }
+
+        // A chain with no `else` has a path through none of its branches, which sets nothing -- so
+        // the node's children cannot cover the key, whatever they hold. The children are the
+        // branches of every chain the node holds, in order; each chain opens with an `if`.
+        if (countMissingElse) {
+            bool open = false;
+            for (const auto& element : node.parts()) {
+                const auto* child = std::get_if<NodeType*>(&element);
+                if (child == nullptr || *child == nullptr || (*child)->ifPredPart == nullptr) {
+                    continue;
+                }
+
+                const IfPredPartType type = (*child)->ifPredPart->type;
+                if (type == IfPredPartType::If) {
+                    if (open) {
+                        return result;
+                    }
+                    open = true;
+                } else if (type == IfPredPartType::Else) {
+                    open = false;
+                }
+            }
+
+            if (open) {
+                return result;
+            }
         }
 
         bool childrenResult = true;
@@ -362,7 +491,7 @@ namespace AGRemapCore {
         for (const auto& childEntry : branchChildren) {
             NodeType* child = childEntry.second;
             ++evaluated;
-            childrenResult = childrenResult && isKeyFullyCoverNode(*child, key, sections, visited, sectionsKeyFullCover);
+            childrenResult = childrenResult && isKeyFullyCoverNode(*child, key, sections, visited, sectionsKeyFullCover, countMissingElse);
             if (!childrenResult) {
                 return result;
             }
@@ -382,7 +511,7 @@ namespace AGRemapCore {
             }
 
             ++evaluated;
-            childrenResult = childrenResult && it->second->isKeyFullyCover(key, sections, visited, sectionsKeyFullCover);
+            childrenResult = childrenResult && it->second->isKeyFullyCover(key, sections, visited, sectionsKeyFullCover, countMissingElse);
             if (!childrenResult) {
                 return result;
             }
@@ -399,11 +528,12 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     bool IfTemplate<K, V, KeyHash, KeyEqual>::isKeyFullyCover(
             const K& key, const std::unordered_map<std::string, IfTemplate<K, V, KeyHash, KeyEqual>*>& sections,
-            std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover) const {
+            std::unordered_set<std::string>& visited, std::unordered_map<std::string, bool>& sectionsKeyFullCover,
+            bool countMissingElse) const {
         visited.insert(name);
 
         NodeType* node = tree_->root();
-        bool result = isKeyFullyCoverNode(*node, key, sections, visited, sectionsKeyFullCover);
+        bool result = isKeyFullyCoverNode(*node, key, sections, visited, sectionsKeyFullCover, countMissingElse);
         sectionsKeyFullCover[name] = result;
         return result;
     }

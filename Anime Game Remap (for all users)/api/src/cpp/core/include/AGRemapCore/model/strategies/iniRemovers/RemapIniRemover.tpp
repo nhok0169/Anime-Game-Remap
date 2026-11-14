@@ -874,7 +874,7 @@ namespace AGRemapCore {
 
             // A name being removed does not make every occurrence of it the fix's. Twice an undo
             // deleted the AUTHOR's copy of a name a fix block also held: a fix's own `[Constants]`
-            // (a sibling's toggle, carried -- see TextureOverrideFacts::carriedSections) took the
+            // (a sibling's toggle, carried -- see IniParseData::carriedSections) took the
             // author's with it (2026-10-08), and an older build's copy of Lumine11's malformed
             // header `[Textrun = ...ORFix` took the author's line (2026-10-20). Outside a
             // boilerplate, only a name carrying the remap keyword is a fix's.

@@ -15,9 +15,8 @@
 # MATERIAL shaders and different characters share them -- measured: Chisa's face pixel shader
 # `374a4f8fc9a5ea6a` is also Sanhua's.
 #
-# It reads FIXED `.ini` files rather than the configs, for two reasons: the value a config derives
-# from `filterBase` / `filterStep` is not written in the config at all, and the artifact cannot drift
-# from the template the way a re-derivation of its loop can.
+# It reads FIXED `.ini` files rather than the configs: the artifact cannot drift from the template the
+# way a re-derivation of its loop can.
 #
 #   py -3 wwmiShaderTags.py <folder>...          # any folders holding fixed mods, searched recursively
 #   py -3 wwmiShaderTags.py <folder> --drawn <draw table>...

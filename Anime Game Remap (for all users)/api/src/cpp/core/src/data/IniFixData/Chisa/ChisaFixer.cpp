@@ -17,16 +17,21 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
-#include <cstring>
-#include <fstream>
+#include <exception>
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
-#include "AGRemapCore/data/IniFixData/Chisa/ChisaThumbprints.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
+#include "AGRemapCore/model/buffers/BufElementType.h"
+#include "AGRemapCore/model/buffers/BufFloat.h"
+#include "AGRemapCore/model/buffers/DrawUVCoverage.h"
+#include "AGRemapCore/model/files/BufFile.h"
 #include "AGRemapCore/model/files/TextureFile.h"
+#include "AGRemapCore/model/strategies/texEditors/texFilters/ChannelMapFilter.h"
+#include "AGRemapCore/model/strategies/texEditors/texFilters/RegionFilter.h"
 #include "AGRemapCore/tools/files/FileService.h"
 
 
@@ -52,16 +57,6 @@ namespace AGRemapCore {
             return r >= 150 && (r - g) >= 15 && g >= b;
         }
 
-        std::vector<std::uint8_t> readFile(const std::string& path) {
-            std::ifstream in(FileService::strToPath(path), std::ios::binary);
-            if (!in) {
-                return {};
-            }
-
-            return std::vector<std::uint8_t>((std::istreambuf_iterator<char>(in)),
-                                             std::istreambuf_iterator<char>());
-        }
-
         // ---- the three filters ----------------------------------------------------------------
 
         // Chisa's bb73967a is a matcap whose four channels are four GRAYSCALE sheen profiles, blended
@@ -71,18 +66,12 @@ namespace AGRemapCore {
         // Translated: every channel is her FIRST profile, the one a low normal-map alpha selects, so
         // the intensity survives and there is no rainbow.
         TexEditor::Filter sheenFilter() {
-            return [](TextureFile& tex) {
-                tex.setGamma(std::nullopt);          // these bytes are data, not colour
-                std::vector<std::uint8_t> px = tex.getPixels();
-                for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
-                    const std::uint8_t profile = px[i];
-                    px[i + 1] = profile;
-                    px[i + 2] = profile;
-                    px[i + 3] = profile;
-                }
-
-                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
-            };
+            ChannelMapFilter filter;
+            filter.data = true;                      // these bytes are data, not colour
+            for (std::size_t c = 1; c < 4; ++c) {
+                filter.channels[c] = {0, {}};        // the profile, R, into G, B and A
+            }
+            return TexEditor::filterOf(std::move(filter));
         }
 
         // The hair's ps-t5 is a 2048 x 2048 UV-MAPPED map, so it cannot be left to the game: the
@@ -100,17 +89,12 @@ namespace AGRemapCore {
         // are indistinguishable from this in game (the maintainer, 2026-09-26) -- this one is
         // chosen because it is the only one of the three that keeps the mod's own strand detail.
         TexEditor::Filter hairNormalFilter() {
-            return [](TextureFile& tex) {
-                tex.setGamma(std::nullopt);          // these bytes are data, not colour
-                std::vector<std::uint8_t> px = tex.getPixels();
-                for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
-                    px[i] = 0;                       // R: the target's is 0 over 99.4%
-                    px[i + 2] = 0;                   // B: ...and its B over 93.7%
-                    px[i + 3] = 255;                 // A: ...and its A is 255 over 98.3%
-                }
-
-                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
-            };
+            ChannelMapFilter filter;
+            filter.data = true;                      // these bytes are data, not colour
+            filter.channels[0] = {0, ChannelMapFilter::constant(0)};     // R: the target's is 0 over 99.4%
+            filter.channels[2] = {2, ChannelMapFilter::constant(0)};     // B: ...and its B over 93.7%
+            filter.channels[3] = {3, ChannelMapFilter::constant(255)};   // A: ...and its A is 255 over 98.3%
+            return TexEditor::filterOf(std::move(filter));
         }
 
         // Repack a material mask from the SOURCE's layout into the TARGET's. Every non-skin texel
@@ -192,7 +176,14 @@ namespace AGRemapCore {
             };
         }
 
-        // The UV island component 'comp' occupies above 'splitZ', from the MOD's own mesh.
+        // Each vertex's height, off a WWMI ``Position.buf`` (three 32-bit floats a vertex)
+        std::vector<double> heightsOf(const std::string& positionFile) {
+            std::vector<std::unique_ptr<BufElementType>> elements;
+            elements.push_back(BufElementType::repeated("POSITION", 3, [] { return std::make_unique<BufFloat>(); }));
+            return BufFile(positionFile, std::move(elements), "Position.buf").column("POSITION", 2);
+        }
+
+        // The UV island component 'comp' paints above 'splitZ', from the MOD's own mesh.
         //
         // A shader family is a colour grade -- Chisa's ribbon is painted by a HAIR shader and the
         // skin has nowhere to draw it but a CLOTH one -- and the texture is the only place to put
@@ -203,299 +194,71 @@ namespace AGRemapCore {
         // Rasterised from the MOD's texcoords, never the character's. Of nineteen test mods three
         // have her island overlapping THEIR sash, so a character-level island grades the wrong
         // geometry. A triangle is classified by its CENTROID, which cannot straddle; a texel both
-        // halves claim is dropped, since the sash must not be tinted.
-        std::vector<bool> islandMask(const WWMIFixerConfig::TexEditContext& ctx, int comp,
-                                     float splitZ, int width, int height) {
-            const auto ranges = ctx.drawRanges.find(comp);
-            if (ranges == ctx.drawRanges.end() || ranges->second.empty()) {
-                return {};
-            }
+        // halves claim is dropped, since the sash must not be tinted, and the island grows into the
+        // gutter only.
+        RegionFilter::Region islandRegion(const WWMIFixerConfig::TexEditContext& ctx, int comp, float splitZ) {
+            return [ctx, comp, splitZ](long long width, long long height) -> std::vector<bool> {
+                const auto ranges = ctx.drawRanges.find(comp);
+                if (ranges == ctx.drawRanges.end() || ranges->second.empty() || ctx.positionFile.empty()
+                    || ctx.texcoordFile.empty() || ctx.indexFile.empty()) {
+                    return {};
+                }
 
-            const std::vector<std::uint8_t> posRaw = readFile(ctx.positionFile);
-            const std::vector<std::uint8_t> uvRaw = readFile(ctx.texcoordFile);
-            const std::vector<std::uint8_t> idxRaw = readFile(ctx.indexFile);
-            if (posRaw.empty() || uvRaw.empty() || idxRaw.empty()) {
-                return {};
-            }
-
-            const std::size_t vertices = posRaw.size() / 12;
-            if (vertices == 0 || uvRaw.size() % vertices != 0) {
-                return {};
-            }
-
-            const std::size_t stride = uvRaw.size() / vertices;
-            if (stride < 4) {
-                return {};
-            }
-
-            auto zOf = [&posRaw](std::size_t v) {
-                float z = 0.0f;
-                std::memcpy(&z, posRaw.data() + v * 12 + 8, sizeof(float));
-                return z;
+                try {
+                    const std::vector<double> heights = heightsOf(ctx.positionFile);
+                    const DrawUVCoverage coverage = DrawUVCoverage::ofMesh(ctx.indexFile, ctx.texcoordFile, heights.size());
+                    const std::vector<DrawUVCoverage::Triangle> triangles = coverage.triangles(ranges->second);
+                    std::vector<bool> accepted;
+                    accepted.reserve(triangles.size());
+                    for (const DrawUVCoverage::Triangle& triangle : triangles) {
+                        const float centroid = (static_cast<float>(heights[static_cast<std::size_t>(triangle[0])])
+                                                + static_cast<float>(heights[static_cast<std::size_t>(triangle[1])])
+                                                + static_cast<float>(heights[static_cast<std::size_t>(triangle[2])])) / 3.0f;
+                        accepted.push_back(centroid >= splitZ);
+                    }
+                    return coverage.region(triangles, accepted, width, height, 2);
+                } catch (const std::exception&) {
+                    return {};                   // no island to grade is better than grading the sash
+                }
             };
-
-            // float16 at offset 0, the layout every WWMI texcoord buffer here uses. A float32
-            // reading also puts these UVs inside [0, 1] and collapses the component to a sliver, so
-            // a range check cannot tell the two apart -- the SPREAD can, and it is asserted below.
-            auto uvOf = [&uvRaw, stride](std::size_t v, int axis) {
-                std::uint16_t bits = 0;
-                std::memcpy(&bits, uvRaw.data() + v * stride + static_cast<std::size_t>(axis) * 2, 2);
-                const int sign = (bits >> 15) & 0x1;
-                const int exponent = (bits >> 10) & 0x1F;
-                const int mantissa = bits & 0x3FF;
-                float value = 0.0f;
-                if (exponent == 0) {
-                    value = std::ldexp(static_cast<float>(mantissa), -24);
-                } else if (exponent != 0x1F) {
-                    value = std::ldexp(static_cast<float>(mantissa + 1024), exponent - 25);
-                }
-
-                return sign ? -value : value;
-            };
-
-            const std::uint32_t* index = reinterpret_cast<const std::uint32_t*>(idxRaw.data());
-            const std::size_t indexCount = idxRaw.size() / 4;
-
-            std::vector<std::uint32_t> tris;
-            for (const auto& range : ranges->second) {
-                for (long long k = 0; k < range.first; ++k) {
-                    const std::size_t at = static_cast<std::size_t>(range.second + k);
-                    if (at < indexCount && index[at] < vertices) {
-                        tris.push_back(index[at]);
-                    }
-                }
-            }
-
-            if (tris.size() < 3) {
-                return {};
-            }
-
-            float lo = 1.0f;
-            float hi = 0.0f;
-            for (std::uint32_t v : tris) {
-                lo = std::min(lo, uvOf(v, 0));
-                hi = std::max(hi, uvOf(v, 0));
-            }
-
-            if (hi - lo < 0.05f) {
-                return {};                       // not the float16 layout; grade nothing
-            }
-
-            const std::size_t texels = static_cast<std::size_t>(width) * height;
-            std::vector<bool> island(texels, false);
-            std::vector<bool> other(texels, false);
-            for (std::size_t t = 0; t + 2 < tris.size(); t += 3) {
-                const std::uint32_t a = tris[t];
-                const std::uint32_t b = tris[t + 1];
-                const std::uint32_t c = tris[t + 2];
-                const bool ribbon = ((zOf(a) + zOf(b) + zOf(c)) / 3.0f) >= splitZ;
-                std::vector<bool>& into = ribbon ? island : other;
-
-                const float xs[3] = {uvOf(a, 0) * width, uvOf(b, 0) * width, uvOf(c, 0) * width};
-                const float ys[3] = {uvOf(a, 1) * height, uvOf(b, 1) * height, uvOf(c, 1) * height};
-                const int x0 = std::max(0, static_cast<int>(std::floor(std::min({xs[0], xs[1], xs[2]}))));
-                const int x1 = std::min(width - 1, static_cast<int>(std::ceil(std::max({xs[0], xs[1], xs[2]}))));
-                const int y0 = std::max(0, static_cast<int>(std::floor(std::min({ys[0], ys[1], ys[2]}))));
-                const int y1 = std::min(height - 1, static_cast<int>(std::ceil(std::max({ys[0], ys[1], ys[2]}))));
-                const float det = (ys[1] - ys[2]) * (xs[0] - xs[2]) + (xs[2] - xs[1]) * (ys[0] - ys[2]);
-                if (std::fabs(det) < 1e-9f) {
-                    continue;
-                }
-
-                for (int y = y0; y <= y1; ++y) {
-                    for (int x = x0; x <= x1; ++x) {
-                        const float px = x + 0.5f;
-                        const float py = y + 0.5f;
-                        const float w0 = ((ys[1] - ys[2]) * (px - xs[2]) + (xs[2] - xs[1]) * (py - ys[2])) / det;
-                        const float w1 = ((ys[2] - ys[0]) * (px - xs[2]) + (xs[0] - xs[2]) * (py - ys[2])) / det;
-                        if (w0 >= -1e-6f && w1 >= -1e-6f && (w0 + w1) <= 1.0f + 1e-6f) {
-                            into[static_cast<std::size_t>(y) * width + x] = true;
-                        }
-                    }
-                }
-            }
-
-            // A texel BOTH halves map to belongs exclusively to neither, and the sash must not be
-            // tinted, so it is dropped rather than tolerated.
-            std::size_t kept = 0;
-            for (std::size_t i = 0; i < texels; ++i) {
-                if (island[i] && other[i]) {
-                    island[i] = false;
-                }
-
-                if (island[i]) {
-                    ++kept;
-                }
-            }
-
-            if (kept == 0) {
-                return {};
-            }
-
-            // grow into the gutter ONLY -- the two islands are adjacent, and growing into the other
-            // reintroduces exactly the bug this restricts
-            for (int pass = 0; pass < 2; ++pass) {
-                std::vector<bool> grown = island;
-                for (int y = 0; y < height; ++y) {
-                    for (int x = 0; x < width; ++x) {
-                        const std::size_t i = static_cast<std::size_t>(y) * width + x;
-                        if (island[i] || other[i]) {
-                            continue;
-                        }
-
-                        const bool near =
-                            (x > 0 && island[i - 1]) || (x + 1 < width && island[i + 1])
-                            || (y > 0 && island[i - width]) || (y + 1 < height && island[i + width]);
-                        if (near) {
-                            grown[i] = true;
-                        }
-                    }
-                }
-
-                island.swap(grown);
-            }
-
-            return island;
         }
 
         TexEditor::Filter gradeFilter(const WWMIFixerConfig::TexEditContext& ctx) {
-            return [ctx](TextureFile& tex) {
-                const int w = tex.getWidth();
-                const int h = tex.getHeight();
-                const std::vector<bool> island = islandMask(ctx, GradeComponent, GradeSplitZ, w, h);
-                if (island.empty()) {
-                    return;                      // no island to grade is better than grading the sash
+            // the gamma is NOT cleared here: this is colour, and the sRGB pre-correction is what
+            // makes the untagged output sample the way the sRGB source did
+            auto grade = std::make_shared<ChannelMapFilter>();
+            for (int c = 0; c < 3; ++c) {
+                std::vector<std::uint8_t> table(256);
+                for (int v = 0; v < 256; ++v) {
+                    table[static_cast<std::size_t>(v)] =
+                        static_cast<std::uint8_t>(std::min(255.0, std::max(0.0, v * GradeGain[c])));
                 }
-
-                // the gamma is NOT cleared here: this is colour, and the sRGB pre-correction is what
-                // makes the untagged output sample the way the sRGB source did
-                std::vector<std::uint8_t> px = tex.getPixels();
-                for (std::size_t i = 0; i < island.size(); ++i) {
-                    if (!island[i]) {
-                        continue;
-                    }
-
-                    const std::size_t at = i * 4;
-                    if (at + 2 >= px.size()) {
-                        continue;
-                    }
-
-                    for (int c = 0; c < 3; ++c) {
-                        const double graded = px[at + c] * GradeGain[c];
-                        px[at + c] = static_cast<std::uint8_t>(std::min(255.0, std::max(0.0, graded)));
-                    }
-                }
-
-                tex.setPixels(std::move(px), w, h);
-            };
+                grade->channels[static_cast<std::size_t>(c)] = {c, std::move(table)};
+            }
+            return TexEditor::filterOf(RegionFilter(std::move(grade), islandRegion(ctx, GradeComponent, GradeSplitZ)));
         }
     }
 
 
-    IniFixBuilder::Factory IniFixBuilderFuncs::chisaParfait3_7() {
+    WWMIFixerConfig ChisaFixer::parfait3_7Config() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::ChisaParfait;
-        // 3.7, not her release 3.5: that update moved her vb0 (e611d493 -> 95ecef77) and nothing
-        // else of hers, so a fix built at 3.5 writes a hash the game no longer binds. Every other
-        // lookup here resolves from the 3.5 bucket by the inclusive floor -- see HashData's note.
-        config.version = "3.7";
+        // The target's version is her newest model (WWMIFixerConfig::version), 3.7 and not her release
+        // 3.5: that update moved her vb0 (e611d493 -> 95ecef77) and nothing else of hers, so a fix built
+        // at 3.5 writes a hash the game no longer binds. Every other lookup resolves from the 3.5
+        // bucket by the inclusive floor -- see HashData's note.
         config.sourceVersion = "2.8";          // hers, and not her skin's -- see the field's note
 
 
         // ---- the passes the TARGET draws each slot on, off her frame dumps ----
-        config.slotPasses = {
-            {"f863af7e80af9aed", "f863af7e80af9aed"},    // front hair
-            {"f863af7e80af9aed"},    // hair
-            {"6e25bfc4ac027787"},    // face
-            {"3f2e3788f5cb485a"},    // upper body
-            {"01e5bb58c3054b73"},    // lower body
-            {"0fbe7ebba08cd1b0"},    // the skin's own (nothing maps onto it)
-            // TWO passes, and the one on screen is the SECOND. `275e4ce82ebf0976` sets the eye
-            // slot's whole register set and `e04f4df80ee6b0ab` sets only ps-t1 and inherits the
-            // rest -- and it is the second that renders. Naming only the first gated the eye's
-            // texture list on a `vs` the visible draw never has, so the fix bound the eyes for a
-            // draw nobody sees and a mod's eye toggle did nothing (2026-10-01). Proved with a flat
-            // magenta: 0 magenta pixels gated, 686 ungated, 631 gated with this pass added.
-            {"275e4ce82ebf0976", "e04f4df80ee6b0ab"},    // eyes
-        };
+        // slotPasses: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
-        // ---- every pass gated through its VERTEX shaders: see passVertexShaders ----
-        config.passVertexShaders = {
-            {"f863af7e80af9aed", {"3e7bb648e306c671"}},
-            {"f863af7e80af9aed", {"3e7bb648e306c671"}},
-            {"6e25bfc4ac027787", {"75501c2d87600e89", "c277738ca4039045", "34ba67b27aeadd4d"}},
-            {"3f2e3788f5cb485a", {"343a49bd31719ade"}},
-            {"01e5bb58c3054b73", {"6dd634933d8f0837"}},
-            {"0fbe7ebba08cd1b0", {"641c11c9ee112caf"}},
-            {"5e31423fa8ddfcec", {"d8d93966d246ed2b"}},
-            {"ced9a47fb6ad4d16", {"d8d93966d246ed2b"}},
-            {"275e4ce82ebf0976", {"72f45530b1e1f75a", "729d10a88623b937", "2b36896899a06c0a"}},
-            {"259b766b59f72419", {"fd12d3374ac7a7dd", "1479e3f5a626af60"}},
-            {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
-            {"32414b557630d98d", {"255061ec51f15e29", "60b893ec7f585976", "f906b8aa4c220a6f", "af60c434a9393b08", "166a83e1c94c5a59", "4cf784b1b2c7ca1c"}},
-            {"ca134b7ad59cdf8c", {"0b22e4a80375c4d0", "a5cd08444f0fca2e"}},
-            {"a7bdec26cf254853", {"ee6166816ce9f788"}},
-            {"21a483170781cfeb", {"da98d2d08d937357"}},
-            {"94d9d5e981938d52", {"5102d7edd774359e"}},
-            {"021a95efb2428e47", {"ac592389c85c3e38", "98b6b0d294299cd6"}},
-            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53", "89577c176b52b351", "a54621ce48ed541b"}},
-        };
-        config.filterBase = 3381.71;
-        config.filterStep = 0.001;
-
-        // ---- ...and every one of them NAMED, because the other direction depends on them ---------
-        // A [ShaderOverride] is keyed by shader hash across every loaded `.ini`, and a shader holds
-        // ONE filter index -- so the seven of these that are also ChisaParfait's must carry the same
-        // value in `ChisaParfait -> Chisa`, or whichever file 3dmigoto loaded last wins and the
-        // other mod's `if vs == ...` never matches, its textures silently unbound. With eighteen
-        // Chisa mods and three ChisaParfait ones on the maintainer's disk, one of each installed is
-        // the ordinary case, and no single-direction A/B can see it.
-        //
-        // `filterBase`/`filterStep` alone could not hold that promise: they number the shaders in
-        // MAP-ITERATION order, so adding a pass renumbers every shader after it. The reverse
-        // direction had transcribed seven values off a forward-fixed `.ini` and three had since
-        // drifted -- two of them onto hashes this direction still uses (`0b22e4a80375c4d0` at
-        // 3381.722 and `a5cd08444f0fca2e` at 3381.723), so the reverse's lists could fire on the
-        // wrong shader as well as miss their own.
-        //
-        // These are exactly the values the derivation produced, so naming them moves no output; what
-        // it buys is that they stop moving. `Tools/Misc/Diagnostics/wwmiShaderTags.py` is the check.
-        // A shader added here needs a value this pair does not already use -- the forward occupies
-        // 3381.710..3381.734, the reverse 3381.76..3381.768, and the Sanhua pair .81-.84 and .91-.96.
-        config.filterIndices = {
-            {"3e7bb648e306c671", "3381.71"},    // her bangs and hair
-            {"75501c2d87600e89", "3381.711"},
-            {"c277738ca4039045", "3381.712"},
-            {"343a49bd31719ade", "3381.713"},
-            {"6dd634933d8f0837", "3381.714"},
-            {"641c11c9ee112caf", "3381.715"},   // her ribbon / prop slot
-            {"72f45530b1e1f75a", "3381.716"},
-            {"729d10a88623b937", "3381.717"},   // her eyes
-            {"5fd6e5bb6ff81c53", "3381.718"},   // the eye pass's own vertex shader
-            {"89577c176b52b351", "3381.719"},
-            {"da98d2d08d937357", "3381.72"},
-            {"ee6166816ce9f788", "3381.721"},
-            {"0b22e4a80375c4d0", "3381.722"},
-            {"a5cd08444f0fca2e", "3381.723"},
-            {"255061ec51f15e29", "3381.724"},
-            {"60b893ec7f585976", "3381.725"},
-            {"f906b8aa4c220a6f", "3381.726"},
-            {"af60c434a9393b08", "3381.727"},
-            {"166a83e1c94c5a59", "3381.728"},
-            {"4cf784b1b2c7ca1c", "3381.729"},
-            {"6a6650a9db8983ce", "3381.73"},    // the shared extra-art pass, slots 0/1/3/4
-            {"e4a3da6d1d1068b9", "3381.731"},   //   ...and its partner
-            {"fd12d3374ac7a7dd", "3381.732"},
-            {"1479e3f5a626af60", "3381.733"},
-            {"d8d93966d246ed2b", "3381.734"},
-        // A pass may draw with EITHER of two vertex shaders, frame to frame (Lynae's eyes and face, 2026-10-10;
-        // these partners measured in this pair's own dumps): a list gated on one drops the mod's textures on the
-        // other frames. A shader holds ONE filter_index across every loaded .ini, so a shared one keeps the value
-        // the Lynae configs give it (a54621ce .616, 4ce754b5 .769)
-            {"a54621ce48ed541b", "3381.616"},   // the eye pass's second vertex shader
-            {"2b36896899a06c0a", "3381.735"},   // her eyes' second
-            {"34ba67b27aeadd4d", "3381.736"},   // the face's second
-        };
+        // ---- every pass gated through its VERTEX shaders, each with its NAMED filter_index ----
+        // passVertexShaders and filterIndices: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData),
+        // its tags the values both directions of the pair share (a shader holds ONE filter_index across every loaded
+        // .ini; `Tools/Misc/Diagnostics/wwmiShaderTags.py` is the check). The literal entries this config carried for
+        // passes with no row went on 2026-11-12: on all 41 Chisa / ChisaParfait / Changli mods they changed no file,
+        // at 3.7 or 3.8.
 
         // ---- source component -> target slot and the registers it binds ----
         config.plan = {
@@ -518,34 +281,25 @@ namespace AGRemapCore {
         // ---- a slot's OTHER passes bind the same art at different registers ----
         config.extraPassRegs = {
             {0, {
-                {"f8c96a270bf847dd", {{"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
-                {"32414b557630d98d", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other2", {{"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {1, {
-                {"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
-                {"32414b557630d98d", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other2", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {2, {
-                {"259b766b59f72419", {{"ps-t0", "upperDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other", {{"ps-t0", "upperDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {3, {
-                {"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other", {{"ps-t0", "upperDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {4, {
-                {"f8c96a270bf847dd", {{"ps-t0", "lowerDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other", {{"ps-t0", "lowerDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {5, {
-                {"5e31423fa8ddfcec", {{"ps-t0", "Flat050000FF"}, {"ps-t1", "FlatDE5A7E00"}, {"ps-t2", "accessoryNormal"}, {"ps-t3", "accessoryDiffuse"}}},
-                {"ced9a47fb6ad4d16", {{"ps-t0", "Flat050000FF"}, {"ps-t1", "FlatDE5A7E00"}, {"ps-t2", "accessoryNormal"}, {"ps-t3", "accessoryDiffuse"}}},
-            }},
-        };
-
-        // ---- the other mesh she draws: her hair ribbon ----
-        config.sharedMeshes = {
-            {"b00403dc", {
-                {"ca134b7ad59cdf8c", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
-                {"a7bdec26cf254853", {{"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
-                {"21a483170781cfeb", {{"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"other", {{"ps-t0", "Flat050000FF"}, {"ps-t1", "FlatDE5A7E00"}, {"ps-t2", "accessoryNormal"}, {"ps-t3", "accessoryDiffuse"}}},
+                {"other2", {{"ps-t0", "Flat050000FF"}, {"ps-t1", "FlatDE5A7E00"}, {"ps-t2", "accessoryNormal"}, {"ps-t3", "accessoryDiffuse"}}},
             }},
         };
 
@@ -581,23 +335,11 @@ namespace AGRemapCore {
         // the fallbackTextures route below instead, and no flatness test stands between it and the
         // register. That is deliberate: see the `hairMask` row below for why a flat fallback is
         // still the right thing to bind here.
-        config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask"};
+        // the masks a flat or aliased file is refused for are the source's: see WWMITextureFacts::regionRoles
         config.flatLeftToGame = {"hairMask", "frontHairMask"};
 
 
         // ---- the three lines that would undo the whole fix, and RabbitFX's SetTextures ----
-        config.removedRegs = {
-            {"ResourceBlendBufferOverride", "ref"},
-            {"ResourceMergedSkeletonOverride", "ref"},
-            {"ResourceExtraMergedSkeletonOverride", "ref"},
-            {"Resource\\RabbitFX\\Diffuse", ""},
-            {"Resource\\RabbitFX\\Lightmap", ""},
-            {"Resource\\RabbitFX\\Normalmap", ""},
-            {"Resource\\RabbitFX\\Materialmap", ""},
-            {"Resource\\RabbitFX\\Cutoutmap", ""},
-            {"Resource\\RabbitFX\\Specialmap", ""},
-            {"run", "commandlist\\rabbitfx\\settextures"},
-        };
 
         // ---- parts the skin has no counterpart for, pinned to one bone each ----
         //   `collar` is deliberately not here: the prototype leaves it opt-in, and props and
@@ -608,15 +350,7 @@ namespace AGRemapCore {
         };
 
         // ---- a mod from before WWMI's merged skeleton holds per-component LOCAL ids ----
-        config.sourceVgMaps = {
-            {0, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26}},
-            {1, {27, 28, 29, 30, 31, 32, 33, 3, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140}},
-            {2, {3}},
-            {3, {142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 45, 3, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269}},
-            {4, {152, 154, 155, 167, 187, 185, 179, 163, 193, 175, 177, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 245, 242, 343, 344, 253, 254, 255, 196, 172, 251, 256, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 249, 246, 368, 199, 166, 261, 372, 263, 264, 265, 266, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390}},
-            {5, {146, 148, 145, 149, 147, 144, 143, 153, 152, 154, 156, 402, 142, 159, 160, 158, 157, 3, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418}},
-            {6, {3}},
-        };
+        // sourceVgMaps: read off VGRemaps (component -> "") at the run's versions (WWMIFixerConfig::withGameData)
 
         // ---- what the per-slot table and the hide sections say ----
         config.sourceLabels = {
@@ -646,12 +380,10 @@ namespace AGRemapCore {
         // overrides keep firing and the shared asset remap rewrites their hashes and the
         // shape-key checksum onto the target's, so WWMI's own pipeline fills vb6 and no zero
         // stream is wanted.
-        config.hiddenObjs = {};
-        config.zeroShapeKeyStream = false;
 
         // a batched export's dispatch height is the TARGET's (her Metadata.json's dispatch_y), or WWMI loads
         // too few of the mod's offsets on her draws (Lynae9's spikes; Chisa14 kept Chisa's 1441)
-        config.shapeKeyDispatchSize = "1301";
+        // shapeKeyDispatchSize: read off ShapeKeyDispatchSizes at the run's versions (WWMIFixerConfig::withGameData)
 
         // ---- a remap-only texcoord copy ---------------------------------------------------------
         // Her fox mask, hairpins and bells are drawn, placed and textured correctly and INVISIBLE,
@@ -679,7 +411,12 @@ namespace AGRemapCore {
              }},
         };
 
-        return makeWWMIFixer(std::move(config));
+        return config;
+    }
+
+
+    IniFixBuilder::Factory IniFixBuilderFuncs::chisaParfait3_7() {
+        return makeWWMIFixer(ChisaFixer::parfait3_7Config());
     }
 
 

@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="68" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="68" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="57" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="57" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_parse_download_data_1a94689ece5a1af2f00c26c60ad1242d5e" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -51,22 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="73" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="73" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_parse_download_data_1abeed22bd9516cfcca0c0a1a50456930c" prot="public" static="no">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_context" kindref="compound">IniParseContext</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
-        <definition>using AGRemapCore::IniParseDownloadData&lt; K, V, KeyHash, KeyEqual &gt;::Context = IniParseContext&lt;K, V, KeyHash, KeyEqual&gt;</definition>
-        <argsstring></argsstring>
-        <name>Context</name>
-        <qualifiedname>AGRemapCore::IniParseDownloadData::Context</qualifiedname>
-        <briefdescription>
-<para>The <computeroutput>.ini</computeroutput> file this download belongs to. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="78" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="78" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="62" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="62" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -82,7 +67,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="80" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="64" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_download_data_1aea7519a951d29647ebcfdb9abe493dd8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -98,7 +83,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="85" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="69" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_download_data_1ac269f30d155ccc9269bf883295d733a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -117,7 +102,7 @@ or to every :cpp:class:`IfContentPart` of the `section`_ that needs it (``false`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="94" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="78" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_download_data_1adc2a8b7b67f858a78c530ef2e34d9a9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -171,7 +156,7 @@ or to every :cpp:class:`IfContentPart` of the `section`_ that needs it (``false`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="103" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="87" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_download_data_1a5da5b42829fb564e5d33272a165b23dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -225,123 +210,85 @@ or to every :cpp:class:`IfContentPart` of the `section`_ that needs it (``false`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="112" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="96" column="26"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_download_data_1abd44b82490fb08d23b9ad44e6248afcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_download_data_1a75e08249fc0bcbf4671a5934df993583" kindref="member">Section</ref> *</type>
-        <definition>virtual Section * AGRemapCore::IniParseDownloadData&lt; K, V, KeyHash, KeyEqual &gt;::createResSection</definition>
-        <argsstring>(const std::string &amp;sectionName, Context &amp;ctx)=0</argsstring>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_download_data_1a76ea37d32137c56e358962bd7e44936c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_download_data_1a75e08249fc0bcbf4671a5934df993583" kindref="member">Section</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; Section &gt; AGRemapCore::IniParseDownloadData&lt; K, V, KeyHash, KeyEqual &gt;::createResSection</definition>
+        <argsstring>(const std::string &amp;sectionName) const =0</argsstring>
         <name>createResSection</name>
         <qualifiedname>AGRemapCore::IniParseDownloadData::createResSection</qualifiedname>
-        <reimplementedby refid="class_a_g_remap_core_1_1_download_data_1a3533b0b14a50c619ac3e6b721b8c9add">createResSection</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_download_data_1a4129f5121058d619a9e6544016993ba6">createResSection</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>sectionName</declname>
         </param>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_ini_parse_download_data_1abeed22bd9516cfcca0c0a1a50456930c" kindref="member">Context</ref> &amp;</type>
-          <declname>ctx</declname>
-        </param>
         <briefdescription>
+<para>Builds the <computeroutput>section</computeroutput>_ that holds this download&apos;s resource <ndash/> the parser registers it. </para>
         </briefdescription>
         <detaileddescription>
-<para><verbatim>embed:rst 
-Builds the `section`_ that holds this download&apos;s resource and registers it with the
-``.ini`` file (see this class&apos;s own note on why &apos;ctx&apos; is a parameter)
-</verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>sectionName</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The name of the <computeroutput>section</computeroutput>_ to build </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>ctx</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The <computeroutput>.ini</computeroutput> file to register the new <computeroutput>section</computeroutput>_ with</para>
+<para>The name of the <computeroutput>section</computeroutput>_ to build</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>The built <computeroutput>section</computeroutput>_ <ndash/> borrowed, owned by &apos;ctx&apos; </para>
+<simplesect kind="return"><para>The built <computeroutput>section</computeroutput>_ </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="126" column="29"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="105" column="37"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_download_data_1ad2da4de3eea34813fb88df7b61b85ce2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
-        <type>void</type>
-        <definition>virtual void AGRemapCore::IniParseDownloadData&lt; K, V, KeyHash, KeyEqual &gt;::addFileDownload</definition>
-        <argsstring>(Context &amp;ctx, const std::string &amp;iniFolder)=0</argsstring>
-        <name>addFileDownload</name>
-        <qualifiedname>AGRemapCore::IniParseDownloadData::addFileDownload</qualifiedname>
-        <reimplementedby refid="class_a_g_remap_core_1_1_download_data_1a6b23498c8c7c9e9847b614f109ca0e16">addFileDownload</reimplementedby>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_ini_parse_download_data_1abeed22bd9516cfcca0c0a1a50456930c" kindref="member">Context</ref> &amp;</type>
-          <declname>ctx</declname>
-        </param>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_download_data_1a2b4c53e94380e87b0456b0ad00a09c01" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; IniResource &gt; AGRemapCore::IniParseDownloadData&lt; K, V, KeyHash, KeyEqual &gt;::createFileDownload</definition>
+        <argsstring>(const std::string &amp;iniFolder) const =0</argsstring>
+        <name>createFileDownload</name>
+        <qualifiedname>AGRemapCore::IniParseDownloadData::createFileDownload</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_download_data_1ab972214645edb395ce4879cc9a42f538">createFileDownload</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>iniFolder</declname>
         </param>
         <briefdescription>
+<para>Builds the download of the file <ndash/> the parser hands it to the <computeroutput>.ini</computeroutput> file. </para>
         </briefdescription>
         <detaileddescription>
-<para><verbatim>embed:rst 
-Records the actual file download with the ``.ini`` file
-</verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>ctx</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The <computeroutput>.ini</computeroutput> file to record the download with </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
 <parameternamelist>
 <parametername>iniFolder</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The folder the <computeroutput>.ini</computeroutput> file lives in </para>
+<para>The folder the <computeroutput>.ini</computeroutput> file lives in</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
+<simplesect kind="return"><para>The download, or <computeroutput>nullptr</computeroutput> if there is nothing to download </para>
+</simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="137" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="114" column="37"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-One file a mod is missing and has to download, behind an interface -- the seam a parser
-reaches the pure-Python ``DownloadData`` class through :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-**Why this is an interface rather than a concrete class.** ``DownloadData`` is pure
-`Python`_, and it is genuinely *polymorphic* there: ``BlendDownloadData`` overrides ``addToPart`` to append its own
-``handling``/``draw`` `KVPs`_, and a user is free to subclass it further. Converting one into
-a plain C++ struct at the binding boundary would silently run the base class&apos;s behaviour for
-every subclass, so the parser talks to this interface and the binding layer supplies an
-implementation that calls straight back into the real `Python`_ object
-
+One file a mod is missing and has to download, behind an interface :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
-.. note::
-   #createResSection and #addFileDownload both take the :cpp:class:`IniParseContext` rather
-   than returning something the parser then files away. That&apos;s deliberate: what a resource
-   `section`_/download *is* on the `Python`_ side is a `Python`_ object, and only an
-   implementation that already holds `Python`_ objects can put one into
-   ``ini.sectionIfTemplates``/``ini.fileDownloads`` without losing it. The parser only ever
-   sees the borrowed :cpp:type:`Section` pointer that comes back
+A parser asks it for three things: how a `section`_ references the download (#addToPart /
+#addToSection), the resource `section`_ that names the file (#createResSection), and the
+download itself (#createFileDownload). The last two are BUILDERS -- the parser registers what they
+return with the ``.ini`` file -- so a subclass, in C++ or in `Python`_, only says what to build.
+:cpp:class:`DownloadData` is the implementation every parser uses
 </verbatim></para>
 <para><parameterlist kind="templateparam"><parameteritem>
 <parameternamelist>
@@ -390,14 +337,13 @@ implementation that calls straight back into the real `Python`_ object
         <link refid="class_a_g_remap_core_1_1_ini_parse_download_data"/>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="62" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="62" bodyend="138"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="51" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="51" bodyend="115"/>
     <listofallmembers>
-      <member refid="class_a_g_remap_core_1_1_ini_parse_download_data_1ad2da4de3eea34813fb88df7b61b85ce2" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseDownloadData</scope><name>addFileDownload</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_download_data_1adc2a8b7b67f858a78c530ef2e34d9a9d" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseDownloadData</scope><name>addToPart</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_download_data_1a5da5b42829fb564e5d33272a165b23dc" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseDownloadData</scope><name>addToSection</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_download_data_1a94689ece5a1af2f00c26c60ad1242d5e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseDownloadData</scope><name>ContentPart</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_parse_download_data_1abeed22bd9516cfcca0c0a1a50456930c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseDownloadData</scope><name>Context</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_parse_download_data_1abd44b82490fb08d23b9ad44e6248afcd" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseDownloadData</scope><name>createResSection</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_download_data_1a2b4c53e94380e87b0456b0ad00a09c01" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseDownloadData</scope><name>createFileDownload</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_download_data_1a76ea37d32137c56e358962bd7e44936c" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseDownloadData</scope><name>createResSection</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_download_data_1aea7519a951d29647ebcfdb9abe493dd8" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseDownloadData</scope><name>name</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_download_data_1ac269f30d155ccc9269bf883295d733a2" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseDownloadData</scope><name>refToSection</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_download_data_1a75e08249fc0bcbf4671a5934df993583" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseDownloadData</scope><name>Section</name></member>

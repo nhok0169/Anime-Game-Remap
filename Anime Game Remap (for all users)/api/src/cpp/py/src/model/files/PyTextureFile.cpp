@@ -21,12 +21,121 @@
 #include <pybind11/stl.h>
 
 #include "AGRemapCore/model/files/TextureFile.h"
+#include "AGRemapCore/model/textures/TexThumbprint.h"
 
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
 
 void initCppTextureFile(pybind11::module_ &m) {
+    using Thumb = AGRC::TexThumbprint;
+    py::class_<Thumb>(m, "TexThumbprint", R"doc(
+A texture's thumbprint: its image boxed down to a small grayscale grid, so a file can be told for one of a character's
+own textures by what it looks like rather than by its name or hash -- a file dumped straight out of the game carries
+neither
+
+.. note::
+    Every method is static; the class holds nothing
+    )doc")
+        .def_static("of", &Thumb::of, py::arg("path"), py::arg("size"), py::doc(R"doc(
+The thumbprint of the image at ``path``: a ``size`` x ``size`` grid of grayscale box averages
+
+Parameters
+----------
+path: :class:`str`
+    The image to read
+
+size: :class:`int`
+    The grid's side
+
+Returns
+-------
+Optional[List[:class:`float`]]
+    The thumbprint, or ``None`` if the file will not open or holds no image
+        )doc"))
+        .def_static("correlation", &Thumb::correlation, py::arg("thumb"), py::arg("stored"), py::doc(R"doc(
+How alike two thumbprints are: their correlation, in [-1, 1]
+
+Parameters
+----------
+thumb: List[:class:`float`]
+    A thumbprint, as :meth:`of` returns it
+
+stored: List[:class:`int`]
+    A stored thumbprint, one byte a cell
+
+Returns
+-------
+:class:`float`
+    The correlation, or ``0`` if the two are different lengths, empty, or flat
+        )doc"))
+        .def_static("identify", &Thumb::identify, py::arg("thumb"), py::arg("table"), py::arg("minScore"), py::arg("maxRunnerUp"),
+                    py::doc(R"doc(
+Which entry of ``table`` a thumbprint is: the one it correlates with best, when that correlation is at least
+``minScore`` and every other entry's is at most ``maxRunnerUp``
+
+Parameters
+----------
+thumb: List[:class:`float`]
+    The thumbprint to identify
+
+table: Dict[:class:`str`, List[:class:`int`]]
+    The stored thumbprints to identify it among, by name
+
+minScore: :class:`float`
+    How well the best match must correlate
+
+maxRunnerUp: :class:`float`
+    How poorly every other entry must correlate
+
+Returns
+-------
+Optional[:class:`str`]
+    The winning entry's name, or ``None`` if nothing won cleanly
+                    )doc"))
+        .def_static("identifyFile", &Thumb::identifyFile, py::arg("path"), py::arg("table"), py::arg("size"), py::arg("minScore"),
+                    py::arg("maxRunnerUp"), py::doc(R"doc(
+:meth:`of` followed by :meth:`identify` -- which entry of ``table`` the image at ``path`` is
+
+Parameters
+----------
+path: :class:`str`
+    The image to identify
+
+table: Dict[:class:`str`, List[:class:`int`]]
+    The stored thumbprints to identify it among
+
+size: :class:`int`
+    The grid's side, which must be the one ``table`` was built at
+
+minScore: :class:`float`
+    How well the best match must correlate
+
+maxRunnerUp: :class:`float`
+    How poorly every other entry must correlate
+
+Returns
+-------
+Optional[:class:`str`]
+    The winning entry's name, or ``None`` if the file will not read or nothing won cleanly
+                    )doc"))
+        .def_static("channelIsConstant", &Thumb::channelIsConstant, py::arg("path"), py::arg("channel"), py::doc(R"doc(
+Whether one channel of the image at ``path`` is the same value everywhere
+
+Parameters
+----------
+path: :class:`str`
+    The image to read
+
+channel: :class:`int`
+    Which channel -- 0 is red, 3 is alpha
+
+Returns
+-------
+:class:`bool`
+    Whether the channel is constant
+        )doc"));
+
     py::class_<AGRC::TextureFile>(m, "CppTextureFile", R"doc(
 The `Compressonator`_-backed engine behind :class:`TextureFile` -- decodes/encodes a ``.dds``
 texture file to/from a flat, uncompressed RGBA8 pixel buffer (see :meth:`getPixels`/
@@ -81,6 +190,37 @@ Returns
 -------
 :class:`bytes`
     The current pixel buffer
+        )doc"))
+
+        .def("shaderChannel", [](const AGRC::TextureFile &self, std::size_t channel, bool truncate) {
+            const std::vector<std::uint8_t> values = self.shaderChannel(channel, truncate);
+            return py::bytes(reinterpret_cast<const char*>(values.data()), values.size());
+        }, py::arg("channel"), py::arg("truncate") = true, py::doc(R"doc(
+The values a shader reads from one channel of :meth:`getPixels`, one byte a pixel
+
+A texture stored sRGB (one :meth:`getGamma` is set for) reaches the shader DECODED: the sampler linearises each of
+R, G and B. The decoded value times 255 is truncated when the shader casts it to an integer code (a material-code
+map), or rounded when it is a value. Alpha, and every channel of a texture not stored sRGB, is its byte
+
+Parameters
+----------
+channel: :class:`int`
+    The channel: 0 (R), 1 (G), 2 (B) or 3 (A)
+
+truncate: :class:`bool`
+    Whether a decoded value is truncated rather than rounded :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``True``
+
+Raises
+------
+:class:`IndexError`
+    If ``channel`` is past 3
+
+Returns
+-------
+:class:`bytes`
+    The values, row-major
         )doc"))
 
         .def("setPixels", [](AGRC::TextureFile &self, py::bytes pixels, int width, int height) {
@@ -222,4 +362,32 @@ Returns
 :class:`bool`
     Whether the file was actually written
         )doc"));
+
+    auto textureFile = py::reinterpret_borrow<py::class_<AGRC::TextureFile>>(m.attr("CppTextureFile"));
+    py::class_<AGRC::TextureFile::DDSHeader>(textureFile, "DDSHeader", R"doc(
+What the header of a ``.dds`` file says, without reading its pixels
+    )doc")
+        .def(py::init<>())
+        .def_readwrite("width", &AGRC::TextureFile::DDSHeader::width, ":class:`int`: The width of the top mip, in pixels")
+        .def_readwrite("height", &AGRC::TextureFile::DDSHeader::height, ":class:`int`: The height of the top mip, in pixels")
+        .def_readwrite("mipCount", &AGRC::TextureFile::DDSHeader::mipCount, ":class:`int`: How many mips the file holds -- at least 1")
+        .def_readwrite("dxgiFormat", &AGRC::TextureFile::DDSHeader::dxgiFormat, R"doc(
+:class:`int`: The pixel format, as a ``DXGI_FORMAT`` value: the ``DX10`` extension's, or for a legacy
+header ``61`` (``R8_UNORM``) for one 8-bit red channel and ``87`` (``B8G8R8A8_UNORM``) for 32-bit BGRA.
+``0`` for any other legacy format
+        )doc");
+
+    textureFile.def_static("readDDSHeader", &AGRC::TextureFile::readDDSHeader, py::arg("path"), py::doc(R"doc(
+Reads the header of the ``.dds`` file at ``path``
+
+Parameters
+----------
+path: :class:`str`
+    The file
+
+Returns
+-------
+Optional[:class:`CppTextureFile.DDSHeader`]
+    The header, or ``None`` when the file is shorter than a header or is not a ``.dds`` file
+    )doc"));
 }

@@ -13,7 +13,11 @@
 
 #include "PyResRegCollect.h"
 
+#include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/model/IniNamingTools.h"
+
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -61,6 +65,8 @@ PyResRegCollect::PyResRegCollect(py::object srcRegs, py::object resEdits, py::ob
 
 void PyResRegCollect::refresh() {
     srcRegs.clear();
+    extraSrcRegs.clear();
+    srcRegMatches.clear();
     resEdits.clear();
     partPredicates.clear();
     resPredicates.clear();
@@ -70,8 +76,25 @@ void PyResRegCollect::refresh() {
 
     if (!srcRegsObj.is_none()) {
         for (auto item : srcRegsObj.cast<py::dict>()) {
-            srcRegs.insert_or_assign(parseGraphId(py::reinterpret_borrow<py::object>(item.first)),
-                                      py::str(item.second).cast<std::string>());
+            const GraphId graphId = parseGraphId(py::reinterpret_borrow<py::object>(item.first));
+            if (py::isinstance<py::str>(item.second)) {
+                srcRegs.insert_or_assign(graphId, py::str(item.second).cast<std::string>());
+                continue;
+            }
+
+            // a test of the register's name: see ResRegCollect::srcRegMatches
+            if (PyCallable_Check(item.second.ptr())) {
+                py::object match = py::reinterpret_borrow<py::object>(item.second);
+                srcRegMatches.insert_or_assign(graphId, [match](const std::string& reg) { return match(reg).cast<bool>(); });
+                continue;
+            }
+
+            // several registers for one graph: see ResRegCollect::extraSrcRegs
+            std::vector<std::string> regs;
+            for (auto reg : py::reinterpret_borrow<py::iterable>(item.second)) {
+                regs.push_back(py::str(reg).cast<std::string>());
+            }
+            extraSrcRegs.insert_or_assign(graphId, std::move(regs));
         }
     }
 
@@ -199,10 +222,21 @@ This class inherits from :class:`BaseIniGraphGroupEdit`
 
 Creates the :class:`IniSectionGraph` for a particular resource
 
+.. warning::
+    The references are collected once, from the graphs as they are when this edit runs, and the resource's graph and models are built
+    from that set. Nothing updates them afterwards: a later edit that renames, copies, moves or removes a section
+    holding one of the references leaves them describing where the references used to be. Order it after the
+    edits that reshape the graphs it reads
+
 Parameters
 ----------
-srcRegs: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`]
+srcRegs: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`]]]
     The different registers that reference the particular resource :raw-html:`<br />` :raw-html:`<br />`
+
+    A value may be a list of registers, to collect a resource bound at several registers of one graph
+    in ONE edit -- each resource edit builds its resources once per edit, so two collects sharing an
+    edit would leave the second one's references pointing at names nothing declares. A
+    ``resPredicates`` entry is handed the register it is judging :raw-html:`<br />` :raw-html:`<br />`
 
     The keys in the dictionary are the location of which :class:`IniSectionGraph` to search for,
     which contains:
@@ -253,60 +287,102 @@ keysToTrack: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Opti
     tracks every key encountered :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
+
+everyGroup: :class:`bool`
+    Whether every setting keyed by a graph applies in every group that holds that graph, rather than
+    only in the group its index names -- see :attr:`everyGroup` :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``False``
+
+extraResources: Optional[List[:class:`str`]]
+    Resources handed to every edit in ``resEdits`` as if a register had named them -- see
+    :attr:`extraResources` :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
     )doc");
 
     cls.def(py::init([](py::object srcRegs, py::object resEdits, py::object partPredicates, py::object resPredicates,
-                        py::object remaps, py::object trackKeys, py::object keysToTrack) {
-        return std::make_unique<PyResRegCollect>(std::move(srcRegs), std::move(resEdits), std::move(partPredicates),
-                                                  std::move(resPredicates), std::move(remaps), std::move(trackKeys),
-                                                  std::move(keysToTrack));
+                        py::object remaps, py::object trackKeys, py::object keysToTrack, bool everyGroup,
+                        std::optional<std::vector<std::string>> extraResources) {
+        auto result = std::make_unique<PyResRegCollect>(std::move(srcRegs), std::move(resEdits), std::move(partPredicates),
+                                                         std::move(resPredicates), std::move(remaps), std::move(trackKeys),
+                                                         std::move(keysToTrack));
+        result->everyGroup = everyGroup;
+        result->extraResources = extraResources.value_or(std::vector<std::string>{});
+        return result;
     }), py::arg("srcRegs"), py::arg("resEdits"), py::arg("partPredicates") = py::none(),
         py::arg("resPredicates") = py::none(), py::arg("remaps") = py::none(), py::arg("trackKeys") = false,
-        py::arg("keysToTrack") = py::none());
+        py::arg("keysToTrack") = py::none(), py::arg("everyGroup") = false, py::arg("extraResources") = py::none());
+
+    cls.def_readwrite("extraResources", &PyResRegCollect::extraResources, py::doc(R"doc(
+List[:class:`str`]: Resources handed to every edit in :attr:`resEdits` as if a register had named them, besides the
+ones the registers do
+
+What it is for: a file the fix needs that no line binds -- eg. a game texture a texture edit compares against. A
+collect builds only what it finds, so such a file would never be made. Each name is built under its fixed name
+(:meth:`BaseResEdit.getFixResourceName`), and no line is rewritten for it
+    )doc"));
+
+    cls.def_property("everyGroup", [](const PyResRegCollect &self) { return self.everyGroup; },
+                     [](PyResRegCollect &self, bool value) { self.everyGroup = value; },
+                     py::doc(R"doc(
+:class:`bool`: Whether every setting keyed by a graph -- :attr:`srcRegs`, :attr:`partPredicates`,
+:attr:`resPredicates`, :attr:`remaps`, :attr:`trackKeys` and :attr:`keysToTrack` -- applies in EVERY
+group that holds that graph (its component and object), rather than only in the group its index names
+
+Each edit then runs on a copy of those settings made once per group holding the graph, with that
+group's index; the configured index is ignored and the settings themselves are left as they were. A
+target in :attr:`remaps` keeps its distance from its source's group, so a remap configured within one
+group is a remap within each group. Each resource is still built once, for all the groups together
+
+What it is for: a collect configured before the number of groups is known -- eg. in a fixer whose
+edits make copies of the .ini file
+    )doc"));
 
     cls.def_property("srcRegs", [](const PyResRegCollect &self) { return self.srcRegsObj; },
-                     [](PyResRegCollect &self, py::object value) { self.srcRegsObj = std::move(value); },
+                     [](PyResRegCollect &self, py::object value) { self.srcRegsObj = std::move(value); self.refresh(); },
                      py::doc(R"doc(
-Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`]: The different registers that
-reference the particular resource
+Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`], Callable[[:class:`str`], :class:`bool`]]]:
+The different registers that reference the particular resource -- a list for several registers of one graph,
+or a test of a register's name for every register of the graph it accepts (eg. ``lambda reg: reg.startswith("ps-t")``)
     )doc"));
 
     cls.def_property("resEdits", [](const PyResRegCollect &self) { return self.resEditsObj; },
-                     [](PyResRegCollect &self, py::object value) { self.resEditsObj = std::move(value); },
+                     [](PyResRegCollect &self, py::object value) { self.resEditsObj = std::move(value); self.refresh(); },
                      py::doc(R"doc(
 Dict[:class:`str`, :class:`BaseResEdit`]: Describes how a resource should be built
     )doc"));
 
     cls.def_property("partPredicates", [](const PyResRegCollect &self) { return self.partPredicatesObj; },
-                     [](PyResRegCollect &self, py::object value) { self.partPredicatesObj = std::move(value); },
+                     [](PyResRegCollect &self, py::object value) { self.partPredicatesObj = std::move(value); self.refresh(); },
                      py::doc(R"doc(
 Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`SectionIterData`], :class:`Ranges`]]:
 The predicates for which particular order indices to process for some :class:`IfContentPart`
     )doc"));
 
     cls.def_property("resPredicates", [](const PyResRegCollect &self) { return self.resPredicatesObj; },
-                     [](PyResRegCollect &self, py::object value) { self.resPredicatesObj = std::move(value); },
+                     [](PyResRegCollect &self, py::object value) { self.resPredicatesObj = std::move(value); self.refresh(); },
                      py::doc(R"doc(
 Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]]:
 The predicates to check whether some reference to the resource should be used
     )doc"));
 
     cls.def_property("remaps", [](const PyResRegCollect &self) { return self.remapsObj; },
-                     [](PyResRegCollect &self, py::object value) { self.remapsObj = std::move(value); },
+                     [](PyResRegCollect &self, py::object value) { self.remapsObj = std::move(value); self.refresh(); },
                      py::doc(R"doc(
 Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[:class:`str`, Tuple]]]: Whether
 to remap the graphs searched from :attr:`srcRegs`
     )doc"));
 
     cls.def_property("trackKeys", [](const PyResRegCollect &self) { return self.trackKeysObj; },
-                     [](PyResRegCollect &self, py::object value) { self.trackKeysObj = std::move(value); },
+                     [](PyResRegCollect &self, py::object value) { self.trackKeysObj = std::move(value); self.refresh(); },
                      py::doc(R"doc(
 Union[:class:`bool`, Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`bool`]]: Whether
 to track the `KVPs`_ in the .ini file when searching for particular resources
     )doc"));
 
     cls.def_property("keysToTrack", [](const PyResRegCollect &self) { return self.keysToTrackObj; },
-                     [](PyResRegCollect &self, py::object value) { self.keysToTrackObj = std::move(value); },
+                     [](PyResRegCollect &self, py::object value) { self.keysToTrackObj = std::move(value); self.refresh(); },
                      py::doc(R"doc(
 Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Optional[Set[:class:`str`]]]: Specific keys to
 track in the .ini file when searching particular resources
@@ -326,6 +402,33 @@ The calls to the resource
     This is scratch state, rebuilt by every :meth:`edit` and cleared again by :meth:`editFromIni`.
     Reading it back gives a freshly built ``dict``, not a live view
     )doc"));
+
+    cls.def_static("skipsKeywords", [](std::vector<std::string> keywords) {
+        // the rule of the core's skipsKeywords, over a Python resource predicate's arguments
+        return py::cpp_function([keywords = std::move(keywords)](const std::string&, const std::string& value, const py::object&) {
+            for (const std::string& keyword : keywords) {
+                if (AGRC::IniNamingTools::hasKeywordPrefix(value, keyword)) {
+                    return false;
+                }
+            }
+            return true;
+        }, py::arg("key"), py::arg("value"), py::arg("data"));
+    }, py::arg("keywords") = std::vector<std::string>{AGRC::IniKeywords::Ref}, py::doc(R"doc(
+A resource predicate (:attr:`resPredicates`) that skips a value starting with one of 'keywords', as a statement
+(:meth:`IniNamingTools.hasKeywordPrefix`) -- ``ref ResourceX`` binds a resource already declared, so collecting it as
+a file would look for a section called ``ref ResourceX``
+
+Parameters
+----------
+keywords: List[:class:`str`]
+    The statements to skip :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``["ref"]``
+
+Returns
+-------
+Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]
+    The predicate)doc"));
 
     cls.def("clear", [](PyResRegCollect &self) {
         self.refresh();

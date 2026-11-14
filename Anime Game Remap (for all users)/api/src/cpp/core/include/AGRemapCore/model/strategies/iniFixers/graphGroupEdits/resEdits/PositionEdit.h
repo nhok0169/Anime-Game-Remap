@@ -79,7 +79,7 @@ namespace AGRemapCore {
      Builds a real :cpp:class:`RemapPositionResource`, so the remapped ``Position.buf`` is actually
      WRITTEN rather than merely named :raw-html:`<br />` :raw-html:`<br />`
 
-     The same split as :cpp:class:`VGRemapBlendReplace` and :cpp:class:`TexEditorReplace`, and for
+     The same split as :cpp:class:`VGRemapBlendReplace` and :cpp:class:`TexReplace`, and for
      the same reason: the base class knows what to call things and nothing about what to put in
      them, so a fix that used it alone would produce a perfectly consistent ``.ini`` file pointing
      at a file that does not exist

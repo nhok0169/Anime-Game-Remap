@@ -16,9 +16,13 @@
 
 #include <cstddef>
 #include <functional>
+#include <optional>
 #include <string>
 
+#include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/model/iftemplate/IfTemplate.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h"
+#include "AGRemapCore/tools/z3/Z3Context.h"
 
 
 namespace AGRemapCore {
@@ -108,6 +112,17 @@ namespace AGRemapCore {
             Graph* graph;
 
             /**
+             * @brief
+             @rst
+             The graph to add, asked for when the edit runs -- set, it is used instead of \ref graph, for a graph
+             that only exists by then (eg. a parser's :cpp:func:`GIMIParser::globalGraph`, built during the
+             parse). What it returns is borrowed and deep-copied as \ref graph is; ``nullptr`` makes the edit a
+             no-op. **Default**: unset
+             @endrst
+             */
+            std::function<Graph*()> graphOf;
+
+            /**
              * @brief Whether the copy taken of \ref graph is a minimal one
              */
             bool minimal;
@@ -116,6 +131,70 @@ namespace AGRemapCore {
              * @brief Whether the parts of the copy taken of \ref graph get fresh ids
              */
             bool newPartIds;
+
+            /**
+             * @brief A `section`_ a graph is built from -- see \ref sectionsOf
+             */
+            using Section = IfTemplate<K, V, KeyHash, KeyEqual>;
+
+            /**
+             * @brief
+             @rst
+             The `sections`_ of each group's graph, given the group's index -- set, the edit builds a graph from
+             them for EVERY group present when it runs and adds it under \ref graphId's component and object
+             (its ``iniIndex`` is unused), instead of adding \ref graph. **Borrowed**, read only while the edit runs.
+             A section of a name already in the graph is left out, so the first one wins; a group handed no
+             sections gets no graph. When there are no groups at all, group 0's sections go into a group of their
+             own. This is how sections held in a :cpp:class:`GraphEditVariables` variable are written out as a
+             graph in each group -- a fixer's own sections into its file and every copy. **Default**: unset
+             @endrst
+             */
+            std::function<std::vector<Section*>(std::size_t group)> sectionsOf;
+
+            /**
+             * @brief
+             @rst
+             Whether a graph built from \ref sectionsOf is ADDED TO the graph already under \ref graphId's object in that
+             group (its `sections`_ first, then these) rather than replacing it -- so several edits, each named for what it
+             writes, can write one graph between them. **Default**: ``false``
+             @endrst
+             */
+            bool append = false;
+
+            /**
+             * @brief How a graph built from \ref sectionsOf follows ``run =``. **Default**: :cpp:func:`runCalls`
+             */
+            IfTemplateRunConfig<K, V> runConfig = runCalls();
+
+            /**
+             * @brief The context a graph built from \ref sectionsOf builds its conditions in, or ``nullptr`` for its own. **Default**: ``nullptr``
+             */
+            Z3Context* z3 = nullptr;
+
+            /**
+             * @brief
+             @rst
+             Objects a graph of any of which, in ANY group, stops the edit: nothing is added when one is there -- eg. a section
+             that hides a target slot, added only when nothing is remapped onto that slot. Empty (the default) always adds
+             @endrst
+             */
+            std::vector<ModObj> onlyWithout;
+
+            /**
+             * @brief
+             @rst
+             Objects a graph of any of which, in ANY group, is what lets the edit add: nothing is added when no group holds
+             one -- eg. a texture list a fix writes for a component, added only when the mod draws that component, or the
+             fix's own sections, added when the mod draws any of the source's components. The mirror of \ref onlyWithout.
+             Empty (the default) always adds
+             @endrst
+             */
+            std::vector<ModObj> onlyWith;
+
+            /**
+             * @brief How a graph of `sections`_ a fix writes follows ``run =``: each value names the `section`_ it calls
+             */
+            static IfTemplateRunConfig<K, V> runCalls();
 
             /**
              * @brief Constructs a new graph-adding edit

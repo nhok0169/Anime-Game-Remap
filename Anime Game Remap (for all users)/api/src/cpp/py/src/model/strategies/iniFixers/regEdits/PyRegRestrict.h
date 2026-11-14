@@ -27,44 +27,12 @@ namespace AGRC = AGRemapCore;
 /**
  * @brief
  @rst
- The `pybind11`_-facing subclass of `AGRC::RegRestrict`\\<std::string, std::string\\> -- holds the
- exact `Python`_ objects given for ``allowedKeys`` and ``keyFilter``, for the reason `PyRegRemove`
- holds its ``dict``: a ``std::function`` cannot be handed back to `Python`_ as the callable it was
- built from, so ``someEdit.keyFilter is theCallableYouPassed`` would otherwise break
+ The `Python`_ ``RegRestrict`` is :cpp:class:`AGRemapCore::RegRestrict` itself: its arguments are parsed into the C++ members
+ when it is built or they are set, and read back from them -- so one built in `Python`_ runs in a C++ fixer's list, and
+ one built in C++ reads in `Python`_ as a ``RegRestrict``
  @endrst
  */
-class PyRegRestrict: public AGRC::RegRestrict<std::string, std::string> {
-    public:
-
-        /**
-         * @brief The C++ core class this wraps
-         */
-        using Core = AGRC::RegRestrict<std::string, std::string>;
-
-        /**
-         * @brief The exact `Python`_ object given for ``allowedKeys`` -- a list of keys, or ``None``
-         */
-        py::object allowedKeysObj;
-
-        /**
-         * @brief The exact `Python`_ object given for ``keyFilter`` -- a callable, or ``None``
-         */
-        py::object keyFilterObj;
-
-        /**
-         * @brief Constructs a new register-restricting edit
-         *
-         * @param allowedKeysObj The Python list of keys a part may keep, or ``None``
-         * @param keyFilterObj The Python callable deciding which keys are governed, or ``None``
-         * @param keepFirstOnly Whether a repeated governed key keeps only its first binding
-         */
-        PyRegRestrict(py::object allowedKeysObj, py::object keyFilterObj, bool keepFirstOnly);
-
-        /**
-         * @copydoc PyRegAdd::refresh
-         */
-        void refresh(const py::object &modType);
-};
+using PyRegRestrict = AGRC::RegRestrict<std::string, std::string>;
 
 
 /**

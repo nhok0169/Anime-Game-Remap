@@ -15,7 +15,7 @@ class GraphRemoveTest(BaseUnitTest):
     def test_init_setsAttributes(self):
         graphIds = [(0, "comp", "a")]
         edit = FRB.GraphRemove(graphIds)
-        self.assertIs(edit.graphIds, graphIds)
+        self.assertEqual(edit.graphIds, graphIds)   # held as the edit's own (C++) data, read back
 
     # ================================================
     # ===================== edit ======================

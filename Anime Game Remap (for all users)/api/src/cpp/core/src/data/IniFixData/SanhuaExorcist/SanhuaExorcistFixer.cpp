@@ -20,7 +20,6 @@
 #include "AGRemapCore/constants/IniComments.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
-#include "AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistThumbprints.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/textures/Colour.h"
 
@@ -41,20 +40,11 @@ namespace AGRemapCore {
             // "THE REVERSE DIRECTION IS PROTOTYPED" for why the plan is what it is.
             WWMIFixerConfig config{};
             config.targetId = ModTypeId::Sanhua;
-            config.version = "2.5";
 
             // Sanhua's pixel shaders that bind CHARACTER textures, per draw slot, off a frame dump of
             // her (wwmiDrawTable.py). Her bangs slot has two of its own, and her bodice and skirt slots
             // share the body shader. Confirmed unchanged on the 2026-09-20 max-LOD dump.
-            config.slotPasses = {
-                {"74e23b489034f592", "40142ef956eaa957"},   // 0: bangs
-                {"0f1752e476c3804d"},                       // 1: hair
-                {"ed1c0f8b2ba08ac4"},                       // 2: face
-                {"d6fb3cbb72191bac"},                       // 3: arm skin
-                {"32070cff7dedccca"},                       // 4: bodice, hat, ribbons, boots
-                {"32070cff7dedccca"},                       // 5: skirt
-                {"0512a7e61d6bd01d"},                       // 6: eyes
-            };
+            // slotPasses: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
             // ...each gated by the VERTEX shaders it is drawn with, never by its own pixel shader:
             // RabbitFX patches these, and a [ShaderOverride] on one of them takes the filter_index
@@ -63,29 +53,14 @@ namespace AGRemapCore {
             // either way). Her hair slot and both bangs passes share one vertex shader, so those
             // conditions collapse; each slot's list is in its own section, and nothing is routed
             // onto her bangs slot anyway.
-            config.passVertexShaders = {
-                {"74e23b489034f592", {"a695e6d5f9d489cf"}},                         // her bangs, pass A
-                {"40142ef956eaa957", {"a695e6d5f9d489cf"}},                         // her bangs, pass B
-                {"0f1752e476c3804d", {"a695e6d5f9d489cf"}},                         // hair, both characters
-                {"ed1c0f8b2ba08ac4", {"7c0b4db32cee62d3", "4ce754b5b9574b1a"}},     // face, both characters
-                {"d6fb3cbb72191bac", {"0b25e6cbdb8cc86f"}},                         // her arm skin
-                {"32070cff7dedccca", {"ad59bcdcf9ce68fa"}},                         // her body: bodice + skirt
-                {"0512a7e61d6bd01d", {"a79e471015b2a16c"}},                         // eyes, both characters
-            };
+            // passVertexShaders: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
             // The shaders Sanhua's own direction already tags keep ITS values (a [ShaderOverride] is
             // keyed by shader hash across every loaded .ini, so a mod fixed each way, both installed,
             // must agree); the shaders only this direction tags take values that direction never uses.
             // The face pair is ChisaParfait's and LynaePeppermint's value, for the same reason across
             // characters.
-            config.filterIndices = {
-                {"a695e6d5f9d489cf", "3381.91"},    // hair + her bangs, which both directions tag
-                {"7c0b4db32cee62d3", "3381.76"},    // the face, as the other three configs tag it
-                {"4ce754b5b9574b1a", "3381.769"},   //   and its second vertex shader
-                {"a79e471015b2a16c", "3381.96"},    // the eyes, which both directions tag
-                {"0b25e6cbdb8cc86f", "3381.83"},    // her arm skin and body: only this direction tags
-                {"ad59bcdcf9ce68fa", "3381.84"},    //   them, so they keep values the forward never uses
-            };
+            // filterIndices: read off DrawPasses at the run's versions (WWMIFixerConfig::withGameData)
 
             // Source component -> target slot, and the registers each pass reads. Shader families decide
             // the slot. The BANGS go through Sanhua's HAIR slot rather than her bangs slot: Exorcist draws
@@ -112,41 +87,14 @@ namespace AGRemapCore {
             // mod extracted from a frame dump today carries. All of them are in
             // Data/Mod Downloads/WuWa/SanhuaExorcist/SanhuaExorcistHashLineage.json.
 
-            // A file named by component and type and by nothing else (Component4_NM.dds: the
-            // RabbitFX / WWMI-Tools export names)
-            config.typeRoles = {
-                {0, {{"diffuse", "bangsDiffuse"}, {"mask", "bangsMask"}}},
-                {1, {{"diffuse", "hairDiffuse"}, {"mask", "hairNormal"}, {"normal", "hairNormal"}}},
-                {2, {{"diffuse", "faceDiffuse"}, {"mask", "faceMask"}}},
-                {3, {{"diffuse", "torsoDiffuse"}, {"mask", "torsoMask"}, {"normal", "torsoNormal"}}},
-                {4, {{"diffuse", "lowerDiffuse"}, {"normal", "lowerNormal"}}},
-                {5, {{"diffuse", "irisDiffuse"}, {"mask", "eyeMask"}}},
-            };
 
             // Her own vg_map per component (WWMI-Assets' SanhuaSkin1 Metadata.json): that component's
             // bone indices to the merged skeleton's. Only a mod from before WWMI's merged skeleton needs
             // it -- its blend holds the component's OWN indices, and without this the fix refuses such a
             // mod rather than remapping them as if they were merged (SanhuaExorcist3, 2026-09-19).
-            config.sourceVgMaps = {
-                {0, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-                16, 17, 18}},
-                {1, {1, 20}},
-                {2, {1}},
-                {3, {22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37,
-                38, 39, 40, 41, 42, 20, 44, 45, 1, 47, 48, 49, 50, 51, 52, 53,
-                54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69,
-                70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85,
-                86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101,
-                102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117,
-                118, 119, 120, 121, 122, 123, 124, 125, 126}},
-                {4, {1, 4, 6, 5, 131, 132, 133, 134, 75, 80, 137, 138, 74, 79, 141, 142,
-                143, 144, 68, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158,
-                159, 160, 161, 162, 73, 164, 72, 24, 47, 44, 169, 170, 65, 172, 173, 174,
-                175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189}},
-                {5, {1}},
-            };
+            // sourceVgMaps: read off VGRemaps (component -> "") at the run's versions (WWMIFixerConfig::withGameData)
 
-            config.createdTextures = {{ClothMask, Colour(0, 0, 0, 255), 16}};
+            config.createdTextures = {{ClothMask, Colour(), 16, {"component5", "skirtMask.cloth"}}};     // its colour: MaterialColours
 
             config.sourceTextures = sanhuaExorcistTextureFacts();
 
@@ -157,9 +105,10 @@ namespace AGRemapCore {
             // (Tools/Misc/Diagnostics/wwmiShapeKeyOrder.py: every key at its own index), so no
             // shapeKeyOrder; the asset remap moves the overrides' hashes and checksum, and a batched
             // export's dispatch height is the target's (its Metadata.json's dispatch_y) ----
-            config.hiddenObjs = {};
-            config.zeroShapeKeyStream = false;
-            config.shapeKeyDispatchSize = "963";
+            // her mods' RabbitFX routing is kept (a RabbitFX cloak draws through it), and no source of hers is past
+            // 256 bones
+            config.removedRegs = {};
+            // shapeKeyDispatchSize: read off ShapeKeyDispatchSizes at the run's versions (WWMIFixerConfig::withGameData)
 
 
             // Her own textures' thumbprints, so a file no hash names is placed by what it IS
@@ -175,8 +124,13 @@ namespace AGRemapCore {
     }
 
 
+    WWMIFixerConfig SanhuaExorcistFixer::sanhua2_5Config() {
+        return sanhuaConfig();
+    }
+
+
     IniFixBuilder::Factory IniFixBuilderFuncs::sanhua2_5() {
-        return makeWWMIFixer(sanhuaConfig());
+        return makeWWMIFixer(SanhuaExorcistFixer::sanhua2_5Config());
     }
 
 

@@ -17,7 +17,8 @@
 #include <memory>
 #include <utility>
 
-#include "PyGraphGroupEdit.h"  // an adder's edit is run through a real GraphGroupEdit
+#include "PyGraphGroupEdit.h"  // isBound, holdPy, the groups of a scope, and a Python subclass's edit run through a GraphGroupEdit
+#include "../PyEditScope.h"
 #include "../graphEdits/PyBaseIniGraphEdit.h"  // the isinstance target for an adder's graph edit
 #include "../regEdits/PyBaseRegEdit.h"  // reuses PyPartRanges (the same "a bound Ranges, or a raw
                                         // list of bounds" resolver every reg edit already uses),
@@ -68,23 +69,24 @@ py::list singleGraphEntry(const PyGraphInherit::GraphId &id, const py::object &v
 PyGraphInherit::PyGraphInherit(py::object srcObj, py::object dstObj, std::string reg, bool latest, py::object partFilterObj,
                                py::object adderObj):
     Core(GraphId(), GraphId(), std::move(reg), latest, {}, {}),
-    srcObj(std::move(srcObj)), dstObj(std::move(dstObj)), partFilterObj(std::move(partFilterObj)), adderObj(std::move(adderObj)) {}
+    srcObj(std::move(srcObj)), dstObj(std::move(dstObj)), partFilterObj(std::move(partFilterObj)), adderObj(std::move(adderObj)) {
+    refresh();
+}
 
 
-void PyGraphInherit::refresh(PyIniGraphGroups &groups, const py::list &graphGroups, const py::object &modType) {
+void PyGraphInherit::refresh() {
     src = parseGraphId(srcObj);
     dst = parseGraphId(dstObj);
 
+    // The callables are handed the call's own Python modType / ini (PyEditScope) when run from Python, and the C++ ones
+    // cast to Python when run in a C++ fixer's list
     partFilter = {};
     if (!partFilterObj.is_none()) {
         py::object filterObj = partFilterObj;
-        py::object ini = currentIni;
-
-        // 'modType' and 'ini' are captured from the Python side rather than travelling through the
-        // C++ signature: the core takes a nullable AGRC::ModType* / AGRC::IniFile*, and the
-        // Python-side ModType/IniFile have nothing castable to hand over.
-        partFilter = [filterObj, modType, ini](const IterData &iterData, const AGRC::ModType *, AGRC::IniFile *) -> OrderRanges {
-            py::object result = filterObj(py::cast(&iterData, py::return_value_policy::reference), modType, ini);
+        partFilter = [filterObj](const IterData &iterData, const AGRC::ModType *modType, AGRC::IniFile *ini) -> OrderRanges {
+            py::gil_scoped_acquire gil;
+            py::object result = filterObj(py::cast(&iterData, py::return_value_policy::reference), editModTypeToPy(modType),
+                                          editIniToPy(ini));
 
             PyPartRanges parsed(result);
             const OrderRanges *ranges = parsed.get();
@@ -102,21 +104,18 @@ void PyGraphInherit::refresh(PyIniGraphGroups &groups, const py::list &graphGrou
     }
 
     py::object heldAdder = adderObj;
-    py::object heldPartFilter = partFilterObj;
-    py::object heldModType = modType;
-    py::object heldIni = currentIni;
-    py::list heldGraphGroups = graphGroups;
-    PyIniGraphGroups *heldGroups = &groups;
-    GraphId heldSrc = src;
-
-    adder = [heldAdder, heldPartFilter, heldModType, heldIni, heldGraphGroups, heldGroups, heldSrc](
-                Graph &srcGraph, const KVPs &kvps, AGRC::IniFile *, const AGRC::ModType *, const std::string &modName) -> AddEdit {
+    adder = [this, heldAdder](Graph &srcGraph, const KVPs &kvps, AGRC::IniFile *ini, const AGRC::ModType *modType,
+                              const std::string &modName) -> AddEdit {
+        py::gil_scoped_acquire gil;
         py::list kvpList;
         for (const auto &kvp : kvps) {
             kvpList.append(py::make_tuple(kvp.first, kvp.second));
         }
 
-        py::object result = heldAdder(heldGroups->graphToPy(&srcGraph), kvpList, heldIni, heldModType, modName);
+        PyEditScope *scope = PyEditScope::current();
+        py::object graphObj = scope != nullptr && scope->graphToPy ? scope->graphToPy(&srcGraph)
+                                                                    : py::cast(&srcGraph, py::return_value_policy::reference);
+        py::object result = heldAdder(graphObj, kvpList, editIniToPy(ini), editModTypeToPy(modType), modName);
         if (result.is_none()) {
             return {};
         }
@@ -125,23 +124,30 @@ void PyGraphInherit::refresh(PyIniGraphGroups &groups, const py::list &graphGrou
             throw py::type_error("A GraphInherit adder must return a BaseRegEdit, a BaseIniGraphEdit, or None");
         }
 
-        // Run through a real GraphGroupEdit rather than handed back to the core as a C++ base
-        // pointer: with no trampoline, a C++ call would skip a pure-Python subclass's own 'edit'.
-        // The core would run it through GraphGroupEdit::editSectionGraph anyway, so this is the
-        // same dispatch, reached from the Python side.
-        py::list edits = singleGraphEntry(heldSrc, py::make_tuple(result));
-        py::object keyFilters = py::none();
-        if (!heldPartFilter.is_none()) {
-            keyFilters = singleGraphEntry(heldSrc, py::make_tuple(heldPartFilter));
+        // An edit of the library's goes back to the core, which runs it on the graph with 'partFilter' as its key filter;
+        // the edit's Python object is kept alive with it
+        if (isBound(result)) {
+            std::shared_ptr<void> held = holdPy(result);
+            if (py::isinstance<PyBaseRegEdit>(result)) {
+                return std::shared_ptr<RegEdit>(held, result.cast<RegEdit *>());
+            }
+            return std::shared_ptr<GraphEdit>(held, result.cast<GraphEdit *>());
         }
 
+        // A Python subclass's own 'edit' runs only from Python: through a GraphGroupEdit over the call's Python groups
+        if (currentGraphGroups.is_none()) {
+            throw py::type_error("A GraphInherit adder's edit of a Python class runs only in a Python fixer's list, not in a compiled one");
+        }
+        py::list edits = singleGraphEntry(src, py::make_tuple(result));
+        py::object keyFilters = partFilterObj.is_none() ? py::object(py::none())
+                                                        : py::object(singleGraphEntry(src, py::make_tuple(partFilterObj)));
         py::object groupEdit = py::type::of<PyGraphGroupEdit>()(edits, py::arg("keyFilters") = keyFilters);
-        if (heldIni.is_none()) {
-            groupEdit.attr("edit")(heldGraphGroups, heldModType, py::arg("modName") = modName);
+        py::object pyIni = editIniToPy(ini);
+        if (pyIni.is_none()) {
+            groupEdit.attr("edit")(currentGraphGroups, editModTypeToPy(modType), py::arg("modName") = modName);
         } else {
-            groupEdit.attr("editFromIni")(heldGraphGroups, heldIni, heldModType, py::arg("modName") = modName);
+            groupEdit.attr("editFromIni")(currentGraphGroups, pyIni, editModTypeToPy(modType), py::arg("modName") = modName);
         }
-
         return {};
     };
 }
@@ -260,6 +266,7 @@ adder: Optional[Callable[[:class:`IniSectionGraph`, List[Tuple[:class:`str`, :cl
         return self.srcObj;
     }, [](PyGraphInherit &self, py::object src) {
         self.srcObj = std::move(src);
+        self.refresh();
     }, py::doc(R"doc(
 Tuple[:class:`int`, :class:`str`, :class:`str`]: The id of the source :class:`IniSectionGraph` to
 insert the reference `KVPs`_ into
@@ -269,6 +276,7 @@ insert the reference `KVPs`_ into
         return self.dstObj;
     }, [](PyGraphInherit &self, py::object dst) {
         self.dstObj = std::move(dst);
+        self.refresh();
     }, py::doc(R"doc(
 Tuple[:class:`int`, :class:`str`, :class:`str`]: The id of the :class:`IniSectionGraph` to merge
 into :attr:`src`
@@ -288,6 +296,7 @@ front. Unused when :attr:`adder` is set
         return self.partFilterObj;
     }, [](PyGraphInherit &self, py::object partFilter) {
         self.partFilterObj = std::move(partFilter);
+        self.refresh();
     }, py::doc(R"doc(
 Optional[Callable[[:class:`SectionIterData`, :class:`ModType`, Optional[:class:`IniFile`]], :class:`Ranges`]]:
 The filter used to indicate which areas of some :class:`IfContentPart` within the graph at
@@ -299,6 +308,7 @@ filter the adder's edit is run with
         return self.adderObj;
     }, [](PyGraphInherit &self, py::object adder) {
         self.adderObj = std::move(adder);
+        self.refresh();
     }, py::doc(R"doc(
 Optional[Callable[[:class:`IniSectionGraph`, List[Tuple[:class:`str`, :class:`str`]], Optional[:class:`IniFile`], :class:`ModType`, :class:`str`], Optional[Union[:class:`BaseRegEdit`, :class:`BaseIniGraphEdit`]]]]:
 Decides how the reference `KVPs`_ are added to the graph at :attr:`src` -- see the class's own
@@ -307,11 +317,16 @@ Decides how the reference `KVPs`_ are added to the graph at :attr:`src` -- see t
 
     cls.def("edit", [](PyGraphInherit &self, py::list graphGroups, const py::object &modType, const std::string &modName) {
         PyIniGraphGroups groups(graphGroups);
-        self.refresh(groups, graphGroups, modType);
-
-        // nullptr for modType: the real Python object is captured by the rebuilt partFilter and
-        // adder instead -- see PyGraphInherit::refresh.
-        self.Core::edit(groups, nullptr, modName);
+        PyEditScope scope(modType, self.currentIni, graphToPyOf(groups), adoptOf(groups));
+        py::object previousGroups = self.currentGraphGroups;
+        self.currentGraphGroups = graphGroups;
+        try {
+            self.Core::editFromIni(groups, editIniFromPy(self.currentIni), editModTypeFromPy(modType), modName);
+        } catch (...) {
+            self.currentGraphGroups = previousGroups;
+            throw;
+        }
+        self.currentGraphGroups = previousGroups;
         return graphGroups;
     }, py::arg("graphGroups"), py::arg("modType"), py::arg("modName") = "", py::doc(R"doc(
 Inserts the reference `KVPs`_ from the graph at :attr:`dst` into the graph at :attr:`src`

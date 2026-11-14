@@ -5,6 +5,48 @@ and the separate Cython extensions (`api/src/cy`). See [Building](../Building/CL
 compile, [Testing](../Testing/CLAUDE.md) to verify, and [Documentation](../Documentation/CLAUDE.md)
 for how these conventions show up in rendered docs.
 
+## EVERY C++ CLASS IS FOR PYTHON TOO (the maintainer, 2026-10-31) -- AND EVERY PYTHON CAPABILITY IS FOR C++ (2026-11-01)
+
+**The rule is an if and only if** (the maintainer, 2026-11-01: "the C++ side should also be as powerful as the python
+side"). A Python class whose binding overrides a core method to do the real work (`TexReplace`'s `buildResModel`
+building the edited texture, `RemapBlendReplace`'s remap read off a Python `ModType`) left a plain C++ caller with an
+edit that renamed everything and wrote nothing -- which is why `TexEditorReplace`, `TexCreatorCreate` and
+`VGRemapBlendReplace` were written. The first two were then merged back into `TexReplace` / `TexCreate` (2026-11-01):
+each base had that one subclass, so the base itself now holds the editor and builds the resource
+(`makeResModel`), and Python's `TexReplace` / `TexCreate` are bindings of it -- one class per job. When binding, compare BOTH directions: what the C++ class has that Python lacks, and
+what the Python class (fields such as `fixFunc`, overridable methods) has that C++ lacks. Where the two already do one
+job, extend the existing Python class rather than binding a second one beside it.
+
+"Ideally we want all classes from C++ to be exposed to Python. A Python API User should have the same capability of
+using the API compared to a C++ API User." What that means in practice:
+
+- **Bind in the same change.** A new class, method, config field or constant in `core/` gets its pybind11 binding,
+  its `core.pyi` splice and its docs entry in the change that adds it -- not a later "bindings pass". An unbound
+  helper is invisible to every Python user and to the Python rewrites the maintainer uses as acceptance tests.
+- **A base class meant to be derived from needs a trampoline** (`py::class_<Base, Trampoline, py::smart_holder>`,
+  the trampoline also inheriting `py::trampoline_self_life_support` -- see the pybind11 notes further down). A base
+  whose subclasses only add data and call its protected helpers may need none: check what C++ calls through it.
+- **Check before placing a helper.** "Put it in TemplateFixer" was the right home on 2026-10-31 and still meant
+  binding TemplateFixer first: grep `core.pyi` for the class, and if it is missing, say so in the proposal.
+- **Doc comments that say "C++ only" are a debt, not a design.** `TemplateFixer`'s header said a Python fixer had
+  "nothing of this class to reach"; that stopped being true the moment its helpers became the shared toolbox.
+- **The gap is measured roughly, not exactly.** Comparing `class`/`struct` names in `core/include` against
+  `core.pyi` finds ~180 non-character names unbound (plus 136 per-character `XxxFixer`/`XxxParser`), but some are
+  nested types bound under another name (`GraphCollectRow` is `GraphCollect.Row`) or private details
+  (`TemplateFixer::TakeFixSections`). Sort a candidate by hand before binding it.
+- **An edit built in Python must run in a C++ fixer's list (2026-11-07).** `CppIniFixFactory.withList` puts Python-built
+  edits into a compiled fixer's list, which calls their C++ side with C++ arguments and no Python context. Four ways a
+  binding failed that, each silent or worse: (1) C++ members filled only by a `refresh()` the Python `edit` calls -- the
+  edit ran EMPTY (22 bindings; now filled when built and when a property is set); (2) a Python callable kept as a
+  `py::object` beside the member -- the getter returned a wrapped `std::function`, not the callable (keep it in a functor
+  struct and read it back with `std::function::target<>()`); (3) a callable handed the call's Python `modType` / `ini` /
+  graphs captured from the Python call -- use `PyEditScope` (`editModTypeToPy`, `editIniToPy`, `scope->graphToPy`), which
+  falls back to casting the C++ objects; (4) **a resource edit's `buildResModel` did
+  `static_cast<PyIniResEditContext&>(ctx)` -- a SEGFAULT on the C++ context**; it now asks
+  `PyResEditMixin::pyContextOf(ctx)` and runs its own C++ `buildResModel` when that is null. Test a binding change by
+  splicing the edit into a shipped fix (`test_withList_theWholeListRunsWithEditsBuiltInPython`,
+  `Tools/Misc/Prototypes/lynaeTweaks.py`), not only by its Python `edit`.
+
 ## A BLEND'S INFLUENCE COUNT IS A PARAMETER, AND ONE CLASS STILL SAYS FOUR (2026-09-30)
 
 Four influences a vertex is the Genshin shape. A Wuthering Waves `blend`_ carries as many as **eight**
@@ -64,7 +106,9 @@ exactly **one** GI mod (``GIMI/Mods/Arlecchino1``, a classic-shape character tha
 reaches the split), so there is no GI corpus to sweep it against the way every WuWa change this
 session was accepted.
 
-Do it when there is a GI corpus: widen the types, take the width from ``decodeAll``'s columns, and
+There is a synthetic one now (2026-11-02): `Tools/Misc/Diagnostics/giSynthCorpus.py` builds 503 GI folders from
+`Data/Mod Downloads/GI`, every component skin included -- see the root CLAUDE.md. Do it with that and the
+maintainer's real GI mods: widen the types, take the width from ``decodeAll``'s columns, and
 require the unit suite, the Integration Tester goldens AND a GI corpus sweep to come back unchanged.
 Then `WWMIFixer`'s `bufRows` should collapse into ``VGComponentSplit::readBlend``.
 
@@ -684,6 +728,50 @@ C++-owned sections must not outlive their owner's clear**: `PyIniGraphGroups::re
 drops what a view no longer groups (`PyGIMIParser::clear` calls it), and `IniFile::clear` clears its
 built strategies before its sections, not after. Any new long-lived holder of such graphs needs the
 same treatment.
+
+**AND THEN IT HAPPENED WHERE NO ORDER COULD BE FIXED, SO THE FIX IS GENERAL NOW (2026-11-03).** The Python
+Sanhua mirror (`Tools/Misc/Prototypes/sanhuaExorcistEdits.py`) lost every texture list of one mod in 2-4 of 8
+whole-folder runs -- one `[]` section in their place -- while the compiled fix was always right. Every
+`IfTemplate` built in that mod's `makeFixer` came back as an OLD wrapper (refcount 3-10 where a fresh one has 2),
+registered at the address of a freed section. Measured with a temporary hook in `~IfTemplate`: EVERY stale wrapper
+was held by exactly the live graphs whose `keepAlive_` listed it (refcount = number of borrowing graphs), and the
+owner that freed first varied -- a per-call `PyIniGraphGroups` view (graphs an edit removes or copies die with the
+call), the previous file's fixer freed during the next file's work, the `IniFile` after its fix. Destruction order is
+not controlled, so two changes, both general:
+- **`AGRemapCore::ObjectLifetime`** (`tools/ObjectLifetime.h`): `IfTemplate`, `IfTemplatePart` and `IniSectionGraph`
+  call `ObjectLifetime::released(this)` from their destructors. `py/src/tools/PyObjectLifetime.cpp` sets the hook:
+  every NON-owning wrapper of those types still registered at the address is deregistered and its holder emptied,
+  so it is never handed out again and any use raises pybind11's `ValueError: ... Python instance was disowned`
+  instead of reading freed memory. **That needs `py::smart_holder`**: under the default holder pybind11 lazily
+  ALLOCATES raw storage for a null value pointer and reads it (a dead `IfTemplate` read `name == ''`), which is why
+  `IfTemplate` and `IniSectionGraph` are bound with `py::smart_holder` now, as the parts already were. A class you
+  add to the watched list must be `smart_holder` too. `ObjectLifetime` has no Python class on purpose: it is the
+  binding's own memory management, and a Python user setting the hook would break it.
+- **`PyIniGraphGroups::KeepScope`**: while a Python parser runs its steps (`editCommands`, the deferred steps) or a
+  Python fixer runs `getFix`, every per-call view that ends hands the graphs left in its keeping to that parser's or
+  fixer's `graphKeeper`, emptied by their `clear()` -- so they live as long as on the C++ path, where the view IS the
+  parser's. A fixer continuing a `prevFixer` takes its keeper with its groups.
+
+ASan could not see any of this (0 of 29 runs reproduced, no report): the reused address holds a LIVE object, and its
+quarantine never reuses addresses at all. What found it was a destructor hook checking pybind11's instance map, and
+the cheap tell is a build result's refcount (2 = fresh). Pinned by `Testing/Unit Tester/.../test_ObjectLifetime.py`,
+which fails on the build before (all five tests) and the Part-1-only build (the keeper test).
+
+**A WRAPPER HANDED BACK ON AN OWNING RETURN IS WORSE: THE NEW OBJECT IS DELETED (2026-11-03, the same day).** The
+Python mirror also segfaulted in about 1 Sanhua3 run in 10, inside `reader.parse()` of a LINKED `.ini`, reading
+address `0xffffffffffffffff` out of `IniFileParseContext::modType` (the file's mod-type map). `IniFile::siblingOf`
+returns a NEW file as a `std::unique_ptr`, and under pybind11's DEFAULT holder an owning return checks the instance
+map first: when a wrapper is already registered at that address it returns THAT wrapper and lets the `unique_ptr`
+delete the object -- so the caller gets a live-looking Python object over freed memory, every time. The stale wrapper
+was the `IniFile` RemapService had handed the parser factory by reference for an earlier file of the run, freed when
+that file was done while the prototype still held it. Measured before fixing: 20 files through a parser factory that
+keeps its `ini`, then 2000 `siblingOf` calls -- **500 returned a freed file's wrapper**. `IniFile` is now on the
+watched list (`~IniFile` calls `ObjectLifetime::released`) and `py::smart_holder`: 0 of 2000, and a freed file's
+wrapper raises (`IniFileLifetimeTest`). Two rules from it: **any class C++ both hands out by reference and creates
+for Python by an owning return is exposed** (sibling-style factories, `clone` / `deepcopy` returning `unique_ptr`) --
+watch it; and **ASan masked this one too** (0 of 6), while a release build with `/Z7` and an `AddVectoredExceptionHandler`
++ dbghelp stack printer named the frame in the first crash. The two named builds took 13 and 14 runs to crash
+once, so a clean streak of 14 at a 1-in-10 rate proves nothing; the build is not the difference, the allocation is.
 
 **Whenever you add a new class in this style** (stores raw non-owning pointers into other
 Python-constructible objects, and exposes an accessor or an `id()`-keyed correlation for them):

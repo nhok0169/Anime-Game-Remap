@@ -20,7 +20,7 @@
 
 
 namespace AGRemapCore {
-    IniParseBuilder::Factory IniParseBuilderFuncs::chisa2_8() {
+    WWMIParserConfig ChisaParser::v2_8Config() {
         // The WWMI shape -- see makeWWMIParser for what that means and for every mod object this
         // produces. Nothing is Chisa-specific beyond her id: her seven draw slots come off the
         // library's Indices rows, her hashes off HashData.
@@ -29,7 +29,12 @@ namespace AGRemapCore {
         // Her own textures, so a mod of hers can be sorted into roles at PARSE time -- which is
         // where deciding what a section is belongs.
         config.textures = chisaTextureFacts();
-        return makeWWMIParser(std::move(config));
+        return config;
+    }
+
+
+    IniParseBuilder::Factory IniParseBuilderFuncs::chisa2_8() {
+        return makeWWMIParser(ChisaParser::v2_8Config());
     }
 
 

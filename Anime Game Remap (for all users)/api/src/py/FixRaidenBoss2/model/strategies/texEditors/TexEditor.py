@@ -90,6 +90,11 @@ class TexEditor(CppTexEditor):
         if (not self.filters):
             return
 
+        # From C++ (a TexReplace's resource, say) the file arrives as a plain CppTextureFile, which has no
+        # engine to set: read it through this package's own TextureFile
+        if (not isinstance(texFile, TextureFile)):
+            texFile = TextureFile(texFile.src)
+
         texFile.engine = self.engine
         texFile.readPillowImg = self.readPillowImg
         texFile.open()

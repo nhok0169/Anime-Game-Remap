@@ -203,6 +203,40 @@ class VGComponentSplitTest(BaseUnitTest):
         # too short to hold a normal: as it is
         self.assertEqual(FRB.VGComponentSplit.mirrorPositionLine(b"\x01" * 12, 0.5), b"\x01" * 12)
 
+    def test_offsetPositionLine_movesOnlyThePosition(self):
+        line = struct.pack("<3f3f4f", 1, 2, 3, 0, 0, 1, 1, 0, 0, 1)
+        out = struct.unpack("<3f3f4f", FRB.VGComponentSplit.offsetPositionLine(line, (0.5, -1, 0.25)))
+        self.assertEqual(out[:3], (1.5, 1.0, 3.25))
+        self.assertEqual(out[3:], (0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0))
+
+        # too short to hold a position: as it is
+        self.assertEqual(FRB.VGComponentSplit.offsetPositionLine(b"\x01" * 8, (1, 1, 1)), b"\x01" * 8)
+
+    def test_offsetPositionLine_fadesWithTheOriginalHeight(self):
+        offset = (0, 1, 0)
+        fade = (1, 3)
+        def moved(y):
+            return struct.unpack("<3f", FRB.VGComponentSplit.offsetPositionLine(struct.pack("<3f", 0, y, 0), offset, fade))[1] - y
+
+        self.assertEqual(moved(0), 1.0)      # below 'full': the whole offset
+        self.assertEqual(moved(2), 0.5)      # half way
+        self.assertEqual(moved(4), 0.0)      # above 'none': nothing
+
+        # a fade whose 'none' is not above its 'full' is no fade
+        line = struct.pack("<3f", 0, 4, 0)
+        self.assertEqual(struct.unpack("<3f", FRB.VGComponentSplit.offsetPositionLine(line, offset, (3, 1)))[1], 5.0)
+
+    def test_fitTexcoordLine_widthFirstThenTheEdits(self):
+        line = bytes([10, 20, 30, 40]) + struct.pack("<2f", 0.5, 0.25) + struct.pack("<2f", 1, 2)
+
+        self.assertEqual(FRB.VGComponentSplit.fitTexcoordLine(line, 0, False, False), line)
+        self.assertEqual(FRB.VGComponentSplit.fitTexcoordLine(line, 0, True, False)[:4], bytes([10, 128, 128, 40]))
+        self.assertEqual(FRB.VGComponentSplit.fitTexcoordLine(line, 0, False, True), line[:12] + bytes(8))
+
+        # widened: zero-padded at the end; narrowed: the end dropped, so there is no TEXCOORD1 to zero
+        self.assertEqual(FRB.VGComponentSplit.fitTexcoordLine(line, 24, False, False), line + bytes(4))
+        self.assertEqual(FRB.VGComponentSplit.fitTexcoordLine(line, 12, True, True), bytes([10, 128, 128, 40]) + line[4:12])
+
     # A coat panel A with its own lining B 4 mm behind it, facing the other way; a single-layer panel C; and a panel
     # E 4 mm under D facing the SAME way (cloth over a body). Every vertex on the one component's group 0.
     #   A (0,1,2) z=0 facing +z   B (3,5,4) z=-0.004 facing -z   C (6,7,8) facing +z   D (9,10,11) z=0 / E (12,13,14) z=-0.004, both +z

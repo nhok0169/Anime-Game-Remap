@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMISections::ShaderDraw</compoundname>
+    <includes refid="_w_w_m_i_sections_8h" local="no">WWMISections.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a72c153f6912740d3aee3e1d2fe00f995" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;kind, const std::string &amp;suffix)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp; kind, const std::string&amp; suffix)&gt; AGRemapCore::WWMISections::ShaderDraw::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::WWMISections::ShaderDraw::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fix&apos;s name of one of the draw&apos;s sections, from its kind (``CommandList``, ``CustomShader``,
+``Resource``, or ``&quot;&quot;`` for a variable) and a suffix (``&quot;&quot;`` for the draw&apos;s own list and shader)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="305" column="31" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a93b9458690b855a3ba612a64ed5144e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::ShaderDraw::draw</definition>
+        <argsstring></argsstring>
+        <name>draw</name>
+        <qualifiedname>AGRemapCore::WWMISections::ShaderDraw::draw</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>drawindexed</computeroutput> value each pass draws. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="310" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a08272eb748f36ebf73079a4049dd3a18" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::ShaderDraw::onPlan</definition>
+        <argsstring></argsstring>
+        <name>onPlan</name>
+        <qualifiedname>AGRemapCore::WWMISections::ShaderDraw::onPlan</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>.ini</computeroutput> condition true on the passes the shader draws on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="315" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a62cbc2ef314f859a8e1d522553cb518f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::ShaderDraw::onlyWith</definition>
+        <argsstring></argsstring>
+        <name>onlyWith</name>
+        <qualifiedname>AGRemapCore::WWMISections::ShaderDraw::onlyWith</qualifiedname>
+        <briefdescription>
+<para>A resource the pass must bind for the shader to draw (<computeroutput>o3</computeroutput>), or empty to draw on every pass of <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a08272eb748f36ebf73079a4049dd3a18" kindref="member">onPlan</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="320" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a3b33b3451e5bf276e66d1637464e01dc" prot="public" static="no" mutable="no">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>std::pair&lt;std::string, std::string&gt; AGRemapCore::WWMISections::ShaderDraw::fallback</definition>
+        <argsstring></argsstring>
+        <name>fallback</name>
+        <qualifiedname>AGRemapCore::WWMISections::ShaderDraw::fallback</qualifiedname>
+        <briefdescription>
+<para>The line that draws the range everywhere the shader does not, or an empty key to draw nothing there (a draw made after the mod&apos;s own, which still draws the range). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="326" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a5d5644609db7cc3673f76bf06958f862" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a675ecded5d1d9f3a59dc48ae0ee1017d" kindref="member">KVPs</ref> &gt;</type>
+        <definition>std::vector&lt;KVPs&gt; AGRemapCore::WWMISections::ShaderDraw::passes</definition>
+        <argsstring></argsstring>
+        <name>passes</name>
+        <qualifiedname>AGRemapCore::WWMISections::ShaderDraw::passes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Each pass&apos;s ``CustomShader`` lines, before its ``drawindexed``: the first pass&apos;s section is
+``name(&quot;CustomShader&quot;, &quot;&quot;)``, pass ``p``&apos;s that name followed by ``Pass&lt;p&gt;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="335" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a9dce5a4fa8fcc19bdec7c9451006fc8c" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a675ecded5d1d9f3a59dc48ae0ee1017d" kindref="member">KVPs</ref></type>
+        <definition>KVPs AGRemapCore::WWMISections::ShaderDraw::assigned</definition>
+        <argsstring></argsstring>
+        <name>assigned</name>
+        <qualifiedname>AGRemapCore::WWMISections::ShaderDraw::assigned</qualifiedname>
+        <briefdescription>
+<para>The lines the shaders assign whose registers are saved before the runs and restored after them (<ref refid="class_a_g_remap_core_1_1_custom_shader_backups_1a9e756dd2dd2d47aed473cdbe991fdbd8" kindref="member">CustomShaderBackups::wrap</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="341" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a3e553bf6f599fa879bfa638e0b9c7eb7" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_w_w_m_i_sections_1a675ecded5d1d9f3a59dc48ae0ee1017d" kindref="member">KVPs</ref></type>
+        <definition>KVPs AGRemapCore::WWMISections::ShaderDraw::before</definition>
+        <argsstring></argsstring>
+        <name>before</name>
+        <qualifiedname>AGRemapCore::WWMISections::ShaderDraw::before</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Lines the draw&apos;s command list writes before it runs the shader, inside the same save and restore as
+the runs -- eg. the textures an overlay drawn over the mod&apos;s own draw reads. **Default**: none
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="350" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a93096bbf9834dfe7da6af9cbe72113e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMISections::ShaderDraw::afterTarget</definition>
+        <argsstring></argsstring>
+        <name>afterTarget</name>
+        <qualifiedname>AGRemapCore::WWMISections::ShaderDraw::afterTarget</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+For a draw held back until other draws of the same pass are made: the resource that tells one pass from
+another (a render target), or empty to draw at once
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="359" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a9449a567f96d349c87120545c855aa87" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::WWMISections::ShaderDraw::afterDraws</definition>
+        <argsstring></argsstring>
+        <name>afterDraws</name>
+        <qualifiedname>AGRemapCore::WWMISections::ShaderDraw::afterDraws</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many game draws a pass makes before the held-back draw, for <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a93096bbf9834dfe7da6af9cbe72113e8" kindref="member">afterTarget</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="364" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a6a18a840efd27698ae621bbf37f8aafc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::WWMISections::ShaderDraw::afterCarried</definition>
+        <argsstring></argsstring>
+        <name>afterCarried</name>
+        <qualifiedname>AGRemapCore::WWMISections::ShaderDraw::afterCarried</qualifiedname>
+        <briefdescription>
+<para>The registers the held-back draw takes from the pass it was held in, for <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a93096bbf9834dfe7da6af9cbe72113e8" kindref="member">afterTarget</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="369" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What shaderDrawSections writes. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMISections.h" line="297" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMISections.h" bodystart="297" bodyend="370"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a6a18a840efd27698ae621bbf37f8aafc" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::ShaderDraw</scope><name>afterCarried</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a9449a567f96d349c87120545c855aa87" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::ShaderDraw</scope><name>afterDraws</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a93096bbf9834dfe7da6af9cbe72113e8" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::ShaderDraw</scope><name>afterTarget</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a9dce5a4fa8fcc19bdec7c9451006fc8c" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::ShaderDraw</scope><name>assigned</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a3e553bf6f599fa879bfa638e0b9c7eb7" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::ShaderDraw</scope><name>before</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a93b9458690b855a3ba612a64ed5144e1" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::ShaderDraw</scope><name>draw</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a3b33b3451e5bf276e66d1637464e01dc" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::ShaderDraw</scope><name>fallback</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a72c153f6912740d3aee3e1d2fe00f995" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::ShaderDraw</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a62cbc2ef314f859a8e1d522553cb518f" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::ShaderDraw</scope><name>onlyWith</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a08272eb748f36ebf73079a4049dd3a18" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::ShaderDraw</scope><name>onPlan</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_sections_1_1_shader_draw_1a5d5644609db7cc3673f76bf06958f862" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMISections::ShaderDraw</scope><name>passes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

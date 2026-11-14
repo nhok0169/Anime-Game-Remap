@@ -27,39 +27,12 @@ namespace AGRC = AGRemapCore;
 /**
  * @brief
  @rst
- The `pybind11`_-facing subclass of `AGRC::RegRemap`\\<py::object, py::object\\> -- holds the
- exact `Python`_ ``dict`` given for ``keyRemap``, for the same reason `PyRegAdd` holds its own
- list (see that class's note)
+ The `Python`_ ``RegRemap`` is :cpp:class:`AGRemapCore::RegRemap` itself: its arguments are parsed into the C++ members
+ when it is built or they are set, and read back from them -- so one built in `Python`_ runs in a C++ fixer's list, and
+ one built in C++ reads in `Python`_ as a ``RegRemap``
  @endrst
  */
-class PyRegRemap: public AGRC::RegRemap<std::string, std::string> {
-    public:
-
-        /**
-         * @brief The C++ core class this wraps
-         */
-        using Core = AGRC::RegRemap<std::string, std::string>;
-
-        /**
-         * @brief
-         @rst
-         The exact `Python`_ object given for ``keyRemap`` -- a ``dict`` of old key -> remap rules
-         @endrst
-         */
-        py::object keyRemapObj;
-
-        /**
-         * @brief Constructs a new bulk key-renaming register edit
-         *
-         * @param keyRemapObj The Python dict of old key -> remap rules
-         */
-        explicit PyRegRemap(py::object keyRemapObj);
-
-        /**
-         * @copydoc PyRegAdd::refresh
-         */
-        void refresh(const py::object &modType);
-};
+using PyRegRemap = AGRC::RegRemap<std::string, std::string>;
 
 
 void initCppRegRemap(pybind11::module_ &m);

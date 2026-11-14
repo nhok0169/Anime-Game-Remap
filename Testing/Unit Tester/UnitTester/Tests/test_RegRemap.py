@@ -15,7 +15,7 @@ class RegRemapTest(BaseUnitTest):
     def test_init_setsAttributes(self):
         keyRemap = {"a": ["x"]}
         edit = FRB.RegRemap(keyRemap)
-        self.assertIs(edit.keyRemap, keyRemap)
+        self.assertEqual(edit.keyRemap, keyRemap)   # held as the edit's own (C++) data, read back
 
     # ================================================
     # ===================== edit ======================

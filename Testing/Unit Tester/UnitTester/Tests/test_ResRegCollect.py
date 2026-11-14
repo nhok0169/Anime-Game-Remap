@@ -1009,3 +1009,210 @@ filename = RikaNormalMapRemapTex.dds
                 self.assertEqual(currentResultFix, currentExpectedFix)
 
     # ===================================================================
+
+
+    def test_severalRegisters_oneEditBuildsEveryResource(self):
+        # one graph, two registers, one edit: srcRegs takes a list, and the edit builds every
+        # resource it collects -- two collects sharing it would leave the second one's references
+        # pointing at names nothing declares
+        self.create()
+        self._fixer.graphGroupEdits = [FRB.ResRegCollect({(0, "", "blend"): ["vb1", "vb2"]}, {"blendType": FRB.RemapBlendReplace((0, "", "remapBlend"))})]
+
+        iniTxt = """
+[TextureOverrideRaidenShogunBlend]
+vb1 = ResourceRaidenShogunBlend
+vb2 = ResourceRaidenShogunBlendAlt
+handling = skip
+draw = 21916,0
+
+[ResourceRaidenShogunBlend]
+type = Buffer
+stride = 32
+filename = RaidenShogunBlend.buf
+
+[ResourceRaidenShogunBlendAlt]
+type = Buffer
+stride = 32
+filename = RaidenShogunBlendAlt.buf"""
+
+        self.writeIniTxt(iniTxt)
+        self._iniFile.clear()
+        self._iniFile.parse()
+        resultFix = list(self._iniFile.fix().values())
+
+        self.assertEqual(len(self._iniFile.getResources()), 2)
+        self.assertEqual(len(resultFix), 1)
+        self.assertEqual(resultFix[0], '\n[TextureOverrideRaidenShogunBlend]\nvb1 = ResourceRaidenShogunBlend\nvb2 = ResourceRaidenShogunBlendAlt\nhandling = skip\ndraw = 21916,0\n\n[ResourceRaidenShogunBlend]\ntype = Buffer\nstride = 32\nfilename = RaidenShogunBlend.buf\n\n[ResourceRaidenShogunBlendAlt]\ntype = Buffer\nstride = 32\nfilename = RaidenShogunBlendAlt.buf\n\n; --------------- Raiden Remap ---------------\n; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"\n; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support\n\n[TextureOverrideRaidenShogunBlend]\nvb1 = ResourceRaidenShogunRikaRemapBlend\nvb2 = ResourceRaidenShogunRikaRemapBlendAlt\nhandling = skip\ndraw = 21916,0\n\n[ResourceRaidenShogunRikaRemapBlend]\ntype = Buffer\nstride = 32\nfilename = RaidenShogunRikaRemapBlend.buf\n\n[ResourceRaidenShogunRikaRemapBlendAlt]\ntype = Buffer\nstride = 32\nfilename = RaidenShogunRikaRemapBlendAlt.buf\n\n; --------------------------------------------')
+
+
+    def test_registerTest_collectsEveryRegisterItAccepts(self):
+        # a test of the register's name in place of the names: every register of the graph it accepts is
+        # collected (here every `vb`), and one it rejects (`ib`) is not
+        self.create()
+        self._fixer.graphGroupEdits = [FRB.ResRegCollect({(0, "", "blend"): lambda reg: reg.startswith("vb")},
+                                                         {"blendType": FRB.RemapBlendReplace((0, "", "remapBlend"))})]
+
+        iniTxt = """
+[TextureOverrideRaidenShogunBlend]
+vb1 = ResourceRaidenShogunBlend
+vb2 = ResourceRaidenShogunBlendAlt
+ib = ResourceRaidenShogunIB
+handling = skip
+draw = 21916,0
+
+[ResourceRaidenShogunBlend]
+type = Buffer
+stride = 32
+filename = RaidenShogunBlend.buf
+
+[ResourceRaidenShogunBlendAlt]
+type = Buffer
+stride = 32
+filename = RaidenShogunBlendAlt.buf
+
+[ResourceRaidenShogunIB]
+type = Buffer
+format = DXGI_FORMAT_R32_UINT
+filename = RaidenShogunIB.ib"""
+
+        self.writeIniTxt(iniTxt)
+        self._iniFile.clear()
+        self._iniFile.parse()
+        resultFix = list(self._iniFile.fix().values())
+
+        self.assertEqual(len(self._iniFile.getResources()), 2)
+        self.assertEqual(len(resultFix), 1)
+        self.assertIn("vb1 = ResourceRaidenShogunRikaRemapBlend\n", resultFix[0])
+        self.assertIn("vb2 = ResourceRaidenShogunRikaRemapBlendAlt\n", resultFix[0])
+        self.assertIn("ib = ResourceRaidenShogunIB\n", resultFix[0])
+
+    def test_resourceInAGraph_isBuilt(self):
+        # a resource the .ini does not declare but a graph of the fix does (a download the fix adds):
+        # the edit builds its copy from the graph's section rather than repointing the reference at a
+        # name nothing declares
+        self.create()
+        resource = FRB.IfTemplate([FRB.IfContentPart({"type": [(0, "Buffer")], "stride": [(1, "32")], "filename": [(2, "FixBlend.buf")]}, 0)],
+                                  name = "ResourceFixBlend")
+        self._fixer.graphGroupEdits = [FRB.GraphCreate((0, "", "fixResources"), FRB.IniSectionGraph({"ResourceFixBlend": resource}, ["ResourceFixBlend"])),
+                                       FRB.ResRegCollect({(0, "", "blend"): "vb1"}, {"blendType": FRB.RemapBlendReplace((0, "", "remapBlend"))})]
+
+        iniTxt = """
+[TextureOverrideRaidenShogunBlend]
+vb1 = ResourceFixBlend
+handling = skip
+draw = 21916,0"""
+
+        self.writeIniTxt(iniTxt)
+        self._iniFile.clear()
+        self._iniFile.parse()
+        resultFix = list(self._iniFile.fix().values())
+
+        self.assertEqual(len(self._iniFile.getResources()), 1)
+        self.assertEqual(len(resultFix), 1)
+        self.assertEqual(resultFix[0], '\n[TextureOverrideRaidenShogunBlend]\nvb1 = ResourceFixBlend\nhandling = skip\ndraw = 21916,0\n\n; --------------- Raiden Remap ---------------\n; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"\n; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support\n\n[TextureOverrideRaidenShogunBlend]\nvb1 = ResourceFixRikaRemapBlend\nhandling = skip\ndraw = 21916,0\n\n[ResourceFixBlend]\ntype = Buffer\nstride = 32\nfilename = FixBlend.buf\n\n[ResourceFixRikaRemapBlend]\ntype = Buffer\nstride = 32\nfilename = FixRikaRemapBlend.buf\n\n; --------------------------------------------')
+
+
+    # ====================== everyGroup =================================
+
+    _everyGroupIniTxt = """
+[TextureOverrideRaidenShogunBlend]
+vb1 = ResourceRaidenShogunBlend
+handling = skip
+draw = 21916,0
+
+[ResourceRaidenShogunBlend]
+type = Buffer
+stride = 32
+filename = RaidenShogunBlend.buf"""
+
+    def _fixWithCopy(self, collect):
+        # group 1 is a copy of group 0's blend graph, made by an edit before the collect -- renamed, since a
+        # copy that only repeats group 0 is not written
+        self.create()
+        self._fixer.graphGroupEdits = [FRB.GraphGroupRemap(remap = {(0, "", "blend"): [(0, "", "blend"), (1, "", "blend", lambda name: name + "Copy")]}), collect]
+
+        self.writeIniTxt(self._everyGroupIniTxt)
+        self._iniFile.clear()
+        self._iniFile.parse()
+        return list(self._iniFile.fix().values())
+
+    @classmethod
+    def _fixBlock(cls, txt):
+        # the fix's own block, without the mod's text it follows
+        return txt[txt.find("; --------------- Raiden Remap"):]
+
+    def test_everyGroup_off_collectsOnlyInTheNamedGroup(self):
+        # the control: a collect on group 0 leaves the copy in group 1 alone
+        collect = FRB.ResRegCollect({(0, "", "blend"): "vb1"}, {"blendType": FRB.RemapBlendReplace((0, "", "remapBlend"))})
+        resultFix = self._fixWithCopy(collect)
+
+        self.assertEqual(len(resultFix), 2)
+        self.assertIn("vb1 = ResourceRaidenShogunRikaRemapBlend\n", self._fixBlock(resultFix[0]))
+        self.assertIn("vb1 = ResourceRaidenShogunBlend\n", self._fixBlock(resultFix[1]))
+        self.assertNotIn("RikaRemapBlend", self._fixBlock(resultFix[1]))
+
+    def test_everyGroup_collectsInEveryGroup_andBuildsOnce(self):
+        # configured on group 0, the collect runs in every group holding the graph, and builds the
+        # resource once for both
+        collect = FRB.ResRegCollect({(0, "", "blend"): "vb1"}, {"blendType": FRB.RemapBlendReplace((0, "", "remapBlend"))},
+                                    everyGroup = True)
+        resultFix = self._fixWithCopy(collect)
+
+        self.assertEqual(len(resultFix), 2)
+        for txt in resultFix:
+            self.assertIn("vb1 = ResourceRaidenShogunRikaRemapBlend\n", self._fixBlock(txt))
+            self.assertNotIn("vb1 = ResourceRaidenShogunBlend\n", self._fixBlock(txt))
+        self.assertEqual(len(self._iniFile.getResources()), 1)
+
+    def test_everyGroup_leavesTheSettingsAsConfigured(self):
+        # the per-group copies are made for one edit only
+        srcRegs = {(0, "", "blend"): "vb1"}
+        collect = FRB.ResRegCollect(dict(srcRegs), {"blendType": FRB.RemapBlendReplace((0, "", "remapBlend"))}, everyGroup = True)
+        self._fixWithCopy(collect)
+
+        self.assertTrue(collect.everyGroup)
+        self.assertEqual(collect.srcRegs, srcRegs)
+
+        # ...and a second fix gives the same output
+        first = self._fixWithCopy(collect)
+        second = self._fixWithCopy(collect)
+        self.assertEqual(first, second)
+
+    def test_everyGroup_remapTargetStaysInItsSourcesGroup(self):
+        # a subtype remap configured within group 0 is a remap within each group: each group gets its
+        # own remapped copy, pointing at the subtype's resource, built once
+        collect = FRB.ResRegCollect({(0, "", "blend"): "vb1"},
+                                    {"blendType1": FRB.RemapBlendReplace((0, "Life", "remapBlend"), resSubType = "JenovaLife")},
+                                    remaps = {(0, "", "blend"): {"blendType1": (0, "Life", "blend", lambda name: name + "Life")}},
+                                    everyGroup = True)
+        resultFix = self._fixWithCopy(collect)
+
+        self.assertEqual(len(resultFix), 2)
+        group0, group1 = self._fixBlock(resultFix[0]), self._fixBlock(resultFix[1])
+        self.assertEqual(group0.count("[TextureOverrideRaidenShogunBlendRikaRemapFixLife]\n"), 1)
+        self.assertEqual(group1.count("[TextureOverrideRaidenShogunBlendCopyLife]\n"), 1)
+        self.assertNotIn("CopyLife]", group0)
+        self.assertNotIn("RikaRemapFixLife]", group1)
+        for txt in (group0, group1):
+            self.assertEqual(txt.count("vb1 = ResourceRaidenShogunRikaJenovaLifeRemapBlend\n"), 1)
+        self.assertEqual(len(self._iniFile.getResources()), 1)
+
+    def test_everyGroup_remapTargetFollowsASourceInALaterGroup(self):
+        # the source graph lives only in group 1 (an edit moved it there): its remap target, configured
+        # within group 0, lands in group 1 beside it -- not in group 0, which has nothing of the source
+        self.create()
+        collect = FRB.ResRegCollect({(0, "", "blend"): "vb1"},
+                                    {"blendType1": FRB.RemapBlendReplace((0, "Life", "remapBlend"), resSubType = "JenovaLife")},
+                                    remaps = {(0, "", "blend"): {"blendType1": (0, "Life", "blend", lambda name: name + "Life")}},
+                                    everyGroup = True)
+        self._fixer.graphGroupEdits = [FRB.GraphGroupRemap(remap = {(0, "", "blend"): [(1, "", "blend", lambda name: name + "Copy")]}), collect]
+
+        self.writeIniTxt(self._everyGroupIniTxt)
+        self._iniFile.clear()
+        self._iniFile.parse()
+        resultFix = [self._fixBlock(txt) for txt in self._iniFile.fix().values()]
+
+        self.assertEqual(len(resultFix), 2)
+        self.assertNotIn("Life]", resultFix[0])
+        self.assertEqual(resultFix[1].count("[TextureOverrideRaidenShogunBlendCopyLife]\n"), 1)
+        self.assertEqual(resultFix[1].count("vb1 = ResourceRaidenShogunRikaJenovaLifeRemapBlend\n"), 1)

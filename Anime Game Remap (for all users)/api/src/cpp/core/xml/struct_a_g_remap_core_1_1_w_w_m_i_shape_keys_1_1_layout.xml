@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_layout" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIShapeKeys::Layout</compoundname>
+    <includes refid="_w_w_m_i_shape_keys_8h" local="no">WWMIShapeKeys.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_layout_1a3d34d943e6b01e0f923141913a3c5316" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::uint32_t &gt;</type>
+        <definition>std::vector&lt;std::uint32_t&gt; AGRemapCore::WWMIShapeKeys::Layout::firsts</definition>
+        <argsstring></argsstring>
+        <name>firsts</name>
+        <qualifiedname>AGRemapCore::WWMIShapeKeys::Layout::firsts</qualifiedname>
+        <briefdescription>
+<para>Each slot&apos;s first entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Empty when the buffers are not this layout </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" line="72" column="29" bodyfile="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_layout_1ae3198a058547f2ae108bdb01b4c823be" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::WWMIShapeKeys::Layout::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>AGRemapCore::WWMIShapeKeys::Layout::entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many entries there are. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" line="77" column="29" bodyfile="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_layout_1af53a2676562de3b255f744165f941611" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::WWMIShapeKeys::Layout::offsetWidth</definition>
+        <argsstring></argsstring>
+        <name>offsetWidth</name>
+        <qualifiedname>AGRemapCore::WWMIShapeKeys::Layout::offsetWidth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The bytes of one vertex offset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Zero when the buffers are not this layout </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" line="82" column="29" bodyfile="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What a set of shape-key buffers holds. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" line="68" column="13" bodyfile="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" bodystart="68" bodyend="83"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_layout_1ae3198a058547f2ae108bdb01b4c823be" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIShapeKeys::Layout</scope><name>entries</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_layout_1a3d34d943e6b01e0f923141913a3c5316" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIShapeKeys::Layout</scope><name>firsts</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_layout_1af53a2676562de3b255f744165f941611" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIShapeKeys::Layout</scope><name>offsetWidth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

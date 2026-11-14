@@ -28,6 +28,7 @@
 #include <vector>
 
 #include "AGRemapCore/model/CallGraph.h"
+#include "AGRemapCore/tools/ObjectLifetime.h"
 #include "AGRemapCore/model/SectionIterData.h"
 #include "AGRemapCore/model/iftemplate/IfContentPart.h"
 #include "AGRemapCore/model/iftemplate/IfContentPartColour.h"
@@ -96,10 +97,32 @@ namespace AGRemapCore {
             IniSectionGraph(IniSectionGraph&&) = default;
             IniSectionGraph& operator=(IniSectionGraph&&) = default;
 
+            // Read through plain pointers by graph groups and by the Python binding -- see ObjectLifetime
+            ~IniSectionGraph() {
+                ObjectLifetime::released(this);
+            }
+
             /**
              * @brief All the `sections`_ of the constructed subgraph
              */
             const std::unordered_map<std::string, Section*>& sections() const;
+
+            /**
+             * @brief
+             @rst
+             'sections' in the order of their parts' ids: each `section`_'s smallest part id, then its name
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Part ids are handed out in file order as a file is parsed, so this is the order the `sections`_ appear in
+             the file. Walk #sections() in this order wherever the order matters: the map's own order is a standard
+             library's hash order, which differs between platforms
+             @endrst
+             *
+             * @param sections The `sections`_, by name
+             *
+             * @return The `sections`_ with their names, ordered
+             */
+            static std::vector<std::pair<std::string, Section*>> inPartIdOrder(const std::unordered_map<std::string, Section*>& sections);
 
             /**
              * @brief The out-neighbours of the subgraph (the adjacency list)
@@ -223,15 +246,23 @@ namespace AGRemapCore {
              * @brief
              @rst
              Determines whether a key fully covers all the conditional branches of a `section`_, for
-             every `section`_ in #roots()
+             every `section`_ in #roots() -- with 'countMissingElse', every PATH through it, so an
+             ``if`` / ``else if`` chain with no ``else`` also has the path where none of its conditions
+             holds (see :cpp:func:`IfTemplate::isKeyFullyCover`)
              @endrst
+             *
+             * @param key The key
+             * @param countMissingElse Whether a chain's missing ``else`` is a path that lacks 'key'. **Default**: ``false``
              */
-            std::unordered_map<std::string, bool> isKeyFullyCover(const K& key) const;
+            std::unordered_map<std::string, bool> isKeyFullyCover(const K& key, bool countMissingElse = false) const;
 
             /**
              * @brief Convenience over #isKeyFullyCover, filtered to just #roots()
+             *
+             * @param key The key
+             * @param countMissingElse See #isKeyFullyCover. **Default**: ``false``
              */
-            std::unordered_map<std::string, bool> rootsAreFullyCovered(const K& key) const;
+            std::unordered_map<std::string, bool> rootsAreFullyCovered(const K& key, bool countMissingElse = false) const;
 
             /**
              * @brief Retrieves the parts in the `sections`_ that are not covered by 'key'
@@ -362,6 +393,7 @@ namespace AGRemapCore {
             static std::unordered_map<std::string, Section*> deepCopySections(const std::unordered_map<std::string, Section*>& src,
                                                                               std::vector<std::unique_ptr<Section>>& storage,
                                                                               bool newPartIds = true);
+
 
             Z3Predicate trueQuery() const;
             Z3Predicate getQuery(const std::vector<Z3Predicate>& queryPath, bool simplify) const;

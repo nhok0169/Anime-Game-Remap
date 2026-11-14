@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::TextureFile::DDSHeader</compoundname>
+    <includes refid="_texture_file_8h" local="no">TextureFile.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1ac0c963f24c4c900b115122d41ac1b6ef" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t AGRemapCore::TextureFile::DDSHeader::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>AGRemapCore::TextureFile::DDSHeader::width</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The width of the top mip, in pixels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="222" column="31" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1ad388cc531052f5b6293cf2694d405b8d" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t AGRemapCore::TextureFile::DDSHeader::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>AGRemapCore::TextureFile::DDSHeader::height</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The height of the top mip, in pixels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="227" column="31" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1a1554793a241bf575452737ea09f98ef3" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t AGRemapCore::TextureFile::DDSHeader::mipCount</definition>
+        <argsstring></argsstring>
+        <name>mipCount</name>
+        <qualifiedname>AGRemapCore::TextureFile::DDSHeader::mipCount</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>How many mips the file holds <ndash/> at least 1. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="232" column="31" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1ae0d2f8d3a93d0545c1d57acbf54a9906" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t AGRemapCore::TextureFile::DDSHeader::dxgiFormat</definition>
+        <argsstring></argsstring>
+        <name>dxgiFormat</name>
+        <qualifiedname>AGRemapCore::TextureFile::DDSHeader::dxgiFormat</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The pixel format, as a ``DXGI_FORMAT`` value: the ``DX10`` extension&apos;s, or for a
+legacy header ``61`` (``R8_UNORM``) for one 8-bit red channel and ``87``
+(``B8G8R8A8_UNORM``) for 32-bit BGRA. ``0`` for any other legacy format
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="242" column="31" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What the header of a <computeroutput>.dds</computeroutput> file says, without reading its pixels. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/files/TextureFile.h" line="218" column="13" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="218" bodyend="243"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1ae0d2f8d3a93d0545c1d57acbf54a9906" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureFile::DDSHeader</scope><name>dxgiFormat</name></member>
+      <member refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1ad388cc531052f5b6293cf2694d405b8d" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureFile::DDSHeader</scope><name>height</name></member>
+      <member refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1a1554793a241bf575452737ea09f98ef3" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureFile::DDSHeader</scope><name>mipCount</name></member>
+      <member refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1ac0c963f24c4c900b115122d41ac1b6ef" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureFile::DDSHeader</scope><name>width</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

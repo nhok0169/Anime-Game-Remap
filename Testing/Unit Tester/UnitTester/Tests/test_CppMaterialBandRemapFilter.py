@@ -128,3 +128,18 @@ class CppMaterialBandRemapFilterTest(BaseUnitTest):
         tf = texOf([(0, 0, 0, 128)])
         FRB.MaterialBandRemapFilter([Band(128, 255)]).transform(tf)
         self.assertEqual(alphasOf(tf), [255])
+
+    def test_channel_defaultsToAlpha(self):
+        self.assertEqual(FRB.CppMaterialBandRemapFilter([Band(128, 255)]).channel, 3)
+
+    def test_channel_red_movesTheRedBand_andNothingElse(self):
+        tf = texOf([(128, 20, 30, 128), (77, 20, 30, 128)])
+        FRB.CppMaterialBandRemapFilter([Band(120, 136, 0)], channel = 0).transform(tf)
+        px = tf.getPixels()
+        self.assertEqual([px[0], px[4]], [0, 77])
+        self.assertEqual([px[3], px[7]], [128, 128])  # the alpha holds no band here, and is untouched
+
+    def test_channel_pastAlpha_isANoOp(self):
+        tf = texOf([(128, 128, 128, 128)])
+        FRB.CppMaterialBandRemapFilter([Band(128, 0)], channel = 4).transform(tf)
+        self.assertEqual(tf.getPixels(), bytes([128, 128, 128, 128]))

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_texture_roles_1_1_role" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::TextureRoles::Role</compoundname>
+    <includes refid="_texture_roles_8h" local="no">TextureRoles.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_roles_1_1_role_1aba72f53c5000d23a8fabe408f1466383" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::TextureRoles::Role::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>AGRemapCore::TextureRoles::Role::role</qualifiedname>
+        <briefdescription>
+<para>The role, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>bodyDiffuse</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" line="69" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_roles_1_1_role_1ab78964b00b06eca8f4207910b5bb6f32" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::TextureRoles::Role::how</definition>
+        <argsstring></argsstring>
+        <name>how</name>
+        <qualifiedname>AGRemapCore::TextureRoles::Role::how</qualifiedname>
+        <briefdescription>
+<para>How it was decided, for the log. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" line="74" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The roles one file plays, and how each was decided -- a file plays EVERY role the
+``.ini`` binds it for, since one atlas can serve two components
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" line="65" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" bodystart="65" bodyend="75"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_texture_roles_1_1_role_1ab78964b00b06eca8f4207910b5bb6f32" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureRoles::Role</scope><name>how</name></member>
+      <member refid="struct_a_g_remap_core_1_1_texture_roles_1_1_role_1aba72f53c5000d23a8fabe408f1466383" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureRoles::Role</scope><name>role</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

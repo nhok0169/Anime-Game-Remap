@@ -12,8 +12,10 @@
 // ##### EndCredits
 
 #include "AGRemapCore/tools/files/FileService.h"
+#include "AGRemapCore/constants/FileSuffixes.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 
+#include <algorithm>
 #include <filesystem>
 #include <optional>
 #include <utility>
@@ -121,6 +123,20 @@ namespace AGRemapCore {
         return StringTools::startsWith(StringTools::toLower(name), FilePrefixes::DisabledPrefix);
     }
 
+    bool IniNamingTools::isRemapCopyFile(const std::string& file) {
+        const std::string low = StringTools::toLower(FileService::pathToStr(FileService::strToPath(file).filename()));
+        const std::string ext = StringTools::toLower(FileExt::Ini);
+        if (!StringTools::endsWith(low, ext)) {
+            return false;
+        }
+
+        const std::string stem = low.substr(0, low.size() - ext.size());
+        const std::string suffix = StringTools::toLower(FileSuffixes::RemapFixCopy);
+        const std::size_t at = stem.rfind(suffix);
+        return at != std::string::npos
+            && stem.find_first_not_of("0123456789", at + suffix.size()) == std::string::npos;
+    }
+
 
     std::string IniNamingTools::getRegTag(const std::string& reg) {
         std::string out;
@@ -148,6 +164,68 @@ namespace AGRemapCore {
         return name;
     }
 
+    bool IniNamingTools::sameKey(const std::string& key1, const std::string& key2) {
+        const auto loose = [](const std::string& key) {
+            std::string out = StringTools::toLower(key);
+            std::replace(out.begin(), out.end(), '\\', '/');
+            return out;
+        };
+        return loose(key1) == loose(key2);
+    }
+
+    namespace {
+        bool isVarChar(char c) {
+            return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';
+        }
+
+        // Each `$name` in 'text' through 'visit(start, end, name)', where [start, end) spans the `$name`. A
+        // namespaced reference (`$\ns\name`) is skipped: its `$` is followed by a backslash.
+        template <typename Visit>
+        void forEachVar(const std::string& text, Visit&& visit) {
+            for (std::size_t i = 0; i < text.size(); ++i) {
+                if (text[i] != '$' || i + 1 >= text.size() || !isVarChar(text[i + 1])) {
+                    continue;
+                }
+
+                std::size_t end = i + 1;
+                while (end < text.size() && isVarChar(text[end])) {
+                    ++end;
+                }
+                visit(i, end, text.substr(i + 1, end - i - 1));
+                i = end - 1;
+            }
+        }
+    }
+
+    std::vector<std::string> IniNamingTools::varsIn(const std::string& text) {
+        std::vector<std::string> result;
+        forEachVar(text, [&result](std::size_t, std::size_t, const std::string& name) {
+            result.push_back(StringTools::toLower(name));
+        });
+        return result;
+    }
+
+    std::string IniNamingTools::renameVars(const std::string& text, const std::map<std::string, std::string>& renames) {
+        std::string result;
+        std::size_t copied = 0;
+        forEachVar(text, [&](std::size_t start, std::size_t end, const std::string& name) {
+            const auto found = renames.find(StringTools::toLower(name));
+            if (found == renames.end()) {
+                return;
+            }
+            result += text.substr(copied, start - copied) + "$" + found->second;
+            copied = end;
+        });
+        return copied == 0 ? text : result + text.substr(copied);
+    }
+
+    std::string IniNamingTools::boundResource(const std::optional<std::string>& value) {
+        if (!value.has_value() || value->empty() || StringTools::equalsIgnoreCase(*value, IniKeywords::Null)) {
+            return "";
+        }
+        return *value;
+    }
+
     std::string IniNamingTools::removeRefPrefix(const std::string& value) {
         const std::string_view stripped = StringTools::strip(value);
 
@@ -162,9 +240,13 @@ namespace AGRemapCore {
         return std::string(StringTools::strip(stripped.substr(prefix.size())));
     }
 
-    bool IniNamingTools::hasRefPrefix(const std::string& value) {
+    bool IniNamingTools::hasKeywordPrefix(const std::string& value, const std::string& keyword) {
         return StringTools::startsWith(
-            StringTools::toLower(std::string(StringTools::lstrip(value))), IniKeywords::Ref + " ");
+            StringTools::toLower(std::string(StringTools::lstrip(value))), StringTools::toLower(keyword) + " ");
+    }
+
+    bool IniNamingTools::isDownloadFile(const std::string& path) {
+        return FileService::pathToStr(FileService::strToPath(path).filename()).find(IniKeywords::RemapDL) != std::string::npos;
     }
 
     std::string IniNamingTools::getRemapElementName(const std::string& name, const std::string& elementName, const std::string& modName) {

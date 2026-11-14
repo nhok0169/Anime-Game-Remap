@@ -46,6 +46,7 @@
     <innerdir refid="dir_7331e6bdd2535bb68786b1a2c8379a99">include/AGRemapCore/data/IniFixData/LumineHeaven</innerdir>
     <innerdir refid="dir_d9280e6f373ac4500748406848404846">include/AGRemapCore/data/IniFixData/Lynae</innerdir>
     <innerdir refid="dir_c201e0d3ae39a4f2e32bf198c2eaf82d">include/AGRemapCore/data/IniFixData/LynaePeppermint</innerdir>
+    <innerdir refid="dir_850504f2293095856fa10940408330de">include/AGRemapCore/data/IniFixData/Miyabi</innerdir>
     <innerdir refid="dir_51831c5eb17d14b6b1e155442fb0ff32">include/AGRemapCore/data/IniFixData/Mona</innerdir>
     <innerdir refid="dir_a74f4936aa2782804106f1404d9582bd">include/AGRemapCore/data/IniFixData/MonaCN</innerdir>
     <innerdir refid="dir_4e7d35cbb098e6a9ef732c5812669f47">include/AGRemapCore/data/IniFixData/Neuvillette</innerdir>
@@ -74,12 +75,13 @@
     <innerfile refid="_g_i_m_i_component_fixer_8h">GIMIComponentFixer.h</innerfile>
     <innerfile refid="_g_i_m_i_merge_fixer_8h">GIMIMergeFixer.h</innerfile>
     <innerfile refid="_jean_shading_8h">JeanShading.h</innerfile>
-    <innerfile refid="_mod_branches_8h">ModBranches.h</innerfile>
     <innerfile refid="_reg_val_checks_8h">RegValChecks.h</innerfile>
     <innerfile refid="_side_meshes_8h">SideMeshes.h</innerfile>
+    <innerfile refid="_template_fixer_8h">TemplateFixer.h</innerfile>
     <innerfile refid="_tex_fx_layout_8h">TexFxLayout.h</innerfile>
     <innerfile refid="_tex_reg_layout_8h">TexRegLayout.h</innerfile>
     <innerfile refid="_w_w_m_i_fixer_8h">WWMIFixer.h</innerfile>
+    <innerfile refid="_z_z_m_i_fixer_8h">ZZMIFixer.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

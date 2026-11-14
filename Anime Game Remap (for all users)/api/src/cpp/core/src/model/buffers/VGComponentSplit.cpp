@@ -448,6 +448,53 @@ namespace AGRemapCore {
     }
 
 
+    ByteVec VGComponentSplit::offsetPositionLine(const ByteVec& line, const std::array<float, 3>& offset,
+                                                 const std::array<float, 2>& fade) {
+        ByteVec out = line;
+        if (out.size() < 3 * sizeof(float)) {
+            return out;
+        }
+
+        // Scaled by the ORIGINAL height, read before any axis is written back.
+        float scale = 1.0f;
+        if (fade[1] > fade[0]) {
+            float y = 0.0f;
+            std::memcpy(&y, out.data() + sizeof(float), sizeof(float));
+            scale = (fade[1] - y) / (fade[1] - fade[0]);
+            scale = std::min(1.0f, std::max(0.0f, scale));
+        }
+
+        for (std::size_t axis = 0; axis < 3; ++axis) {
+            float value = 0.0f;
+            std::memcpy(&value, out.data() + axis * sizeof(float), sizeof(float));
+            value += offset[axis] * scale;
+            std::memcpy(out.data() + axis * sizeof(float), &value, sizeof(float));
+        }
+        return out;
+    }
+
+
+    ByteVec VGComponentSplit::fitTexcoordLine(const ByteVec& line, std::size_t width, bool neutralColour, bool zeroSecondUV) {
+        ByteVec out = line;
+
+        // The width FIRST, so the edits below see the final line.
+        if (width != 0 && out.size() != width) {
+            out.resize(width, static_cast<std::uint8_t>(0));
+        }
+
+        if (neutralColour && out.size() >= 3) {
+            out[1] = 128;
+            out[2] = 128;
+        }
+
+        if (zeroSecondUV && out.size() >= 20) {
+            std::fill(out.begin() + 12, out.begin() + 20, static_cast<std::uint8_t>(0));
+        }
+
+        return out;
+    }
+
+
     VGComponentBuffers VGComponentSplit::splitNegative(const VGComponentSpec& spec) const {
         Membership member = membership(spec, true);
         VGComponentBuffers result;

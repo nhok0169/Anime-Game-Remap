@@ -282,6 +282,36 @@ namespace AGRemapCore {
             bool trackKeysGlobal = false;
 
             /**
+             * @brief
+             @rst
+             Whether the FIRST entry of \ref edits applies in every group, instead of each entry in the group of its own
+             index -- as :cpp:member:`ResRegCollect::everyGroup`. What it is for: an edit on an object wherever it lands,
+             written before the number of groups is known (eg. a step of a fixer's list, whose remap makes the groups).
+             **Default**: ``false``
+             @endrst
+             */
+            bool everyGroup = false;
+
+            /**
+             * @brief
+             @rst
+             Objects a graph of any of which, in ANY group, is what lets the edit run: nothing is edited when no group holds
+             one -- eg. a parser's marker graph for something only some mods have, so a list that is the same for every mod
+             edits only those. As :cpp:member:`GraphCreate::onlyWith`. Empty (the default) always runs
+             @endrst
+             */
+            std::vector<ModObj> onlyWith;
+
+            /**
+             * @brief
+             @rst
+             Objects a graph of any of which, in ANY group, stops the edit: nothing is edited when one is there. As
+             :cpp:member:`GraphCreate::onlyWithout`. Empty (the default) always runs
+             @endrst
+             */
+            std::vector<ModObj> onlyWithout;
+
+            /**
              * @brief Constructs a new graph-group edit
              *
              * @param edits The edits to make, one entry per .ini file

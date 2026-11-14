@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <map>
 #include <optional>
 #include <string>
 #include <utility>
@@ -88,19 +89,86 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Whether a register binding names its resource `section`_ with the ``ref`` prefix
-             :raw-html:`<br />` :raw-html:`<br />`
+             Whether two keys of a `section`_ are the same key as a mod's author may write it: without regard to case,
+             as ``3dmigoto`` reads a key, and with ``\\`` and ``/`` alike in a namespaced key (``Resource\\RabbitFX\\Lightmap``
+             is spelled with either) :raw-html:`<br />` :raw-html:`<br />`
 
-             The companion of \ref removeRefPrefix, for a caller that has to tell the two spellings
-             APART rather than read through them -- a mod that binds one register both ways means
-             two different things by it
+             An exact comparison that misses such a key reads exactly like a mod that binds nothing there
+             @endrst
+             *
+             * @param key1 A key
+             * @param key2 Another key
+             *
+             * @return Whether they are the same key
+             */
+            static bool sameKey(const std::string& key1, const std::string& key2);
+
+            /**
+             * @brief
+             @rst
+             The `3DMigoto`_ variables a line of an ``.ini`` names -- each ``$name`` in a key, a value or an ``if``
+             condition -- by name, lower-cased (`3DMigoto`_'s names are case-insensitive), in the order they appear. A
+             namespaced reference (``$\\ns\\name``) belongs to another file and is not one of them
+             @endrst
+             *
+             * @param text The line, or a part of it
+             *
+             * @return The names, without the ``$``
+             */
+            static std::vector<std::string> varsIn(const std::string& text);
+
+            /**
+             * @brief
+             @rst
+             'text' with each variable 'renames' names renamed -- see #varsIn for which ``$name`` count
+             @endrst
+             *
+             * @param text The line, or a part of it
+             * @param renames A variable's lower-cased name -> its new name, both without the ``$``
+             *
+             * @return The renamed text; 'text' itself when it names none of them
+             */
+            static std::string renameVars(const std::string& text, const std::map<std::string, std::string>& renames);
+
+            /**
+             * @brief
+             @rst
+             The resource a register's value binds: the value itself, or empty when there is no value or it is ``null``
+             (which unbinds the register)
+             @endrst
+             *
+             * @param value The register's value, if it has one
+             *
+             * @return The resource, or empty
+             */
+            static std::string boundResource(const std::optional<std::string>& value);
+
+            /**
+             * @brief
+             @rst
+             Whether a register's value is a 3dmigoto statement opening with 'keyword' -- ``ref``,
+             :cpp:member:`IniKeywords::Copy`, :cpp:member:`IniKeywords::CopyDesc` -- rather than a resource
+             name, ignoring case and leading whitespace :raw-html:`<br />` :raw-html:`<br />`
+
+             With :cpp:member:`IniKeywords::Ref` it is the companion of \ref removeRefPrefix, for a
+             caller that has to tell ``ref X`` and ``X`` APART rather than read through them
              @endrst
              *
              * @param value The value of the register binding
-             *
-             * @return Whether it carries the prefix
+             * @param keyword The statement's keyword
              */
-            static bool hasRefPrefix(const std::string& value);
+            static bool hasKeywordPrefix(const std::string& value, const std::string& keyword);
+
+            /**
+             * @brief
+             @rst
+             Whether a file is one the library DOWNLOADS rather than one a mod ships: its name
+             carries :cpp:member:`IniKeywords::RemapDL`
+             @endrst
+             *
+             * @param path The file's path
+             */
+            static bool isDownloadFile(const std::string& path);
 
             /**
              * @brief
@@ -365,25 +433,6 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Retrieves the new name of the `section`_ for a new mod object :raw-html:`<br />`
-             :raw-html:`<br />`
-
-             Finds the LAST case-insensitive occurrence of ``{objName.first}{objName.second}``
-             (each part capitalized, see :cpp:func:`AGRemapCore::TextTools::capitalize`) within 'name' and replaces it with
-             ``{newObjName.first}{newObjName.second}`` (also capitalized); if not found, falls back
-             to #getRemapFixName with 'modName' extended by the new object's name instead
-             @endrst
-             *
-             * @param name The name of the `section`_
-             * @param modName The name of the mod to be fixed
-             * @param objName The (component, object) name pair for the original mod object for the `section`_
-             * @param newObjName The (component, object) name pair for the new mod object for the `section`_
-             *
-             * @return The new name for the `section`_
-             */
-            /**
-             * @brief
-             @rst
              Whether 'name' names something a modder has turned OFF -- see
              :cpp:member:`FilePrefixes::DisabledPrefix` :raw-html:`<br />` :raw-html:`<br />`
 
@@ -401,6 +450,23 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether 'file' is an ``.ini`` file a fix GENERATED beside the mod's own: ``<name>RemapFix<N>.ini``
+             (:cpp:member:`FileSuffixes::RemapFixCopy`, then only digits), see :cpp:func:`IniFileFixContext::fixedFilePath`
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Case-insensitive, and only the LAST ``RemapFix`` in the name counts, so a mod's own file that merely
+             contains the word (``MyRemapFixes.ini``) is not taken for a copy
+             @endrst
+             *
+             * @param file The file's name or path
+             *
+             * @return Whether 'file' is a generated copy
+             */
+            static bool isRemapCopyFile(const std::string& file);
+
+            /**
+             * @brief
+             @rst
              A register as it is spelled inside a `section`_ NAME: ``ps-t0`` -> ``Pst0``
              :raw-html:`<br />` :raw-html:`<br />`
 
@@ -414,6 +480,25 @@ namespace AGRemapCore {
              */
             static std::string getRegTag(const std::string& reg);
 
+            /**
+             * @brief
+             @rst
+             Retrieves the new name of the `section`_ for a new mod object :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Finds the LAST case-insensitive occurrence of ``{objName.first}{objName.second}``
+             (each part capitalized, see :cpp:func:`AGRemapCore::TextTools::capitalize`) within 'name' and replaces it with
+             ``{newObjName.first}{newObjName.second}`` (also capitalized); if not found, falls back
+             to #getRemapFixName with 'modName' extended by the new object's name instead
+             @endrst
+             *
+             * @param name The name of the `section`_
+             * @param modName The name of the mod to be fixed
+             * @param objName The (component, object) name pair for the original mod object for the `section`_
+             * @param newObjName The (component, object) name pair for the new mod object for the `section`_
+             *
+             * @return The new name for the `section`_
+             */
             static std::string getObjRemapFixName(const std::string& name, const std::string& modName,
                                                    const std::pair<std::string, std::string>& objName,
                                                    const std::pair<std::string, std::string>& newObjName);

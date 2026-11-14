@@ -3,7 +3,6 @@
   <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute" kind="struct" language="C++" prot="public">
     <compoundname>AGRemapCore::WWMIFixerConfig::DrawReroute</compoundname>
     <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
-    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask" prot="public">AGRemapCore::WWMIFixerConfig::DrawReroute::FlagMask</innerclass>
     <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -19,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="620" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="620" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="806" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="806" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -39,81 +38,25 @@ it is drawn from the mod&apos;s own ``.ini`` (give it ``sameFileSection``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="629" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="629" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="815" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="815" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a0c5c56518bebc7baf13f50a23b602c7d" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a5ccbbe5b6db0579d5b9527ce20fa8057" prot="public" static="no" mutable="no">
         <type>std::string</type>
-        <definition>std::string AGRemapCore::WWMIFixerConfig::DrawReroute::codeRole</definition>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::DrawReroute::split</definition>
         <argsstring></argsstring>
-        <name>codeRole</name>
-        <qualifiedname>AGRemapCore::WWMIFixerConfig::DrawReroute::codeRole</qualifiedname>
-        <briefdescription>
-<para>The role of the material-code map, among <computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" kindref="member">from</ref></computeroutput>&apos;s textures, that marks the draws. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="633" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="633" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aea876c752e4c16f99f50dc9296cf4f95" prot="public" static="no" mutable="no">
-        <type>int</type>
-        <definition>int AGRemapCore::WWMIFixerConfig::DrawReroute::flags</definition>
-        <argsstring></argsstring>
-        <name>flags</name>
-        <qualifiedname>AGRemapCore::WWMIFixerConfig::DrawReroute::flags</qualifiedname>
-        <initializer>= 0</initializer>
+        <name>split</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::DrawReroute::split</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The flag bits that mark a texel: a draw goes when more than :cpp:member:`share` of the
-texels under its vertices carry any of them
+The :cpp:member:`WWMIParserConfig::drawSplits` entry whose draws go: its
+:cpp:member:`WWMIParserConfig::DrawSplit::name`
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="641" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="641" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a4656fbb0e665c0e5ab620e1efa3b47b2" prot="public" static="no" mutable="no">
-        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask" kindref="compound">FlagMask</ref></type>
-        <definition>FlagMask AGRemapCore::WWMIFixerConfig::DrawReroute::sourceFlags</definition>
-        <argsstring></argsstring>
-        <name>sourceFlags</name>
-        <qualifiedname>AGRemapCore::WWMIFixerConfig::DrawReroute::sourceFlags</qualifiedname>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para><verbatim>embed:rst 
-The SOURCE&apos;s own game code map of :cpp:member:`codeRole`, as a :cpp:struct:`FlagMask`,
-for a mod that binds no code map of its own for that role: such a mod draws with the
-game&apos;s map on its own character, so that map decides which of its draws carry the
-flags. **Default**: empty, and such a mod&apos;s component is left whole
-</verbatim> </para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="677" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="677" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a700d5c2ae3fe68e796bc5d6a163fee99" prot="public" static="no" mutable="no">
-        <type>double</type>
-        <definition>double AGRemapCore::WWMIFixerConfig::DrawReroute::share</definition>
-        <argsstring></argsstring>
-        <name>share</name>
-        <qualifiedname>AGRemapCore::WWMIFixerConfig::DrawReroute::share</qualifiedname>
-        <initializer>= 0.5</initializer>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para><verbatim>embed:rst 
-The share of a draw&apos;s texels that must carry :cpp:member:`flags` for the draw to go, eg.
-``0.01`` to take a draw that holds any real amount of the flagged material among others.
-**Default**: ``0.5``, more than half
-</verbatim> </para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="687" column="20" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="687" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="824" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="824" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -121,27 +64,11 @@ The share of a draw&apos;s texels that must carry :cpp:member:`flags` for the dr
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <collaborationgraph>
-      <node id="1">
-        <label>AGRemapCore::WWMIFixerConfig::DrawReroute</label>
-        <link refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute"/>
-        <childnode refid="2" relation="usage">
-          <edgelabel>sourceFlags</edgelabel>
-        </childnode>
-      </node>
-      <node id="2">
-        <label>AGRemapCore::WWMIFixerConfig::DrawReroute::FlagMask</label>
-        <link refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask"/>
-      </node>
-    </collaborationgraph>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="616" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="616" bodyend="688"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="802" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="802" bodyend="825"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>as</name></member>
-      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a0c5c56518bebc7baf13f50a23b602c7d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>codeRole</name></member>
-      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aea876c752e4c16f99f50dc9296cf4f95" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>flags</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>from</name></member>
-      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a700d5c2ae3fe68e796bc5d6a163fee99" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>share</name></member>
-      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a4656fbb0e665c0e5ab620e1efa3b47b2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>sourceFlags</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a5ccbbe5b6db0579d5b9527ce20fa8057" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>split</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

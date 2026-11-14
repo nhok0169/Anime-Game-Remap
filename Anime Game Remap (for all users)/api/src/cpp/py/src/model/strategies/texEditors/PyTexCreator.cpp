@@ -15,6 +15,7 @@
 
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include "AGRemapCore/model/strategies/texEditors/BaseTexEditor.h"
+#include "PyTexEditorTrampoline.h"
 #include "AGRemapCore/model/textures/Colour.h"
 
 namespace py = pybind11;
@@ -22,7 +23,7 @@ namespace AGRC = AGRemapCore;
 
 
 void initCppTexCreator(pybind11::module_ &m) {
-    py::class_<AGRC::TexCreator, AGRC::BaseTexEditor, py::smart_holder>(m, "CppTexCreator", R"doc(
+    py::class_<AGRC::TexCreator, PyTexEditorTrampoline<AGRC::TexCreator>, AGRC::BaseTexEditor, py::smart_holder>(m, "CppTexCreator", R"doc(
 This class inherits from :class:`CppBaseTexEditor`
 
 Creates a brand new ``.dds`` file if the file does not already exist

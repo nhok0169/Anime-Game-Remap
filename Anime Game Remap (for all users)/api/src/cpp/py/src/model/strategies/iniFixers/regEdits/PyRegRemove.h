@@ -27,48 +27,12 @@ namespace AGRC = AGRemapCore;
 /**
  * @brief
  @rst
- The `pybind11`_-facing subclass of `AGRC::RegRemove`\\<py::object, py::object\\> -- holds the
- exact `Python`_ ``dict`` given for ``removeKeys``, for the same reason `PyRegAdd` holds its own
- list (see that class's note) :raw-html:`<br />` :raw-html:`<br />`
-
- .. note::
-    Keeping the original ``dict`` matters more here than for the other reg edits: this one's
-    values are `Python`_ callables, and `pybind11`_ cannot hand a ``std::function`` back to
-    `Python`_ as the *same* callable it was built from -- it re-wraps it in a fresh
-    ``cpp_function``. Reconstructing the ``dict`` from the parsed C++ member would therefore
-    quietly break both ``someEdit.removeKeys is theDictYouPassed`` and
-    ``someEdit.removeKeys["a"] is thePredicateYouPassed``
+ The `Python`_ ``RegRemove`` is :cpp:class:`AGRemapCore::RegRemove` itself: its ``removeKeys`` argument is parsed into the
+ C++ member when it is built or set, and read back from it -- so one built in `Python`_ runs in a C++ fixer's list, and one
+ built in C++ reads in `Python`_ as a ``RegRemove``
  @endrst
  */
-class PyRegRemove: public AGRC::RegRemove<std::string, std::string> {
-    public:
-
-        /**
-         * @brief The C++ core class this wraps
-         */
-        using Core = AGRC::RegRemove<std::string, std::string>;
-
-        /**
-         * @brief
-         @rst
-         The exact `Python`_ object given for ``removeKeys`` -- a ``dict`` of key -> optional
-         check predicate
-         @endrst
-         */
-        py::object removeKeysObj;
-
-        /**
-         * @brief Constructs a new bulk key-removing register edit
-         *
-         * @param removeKeysObj The Python dict of key -> optional check predicate
-         */
-        explicit PyRegRemove(py::object removeKeysObj);
-
-        /**
-         * @copydoc PyRegAdd::refresh
-         */
-        void refresh(const py::object &modType);
-};
+using PyRegRemove = AGRC::RegRemove<std::string, std::string>;
 
 
 void initCppRegRemove(pybind11::module_ &m);

@@ -46,6 +46,7 @@
     <innerdir refid="dir_79782ccf31522c62340b7bb330e0f076">src/data/IniFixData/LumineHeaven</innerdir>
     <innerdir refid="dir_3827fea9b2450fe2ac4771b9d1f0e1ed">src/data/IniFixData/Lynae</innerdir>
     <innerdir refid="dir_5d692d694cb04d09a60e093908182114">src/data/IniFixData/LynaePeppermint</innerdir>
+    <innerdir refid="dir_ca50516e08d78300afc1d744bc1a0cbd">src/data/IniFixData/Miyabi</innerdir>
     <innerdir refid="dir_0f276ca38dafcc3dcc40a33a1cdb7007">src/data/IniFixData/Mona</innerdir>
     <innerdir refid="dir_605b4137314663323ca47a3cc7379050">src/data/IniFixData/MonaCN</innerdir>
     <innerdir refid="dir_86e3de239d8f3c8e914a04fb8473dfb7">src/data/IniFixData/Neuvillette</innerdir>
@@ -74,12 +75,13 @@
     <innerfile refid="_g_i_m_i_component_fixer_8cpp">GIMIComponentFixer.cpp</innerfile>
     <innerfile refid="_g_i_m_i_merge_fixer_8cpp">GIMIMergeFixer.cpp</innerfile>
     <innerfile refid="_jean_shading_8cpp">JeanShading.cpp</innerfile>
-    <innerfile refid="_mod_branches_8cpp">ModBranches.cpp</innerfile>
     <innerfile refid="_reg_val_checks_8cpp">RegValChecks.cpp</innerfile>
     <innerfile refid="_side_meshes_8cpp">SideMeshes.cpp</innerfile>
+    <innerfile refid="_template_fixer_8cpp">TemplateFixer.cpp</innerfile>
     <innerfile refid="_tex_fx_layout_8cpp">TexFxLayout.cpp</innerfile>
     <innerfile refid="_tex_reg_layout_8cpp">TexRegLayout.cpp</innerfile>
     <innerfile refid="_w_w_m_i_fixer_8cpp">WWMIFixer.cpp</innerfile>
+    <innerfile refid="_z_z_m_i_fixer_8cpp">ZZMIFixer.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

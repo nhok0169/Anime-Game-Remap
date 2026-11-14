@@ -1,0 +1,796 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_w_w_m_i_blend" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIBlend</compoundname>
+    <includes refid="_w_w_m_i_blend_8h" local="no">WWMIBlend.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_layout" prot="public">AGRemapCore::WWMIBlend::Layout</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift" prot="public">AGRemapCore::WWMIBlend::LegacyLift</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_remap_files" prot="public">AGRemapCore::WWMIBlend::RemapFiles</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_w_w_m_i_blend_1a22e8b6c4a4cdeb4a6a8c8925ee86d086" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uintmax_t</type>
+        <definition>std::uintmax_t AGRemapCore::WWMIBlend::PositionStride</definition>
+        <argsstring></argsstring>
+        <name>PositionStride</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::PositionStride</qualifiedname>
+        <initializer>= 12</initializer>
+        <briefdescription>
+<para>The bytes per vertex of a WWMI <computeroutput>Position.buf</computeroutput>: three 32-bit floats. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="130" column="45" bodyfile="include/AGRemapCore/model/buffers/WWMIBlend.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_w_w_m_i_blend_1a73abce626a8af0f5b01e0767da7df8a8" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>long long</type>
+        <definition>long long AGRemapCore::WWMIBlend::MaxByteBone</definition>
+        <argsstring></argsstring>
+        <name>MaxByteBone</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::MaxByteBone</qualifiedname>
+        <initializer>= 255</initializer>
+        <briefdescription>
+<para>The highest bone a one-byte blend id can name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="135" column="40" bodyfile="include/AGRemapCore/model/buffers/WWMIBlend.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_w_w_m_i_blend_1a17baa4f0834b73f86111b035fee60fdb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::WWMIBlend::RemapSize</definition>
+        <argsstring></argsstring>
+        <name>RemapSize</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::RemapSize</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>The entries in one WWMI blend remap. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="140" column="42" bodyfile="include/AGRemapCore/model/buffers/WWMIBlend.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_blend_1acca6af907578b0570564db52133e77c6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; BufElementType &gt; &gt; AGRemapCore::WWMIBlend::blendElements</definition>
+        <argsstring>(std::size_t influences)</argsstring>
+        <name>blendElements</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::blendElements</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>influences</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The elements of a WWMI `blend`_ line: &apos;influences&apos; one-byte ids under
+:cpp:member:`BlendFile::BlendIndicesKey`, then &apos;influences&apos; one-byte weights under
+:cpp:member:`BlendFile::BlendWeightKey`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>influences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How many (id, weight) slots each vertex carries</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The elements </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="154" column="32" bodyfile="src/model/buffers/WWMIBlend.cpp" bodystart="90" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_blend_1a7d3ae392d8bfaf4d02e9bf3c0daa417c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; BufElementType &gt; &gt; AGRemapCore::WWMIBlend::vertexVGElements</definition>
+        <argsstring>(std::size_t influences)</argsstring>
+        <name>vertexVGElements</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::vertexVGElements</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>influences</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The elements of a ``BlendRemapVertexVG.buf`` line: &apos;influences&apos; 16-bit ids under
+:cpp:member:`BlendFile::BlendIndicesKey`, and no weights
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>influences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How many ids each vertex carries</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The elements </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="167" column="32" bodyfile="src/model/buffers/WWMIBlend.cpp" bodystart="102" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_blend_1ad822a6f9eadb4f871d92af96a134bbd7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_layout" kindref="compound">Layout</ref> &gt;</type>
+        <definition>std::optional&lt; WWMIBlend::Layout &gt; AGRemapCore::WWMIBlend::layoutOf</definition>
+        <argsstring>(const std::string &amp;blendPath, const std::string &amp;positionPath)</argsstring>
+        <name>layoutOf</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::layoutOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blendPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>positionPath</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The vertex count and influences per vertex the two buffers&apos; SIZES imply
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blendPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s <computeroutput>Blend.buf</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>positionPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Its <computeroutput>Position.buf</computeroutput>, which gives the vertex count</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The layout, or <computeroutput>std::nullopt</computeroutput> when the sizes imply none: no vertices, a blend that does not divide by them, or an odd number of bytes per vertex </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="181" column="34" bodyfile="src/model/buffers/WWMIBlend.cpp" bodystart="111" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_blend_1a710b41128634eec352e3671c635efa10" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::WWMIBlend::influencesOf</definition>
+        <argsstring>(const std::string &amp;blendPath, long long vertices, const std::string &amp;positionPath, std::size_t fallback=4)</argsstring>
+        <name>influencesOf</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::influencesOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blendPath</declname>
+        </param>
+        <param>
+          <type>long long</type>
+          <declname>vertices</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>positionPath</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>fallback</declname>
+          <defval>4</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How many influences a vertex of the mod&apos;s blend carries -- :cpp:func:`layoutOf`&apos;s
+answer, else the blend&apos;s size over &apos;vertices&apos;, else &apos;fallback&apos;
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blendPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s <computeroutput>Blend.buf</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vertex count the mod declares, used only when the <computeroutput>Position.buf</computeroutput> does not answer. Zero or less for none </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>positionPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Its <computeroutput>Position.buf</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fallback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The answer when nothing else gives one. <bold>Default</bold>: <computeroutput>4</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The influences per vertex </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="198" column="32" bodyfile="src/model/buffers/WWMIBlend.cpp" bodystart="131" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_blend_1ab623cf18c13b6dbb16d95a238bb8a28e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; AGRemapCore::WWMIBlend::componentOfVertex</definition>
+        <argsstring>(const std::string &amp;indexPath, const std::map&lt; int, std::vector&lt; std::pair&lt; long long, long long &gt; &gt; &gt; &amp;drawRanges, std::size_t vertices)</argsstring>
+        <name>componentOfVertex</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::componentOfVertex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>indexPath</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; int, std::vector&lt; std::pair&lt; long long, long long &gt; &gt; &gt; &amp;</type>
+          <declname>drawRanges</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>vertices</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which source component draws each vertex, off the mod&apos;s own draw ranges over its index
+buffer -- ``-1`` for a vertex no range draws. Where two ranges reach one vertex, the
+later component in &apos;drawRanges&apos; wins
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>indexPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s index buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>drawRanges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>source component -&gt; the (index count, first index) of each of its draws </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How many vertices the mesh has</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>One component per vertex </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="215" column="32" bodyfile="src/model/buffers/WWMIBlend.cpp" bodystart="153" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_blend_1a7b1ab951badaaff0fd2fb1034538a4e4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::WWMIBlend::remapThroughVertexVG</definition>
+        <argsstring>(const std::string &amp;blendPath, const std::string &amp;fixedPath, const std::string &amp;vertexVGPath, const std::string &amp;positionPath, const VGRemap &amp;row)</argsstring>
+        <name>remapThroughVertexVG</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::remapThroughVertexVG</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blendPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fixedPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>vertexVGPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>positionPath</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Remaps the blend of a mod whose skeleton passes 256 bones: each weighted slot&apos;s id is
+read from its ``BlendRemapVertexVG.buf`` (the one-byte id in the blend is only an index
+into the mod&apos;s blend remap) and sent through &apos;row&apos;. The weights are kept
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blendPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s <computeroutput>Blend.buf</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where the remapped blend is written </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vertexVGPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s <computeroutput>BlendRemapVertexVG.buf</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>positionPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Its <computeroutput>Position.buf</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vertex group remap </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="233" column="25" bodyfile="src/model/buffers/WWMIBlend.cpp" bodystart="183" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_blend_1a0e36e88c977752221481dee813ef5bf2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::WWMIBlend::liftLegacy</definition>
+        <argsstring>(const std::string &amp;blendPath, const std::string &amp;fixedPath, const std::string &amp;positionPath, const LegacyLift &amp;legacy, const VGRemap &amp;row)</argsstring>
+        <name>liftLegacy</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::liftLegacy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blendPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fixedPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>positionPath</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift" kindref="compound">LegacyLift</ref> &amp;</type>
+          <declname>legacy</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Remaps the blend of a mod from before WWMI&apos;s merged skeleton: each weighted slot&apos;s id is
+local to the component that draws the vertex (:cpp:func:`componentOfVertex`), so it is
+lifted through that component&apos;s ``vg_map`` and only then sent through &apos;row&apos;. A vertex no
+component with a ``vg_map`` draws is left alone
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blendPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s <computeroutput>Blend.buf</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where the remapped blend is written </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>positionPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Its <computeroutput>Position.buf</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>legacy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s index buffer, draw ranges and <computeroutput>vg_map</computeroutput>\s </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vertex group remap </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="252" column="25" bodyfile="src/model/buffers/WWMIBlend.cpp" bodystart="228" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_blend_1ac77e744fef34188424b873ce0c09f658" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::WWMIBlend::writeRemap</definition>
+        <argsstring>(const std::string &amp;blendPath, const std::string &amp;fixedPath, const std::string &amp;srcVertexVGPath, const std::string &amp;positionPath, const VGRemap &amp;row, const RemapFiles &amp;out, const std::optional&lt; LegacyLift &gt; &amp;legacy=std::nullopt)</argsstring>
+        <name>writeRemap</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::writeRemap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blendPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fixedPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>srcVertexVGPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>positionPath</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_remap_files" kindref="compound">RemapFiles</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift" kindref="compound">LegacyLift</ref> &gt; &amp;</type>
+          <declname>legacy</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Remaps a blend ONTO a character whose merged skeleton passes 256 bones, writing WWMI&apos;s
+blend remap for it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+One remap serves the whole mesh, over the distinct targets &apos;row&apos; names (an entry no
+vertex reaches costs two bytes), so a caller can declare the remap&apos;s bone count from the
+row alone before this runs. The blend gets the LOCAL id each mapped bone has in that
+remap, which is what WWMI&apos;s BlendRemapper writes there at run time, and the weights are
+kept :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The true ids are the mod&apos;s own ``BlendRemapVertexVG.buf`` when it has one, else the
+blend&apos;s, lifted as :cpp:func:`liftLegacy` lifts them when &apos;legacy&apos; is given
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blendPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s <computeroutput>Blend.buf</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where the remapped blend is written </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>srcVertexVGPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s own <computeroutput>BlendRemapVertexVG.buf</computeroutput>, or <computeroutput>""</computeroutput> for none </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>positionPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Its <computeroutput>Position.buf</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vertex group remap </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where the remap&apos;s three buffers are written </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>legacy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s legacy lift, for a mod from before WWMI&apos;s merged skeleton</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>also when &apos;row&apos; maps to a bone a remap of :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1a17baa4f0834b73f86111b035fee60fdb" kindref="member">RemapSize</ref></computeroutput> entries cannot name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="282" column="25" bodyfile="src/model/buffers/WWMIBlend.cpp" bodystart="270" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_blend_1a178f1c924d24542c227c4aae8f91c1b5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::uint16_t &gt;</type>
+        <definition>std::vector&lt; std::uint16_t &gt; AGRemapCore::WWMIBlend::reverseOf</definition>
+        <argsstring>(const VGRemap &amp;row)</argsstring>
+        <name>reverseOf</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::reverseOf</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The reverse map of a blend remap over a row -- merged target bone -&gt; local id -- as
+:cpp:func:`writeRemap` writes it: every distinct target the row names that a remap of
+:cpp:member:`RemapSize` entries can hold, numbered in ascending order. Every other entry is ``0``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vertex group remap</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>:cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1a17baa4f0834b73f86111b035fee60fdb" kindref="member">RemapSize</ref></computeroutput> local ids </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="299" column="32" bodyfile="src/model/buffers/WWMIBlend.cpp" bodystart="465" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_blend_1a9f43cb3d215c8555b970a5b681ce7491" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
+        <definition>ByteVec AGRemapCore::WWMIBlend::componentBlend</definition>
+        <argsstring>(const std::string &amp;blendPath, const std::string &amp;positionPath, long long vgOffset, const std::vector&lt; int &gt; &amp;vgMap, const VGRemap &amp;row, std::size_t outInfluences, std::set&lt; long long &gt; *unmapped=nullptr)</argsstring>
+        <name>componentBlend</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::componentBlend</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blendPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>positionPath</declname>
+        </param>
+        <param>
+          <type>long long</type>
+          <declname>vgOffset</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>vgMap</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>outInfluences</declname>
+        </param>
+        <param>
+          <type>std::set&lt; long long &gt; *</type>
+          <declname>unmapped</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The blend of ONE source component drawn from mesh files of its own -- a ``Blend.buf`` whose ids
+start at the component&apos;s ``vg_offset`` -- remapped into the TARGET&apos;s local ids, as WWMI&apos;s
+BlendRemapper would write them for the main mesh under :cpp:func:`writeRemap`&apos;s remap: each id
+lifted out of the component&apos;s window (``id - vgOffset``) into the source&apos;s merged skeleton through
+&apos;vgMap&apos;, then through &apos;row&apos;, then through :cpp:func:`reverseOf` &apos;row&apos;. So the bytes need no
+compute pass to be right :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Weights are kept. A slot of weight ``0``, and an id the vg map or the row does not place, reads
+local ``0``. The output has ``max(influences, outInfluences)`` slots a vertex -- the extra ones
+empty -- so a narrower source is widened to a target that reads more
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blendPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The component&apos;s <computeroutput>Blend.buf</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>positionPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Its <computeroutput>Position.buf</computeroutput>, which gives the vertex count (:cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1ad822a6f9eadb4f871d92af96a134bbd7" kindref="member">layoutOf</ref></computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vgOffset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The first merged id the component&apos;s window covers </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vgMap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The component&apos;s <computeroutput>vg_map</computeroutput>: component-local bone id -&gt; merged source bone id </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vertex group remap </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outInfluences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The influences a vertex of the target reads </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>unmapped</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filled with the component-local ids that could not be placed, when given</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When the two buffers&apos; sizes imply no layout</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The remapped blend </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="328" column="28" bodyfile="src/model/buffers/WWMIBlend.cpp" bodystart="482" bodyend="529"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Remaps the vertex groups of a Wuthering Waves (WWMI) mod&apos;s `blend`_ buffer :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A WWMI ``Blend.buf`` line is N one-byte bone ids followed by N one-byte weights, where N --
+the influences per vertex -- is a property of the character (four for Sanhua, eight for Chisa)
+and is read off the buffer&apos;s size against its ``Position.buf`` (:cpp:func:`layoutOf`) rather
+than assumed. Three shapes of mod need more than :cpp:func:`BlendFile::remap`:
+
+* a character past 256 merged bones keeps each vertex&apos;s true 16-bit ids in a
+  ``BlendRemapVertexVG.buf`` beside the blend, whose 8-bit ids are then only an index into
+  WWMI&apos;s blend remap -- :cpp:func:`remapThroughVertexVG`
+* a mod from before WWMI&apos;s merged skeleton writes each component&apos;s OWN bone ids, which have to
+  be lifted into the merged skeleton through that component&apos;s ``vg_map`` before the row applies
+  -- :cpp:func:`liftLegacy`
+* a remap ONTO a character past 256 bones has to write WWMI&apos;s own blend remap -- the remapped
+  blend plus its ``VertexVG``, ``Forward`` and ``Reverse`` buffers -- exactly as WWMI Tools
+  writes one for that character&apos;s own mods -- :cpp:func:`writeRemap`
+
+A target whose draws read a different number of influences than the mod carries is met by
+:cpp:func:`BlendFile::setInfluences` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Every function throws ``std::runtime_error`` with the reason when a buffer cannot be read or
+written in the shape asked, so a caller can say which file failed and why
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="62" column="5" bodyfile="include/AGRemapCore/model/buffers/WWMIBlend.h" bodystart="62" bodyend="331"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1acca6af907578b0570564db52133e77c6" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend</scope><name>blendElements</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1a9f43cb3d215c8555b970a5b681ce7491" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend</scope><name>componentBlend</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1ab623cf18c13b6dbb16d95a238bb8a28e" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend</scope><name>componentOfVertex</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1a710b41128634eec352e3671c635efa10" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend</scope><name>influencesOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1ad822a6f9eadb4f871d92af96a134bbd7" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend</scope><name>layoutOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1a0e36e88c977752221481dee813ef5bf2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend</scope><name>liftLegacy</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1a73abce626a8af0f5b01e0767da7df8a8" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend</scope><name>MaxByteBone</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1a22e8b6c4a4cdeb4a6a8c8925ee86d086" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend</scope><name>PositionStride</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1a17baa4f0834b73f86111b035fee60fdb" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend</scope><name>RemapSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1a7b1ab951badaaff0fd2fb1034538a4e4" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend</scope><name>remapThroughVertexVG</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1a178f1c924d24542c227c4aae8f91c1b5" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend</scope><name>reverseOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1a7d3ae392d8bfaf4d02e9bf3c0daa417c" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend</scope><name>vertexVGElements</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_blend_1ac77e744fef34188424b873ce0c09f658" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend</scope><name>writeRemap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

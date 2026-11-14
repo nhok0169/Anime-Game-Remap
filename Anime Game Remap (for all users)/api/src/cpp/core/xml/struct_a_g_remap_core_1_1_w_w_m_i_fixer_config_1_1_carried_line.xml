@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_carried_line" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::CarriedLine</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_carried_line_1af4b619c2fad89a3637cf81ac4fc9f5a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::CarriedLine::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::CarriedLine::condition</qualifiedname>
+        <briefdescription>
+<para>The condition it is set under, reading the fix&apos;s copies of the linked file&apos;s variables; empty for none. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1849" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1849" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_carried_line_1a89fcb4bcd786fe465015558fbe800583" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::CarriedLine::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::CarriedLine::key</qualifiedname>
+        <briefdescription>
+<para>The key it sets (eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_a_g_remap_core_1_1_rabbit_f_x" kindref="compound">RabbitFX</ref>&apos;s glow map); empty for a texture set at the register of <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_carried_line_1af159d6c681d4b97a8925342be3c57c9c" kindref="member">role</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1854" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1854" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_carried_line_1af159d6c681d4b97a8925342be3c57c9c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::CarriedLine::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::CarriedLine::role</qualifiedname>
+        <briefdescription>
+<para>The texture role the parser gave the line&apos;s file, for a line with no <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_carried_line_1a89fcb4bcd786fe465015558fbe800583" kindref="member">key</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1859" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1859" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_carried_line_1a014dc749a0dc0675f1bde20353d8d987" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::CarriedLine::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::CarriedLine::value</qualifiedname>
+        <briefdescription>
+<para>The value: <computeroutput>ref &lt;resource&gt;</computeroutput>, the resource naming the file in this <computeroutput>.ini</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1864" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1864" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The routing flags RabbitFX&apos;s ``SetTextures`` sets on the SOURCE&apos;s own draw of each drawn component that keeps
+RabbitFX (:cpp:member:`SourceComponent::rabbitFX`) and whose sections run ``SetTextures`` -- from what that
+draw has BOUND at ``ps-t0`` .. ``ps-t3``, not from the maps the mod hands RabbitFX. Per register: the mod&apos;s own
+line (unless only a toggle sets it), else the mod&apos;s ``this`` override of the game texture there, else the game
+texture itself (:cpp:member:`SourceComponent::RabbitFX::gameTags`)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The parser&apos;s data of the mod&apos;s <computeroutput>.ini</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What the roles resolve to (<ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a0e426d1d6de387f34992a769db6f1a2a" kindref="member">roleResources</ref>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toggled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(role, component) -&gt; what binds the role outside a toggle (:cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_game_defaults_1a6c1ff79d2dc82a4166789473e88cce7c" kindref="member">GameDefaults::toggled</ref></computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>drawn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Each source component the mod draws (reroutes included) -&gt; its sections </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rerouteFrom</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A reroute that took draws -&gt; the component it took them from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>iniPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s <computeroutput>.ini</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>iniFolder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.ini</computeroutput>&apos;s folder</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Component -&gt; its four flags (:cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1ac74c6108b22de6d1a3c049c3e1620adc" kindref="member">RabbitFX::routingFlags</ref></computeroutput>)<verbatim>embed:rst 
+One line a linked ``.ini`` sets on this file&apos;s draws, as the fix carries it -- see #linkedLines
+</verbatim> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1845" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1845" bodyend="1865"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_carried_line_1af4b619c2fad89a3637cf81ac4fc9f5a4" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::CarriedLine</scope><name>condition</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_carried_line_1a89fcb4bcd786fe465015558fbe800583" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::CarriedLine</scope><name>key</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_carried_line_1af159d6c681d4b97a8925342be3c57c9c" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::CarriedLine</scope><name>role</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_carried_line_1a014dc749a0dc0675f1bde20353d8d987" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::CarriedLine</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

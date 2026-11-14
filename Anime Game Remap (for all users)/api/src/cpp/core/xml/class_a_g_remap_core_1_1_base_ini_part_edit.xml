@@ -7,6 +7,26 @@
     <derivedcompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphPartEdit</derivedcompoundref>
     <includes refid="_base_ini_part_edit_8h" local="no">BaseIniPartEdit.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_part_edit_1acd8a85c8fe1c8c312205e797129d5c36" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; void &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;void&gt; &gt; AGRemapCore::BaseIniPartEdit::owned</definition>
+        <argsstring></argsstring>
+        <name>owned</name>
+        <qualifiedname>AGRemapCore::BaseIniPartEdit::owned</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What the edit borrows that nothing else keeps alive -- eg. the `Python`_ objects an edit built in `Python`_
+holds (its tables, its adapters) -- kept as long as the edit
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="54" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
     <sectiondef kind="public-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -20,7 +40,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="37" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="40" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -28,6 +48,7 @@
         <argsstring>()</argsstring>
         <name>clear</name>
         <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_collect_1a3c713562e17061d3032679949225e575">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
@@ -39,7 +60,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="45" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -59,25 +80,25 @@ Base class for a filter that edits some part of a ``.ini`` file :raw-html:`&lt;b
 </verbatim> </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="21">
+      <node id="29">
         <label>AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
-        <childnode refid="16" relation="public-inheritance">
+        <childnode refid="24" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="17">
+      <node id="25">
         <label>AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
-        <childnode refid="16" relation="public-inheritance">
+        <childnode refid="24" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="18">
+      <node id="26">
         <label>AGRemapCore::BaseIniGraphEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
-        <childnode refid="16" relation="public-inheritance">
+        <childnode refid="24" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
         <childnode refid="1" relation="public-inheritance">
@@ -95,7 +116,7 @@ Base class for a filter that edits some part of a ``.ini`` file :raw-html:`&lt;b
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="16">
+      <node id="24">
         <label>AGRemapCore::BaseIniGraphPartEdit</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
         <childnode refid="1" relation="public-inheritance">
@@ -105,28 +126,54 @@ Base class for a filter that edits some part of a ``.ini`` file :raw-html:`&lt;b
         <label>AGRemapCore::BaseIniPartEdit</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
       </node>
+      <node id="38">
+        <label>AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_reg_edit"/>
+        <childnode refid="24" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_reg_edit"/>
+        <childnode refid="24" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="28">
-        <label>AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_base_reg_edit"/>
-        <childnode refid="16" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="19">
-        <label>AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_base_reg_edit"/>
-        <childnode refid="16" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="20">
         <label>AGRemapCore::BaseRegEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
         <link refid="class_a_g_remap_core_1_1_base_reg_edit"/>
-        <childnode refid="16" relation="public-inheritance">
+        <childnode refid="24" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_collect"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>AGRemapCore::GraphCopy&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_copy"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>AGRemapCore::GraphCreate&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_create"/>
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="8">
-        <label>AGRemapCore::GraphCreate&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <label>AGRemapCore::Section&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_create"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::GraphFilter&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_filter"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="3">
@@ -135,10 +182,10 @@ Base class for a filter that edits some part of a ``.ini`` file :raw-html:`&lt;b
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="9">
+      <node id="14">
         <label>AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_group_edit"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="4">
@@ -147,124 +194,167 @@ Base class for a filter that edits some part of a ``.ini`` file :raw-html:`&lt;b
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="10">
+      <node id="15">
         <label>AGRemapCore::GraphGroupRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_group_remap"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="11">
+      <node id="9">
+        <label>AGRemapCore::GraphGroupRemove&lt; std::string, std::string &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_group_remove"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
         <label>AGRemapCore::GraphGroupRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_group_remove"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="12">
+      <node id="17">
         <label>AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_inherit"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="13">
+      <node id="18">
         <label>AGRemapCore::GraphRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_graph_remove"/>
-        <childnode refid="6" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="22">
-        <label>AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_graph_rename"/>
-        <childnode refid="21" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="29">
-        <label>AGRemapCore::RegAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_reg_add"/>
-        <childnode refid="28" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="30">
-        <label>AGRemapCore::RegAssetRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_reg_asset_remap"/>
-        <childnode refid="28" relation="public-inheritance">
+        <label>AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_rename"/>
+        <childnode refid="29" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="23">
-        <label>AGRemapCore::RegBottomAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_reg_bottom_add"/>
-        <childnode refid="21" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="24">
-        <label>AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_reg_branch_add"/>
-        <childnode refid="21" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="25">
-        <label>AGRemapCore::RegDelimitedAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_reg_delimited_add"/>
-        <childnode refid="21" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="26">
-        <label>AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_reg_fill_missing"/>
-        <childnode refid="21" relation="public-inheritance">
+      <node id="19">
+        <label>AGRemapCore::GraphVarApply&lt;&gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_var_apply"/>
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="31">
-        <label>AGRemapCore::RegNewVals&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_reg_new_vals"/>
-        <childnode refid="28" relation="public-inheritance">
+        <label>AGRemapCore::GraphVarRename&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_var_rename"/>
+        <childnode refid="29" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>AGRemapCore::GraphVarTake&lt;&gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_var_take"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>AGRemapCore::IterGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_iter_graph_group_edit"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>AGRemapCore::RegAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_add"/>
+        <childnode refid="38" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>AGRemapCore::RegAnchorAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_anchor_add"/>
+        <childnode refid="38" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>AGRemapCore::RegAssetRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_asset_remap"/>
+        <childnode refid="38" relation="public-inheritance">
         </childnode>
       </node>
       <node id="32">
-        <label>AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_reg_remap"/>
-        <childnode refid="28" relation="public-inheritance">
+        <label>AGRemapCore::RegBottomAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_bottom_add"/>
+        <childnode refid="29" relation="public-inheritance">
         </childnode>
       </node>
       <node id="33">
-        <label>AGRemapCore::RegRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_reg_remove"/>
-        <childnode refid="28" relation="public-inheritance">
+        <label>AGRemapCore::RegBranchAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_branch_add"/>
+        <childnode refid="29" relation="public-inheritance">
         </childnode>
       </node>
       <node id="34">
+        <label>AGRemapCore::RegDelimitedAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_delimited_add"/>
+        <childnode refid="29" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_fill_missing"/>
+        <childnode refid="29" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_if_template_add"/>
+        <childnode refid="29" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>AGRemapCore::RegNewVals&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_new_vals"/>
+        <childnode refid="38" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_remap"/>
+        <childnode refid="38" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>AGRemapCore::RegRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_remove"/>
+        <childnode refid="38" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="45">
         <label>AGRemapCore::RegRestrict&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_restrict"/>
-        <childnode refid="28" relation="public-inheritance">
+        <childnode refid="38" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="27">
+      <node id="37">
         <label>AGRemapCore::RegSurroundedAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_surrounded_add"/>
-        <childnode refid="21" relation="public-inheritance">
+        <childnode refid="29" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="14">
+      <node id="22">
         <label>AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_res_group_collect"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="7">
+      <node id="10">
         <label>AGRemapCore::GraphId&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
         <link refid="class_a_g_remap_core_1_1_res_group_collect"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="15">
+      <node id="23">
         <label>AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_res_reg_collect"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="35" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" bodystart="35" bodyend="43"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="38" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" bodystart="38" bodyend="55"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniPartEdit</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1acd8a85c8fe1c8c312205e797129d5c36" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniPartEdit</scope><name>owned</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniPartEdit</scope><name>~BaseIniPartEdit</name></member>
     </listofallmembers>
   </compounddef>

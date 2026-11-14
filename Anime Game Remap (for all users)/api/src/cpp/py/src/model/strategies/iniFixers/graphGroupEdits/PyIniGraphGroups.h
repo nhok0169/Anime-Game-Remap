@@ -60,6 +60,45 @@ class PyIniGraphGroups: public AGRC::IIniGraphGroups<std::string, std::string> {
         explicit PyIniGraphGroups(py::list graphGroups);
 
         /**
+         * @brief
+         @rst
+         Hands the graphs in this view's keeping to the keeper of the current #KeepScope, if there is one
+         @endrst
+         */
+        ~PyIniGraphGroups() override;
+
+        /**
+         * @brief
+         @rst
+         While one is alive, a view that ends hands the graphs left in its keeping -- the ones #removeGraph,
+         #deepcopyGraph, #createGraph and #adopt took over -- to 'keeper' rather than dropping them
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         A view lasts one call of one edit, but :cpp:class:`AGRemapCore::IIniGraphGroups` promises that the graphs it
+         hands out stay valid as long as the groups do: a later edit, or a graph that borrows their `sections`_, may
+         still point into one. A parser or a fixer holds a scope over a keeper of its own while it runs its edits and
+         empties it when it is cleared, so those graphs live as long as they do on the C++ path. Scopes nest: the
+         innermost keeper is the current one
+         @endrst
+         */
+        class KeepScope {
+            public:
+                /**
+                 * @brief Makes 'keeper' the current keeper, until this scope ends
+                 *
+                 * @param keeper The list the graphs are handed to. It must outlive this scope
+                 */
+                explicit KeepScope(py::list& keeper);
+                ~KeepScope();
+
+                KeepScope(const KeepScope&) = delete;
+                KeepScope& operator=(const KeepScope&) = delete;
+
+            private:
+                py::list* previous_;
+        };
+
+        /**
          * @brief The list this view operates on -- the same object the caller passed in
          */
         py::list list() const;
@@ -141,6 +180,18 @@ class PyIniGraphGroups: public AGRC::IIniGraphGroups<std::string, std::string> {
          */
         static ModObj modObjFromPy(const py::handle& key);
 
+        /**
+         * @brief Several mod objects from Python: ``None`` (none), one ``(component, object)`` tuple, or a list of them
+         * @param objs The Python value
+         */
+        static std::vector<ModObj> modObjsFromPy(const py::handle& objs);
+
+        /**
+         * @brief The inverse of #modObjsFromPy: ``None`` for none, else a list of tuples
+         * @param objs The mod objects
+         */
+        static py::object modObjsToPy(const std::vector<ModObj>& objs);
+
     private:
         py::list graphGroups_;
 
@@ -155,6 +206,9 @@ class PyIniGraphGroups: public AGRC::IIniGraphGroups<std::string, std::string> {
         // deepcopyGraph/createGraph result, or one taken back out by removeGraph. Keeps
         // IIniGraphGroups's "every pointer stays valid for this object's lifetime" promise.
         py::list ownedGraphs_;
+
+        // The keeper of the innermost KeepScope alive, or nullptr
+        static inline thread_local py::list* keeper_ = nullptr;
 
         py::object group(std::size_t groupInd) const;
         py::dict groupGraphs(std::size_t groupInd) const;

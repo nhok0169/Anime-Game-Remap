@@ -212,6 +212,42 @@ class IniSectionGraphTest(BaseUnitTest):
         graph = FRB.IniSectionGraph(sections, ["main"])
         self.assertEqual(graph.rootsAreFullyCovered("z"), {"main": True})
 
+    # an `if` with one branch binding 'x' and no else -- and a second chain after it, with or without an else
+    def makeChainSections(self, secondChainElse = None):
+        z3Ctx = FRB.Z3Context()
+        parts = [FRB.IfPredPart("if $i == 0", FRB.IfPredPartType.If, z3Ctx),
+                 FRB.IfContentPart({"x": [(0, "1")]}, 1),
+                 FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx)]
+        if (secondChainElse is not None):
+            parts = [FRB.IfPredPart("if $j == 0", FRB.IfPredPartType.If, z3Ctx),
+                     FRB.IfContentPart({"x": [(0, "1")]}, 1),
+                     FRB.IfPredPart("else", FRB.IfPredPartType.Else, z3Ctx),
+                     FRB.IfContentPart({"x": [(0, "2")]}, 1),
+                     FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx)]
+            if (not secondChainElse):
+                parts += [FRB.IfPredPart("if $k == 0", FRB.IfPredPartType.If, z3Ctx),
+                          FRB.IfContentPart({"x": [(0, "3")]}, 1),
+                          FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx)]
+        return {"a": FRB.IfTemplate(parts, name = "a")}
+
+    def test_isKeyFullyCover_chainWithoutElse_coveredOnlyByDefault(self):
+        # by default only the branches the section writes are asked; counting the missing else, the path where
+        # $i != 0 sets nothing
+        graph = FRB.IniSectionGraph(self.makeChainSections(), ["a"])
+        self.assertEqual(graph.isKeyFullyCover("x"), {"a": True})
+        self.assertEqual(graph.isKeyFullyCover("x", countMissingElse = True), {"a": False})
+        self.assertEqual(graph.rootsAreFullyCovered("x", countMissingElse = True), {"a": False})
+
+    def test_isKeyFullyCover_countMissingElse_chainWithElse_covered(self):
+        graph = FRB.IniSectionGraph(self.makeChainSections(secondChainElse = True), ["a"])
+        self.assertEqual(graph.isKeyFullyCover("x", countMissingElse = True), {"a": True})
+
+    def test_isKeyFullyCover_countMissingElse_anyOpenChain_notCovered(self):
+        # a closed chain followed by an open one: the second chain's missing else is still a path
+        graph = FRB.IniSectionGraph(self.makeChainSections(secondChainElse = False), ["a"])
+        self.assertEqual(graph.isKeyFullyCover("x"), {"a": True})
+        self.assertEqual(graph.isKeyFullyCover("x", countMissingElse = True), {"a": False})
+
     def test_getKeyMissingParts_keyMissingFromSection_partReturnedForThatSection(self):
         sections = {"a": FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "1")]}, 0)], name = "a")}
         graph = FRB.IniSectionGraph(sections, ["a"])

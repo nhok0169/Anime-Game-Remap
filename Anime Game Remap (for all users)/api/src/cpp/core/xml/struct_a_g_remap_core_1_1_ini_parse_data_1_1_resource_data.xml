@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniParseData::ResourceData</compoundname>
+    <includes refid="_ini_parse_data_8h" local="no">IniParseData.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1ae701976e465856e77f863b5cc74cd3f9" prot="public" static="no" mutable="no">
+        <type>std::set&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a6cb548cc937d71c3706ea1ad617351aa" kindref="member">ModObj</ref> &gt;</type>
+        <definition>std::set&lt;ModObj&gt; AGRemapCore::IniParseData::ResourceData::undrawn</definition>
+        <argsstring></argsstring>
+        <name>undrawn</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceData::undrawn</qualifiedname>
+        <briefdescription>
+<para>The mod objects the mod leaves undrawn <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1af3de6823e0065d8cc7b3f1603a65e14e" kindref="member">isUndrawn</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="769" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="769" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a0f7a79cb0678a9baeffbfc2c4a3f6823" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a6cb548cc937d71c3706ea1ad617351aa" kindref="member">ModObj</ref>, std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a87702ee8353e4dda137a5cee50d9dced" kindref="member">DrawRange</ref> &gt; &gt;</type>
+        <definition>std::map&lt;ModObj, std::vector&lt;DrawRange&gt; &gt; AGRemapCore::IniParseData::ResourceData::drawRanges</definition>
+        <argsstring></argsstring>
+        <name>drawRanges</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceData::drawRanges</qualifiedname>
+        <briefdescription>
+<para>Each mod object&apos;s numbered draws <ndash/> see <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a0f7a79cb0678a9baeffbfc2c4a3f6823" kindref="member">drawRanges</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="774" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="774" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1ac3ed52271e303ee79790fb423e28027e" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a6cb548cc937d71c3706ea1ad617351aa" kindref="member">ModObj</ref>, std::set&lt; std::size_t &gt; &gt;</type>
+        <definition>std::map&lt;ModObj, std::set&lt;std::size_t&gt; &gt; AGRemapCore::IniParseData::ResourceData::drawParts</definition>
+        <argsstring></argsstring>
+        <name>drawParts</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceData::drawParts</qualifiedname>
+        <briefdescription>
+<para>The parts each mod object&apos;s draws sit in <ndash/> see <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1ac3ed52271e303ee79790fb423e28027e" kindref="member">drawParts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="779" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="779" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a9ff1556b0596febb72ace80f1a9b20fc" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a6cb548cc937d71c3706ea1ad617351aa" kindref="member">ModObj</ref>, std::set&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;ModObj, std::set&lt;std::string&gt; &gt; AGRemapCore::IniParseData::ResourceData::libraries</definition>
+        <argsstring></argsstring>
+        <name>libraries</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceData::libraries</qualifiedname>
+        <briefdescription>
+<para>The libraries each mod object names <ndash/> see <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a9ff1556b0596febb72ace80f1a9b20fc" kindref="member">libraries</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="784" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="784" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a30e7626610937c75907baad089eedc52" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a6cb548cc937d71c3706ea1ad617351aa" kindref="member">ModObj</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;ModObj, std::vector&lt;std::string&gt; &gt; AGRemapCore::IniParseData::ResourceData::lateBindings</definition>
+        <argsstring></argsstring>
+        <name>lateBindings</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceData::lateBindings</qualifiedname>
+        <briefdescription>
+<para>The texture registers each mod object binds only after it has drawn <ndash/> see <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a30e7626610937c75907baad089eedc52" kindref="member">lateBindings</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="789" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="789" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1aac6bd798c4a97858fc3582696f7ea3dd" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a6cb548cc937d71c3706ea1ad617351aa" kindref="member">ModObj</ref>, std::set&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;ModObj, std::set&lt;std::string&gt; &gt; AGRemapCore::IniParseData::ResourceData::toggledBindings</definition>
+        <argsstring></argsstring>
+        <name>toggledBindings</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceData::toggledBindings</qualifiedname>
+        <briefdescription>
+<para>The texture resources each mod object binds only under a toggle, lowercased <ndash/> see <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1aac6bd798c4a97858fc3582696f7ea3dd" kindref="member">toggledBindings</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="794" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="794" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a9c8d57f4c862712adf67052720703846" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; AGRemapCore::IniParseData::ResourceData::thisOverrides</definition>
+        <argsstring></argsstring>
+        <name>thisOverrides</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceData::thisOverrides</qualifiedname>
+        <briefdescription>
+<para><computeroutput>lowercased hash -&gt; resource</computeroutput>, each texture override&apos;s <computeroutput>this =</computeroutput> <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1aaccf5b0adde215f5a8b4db970d349144" kindref="member">thisOverrideOf</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="799" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="799" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a88216da895dd16d3d26b88cc68908b37" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; AGRemapCore::IniParseData::ResourceData::thisBound</definition>
+        <argsstring></argsstring>
+        <name>thisBound</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceData::thisBound</qualifiedname>
+        <briefdescription>
+<para>Every resource a <computeroutput>this =</computeroutput> binds, lowercased <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1af71f163d0c3171346894d1aff2d45e7b" kindref="member">isThisBound</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="804" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="804" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a9e1be62f5ce2f5c088e8a6fc798a37b5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniParseData::ResourceData::replacesTexturesByHash</definition>
+        <argsstring></argsstring>
+        <name>replacesTexturesByHash</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceData::replacesTexturesByHash</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the mod replaces a game texture by hash <ndash/> see <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a9e1be62f5ce2f5c088e8a6fc798a37b5" kindref="member">replacesTexturesByHash</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="809" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="809" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a0894fc41dc0f2eb30450a5ba555194c1" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; AGRemapCore::IniParseData::ResourceData::resourceFiles</definition>
+        <argsstring></argsstring>
+        <name>resourceFiles</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceData::resourceFiles</qualifiedname>
+        <briefdescription>
+<para><computeroutput>lowercased resource section -&gt; filename</computeroutput> <ndash/> see <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a0894fc41dc0f2eb30450a5ba555194c1" kindref="member">resourceFiles</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="814" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="814" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a2dda7075db08673772db8f5d8c61f01f" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle" kindref="compound">TextureToggle</ref> &gt;</type>
+        <definition>std::map&lt;std::string, TextureToggle&gt; AGRemapCore::IniParseData::ResourceData::thisToggles</definition>
+        <argsstring></argsstring>
+        <name>thisToggles</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceData::thisToggles</qualifiedname>
+        <briefdescription>
+<para><computeroutput>lowercased resource -&gt; toggle</computeroutput> <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1ac3b0d50a907c928370b88e9721bcf084" kindref="member">thisToggleOf</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="819" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="819" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1ad0805da2a227260f5ac818493e21bad8" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle" kindref="compound">TextureToggle</ref> &gt;</type>
+        <definition>std::map&lt;std::string, TextureToggle&gt; AGRemapCore::IniParseData::ResourceData::registerToggles</definition>
+        <argsstring></argsstring>
+        <name>registerToggles</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceData::registerToggles</qualifiedname>
+        <briefdescription>
+<para><computeroutput>lowercased resource -&gt; toggle</computeroutput> <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a505b42a2e1bd24c1140dea987b72bb42" kindref="member">registerToggleOf</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="824" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="824" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The mod&apos;s resource data, as #resourceDataOf reads it off collected rows: one value, held in the variable
+#ResourceDataVar, which #isUndrawn, #drawRanges, #resourceFile and the other getters of it read. Keys a getter
+matches regardless of case are kept lowercased
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="765" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="765" bodyend="825"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1ac3ed52271e303ee79790fb423e28027e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceData</scope><name>drawParts</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a0f7a79cb0678a9baeffbfc2c4a3f6823" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceData</scope><name>drawRanges</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a30e7626610937c75907baad089eedc52" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceData</scope><name>lateBindings</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a9ff1556b0596febb72ace80f1a9b20fc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceData</scope><name>libraries</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1ad0805da2a227260f5ac818493e21bad8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceData</scope><name>registerToggles</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a9e1be62f5ce2f5c088e8a6fc798a37b5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceData</scope><name>replacesTexturesByHash</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a0894fc41dc0f2eb30450a5ba555194c1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceData</scope><name>resourceFiles</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a88216da895dd16d3d26b88cc68908b37" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceData</scope><name>thisBound</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a9c8d57f4c862712adf67052720703846" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceData</scope><name>thisOverrides</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1a2dda7075db08673772db8f5d8c61f01f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceData</scope><name>thisToggles</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1aac6bd798c4a97858fc3582696f7ea3dd" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceData</scope><name>toggledBindings</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_1ae701976e465856e77f863b5cc74cd3f9" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceData</scope><name>undrawn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

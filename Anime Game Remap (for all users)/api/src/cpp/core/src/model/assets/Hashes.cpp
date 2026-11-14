@@ -13,12 +13,14 @@
 
 #include "AGRemapCore/model/assets/Hashes.h"
 
+#include <algorithm>
 #include <utility>
 
 #include "AGRemapCore/data/HashData.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/assets/ModDictAssets.h"
 #include "AGRemapCore/model/assets/Row.h"
+#include "AGRemapCore/tools/StringTools.h"
 
 
 namespace AGRemapCore {
@@ -62,5 +64,38 @@ namespace AGRemapCore {
         // still takes them positionally -- but it is what lets a caller (the binding layer above
         // all) accept them keyed by name. Used to be set by the pybind-only PyHashes subclass.
         nonVersionIndexNames = std::vector<std::string>{"name", "type"};
+    }
+
+    std::pair<std::string, int> Hashes::generationOf(const std::string& hashType) {
+        for (const auto& [suffix, base] : {std::make_pair(LiveSuffix, 1), std::make_pair(OldSuffix, 2)}) {
+            const std::size_t at = hashType.rfind(suffix);
+            if (at != std::string::npos && at > 0) {
+                const std::string rest = hashType.substr(at + suffix.size());
+                if (std::all_of(rest.begin(), rest.end(), [](char c) { return c >= '0' && c <= '9'; })) {
+                    return {hashType.substr(0, at), base + (rest.empty() ? 0 : std::stoi(rest) - 1)};
+                }
+            }
+        }
+        return {hashType, 0};
+    }
+
+    int Hashes::age(const std::string& name, const std::string& hash) const {
+        std::vector<Version> versions;
+        getRepo().forEachEntry([&name, &versions](const std::vector<std::string>& keys, const Version& version, const std::string&) {
+            if (!keys.empty() && keys[0] == name && std::find(versions.begin(), versions.end(), version) == versions.end()) {
+                versions.push_back(version);
+            }
+        });
+
+        int age = 1 << 20;
+        getRepo().forEachEntry([&](const std::vector<std::string>& keys, const Version& version, const std::string& value) {
+            if (keys.size() < 2 || keys[0] != name || !StringTools::equalsIgnoreCase(value, hash)) {
+                return;
+            }
+            const int newer = static_cast<int>(std::count_if(versions.begin(), versions.end(),
+                                                             [&version](const Version& other) { return version < other; }));
+            age = std::min(age, newer * 100 + generationOf(keys[1]).second);
+        });
+        return age;
     }
 }

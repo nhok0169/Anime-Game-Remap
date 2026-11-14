@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniParseData::ResourceDataRules</compoundname>
+    <includes refid="_ini_parse_data_8h" local="no">IniParseData.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a93e789b5227581ee8855f0ea1b74d9e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::ResourceDataRules::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceDataRules::rows</qualifiedname>
+        <briefdescription>
+<para>The collect whose rows it reads: every key each object&apos;s <computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a61d8363ec8f866187f2a239a8c624395" kindref="member">sections</ref></computeroutput>_ reach <ndash/> see :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_rows_1ae072c1a06004a981191d68cdc06d4ee6" kindref="member">IniParseRows::Objs</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="883" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="883" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1aaf2c107246d5fe7053acc83fd70af401" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::ResourceDataRules::resources</definition>
+        <argsstring></argsstring>
+        <name>resources</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceDataRules::resources</qualifiedname>
+        <briefdescription>
+<para>The collect whose rows name each bound resource&apos;s <computeroutput>filename</computeroutput> <ndash/> see :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_rows_1a10a5c7a73a23a6a99833749753aa68c3" kindref="member">IniParseRows::Resources</ref></computeroutput> <ndash/> or empty for none. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="888" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="888" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1aa925489d749b76e08acf86654961aa7c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a6cb548cc937d71c3706ea1ad617351aa" kindref="member">ModObj</ref>, std::vector&lt; std::string &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;ModObj, std::vector&lt;std::string&gt; &gt; &gt; AGRemapCore::IniParseData::ResourceDataRules::roots</definition>
+        <argsstring></argsstring>
+        <name>roots</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceDataRules::roots</qualifiedname>
+        <briefdescription>
+<para>The objects to read, each with its root <computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a61d8363ec8f866187f2a239a8c624395" kindref="member">sections</ref></computeroutput>_ in the order they are written. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="893" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="893" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1acc5ad056e11c3ef8332d8cdbf1570b7e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::ResourceDataRules::texRegPrefix</definition>
+        <argsstring></argsstring>
+        <name>texRegPrefix</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceDataRules::texRegPrefix</qualifiedname>
+        <initializer>= &quot;ps-t&quot;</initializer>
+        <briefdescription>
+<para>The register family a mod binds its textures with. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>"ps-t"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="898" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="898" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a05d3d7cdb5c86ebdffe52424e89ea868" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const std::string &amp;called)&gt;</type>
+        <definition>std::function&lt;bool(const std::string&amp; called)&gt; AGRemapCore::IniParseData::ResourceDataRules::runDraws</definition>
+        <argsstring></argsstring>
+        <name>runDraws</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceDataRules::runDraws</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether a ``run =`` of a `section`_ counts as a draw -- eg. one of a library this file does not hold.
+**Default**: none does
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="907" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="907" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a86d5eadcf1f3e0986d6a04fa99d7926c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::function&lt; bool(const std::string &amp;text)&gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::function&lt;bool(const std::string&amp; text)&gt; &gt; &gt; AGRemapCore::IniParseData::ResourceDataRules::libraries</definition>
+        <argsstring></argsstring>
+        <name>libraries</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceDataRules::libraries</qualifiedname>
+        <briefdescription>
+<para>The libraries to record (<ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a86d5eadcf1f3e0986d6a04fa99d7926c" kindref="member">libraries</ref>), each by whether a key or value names it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="912" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="912" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a7bae7b2e7ea9574b25732e1cb0410675" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniParseData::ResourceDataRules::noneUndrawnWhenAll</definition>
+        <argsstring></argsstring>
+        <name>noneUndrawnWhenAll</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceDataRules::noneUndrawnWhenAll</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+When EVERY object read looks hidden (draws nothing and skips the game&apos;s draw), record none of them as
+#isUndrawn: a mod the reading does not understand. **Default**: ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="921" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="921" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a61d8363ec8f866187f2a239a8c624395" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::ResourceDataRules::sections</definition>
+        <argsstring></argsstring>
+        <name>sections</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceDataRules::sections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The collect whose rows hold every key of every `section`_ -- see :cpp:member:`IniParseRows::Sections` --
+for #thisOverrideOf and #isThisBound, or empty for none
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="930" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="930" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1ab1f88d7fb14bb8d0e1ae5d2dbe19a033" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::ResourceDataRules::toggles</definition>
+        <argsstring></argsstring>
+        <name>toggles</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceDataRules::toggles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The collect whose rows hold each texture override&apos;s ``this =`` and texture register lines, with the
+conditions they sit under, for #thisToggleOf and #registerToggleOf -- or empty for none
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="939" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="939" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1ac18be482cfddb6ebdd3eb12c003a7584" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a6cb548cc937d71c3706ea1ad617351aa" kindref="member">ModObj</ref>, std::vector&lt; std::string &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;ModObj, std::vector&lt;std::string&gt; &gt; &gt; AGRemapCore::IniParseData::ResourceDataRules::textureRoots</definition>
+        <argsstring></argsstring>
+        <name>textureRoots</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceDataRules::textureRoots</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The texture objects whose `sections`_ may choose among the mod&apos;s textures, each with its root
+`sections`_: a ``this =`` toggle is read in these, and a register toggle in these and in #roots
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="948" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="948" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1afb372be26101fe5662216daea741e702" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const std::string &amp;section)&gt;</type>
+        <definition>std::function&lt;bool(const std::string&amp; section)&gt; AGRemapCore::IniParseData::ResourceDataRules::togglesIn</definition>
+        <argsstring></argsstring>
+        <name>togglesIn</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceDataRules::togglesIn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which `sections`_ may hold a toggle. **Default**: every `section`_ named ``TextureOverride...``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="956" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="956" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a6dbbcc3b40f1abe368da5b791a15d203" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::IniParseData::ResourceDataRules::notToggles</definition>
+        <argsstring></argsstring>
+        <name>notToggles</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceDataRules::notToggles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The conditions that do not make a toggle, lowercased and without spaces -- eg. a condition every
+section of a game&apos;s mods is wrapped in. **Default**: none
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="965" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="965" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a0fb962beb87ef526789a567dc5d3df74" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;message)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp; message)&gt; AGRemapCore::IniParseData::ResourceDataRules::log</definition>
+        <argsstring></argsstring>
+        <name>log</name>
+        <qualifiedname>AGRemapCore::IniParseData::ResourceDataRules::log</qualifiedname>
+        <briefdescription>
+<para>Where a draw range that cannot be read is reported, or empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="970" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="970" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a2b4783651508841bf99a368161e0ca17" kindref="member">resourceDataOf</ref> reads, and the rules a game reads it by. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="879" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="879" bodyend="971"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a86d5eadcf1f3e0986d6a04fa99d7926c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceDataRules</scope><name>libraries</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a0fb962beb87ef526789a567dc5d3df74" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceDataRules</scope><name>log</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a7bae7b2e7ea9574b25732e1cb0410675" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceDataRules</scope><name>noneUndrawnWhenAll</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a6dbbcc3b40f1abe368da5b791a15d203" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceDataRules</scope><name>notToggles</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1aaf2c107246d5fe7053acc83fd70af401" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceDataRules</scope><name>resources</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1aa925489d749b76e08acf86654961aa7c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceDataRules</scope><name>roots</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a93e789b5227581ee8855f0ea1b74d9e1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceDataRules</scope><name>rows</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a05d3d7cdb5c86ebdffe52424e89ea868" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceDataRules</scope><name>runDraws</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1a61d8363ec8f866187f2a239a8c624395" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceDataRules</scope><name>sections</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1acc5ad056e11c3ef8332d8cdbf1570b7e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceDataRules</scope><name>texRegPrefix</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1ac18be482cfddb6ebdd3eb12c003a7584" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceDataRules</scope><name>textureRoots</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1ab1f88d7fb14bb8d0e1ae5d2dbe19a033" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceDataRules</scope><name>toggles</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_resource_data_rules_1afb372be26101fe5662216daea741e702" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::ResourceDataRules</scope><name>togglesIn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

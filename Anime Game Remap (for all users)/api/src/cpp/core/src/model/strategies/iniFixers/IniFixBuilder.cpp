@@ -107,24 +107,20 @@ namespace AGRemapCore {
         return errorOnNotFound_;
     }
 
-    std::shared_ptr<BaseIniFixer<>> IniFixBuilder::build(BaseIniParser<>* parser, const std::string& fromModName,
-                                                        const std::string& toModName,
-                                                        const std::optional<Version>& fromVersion,
-                                                        const std::optional<Version>& toVersion,
-                                                        std::optional<int> modTypeId) const {
+    IniFixBuilder::Factory IniFixBuilder::factoryOf(const std::string& fromModName, const std::string& toModName,
+                                                    const std::optional<Version>& fromVersion,
+                                                    const std::optional<Version>& toVersion) const {
         // See IniParseBuilder::build -- a runtime override takes precedence over the table.
         if (!StrategyOverrides::empty()) {
             std::optional<Factory> overridden = StrategyOverrides::findFixer(fromModName, toModName,
                                                                              fromVersion);
             if (overridden.has_value() && *overridden) {
-                return (*overridden)(parser, toModName, modTypeId);
+                return *overridden;
             }
         }
 
         if (builderArgs_ == nullptr) {
-            // The equivalent of the original's "_buildCls is not None" path, where the key
-            // arguments are documented as having no effect.
-            return factory_(parser, std::string(), modTypeId);
+            return factory_;
         }
 
         // Non-version columns in relative order: fromModName, then toModName. Version columns in
@@ -135,10 +131,23 @@ namespace AGRemapCore {
         // Reached only when errorOnNotFound_ is false (get() would have thrown otherwise), or when
         // a row exists but holds an empty std::function -- both are "nothing usable was found".
         if (!found.has_value() || !*found) {
-            return defaultFactory()(parser, toModName, modTypeId);
+            return defaultFactory();
         }
+        return *found;
+    }
 
-        return (*found)(parser, toModName, modTypeId);
+    std::shared_ptr<BaseIniFixer<>> IniFixBuilder::build(BaseIniParser<>* parser, const std::string& fromModName,
+                                                        const std::string& toModName,
+                                                        const std::optional<Version>& fromVersion,
+                                                        const std::optional<Version>& toVersion,
+                                                        std::optional<int> modTypeId) const {
+        // A fixed-factory builder ignores the key arguments, the target's name included -- unless an override
+        // answers for them first
+        const bool fixed = builderArgs_ == nullptr
+                           && (StrategyOverrides::empty()
+                               || !StrategyOverrides::findFixer(fromModName, toModName, fromVersion).has_value());
+        return factoryOf(fromModName, toModName, fromVersion, toVersion)(parser, fixed ? std::string() : toModName,
+                                                                          modTypeId);
     }
 
     std::vector<std::pair<std::string, std::shared_ptr<BaseIniFixer<>>>> IniFixBuilder::buildAll(

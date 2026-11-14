@@ -15,6 +15,7 @@
 
 #include <pybind11/stl.h>
 
+#include "AGRemapCore/constants/GlobalIniClassifiers.h"
 #include "AGRemapCore/constants/GlobalModTypes.h"
 
 namespace py = pybind11;
@@ -70,5 +71,35 @@ The difference from :meth:`registerAll` is only what happens on a collision: tha
 this one yields. This is what the implicit population behind :meth:`GlobalIniClassifiers.classifier`
 uses, so that classifying a .ini file never silently replaces a :class:`ModType` you
 registered under one of the shipped ids
+        )doc"));
+
+    py::class_<AGRC::GlobalIniClassifiers>(m, "GlobalIniClassifiers", R"doc(
+The shared default :class:`IniClassifier` the software classifies ``.ini`` files with, filled with every
+shipped mod type, and the count of mod types claiming each hash that it registers by
+    )doc")
+        .def_static("classifier", &AGRC::GlobalIniClassifiers::classifier, py::return_value_policy::reference, py::doc(R"doc(
+The shared default classifier, built on first use and reused for every later call
+
+Returns
+-------
+:class:`IniClassifier`
+    The classifier, filled with every shipped mod type
+        )doc"))
+        .def_static("claims", &AGRC::GlobalIniClassifiers::claims, py::arg("hash"), py::doc(R"doc(
+How many shipped mod types claim 'hash' -- the count :meth:`classifier` registers by
+
+A mod type claims the hashes that identify it and, outside WuWa, every texture hash ``HashData`` files
+under it; a skin of several components claims its components' hashes. A hash claimed more than once
+identifies no one -- a texture two characters draw, eg. Amber's and AmberCN's face diffuse ``1d064079``
+
+Parameters
+----------
+hash: :class:`str`
+    The hash, as ``HashData`` writes it (lowercase)
+
+Returns
+-------
+:class:`int`
+    The number of mod types claiming it; 0 for a hash no shipped mod type has
         )doc"));
 }

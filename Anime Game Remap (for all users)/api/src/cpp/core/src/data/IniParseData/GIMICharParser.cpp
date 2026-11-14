@@ -11,6 +11,8 @@
 
 // ##### EndCredits
 
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
+#include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/data/IniParseData/GIMICharParser.h"
 
 #include <algorithm>
@@ -28,12 +30,13 @@
 
 #include "AGRemapCore/constants/IniGraphModObjKeywords.h"
 #include "AGRemapCore/constants/IniKeywords.h"
-#include "AGRemapCore/data/IniFixData/ModBranches.h"
-#include "AGRemapCore/data/IniParseData/TextureOverrides.h"
+#include "AGRemapCore/constants/GlobalIniClassifiers.h"
+#include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
+#include "AGRemapCore/data/IniParseData/GIMITemplateParser.h"
 #include "AGRemapCore/tools/DownloadTools.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/TextTools.h"
@@ -43,7 +46,7 @@
 
 namespace AGRemapCore {
     namespace {
-        using Parser = GIMIParser<>;
+        using Parser = GIMITemplateParser;
         using Classifier = Parser::Classifier;
         using ModObj = Parser::ModObj;
 
@@ -74,50 +77,13 @@ namespace AGRemapCore {
         const std::string KeySectionPrefix = "key";
         const std::string ConditionKey = "condition";
 
-        bool isIdentChar(char c) {
-            return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';
-        }
-
-        // Each `$name` in 'text' through 'visit(start, end, name)', where [start, end) spans the
-        // `$name`. A namespaced reference (`$\ns\name`) belongs to another file and is skipped.
-        template <typename Visit>
-        void forEachVar(const std::string& text, Visit&& visit) {
-            for (std::size_t i = 0; i < text.size(); ++i) {
-                if (text[i] != '$' || i + 1 >= text.size() || !isIdentChar(text[i + 1])) {
-                    continue;
-                }
-
-                std::size_t end = i + 1;
-                while (end < text.size() && isIdentChar(text[end])) {
-                    ++end;
-                }
-                visit(i, end, text.substr(i + 1, end - i - 1));
-                i = end - 1;
-            }
-        }
-
-        // The variables 'text' reads, lowercased (3DMigoto's names are case-insensitive)
+        // The variables 'text' names, and 'text' with some renamed -- IniNamingTools's
         std::vector<std::string> varsIn(const std::string& text) {
-            std::vector<std::string> result;
-            forEachVar(text, [&result](std::size_t, std::size_t, const std::string& name) {
-                result.push_back(StringTools::toLower(name));
-            });
-            return result;
+            return IniNamingTools::varsIn(text);
         }
 
-        // 'text' with each variable 'renames' names (by its lowercased name) renamed
         std::string renameVars(const std::string& text, const std::map<std::string, std::string>& renames) {
-            std::string result;
-            std::size_t copied = 0;
-            forEachVar(text, [&](std::size_t start, std::size_t end, const std::string& name) {
-                auto found = renames.find(StringTools::toLower(name));
-                if (found == renames.end()) {
-                    return;
-                }
-                result += text.substr(copied, start - copied) + "$" + found->second;
-                copied = end;
-            });
-            return result + text.substr(copied);
+            return IniNamingTools::renameVars(text, renames);
         }
 
         // The variable a `[Constants]` line declares (`global persist $color = 0` -> "color"), lowercased
@@ -127,14 +93,14 @@ namespace AGRemapCore {
         }
 
         // Every variable the `[Constants]` sections of 'templates' declare, lowercased
-        std::set<std::string> declaredVars(const ModBranches::Templates& templates) {
+        std::set<std::string> declaredVars(const IfTemplates& templates) {
             std::set<std::string> result;
             for (const auto& entry : templates) {
                 if (entry.second == nullptr || StringTools::toLower(entry.first) != ConstantsSection) {
                     continue;
                 }
                 for (const auto& part : entry.second->parts()) {
-                    if (const auto* content = dynamic_cast<const ModBranches::Template::ContentPart*>(part.get())) {
+                    if (const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get())) {
                         for (const auto& kvp : content->entries()) {
                             const std::string var = declaredVar(kvp.first);
                             if (!var.empty()) {
@@ -148,11 +114,11 @@ namespace AGRemapCore {
         }
 
         // A toggled texture override (see GIMICharGIMIParser::readTextureOverrides): the register it
-        // binds, the resource, and the `if` blocks it is bound in, outermost first
+        // binds, the resource, and the condition it is bound under, as .ini predicate text (empty: always)
         struct CondBinding {
             std::string reg;
             std::string resource;
-            std::vector<std::vector<std::string>> branches;
+            std::string condition;
         };
 
         // `key = val`, or the bare key for a line that had no `=`
@@ -169,15 +135,13 @@ namespace AGRemapCore {
          * outlive the parser -- the same ownership story as the context and the classifier, and the
          * same reason a Factory subclass exists at all rather than a bare lambda.
          */
-        class GIMICharGIMIParser: public Parser, public TextureOverrideFacts {
+        class GIMICharGIMIParser: public Parser {
             public:
                 GIMICharGIMIParser(IniFile* iniFile, std::optional<int> modTypeId, std::vector<ModObj> modObjs,
                                     std::unordered_map<std::string, ModObj> hashKeyOnlyToModObj,
                                     std::unordered_map<std::string, Classifier::IndexModObjs> indexKeyToModObj,
                                     const GIMICharParserConfig& config, long long vertexCount):
-                    Parser(nullptr, std::move(modObjs)), ctx_(iniFile, modTypeId), config_(config), vertexCount_(vertexCount) {
-                    this->setCtx(&ctx_);
-                    this->setIniFile(iniFile);
+                    Parser(iniFile, modTypeId, std::move(modObjs)), config_(config), vertexCount_(vertexCount) {
 
                     // One section may name several mod objects -- see RaidenParser for the 3dmigoto
                     // grammar bug this works around.
@@ -189,9 +153,9 @@ namespace AGRemapCore {
                     const auto hashOnlyMap = hashKeyOnlyToModObj;
                     const auto indexMap = indexKeyToModObj;
 
-                    classifier_ = std::make_unique<Classifier>(
+                    classifier_ = &this->ownClassifier(std::make_unique<Classifier>(
                         std::move(hashKeyOnlyToModObj), ctx_.modTypeHashes(),
-                        std::move(indexKeyToModObj), ctx_.modTypeIndices(), ctx_.version());
+                        std::move(indexKeyToModObj), ctx_.modTypeIndices(), ctx_.version()));
 
                     // HASH lookups filtered to this character's own rows. A hash value is unique
                     // to one character, so for a well-formed mod this changes nothing -- what it
@@ -278,9 +242,9 @@ namespace AGRemapCore {
                             return kvps;
                         };
 
-                    Classifier* classifier = classifier_.get();
+                    Classifier* classifier = classifier_;
                     this->objTargetFuncs.emplace_back(
-                        [this, classifier](Parser&, const std::string& sectionName, Section* section, bool,
+                        [this, classifier](GIMIParser<>&, const std::string& sectionName, Section* section, bool,
                                             ContentPart*, const Colouring* kvps) {
                             if (kvps == nullptr) {
                                 return std::vector<ModObj>();
@@ -340,16 +304,12 @@ namespace AGRemapCore {
                     recolourOnly_ = true;
                 }
 
-                bool isRecolourOnly() const override {
-                    return recolourOnly_;
-                }
-
-                std::string carriedSections() const override {
-                    return std::string(StringTools::rstrip(carriedSections_));
-                }
-
             protected:
                 void editCommands() override {
+                    // what the fixer needs from all of the above -- see IniParseData::isRecolourOnly
+                    // and IniParseData::carriedSections
+                    this->parseData().setRecolourOnly(recolourOnly_);
+                    this->parseData().setCarriedSections(std::string(StringTools::rstrip(carriedSections_)));
                     bindTextureOverrides();
                     declareSiblingRefs();
                     if (recolourOnly_) {
@@ -395,21 +355,14 @@ namespace AGRemapCore {
                     graph->build(std::unordered_map<std::string, Section*>{{name, section}}, std::vector<std::string>{name});
                 }
 
-                // The sibling textures' resources ride with the downloads' -- declared once per .ini
-                // file, and by every copy that binds one (GIMIFixer::groupToStr).
-                std::vector<Parser::GraphGroup> collectParseResult() const override {
-                    std::vector<Parser::GraphGroup> result = Parser::collectParseResult();
-                    if (result.empty()) {
-                        return result;
-                    }
+            protected:
+                std::vector<std::string> hashKeysOf(const std::string& hash) override {
+                    return {hashKeyOf(hash)};
+                }
 
-                    for (const auto& [name, graph] : refGraphs_) {
-                        const ModObj modObj(IniGraphModObjKeywords::Download, name);
-                        if (graph != nullptr && result.front().getGraph(modObj) == nullptr) {
-                            result.front().addGraph(modObj, graph->deepcopy());
-                        }
-                    }
-                    return result;
+                // The toggled bindings bindConditionally bound count as bound too
+                void addBound(std::set<std::string>& bound) const override {
+                    bound.insert(condBound_.begin(), condBound_.end());
                 }
 
             private:
@@ -493,22 +446,23 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    const ModBranches::Templates& own = iniFile->getIfTemplates();
+                    const IfTemplates& own = iniFile->getIfTemplates();
                     const std::set<std::string> ownVars = declaredVars(own);
 
                     // (object, register) -> the resource to bind and the `if` blocks it is bound in;
                     // this file's first, which win
                     std::map<std::pair<ModObj, std::string>, CondBinding> bindings;
                     std::set<std::string> carriedNames;
-                    auto addOverrides = [&](const ModBranches::Templates& templates,
+                    auto addOverrides = [&](IniFile& ini,
                                             const std::function<std::string(const std::string&)>& resourceOf,
                                             bool own) {
+                        const IfTemplates& templates = ini.getIfTemplates();
                         std::map<std::string, std::string> carried;
-                        for (const TextureOverrides::Override& override_ : TextureOverrides::collect(templates)) {
+                        for (const auto& [hash, row] : textureOverrides(ini)) {
                             // Every object the texture is drawn on: one texture may serve several
                             // (Yelan's body and dress share one diffuse)
                             std::vector<std::pair<ModObj, std::string>> targets;
-                            for (const std::string& key : TextureOverrides::keysOf(ownName, override_.hash)) {
+                            for (const std::string& key : textureKeysOf(*ctx_.modTypeHashes(), ownName, hash)) {
                                 std::pair<ModObj, std::string> target = bindingOf(key);
                                 if (!target.second.empty()) {
                                     targets.push_back(std::move(target));
@@ -518,7 +472,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            const std::string resource = resourceOf(override_.resource);
+                            const std::string resource = resourceOf(row.value);
                             if (resource.empty()) {
                                 continue;
                             }
@@ -534,16 +488,25 @@ namespace AGRemapCore {
                                 // face" mod) must not bring the source's whole outfit with it.
                                 const bool drawnObj = std::any_of(targets.begin(), targets.end(),
                                     [](const std::pair<ModObj, std::string>& target) { return target.first.second != FaceObjName; });
-                                needsSourceModel_ = needsSourceModel_ || (drawnObj && !TextureOverrides::isShared(override_.hash));
+                                needsSourceModel_ = needsSourceModel_ || (drawnObj && GlobalIniClassifiers::claims(hash) <= 1);
                             }
-                            std::vector<std::vector<std::string>> branches = override_.branches;
-                            if (!own && !branches.empty()) {
-                                std::optional<std::vector<std::vector<std::string>>> renamed =
-                                    carryBranches(templates, branches, ownVars, carried);
-                                branches = renamed.has_value() ? std::move(*renamed) : std::vector<std::vector<std::string>>();
+
+                            // The override's own `if` blocks, as one condition; one with no .ini form is dropped
+                            std::string condition;
+                            if (!row.guards.empty()) {
+                                const std::optional<std::string> text = row.condition.has_value()
+                                    ? IfPredPart::getIfPredStr(*row.condition) : std::nullopt;
+                                if (!text.has_value()) {
+                                    continue;
+                                }
+                                condition = *text;
+                            }
+                            if (!own && !condition.empty()) {
+                                std::optional<std::string> renamed = carryCondition(templates, condition, ownVars, carried);
+                                condition = renamed.has_value() ? std::move(*renamed) : std::string();
                             }
                             for (const auto& target : targets) {
-                                bindings.emplace(target, CondBinding{target.second, resource, branches});
+                                bindings.emplace(target, CondBinding{target.second, resource, condition});
                             }
                         }
 
@@ -552,18 +515,18 @@ namespace AGRemapCore {
                         }
                     };
 
-                    addOverrides(own, [](const std::string& resource) { return resource; }, true);
+                    addOverrides(*iniFile, [](const std::string& resource) { return resource; }, true);
 
                     if (drawsMesh(own)) {
-                        for (const std::string& path : TextureOverrides::siblingInis(iniFile)) {
-                            IniFile sibling(path);
-                            const ModBranches::Templates& templates = sibling.getIfTemplates();
-                            addOverrides(templates, [&](const std::string& resource) {
+                        for (IniFile* linked : iniFile->linkedInis()) {
+                            IniFile& sibling = *linked;
+                            const IfTemplates& templates = sibling.getIfTemplates();
+                            addOverrides(sibling, [&](const std::string& resource) {
                                 auto found = templates.find(resource);
                                 if (found == templates.end() || found->second == nullptr) {
                                     return std::string();
                                 }
-                                const std::optional<std::string> file = ModBranches::firstVal(*found->second, IniKeywords::Filename);
+                                const std::optional<std::string> file = found->second->firstVal(IniKeywords::Filename);
                                 if (!file.has_value() || StringTools::strip(*file).empty()) {
                                     return std::string();
                                 }
@@ -576,7 +539,7 @@ namespace AGRemapCore {
                     }
 
                     for (const auto& [target, binding] : bindings) {
-                        if (!binding.branches.empty()) {
+                        if (!binding.condition.empty()) {
                             condBindings_[target.first].push_back(binding);
                             continue;
                         }
@@ -587,44 +550,6 @@ namespace AGRemapCore {
                         }
                         textureBindings_[target.first].emplace_back(target.second, binding.resource);
                     }
-                }
-
-                // Whether 'templates' draws this character's mesh: a section matching one of its
-                // buffer or index hashes that binds a buffer.
-                bool drawsMesh(const ModBranches::Templates& templates) {
-                    for (const auto& entry : templates) {
-                        if (entry.second == nullptr) {
-                            continue;
-                        }
-
-                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
-                        if (!hash.has_value()) {
-                            continue;
-                        }
-
-                        const std::string key = hashKeyOf(*hash);
-                        if (key.empty() || StringTools::startsWith(key, TexKeyPrefix)) {
-                            continue;
-                        }
-
-                        for (const std::string& reg : {IniKeywords::Ib, IniKeywords::Vb0, IniKeywords::Vb1}) {
-                            const std::optional<std::string> value = ModBranches::firstVal(*entry.second, reg);
-                            if (value.has_value() && !ModBranches::resourceOf(value).empty()) {
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                }
-
-                bool siblingDrawsMesh() {
-                    for (const std::string& path : TextureOverrides::siblingInis(this->getIniFile())) {
-                        IniFile sibling(path);
-                        if (drawsMesh(sibling.getIfTemplates())) {
-                            return true;
-                        }
-                    }
-                    return false;
                 }
 
                 // AN OBJECT THE MOD LEAVES UNDRAWN GETS NO DOWNLOAD (2026-10-10). A mod that carries the
@@ -659,10 +584,10 @@ namespace AGRemapCore {
                     // CommandList<Char>IB, and a skip in one branch means that branch draws only what
                     // the mod writes sections for.
                     bool skips = false;
-                    ModBranches branches;
                     for (const std::string& name : *ibSections) {
-                        for (const BranchVal& handling : branches.valsThroughRun(templates, name, IniKeywords::Handling)) {
-                            if (StringTools::equalsIgnoreCase(StringTools::strip(handling.val), "skip")) {
+                        auto graph = iniFile->sectionGraph(name);
+                        for (const auto& handling : GraphCollect<>::rowsOf(graph, IniKeywords::Handling)) {
+                            if (StringTools::equalsIgnoreCase(handling.value, "skip")) {
                                 skips = true;
                                 break;
                             }
@@ -708,36 +633,6 @@ namespace AGRemapCore {
                     }
                 }
 
-                // Whether a sibling .ini of the folder binds vb0 on this character's position hash,
-                // directly or through `run =`.
-                bool siblingBindsPosition() {
-                    for (const std::string& path : TextureOverrides::siblingInis(this->getIniFile())) {
-                        IniFile sibling(path);
-                        if (bindsPosition(sibling.getIfTemplates())) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-
-                // Whether 'templates' binds vb0 on this character's position hash, directly or through `run =`.
-                bool bindsPosition(const ModBranches::Templates& templates) {
-                    ModBranches branches;
-                    for (const auto& entry : templates) {
-                        if (entry.second == nullptr) {
-                            continue;
-                        }
-                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
-                        if (!hash.has_value() || hashKeyOf(*hash) != PositionHashKey) {
-                            continue;
-                        }
-                        if (!branches.valsThroughRun(templates, entry.first, IniKeywords::Vb0).empty()) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-
                 // AN OBJECT DRAWN FROM A SIBLING .INI IS ADOPTED BY THE FILE THAT BINDS THE BUFFERS
                 // (2026-10-12). A mod may keep its buffers and most objects in one .ini and one object's
                 // section in another file of the folder. The second file has no buffers of its own and
@@ -763,13 +658,13 @@ namespace AGRemapCore {
                 }
 
                 // The section of 'templates' carrying 'id', or empty
-                static std::string sectionWith(const ModBranches::Templates& templates, const std::pair<std::string, std::string>& id) {
+                static std::string sectionWith(const IfTemplates& templates, const std::pair<std::string, std::string>& id) {
                     for (const auto& entry : templates) {
                         if (entry.second == nullptr) {
                             continue;
                         }
-                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
-                        const std::optional<std::string> index = ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex);
+                        const std::optional<std::string> hash = entry.second->firstVal(IniKeywords::Hash);
+                        const std::optional<std::string> index = entry.second->firstVal(IniKeywords::MatchFirstIndex);
                         if (hash.has_value() && index.has_value()
                                 && StringTools::toLower(std::string(StringTools::strip(*hash))) == id.first
                                 && std::string(StringTools::strip(*index)) == id.second) {
@@ -784,16 +679,16 @@ namespace AGRemapCore {
                 void findGivenAwayObjs() {
                     givenAway_.clear();
                     IniFile* iniFile = this->getIniFile();
-                    if (iniFile == nullptr || !iniFile->getFile().has_value() || bindsPosition(iniFile->getIfTemplates())) {
+                    if (iniFile == nullptr || !iniFile->getFile().has_value() || bindsPosition(*iniFile)) {
                         return;
                     }
 
                     IniFile self(*iniFile->getFile());
-                    const ModBranches::Templates& own = self.getIfTemplates();
-                    for (const std::string& path : TextureOverrides::siblingInis(iniFile)) {
-                        IniFile sibling(path);
-                        const ModBranches::Templates& theirs = sibling.getIfTemplates();
-                        if (!bindsPosition(theirs)) {
+                    const IfTemplates& own = self.getIfTemplates();
+                    for (IniFile* linked : iniFile->linkedInis()) {
+                        IniFile& sibling = *linked;
+                        const IfTemplates& theirs = sibling.getIfTemplates();
+                        if (!bindsPosition(sibling)) {
                             continue;
                         }
                         for (const std::string& obj : config_.drawnObjs) {
@@ -802,7 +697,7 @@ namespace AGRemapCore {
                                 continue;
                             }
                             const std::string root = sectionWith(own, id);
-                            if (!root.empty() && TextureOverrides::adopt(self, root, theirs).has_value()) {
+                            if (!root.empty() && adoptable(self, root, theirs)) {
                                 givenAway_.insert(obj);
                             }
                         }
@@ -812,38 +707,26 @@ namespace AGRemapCore {
                 void adoptSiblingObjs() {
                     adoptedRefs_.clear();
                     IniFile* iniFile = this->getIniFile();
-                    if (iniFile == nullptr || !this->objIdentityKVPs || !bindsPosition(iniFile->getIfTemplates())) {
+                    if (iniFile == nullptr || !this->objIdentityKVPs || !bindsPosition(*iniFile)) {
                         return;
                     }
 
-                    const ModBranches::Templates& own = iniFile->getIfTemplates();
-                    const std::vector<std::string> siblings = TextureOverrides::siblingInis(iniFile);
+                    const IfTemplates& own = iniFile->getIfTemplates();
+                    const std::vector<IniFile*> siblings = iniFile->linkedInis();
                     for (const std::string& obj : config_.drawnObjs) {
                         const std::pair<std::string, std::string> id = objIdentity(obj);
                         if (id.first.empty() || id.second.empty() || !sectionWith(own, id).empty()) {
                             continue;
                         }
 
-                        for (const std::string& path : siblings) {
-                            IniFile sibling(path);
+                        for (IniFile* linked : siblings) {
+                            IniFile& sibling = *linked;
                             const std::string root = sectionWith(sibling.getIfTemplates(), id);
                             if (root.empty()) {
                                 continue;
                             }
-                            std::optional<TextureOverrides::Adoption> adoption = TextureOverrides::adopt(sibling, root, own);
-                            if (!adoption.has_value()) {
+                            if (!adoptSection(sibling, root, own)) {
                                 continue;
-                            }
-                            for (auto& [name, section] : adoption->sections) {
-                                ctx_.addSection(name, std::move(section));
-                            }
-                            for (const auto& [name, kvps] : adoption->refs) {
-                                for (const auto& [key, value] : kvps) {
-                                    if (key == IniKeywords::Filename) {
-                                        siblingRefs_.emplace(name, value);
-                                    }
-                                }
-                                adoptedRefs_[name] = kvps;
                             }
                             break;
                         }
@@ -878,18 +761,17 @@ namespace AGRemapCore {
                         return (found == targets.end()) ? std::vector<std::string>() : found->second;
                     };
 
-                    ModBranches branches;
-                    Z3Context& z3 = branches.context();
+                    Z3Context& z3 = *iniFile->getZ3Ctx();
                     auto anyOf = [&](const std::vector<std::string>& sections, const std::string& key,
                                      const std::function<bool(const std::string&)>& accept) {
                         Z3Predicate result = Z3Predicate::falseValue(z3);
                         for (const std::string& name : sections) {
-                            for (const BranchVal& value : branches.valsThroughRun(templates, name, key)) {
-                                if (!accept(std::string(StringTools::strip(value.val)))) {
+                            auto graph = iniFile->sectionGraph(name);
+                            for (const auto& value : GraphCollect<>::rowsOf(graph, key)) {
+                                if (!accept(value.value)) {
                                     continue;
                                 }
-                                std::optional<Z3Predicate> query =
-                                    value.query.has_value() ? branches.localQuery(&*value.query) : std::nullopt;
+                                const std::optional<Z3Predicate>& query = value.condition;
                                 if (!query.has_value()) {
                                     return Z3Predicate::trueValue(z3);
                                 }
@@ -934,107 +816,11 @@ namespace AGRemapCore {
                     }
                 }
 
-                // Whether any of the mod's OWN sections this parser targets -- or a command list one of
-                // them runs, if the file defines it -- binds a buffer, an index buffer, a texture
-                // register or a draw. A `this =` is not counted: an override is weighed on its own
-                // (readTextureOverrides). Asked before the downloads; see getSectionTargets.
-                bool targetsBindSomething() {
-                    IniFile* iniFile = this->getIniFile();
-                    if (iniFile == nullptr) {
-                        return true;
-                    }
-                    const auto& templates = iniFile->getIfTemplates();
-
-                    static const std::vector<std::string> BindingKeys = {
-                        IniKeywords::Vb0, IniKeywords::Vb1, "vb2", IniKeywords::Ib, IniKeywords::DrawIndexed,
-                        "draw", "ps-t0", "ps-t1", "ps-t2", "ps-t3"};
-
-                    std::unordered_set<std::string> visited;
-                    std::vector<std::string> toVisit;
-                    for (const auto& entry : this->sectionTargets()) {
-                        toVisit.insert(toVisit.end(), entry.second.begin(), entry.second.end());
-                    }
-
-                    while (!toVisit.empty()) {
-                        const std::string name = toVisit.back();
-                        toVisit.pop_back();
-                        if (!visited.insert(name).second) {
-                            continue;
-                        }
-
-                        auto found = templates.find(name);
-                        if (found == templates.end() || found->second == nullptr) {
-                            continue;     // an external command list (ORFix, ...) binds nothing of the mod's
-                        }
-
-                        for (const auto& part : found->second->parts()) {
-                            const auto* content = dynamic_cast<const ContentPart*>(part.get());
-                            if (content == nullptr) {
-                                continue;
-                            }
-                            for (const std::string& key : BindingKeys) {
-                                if (content->containsKey(key)) {
-                                    return true;
-                                }
-                            }
-                            for (const std::string& call : content->getVals(IniKeywords::Run)) {
-                                toVisit.emplace_back(StringTools::strip(call));
-                            }
-                        }
-                    }
-
-                    return false;
-                }
-
-                // Each sibling texture a binding names, as a resource of this file's own -- see
-                // readTextureOverrides. Only those some object binds.
-                void declareSiblingRefs() {
-                    refGraphs_.clear();
-                    std::set<std::string> bound;
-                    for (const auto& [modObj, bindings] : textureBindings_) {
-                        for (const auto& binding : bindings) {
-                            bound.insert(binding.second);
-                        }
-                    }
-                    bound.insert(condBound_.begin(), condBound_.end());
-
-                    for (const auto& [name, file] : siblingRefs_) {
-                        auto adopted = adoptedRefs_.find(name);
-                        if (bound.count(name) == 0 && adopted == adoptedRefs_.end()) {
-                            continue;
-                        }
-
-                        // An existing one is the PREVIOUS fix's, read before its undo, and is the right
-                        // section to render again.
-                        Section* section = ctx_.getSection(name);
-                        if (section == nullptr) {
-                            section = ctx_.addSection(name,
-                                std::make_unique<Section>(std::vector<std::unique_ptr<IfTemplatePart>>{}, this->config().runConfig, name));
-                            section->addKVPsToFront(adopted != adoptedRefs_.end() ? adopted->second
-                                : std::vector<std::pair<std::string, std::string>>{{IniKeywords::Filename, file}});
-                        }
-
-                        Graph* graph = ctx_.graphGroups().createGraph({}, {}, false, nullptr);
-                        graph->build(std::unordered_map<std::string, Section*>{{name, section}}, std::vector<std::string>{name});
-                        refGraphs_.emplace_back(name, graph);
-                    }
-                }
-
                 // At the TOP of the object's entry section, where a download is bound too: a GIMI
                 // TextureOverride binds for its whole draw, and one the mod wrote itself that binds
                 // the register as well keeps the last word.
                 void bindTextureOverrides() {
-                    for (const auto& [modObj, bindings] : textureBindings_) {
-                        Graph* graph = this->getCommandGraph(modObj);
-                        if (graph == nullptr || graph->isEmpty() || graph->roots().empty()) {
-                            continue;
-                        }
-
-                        Section* section = ctx_.getSection(graph->roots().front());
-                        if (section != nullptr) {
-                            section->addKVPsToFront(bindings);
-                        }
-                    }
+                    GIMITemplateParser::bindTextureOverrides();
 
                     condBound_.clear();
                     for (const auto& [modObj, bindings] : condBindings_) {
@@ -1070,7 +856,7 @@ namespace AGRemapCore {
 
                     using Kvps = std::vector<std::pair<std::string, std::string>>;
                     Kvps downloaded;
-                    std::vector<std::pair<std::vector<std::vector<std::string>>, Kvps>> groups;
+                    std::vector<std::pair<std::string, Kvps>> groups;
                     for (const CondBinding& binding : bindings) {
                         std::optional<std::string> download;
                         for (const std::string& val : first->getVals(binding.reg)) {
@@ -1091,9 +877,9 @@ namespace AGRemapCore {
                         downloaded.emplace_back(binding.reg, downloadName);
 
                         auto group = std::find_if(groups.begin(), groups.end(),
-                            [&binding](const auto& g) { return g.first == binding.branches; });
+                            [&binding](const auto& g) { return g.first == binding.condition; });
                         if (group == groups.end()) {
-                            groups.emplace_back(binding.branches, Kvps{});
+                            groups.emplace_back(binding.condition, Kvps{});
                             group = std::prev(groups.end());
                         }
                         group->second.emplace_back(binding.reg, binding.resource);
@@ -1112,15 +898,14 @@ namespace AGRemapCore {
 
                     std::vector<std::unique_ptr<IfTemplatePart>> front;
                     front.push_back(std::make_unique<ContentPart>(downloaded, 0));
-                    for (const auto& [branches, binds] : groups) {
-                        for (const std::vector<std::string>& level : branches) {
-                            for (const std::string& header : level) {
-                                const std::optional<IfPredPartType> type = IfPredPartTypeTools::getType(header);
-                                front.push_back(std::make_unique<IfPredPart>(header, type.value_or(IfPredPartType::If), *z3Ctx));
-                            }
+                    for (const auto& [condition, binds] : groups) {
+                        const int depth = condition.empty() ? 0 : 1;
+                        if (depth > 0) {
+                            front.push_back(std::make_unique<IfPredPart>(
+                                IfPredPartTypeTools::getName(IfPredPartType::If) + " " + condition, IfPredPartType::If, *z3Ctx));
                         }
-                        front.push_back(std::make_unique<ContentPart>(binds, static_cast<int>(branches.size())));
-                        for (std::size_t i = 0; i < branches.size(); ++i) {
+                        front.push_back(std::make_unique<ContentPart>(binds, depth));
+                        if (depth > 0) {
                             front.push_back(std::make_unique<IfPredPart>(
                                 IfPredPartTypeTools::getName(IfPredPartType::EndIf), IfPredPartType::EndIf, *z3Ctx));
                         }
@@ -1135,13 +920,13 @@ namespace AGRemapCore {
                 }
 
                 // Whether a `[Key...]` section of 'templates' sets the variable 'var' (lowercased)
-                static bool keySets(const ModBranches::Templates& templates, const std::string& var) {
+                static bool keySets(const IfTemplates& templates, const std::string& var) {
                     for (const auto& entry : templates) {
                         if (entry.second == nullptr || !StringTools::startsWith(StringTools::toLower(entry.first), KeySectionPrefix)) {
                             continue;
                         }
                         for (const auto& part : entry.second->parts()) {
-                            const auto* content = dynamic_cast<const ModBranches::Template::ContentPart*>(part.get());
+                            const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
                             if (content == nullptr) {
                                 continue;
                             }
@@ -1155,46 +940,35 @@ namespace AGRemapCore {
                     return false;
                 }
 
-                // A SIBLING override's `if` blocks, reading this file's copies of the sibling's
+                // A SIBLING override's condition, reading this file's copies of the sibling's
                 // variables -- or nothing when one cannot be read here. A variable the sibling
                 // declares and one of its key sections sets (a toggle) is carried, as
                 // `$<name>RemapRef`; one this file declares itself is read as it is (`$active`).
-                static std::optional<std::vector<std::vector<std::string>>> carryBranches(
-                        const ModBranches::Templates& sibling, const std::vector<std::vector<std::string>>& branches,
+                static std::optional<std::string> carryCondition(
+                        const IfTemplates& sibling, const std::string& condition,
                         const std::set<std::string>& ownVars, std::map<std::string, std::string>& carried) {
                     const std::set<std::string> siblingVars = declaredVars(sibling);
                     std::map<std::string, std::string> renames;
-                    for (const std::vector<std::string>& level : branches) {
-                        for (const std::string& header : level) {
-                            for (const std::string& var : varsIn(header)) {
-                                if (renames.count(var) != 0) {
-                                    continue;
-                                }
-                                if (siblingVars.count(var) != 0 && keySets(sibling, var)) {
-                                    renames.emplace(var, var + IniKeywords::RemapRef);
-                                } else if (ownVars.count(var) == 0) {
-                                    return std::nullopt;
-                                }
-                            }
+                    for (const std::string& var : varsIn(condition)) {
+                        if (renames.count(var) != 0) {
+                            continue;
+                        }
+                        if (siblingVars.count(var) != 0 && keySets(sibling, var)) {
+                            renames.emplace(var, var + IniKeywords::RemapRef);
+                        } else if (ownVars.count(var) == 0) {
+                            return std::nullopt;
                         }
                     }
 
-                    std::vector<std::vector<std::string>> result;
-                    for (const std::vector<std::string>& level : branches) {
-                        std::vector<std::string>& out = result.emplace_back();
-                        for (const std::string& header : level) {
-                            out.push_back(renameVars(header, renames));
-                        }
-                    }
                     carried.insert(renames.begin(), renames.end());
-                    return result;
+                    return renameVars(condition, renames);
                 }
 
                 // The copies 'carried' names (lowercased sibling variable -> copy): a `[Constants]`
                 // declaring each the way the sibling does, and each sibling key section that sets one,
                 // as `[<its name>RemapRef]`. A key's other variables are dropped, and so is a
                 // `condition` reading one this file cannot see -- the key then works everywhere.
-                void carrySections(const ModBranches::Templates& sibling, const std::map<std::string, std::string>& carried,
+                void carrySections(const IfTemplates& sibling, const std::map<std::string, std::string>& carried,
                                    const std::set<std::string>& ownVars, std::set<std::string>& carriedNames) {
                     if (carried.empty()) {
                         return;
@@ -1211,7 +985,7 @@ namespace AGRemapCore {
                             continue;
                         }
                         for (const auto& part : entry.second->parts()) {
-                            const auto* content = dynamic_cast<const ModBranches::Template::ContentPart*>(part.get());
+                            const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
                             if (content == nullptr) {
                                 continue;
                             }
@@ -1235,7 +1009,7 @@ namespace AGRemapCore {
                         std::string body;
                         bool setsCarried = false;
                         for (const auto& part : entry.second->parts()) {
-                            const auto* content = dynamic_cast<const ModBranches::Template::ContentPart*>(part.get());
+                            const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
                             if (content == nullptr) {
                                 continue;
                             }
@@ -1382,11 +1156,11 @@ namespace AGRemapCore {
                     }
 
                     // Per buffer kind. The blend is the one that needs downloadRefKVPs -- see
-                    // DownloadTools::blendRefKVPs for why a downloaded Blend.buf has to be drawn
+                    // DownloadData::blendRefKVPs for why a downloaded Blend.buf has to be drawn
                     // by hand.
                     add(config, {"", "blend"}, IniKeywords::Vb1, IniKeywords::Blend, "Blend", ".buf",
                          DownloadTools::bufResourceKVPs(config.blendStride),
-                         DownloadTools::blendRefKVPs(vertexCount));
+                         DownloadTools::Download::blendRefKVPs(vertexCount));
                     add(config, {"", "position"}, IniKeywords::Vb0, IniKeywords::Position, "Position", ".buf",
                          DownloadTools::bufResourceKVPs(config.positionStride));
                     add(config, {"", "texcoord"}, IniKeywords::Vb1, IniKeywords::Texcoord, "Texcoord", ".buf",
@@ -1415,30 +1189,22 @@ namespace AGRemapCore {
                                              refToSection));
                 }
 
-                IniFileParseContext ctx_;
                 GIMICharParserConfig config_;
 
                 // The game model's vertex count, for a recolour's invented VertexLimitRaise
                 long long vertexCount_;
-                std::unique_ptr<Classifier> classifier_;
+                Classifier* classifier_ = nullptr;     // owned by the base (ownClassifier)
                 DownloadStore downloadStore_;
 
                 // Every download the constructor registered: a parse drops the ones a texture override
                 // replaces, and the next parse of the same file starts from all of them again.
                 Parser::Downloads allDownloads_;
 
-                // object -> (register, the mod's resource) for each texture override it binds
-                std::map<ModObj, std::vector<std::pair<std::string, std::string>>> textureBindings_;
-
-                // A sibling .ini's recolour -- see readTextureOverrides: the RemapRef resource name ->
-                // the file it names, and the graphs that declare the ones an object binds.
-                std::map<std::string, std::string> siblingRefs_;
-                std::map<std::string, std::vector<std::pair<std::string, std::string>>> adoptedRefs_;   // adopted resource -> its keys
                 std::set<std::string> givenAway_;      // objects of this file a sibling binding the buffers adopts
-                std::vector<std::pair<std::string, Graph*>> refGraphs_;
 
-                // Whether this file overrides any of the character's textures, and any the target
-                // does not draw itself.
+                // Whether any of the character's textures this file overrides is one the target does not draw itself
+                bool needsSourceModel_ = false;
+
                 // object -> its toggled overrides, and the resources bindConditionally bound
                 std::map<ModObj, std::vector<CondBinding>> condBindings_;
                 std::set<std::string> condBound_;
@@ -1446,8 +1212,6 @@ namespace AGRemapCore {
                 // What carriedSections() hands the fixer
                 std::string carriedSections_;
 
-                bool ownTextureOverrides_ = false;
-                bool needsSourceModel_ = false;
                 bool recolourOnly_ = false;
         };
     }

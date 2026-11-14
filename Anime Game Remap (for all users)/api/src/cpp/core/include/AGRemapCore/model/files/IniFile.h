@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <filesystem>
 #include <memory>
 #include <optional>
 #include <string>
@@ -32,6 +33,7 @@
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
 #include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h"
+#include "AGRemapCore/tools/ObjectLifetime.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
 #include "AGRemapCore/view/BaseLogger.h"
 
@@ -40,6 +42,9 @@ namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     class BaseIniRemover;
+
+    class IniSharedState;
+    class IniParseData;
 
     /**
      * @brief
@@ -180,7 +185,10 @@ namespace AGRemapCore {
                                   std::optional<Version> toVersion = std::nullopt,
                                   std::optional<std::unordered_set<int>> filteredToModTypeIds = std::nullopt);
 
-            virtual ~IniFile() = default;
+            // Read through plain pointers by parsers, fixers and the Python binding -- see ObjectLifetime
+            virtual ~IniFile() {
+                ObjectLifetime::released(this);
+            }
 
             /**
              * @brief
@@ -319,6 +327,18 @@ namespace AGRemapCore {
              @endrst
              */
             std::shared_ptr<BaseLogger> logger;
+
+            /**
+             * @brief
+             @rst
+             The ``.ini`` files this one is fixed among, as they read with no fix in them, or ``nullptr`` for none
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             :cpp:class:`RemapService` sets it to the state of its run before it fixes this file; the parsers and
+             fixers read another file only through it (#linkedInis). Set rather than passed, as #logger is
+             @endrst
+             */
+            std::shared_ptr<IniSharedState> sharedState;
 
             /**
              * @brief
@@ -497,6 +517,26 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether a `section`_ named 'name' declared again in the same ``.ini`` file is MERGED into
+             its first declaration, rather than ignored :raw-html:`<br />` :raw-html:`<br />`
+
+             This is 3DMigoto's rule for a file it includes (every mod's ``.ini``, each under a namespace
+             of its own): a `section`_ whose name starts with one of 3DMigoto's section prefixes
+             (``ShaderOverride``, ``ShaderRegex``, ``TextureOverride``, ``CustomShader``,
+             ``CommandList``, ``BuiltInCustomShader``, ``BuiltInCommandList``, ``Resource``, ``Key``,
+             ``Preset``, ``Include``) is namespaced, and a repeat of it is rejected -- the first
+             declaration is the one that runs. Any other name (``[Constants]``, ``[Present]``,
+             ``[ClearRenderTargetView]``, ...) cannot be namespaced, and a repeat's lines are appended
+             to the first's. Names are compared without regard to case, as 3DMigoto compares them
+             @endrst
+             *
+             * @param name The `section`_'s name
+             */
+            static bool mergesRepeatedSection(const std::string& name);
+
+            /**
+             * @brief
+             @rst
              Classifies the .ini file, determining #isMod, #isFixed, and #modTypes -- reads the
              .ini file first via #readFileLines if it hasn't been read yet :raw-html:`<br />`
              :raw-html:`<br />`
@@ -568,11 +608,42 @@ namespace AGRemapCore {
             std::vector<std::string> getSectionNames();
 
             /**
+             * @brief
+             @rst
+             The resource `section`_ a binding's value names (``Resource...`` or ``ref Resource...``), under the name the
+             file declares it by -- found without regard to case, as 3DMigoto reads a section name -- or empty when the
+             file declares no such `section`_
+             @endrst
+             *
+             * @param value The value of the binding
+             * @return The `section`_'s name, as declared
+             */
+            std::string resourceNamed(const std::string& value);
+
+            /**
              * @brief The `section`_ named 'name', or ``nullptr`` when there is none
              *
              * @param name The name to look up
              */
             IfTemplate<std::string, std::string>* getSection(const std::string& name);
+
+            /**
+             * @brief
+             @rst
+             The call graph from the `section`_ 'root': it and every `section`_ it reaches through ``run =``, over this
+             file's own `sections`_ (borrowed, not copied) and in this file's :cpp:class:`Z3Context`, so every
+             condition the graph reports combines with this file's others. A 'root' the file does not have gives an
+             empty graph :raw-html:`<br />` :raw-html:`<br />`
+
+             What a value of a `section`_ is under each branch of a merged mod is a walk of this graph:
+             :cpp:func:`GraphCollect::rowsOf`
+             @endrst
+             *
+             * @param root The `section`_ to start from
+             *
+             * @return The graph
+             */
+            IniSectionGraph<std::string, std::string> sectionGraph(const std::string& root);
 
             /**
              * @brief
@@ -663,6 +734,13 @@ namespace AGRemapCore {
             /**
              * @brief Parses all the :cpp:class:`IfTemplate`\\s for the .ini file -- see #getIfTemplates for the cached version
              *
+             @rst
+             A `section`_ declared more than once is read as 3DMigoto reads it (see
+             #mergesRepeatedSection): one :cpp:class:`IfTemplate`, under the first declaration's name,
+             holding every declaration's lines when the name merges, and the first declaration's alone
+             when it does not
+             @endrst
+             *
              * @return The parsed :cpp:class:`IfTemplate`\\s, keyed by `section`_ name
              */
             const tsl::ordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>& readIfTemplates();
@@ -700,6 +778,155 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Another ``.ini`` file of the same mod, read the way this one is, and classified :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The new file takes this one's #getModTypes as its mod types to choose from, and its #downloadMode,
+             #fromVersion and #toVersion. A mod's files are one mod: a file beside the one being fixed that binds
+             textures on the same draws, or a recolour in its own ``.ini``, is read as the same character's
+             @endrst
+             *
+             * @param file The path to the other ``.ini`` file
+             * @param forcedFromModTypeIds The ids of the mod types the new file is forced to be classified as, or
+             *      ``std::nullopt`` to classify it among this file's mod types. **Default**: ``std::nullopt``
+             *
+             * @return The new file
+             */
+            std::unique_ptr<IniFile> sibling(const std::string& file,
+                                             std::optional<std::unordered_set<int>> forcedFromModTypeIds = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             Another ``.ini`` file of the same mod, read the way this one is, and classified, from its text in
+             'other' rather than from the disk -- see the other overload :raw-html:`<br />` :raw-html:`<br />`
+
+             For a file of #sharedState: the disk may hold that file with a fix written into it by now
+             @endrst
+             *
+             * @param other The other ``.ini`` file, read
+             * @param forcedFromModTypeIds The ids of the mod types the new file is forced to be classified as, or
+             *      ``std::nullopt`` to classify it among this file's mod types. **Default**: ``std::nullopt``
+             *
+             * @return The new file
+             */
+            std::unique_ptr<IniFile> sibling(const IniFile& other,
+                                             std::optional<std::unordered_set<int>> forcedFromModTypeIds = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
+             The files of #sharedState linked to this one by what their text names -- see
+             :cpp:func:`IniSharedState::linked` -- each as it reads with no fix in it. Empty with no #sharedState
+             or no path
+             @endrst
+             */
+            std::vector<IniFile*> linkedInis() const;
+
+            /**
+             * @brief
+             @rst
+             The state this file keeps for some of its variables, as another file reading them needs it -- see
+             #varState
+             @endrst
+             */
+            struct VarState {
+                VarState() = default;
+                VarState(const VarState&) = delete;
+                VarState& operator=(const VarState&) = delete;
+                VarState(VarState&&) = default;
+                VarState& operator=(VarState&&) = default;
+
+                /**
+                 * @brief
+                 @rst
+                 Copies of the `sections`_ that hold the state, in the file's order and under their own names, each
+                 cut to the lines that make it: a ``[Constants]`` keeps its declarations of #vars; every other
+                 `section`_ keeps the lines assigning one of #vars, plus what decides when it runs -- in a ``[Key...]``
+                 every line that assigns no other variable (``key``, ``type``, ``back``, ``condition``, ...), elsewhere
+                 its ``hash``, ``match_...`` and ``condition`` lines. An ``if`` block left empty goes
+                 @endrst
+                 */
+                std::vector<std::unique_ptr<IfTemplate<std::string, std::string>>> sections;
+
+                /**
+                 * @brief
+                 @rst
+                 The variables asked for, and every variable a line assigning one of them reads -- in its value or in
+                 an ``if`` it sits under -- to the closure. Lowercased, as :cpp:func:`IniNamingTools::varsIn` gives them
+                 @endrst
+                 */
+                std::set<std::string> vars;
+
+                /**
+                 * @brief
+                 @rst
+                 The #vars no ``[Constants]`` of the file declares -- 3DMigoto starts such a variable at 0
+                 @endrst
+                 */
+                std::set<std::string> undeclared;
+            };
+
+            /**
+             * @brief
+             @rst
+             The state this file keeps for 'vars': where they are declared and every `section`_ that assigns them --
+             ``[Present]``, a key, a trigger on a hash -- with the variables those lines read in turn. A file with no
+             ``namespace =`` names its variables after its path, so another file reads them only through a copy of
+             this state, renamed (:cpp:class:`GraphVarRename`).
+
+             Never a `section`_ that draws (one with ``match_first_index``) nor a ``[Resource...]``. Only the
+             `sections`_ that keep a line are copied
+             @endrst
+             *
+             * @param vars The variables, as :cpp:func:`IniNamingTools::varsIn` gives them
+             *
+             * @return The state
+             */
+            VarState varState(const std::set<std::string>& vars);
+
+            /**
+             * @brief
+             @rst
+             The parse data of the parser this file built for 'modType' (filed under its :cpp:member:`ModType::modTypeId`),
+             or ``nullptr`` when it built none -- what a step of a fixer's list reads the mod's values from, through
+             :cpp:func:`IniParseData::variables`. Nothing is built here
+             @endrst
+             *
+             * @param modType The mod type
+             *
+             * @return The parse data
+             */
+            IniParseData* parseDataOf(const ModType& modType);
+
+            /**
+             * @brief
+             @rst
+             The namespace this file declares -- a ``namespace = X`` line before its first `section`_, as
+             3DMigoto reads it -- or ``std::nullopt``
+             @endrst
+             */
+            std::optional<std::string> getNamespace();
+
+            /**
+             * @brief
+             @rst
+             The ``.ini`` files directly in 'folder' that the game loads: not one a modder turned off
+             (:cpp:func:`IniNamingTools::isDisabled`), and not a copy a fix generated
+             (:cpp:func:`IniNamingTools::isRemapCopyFile`)
+             @endrst
+             *
+             * @param folder The folder
+             * @param exclude A file to leave out, eg. the ``.ini`` file being read. **Default**: none
+             *
+             * @return Their full paths, sorted
+             */
+            static std::vector<std::string> loadedInis(const std::filesystem::path& folder,
+                                                       const std::filesystem::path& exclude = {});
+
+            /**
+             * @brief
+             @rst
              The result of the last #parse, or ``std::nullopt`` if this ``.ini`` file has never been
              parsed :raw-html:`<br />` :raw-html:`<br />`
 
@@ -722,7 +949,13 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Clears the text read in from the ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+             Clears the text read in from the ``.ini`` file, and everything parsed from it: the
+             :cpp:class:`IfTemplate`\s, the parsers and fixers built over them, and #getParseData
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The next #getIfTemplates, #parse or #fix reads the file again. A removal calls this after it
+             writes the file back, so a fix in the same run works from the file without the fix it removed
+             :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
                 If #getFile is ``std::nullopt``, the default run of this (with 'eraseSourceTxt'
@@ -737,7 +970,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Clears all the saved data for the ``.ini`` file -- the read text (via #clearRead), the
+             Clears all the saved data for the ``.ini`` file -- the read text and what was parsed from it (via
+             #clearRead), the
              classification results (#isMod / #isFixed / #modTypes / #isClassified), the parsed
              :cpp:class:`IfTemplate`\s, the shared :cpp:class:`Z3Context`, and #getParseData
              :raw-html:`<br />` :raw-html:`<br />`
@@ -751,6 +985,15 @@ namespace AGRemapCore {
              * @param eraseSourceTxt Whether to also erase the text of a file-less .ini file -- forwarded to #clearRead. **Default**: ``false``
              */
             void clear(bool eraseSourceTxt = false);
+
+        private:
+            /**
+             * @brief Drops what was parsed from the read text: the built fixers and parsers, #getParseData and the
+             * :cpp:class:`IfTemplate`\s -- in that order, since each borrows from the next
+             */
+            void clearParse();
+
+        public:
 
             /**
              * @brief

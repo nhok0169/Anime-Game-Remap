@@ -31,6 +31,14 @@
 
 
 namespace AGRemapCore {
+    std::optional<std::size_t> BufFile::linesOf(const std::string& path, std::size_t stride) {
+        const std::optional<std::uintmax_t> size = FileService::fileSize(path);
+        if (stride == 0 || !size.has_value() || *size < stride) {
+            return std::nullopt;
+        }
+        return static_cast<std::size_t>(*size / stride);
+    }
+
     BufFile::BufFile(BinarySrc src, std::vector<std::unique_ptr<BufElementType>> elements, std::string fileType):
         BinaryFile(std::move(src)), fileType_(std::move(fileType)) {
 
@@ -391,6 +399,52 @@ namespace AGRemapCore {
         return result;
     }
 
+    std::vector<std::vector<long long>> BufFile::rows(const std::string& elementKey, std::size_t width) const {
+        const std::vector<BufColumnData> columns = decodeAll();
+
+        std::size_t lines = 0;
+        for (const BufColumnData& column : columns) {
+            if (column.elementKey == elementKey) {
+                lines = std::max(lines, std::visit([](auto&& values) { return values.size(); }, column.values));
+            }
+        }
+
+        std::vector<std::vector<long long>> result(lines, std::vector<long long>(width, 0));
+        for (const BufColumnData& column : columns) {
+            if (column.elementKey != elementKey || column.valueInd >= width) {
+                continue;
+            }
+
+            std::visit([&result, &column, lines](auto&& values) {
+                for (std::size_t i = 0; i < values.size() && i < lines; ++i) {
+                    result[i][column.valueInd] = static_cast<long long>(values[i]);
+                }
+            }, column.values);
+        }
+
+        return result;
+    }
+
+    std::vector<double> BufFile::column(const std::string& elementKey, std::size_t valueInd) const {
+        for (const BufColumnData& column : decodeAll()) {
+            if (column.elementKey != elementKey || column.valueInd != valueInd) {
+                continue;
+            }
+
+            return std::visit([](auto&& values) {
+                std::vector<double> out;
+                out.reserve(values.size());
+                for (const auto& value : values) {
+                    out.push_back(static_cast<double>(value));
+                }
+
+                return out;
+            }, column.values);
+        }
+
+        return {};
+    }
+
     void BufFile::merge(const std::vector<const BufFile*>& bufFiles) {
         std::vector<std::unique_ptr<BufElementType>> mergedElements;
         std::size_t lineCount = 0;
@@ -530,6 +584,60 @@ namespace AGRemapCore {
             return segments;
         }
     }
+
+    ByteVec BufFile::restride(const std::vector<std::unique_ptr<BufElementType>>& toElements,
+                              const std::unordered_map<std::string, std::string>& fillFrom) const {
+        // where each of this file's elements sits in a line
+        std::unordered_map<std::string, std::pair<std::size_t, std::size_t>> at;
+        std::size_t offset = 0;
+        for (const auto& element : getElements()) {
+            at[element->getName()] = {offset, element->getSize()};
+            offset += element->getSize();
+        }
+
+        // each target element's source: (offset, size) in this file's line, or none for zeros
+        struct Source { bool zeros; std::size_t offset; std::size_t size; };
+        std::vector<Source> sources;
+        std::size_t toStride = 0;
+        for (const auto& element : toElements) {
+            const std::size_t size = element->getSize();
+            toStride += size;
+            auto found = at.find(element->getName());
+            if (found == at.end()) {
+                auto fill = fillFrom.find(element->getName());
+                if (fill != fillFrom.end()) {
+                    found = at.find(fill->second);
+                }
+            }
+            if (found == at.end()) {
+                sources.push_back({true, 0, size});
+                continue;
+            }
+            if (found->second.second != size) {
+                throw BadBufData(getFileType());
+            }
+            sources.push_back({false, found->second.first, size});
+        }
+
+        const std::size_t fromStride = getBytesPerLine();
+        const ByteVec& data = getData();
+        const std::size_t lines = fromStride == 0 ? 0 : data.size() / fromStride;
+        ByteVec result;
+        result.reserve(lines * toStride);
+        for (std::size_t line = 0; line < lines; ++line) {
+            const std::size_t base = line * fromStride;
+            for (const Source& source : sources) {
+                if (source.zeros) {
+                    result.insert(result.end(), source.size, 0);
+                } else {
+                    result.insert(result.end(), data.begin() + static_cast<std::ptrdiff_t>(base + source.offset),
+                                  data.begin() + static_cast<std::ptrdiff_t>(base + source.offset + source.size));
+                }
+            }
+        }
+        return result;
+    }
+
 
     void BufFile::append(const std::vector<const BufFile*>& bufFiles) {
         // With no elements there is nothing to take out of a source line, and read() only accepts

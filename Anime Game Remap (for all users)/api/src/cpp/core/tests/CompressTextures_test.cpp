@@ -123,15 +123,15 @@ void testDefaultReachesBothTextureWriters() {
     TestableRemapService service;
     service.compressTextures = false;
 
-    RemapTexEditResource edit(".", "src.dds", "fixed.dds", TexEditor({}, true));
-    check(edit.texEditor.getCompress(), "edit resource starts out compressing (the state worth changing)");
+    RemapTexEditResource edit(".", "src.dds", "fixed.dds", std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{}, true));
+    check(edit.compressAllowed, "edit resource starts out allowed to compress (the state worth changing)");
     service._applyCompressTextures(edit);
-    check(!edit.texEditor.getCompress(), "compressTextures=false (the default) turns a texture EDIT's compression off");
+    check(!edit.compressAllowed, "compressTextures=false (the default) turns a texture EDIT's compression off");
 
-    RemapTexAddResource add(".", "made.dds", TexCreator(4, 4, Colour(), true));
-    check(add.texCreator.compress, "add resource starts out compressing");
+    RemapTexAddResource add(".", "made.dds", std::make_shared<TexCreator>(4, 4, Colour(), true));
+    check(add.compressAllowed, "add resource starts out allowed to compress");
     service._applyCompressTextures(add);
-    check(!add.texCreator.compress, "compressTextures=false (the default) turns a texture ADD's compression off");
+    check(!add.compressAllowed, "compressTextures=false (the default) turns a texture ADD's compression off");
 }
 
 void testFlagOnChangesNothing() {
@@ -139,13 +139,13 @@ void testFlagOnChangesNothing() {
     check(!service.compressTextures, "compressTextures defaults to false -- ie. uncompressed");
     service.compressTextures = true;
 
-    RemapTexEditResource edit(".", "src.dds", "fixed.dds", TexEditor({}, true));
+    RemapTexEditResource edit(".", "src.dds", "fixed.dds", std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{}, true));
     service._applyCompressTextures(edit);
-    check(edit.texEditor.getCompress(), "compressTextures=true leaves a texture edit's own answer alone");
+    check(edit.compressAllowed, "compressTextures=true leaves a texture edit's own answer alone");
 
-    RemapTexAddResource add(".", "made.dds", TexCreator(4, 4, Colour(), true));
+    RemapTexAddResource add(".", "made.dds", std::make_shared<TexCreator>(4, 4, Colour(), true));
     service._applyCompressTextures(add);
-    check(add.texCreator.compress, "compressTextures=true leaves a texture add's own answer alone");
+    check(add.compressAllowed, "compressTextures=true leaves a texture add's own answer alone");
 }
 
 // The override is ONE-WAY on purpose -- see RemapService::compressTextures. It only ever forces
@@ -155,9 +155,10 @@ void testOverrideIsOneWay() {
     TestableRemapService service;
     service.compressTextures = true;
 
-    RemapTexEditResource edit(".", "src.dds", "fixed.dds", TexEditor({}, false));
+    auto editor = std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{}, false);
+    RemapTexEditResource edit(".", "src.dds", "fixed.dds", editor);
     service._applyCompressTextures(edit);
-    check(!edit.texEditor.getCompress(), "an edit that asked for no compression stays that way even with the flag");
+    check(!editor->getCompress(), "an edit that asked for no compression stays that way even with the flag");
 }
 
 void testNonTextureResourceIsUntouched() {
@@ -263,6 +264,42 @@ void testTexEditorHonoursCompress() {
                 static_cast<unsigned long long>(uncompressedSize));
 }
 
+
+// The editor is SHARED by every resource an edit builds, so a resource not allowed to compress turns the
+// editor's compression off only while it runs: the file is the uncompressed one, and the editor -- which the
+// next resource, or a Python caller, still holds -- is left as it was.
+void testResourceTurnsCompressionOffOnlyWhileItRuns() {
+    const std::filesystem::path root = scratchRoot();
+    const std::filesystem::path source = root / "sharedSrc.dds";
+    const std::filesystem::path allowed = root / "sharedAllowed.dds";
+    const std::filesystem::path notAllowed = root / "sharedNotAllowed.dds";
+
+    std::error_code ec;
+    for (const std::filesystem::path& p : {source, allowed, notAllowed}) {
+        std::filesystem::remove(p, ec);
+    }
+
+    TextureFile sourceFile(source.string());
+    TexCreator(32, 32, Colour(), true).fix(sourceFile, source.string());
+    if (fileSize(source) == 0) {
+        check(false, "could not build a source texture to edit -- the rest of this test is moot");
+        return;
+    }
+
+    auto editor = std::make_shared<TexEditor>(std::vector<TexEditor::Filter>{[](TextureFile&) {}}, true);
+
+    RemapTexEditResource compressing(root.string(), source.string(), allowed.string(), editor);
+    compressing.fix();
+
+    RemapTexEditResource uncompressed(root.string(), source.string(), notAllowed.string(), editor);
+    uncompressed.compressAllowed = false;
+    uncompressed.fix();
+
+    check(fileSize(notAllowed) > fileSize(allowed),
+          "a resource not allowed to compress writes the bigger, uncompressed file through a shared editor");
+    check(editor->getCompress(), "the shared editor keeps its own compression once the resource is done");
+}
+
 }
 
 
@@ -277,6 +314,7 @@ int main() {
     testConstructorArgumentReachesTheMember();
     testWrittenFileActuallyDiffers();
     testTexEditorHonoursCompress();
+    testResourceTurnsCompressionOffOnlyWhileItRuns();
 
     if (failures == 0) {
         std::printf("\nAll compressTextures tests passed.\n");

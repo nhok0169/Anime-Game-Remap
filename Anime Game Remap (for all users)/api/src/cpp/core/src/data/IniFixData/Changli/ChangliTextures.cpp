@@ -12,7 +12,6 @@
 // ##### EndCredits
 
 #include "AGRemapCore/data/IniFixData/Changli/ChangliTextures.h"
-#include "AGRemapCore/data/IniFixData/Changli/ChangliThumbprints.h"
 
 
 namespace AGRemapCore {
@@ -101,15 +100,12 @@ namespace AGRemapCore {
         };
 
         // ---- her own textures' pixels, for a file no hash and no register names ----
-        facts.textureThumbprints = changliTextureThumbprints();
+        // textureThumbprints: read off TextureThumbprints (WWMIParserConfig::withGameData, WWMIFixerConfig::withGameData)
 
         // ---- a role the mod ships no file for falls back to HER game texture ----
         // The hair map, the eye textures and the glow are the same hashes on both skins, so the game
         // already binds them on the target and they have no fallback.
-        facts.downloadGameFolder = "WuWa";
-        facts.downloadCharFolder = "Changli";
         facts.downloadVersionFolder = "3_7";
-        facts.downloadPrefix = "Changli";
         facts.fallbackTextures = {
             {"bangsMap", "25e6decf"},
             {"bangsDiffuse", "89da6405"},
@@ -146,6 +142,8 @@ namespace AGRemapCore {
             {"tattooFlow", "7a9915c5"},
         };
 
+        // the masks a flat file, or one a slot also binds for another role, is refused for
+        facts.regionRoles = {"upperMask", "lowerMask", "faceMask"};
         return facts;
     }
 }

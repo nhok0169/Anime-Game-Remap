@@ -13,7 +13,6 @@
 
 
 #include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphTextures.h"
-#include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphThumbprints.h"
 
 
 namespace AGRemapCore {
@@ -37,6 +36,7 @@ namespace AGRemapCore {
             {"c4daa4c2", "bodyMask"},
             {"1b670385", "bodyNormal"},
             {"4caadf2f", "bodyNormal"},
+            {"1676c989", "bodyNormal"},
             {"1bc98900", "eyeDiffuse"},
             {"f0536df1", "eyeDiffuse"},
             {"a32859fe", "eyeHighlight"},
@@ -83,14 +83,11 @@ namespace AGRemapCore {
         };
 
         // ---- her own textures' pixels, for a file no hash and no register names ----
-        facts.textureThumbprints = changliNymphTextureThumbprints();
+        // textureThumbprints: read off TextureThumbprints (WWMIParserConfig::withGameData, WWMIFixerConfig::withGameData)
 
         // ---- a role the mod ships no file for falls back to HER game texture; the hair map and the eye
         // textures are the same hashes on both outfits, so the game already binds them on Changli ----
-        facts.downloadGameFolder = "WuWa";
-        facts.downloadCharFolder = "ChangliNymph";
         facts.downloadVersionFolder = "3_7";
-        facts.downloadPrefix = "ChangliNymph";
         facts.fallbackTextures = {
             {"bangsDiffuse", "45938ff1"},
             {"bangsMap", "edd1df6c"},
@@ -120,6 +117,8 @@ namespace AGRemapCore {
             {"sheerRamp", "5c290276"},
         };
 
+        // the masks a flat file, or one a slot also binds for another role, is refused for
+        facts.regionRoles = {"bodyMask", "faceMask"};
         return facts;
     }
 }

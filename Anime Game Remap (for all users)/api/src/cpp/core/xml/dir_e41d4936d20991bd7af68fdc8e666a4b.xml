@@ -4,7 +4,6 @@
     <compoundname>src/data/IniFixData/ChisaParfait</compoundname>
     <innerfile refid="_chisa_parfait_fixer_8cpp">ChisaParfaitFixer.cpp</innerfile>
     <innerfile refid="_chisa_parfait_textures_8cpp">ChisaParfaitTextures.cpp</innerfile>
-    <innerfile refid="_chisa_parfait_thumbprints_8cpp">ChisaParfaitThumbprints.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

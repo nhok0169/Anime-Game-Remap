@@ -17,11 +17,13 @@
 #include <algorithm>
 #include <array>
 #include <atomic>
+#include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <mutex>
+#include <stdexcept>
 #include <optional>
 #include <thread>
 #include <utility>
@@ -124,6 +126,42 @@ namespace {
 
 
 namespace AGRemapCore {
+
+    std::optional<TextureFile::DDSHeader> TextureFile::readDDSHeader(const std::string& path) {
+        // the 4-byte magic, the 124-byte header and the 20-byte DX10 extension
+        std::ifstream in(FileService::strToPath(path), std::ios::binary);
+        std::array<unsigned char, 148> h{};
+        if (!in.read(reinterpret_cast<char*>(h.data()), static_cast<std::streamsize>(h.size())) && in.gcount() < 128) {
+            return std::nullopt;
+        }
+
+        const auto u32 = [&h](std::size_t at) {
+            return static_cast<std::uint32_t>(h[at]) | (static_cast<std::uint32_t>(h[at + 1]) << 8)
+                   | (static_cast<std::uint32_t>(h[at + 2]) << 16) | (static_cast<std::uint32_t>(h[at + 3]) << 24);
+        };
+        if (u32(0) != 0x20534444u) {                       // "DDS "
+            return std::nullopt;
+        }
+
+        DDSHeader header;
+        header.height = u32(12);
+        header.width = u32(16);
+        header.mipCount = std::max<std::uint32_t>(1, u32(28));
+        const std::uint32_t fourCC = u32(84);
+        if (fourCC == 0x30315844u) {                       // "DX10"
+            header.dxgiFormat = u32(128);
+        } else if (fourCC == 0) {
+            const std::uint32_t bits = u32(88);
+            const std::uint32_t red = u32(92);
+            if (bits == 8 && red == 0xffu) {
+                header.dxgiFormat = 61;                    // DXGI_FORMAT_R8_UNORM
+            } else if (bits == 32 && red == 0x00ff0000u) {
+                header.dxgiFormat = 87;                    // DXGI_FORMAT_B8G8R8A8_UNORM
+            }
+        }
+
+        return header;
+    }
 
     namespace {
         // ---- the DX10 header, read by hand ----
@@ -509,6 +547,29 @@ namespace AGRemapCore {
 
     const std::vector<std::uint8_t>& TextureFile::getPixels() const {
         return pixels_;
+    }
+
+    std::vector<std::uint8_t> TextureFile::shaderChannel(std::size_t channel, bool truncate) const {
+        if (channel > 3) {
+            throw std::out_of_range("a texture has channels 0 to 3, not " + std::to_string(channel));
+        }
+
+        // the sRGB decode of every byte, truncated or rounded
+        std::array<std::uint8_t, 256> decoded{};
+        for (int i = 0; i < 256; ++i) {
+            const double c = i / 255.0;
+            const double linear = (c <= 0.04045 ? c / 12.92 : std::pow((c + 0.055) / 1.055, 2.4)) * 255.0;
+            decoded[i] = static_cast<std::uint8_t>(std::min(255.0, std::floor(linear + (truncate ? 1e-6 : 0.5))));
+        }
+
+        const bool srgb = gamma_.has_value() && channel < 3;
+        std::vector<std::uint8_t> values(pixels_.size() / 4);
+        for (std::size_t i = 0; i < values.size(); ++i) {
+            const std::uint8_t byte = pixels_[i * 4 + channel];
+            values[i] = srgb ? decoded[byte] : byte;
+        }
+
+        return values;
     }
 
     void TextureFile::setPixels(std::vector<std::uint8_t> pixels, int width, int height) {

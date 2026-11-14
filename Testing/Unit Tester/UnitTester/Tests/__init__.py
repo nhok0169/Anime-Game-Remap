@@ -29,6 +29,10 @@ from .test_GIBuilder import GIBuilderTest
 from .test_CppHashTools import CppHashToolsTest
 from .test_CppIfContentPart import CppIfContentPartTest
 from .test_IbFile import IbFileTest
+from .test_WWMIBlend import WWMIBlendTest, WWMIShapeKeysTest, SkeletonNumberingProbeTest
+from .test_TexcoordFile import TexcoordFileTest
+from .test_RabbitFX import DDSHeaderTest, RabbitFXTest, DrawUVCoverageTest, WWMIKeywordsTest
+from .test_IniParseData import TextureRolesTest, IniParseDataTest
 from .test_VbFile import VbFileTest
 from .test_IniFile import IniFileTest
 from .test_ModTypeRemaps import ModTypeRemapsTest
@@ -47,11 +51,13 @@ from .test_HashTools import HashToolsTest
 from .test_GIMIFixer import GIMIFixerTest
 from .test_BaseIniFixer import BaseIniFixerTest
 from .test_GIMIParser import GIMIParserTest
+from .test_ParseSteps import ParseStepsTest
 from .test_IniBuilders import IniParseBuilderTest, IniFixBuilderTest, IniRemoveBuilderTest
 from .test_StrategyOverrides import StrategyOverridesTest
 from .test_GIMICharBuilders import GIMICharBuildersTest
 from .test_GIMIComponentBuilders import GIMIComponentBuildersTest
 from .test_GIMISectionClassifier import GIMISectionClassifierTest
+from .test_GIMIObjPartFilter import GIMIObjPartFilterTest
 from .test_BaseIniParser import BaseIniParserTest
 from .test_GraphGroupRemap import GraphGroupRemapTest
 from .test_BaseIniGraphEdit import BaseIniGraphEditTest
@@ -59,11 +65,23 @@ from .test_BaseIniGraphGroupEdit import BaseIniGraphGroupEditTest
 from .test_GraphGroupEdit import GraphGroupEditTest
 from .test_BaseResEdit import BaseResEditTest
 from .test_ResEdits import ResEditsTest
+from .test_HeldResEdits import HeldResEditsTest, HeldTexEditorsTest
+from .test_IniNamingTools import IniNamingToolsTest
+from .test_PythonParity import PythonParityTest
+from .test_ObjectLifetime import ObjectLifetimeTest, IniFileLifetimeTest, GraphKeeperTest
+from .test_GameDataTables import GameDataTablesTest
+from .test_BranchedValues import BranchedValuesTest, ElseConditionTest, TemplateValuesTest
+from .test_ListValue import ListValueTest, IbFileRemapDrawRangeTest, SectionTextTest
+from .test_DownloadData import DownloadDataTest, LoadedInisTest, IniSharedStateTest
 from .test_ResCollects import ResCollectsTest
 from .test_GraphInherit import GraphInheritTest
 from .test_GraphRemove import GraphRemoveTest
 from .test_GraphGroupRemove import GraphGroupRemoveTest
+from .test_IterGraphGroupEdit import IterGraphGroupEditTest
 from .test_GraphCreate import GraphCreateTest
+from .test_GraphFilter import GraphFilterTest
+from .test_GraphCopy import GraphCopyTest
+from .test_RegIfTemplateAdd import RegIfTemplateAddTest
 from .test_GraphRename import GraphRenameTest
 from .test_RegFillMissing import RegFillMissingTest
 from .test_IfContentPart import IfContentPartTest
@@ -108,6 +126,7 @@ from .test_RegNewVals import RegNewValsTest
 from .test_RegRemap import RegRemapTest
 from .test_RegRemove import RegRemoveTest
 from .test_RegRestrict import RegRestrictTest
+from .test_RegAnchorAdd import RegAnchorAddTest
 from .test_RegSurroundedAdd import RegSurroundedAddTest
 from .test_RegDelimitedAdd import RegDelimitedAddTest
 from .test_RegBranchAdd import RegBranchAddTest
@@ -117,6 +136,9 @@ from .test_RemapServiceCLI import RemapServiceCLITest
 from .test_ResGroupCollect import ResGroupCollectTest
 from .test_VGComponentSplit import VGComponentSplitTest, VGSplitGroupResourceTest, BufReplaceTest
 from .test_ResRegCollect import ResRegCollectTest
+from .test_GraphCollect import GraphCollectTest
+from .test_GraphEditVariables import GraphEditVariablesTest
+from .test_ShaderHelpers import ShaderFilterTagsTest, CustomShaderBackupsTest
 from .test_SectionIterData import SectionIterDataTest
 from .test_SympyIfPredGenerator import SympyIfPredGeneratorTest
 from .test_SympyParser import SympyParserTest
@@ -148,6 +170,8 @@ from .test_CppTransparencyAdjustFilter import CppTransparencyAdjustFilterTest
 from .test_CppTexFilterOnCppTextureFile import CppTexFilterOnCppTextureFileTest
 from .test_CppInvertAlphaFilter import CppInvertAlphaFilterTest
 from .test_CppMaterialBandRemapFilter import CppMaterialBandRemapFilterTest
+from .test_ChannelFilters import ChannelMapFilterTest, GuidedScaleFilterTest, RegionFilterTest
+from .test_WWMIHelpers import WWMIHelpersTest
 from .test_NeuvilletteTemplateOptions import NeuvilletteTemplateOptionsTest
 from .test_InnerLayerOutline import InnerLayerOutlineTest, VGSplitGroupInnerOutlineTest
 from .test_CppHueAdjust import CppHueAdjustTest
@@ -159,22 +183,22 @@ from .test_CppTexCreator import CppTexCreatorTest
 from .test_TexCreator import TexCreatorTest
 
 __all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "BaseLoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IfTemplateNodeTest", "IniFileTest", "ModTypeRemapsTest", "ModTypeMethodsTest", "CppMultiModFixerTest"]
-__all__ += ["ModTypesTest", "ModTypeTest", "RemapServiceCLITest", "GIMIFixerTest", "GIMIParserTest", "RemapIniRemoverTest", "GlobalRemapIniRemoverTest"]
+__all__ += ["ModTypesTest", "ModTypeTest", "RemapServiceCLITest", "GIMIFixerTest", "GIMIParserTest", "ParseStepsTest", "RemapIniRemoverTest", "GlobalRemapIniRemoverTest"]
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest"]
 __all__ += ["ColourRangeTest", "VersionSetTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredPartTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
-__all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "VertexCountsTest", "VGRemapsTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphGroupRemoveTest", "GraphRenameTest", "ResRegCollectTest", "ResGroupCollectTest", "VGComponentSplitTest", "VGSplitGroupResourceTest", "BufReplaceTest", "SympyTokenizerTest", "SympyParserTest"]
-__all__ += ["BaseIniGraphGroupEditTest", "GraphGroupEditTest", "BaseResEditTest", "ResEditsTest", "ResCollectsTest"]
+__all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "VertexCountsTest", "VGRemapsTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphGroupRemoveTest", "IterGraphGroupEditTest", "GraphRenameTest", "ResRegCollectTest", "GraphCollectTest", "ResGroupCollectTest", "VGComponentSplitTest", "VGSplitGroupResourceTest", "BufReplaceTest", "SympyTokenizerTest", "SympyParserTest"]
+__all__ += ["BaseIniGraphGroupEditTest", "GraphGroupEditTest", "BaseResEditTest", "ResEditsTest", "HeldResEditsTest", "HeldTexEditorsTest", "IniNamingToolsTest", "BranchedValuesTest", "ElseConditionTest", "TemplateValuesTest", "ListValueTest", "IbFileRemapDrawRangeTest", "SectionTextTest", "DownloadDataTest", "LoadedInisTest", "IniSharedStateTest", "ResCollectsTest"]
 __all__ += ["BaseIniGraphEditTest", "RegFillMissingTest"]
 __all__ += ["SympyIfPredGeneratorTest", "CppAhoCorasickDFATest", "CppTrieTest"]
 __all__ += ["ModTypeIdDataTest", "ModTypeTest", "GIBuilderTest", "ModTypeIdTest", "GameTypeIdTest", "GameTypesTest"]
 __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]
 __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
 __all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]
-__all__ += ["BaseRegEditTest", "RegAddTest", "RegNewValsTest", "RegRemapTest", "RegRemoveTest", "RegRestrictTest", "RegSurroundedAddTest", "RegDelimitedAddTest", "RegBranchAddTest", "RegBottomAddTest", "GIMIApiNormalizerTest"]
+__all__ += ["BaseRegEditTest", "RegAddTest", "RegNewValsTest", "RegRemapTest", "RegRemoveTest", "RegRestrictTest", "RegAnchorAddTest", "RegSurroundedAddTest", "RegDelimitedAddTest", "RegBranchAddTest", "RegBottomAddTest", "GIMIApiNormalizerTest"]
 __all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredTokenizerTest"]
 __all__ += ["CallGraphTest", "SectionIterDataTest", "GraphToolsTest"]
 __all__ += ["BufDataTypeTest", "BufElementTypeTest", "BinaryFileTest", "CppBufFileTest", "VGRemapTest", "BufToolsTest"]
-__all__ += ["BufFileTest", "BlendFileTest", "PositionFileTest", "IbFileTest", "VbFileTest"]
+__all__ += ["BufFileTest", "BlendFileTest", "PositionFileTest", "TexcoordFileTest", "IbFileTest", "WWMIBlendTest", "WWMIShapeKeysTest", "SkeletonNumberingProbeTest", "DDSHeaderTest", "RabbitFXTest", "DrawUVCoverageTest", "WWMIKeywordsTest", "VbFileTest", "TextureRolesTest", "IniParseDataTest"]
 __all__ += ["BaseBufEditorTest", "BufEditorTest"]
 __all__ += ["TexEngineTest", "CppColourTest", "CppTexCacheTest", "CppTextureFileTest", "TextureFileTest"]
 __all__ += ["CppBaseTexEditorTest", "BaseTexEditorTest", "CppBaseTexFilterTest", "CppGammaFilterTest"]
@@ -185,7 +209,7 @@ __all__ += ["FileStatsTest", "CachedFileStatsTest", "RemapStatsTest", "FileDownl
 __all__ += ["IniResourceTest", "IniFixResourceTest", "IniGroupedResourceTest", "RemapIniGroupedResourceTest"]
 __all__ += ["RemapIniResourceTest", "RemapIniDownloadTest", "RemapBlendResourceTest", "RemapTexAddResourceTest", "RemapFileAddResourceTest"]
 __all__ += ["IniGraphGroupTest"]
-__all__ += ["BaseIniParserTest", "GIMISectionClassifierTest"]
+__all__ += ["BaseIniParserTest", "GIMISectionClassifierTest", "GIMIObjPartFilterTest"]
 __all__ += ["IniParseBuilderTest", "IniFixBuilderTest", "IniRemoveBuilderTest"]
 __all__ += ["StrategyOverridesTest"]
 __all__ += ["GIMICharBuildersTest"]
@@ -193,3 +217,10 @@ __all__ += ["GIMIComponentBuildersTest"]
 __all__ += ["BaseIniFixerTest"]
 __all__ += ["NeuvilletteTemplateOptionsTest"]
 __all__ += ["InnerLayerOutlineTest", "VGSplitGroupInnerOutlineTest"]
+__all__ += ["GraphCreateTest", "GraphFilterTest", "GraphCopyTest", "RegIfTemplateAddTest"]
+__all__ += ["GraphEditVariablesTest"]
+__all__ += ["ShaderFilterTagsTest", "CustomShaderBackupsTest"]
+__all__ += ["PythonParityTest"]
+__all__ += ["ChannelMapFilterTest", "GuidedScaleFilterTest", "RegionFilterTest", "WWMIHelpersTest"]
+__all__ += ["ObjectLifetimeTest", "IniFileLifetimeTest", "GraphKeeperTest"]
+__all__ += ["GameDataTablesTest"]

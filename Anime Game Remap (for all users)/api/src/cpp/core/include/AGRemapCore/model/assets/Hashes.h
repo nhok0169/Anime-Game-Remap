@@ -16,6 +16,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "AGRemapCore/model/assets/ModMappedAssets.h"
@@ -66,6 +67,46 @@ namespace AGRemapCore {
              @endrst
              */
             explicit Hashes(std::unordered_map<std::string, std::vector<std::string>> map = {});
+
+            /**
+             * @brief A hash type's later generation of the same role's hash: ``<type>Live``, the hash bound once a
+             *        texture's mips have streamed in
+             */
+            static inline const std::string LiveSuffix = "Live";
+
+            /**
+             * @brief A hash type's older generations: ``<type>Old``, ``<type>Old2``, ...
+             */
+            static inline const std::string OldSuffix = "Old";
+
+            /**
+             * @brief
+             @rst
+             How old 'hash' is among 'name''s hashes, lower newer: the versions this table files 'name' at that are newer
+             than the one filing 'hash' (100 each), then the generation its hash type names -- ``0`` for a type's current
+             hash, ``1`` for its :cpp:member:`LiveSuffix`, ``2``, ``3``, ... for its :cpp:member:`OldSuffix`, ``Old2``,
+             ... The lowest over every row filing 'hash' (case-insensitively); ``1 << 20`` when none does
+             @endrst
+             *
+             * @param name The mod name the hashes are filed under
+             * @param hash The hash
+             *
+             * @return The age
+             */
+            int age(const std::string& name, const std::string& hash) const;
+
+            /**
+             * @brief
+             @rst
+             The hash type a generation of it is filed as, and which generation: ``("bangsDiffuse", 0)`` for
+             ``"bangsDiffuse"``, ``1`` for its :cpp:member:`LiveSuffix` (``"bangsDiffuseLive"``), ``2``, ``3``, ... for
+             its :cpp:member:`OldSuffix`, ``Old2``, ... -- so every hash a texture has had can be read as the one type
+             @endrst
+             *
+             * @param hashType The hash type, as the table files it
+             * @return The base type and the generation
+             */
+            static std::pair<std::string, int> generationOf(const std::string& hashType);
     };
 }
 

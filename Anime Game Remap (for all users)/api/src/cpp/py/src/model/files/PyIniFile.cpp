@@ -13,7 +13,10 @@
 
 #include "PyIniFile.h"
 
+#include <filesystem>
+#include <memory>
 #include <optional>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -25,9 +28,12 @@
 #include <tsl/ordered_set.h>
 
 #include "AGRemapCore/constants/DownloadMode.h"
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/files/IniSharedState.h"
 #include "AGRemapCore/model/iniresources/IniResource.h"
 #include "../iniresources/PyIniGroupedResource.h"
+#include "../PyIniSectionGraph.h"
 #include "../PyVersion.h"
 #include "../../constants/PyConstantEnums.h"
 #include "AGRemapCore/model/Version.h"
@@ -59,8 +65,89 @@ std::vector<AGRC::IniResource*> borrowAll(std::vector<std::unique_ptr<AGRC::IniR
 }
 
 
+// Before RemapService's binding, whose getSharedState returns one (bindings.cpp)
+void initCppIniSharedState(pybind11::module_ &m) {
+    py::class_<AGRC::IniSharedState, std::shared_ptr<AGRC::IniSharedState>>(m, "IniSharedState", R"doc(
+What the .ini files of one run share: each file as it reads with no fix in it, and the links its own text states
+to the others
+
+Two files are **linked** when either one's text names the other: one references a namespace the other declares
+(``namespace = X`` in the other; ``$\X\var``, ``CommandList\X\...`` or ``Resource\X\...`` in this one), or both
+name one resource file (``filename =``, resolved against each file's own folder). Nothing else links them -- not
+the folders they sit in, and not the game hashes they share. :class:`RemapService` fills one with every .ini file a
+run reaches, ``DISABLED`` ones included, before it fixes any of them, and hands it to each file it fixes
+(:attr:`IniFile.sharedState`)
+    )doc")
+        .def(py::init<>())
+        .def("add", &AGRC::IniSharedState::add, py::arg("path"), py::doc(R"doc(
+Reads the .ini file at 'path' as it is now, and files it with its links. A path already added is read again
+
+Parameters
+----------
+path: :class:`str`
+    The .ini file
+        )doc"))
+        .def("clear", &AGRC::IniSharedState::clear, py::doc("Forgets every file"))
+        .def("files", &AGRC::IniSharedState::files, py::doc(R"doc(
+Returns
+-------
+List[:class:`str`]
+    The files, in the order they were added
+        )doc"))
+        .def("file", &AGRC::IniSharedState::file, py::arg("path"), py::return_value_policy::reference_internal, py::doc(R"doc(
+The file at 'path' as it read when it was added -- its own :class:`IniFile`, never the one a fix changes
+
+Parameters
+----------
+path: :class:`str`
+    The .ini file
+
+Returns
+-------
+Optional[:class:`IniFile`]
+    The file, or ``None`` for a path not added
+        )doc"))
+        .def("namespaceOf", &AGRC::IniSharedState::namespaceOf, py::arg("path"), py::doc(R"doc(
+Parameters
+----------
+path: :class:`str`
+    The .ini file
+
+Returns
+-------
+Optional[:class:`str`]
+    The namespace 'path' declares (``namespace = X``, before its first section), or ``None``
+        )doc"))
+        .def("resourceFiles", &AGRC::IniSharedState::resourceFiles, py::arg("path"), py::doc(R"doc(
+Parameters
+----------
+path: :class:`str`
+    The .ini file
+
+Returns
+-------
+List[:class:`str`]
+    The resource files 'path' names, each resolved against its folder, in the order named, each once
+        )doc"))
+        .def("linked", &AGRC::IniSharedState::linked, py::arg("path"), py::doc(R"doc(
+Parameters
+----------
+path: :class:`str`
+    The .ini file
+
+Returns
+-------
+List[:class:`str`]
+    The other files linked to 'path' -- see this class's own description -- in the order they were added
+        )doc"));
+}
+
+
 void initCppIniFile(pybind11::module_ &m) {
-    py::class_<AGRC::IniFile>(m, "IniFile", R"doc(
+    // py::smart_holder, as IfTemplate is: a wrapper of a file the library has freed is then invalidated so it raises
+    // when used (see PyObjectLifetime.h). Under the default holder pybind11 also hands a freed file's wrapper back for
+    // a new file at the same address (sibling, siblingOf) and deletes the new file
+    py::class_<AGRC::IniFile, py::smart_holder> iniFile(m, "IniFile", R"doc(
 Class for handling .ini files
 :raw-html:`<br />` :raw-html:`<br />`
 
@@ -132,8 +219,41 @@ filteredToModTypeIds: Optional[Set[:class:`int`]]
     :raw-html:`<br />`
 
     **Default**: ``None``, meaning no filter
-    )doc")
+    )doc");
 
+    // before IniFile's methods, so varState's signature can name it
+    py::class_<AGRC::IniFile::VarState>(iniFile, "VarState", R"doc(
+The state an .ini file keeps for some of its variables, as another file reading them needs it -- see
+:meth:`IniFile.varState`
+    )doc")
+        .def_readonly("vars", &AGRC::IniFile::VarState::vars, R"doc(
+Set[:class:`str`]: The variables asked for, and every variable a line assigning one of them reads -- in its value or in
+an ``if`` it sits under -- to the closure. Lowercased, as :meth:`IniNamingTools.varsIn` gives them
+        )doc")
+        .def_readonly("undeclared", &AGRC::IniFile::VarState::undeclared, R"doc(
+Set[:class:`str`]: The :attr:`vars` no ``[Constants]`` of the file declares -- 3DMigoto starts such a variable at 0
+        )doc")
+        .def("takeSections", [](AGRC::IniFile::VarState &self) {
+            py::list result;
+            for (auto &section : self.sections) {
+                result.append(py::cast(std::move(section)));
+            }
+            self.sections.clear();
+            return result;
+        }, py::doc(R"doc(
+Hands over the copies of the sections that hold the state, in the file's order and under their own names, each cut to
+the lines that make it: a ``[Constants]`` keeps its declarations of :attr:`vars`; every other section keeps the lines
+assigning one of :attr:`vars`, plus what decides when it runs -- in a ``[Key...]`` every line that assigns no other
+variable (``key``, ``type``, ``back``, ``condition``, ...), elsewhere its ``hash``, ``match_...`` and ``condition``
+lines. An ``if`` block left empty goes. A second call returns an empty list
+
+Returns
+-------
+List[:class:`IfTemplate`]
+    The copies, now the caller's
+        )doc"));
+
+    iniFile
         .def(py::init([](std::optional<std::string> file, std::string txt, std::optional<std::unordered_set<int>> gameTypeIds,
                          std::optional<std::unordered_set<int>> filteredFromModTypeIds,
                          std::optional<std::unordered_set<int>> forcedFromModTypeIds,
@@ -375,6 +495,21 @@ Returns
         // ================================================
         // ==================== sections ==================
 
+        .def("resourceNamed", &AGRC::IniFile::resourceNamed, py::arg("value"), py::doc(R"doc(
+The resource `section`_ a binding's value names (``Resource...`` or ``ref Resource...``), under the name the file declares
+it by -- found without regard to case, as 3DMigoto reads a section name -- or empty when the file declares no such
+`section`_
+
+Parameters
+----------
+value: :class:`str`
+    The value of the binding
+
+Returns
+-------
+:class:`str`
+    The `section`_'s name, as declared
+        )doc"))
         .def("getSectionNames", &AGRC::IniFile::getSectionNames, py::doc(R"doc(
 Retrieves the names of all the `sections`_ in the .ini file, in the order they are declared
 
@@ -384,6 +519,25 @@ List[:class:`str`]
     The names of the `sections`_
         )doc"))
 
+        .def("sectionGraph", [](AGRC::IniFile& self, const std::string& root) {
+            return std::make_unique<PyIniSectionGraph>(self.sectionGraph(root));
+        }, py::arg("root"), py::keep_alive<0, 1>(), py::doc(R"doc(
+The call graph from the `section`_ 'root': it and every `section`_ it reaches through ``run =``, over this file's
+own `sections`_ (not copied, so the graph keeps this file alive) and in this file's :class:`Z3Context`, so every
+condition the graph reports combines with this file's others. A 'root' the file does not have gives an empty graph
+
+What a value of a `section`_ is under each branch of a merged mod is a walk of this graph: :meth:`GraphCollect.rowsOf`
+
+Parameters
+----------
+root: :class:`str`
+    The `section`_ to start from
+
+Returns
+-------
+:class:`IniSectionGraph`
+    The graph
+        )doc"))
         .def("getSection", &AGRC::IniFile::getSection, py::arg("name"),
              py::return_value_policy::reference_internal, py::doc(R"doc(
 Retrieves a `section`_ of the .ini file by name
@@ -431,6 +585,12 @@ Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`Version` when se
     py::doc(R"doc(Optional[:class:`Version`]: The game version to fix the .ini file to
 
 Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`Version` when set)doc"))
+
+        .def_readwrite("sharedState", &AGRC::IniFile::sharedState,
+    py::doc(R"doc(Optional[:class:`IniSharedState`]: The .ini files this one is fixed among, as they read with no fix in them
+
+:class:`RemapService` sets it to the state of its run before it fixes this file; the parsers and fixers read another
+file only through it (:meth:`linkedInis`). ``None`` (the default) means none)doc"))
 
         .def_readwrite("logger", &AGRC::IniFile::logger,
     py::doc(R"doc(Optional[:class:`BaseLogger`]: Where this .ini file reports progress and problems
@@ -492,6 +652,111 @@ txt: :class:`str`
     The new text content
         )doc"))
 
+        .def("sibling", [](const AGRC::IniFile &self, const std::string &file, std::optional<std::unordered_set<int>> forcedFromModTypeIds) {
+            return self.sibling(file, std::move(forcedFromModTypeIds));
+        }, py::arg("file"), py::arg("forcedFromModTypeIds") = py::none(), py::doc(R"doc(
+Another .ini file of the same mod, read the way this one is, and classified
+
+The new file takes this one's :meth:`getModTypes` as its mod types to choose from, and its :attr:`downloadMode`,
+:attr:`fromVersion` and :attr:`toVersion`. A mod's files are one mod: a file beside the one being fixed that binds
+textures on the same draws, or a recolour in its own .ini, is read as the same character's
+
+Parameters
+----------
+file: :class:`str`
+    The path to the other .ini file
+
+forcedFromModTypeIds: Optional[Set[:class:`int`]]
+    The ids of the mod types the new file is forced to be classified as, or ``None`` to classify it among this
+    file's mod types :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
+Returns
+-------
+:class:`IniFile`
+    The new file
+        )doc"))
+        .def("siblingOf", [](const AGRC::IniFile &self, const AGRC::IniFile &other, std::optional<std::unordered_set<int>> forcedFromModTypeIds) {
+            return self.sibling(other, std::move(forcedFromModTypeIds));
+        }, py::arg("other"), py::arg("forcedFromModTypeIds") = py::none(), py::doc(R"doc(
+Another .ini file of the same mod, read the way this one is, and classified, from its text in 'other' rather than
+from the disk -- see :meth:`sibling`. For a file of :attr:`sharedState`: the disk may hold that file with a fix
+written into it by now
+
+Parameters
+----------
+other: :class:`IniFile`
+    The other .ini file, read
+
+forcedFromModTypeIds: Optional[Set[:class:`int`]]
+    The ids of the mod types the new file is forced to be classified as, or ``None`` to classify it among this
+    file's mod types :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
+Returns
+-------
+:class:`IniFile`
+    The new file
+        )doc"))
+        .def("linkedInis", &AGRC::IniFile::linkedInis, py::return_value_policy::reference_internal, py::doc(R"doc(
+The files of :attr:`sharedState` linked to this one by what their text names -- see :meth:`IniSharedState.linked`
+-- each as it reads with no fix in it. Empty with no :attr:`sharedState` or no path
+
+Returns
+-------
+List[:class:`IniFile`]
+    The files
+        )doc"))
+        .def("varState", &AGRC::IniFile::varState, py::arg("vars"), py::doc(R"doc(
+The state this file keeps for 'vars': where they are declared and every section that assigns them -- ``[Present]``,
+a key, a trigger on a hash -- with the variables those lines read in turn. A file with no ``namespace =`` names its
+variables after its path, so another file reads them only through a copy of this state, renamed
+(:class:`GraphVarRename`).
+
+Never a section that draws (one with ``match_first_index``) nor a ``[Resource...]``. Only the sections that keep a
+line are copied
+
+Parameters
+----------
+vars: Set[:class:`str`]
+    The variables, as :meth:`IniNamingTools.varsIn` gives them
+
+Returns
+-------
+:class:`IniFile.VarState`
+    The state
+        )doc"))
+        .def("getNamespace", &AGRC::IniFile::getNamespace, py::doc(R"doc(
+Returns
+-------
+Optional[:class:`str`]
+    The namespace this file declares -- a ``namespace = X`` line before its first section, as 3DMigoto reads it
+    -- or ``None``
+        )doc"))
+        .def_static("loadedInis", [](const std::string &folder, const std::string &exclude) {
+            return AGRC::IniFile::loadedInis(AGRC::FileService::strToPath(folder),
+                                             exclude.empty() ? std::filesystem::path() : AGRC::FileService::strToPath(exclude));
+        }, py::arg("folder"), py::arg("exclude") = "", py::doc(R"doc(
+The .ini files directly in 'folder' that the game loads: not one a modder turned off
+(:meth:`IniNamingTools.isDisabled`), and not a copy a fix generated (:meth:`IniNamingTools.isRemapCopyFile`)
+
+Parameters
+----------
+folder: :class:`str`
+    The folder
+
+exclude: :class:`str`
+    A file to leave out, eg. the .ini file being read :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``""``, none
+
+Returns
+-------
+List[:class:`str`]
+    Their full paths, sorted
+        )doc"))
         .def("getModTypes", [](AGRC::IniFile &self) {
             py::dict result;
             for (const auto &entry : self.getModTypes()) {
@@ -634,7 +899,11 @@ Clears every resource model built for the .ini file, without clearing the text r
         )doc"))
 
         .def("clearRead", &AGRC::IniFile::clearRead, py::arg("eraseSourceTxt") = false, py::doc(R"doc(
-Clears the text data read in from the .ini file
+Clears the text data read in from the .ini file, and everything parsed from it: the parsed `sections`_, the
+parsers and fixers built over them, and the last parse's data
+
+The next :meth:`getIfTemplates`, :meth:`parse` or :meth:`fix` reads the file again. A removal calls this after it
+writes the file back, so a fix in the same run works from the file without the fix it removed
 
 Parameters
 ----------
@@ -687,5 +956,27 @@ Returns
 -------
 :class:`str`
     The name of the `section`_
+        )doc"))
+
+        .def_static("mergesRepeatedSection", &AGRC::IniFile::mergesRepeatedSection, py::arg("name"), py::doc(R"doc(
+Whether a `section`_ named 'name' declared again in the same .ini file is MERGED into its first declaration,
+rather than ignored
+
+This is 3DMigoto's rule for a file it includes (every mod's .ini, each under a namespace of its own): a
+`section`_ whose name starts with one of 3DMigoto's section prefixes (``ShaderOverride``, ``ShaderRegex``,
+``TextureOverride``, ``CustomShader``, ``CommandList``, ``BuiltInCustomShader``, ``BuiltInCommandList``,
+``Resource``, ``Key``, ``Preset``, ``Include``) is namespaced, and a repeat of it is rejected -- the first
+declaration is the one that runs. Any other name (``[Constants]``, ``[Present]``, ...) cannot be
+namespaced, and a repeat's lines are appended to the first's. Names are compared without regard to case
+
+Parameters
+----------
+name: :class:`str`
+    The `section`_'s name
+
+Returns
+-------
+:class:`bool`
+    Whether its repeats are merged
         )doc"));
 }

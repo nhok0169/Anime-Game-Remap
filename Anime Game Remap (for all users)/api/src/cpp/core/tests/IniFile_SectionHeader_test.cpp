@@ -12,7 +12,7 @@
 // ##### EndCredits
 
 // -----------------------------------------------------------------------------
-// Standalone test for what IniFile and IniScan count as a SECTION HEADER.
+// Standalone test for what IniFile counts as a SECTION HEADER.
 //
 // WHY THIS FILE EXISTS (2026-10-20). 3DMigoto opens a section on any line that starts with '[',
 // closed or not, and names it up to the first ']' (or the rest of the line). IniFile asked for a
@@ -26,8 +26,13 @@
 // wrong section with the normal map where the diffuse goes. Every case below fails against the old
 // rule.
 //
-// NOTE: nothing builds core/tests/*.cpp. Compile as IniScan_test.cpp's header says, plus Z3's
-// include directory and import library (IniFile parses conditions with it).
+// NOTE: nothing builds core/tests/*.cpp. Compile directly, e.g. (after `vcvarsall.bat x64`), adding
+// Z3's include directory and import library (IniFile parses conditions with it):
+//
+//   cl /std:c++latest /EHsc /nologo /MD /bigobj ^
+//      /I <core>/include /I <core>/src /I <extern>/utf8proc /I <extern>/ordered-map/include ^
+//      IniFile_SectionHeader_test.cpp ^
+//      /link <repo>/cbuild/src/cpp/core/AGRemapCore.lib <repo>/cbuild/utf8proc/utf8proc.lib
 // -----------------------------------------------------------------------------
 
 #include <cstdio>
@@ -38,7 +43,6 @@
 #include <vector>
 
 #include "AGRemapCore/model/files/IniFile.h"
-#include "AGRemapCore/model/files/IniScan.h"
 #include "AGRemapCore/model/iftemplate/IfContentPart.h"
 
 namespace AGRC = AGRemapCore;
@@ -124,35 +128,12 @@ namespace {
     }
 
 
-    // ---- 3. IniScan agrees ----
-    void testIniScanAgrees() {
-        std::printf("\ntestIniScanAgrees\n");
-
-        const std::string path = (std::filesystem::temp_directory_path() / "AGRemapSectionHeaderTest.ini").string();
-        {
-            std::ofstream out(path, std::ios::binary);
-            out << MalformedIni;
-        }
-
-        std::vector<AGRC::IniScanSection> sections = AGRC::IniScan::scan(path);
-        std::error_code ignored;
-        std::filesystem::remove(path, ignored);
-
-        check(sections.size() == 3, "three sections");
-        if (sections.size() == 3) {
-            check(sections[0].name == "TextureOverrideBody", "Body first");
-            check(AGRC::IniScan::firstVal(sections[0], "handling") == std::nullopt, "Body has no skip");
-            check(sections[1].name == "Textrun = CommandList\\global\\ORFix\\ORFix", "the malformed header");
-            check(sections[2].name == "TextureOverrideBangsA", "and the next, trailing text dropped");
-        }
-    }
 }
 
 
 int main() {
     testStaticRules();
     testIniFileSplitsOnMalformedHeader();
-    testIniScanAgrees();
 
     std::printf("\n%s: %d failure(s)\n", failures == 0 ? "ALL PASSED" : "FAILED", failures);
     return failures == 0 ? 0 : 1;

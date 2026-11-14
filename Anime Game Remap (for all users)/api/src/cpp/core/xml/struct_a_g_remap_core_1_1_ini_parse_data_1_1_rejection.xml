@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_rejection" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniParseData::Rejection</compoundname>
+    <includes refid="_ini_parse_data_8h" local="no">IniParseData.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_rejection_1a1fc544ab1cd1f7853ea02490b6aaa994" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::Rejection::file</definition>
+        <argsstring></argsstring>
+        <name>file</name>
+        <qualifiedname>AGRemapCore::IniParseData::Rejection::file</qualifiedname>
+        <briefdescription>
+<para>The file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="150" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_rejection_1a189a124580e157c1fa27274f80b22f95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::Rejection::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>AGRemapCore::IniParseData::Rejection::role</qualifiedname>
+        <briefdescription>
+<para>The role it was refused FOR <ndash/> it may still serve another. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="155" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_rejection_1a2eab85fc85fdf32f2dac65c41bf63d93" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::Rejection::why</definition>
+        <argsstring></argsstring>
+        <name>why</name>
+        <qualifiedname>AGRemapCore::IniParseData::Rejection::why</qualifiedname>
+        <briefdescription>
+<para>Why, as a sentence about the file, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>is a flat hairMask, which marks no regions</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="160" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A file refused for a role <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a19f6a76b48323e5d1de28ed2b79558b7" kindref="member">rejections</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="146" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="146" bodyend="161"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_rejection_1a1fc544ab1cd1f7853ea02490b6aaa994" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::Rejection</scope><name>file</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_rejection_1a189a124580e157c1fa27274f80b22f95" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::Rejection</scope><name>role</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_rejection_1a2eab85fc85fdf32f2dac65c41bf63d93" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::Rejection</scope><name>why</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

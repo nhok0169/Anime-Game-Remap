@@ -1,0 +1,435 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_list_value" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ListValue</compoundname>
+    <includes refid="_list_value_8h" local="no">ListValue.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_list_value_1ad75b63ebfd0610397a85974f1b0717e7" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ListValue::original_</definition>
+        <argsstring></argsstring>
+        <name>original_</name>
+        <qualifiedname>AGRemapCore::ListValue::original_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="144" column="25" bodyfile="include/AGRemapCore/model/iftemplate/ListValue.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_list_value_1a75cb48251c8a54cbe94870ee9e0e6e1e" prot="private" static="no" mutable="no">
+        <type>char</type>
+        <definition>char AGRemapCore::ListValue::separator_</definition>
+        <argsstring></argsstring>
+        <name>separator_</name>
+        <qualifiedname>AGRemapCore::ListValue::separator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="145" column="18" bodyfile="include/AGRemapCore/model/iftemplate/ListValue.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_list_value_1a3c177b586c4139254d9963f2ba92e63b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::ListValue::fields_</definition>
+        <argsstring></argsstring>
+        <name>fields_</name>
+        <qualifiedname>AGRemapCore::ListValue::fields_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="146" column="25" bodyfile="include/AGRemapCore/model/iftemplate/ListValue.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_list_value_1a750904e079dd4d2cf4be847e1a3af573" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ListValue::changed_</definition>
+        <argsstring></argsstring>
+        <name>changed_</name>
+        <qualifiedname>AGRemapCore::ListValue::changed_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="147" column="18" bodyfile="include/AGRemapCore/model/iftemplate/ListValue.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_list_value_1ab29efbce700a2d61457ab7abe414f26d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ListValue::ListValue</definition>
+        <argsstring>(std::string value=&quot;&quot;, char separator=&apos;,&apos;)</argsstring>
+        <name>ListValue</name>
+        <qualifiedname>AGRemapCore::ListValue::ListValue</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>value</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>separator</declname>
+          <defval>&apos;,&apos;</defval>
+        </param>
+        <briefdescription>
+<para>Reads a value as a list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value of the <computeroutput>KVP</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>separator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The character the fields are separated by. <bold>Default</bold>: <computeroutput>,</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="58" column="22" bodyfile="src/model/iftemplate/ListValue.cpp" bodystart="23" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_list_value_1ae6d4e85d5deabf9cd6caead833c6f27e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::ListValue::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>AGRemapCore::ListValue::size</qualifiedname>
+        <briefdescription>
+<para>How many fields the value has <ndash/> <computeroutput>0</computeroutput> for an empty value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="63" column="25" bodyfile="src/model/iftemplate/ListValue.cpp" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_list_value_1a425a55406fb044809a3d5ae4c4401d8c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; AGRemapCore::ListValue::fields</definition>
+        <argsstring>() const</argsstring>
+        <name>fields</name>
+        <qualifiedname>AGRemapCore::ListValue::fields</qualifiedname>
+        <briefdescription>
+<para>Every field, in order, without its surrounding whitespace. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="68" column="31" bodyfile="src/model/iftemplate/ListValue.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_list_value_1a6c54a85c5be9062b1a62d81564e174b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::ListValue::at</definition>
+        <argsstring>(long long pos) const</argsstring>
+        <name>at</name>
+        <qualifiedname>AGRemapCore::ListValue::at</qualifiedname>
+        <param>
+          <type>long long</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The field at &apos;pos&apos;, counting from the end when &apos;pos&apos; is negative, or ``std::nullopt`` past either end
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The field&apos;s position </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="78" column="27" bodyfile="src/model/iftemplate/ListValue.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_list_value_1a959ab1cf6f6dc64cde34bdb6ea4bab5e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; long long &gt;</type>
+        <definition>std::optional&lt; long long &gt; AGRemapCore::ListValue::number</definition>
+        <argsstring>(long long pos) const</argsstring>
+        <name>number</name>
+        <qualifiedname>AGRemapCore::ListValue::number</qualifiedname>
+        <param>
+          <type>long long</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The field at &apos;pos&apos; as a whole number -- an optional ``-`` followed by digits only -- or ``std::nullopt``
+for any other field (``auto``, ``$var``, ``1.5``, an empty field) or a position past either end
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The field&apos;s position </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="89" column="27" bodyfile="src/model/iftemplate/ListValue.cpp" bodystart="64" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_list_value_1af7a088d3daa79769bcbbd7c0773c5716" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; long long &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; long long &gt; &gt; AGRemapCore::ListValue::numbers</definition>
+        <argsstring>() const</argsstring>
+        <name>numbers</name>
+        <qualifiedname>AGRemapCore::ListValue::numbers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every field as a whole number (see #number), or ``std::nullopt`` when the value is empty or any one of its
+fields is not one
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="98" column="27" bodyfile="src/model/iftemplate/ListValue.cpp" bodystart="81" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_list_value_1a1823cafd3f918a4f48f53bb965437210" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ListValue::set</definition>
+        <argsstring>(long long pos, const std::string &amp;field)</argsstring>
+        <name>set</name>
+        <qualifiedname>AGRemapCore::ListValue::set</qualifiedname>
+        <param>
+          <type>long long</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+<para>Sets the field at &apos;pos&apos;, counting from the end when &apos;pos&apos; is negative. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The field&apos;s position </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new field, held without its surrounding whitespace</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether &apos;pos&apos; named a field: a position past either end changes nothing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="108" column="18" bodyfile="src/model/iftemplate/ListValue.cpp" bodystart="98" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_list_value_1a6b8258ce6e25dcb8124a41487587f78b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ListValue::setNumber</definition>
+        <argsstring>(long long pos, long long number)</argsstring>
+        <name>setNumber</name>
+        <qualifiedname>AGRemapCore::ListValue::setNumber</qualifiedname>
+        <param>
+          <type>long long</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>long long</type>
+          <declname>number</declname>
+        </param>
+        <briefdescription>
+<para>Sets the field at &apos;pos&apos; to a whole number <ndash/> see <ref refid="class_a_g_remap_core_1_1_list_value_1a1823cafd3f918a4f48f53bb965437210" kindref="member">set</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The field&apos;s position </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new field</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether &apos;pos&apos; named a field </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="118" column="18" bodyfile="src/model/iftemplate/ListValue.cpp" bodystart="108" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_list_value_1aa546ba3ff53dcb05558609b5fcacf8d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ListValue::append</definition>
+        <argsstring>(const std::string &amp;field)</argsstring>
+        <name>append</name>
+        <qualifiedname>AGRemapCore::ListValue::append</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+<para>Adds a field at the end. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new field, held without its surrounding whitespace </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="125" column="18" bodyfile="src/model/iftemplate/ListValue.cpp" bodystart="112" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_list_value_1a691f33436cdedd3995235360cecd177f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ListValue::changed</definition>
+        <argsstring>() const</argsstring>
+        <name>changed</name>
+        <qualifiedname>AGRemapCore::ListValue::changed</qualifiedname>
+        <briefdescription>
+<para>Whether any field has been set or added since the value was read. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="130" column="18" bodyfile="src/model/iftemplate/ListValue.cpp" bodystart="117" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_list_value_1a04e275c53fac5438177200f465c632e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ListValue::str</definition>
+        <argsstring>() const</argsstring>
+        <name>str</name>
+        <qualifiedname>AGRemapCore::ListValue::str</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The value: as it was given when nothing has changed, otherwise every field joined with the separator and a
+space (``a, b, c``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="139" column="25" bodyfile="src/model/iftemplate/ListValue.cpp" bodystart="121" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_list_value_1ad6b060b176d0ec465bf90e6a31976826" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::size_t &gt;</type>
+        <definition>std::optional&lt; std::size_t &gt; AGRemapCore::ListValue::indexOf</definition>
+        <argsstring>(long long pos) const</argsstring>
+        <name>indexOf</name>
+        <qualifiedname>AGRemapCore::ListValue::indexOf</qualifiedname>
+        <param>
+          <type>long long</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="142" column="27" bodyfile="src/model/iftemplate/ListValue.cpp" bodystart="47" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The value of a `KVP`_ read as a list of fields: ``a``, ``a, b`` or ``a, b, c, d, e, f, g, h`` -- whatever
+length the value has :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A value with no separator is a list of one field, so every `KVP`_ is one: ``vb0 = ResourceX`` and
+``drawindexed = 12, 0, 0`` are read the same way. An empty value has no fields, and a trailing separator
+gives an empty last field (``a, b,`` is three fields). Each field is held without its surrounding
+whitespace :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A field is addressed by its position, counting from ``0``; a negative position counts from the end, so
+``-1`` is the last field whatever the length. Reading a field past either end gives ``std::nullopt``
+rather than an error :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+#str writes the value back: exactly as it was given while no field has been set, and otherwise its
+fields joined with the separator and a space
+
+.. code-block:: ini
+
+   drawindexed = 12, 30, 0     ; size 3, number(1) = 30
+   drawindexed = auto          ; size 1, number(0) = nullopt
+   match_first_index = 0       ; size 1, number(0) = 0
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/iftemplate/ListValue.h" line="50" column="5" bodyfile="include/AGRemapCore/model/iftemplate/ListValue.h" bodystart="50" bodyend="148"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_list_value_1aa546ba3ff53dcb05558609b5fcacf8d3" prot="public" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>append</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1a6c54a85c5be9062b1a62d81564e174b4" prot="public" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>at</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1a691f33436cdedd3995235360cecd177f" prot="public" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>changed</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1a750904e079dd4d2cf4be847e1a3af573" prot="private" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>changed_</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1a425a55406fb044809a3d5ae4c4401d8c" prot="public" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>fields</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1a3c177b586c4139254d9963f2ba92e63b" prot="private" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>fields_</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1ad6b060b176d0ec465bf90e6a31976826" prot="private" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>indexOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1ab29efbce700a2d61457ab7abe414f26d" prot="public" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>ListValue</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1a959ab1cf6f6dc64cde34bdb6ea4bab5e" prot="public" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>number</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1af7a088d3daa79769bcbbd7c0773c5716" prot="public" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>numbers</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1ad75b63ebfd0610397a85974f1b0717e7" prot="private" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>original_</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1a75cb48251c8a54cbe94870ee9e0e6e1e" prot="private" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>separator_</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1a1823cafd3f918a4f48f53bb965437210" prot="public" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>set</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1a6b8258ce6e25dcb8124a41487587f78b" prot="public" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>setNumber</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1ae6d4e85d5deabf9cd6caead833c6f27e" prot="public" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>size</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_value_1a04e275c53fac5438177200f465c632e4" prot="public" virt="non-virtual"><scope>AGRemapCore::ListValue</scope><name>str</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

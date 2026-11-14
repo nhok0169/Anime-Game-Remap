@@ -32,13 +32,13 @@ class GIMIParserTest(BaseIniFileTest):
                                                                       "vb1": FRB.DownloadData("testTexture", FRB.FileDownload("someURL", "someBaseFile"))},
                                                    ("", "blend"): {"ps-t0": FRB.DownloadData("testDiffuse", FRB.FileDownload("unknownURL", "unknownBaseFile"), refToSection = True),
                                                                    "ps-t1": FRB.DownloadData("testLightMap", FRB.FileDownload("uniqueURL", "uniqueBaseFile"), refToSection = False)}},
-                                      commandEdits = FRB.GraphGroupEdit(edits = [{("", "blend"): [FRB.RegFillMissing("handling2", [("handling2", "skip"), ("drawindexed2", "auto")], fillMode = FRB.RegFillMissingMode.TopdownCover, dependOnDownload = True),
+                                      commandEdits = [FRB.GraphGroupEdit(edits = [{("", "blend"): [FRB.RegFillMissing("handling2", [("handling2", "skip"), ("drawindexed2", "auto")], fillMode = FRB.RegFillMissingMode.TopdownCover, dependOnDownload = True),
                                                                                                   FRB.RegFillMissing("ib", "null", dependOnDownload = True)],
                                                                                   ("", "body"): [FRB.RegFillMissing("ps-t999", "DigitOverflow")],
                                                                                   ("", "ib"): [FRB.RegFillMissing("ps-t2,147,483,647", "DigitUnderflow"), FRB.RegNewVals({"hash": "Matsuribayashi-hen"})]}],
                                                                         trackKeys = [{("", "ib"): True}],
                                                                         keysToTrack = [{("", "ib"): {"hash", "match_first_index"}}],
-                                                                        keyFilters = [{("", "ib"): self._getIbOnly}]))
+                                                                        keyFilters = [{("", "ib"): self._getIbOnly}])])
 
     def create(self):
         self.createIniFile()
@@ -472,6 +472,58 @@ filename = uniqueBaseFile""", 4]]
         self.assertIsNot(resourceGraphs["vb0"], resourceGraphs["vb1"])
         self.compareList(sorted(resourceGraphs["vb0"].sections.keys()),
                          sorted(resourceGraphs["vb1"].sections.keys()))
+
+    def test_parse_aPythonDownloadDataSubclass_isTheOneThatRuns(self):
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createNamedParser()
+
+        calls = []
+
+        class Recording(FRB.DownloadData):
+            def createResSection(self, sectionName):
+                calls.append(sectionName)
+                return super().createResSection(sectionName)
+
+        self._parser.downloads = {("", "texcoord"): {"vb0": Recording("recorded", FRB.FileDownload("someURL", "someFile.buf"))}}
+        self._iniFile.parse()
+
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(len(self._iniFile.getFileDownloads()), 1)
+        sections = self._parser.downloadResourceGraphs[("", "texcoord")]["vb0"].sections
+        self.assertIn(calls[0], sections)
+
+    def test_parse_anIniParseDownloadDataSubclass_buildsWhatItReturns(self):
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createNamedParser()
+
+        class NoFile(FRB.IniParseDownloadData):
+            def name(self):
+                return "noFile"
+
+            def refToSection(self):
+                return False
+
+            def addToPart(self, part, key, val):
+                part.addKVP(key, val)
+
+            def addToSection(self, section, key, val):
+                section.addKVPToFront(key, val)
+
+            def createResSection(self, sectionName):
+                return FRB.IfTemplate([FRB.IfContentPart({"filename": [(0, "made.buf")]}, 0)], name = sectionName)
+
+            def createFileDownload(self, iniFolder):
+                return None
+
+        self._parser.downloads = {("", "texcoord"): {"vb0": NoFile()}}
+        self._iniFile.parse()
+
+        # nothing to download, and the resource section is the one the subclass built
+        self.assertEqual(len(self._iniFile.getFileDownloads()), 0)
+        sections = self._parser.downloadResourceGraphs[("", "texcoord")]["vb0"].sections
+        self.assertTrue(sections)
+        for section in sections.values():
+            self.assertIn("made.buf", str([part.getVals("filename") for part in section.parts if isinstance(part, FRB.IfContentPart)]))
 
     def test_parse_downloadGraphsKeyedByTheDownloadsNameNotItsRegister(self):
         result = self._parseResult()

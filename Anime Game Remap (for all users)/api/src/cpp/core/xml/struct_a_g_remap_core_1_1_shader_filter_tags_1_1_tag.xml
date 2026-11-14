@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_shader_filter_tags_1_1_tag" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::ShaderFilterTags::Tag</compoundname>
+    <includes refid="_shader_filter_tags_8h" local="no">ShaderFilterTags.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_shader_filter_tags_1_1_tag_1a261b38f62b034dfc2f216f8f138da783" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ShaderFilterTags::Tag::shaderHash</definition>
+        <argsstring></argsstring>
+        <name>shaderHash</name>
+        <qualifiedname>AGRemapCore::ShaderFilterTags::Tag::shaderHash</qualifiedname>
+        <briefdescription>
+<para>The shader&apos;s hash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="50" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_shader_filter_tags_1_1_tag_1a48e8454243cda57c3e8cd7bae8410654" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ShaderFilterTags::Tag::filterIndex</definition>
+        <argsstring></argsstring>
+        <name>filterIndex</name>
+        <qualifiedname>AGRemapCore::ShaderFilterTags::Tag::filterIndex</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>filter_index</computeroutput> it is given. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="55" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One tagged shader. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="46" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" bodystart="46" bodyend="56"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_shader_filter_tags_1_1_tag_1a48e8454243cda57c3e8cd7bae8410654" prot="public" virt="non-virtual"><scope>AGRemapCore::ShaderFilterTags::Tag</scope><name>filterIndex</name></member>
+      <member refid="struct_a_g_remap_core_1_1_shader_filter_tags_1_1_tag_1a261b38f62b034dfc2f216f8f138da783" prot="public" virt="non-virtual"><scope>AGRemapCore::ShaderFilterTags::Tag</scope><name>shaderHash</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

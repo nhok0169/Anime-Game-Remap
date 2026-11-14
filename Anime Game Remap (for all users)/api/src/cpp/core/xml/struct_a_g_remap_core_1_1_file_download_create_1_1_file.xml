@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_file_download_create_1_1_file" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::FileDownloadCreate::File</compoundname>
+    <includes refid="_file_download_edit_8h" local="no">FileDownloadEdit.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_file_download_create_1_1_file_1a96da95dad9363deb6df619e4bee18093" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;K, V&gt; &gt; AGRemapCore::FileDownloadCreate&lt; K, V, KeyHash, KeyEqual &gt;::File::keys</definition>
+        <argsstring></argsstring>
+        <name>keys</name>
+        <qualifiedname>AGRemapCore::FileDownloadCreate::File::keys</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>section</computeroutput>_&apos;s <computeroutput>KVPs</computeroutput>_ other than its <computeroutput>filename</computeroutput>, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>type = Buffer</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h" line="83" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_file_download_create_1_1_file_1a7b92d1a864a80f3dea7856316def1a43" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::FileDownloadCreate&lt; K, V, KeyHash, KeyEqual &gt;::File::file</definition>
+        <argsstring></argsstring>
+        <name>file</name>
+        <qualifiedname>AGRemapCore::FileDownloadCreate::File::file</qualifiedname>
+        <briefdescription>
+<para>The file&apos;s path, relative to the <computeroutput>.ini</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h" line="88" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_file_download_create_1_1_file_1aae86834873c90664d40cf0757ec4e21f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::FileDownloadCreate&lt; K, V, KeyHash, KeyEqual &gt;::File::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>AGRemapCore::FileDownloadCreate::File::url</qualifiedname>
+        <briefdescription>
+<para>Where the file is downloaded from <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_download_tools_1a10f115d663a91bec3b450d3e0778005c" kindref="member">DownloadTools::urlPath</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h" line="93" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_file_download_create_1_1_file_1a480939cc9d7656cf170030e05742341c" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_tex_editor" kindref="compound">BaseTexEditor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;BaseTexEditor&gt; AGRemapCore::FileDownloadCreate&lt; K, V, KeyHash, KeyEqual &gt;::File::texEdit</definition>
+        <argsstring></argsstring>
+        <name>texEdit</name>
+        <qualifiedname>AGRemapCore::FileDownloadCreate::File::texEdit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+An edit of the downloaded texture -- eg. a light map&apos;s bands moved for the target. Set,
+the download goes to \ref rawFile and the edit writes \ref file from it, so the
+`section`_ names the EDITED file. Held through its base, so a subclass&apos;s
+:cpp:func:`BaseTexEditor::fix` (a `Python`_ one included) is the one that runs.
+**Default**: ``nullptr``, the download is \ref file itself
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h" line="105" column="33" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_file_download_create_1_1_file_1a62ee7fcbc6ee786f164e3c450b3d0fc1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::FileDownloadCreate&lt; K, V, KeyHash, KeyEqual &gt;::File::rawFile</definition>
+        <argsstring></argsstring>
+        <name>rawFile</name>
+        <qualifiedname>AGRemapCore::FileDownloadCreate::File::rawFile</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Where the download goes when there is a \ref texEdit, relative to the ``.ini`` file. Name
+it ``...RemapDL...`` too: no `section`_ names it, and the undo recognises it by that name
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h" line="114" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One downloaded file and the <computeroutput>section</computeroutput>_ that names it. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h" line="79" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h" bodystart="79" bodyend="115"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_file_download_create_1_1_file_1a7b92d1a864a80f3dea7856316def1a43" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownloadCreate::File</scope><name>file</name></member>
+      <member refid="struct_a_g_remap_core_1_1_file_download_create_1_1_file_1a96da95dad9363deb6df619e4bee18093" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownloadCreate::File</scope><name>keys</name></member>
+      <member refid="struct_a_g_remap_core_1_1_file_download_create_1_1_file_1a62ee7fcbc6ee786f164e3c450b3d0fc1" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownloadCreate::File</scope><name>rawFile</name></member>
+      <member refid="struct_a_g_remap_core_1_1_file_download_create_1_1_file_1a480939cc9d7656cf170030e05742341c" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownloadCreate::File</scope><name>texEdit</name></member>
+      <member refid="struct_a_g_remap_core_1_1_file_download_create_1_1_file_1aae86834873c90664d40cf0757ec4e21f" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownloadCreate::File</scope><name>url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

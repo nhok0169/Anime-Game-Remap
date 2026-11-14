@@ -203,7 +203,10 @@ that changes.
   full-resolution shot.
 - **Dump only when the picture cannot answer.** A GIMI dump is ~4 GB and 90 s. `--options "dump_ib
   txt"` (or any `analyse_options`) makes a small one for a narrow question, and the tool restores
-  `d3dx.ini` byte-for-byte. Label every dump the maintainer's way (`FrameAnalysis-<What>-<time>`),
+  `d3dx.ini` byte-for-byte. **`--options "log"` writes only `log.txt` (every draw's shaders, buffers and texture
+  hashes) and small `.dsc` files: ~1-2.5 MB, which is what makes an OVERWORLD dump safe on WuWa** (2026-11-12: four
+  such dumps of Changli standing in the field, no hang; it is enough for `wwmiUpdateRows.py` and any draw table, not
+  for asset extraction). Label every dump the maintainer's way (`FrameAnalysis-<What>-<time>`),
   and **never dump a character with a mod of that character installed** when the dump is for asset
   extraction: see [Vertex Group Remaps](../VGRemaps/CLAUDE.md). `mods ... only` with an empty
   selection is how you get there, and `mods ... restore` is how you come back.
@@ -472,6 +475,7 @@ whether the account owns the character**:
 | an OWNED character, base or skin | overworld -> `key c` (character menu, verified; the first frame after it is a black fade, so `wait 5`). The roster is down the right. The shirt button at the bottom right opens **Resonator Outfits** (verified): the outfit cards are on the left, **Wear Outfit** equips one, and the eye icon hides the UI. **The SELECTED card is the model drawn**, worn or not: a dump taken with the skin's card selected caught SanhuaExorcist when base Sanhua was wanted (2026-10-05), so click the card you need and check the dump's `vb0`. Same switch-back rule as Genshin |
 | an UNOWNED character's base look | Gallery -> Crossing Stars -> the character |
 | an UNOWNED character's skin | `esc` -> **Shop** -> **Outfit Store**. **View only**: the rules below apply in full |
+| the TEAM MENU (since 3.8 it draws the party's **3D models** with shaders of its own -- a remap can look right in the studio and the overworld and wrong here: the maintainer's Changli2 on Laurel Nymph rendered orange, 2026-11-13) | `esc` -> **Team**. Check every remap here too. The ESC menu shows the UID (masked by GameView). Restore the team, order and active character after any change |
 
 **The roster down the right is not the whole roster --- the SQUARES icon at the bottom right of the
 character screen opens the full `Resonators` grid** (the maintainer's tip, 2026-10-13). That is how

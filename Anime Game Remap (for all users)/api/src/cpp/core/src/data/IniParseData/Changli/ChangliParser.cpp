@@ -19,7 +19,7 @@
 
 
 namespace AGRemapCore {
-    IniParseBuilder::Factory IniParseBuilderFuncs::changli1_1() {
+    WWMIParserConfig ChangliParser::v1_1Config() {
         // The WWMI shape -- see makeWWMIParser. Her eight draw slots come off the library's Indices
         // rows, her hashes off HashData; 1.1 is her oldest mesh, so a mod of any of her three mesh
         // generations classifies.
@@ -27,7 +27,16 @@ namespace AGRemapCore {
         config.version = "1.1";
         // Her own textures, so a mod of hers can be sorted into roles at PARSE time
         config.textures = changliTextureFacts();
-        return makeWWMIParser(std::move(config));
+        // the numberings her skeleton has had and her own bones' centroids: read off VGRemaps and BoneCentroids
+        // (WWMIParserConfig::withGameData) -- see WWMIParserConfig::skeletonNumberings
+        // her blindfold, which several mods hide: its sections go to a graph of their own for the fix to copy
+        config.hashOnlyObjs.emplace_back("blindfoldMesh", "blindfoldMesh");
+        return config;
+    }
+
+
+    IniParseBuilder::Factory IniParseBuilderFuncs::changli1_1() {
+        return makeWWMIParser(ChangliParser::v1_1Config());
     }
 
 

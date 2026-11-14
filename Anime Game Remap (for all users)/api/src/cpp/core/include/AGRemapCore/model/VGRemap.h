@@ -14,8 +14,11 @@
 
 // ##### EndCredits
 
+#include <cstddef>
+#include <cstdint>
 #include <optional>
 #include <unordered_map>
+#include <vector>
 
 
 namespace AGRemapCore {
@@ -52,6 +55,43 @@ namespace AGRemapCore {
              * @brief The maximum index in the vertex group remap, or ``std::nullopt`` if #getRemap is empty
              */
             std::optional<long long> getMaxIndex() const;
+
+            /**
+             * @brief
+             @rst
+             The row renumbered into a table of 'size' entries: every distinct target bone below 'size' it names gets a
+             LOCAL id, in ascending order of the bone -- so a buffer can hold local ids no wider than the table, with the
+             table to turn them back
+             @endrst
+             */
+            struct Compact {
+                /**
+                 * @brief The row in local ids: source bone -> the local id of its target (a target past the table is left out)
+                 */
+                std::unordered_map<long long, long long> localRow;
+
+                /**
+                 * @brief 'size' entries: local id -> target bone; ``0`` past the last
+                 */
+                std::vector<std::uint16_t> forward;
+
+                /**
+                 * @brief 'size' entries: target bone -> local id; ``0`` for a bone the row does not name
+                 */
+                std::vector<std::uint16_t> reverse;
+            };
+
+            /**
+             * @brief
+             @rst
+             This row renumbered into a table of 'size' entries (:cpp:struct:`Compact`)
+             @endrst
+             *
+             * @param size The entries of the table
+             *
+             * @return The local row and its two tables
+             */
+            Compact compact(std::size_t size) const;
 
         private:
             std::unordered_map<long long, long long> remap_;

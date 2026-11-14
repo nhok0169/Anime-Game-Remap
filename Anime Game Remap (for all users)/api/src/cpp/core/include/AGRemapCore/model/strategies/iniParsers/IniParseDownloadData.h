@@ -32,25 +32,14 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     One file a mod is missing and has to download, behind an interface -- the seam a parser
-     reaches the pure-Python ``DownloadData`` class through :raw-html:`<br />` :raw-html:`<br />`
-
-     **Why this is an interface rather than a concrete class.** ``DownloadData`` is pure
-     `Python`_, and it is genuinely *polymorphic* there: ``BlendDownloadData`` overrides ``addToPart`` to append its own
-     ``handling``/``draw`` `KVPs`_, and a user is free to subclass it further. Converting one into
-     a plain C++ struct at the binding boundary would silently run the base class's behaviour for
-     every subclass, so the parser talks to this interface and the binding layer supplies an
-     implementation that calls straight back into the real `Python`_ object
-
+     One file a mod is missing and has to download, behind an interface :raw-html:`<br />`
      :raw-html:`<br />`
 
-     .. note::
-        #createResSection and #addFileDownload both take the :cpp:class:`IniParseContext` rather
-        than returning something the parser then files away. That's deliberate: what a resource
-        `section`_/download *is* on the `Python`_ side is a `Python`_ object, and only an
-        implementation that already holds `Python`_ objects can put one into
-        ``ini.sectionIfTemplates``/``ini.fileDownloads`` without losing it. The parser only ever
-        sees the borrowed :cpp:type:`Section` pointer that comes back
+     A parser asks it for three things: how a `section`_ references the download (#addToPart /
+     #addToSection), the resource `section`_ that names the file (#createResSection), and the
+     download itself (#createFileDownload). The last two are BUILDERS -- the parser registers what they
+     return with the ``.ini`` file -- so a subclass, in C++ or in `Python`_, only says what to build.
+     :cpp:class:`DownloadData` is the implementation every parser uses
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -71,11 +60,6 @@ namespace AGRemapCore {
              * @brief The type of `KVP`_ block a download reference is added to
              */
             using ContentPart = IfContentPart<K, V, KeyHash, KeyEqual>;
-
-            /**
-             * @brief The ``.ini`` file this download belongs to
-             */
-            using Context = IniParseContext<K, V, KeyHash, KeyEqual>;
 
             virtual ~IniParseDownloadData() = default;
 
@@ -112,43 +96,33 @@ namespace AGRemapCore {
             virtual void addToSection(Section& section, const K& key, const V& val) = 0;
 
             /**
-             * @brief
-             @rst
-             Builds the `section`_ that holds this download's resource and registers it with the
-             ``.ini`` file (see this class's own note on why 'ctx' is a parameter)
-             @endrst
+             * @brief Builds the `section`_ that holds this download's resource -- the parser registers it
              *
              * @param sectionName The name of the `section`_ to build
-             * @param ctx The ``.ini`` file to register the new `section`_ with
              *
-             * @return The built `section`_ -- borrowed, owned by 'ctx'
+             * @return The built `section`_
              */
-            virtual Section* createResSection(const std::string& sectionName, Context& ctx) = 0;
+            virtual std::unique_ptr<Section> createResSection(const std::string& sectionName) const = 0;
 
             /**
-             * @brief
-             @rst
-             Records the actual file download with the ``.ini`` file
-             @endrst
+             * @brief Builds the download of the file -- the parser hands it to the ``.ini`` file
              *
-             * @param ctx The ``.ini`` file to record the download with
              * @param iniFolder The folder the ``.ini`` file lives in
+             *
+             * @return The download, or ``nullptr`` if there is nothing to download
              */
-            virtual void addFileDownload(Context& ctx, const std::string& iniFolder) = 0;
+            virtual std::unique_ptr<IniResource> createFileDownload(const std::string& iniFolder) const = 0;
     };
 
 
     /**
      * @brief
      @rst
-     The plain-C++ :cpp:class:`IniParseDownloadData` -- the direct counterpart of the pure-Python
-     ``DownloadData`` for callers that aren't going through `Python`_ at all :raw-html:`<br />`
-     :raw-html:`<br />`
+     A file to download, and the resource `section`_ that names it :raw-html:`<br />` :raw-html:`<br />`
 
-     Use this from any standalone C++ caller. The `pybind11`_ layer uses its own
-     ``PyIniParseDownloadData`` implementation instead, which calls back into the real `Python`_
-     ``DownloadData`` object -- see :cpp:class:`IniParseDownloadData`'s own note for why there are
-     two
+     The resource `section`_ is ``filename = <the file>`` after any #resourceKVPs, and every part that
+     references the download also gets #downloadRefKVPs after the reference -- eg. a downloaded
+     ``Blend.buf``'s ``handling = skip`` / ``draw``, which #blendRefKVPs gives
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -162,7 +136,6 @@ namespace AGRemapCore {
             using Base = IniParseDownloadData<K, V, KeyHash, KeyEqual>;
             using Section = typename Base::Section;
             using ContentPart = typename Base::ContentPart;
-            using Context = typename Base::Context;
 
             /**
              * @brief
@@ -206,13 +179,35 @@ namespace AGRemapCore {
             bool refToSection() const override;
             void addToPart(ContentPart& part, const K& key, const V& val) override;
             void addToSection(Section& section, const K& key, const V& val) override;
-            Section* createResSection(const std::string& sectionName, Context& ctx) override;
-            void addFileDownload(Context& ctx, const std::string& iniFolder) override;
+            std::unique_ptr<Section> createResSection(const std::string& sectionName) const override;
+            std::unique_ptr<IniResource> createFileDownload(const std::string& iniFolder) const override;
 
             /**
              * @brief The file download to initiate
              */
             const FileDownload* download() const;
+
+            /**
+             * @brief The `KVPs`_ added after each reference to the download
+             */
+            const std::vector<std::pair<K, V>>& downloadRefKVPs() const;
+
+            /**
+             * @brief The `KVPs`_ added before the file path in the resource `section`_
+             */
+            const std::vector<std::pair<K, V>>& resourceKVPs() const;
+
+            /**
+             * @brief
+             @rst
+             The two `KVPs`_ that must follow a reference to a downloaded ``Blend.buf``:
+             ``handling = skip`` and ``draw = <vertexCount>,0``. The ``.ini`` file it is dropped into has
+             no draw of its own for it, so without them the blend is bound and never drawn from
+             @endrst
+             *
+             * @param vertexCount How many vertices the drawn model has
+             */
+            static std::vector<std::pair<K, V>> blendRefKVPs(long long vertexCount);
 
         private:
             std::string name_;

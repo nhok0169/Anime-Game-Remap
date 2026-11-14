@@ -13,9 +13,11 @@ class RegRemoveTest(BaseUnitTest):
     # =================== __init__ ====================
 
     def test_init_setsAttributes(self):
-        removeKeys = {"a": None}
-        edit = FRB.RegRemove(removeKeys)
-        self.assertIs(edit.removeKeys, removeKeys)
+        # the edit holds what it was given as its own (C++) data, read back as a dict -- not the object passed in
+        edit = FRB.RegRemove({"a": None})
+        self.assertEqual(edit.removeKeys, {"a": None})
+        edit.removeKeys = [("b", None)]
+        self.assertEqual(edit.removeKeys, {"b": None})
 
     # ================================================
     # ===================== edit ======================
@@ -63,3 +65,14 @@ class RegRemoveTest(BaseUnitTest):
 
         edit.edit(part, "root", None, partRanges = FRB.Ranges([(1, 2)]))
         self.compareList(part.entries(), [("a", "1"), ("a", "3")])
+
+    def test_valueStartsWith_matchesTheResourceWithOrWithoutRef_ignoringCase(self):
+        check = FRB.RegRemove.valueStartsWith("ResourceMergedSkeleton")
+        self.assertTrue(check(0, "ResourceMergedSkeleton"))
+        self.assertTrue(check(0, "  ref resourcemergedskeletonRW"))
+        self.assertFalse(check(0, "ResourceExtraMergedSkeleton"))
+
+    def test_valueStartsWith_ref_acceptsEveryRefBinding(self):
+        check = FRB.RegRemove.valueStartsWith("ref")
+        self.assertTrue(check(0, "ref ResourceBlend"))
+        self.assertFalse(check(0, "ResourceBlend"))

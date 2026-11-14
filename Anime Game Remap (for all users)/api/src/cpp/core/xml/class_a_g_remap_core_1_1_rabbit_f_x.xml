@@ -1,0 +1,410 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_rabbit_f_x" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RabbitFX</compoundname>
+    <includes refid="_rabbit_f_x_8h" local="no">RabbitFX.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_rabbit_f_x_1adf8f0499f9d5d8e3bab1f700f2f7d71d" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::RabbitFX::Name</definition>
+        <argsstring></argsstring>
+        <name>Name</name>
+        <qualifiedname>AGRemapCore::RabbitFX::Name</qualifiedname>
+        <initializer>= &quot;RabbitFX&quot;</initializer>
+        <briefdescription>
+<para>The library&apos;s name, as :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_data_1afba5daead2b199ce9b2121ad76f3d28d" kindref="member">IniParseData::libraries</ref></computeroutput> records it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="43" column="45" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_rabbit_f_x_1a7db3af6ee18fb7741818ac5813a78f93" prot="public" static="yes" mutable="no">
+        <type>const std::array&lt; std::string, 4 &gt;</type>
+        <definition>const std::array&lt;std::string, 4&gt; AGRemapCore::RabbitFX::FlagKeys</definition>
+        <argsstring></argsstring>
+        <name>FlagKeys</name>
+        <qualifiedname>AGRemapCore::RabbitFX::FlagKeys</qualifiedname>
+        <initializer>= {&quot;x187&quot;, &quot;y187&quot;, &quot;z187&quot;, &quot;w187&quot;}</initializer>
+        <briefdescription>
+<para>The four routing flags <computeroutput>SetTextures</computeroutput> writes, in register order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="48" column="44" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_rabbit_f_x_1a357e9206096100dad21b45aa1b0aa383" prot="public" static="yes" mutable="no">
+        <type>const std::array&lt; std::string, 4 &gt;</type>
+        <definition>const std::array&lt;std::string, 4&gt; AGRemapCore::RabbitFX::Registers</definition>
+        <argsstring></argsstring>
+        <name>Registers</name>
+        <qualifiedname>AGRemapCore::RabbitFX::Registers</qualifiedname>
+        <initializer>= {&quot;ps-t0&quot;, &quot;ps-t1&quot;, &quot;ps-t2&quot;, &quot;ps-t3&quot;}</initializer>
+        <briefdescription>
+<para>The four registers <computeroutput>SetTextures</computeroutput> routes, in the order of <ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7db3af6ee18fb7741818ac5813a78f93" kindref="member">FlagKeys</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="53" column="44" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_rabbit_f_x_1acd69e0a602c81d9323cd1c7f37472ba5" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::RabbitFX::GlowMapKey</definition>
+        <argsstring></argsstring>
+        <name>GlowMapKey</name>
+        <qualifiedname>AGRemapCore::RabbitFX::GlowMapKey</qualifiedname>
+        <initializer>= std::string(&quot;Resource&quot;) + char(92) + &quot;RabbitFX&quot; + char(92) + &quot;GlowMap&quot;</initializer>
+        <briefdescription>
+<para>The key a mod sets <ref refid="class_a_g_remap_core_1_1_rabbit_f_x" kindref="compound">RabbitFX</ref>&apos;s glow map on a draw with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="58" column="45" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_rabbit_f_x_1aa00cb041ab944c9444acbaf0245f9606" prot="public" static="yes" mutable="no">
+        <type>const std::array&lt; std::string, 6 &gt;</type>
+        <definition>const std::array&lt;std::string, 6&gt; AGRemapCore::RabbitFX::TextureKeys</definition>
+        <argsstring></argsstring>
+        <name>TextureKeys</name>
+        <qualifiedname>AGRemapCore::RabbitFX::TextureKeys</qualifiedname>
+        <initializer>                                       = {
+std::string(&quot;Resource&quot;) + char(92) + &quot;RabbitFX&quot; + char(92) + &quot;Diffuse&quot;,
+std::string(&quot;Resource&quot;) + char(92) + &quot;RabbitFX&quot; + char(92) + &quot;Lightmap&quot;,
+std::string(&quot;Resource&quot;) + char(92) + &quot;RabbitFX&quot; + char(92) + &quot;Normalmap&quot;,
+std::string(&quot;Resource&quot;) + char(92) + &quot;RabbitFX&quot; + char(92) + &quot;Materialmap&quot;,
+std::string(&quot;Resource&quot;) + char(92) + &quot;RabbitFX&quot; + char(92) + &quot;Cutoutmap&quot;,
+std::string(&quot;Resource&quot;) + char(92) + &quot;RabbitFX&quot; + char(92) + &quot;Specialmap&quot;}</initializer>
+        <briefdescription>
+<para>The keys <ref refid="class_a_g_remap_core_1_1_rabbit_f_x" kindref="compound">RabbitFX</ref>&apos;s <computeroutput>SetTextures</computeroutput> reads a part&apos;s textures from (<computeroutput>Resource\<ref refid="class_a_g_remap_core_1_1_rabbit_f_x" kindref="compound">RabbitFX</ref>\Diffuse</computeroutput>, ...). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="63" column="44" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="63" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1a7c78f788dff06e424c24bbb11a2ae2c6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::RabbitFX::textureTag</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>textureTag</name>
+        <qualifiedname>AGRemapCore::RabbitFX::textureTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The tag RabbitFX&apos;s texture overrides give the texture at &apos;path&apos;, from its ``.dds``
+header: ``3`` for ``filter_index = 1718.3`` .. ``6`` for ``1718.6``, ``0`` for none
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   A square ``BC7`` of at most 512 pixels with ONE mip matches both ``1718.4`` and
+   ``1718.6``; it is taken as ``6``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.dds</computeroutput> file</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The tag </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="87" column="24" bodyfile="src/data/RabbitFX.cpp" bodystart="26" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1a7c958f4ccc45125a0a1fc531fb4acf2e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::RabbitFX::tagOf</definition>
+        <argsstring>(std::uint32_t dxgiFormat, std::uint32_t width, std::uint32_t height, std::uint32_t mips)</argsstring>
+        <name>tagOf</name>
+        <qualifiedname>AGRemapCore::RabbitFX::tagOf</qualifiedname>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>dxgiFormat</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>mips</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The tag RabbitFX&apos;s texture overrides give a texture of this description (#textureTag&apos;s rule, on a texture
+that is not on disk -- a game texture&apos;s :cpp:class:`TextureDescs` row, say)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dxgiFormat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s <computeroutput>DXGI_FORMAT</computeroutput> number </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s width </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s height </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mips</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s mip count, as the game creates it</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The tag </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="103" column="24" bodyfile="src/data/RabbitFX.cpp" bodystart="43" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1a1f9d6511821728a8503c23aeed113f1e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::RabbitFX::tagOf</definition>
+        <argsstring>(const std::string &amp;format, std::uint32_t width, std::uint32_t height, std::uint32_t mips)</argsstring>
+        <name>tagOf</name>
+        <qualifiedname>AGRemapCore::RabbitFX::tagOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>mips</declname>
+        </param>
+        <briefdescription>
+<para>The same, by the format&apos;s name without <computeroutput>DXGI_FORMAT_</computeroutput> (<computeroutput>BC7_TYPELESS</computeroutput>, as a frame dump&apos;s <computeroutput>.dsc</computeroutput> writes it). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The format&apos;s name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s width </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s height </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mips</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s mip count, as the game creates it</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The tag </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="115" column="24" bodyfile="src/data/RabbitFX.cpp" bodystart="34" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1ac74c6108b22de6d1a3c049c3e1620adc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::array&lt; int, 4 &gt;</type>
+        <definition>std::array&lt; int, 4 &gt; AGRemapCore::RabbitFX::routingFlags</definition>
+        <argsstring>(const std::array&lt; int, 4 &gt; &amp;tags)</argsstring>
+        <name>routingFlags</name>
+        <qualifiedname>AGRemapCore::RabbitFX::routingFlags</qualifiedname>
+        <param>
+          <type>const std::array&lt; int, 4 &gt; &amp;</type>
+          <declname>tags</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The routing flags ``SetTextures`` writes for a draw whose ``ps-t0`` .. ``ps-t3`` carry
+&apos;tags&apos;. A flag it leaves unwritten keeps whatever the previous draw left, which no fix
+can know; it is ``0`` here
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Each register&apos;s :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c78f788dff06e424c24bbb11a2ae2c6" kindref="member">textureTag</ref></computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The flags, in :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7db3af6ee18fb7741818ac5813a78f93" kindref="member">FlagKeys</ref></computeroutput>&apos; order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="129" column="31" bodyfile="src/data/RabbitFX.cpp" bodystart="68" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1ad8c161164f1abf7e2bd5d12a09834a25" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RabbitFX::names</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>names</name>
+        <qualifiedname>AGRemapCore::RabbitFX::names</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Whether &apos;text&apos; names <ref refid="class_a_g_remap_core_1_1_rabbit_f_x" kindref="compound">RabbitFX</ref>, ignoring case. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An <computeroutput>.ini</computeroutput> line, key or value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="136" column="25" bodyfile="src/data/RabbitFX.cpp" bodystart="82" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_rabbit_f_x_1a7c34bf70df98798eff673071afa293c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RabbitFX::isOwnKVP</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>isOwnKVP</name>
+        <qualifiedname>AGRemapCore::RabbitFX::isOwnKVP</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether a `KVP`_ is one of RabbitFX&apos;s own: a resource under
+:cpp:member:`IniKeywords::RabbitFXResourceFolder`, or a ``run =`` of one of its command lists
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/RabbitFX.h" line="148" column="25" bodyfile="src/data/RabbitFX.cpp" bodystart="86" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What a fix needs to know about RabbitFX 8.3.2, the Wuthering Waves effects library a mod calls
+through :cpp:member:`IniKeywords::RabbitFXSetTexturesPath` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+RabbitFX&apos;s ``SetTextures`` decides how to route the maps a draw has bound at ``ps-t0`` ..
+``ps-t3`` by a TAG its texture overrides give each texture (a ``filter_index`` of ``1718.3`` ..
+``1718.6``), and writes the result as four routing flags, ``x187`` .. ``w187``. A remapped draw
+binds the TARGET&apos;s textures there, so the flags the source&apos;s draw would have had are worked out
+from the source&apos;s textures (:cpp:func:`textureTag`, :cpp:func:`routingFlags`) and pinned after
+the call (:cpp:member:`FlagKeys`)
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/RabbitFX.h" line="38" column="5" bodyfile="include/AGRemapCore/data/RabbitFX.h" bodystart="38" bodyend="149"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7db3af6ee18fb7741818ac5813a78f93" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>FlagKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1acd69e0a602c81d9323cd1c7f37472ba5" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>GlowMapKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c34bf70df98798eff673071afa293c5" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>isOwnKVP</name></member>
+      <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1adf8f0499f9d5d8e3bab1f700f2f7d71d" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>Name</name></member>
+      <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1ad8c161164f1abf7e2bd5d12a09834a25" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>names</name></member>
+      <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1a357e9206096100dad21b45aa1b0aa383" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>Registers</name></member>
+      <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1ac74c6108b22de6d1a3c049c3e1620adc" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>routingFlags</name></member>
+      <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c958f4ccc45125a0a1fc531fb4acf2e" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>tagOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1a1f9d6511821728a8503c23aeed113f1e" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>tagOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1aa00cb041ab944c9444acbaf0245f9606" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>TextureKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_rabbit_f_x_1a7c78f788dff06e424c24bbb11a2ae2c6" prot="public" virt="non-virtual"><scope>AGRemapCore::RabbitFX</scope><name>textureTag</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

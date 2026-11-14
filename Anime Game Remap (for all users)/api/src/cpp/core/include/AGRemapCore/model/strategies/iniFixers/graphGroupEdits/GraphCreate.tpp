@@ -17,10 +17,20 @@
 #include <utility>
 
 
+#include <unordered_map>
+#include <vector>
+
 namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     GraphCreate<K, V, KeyHash, KeyEqual>::GraphCreate(GraphId graphId, Graph* graph, bool minimal, bool newPartIds):
         graphId(std::move(graphId)), graph(graph), minimal(minimal), newPartIds(newPartIds) {}
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    IfTemplateRunConfig<K, V> GraphCreate<K, V, KeyHash, KeyEqual>::runCalls() {
+        return IfTemplateRunConfig<K, V>{IniKeywords::Run, [](const V& val) { return val; },
+                                         [](const std::string& section) { return section; }};
+    }
+
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename GraphCreate<K, V, KeyHash, KeyEqual>::GraphGroups& GraphCreate<K, V, KeyHash, KeyEqual>::edit(
@@ -28,7 +38,49 @@ namespace AGRemapCore {
         (void)modType;
         (void)modName;
 
-        if (graph == nullptr) {
+        if (!Base::gatesPass(graphGroups, onlyWith, onlyWithout)) {
+            return graphGroups;
+        }
+
+        if (sectionsOf) {
+            // a graph per group, of the sections it is handed; and group 0's into a group of its own when there is
+            // none (every group removed, say)
+            const std::size_t count = graphGroups.size() > 0 ? graphGroups.size() : std::size_t(1);
+            for (std::size_t g = 0; g < count; ++g) {
+                std::unordered_map<std::string, Section*> byName;
+                std::vector<std::string> names;
+                std::vector<Section*> sections = sectionsOf(g);
+                const Graph* existing = append && g < graphGroups.size() ? graphGroups.getGraph(g, graphId.modObj) : nullptr;
+                if (existing != nullptr && !sections.empty()) {
+                    for (const std::string& name : existing->targetSectionNames()) {
+                        const auto found = existing->sections().find(name);
+                        if (found != existing->sections().end() && byName.emplace(name, found->second).second) {
+                            names.push_back(name);
+                        }
+                    }
+                }
+                for (Section* section : sections) {
+                    if (section != nullptr && byName.emplace(section->name, section).second) {
+                        names.push_back(section->name);
+                    }
+                }
+                if (names.empty() || (existing != nullptr && sections.empty())) {
+                    continue;
+                }
+                if (g == graphGroups.size()) {
+                    graphGroups.insertGroup(g);
+                }
+
+                Graph built(std::move(byName), names, runConfig, true, false, z3);
+                if (Graph* owned = graphGroups.deepcopyGraph(built, minimal, newPartIds)) {
+                    graphGroups.addGraph(g, graphId.modObj, owned);
+                }
+            }
+            return graphGroups;
+        }
+
+        Graph* source = graphOf ? graphOf() : graph;
+        if (source == nullptr) {
             return graphGroups;
         }
 
@@ -54,7 +106,7 @@ namespace AGRemapCore {
         // because they own their graphs' lifetimes. See this class's own note -- adding the caller's
         // pointer would dangle the moment the caller's graph went out of scope, and the copy leaves
         // the caller free to reuse one graph for several ids.
-        Graph* owned = graphGroups.deepcopyGraph(*graph, minimal, newPartIds);
+        Graph* owned = graphGroups.deepcopyGraph(*source, minimal, newPartIds);
         if (owned == nullptr) {
             return graphGroups;
         }

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::SkeletonNumberingProbe::Result</compoundname>
+    <includes refid="_skeleton_numbering_probe_8h" local="no">SkeletonNumberingProbe.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1a98151774436552800890d027225ada86" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::SkeletonNumberingProbe::Result::best</definition>
+        <argsstring></argsstring>
+        <name>best</name>
+        <qualifiedname>AGRemapCore::SkeletonNumberingProbe::Result::best</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The index of the numbering with the smallest median distance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" line="68" column="29" bodyfile="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1abb6ac25e7ec1c7e041b5446241ea6d63" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; AGRemapCore::SkeletonNumberingProbe::Result::medians</definition>
+        <argsstring></argsstring>
+        <name>medians</name>
+        <qualifiedname>AGRemapCore::SkeletonNumberingProbe::Result::medians</qualifiedname>
+        <briefdescription>
+<para>Each numbering&apos;s median distance, in the order the numberings were given. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" line="73" column="29" bodyfile="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1a4874a92412725413b7ea88283ffcc991" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::SkeletonNumberingProbe::Result::vertices</definition>
+        <argsstring></argsstring>
+        <name>vertices</name>
+        <qualifiedname>AGRemapCore::SkeletonNumberingProbe::Result::vertices</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many vertices sit on a bone the numberings disagree on <ndash/> what the medians are taken over. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" line="78" column="29" bodyfile="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What <ref refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1a88efd66aa3b6c437ebe51e3f58a7b1bb" kindref="member">probe</ref> found. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" line="64" column="13" bodyfile="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" bodystart="64" bodyend="79"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1a98151774436552800890d027225ada86" prot="public" virt="non-virtual"><scope>AGRemapCore::SkeletonNumberingProbe::Result</scope><name>best</name></member>
+      <member refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1abb6ac25e7ec1c7e041b5446241ea6d63" prot="public" virt="non-virtual"><scope>AGRemapCore::SkeletonNumberingProbe::Result</scope><name>medians</name></member>
+      <member refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result_1a4874a92412725413b7ea88283ffcc991" prot="public" virt="non-virtual"><scope>AGRemapCore::SkeletonNumberingProbe::Result</scope><name>vertices</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

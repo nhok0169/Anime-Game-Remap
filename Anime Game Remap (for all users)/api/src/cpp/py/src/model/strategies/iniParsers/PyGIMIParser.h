@@ -179,46 +179,6 @@ class PyIniParseContext: public AGRC::IniParseContext<std::string, std::string> 
 
 
 /**
- * @brief
- @rst
- The `Python`_-backed :cpp:class:`AGRemapCore::IniParseDownloadData` -- calls straight back into a
- real `Python`_ ``DownloadData`` object :raw-html:`<br />` :raw-html:`<br />`
-
- Every method here forwards through genuine `Python`_ attribute lookup rather than reimplementing
- what ``DownloadData`` does, because that class is polymorphic on the `Python`_ side
- (``BlendDownloadData`` overrides ``addToPart``, and a user may subclass it further) -- see
- :cpp:class:`AGRemapCore::IniParseDownloadData`'s own note
- @endrst
- */
-class PyIniParseDownloadData: public AGRC::IniParseDownloadData<std::string, std::string> {
-    public:
-        using Base = AGRC::IniParseDownloadData<std::string, std::string>;
-        using Section = Base::Section;
-        using ContentPart = Base::ContentPart;
-        using Context = Base::Context;
-
-        /**
-         * @brief Wraps one Python ``DownloadData``
-         *
-         * @param downloadData The Python ``DownloadData``
-         */
-        explicit PyIniParseDownloadData(py::object downloadData);
-
-        /**
-         * @brief The Python ``DownloadData`` this wraps
-         */
-        py::object downloadData;
-
-        std::string name() const override;
-        bool refToSection() const override;
-        void addToPart(ContentPart &part, const std::string &key, const std::string &val) override;
-        void addToSection(Section &section, const std::string &key, const std::string &val) override;
-        Section* createResSection(const std::string &sectionName, Context &ctx) override;
-        void addFileDownload(Context &ctx, const std::string &iniFolder) override;
-};
-
-
-/**
  * @brief The core :cpp:class:`AGRemapCore::GIMIParser` specialization this binds
  */
 using PyGIMIParserCore = AGRC::GIMIParser<std::string, std::string, std::hash<std::string>, std::equal_to<std::string>, PyBaseIniParser>;
@@ -238,7 +198,7 @@ using PyGIMIParserCore = AGRC::GIMIParser<std::string, std::string, std::hash<st
  :raw-html:`<br />`
 
  .. note::
-    #editCommands is overridden to go back through `Python`_ (``self.commandEdits.editFromIni(...)``)
+    #editCommands is overridden to go back through `Python`_ (each edit's ``editFromIni(...)``)
     rather than using the core's own default. That is not just faithfulness: the core default has
     no `Python`_ ``IniFile``/``ModType`` to pass down (see
     :cpp:func:`AGRemapCore::GIMIParser::editCommands`'s own comment), and a ``GraphGroupEdit``
@@ -257,11 +217,12 @@ class PyGIMIParser: public PyGIMIParserCore {
          * @param modObjs The mod objects to parse, or ``None``
          * @param objTargetFuncs The custom classification functions, or ``None``
          * @param downloads The files to download, or ``None``
-         * @param commandEdits Further edits for the parsed command graphs, or ``None``
+         * @param commandEdits The edits run on the parsed command graphs, in order, or ``None`` for none
          * @param makeGlobalGraph Whether to make the graph for the entire .ini file
          * @param disjointModObjs Whether each `section`_ belongs to at most one mod object
          * @param trackKeys Whether to track the `KVPs`_ in the .ini file
          * @param keysToTrack Specific keys to track, or ``None`` for all of them
+         * @param deferCommandEdits Whether the edits run on the first ask of the parse data -- see :cpp:member:`AGRemapCore::GIMIParser::deferCommandEdits`
          * @param modTypeId
          @rst
          The id of the mod type this parser is being built for, or ``std::nullopt`` :raw-html:`<br />`
@@ -274,7 +235,8 @@ class PyGIMIParser: public PyGIMIParserCore {
          */
         PyGIMIParser(py::object iniFile, py::object modObjs, py::object objTargetFuncs, py::object downloads,
                       py::object commandEdits, bool makeGlobalGraph, bool disjointModObjs, bool trackKeys,
-                      py::object keysToTrack, std::optional<int> modTypeId = std::nullopt);
+                      py::object keysToTrack, std::optional<int> modTypeId = std::nullopt,
+                      bool deferCommandEdits = false);
 
         /**
          * @brief The .ini file being parsed, and the graphs built from it
@@ -297,7 +259,12 @@ class PyGIMIParser: public PyGIMIParserCore {
         py::object downloadsObj;
 
         /**
-         * @brief The exact Python object given for ``commandEdits``
+         * @brief
+         @rst
+         The exact Python object given for ``commandEdits`` (a list; ``None`` is taken as an empty one): the core's
+         :cpp:member:`AGRemapCore::GIMIParser::commandEdits`, run by #editCommands, each edit going back through
+         `Python`_
+         @endrst
          */
         py::object commandEditsObj;
 
@@ -305,6 +272,18 @@ class PyGIMIParser: public PyGIMIParserCore {
          * @brief The exact Python object given for ``keysToTrack``
          */
         py::object keysToTrackObj;
+
+        /**
+         * @brief The deferred edits of the last parse, kept alive until the parse data is filled
+         */
+        py::list deferredStepsObj;
+
+
+        /**
+         * @brief The graphs this parser's edits took over and left in no group, kept until :meth:`clear` -- see
+         * PyIniGraphGroups::KeepScope
+         */
+        py::list graphKeeper;
 
         /**
          * @brief
@@ -397,12 +376,18 @@ class PyGIMIParser: public PyGIMIParserCore {
         py::object collectToPy() const;
 
         void editCommands() override;
-        void clear() override;
 
-    private:
-        // The IniParseDownloadData adapters the core holds borrowed pointers to, rebuilt by every
-        // refresh(). They live exactly as long as the derived 'downloads' map that points at them.
-        std::vector<std::unique_ptr<PyIniParseDownloadData>> downloadAdapters_;
+        /**
+         * @brief Applies one `Python`_ edit to the command graphs, as #editCommands does each of #commandEditsObj
+         */
+        void editGroupsFromPy(const py::object& edit);
+
+        /**
+         * @brief Runs each edit of 'steps' through #editGroupsFromPy, filing each :cpp:class:`AGRemapCore::IParseResult` into 'data'
+         */
+        void runStepsFromPy(const py::object& steps, AGRC::IniParseData& data);
+
+        void clear() override;
 };
 
 

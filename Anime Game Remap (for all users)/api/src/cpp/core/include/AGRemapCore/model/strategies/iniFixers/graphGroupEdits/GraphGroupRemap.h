@@ -109,6 +109,16 @@ namespace AGRemapCore {
                  * @param renameFunc The optional rename function. **Default**: empty
                  */
                 explicit RemapTarget(GraphId id, RenameFunc renameFunc = {}): id(std::move(id)), renameFunc(std::move(renameFunc)) {}
+
+                /**
+                 * @brief
+                 @rst
+                 Whether the target is a copy in EVERY group there is, once every other target has made the groups it
+                 makes -- eg. a section each file a remap writes must carry, when how many files
+                 there will be depends on the mod. **Default**: ``false``
+                 @endrst
+                 */
+                bool everyGroup = false;
             };
 
             /**
@@ -212,6 +222,7 @@ namespace AGRemapCore {
              * @return The same groups that were passed in, after remapping
              */
             GraphGroups& edit(GraphGroups& graphGroups, const ModType* modType, const std::string& modName = "") override;
+
     };
 }
 

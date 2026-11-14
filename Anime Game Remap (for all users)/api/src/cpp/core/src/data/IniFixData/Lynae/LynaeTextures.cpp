@@ -12,7 +12,6 @@
 // ##### EndCredits
 
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h"
-#include "AGRemapCore/data/IniFixData/Lynae/LynaeThumbprints.h"
 
 
 namespace AGRemapCore {
@@ -106,15 +105,12 @@ namespace AGRemapCore {
         };
 
         // ---- her own textures' pixels, for a file no hash and no register names ----
-        facts.textureThumbprints = lynaeTextureThumbprints();
+        // textureThumbprints: read off TextureThumbprints (WWMIParserConfig::withGameData, WWMIFixerConfig::withGameData)
 
         // ---- a role the mod ships no file for falls back to HER game texture ----
         // The eye textures are the same hashes on both skins, so the game already binds them on the
         // target and they have no fallback.
-        facts.downloadGameFolder = "WuWa";
-        facts.downloadCharFolder = "Lynae";
         facts.downloadVersionFolder = "3_7";
-        facts.downloadPrefix = "Lynae";
         facts.fallbackTextures = {
             {"bangsDiffuse", "7d044e58"},
             // her holographic foil, which her jacket and props passes read at ps-t4 (and her props' glass
@@ -153,6 +149,8 @@ namespace AGRemapCore {
             {"upperNormal", "739ef6e9"},
         };
 
+        // the masks a flat file, or one a slot also binds for another role, is refused for
+        facts.regionRoles = {"upperMask", "lowerMask", "jacketMask", "propsMask", "faceMask", "hairMask", "bangsMask"};
         return facts;
     }
 }

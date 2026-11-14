@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="77" column="13"/>
+        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="79" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -39,7 +39,47 @@ belongs to some mod, lazily constructed on first access and reused for every lat
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="88" column="34" bodyfile="src/constants/GlobalIniClassifiers.cpp" bodystart="246" bodyend="284"/>
+        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="90" column="34" bodyfile="src/constants/GlobalIniClassifiers.cpp" bodystart="274" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_global_ini_classifiers_1a5ab79957e6dbab31ad25d37f6701deb6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::GlobalIniClassifiers::claims</definition>
+        <argsstring>(const std::string &amp;hash)</argsstring>
+        <name>claims</name>
+        <qualifiedname>AGRemapCore::GlobalIniClassifiers::claims</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How many shipped mod types claim &apos;hash&apos; -- the count #classifier registers by :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A mod type claims the hashes that identify it (see #classifier) and, for a mod type outside
+WuWa, every texture hash ``HashData`` files under it; a skin of several components claims its
+components&apos; hashes, so a hash its components share counts once. A hash claimed more than once
+identifies no one -- a texture two characters draw, eg. Amber&apos;s and AmberCN&apos;s face diffuse
+``1d064079``, is recoloured on either by an override of it alone
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash, as <computeroutput>HashData</computeroutput> writes it (lowercase)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The number of mod types claiming it; 0 for a hash no shipped mod type has </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="109" column="24" bodyfile="src/constants/GlobalIniClassifiers.cpp" bodystart="268" bodyend="272"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -95,8 +135,9 @@ function-local ``static`` (guaranteed thread-safe, exactly-once initialization)
    classifier never comes through here and keeps full control of the registry
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="74" column="5" bodyfile="include/AGRemapCore/constants/GlobalIniClassifiers.h" bodystart="74" bodyend="89"/>
+    <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="76" column="5" bodyfile="include/AGRemapCore/constants/GlobalIniClassifiers.h" bodystart="76" bodyend="110"/>
     <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_global_ini_classifiers_1a5ab79957e6dbab31ad25d37f6701deb6" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniClassifiers</scope><name>claims</name></member>
       <member refid="class_a_g_remap_core_1_1_global_ini_classifiers_1a0e369ef6f6d6f237879a653a908c8b0b" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniClassifiers</scope><name>classifier</name></member>
       <member refid="class_a_g_remap_core_1_1_global_ini_classifiers_1aede4d6e2c894d69404cd871692cdd17b" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniClassifiers</scope><name>GlobalIniClassifiers</name></member>
     </listofallmembers>

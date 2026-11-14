@@ -200,6 +200,39 @@ namespace AGRemapCore {
             return result;
         };
     }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename GIMIObjPartFilter<K, V, KeyHash, KeyEqual>::OrderRanges
+            GIMIObjPartFilter<K, V, KeyHash, KeyEqual>::hashTypeWindow(const K& hashType, const Colouring& colouring) const {
+        const OrderRanges nothing(std::vector<typename OrderRanges::Range>{});
+        if (hashes_ == nullptr) {
+            return nothing;
+        }
+
+        const std::vector<std::optional<K>> noFilter;
+        for (const auto& hashVal : colouring.getIndVals(config_.hashKey)) {
+            std::optional<std::vector<K>> hashKeyRow = hashes_->getKey(hashVal.second, version, noFilter, false);
+            if (hashKeyRow.has_value() && !hashKeyRow->empty() && hashKeyRow->back() == hashType) {
+                return OrderRanges::createFull();
+            }
+        }
+
+        return nothing;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename GIMIObjPartFilter<K, V, KeyHash, KeyEqual>::PartPredicate
+            GIMIObjPartFilter<K, V, KeyHash, KeyEqual>::hashTypeParts(const K& hashType) const {
+        return [this, hashType](const IterData& iterData) {
+            if (iterData.colouring == nullptr) {
+                return OrderRanges(std::vector<typename OrderRanges::Range>{});
+            }
+
+            return hashTypeWindow(hashType, *iterData.colouring);
+        };
+    }
 }
 
 #endif

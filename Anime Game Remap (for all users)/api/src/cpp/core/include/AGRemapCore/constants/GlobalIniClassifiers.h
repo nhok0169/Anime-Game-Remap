@@ -14,6 +14,8 @@
 
 // ##### EndCredits
 
+#include <string>
+
 #include "AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h"
 
 
@@ -86,6 +88,25 @@ namespace AGRemapCore {
              * @return A reference to the shared default classifier
              */
             static IniClassifier& classifier();
+
+            /**
+             * @brief
+             @rst
+             How many shipped mod types claim 'hash' -- the count #classifier registers by :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A mod type claims the hashes that identify it (see #classifier) and, for a mod type outside
+             WuWa, every texture hash ``HashData`` files under it; a skin of several components claims its
+             components' hashes, so a hash its components share counts once. A hash claimed more than once
+             identifies no one -- a texture two characters draw, eg. Amber's and AmberCN's face diffuse
+             ``1d064079``, is recoloured on either by an override of it alone
+             @endrst
+             *
+             * @param hash The hash, as ``HashData`` writes it (lowercase)
+             *
+             * @return The number of mod types claiming it; 0 for a hash no shipped mod type has
+             */
+            static int claims(const std::string& hash);
     };
 }
 

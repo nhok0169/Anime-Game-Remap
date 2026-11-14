@@ -209,6 +209,12 @@ class PyGIMIFixer: public PyGIMIFixerCore {
         py::object prevFixerObj;
 
         /**
+         * @brief The graphs this fixer's edits took over and left in no group, kept until :meth:`clear` -- see
+         * PyIniGraphGroups::KeepScope
+         */
+        py::list graphKeeper;
+
+        /**
          * @brief Re-derives every core member from the Python objects above -- see this class's own note
          */
         void refresh();
@@ -235,6 +241,7 @@ class PyGIMIFixer: public PyGIMIFixerCore {
         py::object getFixToPy(bool onlyEditObjGraphs);
 
         FixTargets getFix(ParseData &parseData, bool onlyEditObjGraphs) override;
+        void clear() override;
         void applyGraphGroupEdits(const std::string &modName) override;
         py::object fixToPy(bool keepBackup, bool fixOnly, bool hideOrig, AGRC::IniFixingContext fixingCtx) override;
 };

@@ -21,6 +21,9 @@
 #include "AGRemapCore/constants/FileSuffixes.h"
 
 #include "graphGroupEdits/resEdits/PyResEdit.h"  // reuses pyCoreModule()
+#include "PyEditScope.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
+#include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
 #include "../PyStrategyFactory.h"  // resolveStrategyModType
 #include "../../PyIniGraphGroup.h"
 #include "../../PyIniSectionGraph.h"
@@ -271,6 +274,14 @@ void PyIniFixContext::log(const std::string &message) {
 
 
 void PyIniFixContext::writeFixedFile(const std::string &path, const std::string &content) {
+    // A core IniFile writes as the core does: binary, in the source .ini's own line ending. Python's
+    // text-mode open turns every "\n" into the platform's ending, so on Windows a Python fixer wrote an
+    // LF mod back as CRLF where the same fix in C++ kept it LF.
+    if (coreCtx != nullptr) {
+        coreCtx->writeFixedFile(path, content);
+        return;
+    }
+
     // Through builtins.open (resolved at call time) and its context-manager protocol, matching the
     // original's own 'with open(...) as f' -- the test harness patches exactly this.
     py::object file = py::module_::import("builtins").attr("open")(py::str(path), py::str("w"),
@@ -384,6 +395,20 @@ void PyGIMIFixer::applyGraphGroupEdits(const std::string &modName) {
 
     py::object modType = ctxImpl.modType();
 
+    // the .ini's parse data, which the parser's list filed into: an edit of this list that files a result
+    // (IParseResult, eg. GraphCollect) files it there too, so one edit means the same in either list
+    AGRC::IniParseData *data = nullptr;
+    py::object dataObj = py::none();
+    if (!this->parserObj.is_none() && py::hasattr(this->parserObj, "parseData")) {
+        dataObj = this->parserObj.attr("parseData");
+        try {
+            data = dataObj.cast<AGRC::IniParseData *>();
+        } catch (const py::cast_error &) {
+            data = nullptr;
+        }
+    }
+    PyListScope scope(ctxImpl.ini, modType, dataObj);
+
     for (auto item : graphGroupEditsObj) {
         py::object edit = py::reinterpret_borrow<py::object>(item);
         if (edit.is_none()) {
@@ -398,19 +423,45 @@ void PyGIMIFixer::applyGraphGroupEdits(const std::string &modName) {
         if (!result.is_none() && !result.is(groups)) {
             setGraphGroupsFromPy(std::move(result));
         }
+
+        if (data == nullptr) {
+            continue;
+        }
+        if (py::isinstance<AGRC::IParseResult>(edit)) {
+            edit.cast<AGRC::IParseResult *>()->fileInto(*data);
+        } else if (py::isinstance<AGRC::BaseIniGraphGroupEdit<std::string, std::string>>(edit)) {
+            // an edit built in C++ that files a result reaches Python as its base class
+            const auto *filed = dynamic_cast<const AGRC::IParseResult *>(
+                edit.cast<AGRC::BaseIniGraphGroupEdit<std::string, std::string> *>());
+            if (filed != nullptr) {
+                filed->fileInto(*data);
+            }
+        }
     }
+}
+
+
+void PyGIMIFixer::clear() {
+    Core::clear();
+    graphKeeper = py::list();
 }
 
 
 PyGIMIFixer::FixTargets PyGIMIFixer::getFix(ParseData &parseData, bool onlyEditObjGraphs) {
     (void)parseData;  // sourced from the parser instead -- see this class's own note
     refresh();
+    PyIniGraphGroups::KeepScope keep(graphKeeper);
 
     if (!prevFixerObj.is_none()) {
         auto *prev = prevFixerObj.cast<PyGIMIFixer*>();
         ParseData empty;
         prev->getFix(empty, true);
         this->graphGroups_ = std::move(prev->graphGroups_);
+
+        // with its groups, the graphs they may still point into
+        for (auto graph : prev->graphKeeper) {
+            graphKeeper.append(graph);
+        }
         prev->clear();
     } else {
         this->graphGroups_ = ctxImpl.makeGraphGroups();
@@ -617,6 +668,21 @@ the mod's own file, on top of what :attr:`hiddenModObjs` hides everywhere. The W
 ``TextureOverride`` of the mod's own text here. **Default**: empty
         )doc"))
 
+       .def_readwrite("copyPreamble", &PyGIMIFixer::copyPreamble, py::doc(R"doc(
+:class:`str`: A comment written at the top of every generated COPY -- the extra ``.ini`` file a fix
+that merges several mod objects onto one writes per extra object -- saying what the file is. The
+mod's own ``.ini`` file never gets it. **Default**: ``""``, no preamble
+        )doc"))
+
+       .def_readwrite("hiddenModObjs", &PyGIMIFixer::hiddenModObjs, py::doc(R"doc(
+Set[Tuple[:class:`str`, :class:`str`]]: The mod objects, as ``(component, object)``, whose ORIGINAL
+`sections`_ are commented out of the source text the fix appends -- for a fix that REPLACES what an
+object drew rather than adding beside it, so the game does not draw both (Raiden's fix rewrites her
+``head``, ``body`` and ``dress`` in place). Independent of the ``hideOrig`` argument of :meth:`fix`,
+which is the user's request to hide the whole mod; when both apply, the two are hidden together.
+**Default**: empty
+        )doc"))
+
        .def("getModsToFix", [](PyGIMIFixer &self) {
             self.refresh();
             return self.getModsToFix();
@@ -653,6 +719,21 @@ Optional[Dict[Union[:class:`str`, :class:`int`], :class:`IniGraphGroup`]]
     * The keys are the file paths each group should be written to. A .ini file with no path at all
       is keyed by its group's index instead
     * The values are the edited graph groups themselves
+        )doc"))
+
+       .def("keepAlive", [](PyGIMIFixer &self, py::object object) {
+            self.keepAlive(std::shared_ptr<void>(new py::object(std::move(object)), [](void* held) {
+                py::gil_scoped_acquire gil;
+                delete static_cast<py::object*>(held);
+            }));
+        }, py::arg("object"), py::doc(R"doc(
+Keeps 'object' alive as long as the fixer -- eg. what the edits of the fixer's list borrow (a Z3 context, a variables
+holder, a resource edit), when the list was built outside it
+
+Parameters
+----------
+object: Any
+    The object
         )doc"))
 
        .def("groupToStr", [](PyGIMIFixer &self, std::size_t groupInd) {

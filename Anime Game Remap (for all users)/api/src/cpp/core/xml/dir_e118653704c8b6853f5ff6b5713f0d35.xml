@@ -5,9 +5,7 @@
     <innerfile refid="_changli_nymph_fixer_8cpp">ChangliNymphFixer.cpp</innerfile>
     <innerfile refid="_changli_nymph_shawl_shader_8cpp">ChangliNymphShawlShader.cpp</innerfile>
     <innerfile refid="_changli_nymph_sheer_shader_8cpp">ChangliNymphSheerShader.cpp</innerfile>
-    <innerfile refid="_changli_nymph_skeleton_8cpp">ChangliNymphSkeleton.cpp</innerfile>
     <innerfile refid="_changli_nymph_textures_8cpp">ChangliNymphTextures.cpp</innerfile>
-    <innerfile refid="_changli_nymph_thumbprints_8cpp">ChangliNymphThumbprints.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

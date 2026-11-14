@@ -19,6 +19,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <variant>
 #include <vector>
 
@@ -41,6 +42,21 @@ namespace AGRemapCore {
      */
     class BufFile: public BinaryFile {
         public:
+
+            /**
+             * @brief
+             @rst
+             How many whole lines of 'stride' bytes the file at 'path' holds -- eg. a mesh's vertices, off its position
+             buffer and the stride its resource section declares. ``std::nullopt`` when the file cannot be read or holds
+             less than one line
+             @endrst
+             *
+             * @param path The file
+             * @param stride The bytes of one line
+             *
+             * @return The number of lines
+             */
+            static std::optional<std::size_t> linesOf(const std::string& path, std::size_t stride);
 
             /**
              * @brief
@@ -287,6 +303,34 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Every line's values for one element, as integers in line order -- ``out[line][i]`` is
+             the element's ``i``-th data type :raw-html:`<br />` :raw-html:`<br />`
+
+             The row-shaped counterpart to :cpp:func:`decodeAll`, for a caller that works a vertex
+             at a time: a `blend`_ buffer's ids or weights, or an index buffer's triangles
+             @endrst
+             *
+             * @param elementKey The element to take, eg. :cpp:member:`BlendFile::BlendIndicesKey`
+             * @param width How many data types of the element to keep per line. A line whose element
+             *      has fewer is padded with zeros, and one with more is cut at 'width'
+             *
+             * @return One row of 'width' values per line. Empty when the file has no such element
+             */
+            std::vector<std::vector<long long>> rows(const std::string& elementKey, std::size_t width) const;
+
+            /**
+             * @brief One data type of one element, as numbers in line order -- see \ref rows
+             *
+             * @param elementKey The element to take
+             * @param valueInd Which of the element's data types
+             *
+             * @return One value per line. Empty when the file has no such column
+             */
+            std::vector<double> column(const std::string& elementKey, std::size_t valueInd) const;
+
+            /**
+             * @brief
+             @rst
              Merges several other ``.buf`` files into this one, line by line :raw-html:`<br />`
              :raw-html:`<br />`
 
@@ -354,6 +398,37 @@ namespace AGRemapCore {
              *      reachable when this file's own data was not a whole number of lines)
              */
             void append(const std::vector<const BufFile*>& bufFiles);
+
+            /**
+             * @brief
+             @rst
+             This file's lines rewritten in another layout -- another stride -- element by element
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Two skins of a character can read one buffer in different layouts: Miyabi's Body
+             ``Texcoord.buf`` is 24 bytes a vertex (``COLOR``, ``TEXCOORD0`` to ``TEXCOORD3``) where her
+             skin's Dress reads 20 (no ``TEXCOORD3``). Each element of 'toElements' is filled, line by
+             line, from:
+
+             #. this file's element of the same name, byte for byte;
+             #. otherwise this file's element named by 'fillFrom' for it (``TEXCOORD3`` from
+                ``TEXCOORD0``), byte for byte;
+             #. otherwise zeros.
+
+             An element of this file that 'toElements' does not name is dropped. Nothing is decoded,
+             so no value can be perturbed on the way
+             @endrst
+             *
+             * @param toElements The layout to write, in byte order
+             * @param fillFrom For an element of 'toElements' this file does not have, the name of this
+             *      file's element to copy into it. **Default**: none
+             *
+             * @return The rewritten bytes, one line of 'toElements' per line of this file
+             *
+             * @throws BadBufData if an element copied across is not the same size on both sides
+             */
+            ByteVec restride(const std::vector<std::unique_ptr<BufElementType>>& toElements,
+                             const std::unordered_map<std::string, std::string>& fillFrom = {}) const;
 
             /**
              * @brief

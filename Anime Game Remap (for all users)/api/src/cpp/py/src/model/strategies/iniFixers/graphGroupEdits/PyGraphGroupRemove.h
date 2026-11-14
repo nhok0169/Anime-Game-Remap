@@ -27,40 +27,12 @@ namespace AGRC = AGRemapCore;
 /**
  * @brief
  @rst
- The `pybind11`_-facing subclass of `AGRC::GraphGroupRemove`\\<std::string, std::string\\>
- :raw-html:`<br />` :raw-html:`<br />`
-
- Holds the exact `Python`_ object given for ``iniIndices``, as `PyGraphRemove` holds its
- ``graphIds``: ``someEdit.iniIndices is theListYouPassed`` holds, and mutating that list afterwards
- changes what the edit does. The C++ member is re-derived from it at the start of every ``edit``
- (see #refresh)
+ The `Python`_ ``GraphGroupRemove`` is :cpp:class:`AGRemapCore::GraphGroupRemove` itself: its arguments are parsed into the C++ members
+ when it is built or they are set, and read back from them -- so one built in `Python`_ runs in a C++ fixer's list, and
+ one built in C++ reads in `Python`_ as a ``GraphGroupRemove``
  @endrst
  */
-class PyGraphGroupRemove: public AGRC::GraphGroupRemove<std::string, std::string> {
-    public:
-
-        /**
-         * @brief The C++ core class this wraps
-         */
-        using Core = AGRC::GraphGroupRemove<std::string, std::string>;
-
-        /**
-         * @brief The exact `Python`_ object given for ``iniIndices`` -- a list of ``int``, or ``None`` for every group
-         */
-        py::object iniIndicesObj;
-
-        /**
-         * @brief Constructs a new group-removing edit
-         *
-         * @param iniIndicesObj The Python list of ``.ini`` indices, or ``None`` for every group
-         */
-        explicit PyGraphGroupRemove(py::object iniIndicesObj);
-
-        /**
-         * @brief Re-derives the core's \ref iniIndices from #iniIndicesObj
-         */
-        void refresh();
-};
+using PyGraphGroupRemove = AGRC::GraphGroupRemove<std::string, std::string>;
 
 
 /**

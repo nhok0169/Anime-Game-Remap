@@ -20,14 +20,19 @@
 
 
 namespace AGRemapCore {
-    IniParseBuilder::Factory IniParseBuilderFuncs::lynaePeppermint3_7() {
+    WWMIParserConfig LynaePeppermintParser::v3_7Config() {
         // The WWMI shape -- see makeWWMIParser. Her eight draw slots come off the library's Indices
         // rows, her hashes off HashData; 3.7 is the only version the skin has.
         WWMIParserConfig config{};
         config.version = "3.7";
         // Her own textures, so a mod of hers is sorted into roles at PARSE time
         config.textures = lynaePeppermintTextureFacts();
-        return makeWWMIParser(std::move(config));
+        return config;
+    }
+
+
+    IniParseBuilder::Factory IniParseBuilderFuncs::lynaePeppermint3_7() {
+        return makeWWMIParser(LynaePeppermintParser::v3_7Config());
     }
 
 

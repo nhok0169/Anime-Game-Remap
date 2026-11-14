@@ -3,10 +3,8 @@
   <compounddef id="dir_760e16159b2b5581c94d71b74eb280a2" kind="dir">
     <compoundname>include/AGRemapCore/data/IniFixData/Changli</compoundname>
     <innerfile refid="_changli_fixer_8h">ChangliFixer.h</innerfile>
-    <innerfile refid="_changli_skeleton_8h">ChangliSkeleton.h</innerfile>
     <innerfile refid="_changli_tattoo_shader_8h">ChangliTattooShader.h</innerfile>
     <innerfile refid="_changli_textures_8h">ChangliTextures.h</innerfile>
-    <innerfile refid="_changli_thumbprints_8h">ChangliThumbprints.h</innerfile>
     <innerfile refid="_changli_upper_shader_8h">ChangliUpperShader.h</innerfile>
     <briefdescription>
     </briefdescription>

@@ -79,6 +79,21 @@ namespace AGRemapCore {
              */
             virtual ByteVec read();
 
+            /**
+             * @brief
+             @rst
+             Writes 'bytes' to the file at 'path', replacing whatever the file held :raw-html:`<br />` :raw-html:`<br />`
+
+             The folder the file goes in must already exist
+             @endrst
+             *
+             * @param path The file to write
+             * @param bytes The bytes to write
+             *
+             * @return Whether every byte was written
+             */
+            static bool write(const std::string& path, const ByteVec& bytes);
+
         protected:
             BinarySrc src_;
             ByteVec data_;

@@ -246,6 +246,27 @@ place* to the pixel buffer. Neither is wanted when the point is to see the textu
 pixels. It also leaves `src` pointing at the original file — it's an export, not a "save as and
 move on".
 
+## A TEXTURE EDIT IS A GENERAL FILTER WITH THE CHARACTER'S TABLE, NEVER A PIXEL LOOP IN A FIXER (2026-11-06)
+
+Sixteen hand-written `[](TextureFile& tex) { ... getPixels ... setPixels }` loops lived in character files (Lynae 7,
+Chisa 4, ChisaParfait 3, LynaePeppermint 1, Changli 1), so a fixer built from Python could not make the same edits
+without retyping them as numpy. Fourteen are now two general filters plus the character's DATA:
+
+* **`ChannelMapFilter`**: each output channel from a channel of the same pixel through a 256-entry table (or kept),
+  every channel read before any is written. `read` is how a source is read -- `Raw`, or as a shader reads it
+  (`ShaderCode`: decoded and truncated, `ShaderValue`: decoded and rounded; `TextureFile::shaderChannel`) -- and
+  `data` clears the gamma for codes and flags. A code map through a table is `ChannelMapFilter::codeMap(table)`;
+  a constant is `ChannelMapFilter::constant(v)`. It covers code swaps, constants, copies, alpha clamps and colour gains.
+* **`GuidedScaleFilter`**: each pixel's RGB scaled by one of 256 factors a GUIDE texture's channel chooses at the
+  same UV (nearest texel; `linear` scales the sRGB-decoded colour). What a texel is comes from the guide (a code map,
+  a normal map's alpha), never from its own colour. A missing guide leaves the texture.
+* `TexEditor::filterOf(filter)` makes either an edit; `WWMIFixerConfig::TexEditContext::fileOfRole` holds the
+  mod's file for a guide role.
+
+The character keeps only its tables (`LynaeSkinCodes`, gone since 2026-11-09 with the edits that read it). Left as they were, being a different kind: Chisa's `maskFilter` (decides skin by the DIFFUSE's colour --
+see the no-diffuse-classification rule) and `gradeFilter` (a UV-island mask). Proved byte-identical on the 174-folder
+WWMI sweep before and after.
+
 ## DESIGNING A REPACK: three measurements, in this order (2026-09-28)
 
 A repack moves a texture from one character's channel layout into another's. Deciding what goes

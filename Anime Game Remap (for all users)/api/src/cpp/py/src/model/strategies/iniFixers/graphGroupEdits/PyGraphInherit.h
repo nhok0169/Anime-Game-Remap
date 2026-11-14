@@ -90,6 +90,12 @@ class PyGraphInherit: public AGRC::GraphInherit<std::string, std::string> {
         py::object currentIni = py::none();
 
         /**
+         * @brief The `Python`_ groups list of the ``edit`` call in progress, or ``None`` -- what a `Python`_ subclass's edit an
+         *        adder returns is run over
+         */
+        py::object currentGraphGroups = py::none();
+
+        /**
          * @brief Constructs a new graph-inheriting edit
          *
          * @param srcObj The Python tuple id of the source graph
@@ -105,16 +111,11 @@ class PyGraphInherit: public AGRC::GraphInherit<std::string, std::string> {
         /**
          * @brief
          @rst
-         Re-derives the inherited C++ ``src``/``dst``/``partFilter``/``adder`` members from their
-         `Python`_ counterparts -- called at the start of every ``edit`` so an in-place reassignment
-         of any of them is honoured, exactly as it was for the pure-Python original
+         Re-derives the inherited C++ ``src``/``dst``/``partFilter``/``adder`` members from their `Python`_ counterparts --
+         called when the edit is built and whenever one of them is set, so one built in `Python`_ runs in a C++ fixer's list
          @endrst
-         *
-         * @param groups The graph-groups view the current edit is running against -- the rebuilt adder hands the source graph to `Python`_ through it, and so is only valid during that edit
-         * @param graphGroups The `Python`_ list 'groups' is a view over
-         * @param modType The ``modType`` ``edit`` was called with -- captured by the rebuilt filter and adder, since the C++ side has no ``ModType`` to hand over
          */
-        void refresh(PyIniGraphGroups &groups, const py::list &graphGroups, const py::object &modType);
+        void refresh();
 };
 
 

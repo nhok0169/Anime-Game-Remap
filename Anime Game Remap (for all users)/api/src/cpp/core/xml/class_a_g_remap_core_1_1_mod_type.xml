@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="168" column="17" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="168" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="195" column="17" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="195" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a1f3e0e3507c7e9c46515e795b817980c" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="173" column="17" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="173" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="200" column="17" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="200" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1ab473448c6f9febc57c430e315cb7a8f8" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="178" column="25" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="178" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="205" column="25" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="205" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a0267edf6016a68bc78f70755ea3f48cf" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="183" column="25" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="183" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="210" column="25" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="210" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a11133f17bbe9ff1be9a3dcba15c8658b" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_hashes" kindref="compound">Hashes</ref> &gt;</type>
@@ -96,7 +96,7 @@ A :cpp:class:`ModType` constructed without one gets a **fully-populated**
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="208" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="208" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="235" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="235" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a0c90fb4f4d2fa375c20939d5876311ee" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_indices" kindref="compound">Indices</ref> &gt;</type>
@@ -122,7 +122,7 @@ Same default as #hashes: a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="225" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="225" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="252" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="252" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1aee3f46205d85109676c1b811c00d3813" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_vertex_counts" kindref="compound">VertexCounts</ref> &gt;</type>
@@ -148,7 +148,7 @@ A :cpp:class:`ModType` constructed without one gets a **fully-populated**
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="242" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="242" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="269" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="269" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1acbd757691022d5649aba339426735e57" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_v_g_remaps" kindref="compound">VGRemaps</ref> &gt;</type>
@@ -178,7 +178,7 @@ groups onto another mod&apos;s :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="263" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="263" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="290" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="290" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1ab588f4c8673e52fb290d5d93fab53e1e" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_index_counts" kindref="compound">IndexCounts</ref> &gt;</type>
@@ -201,7 +201,7 @@ which for a GI mod type holds no row of its own and remaps onto nothing
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="277" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="277" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="304" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="304" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1ad20ace4118cefe037427bde84b2e49b0" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_v_g_offsets" kindref="compound">VGOffsets</ref> &gt;</type>
@@ -216,7 +216,7 @@ which for a GI mod type holds no row of its own and remaps onto nothing
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="282" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="282" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="309" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="309" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1ac485835e75b73c79fb5ac598ee3608fa" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_v_g_counts" kindref="compound">VGCounts</ref> &gt;</type>
@@ -231,7 +231,7 @@ which for a GI mod type holds no row of its own and remaps onto nothing
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="287" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="287" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="314" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="314" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a715bcadb0825c6aa32c2eae58ba40dd5" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_shape_key_checksums" kindref="compound">ShapeKeyChecksums</ref> &gt;</type>
@@ -246,7 +246,179 @@ which for a GI mod type holds no row of its own and remaps onto nothing
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="292" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="292" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="319" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1aeae846fc644e81dd1d4094c6a8ed85e0" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_draw_passes" kindref="compound">DrawPasses</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DrawPasses&gt; AGRemapCore::ModType::drawPasses</definition>
+        <argsstring></argsstring>
+        <name>drawPasses</name>
+        <qualifiedname>AGRemapCore::ModType::drawPasses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The draw passes of each of the mod&apos;s draw slots (WuWa) -- see :cpp:class:`DrawPasses` and #getDrawPass
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The first of six versioned tables of a character&apos;s GAME data that a fix reads at the run&apos;s version rather
+than carrying it: this, #textureRegisters, #gameShaders, #shapeKeyDispatchSizes, #boneCentroids and
+#shapeKeyRemaps. They default as #hashes does: a fresh, fully-populated table each
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="332" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a41a57e853440edfe50c56067d663476d" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_texture_registers" kindref="compound">TextureRegisters</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TextureRegisters&gt; AGRemapCore::ModType::textureRegisters</definition>
+        <argsstring></argsstring>
+        <name>textureRegisters</name>
+        <qualifiedname>AGRemapCore::ModType::textureRegisters</qualifiedname>
+        <briefdescription>
+<para>Where the mod&apos;s own draws bind each texture role <ndash/> see :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_texture_registers" kindref="compound">TextureRegisters</ref></computeroutput> and <ref refid="class_a_g_remap_core_1_1_mod_type_1aa2ac8d62c466be33e9111e991bdee266" kindref="member">getTextureRegister</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="337" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a8dd7836bb611d0c0b8f4fd546cdb10ff" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_game_shaders" kindref="compound">GameShaders</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;GameShaders&gt; AGRemapCore::ModType::gameShaders</definition>
+        <argsstring></argsstring>
+        <name>gameShaders</name>
+        <qualifiedname>AGRemapCore::ModType::gameShaders</qualifiedname>
+        <briefdescription>
+<para>The game pixel shaders a fix draws the mod&apos;s parts with <ndash/> see :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_game_shaders" kindref="compound">GameShaders</ref></computeroutput> and <ref refid="class_a_g_remap_core_1_1_mod_type_1ad0ecdda832ececfdfa3bd1a88647e18c" kindref="member">getGameShader</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="342" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a2882043ebf66d3cb8849b1fab823333c" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_shape_key_dispatch_sizes" kindref="compound">ShapeKeyDispatchSizes</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShapeKeyDispatchSizes&gt; AGRemapCore::ModType::shapeKeyDispatchSizes</definition>
+        <argsstring></argsstring>
+        <name>shapeKeyDispatchSizes</name>
+        <qualifiedname>AGRemapCore::ModType::shapeKeyDispatchSizes</qualifiedname>
+        <briefdescription>
+<para>The height WWMI dispatches the mod&apos;s shape keys with <ndash/> see :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_shape_key_dispatch_sizes" kindref="compound">ShapeKeyDispatchSizes</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="347" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a05570c51660707c24c40f82f21b4b549" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_bone_centroids" kindref="compound">BoneCentroids</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;BoneCentroids&gt; AGRemapCore::ModType::boneCentroids</definition>
+        <argsstring></argsstring>
+        <name>boneCentroids</name>
+        <qualifiedname>AGRemapCore::ModType::boneCentroids</qualifiedname>
+        <briefdescription>
+<para>Each bone&apos;s rest-pose centroid on the mod&apos;s own model <ndash/> see :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_bone_centroids" kindref="compound">BoneCentroids</ref></computeroutput> and <ref refid="class_a_g_remap_core_1_1_mod_type_1ad65b0ad2a4d67d26a848efd2a99340a3" kindref="member">getBoneCentroids</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="352" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a67aa2d7314ce5ecc3245e8d946912a23" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_shape_key_remaps" kindref="compound">ShapeKeyRemaps</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShapeKeyRemaps&gt; AGRemapCore::ModType::shapeKeyRemaps</definition>
+        <argsstring></argsstring>
+        <name>shapeKeyRemaps</name>
+        <qualifiedname>AGRemapCore::ModType::shapeKeyRemaps</qualifiedname>
+        <briefdescription>
+<para>The order the mod&apos;s shape keys are put in on another character <ndash/> see :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_shape_key_remaps" kindref="compound">ShapeKeyRemaps</ref></computeroutput> and <ref refid="class_a_g_remap_core_1_1_mod_type_1abff7d5f32671d7b3cf9145fe42909595" kindref="member">getShapeKeyRemap</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="357" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1af8cddded53801013f210418e44edc54f" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_material_codes" kindref="compound">MaterialCodes</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MaterialCodes&gt; AGRemapCore::ModType::materialCodes</definition>
+        <argsstring></argsstring>
+        <name>materialCodes</name>
+        <qualifiedname>AGRemapCore::ModType::materialCodes</qualifiedname>
+        <briefdescription>
+<para>What the codes of the mod&apos;s single-channel code maps mean <ndash/> see :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_material_codes" kindref="compound">MaterialCodes</ref></computeroutput> and <ref refid="class_a_g_remap_core_1_1_mod_type_1a45d137bdc190d127919ce7ebb9560904" kindref="member">getMaterialCode</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="362" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a8c35390c2a8302f0887f48df252b203e" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_material_colours" kindref="compound">MaterialColours</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MaterialColours&gt; AGRemapCore::ModType::materialColours</definition>
+        <argsstring></argsstring>
+        <name>materialColours</name>
+        <qualifiedname>AGRemapCore::ModType::materialColours</qualifiedname>
+        <briefdescription>
+<para>The colours the mod&apos;s material masks mark each material with <ndash/> see :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_material_colours" kindref="compound">MaterialColours</ref></computeroutput> and <ref refid="class_a_g_remap_core_1_1_mod_type_1a5bfe8fc2d279a90565aee15e55b06645" kindref="member">getMaterialColour</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="367" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1ac5548998ed57eaa840b31a04ac035ef7" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_texture_descs" kindref="compound">TextureDescs</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TextureDescs&gt; AGRemapCore::ModType::textureDescs</definition>
+        <argsstring></argsstring>
+        <name>textureDescs</name>
+        <qualifiedname>AGRemapCore::ModType::textureDescs</qualifiedname>
+        <briefdescription>
+<para>How the game creates the mod&apos;s game textures <ndash/> see :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_texture_descs" kindref="compound">TextureDescs</ref></computeroutput> and <ref refid="class_a_g_remap_core_1_1_mod_type_1a5f19a765ecf4ce28f79bf2942504782e" kindref="member">getTextureDesc</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="372" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="372" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a45379cb3646f3ee9b14fd8fba6adcf1b" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_texture_thumbprints" kindref="compound">TextureThumbprints</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TextureThumbprints&gt; AGRemapCore::ModType::textureThumbprints</definition>
+        <argsstring></argsstring>
+        <name>textureThumbprints</name>
+        <qualifiedname>AGRemapCore::ModType::textureThumbprints</qualifiedname>
+        <briefdescription>
+<para>What the mod&apos;s game textures look like, as thumbprints <ndash/> see :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_texture_thumbprints" kindref="compound">TextureThumbprints</ref></computeroutput> and <ref refid="class_a_g_remap_core_1_1_mod_type_1a95c3a825300419c25f0e08932d36e986" kindref="member">getTextureThumbprints</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="378" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a3bc24f2c4a4fdbae9b4d34a6a2539ed1" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_texture_kinds" kindref="compound">TextureKinds</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TextureKinds&gt; AGRemapCore::ModType::textureKinds</definition>
+        <argsstring></argsstring>
+        <name>textureKinds</name>
+        <qualifiedname>AGRemapCore::ModType::textureKinds</qualifiedname>
+        <briefdescription>
+<para>What each of the mod&apos;s texture roles IS <ndash/> see :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_texture_kinds" kindref="compound">TextureKinds</ref></computeroutput>, <ref refid="class_a_g_remap_core_1_1_mod_type_1afeb0ed4c90b45434b2fa4c39308f7deb" kindref="member">getTextureKind</ref> and <ref refid="class_a_g_remap_core_1_1_mod_type_1a230906fbab07d06a6aa46f8e112656f3" kindref="member">getTextureKinds</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="383" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="383" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1aa1d960bce38e6359ce8a2c0a76d7b6cc" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_builder" kindref="compound">IniParseBuilder</ref> &gt;</type>
@@ -279,7 +451,7 @@ mod type can use a different parser for a 4.0-era ``.ini`` file than for a 5.7-e
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="316" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="316" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="407" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="407" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1ad77ee6688dca467d4903c664313dc4e2" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_fix_builder" kindref="compound">IniFixBuilder</ref> &gt;</type>
@@ -311,7 +483,7 @@ different fixer for a 4.0-era ``.ini`` file than for a 5.7-era one -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="339" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="339" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="430" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="430" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a5ae1f49b122b982681775c277450ab0b" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_remove_builder" kindref="compound">IniRemoveBuilder</ref> &gt;</type>
@@ -342,14 +514,14 @@ one back already bound to that file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="361" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="361" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="452" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="452" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1adeae7052f62711439f7f6e7c63f0de9d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a8b8419091537d5cfc6f589ac69fddab1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>AGRemapCore::ModType::ModType</definition>
-        <argsstring>(int gameTypeId, int modTypeId, const std::string &amp;name, const std::vector&lt; std::string &gt; &amp;aliases={}, std::shared_ptr&lt; Hashes &gt; hashes=nullptr, std::shared_ptr&lt; Indices &gt; indices=nullptr, std::shared_ptr&lt; VertexCounts &gt; vertexCounts=nullptr, std::shared_ptr&lt; VGRemaps &gt; vgRemaps=nullptr, std::shared_ptr&lt; IniParseBuilder &gt; iniParseBuilder=nullptr, std::shared_ptr&lt; IniFixBuilder &gt; iniFixBuilder=nullptr, std::shared_ptr&lt; IniRemoveBuilder &gt; iniRemoveBuilder=nullptr, std::shared_ptr&lt; IndexCounts &gt; indexCounts=nullptr, std::shared_ptr&lt; VGOffsets &gt; vgOffsets=nullptr, std::shared_ptr&lt; VGCounts &gt; vgCounts=nullptr, std::shared_ptr&lt; ShapeKeyChecksums &gt; shapeKeyChecksums=nullptr)</argsstring>
+        <argsstring>(int gameTypeId, int modTypeId, const std::string &amp;name, const std::vector&lt; std::string &gt; &amp;aliases={}, std::shared_ptr&lt; Hashes &gt; hashes=nullptr, std::shared_ptr&lt; Indices &gt; indices=nullptr, std::shared_ptr&lt; VertexCounts &gt; vertexCounts=nullptr, std::shared_ptr&lt; VGRemaps &gt; vgRemaps=nullptr, std::shared_ptr&lt; IniParseBuilder &gt; iniParseBuilder=nullptr, std::shared_ptr&lt; IniFixBuilder &gt; iniFixBuilder=nullptr, std::shared_ptr&lt; IniRemoveBuilder &gt; iniRemoveBuilder=nullptr, std::shared_ptr&lt; IndexCounts &gt; indexCounts=nullptr, std::shared_ptr&lt; VGOffsets &gt; vgOffsets=nullptr, std::shared_ptr&lt; VGCounts &gt; vgCounts=nullptr, std::shared_ptr&lt; ShapeKeyChecksums &gt; shapeKeyChecksums=nullptr, std::shared_ptr&lt; DrawPasses &gt; drawPasses=nullptr, std::shared_ptr&lt; TextureRegisters &gt; textureRegisters=nullptr, std::shared_ptr&lt; GameShaders &gt; gameShaders=nullptr, std::shared_ptr&lt; ShapeKeyDispatchSizes &gt; shapeKeyDispatchSizes=nullptr, std::shared_ptr&lt; BoneCentroids &gt; boneCentroids=nullptr, std::shared_ptr&lt; ShapeKeyRemaps &gt; shapeKeyRemaps=nullptr, std::shared_ptr&lt; MaterialCodes &gt; materialCodes=nullptr, std::shared_ptr&lt; MaterialColours &gt; materialColours=nullptr, std::shared_ptr&lt; TextureDescs &gt; textureDescs=nullptr, std::shared_ptr&lt; TextureThumbprints &gt; textureThumbprints=nullptr, std::shared_ptr&lt; TextureKinds &gt; textureKinds=nullptr)</argsstring>
         <name>ModType</name>
         <qualifiedname>AGRemapCore::ModType::ModType</qualifiedname>
         <param>
@@ -422,6 +594,61 @@ one back already bound to that file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
         <param>
           <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_shape_key_checksums" kindref="compound">ShapeKeyChecksums</ref> &gt;</type>
           <declname>shapeKeyChecksums</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_draw_passes" kindref="compound">DrawPasses</ref> &gt;</type>
+          <declname>drawPasses</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_texture_registers" kindref="compound">TextureRegisters</ref> &gt;</type>
+          <declname>textureRegisters</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_game_shaders" kindref="compound">GameShaders</ref> &gt;</type>
+          <declname>gameShaders</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_shape_key_dispatch_sizes" kindref="compound">ShapeKeyDispatchSizes</ref> &gt;</type>
+          <declname>shapeKeyDispatchSizes</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_bone_centroids" kindref="compound">BoneCentroids</ref> &gt;</type>
+          <declname>boneCentroids</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_shape_key_remaps" kindref="compound">ShapeKeyRemaps</ref> &gt;</type>
+          <declname>shapeKeyRemaps</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_material_codes" kindref="compound">MaterialCodes</ref> &gt;</type>
+          <declname>materialCodes</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_material_colours" kindref="compound">MaterialColours</ref> &gt;</type>
+          <declname>materialColours</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_texture_descs" kindref="compound">TextureDescs</ref> &gt;</type>
+          <declname>textureDescs</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_texture_thumbprints" kindref="compound">TextureThumbprints</ref> &gt;</type>
+          <declname>textureThumbprints</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_texture_kinds" kindref="compound">TextureKinds</ref> &gt;</type>
+          <declname>textureKinds</declname>
           <defval>nullptr</defval>
         </param>
         <briefdescription>
@@ -588,7 +815,7 @@ instead -- note that this is a *shared* builder, not a fresh one per :cpp:class:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="152" column="22" bodyfile="src/model/strategies/ModType.cpp" bodystart="30" bodyend="101"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="168" column="22" bodyfile="src/model/strategies/ModType.cpp" bodystart="32" bodyend="148"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1ab293ef707209c7c00a703728ddc8a9a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -622,7 +849,7 @@ Compared case-insensitively against #name and every entry in #aliases
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="373" column="18" bodyfile="src/model/strategies/ModType.cpp" bodystart="104" bodyend="118"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="464" column="18" bodyfile="src/model/strategies/ModType.cpp" bodystart="151" bodyend="165"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a839dc152e85bbaf69e506885f3ea45eb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -646,7 +873,7 @@ Read from the remap targets that actually exist in the asset tables
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="387" column="32" bodyfile="src/model/strategies/ModType.cpp" bodystart="120" bodyend="144"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="478" column="32" bodyfile="src/model/strategies/ModType.cpp" bodystart="167" bodyend="191"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a053254c5865f1b39ba2a9e1683651bcd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; int &gt;</type>
@@ -684,7 +911,7 @@ type has no row for it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="404" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="146" bodyend="159"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="495" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="193" bodyend="206"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1ad0de2f5252c8c84c48e6e00e0e403e32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref> &gt;</type>
@@ -769,7 +996,7 @@ The component being fixed from. ``std::nullopt`` leaves the column unconstrained
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="420" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="161" bodyend="173"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="511" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="208" bodyend="220"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1aa0cd6a4b82cec469c399c93c4cba5c27" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -831,7 +1058,7 @@ the ``.ini`` carries, as :cpp:class:`Indices` values are
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="441" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="177" bodyend="179"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="532" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="224" bodyend="226"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1aedfb661ef1f101e08e256e0a981af6c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -860,7 +1087,7 @@ the ``.ini`` carries, as :cpp:class:`Indices` values are
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="447" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="181" bodyend="183"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="538" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="228" bodyend="230"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1aaf1034c01a7ec43d3d6a2c160e5a3c7c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -889,7 +1116,7 @@ the ``.ini`` carries, as :cpp:class:`Indices` values are
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="453" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="185" bodyend="187"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="544" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="232" bodyend="234"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a8d858a7adbfd16b93816041d15572061" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -919,7 +1146,979 @@ the ``.ini`` carries, as :cpp:class:`Indices` values are
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="459" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="189" bodyend="191"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="550" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="236" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a3cc3a8bda524e44a6ad85d737a449051" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::ModType::getComponentCount</definition>
+        <argsstring>(const std::string &amp;prefix=&quot;component&quot;, const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getComponentCount</name>
+        <qualifiedname>AGRemapCore::ModType::getComponentCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+          <defval>&quot;component&quot;</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How many components the mod has (WuWa): ``&lt;prefix&gt;0``, ``&lt;prefix&gt;1``, ... while :cpp:class:`VGOffsets` has a row
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The prefix of the components&apos; names </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="564" column="25" bodyfile="src/model/strategies/ModType.cpp" bodystart="306" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a6258cbc93ea30bb6942f611c47e26be8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>long long</type>
+        <definition>long long AGRemapCore::ModType::getMergedBoneCount</definition>
+        <argsstring>(const std::string &amp;prefix=&quot;component&quot;, const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getMergedBoneCount</name>
+        <qualifiedname>AGRemapCore::ModType::getMergedBoneCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+          <defval>&quot;component&quot;</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How many bones the mod&apos;s merged skeleton holds: the furthest any of its components reaches into it
+(:cpp:class:`VGOffsets` + :cpp:class:`VGCounts`, WuWa)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The prefix of the components&apos; names </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The bones; <computeroutput>0</computeroutput> when the mod has no rows </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="578" column="23" bodyfile="src/model/strategies/ModType.cpp" bodystart="314" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a1e104739863ce9c21163ae794e0ed929" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::ModType::getDrawPassNames</definition>
+        <argsstring>(const std::string &amp;component, const std::string &amp;kind=&quot;main&quot;, const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getDrawPassNames</name>
+        <qualifiedname>AGRemapCore::ModType::getDrawPassNames</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kind</declname>
+          <defval>&quot;main&quot;</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The names of a draw slot&apos;s passes of one kind (#drawPasses), in order: ``main``, ``main2``, ... or ``other``,
+``other2``, ... -- every pass with a row
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The draw slot, eg. <computeroutput>component3</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>kind</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><computeroutput>main</computeroutput> or <computeroutput>other</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The names; empty when the slot has no such pass </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="593" column="25" bodyfile="src/model/strategies/ModType.cpp" bodystart="327" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a5b9f3a8683818b4e4273e92e56ee9f5b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::ModType::getDrawPassShaders</definition>
+        <argsstring>(const std::string &amp;component, const std::string &amp;pass, const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getDrawPassShaders</name>
+        <qualifiedname>AGRemapCore::ModType::getDrawPassShaders</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pass</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A pass&apos;s vertex shaders (:cpp:func:`getDrawPass`&apos;s ``&lt;pass&gt;``), as a list
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The draw slot, eg. <computeroutput>component3</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pass, eg. <computeroutput>main</computeroutput>, <computeroutput>other2</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The shaders&apos; hashes; empty when the pass has none </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="608" column="25" bodyfile="src/model/strategies/ModType.cpp" bodystart="338" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a6832b722db39e759b9d0343f11905889" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::ModType::getDrawPassTags</definition>
+        <argsstring>(const std::string &amp;component, const std::string &amp;pass, const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getDrawPassTags</name>
+        <qualifiedname>AGRemapCore::ModType::getDrawPassTags</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pass</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Each of a pass&apos;s vertex shaders&apos; ``filter_index`` (:cpp:func:`getDrawPass`&apos;s ``&lt;pass&gt;.tags``), in
+:cpp:func:`getDrawPassShaders`&apos; order
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The draw slot, eg. <computeroutput>component3</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pass, eg. <computeroutput>main</computeroutput>, <computeroutput>other2</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The values; empty when the pass has none </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="624" column="25" bodyfile="src/model/strategies/ModType.cpp" bodystart="343" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::ModType::getDrawPass</definition>
+        <argsstring>(const std::string &amp;component, const std::string &amp;type, const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getDrawPass</name>
+        <qualifiedname>AGRemapCore::ModType::getDrawPass</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+One of #drawPasses&apos; values for a draw slot: ``&lt;pass&gt;`` (its vertex shaders, comma-separated),
+``&lt;pass&gt;.ps`` (its pixel shader), ``&lt;pass&gt;.tags`` (each vertex shader&apos;s ``filter_index``) or
+``&lt;pass&gt;.&lt;register&gt;`` (the texture its draw binds there) -- #getDrawPassNames, #getDrawPassShaders and
+#getDrawPassTags read the lists typed
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The draw slot, eg. <computeroutput>component3</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pass and what is read of it, eg. <computeroutput>main</computeroutput>, <computeroutput>other.ps</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> the newest row at or below it; <computeroutput>std::nullopt</computeroutput> for the latest</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The value, or <computeroutput>std::nullopt</computeroutput> when the mod has no such row </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="642" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="240" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1aa2ac8d62c466be33e9111e991bdee266" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::ModType::getTextureRegister</definition>
+        <argsstring>(const std::string &amp;component, const std::string &amp;role, const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getTextureRegister</name>
+        <qualifiedname>AGRemapCore::ModType::getTextureRegister</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The register the mod&apos;s own draw of a slot binds a texture role at (#textureRegisters) -- else the game&apos;s
+default for the role, the row named after the mod&apos;s game (:cpp:func:`GameTypeIdTools::getName`)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The draw slot, eg. <computeroutput>component3</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The role, eg. <computeroutput>upperDiffuse</computeroutput>; <computeroutput>&lt;role&gt;@rabbitfx</computeroutput> for the key it is handed to <ref refid="class_a_g_remap_core_1_1_rabbit_f_x" kindref="compound">RabbitFX</ref> under; <computeroutput>&lt;role&gt;@&lt;pass&gt;</computeroutput>, eg. <computeroutput>upperDiffuse@other</computeroutput>, for where another pass of the slot (<ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref>&apos;s <computeroutput>other</computeroutput>) binds it </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The register, or <computeroutput>std::nullopt</computeroutput> when neither the mod nor its game has a row for the role </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="660" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="244" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1add99b32e20b16a76ec2a751924c7413a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::ModType::getTextureRole</definition>
+        <argsstring>(const std::string &amp;component, const std::string &amp;reg, const std::optional&lt; Version &gt; &amp;version=std::nullopt, const std::string &amp;drawPass=&quot;&quot;) const</argsstring>
+        <name>getTextureRole</name>
+        <qualifiedname>AGRemapCore::ModType::getTextureRole</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>drawPass</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The texture role the mod&apos;s own draw of a slot binds at a register -- #getTextureRegister read backwards,
+with the game&apos;s default where the mod has no row of the role. A RabbitFX key answers with the role
+it carries (no ``@rabbitfx``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The draw slot, eg. <computeroutput>component3</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register, eg. <computeroutput>ps-t3</computeroutput>, or a <ref refid="class_a_g_remap_core_1_1_rabbit_f_x" kindref="compound">RabbitFX</ref> key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>drawPass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pass of the slot, as <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref> names it (<computeroutput>other</computeroutput>, <computeroutput>other2</computeroutput>, ...): its <computeroutput>&lt;role&gt;@&lt;pass&gt;</computeroutput> rows are read, and the role answered without the suffix. Empty for the slot&apos;s main pass (its plain rows and <ref refid="class_a_g_remap_core_1_1_rabbit_f_x" kindref="compound">RabbitFX</ref> keys)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The role, or <computeroutput>std::nullopt</computeroutput> when no role is bound there </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="680" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="252" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1ad0ecdda832ececfdfa3bd1a88647e18c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::ModType::getGameShader</definition>
+        <argsstring>(const std::string &amp;type, const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getGameShader</name>
+        <qualifiedname>AGRemapCore::ModType::getGameShader</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>One of <ref refid="class_a_g_remap_core_1_1_mod_type_1a8dd7836bb611d0c0b8f4fd546cdb10ff" kindref="member">gameShaders</ref>&apos; values: a shader&apos;s HLSL (under its name, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>LynaeUpper</computeroutput>) or a constant buffer it read (under the name, a dot and the register, eg. <computeroutput>LynaeUpper.ps-cb4</computeroutput>)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The shader, eg. <computeroutput>LynaeUpper</computeroutput>, or one of its constant buffers, eg. <computeroutput>LynaeUpper.ps-cb4</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The value, or <computeroutput>std::nullopt</computeroutput> when the mod has no such row </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="692" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="361" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a95ed5ed78e3ace4aaa12a36f4896ff50" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; std::uint32_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; std::uint32_t &gt; &gt; AGRemapCore::ModType::getGameShaderBuffer</definition>
+        <argsstring>(const std::string &amp;shader, const std::string &amp;reg, const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getGameShaderBuffer</name>
+        <qualifiedname>AGRemapCore::ModType::getGameShaderBuffer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shader</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A constant buffer a game shader&apos;s draw read (:cpp:func:`getGameShader`&apos;s ``&lt;shader&gt;.&lt;register&gt;``), as its 32-bit words
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The shader&apos;s row, eg. <computeroutput>LynaeUpper</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register, eg. <computeroutput>ps-cb4</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The words (four to a row), or <computeroutput>std::nullopt</computeroutput> when the mod has no such row </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="706" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="348" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a5e1fa41256e945041eaf24161d245af4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::ModType::getShapeKeyDispatchSize</definition>
+        <argsstring>(const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getShapeKeyDispatchSize</name>
+        <qualifiedname>AGRemapCore::ModType::getShapeKeyDispatchSize</qualifiedname>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>The height WWMI dispatches the mod&apos;s shape keys with (<ref refid="class_a_g_remap_core_1_1_mod_type_1a2882043ebf66d3cb8849b1fab823333c" kindref="member">shapeKeyDispatchSizes</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The height, or <computeroutput>std::nullopt</computeroutput> when the mod has no row </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="716" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="365" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1ad65b0ad2a4d67d26a848efd2a99340a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; long long, std::array&lt; double, 3 &gt; &gt;</type>
+        <definition>std::map&lt; long long, std::array&lt; double, 3 &gt; &gt; AGRemapCore::ModType::getBoneCentroids</definition>
+        <argsstring>(const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getBoneCentroids</name>
+        <qualifiedname>AGRemapCore::ModType::getBoneCentroids</qualifiedname>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Each bone&apos;s rest-pose centroid on the mod&apos;s own model (<ref refid="class_a_g_remap_core_1_1_mod_type_1a05570c51660707c24c40f82f21b4b549" kindref="member">boneCentroids</ref>), at a version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> for each bone, the newest row at or below it</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Bone id -&gt; centroid; empty when the mod has none </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="725" column="22" bodyfile="src/model/strategies/ModType.cpp" bodystart="369" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1abff7d5f32671d7b3cf9145fe42909595" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; long long &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; long long &gt; &gt; AGRemapCore::ModType::getShapeKeyRemap</definition>
+        <argsstring>(const std::string &amp;modName, const std::optional&lt; Version &gt; &amp;fromVersion=std::nullopt, const std::optional&lt; Version &gt; &amp;toVersion=std::nullopt) const</argsstring>
+        <name>getShapeKeyRemap</name>
+        <qualifiedname>AGRemapCore::ModType::getShapeKeyRemap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>fromVersion</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>toVersion</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>The source shape key each of another mod&apos;s shape-key slots takes, from this mod (<ref refid="class_a_g_remap_core_1_1_mod_type_1a67aa2d7314ce5ecc3245e8d946912a23" kindref="member">shapeKeyRemaps</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod remapped to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>This mod&apos;s version <ndash/> the newest row at or below it </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The other mod&apos;s version <ndash/> likewise</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The order (<computeroutput>-1</computeroutput> for a slot that takes none), or <computeroutput>std::nullopt</computeroutput> when the table has none for the pair </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="736" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="497" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a45d137bdc190d127919ce7ebb9560904" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; long long &gt;</type>
+        <definition>std::optional&lt; long long &gt; AGRemapCore::ModType::getMaterialCode</definition>
+        <argsstring>(const std::string &amp;component, const std::string &amp;type, const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getMaterialCode</name>
+        <qualifiedname>AGRemapCore::ModType::getMaterialCode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A field or a code of one of the mod&apos;s code maps (#materialCodes): ``&lt;role&gt;.&lt;field&gt;`` the bits the field
+occupies (``propsDetail.flags.film``), ``&lt;role&gt;.&lt;field&gt;.&lt;name&gt;`` one code of it (``pouchDetail.material.plain``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The draw slot, eg. <computeroutput>component6</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The row&apos;s type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The number, or <computeroutput>std::nullopt</computeroutput> when the mod has no such row </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="752" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="400" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a5bfe8fc2d279a90565aee15e55b06645" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref> &gt;</type>
+        <definition>std::optional&lt; Colour &gt; AGRemapCore::ModType::getMaterialColour</definition>
+        <argsstring>(const std::string &amp;component, const std::string &amp;type, const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getMaterialColour</name>
+        <qualifiedname>AGRemapCore::ModType::getMaterialColour</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>The colour one of the mod&apos;s material masks marks a material with (<ref refid="class_a_g_remap_core_1_1_mod_type_1a8c35390c2a8302f0887f48df252b203e" kindref="member">materialColours</ref>), eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>torsoMask.skin</computeroutput></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The draw slot, eg. <computeroutput>component3</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The row&apos;s type, <computeroutput>&lt;role&gt;.&lt;material&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The colour, or <computeroutput>std::nullopt</computeroutput> when the mod has no such row </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="764" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="411" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a5f19a765ecf4ce28f79bf2942504782e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::tuple&lt; std::string, std::uint32_t, std::uint32_t, std::uint32_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::tuple&lt; std::string, std::uint32_t, std::uint32_t, std::uint32_t &gt; &gt; AGRemapCore::ModType::getTextureDesc</definition>
+        <argsstring>(const std::string &amp;textureHash, const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getTextureDesc</name>
+        <qualifiedname>AGRemapCore::ModType::getTextureDesc</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>textureHash</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>How the game creates one of the mod&apos;s game textures (<ref refid="class_a_g_remap_core_1_1_mod_type_1ac5548998ed57eaa840b31a04ac035ef7" kindref="member">textureDescs</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>textureHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture&apos;s hash </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>(format, width, height, mips)</computeroutput> <ndash/> the format by its name, <computeroutput>BC7_TYPELESS</computeroutput> <ndash/> or <computeroutput>std::nullopt</computeroutput> when the mod has no such row </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="776" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="422" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a95c3a825300419c25f0e08932d36e986" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; AGRemapCore::ModType::getTextureThumbprints</definition>
+        <argsstring>(const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getTextureThumbprints</name>
+        <qualifiedname>AGRemapCore::ModType::getTextureThumbprints</qualifiedname>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>The thumbprint of each of the mod&apos;s game textures (<ref refid="class_a_g_remap_core_1_1_mod_type_1a45379cb3646f3ee9b14fd8fba6adcf1b" kindref="member">textureThumbprints</ref>), by the texture&apos;s hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Hash -&gt; its thumbprint&apos;s bytes (16 x 16, row by row); empty when the mod has no rows </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="786" column="32" bodyfile="src/model/strategies/ModType.cpp" bodystart="473" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1afeb0ed4c90b45434b2fa4c39308f7deb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::ModType::getTextureKind</definition>
+        <argsstring>(const std::string &amp;component, const std::string &amp;role, const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getTextureKind</name>
+        <qualifiedname>AGRemapCore::ModType::getTextureKind</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The KIND of one of the mod&apos;s texture roles (#textureKinds), eg. ``Diffuse`` for ``upperDiffuse``: its row on
+the slot, else its row with no slot (``&quot;&quot;``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The draw slot, eg. <computeroutput>component3</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The role, eg. <computeroutput>upperDiffuse</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The kind (<computeroutput>""</computeroutput> for a role with no kind), or <computeroutput>std::nullopt</computeroutput> when the mod has no row of the role </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="802" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="446" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a230906fbab07d06a6aa46f8e112656f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt; std::string, std::string &gt; AGRemapCore::ModType::getTextureKinds</definition>
+        <argsstring>(const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getTextureKinds</name>
+        <qualifiedname>AGRemapCore::ModType::getTextureKinds</qualifiedname>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Every texture role the mod has a row of (<ref refid="class_a_g_remap_core_1_1_mod_type_1a3bc24f2c4a4fdbae9b4d34a6a2539ed1" kindref="member">textureKinds</ref>), on any slot, -&gt; its kind. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version wanted <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" kindref="member">getDrawPass</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Role -&gt; kind (<computeroutput>""</computeroutput> for a role with no kind); empty when the mod has no rows </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="812" column="22" bodyfile="src/model/strategies/ModType.cpp" bodystart="454" bodyend="471"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a521fa433e2e2b94c70f182c568873dc1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -937,7 +2136,7 @@ the ``.ini`` carries, as :cpp:class:`Indices` values are
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="467" column="25" bodyfile="src/model/strategies/ModType.cpp" bodystart="193" bodyend="217"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="819" column="25" bodyfile="src/model/strategies/ModType.cpp" bodystart="519" bodyend="543"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a7efb7c18eec1a75d4724a64c6a8eef93" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -998,7 +2197,7 @@ Returns nothing: the fix it produces is written out by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="483" column="18" bodyfile="src/model/strategies/ModType.cpp" bodystart="219" bodyend="236"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="835" column="18" bodyfile="src/model/strategies/ModType.cpp" bodystart="545" bodyend="562"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1ad6dab03cb8c6d73e5d22248fc8e4ed7e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
@@ -1061,7 +2260,7 @@ wanted -- see :cpp:func:`ModMappedAssets::hasFrom`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="502" column="20" bodyfile="src/model/strategies/ModType.cpp" bodystart="238" bodyend="251"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="854" column="20" bodyfile="src/model/strategies/ModType.cpp" bodystart="564" bodyend="577"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1075,16 +2274,38 @@ Meant to carry the full C++-side representation of a mod type -- contrast with t
 Exposed to Python as ``ModType``.
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/ModType.h" line="58" column="5" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="58" bodyend="505"/>
+    <location file="include/AGRemapCore/model/strategies/ModType.h" line="74" column="5" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="74" bodyend="857"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a0267edf6016a68bc78f70755ea3f48cf" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>aliases</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a05570c51660707c24c40f82f21b4b549" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>boneCentroids</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1aeae846fc644e81dd1d4094c6a8ed85e0" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>drawPasses</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a7efb7c18eec1a75d4724a64c6a8eef93" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>fixIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a8dd7836bb611d0c0b8f4fd546cdb10ff" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>gameShaders</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a9f106a518b43fc292d4adcb7919718d1" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>gameTypeId</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1ad65b0ad2a4d67d26a848efd2a99340a3" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getBoneCentroids</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a3cc3a8bda524e44a6ad85d737a449051" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getComponentCount</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a90148344dc84b1937cb439f4f12f643d" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getDrawPass</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a1e104739863ce9c21163ae794e0ed929" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getDrawPassNames</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a5b9f3a8683818b4e4273e92e56ee9f5b" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getDrawPassShaders</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a6832b722db39e759b9d0343f11905889" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getDrawPassTags</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1ad0ecdda832ececfdfa3bd1a88647e18c" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getGameShader</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a95ed5ed78e3ace4aaa12a36f4896ff50" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getGameShaderBuffer</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1ad6dab03cb8c6d73e5d22248fc8e4ed7e" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getHashRanges</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a521fa433e2e2b94c70f182c568873dc1" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getHelpStr</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1aa0cd6a4b82cec469c399c93c4cba5c27" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getIndexCount</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a45d137bdc190d127919ce7ebb9560904" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getMaterialCode</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a5bfe8fc2d279a90565aee15e55b06645" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getMaterialColour</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a6258cbc93ea30bb6942f611c47e26be8" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getMergedBoneCount</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a839dc152e85bbaf69e506885f3ea45eb" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getModsToFix</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a8d858a7adbfd16b93816041d15572061" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getShapeKeyChecksum</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a5e1fa41256e945041eaf24161d245af4" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getShapeKeyDispatchSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1abff7d5f32671d7b3cf9145fe42909595" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getShapeKeyRemap</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a5f19a765ecf4ce28f79bf2942504782e" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getTextureDesc</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1afeb0ed4c90b45434b2fa4c39308f7deb" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getTextureKind</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a230906fbab07d06a6aa46f8e112656f3" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getTextureKinds</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1aa2ac8d62c466be33e9111e991bdee266" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getTextureRegister</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1add99b32e20b16a76ec2a751924c7413a" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getTextureRole</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a95c3a825300419c25f0e08932d36e986" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getTextureThumbprints</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a053254c5865f1b39ba2a9e1683651bcd" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getVertexCount</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1aaf1034c01a7ec43d3d6a2c160e5a3c7c" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getVGCount</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1aedfb661ef1f101e08e256e0a981af6c9" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getVGOffset</name></member>
@@ -1096,10 +2317,18 @@ Exposed to Python as ``ModType``.
       <member refid="class_a_g_remap_core_1_1_mod_type_1aa1d960bce38e6359ce8a2c0a76d7b6cc" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>iniParseBuilder</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a5ae1f49b122b982681775c277450ab0b" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>iniRemoveBuilder</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1ab293ef707209c7c00a703728ddc8a9a3" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>isName</name></member>
-      <member refid="class_a_g_remap_core_1_1_mod_type_1adeae7052f62711439f7f6e7c63f0de9d" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>ModType</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1af8cddded53801013f210418e44edc54f" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>materialCodes</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a8c35390c2a8302f0887f48df252b203e" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>materialColours</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a8b8419091537d5cfc6f589ac69fddab1" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>ModType</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a1f3e0e3507c7e9c46515e795b817980c" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>modTypeId</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1ab473448c6f9febc57c430e315cb7a8f8" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>name</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a715bcadb0825c6aa32c2eae58ba40dd5" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>shapeKeyChecksums</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a2882043ebf66d3cb8849b1fab823333c" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>shapeKeyDispatchSizes</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a67aa2d7314ce5ecc3245e8d946912a23" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>shapeKeyRemaps</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1ac5548998ed57eaa840b31a04ac035ef7" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>textureDescs</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a3bc24f2c4a4fdbae9b4d34a6a2539ed1" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>textureKinds</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a41a57e853440edfe50c56067d663476d" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>textureRegisters</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a45379cb3646f3ee9b14fd8fba6adcf1b" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>textureThumbprints</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1aee3f46205d85109676c1b811c00d3813" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>vertexCounts</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1ac485835e75b73c79fb5ac598ee3608fa" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>vgCounts</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1ad20ace4118cefe037427bde84b2e49b0" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>vgOffsets</name></member>

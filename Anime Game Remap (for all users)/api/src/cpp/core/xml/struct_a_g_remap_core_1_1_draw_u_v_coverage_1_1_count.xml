@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_draw_u_v_coverage_1_1_count" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::DrawUVCoverage::Count</compoundname>
+    <includes refid="_draw_u_v_coverage_8h" local="no">DrawUVCoverage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_draw_u_v_coverage_1_1_count_1aacbb809dbc8d5fe8a6a02de7d85dcba6" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::DrawUVCoverage::Count::vertices</definition>
+        <argsstring></argsstring>
+        <name>vertices</name>
+        <qualifiedname>AGRemapCore::DrawUVCoverage::Count::vertices</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many distinct vertices the range draws. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="54" column="29" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_draw_u_v_coverage_1_1_count_1aa802e9300221340fa67709865256cb47" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::DrawUVCoverage::Count::matched</definition>
+        <argsstring></argsstring>
+        <name>matched</name>
+        <qualifiedname>AGRemapCore::DrawUVCoverage::Count::matched</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many of them land on a texel the test accepts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="59" column="29" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What <ref refid="class_a_g_remap_core_1_1_draw_u_v_coverage_1af83edbe37041121b81abe92d263c08a5" kindref="member">count</ref> found for one range. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/buffers/DrawUVCoverage.h" line="50" column="13" bodyfile="include/AGRemapCore/model/buffers/DrawUVCoverage.h" bodystart="50" bodyend="60"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_draw_u_v_coverage_1_1_count_1aa802e9300221340fa67709865256cb47" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawUVCoverage::Count</scope><name>matched</name></member>
+      <member refid="struct_a_g_remap_core_1_1_draw_u_v_coverage_1_1_count_1aacbb809dbc8d5fe8a6a02de7d85dcba6" prot="public" virt="non-virtual"><scope>AGRemapCore::DrawUVCoverage::Count</scope><name>vertices</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

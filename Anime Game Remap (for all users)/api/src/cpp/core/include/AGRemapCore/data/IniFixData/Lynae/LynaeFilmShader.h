@@ -16,6 +16,7 @@
 #define LYNAE_FILM_SHADER_H
 
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
+#include "AGRemapCore/data/IniParseData/WWMIParser.h"
 
 
 namespace AGRemapCore {
@@ -44,7 +45,7 @@ namespace AGRemapCore {
      block mask -- for a mod that draws its props with the game's map
      @endrst
      */
-    WWMIFixerConfig::DrawReroute::FlagMask lynaePropsFilmFlags();
+    WWMIParserConfig::DrawSplit::FlagMask lynaePropsFilmFlags();
 }
 
 #endif

@@ -12,12 +12,18 @@
 // ##### EndCredits
 
 #include "AGRemapCore/tools/files/FileService.h"
+#include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/files/IniSharedState.h"
 
+#include <algorithm>
+#include <array>
 #include <exception>
 #include <fstream>
 #include <filesystem>
+#include <iterator>
 #include <sstream>
+#include <unordered_map>
 #include <unordered_set>
 #include <stdexcept>
 #include <utility>
@@ -104,6 +110,255 @@ namespace AGRemapCore {
         return modTypes;
     }
 
+    std::unique_ptr<IniFile> IniFile::sibling(const std::string& file,
+                                              std::optional<std::unordered_set<int>> forcedFromModTypeIds) const {
+        std::unordered_map<int, ModType> choices(modTypes.begin(), modTypes.end());
+        auto other = std::make_unique<IniFile>(file, "", std::nullopt, std::nullopt, std::move(forcedFromModTypeIds),
+                                               std::move(choices), nullptr, std::nullopt, downloadMode, fromVersion, toVersion);
+        other->classify();
+        return other;
+    }
+
+    std::unique_ptr<IniFile> IniFile::sibling(const IniFile& other,
+                                              std::optional<std::unordered_set<int>> forcedFromModTypeIds) const {
+        std::unordered_map<int, ModType> choices(modTypes.begin(), modTypes.end());
+        auto result = std::make_unique<IniFile>(other.getFile(), "", std::nullopt, std::nullopt, std::move(forcedFromModTypeIds),
+                                                std::move(choices), nullptr, std::nullopt, downloadMode, fromVersion, toVersion);
+        result->setFileTxt(other.getFileTxt());
+        result->classify();
+        return result;
+    }
+
+    std::vector<IniFile*> IniFile::linkedInis() const {
+        std::vector<IniFile*> result;
+        if (sharedState == nullptr || !file_.has_value()) {
+            return result;
+        }
+        for (const std::string& path : sharedState->linked(*file_)) {
+            if (IniFile* other = sharedState->file(path)) {
+                result.push_back(other);
+            }
+        }
+        return result;
+    }
+
+    namespace {
+        using VarSection = IfTemplate<std::string, std::string>;
+
+        // The variables a key ASSIGNS -- `$x`, `post $x`, `global persist $x` -- lowercased
+        std::vector<std::string> assignedVars(const std::string& key) {
+            const std::string text(StringTools::strip(key));
+            const std::size_t space = text.rfind(' ');
+            const std::string last = space == std::string::npos ? text : text.substr(space + 1);
+            return !last.empty() && last[0] == '$' ? IniNamingTools::varsIn(last) : std::vector<std::string>{};
+        }
+
+        // Each line of a section with the conditions it sits under (every branch of every enclosing `if` so far)
+        template <typename Visit>
+        void forEachLine(const VarSection& section, Visit&& visit) {
+            std::vector<std::vector<std::string>> open;
+            for (const auto& part : section.parts()) {
+                if (const auto* pred = dynamic_cast<const IfPredPart*>(part.get())) {
+                    if (pred->type == IfPredPartType::If) {
+                        open.push_back({pred->src});
+                    } else if (pred->type == IfPredPartType::EndIf) {
+                        if (!open.empty()) {
+                            open.pop_back();
+                        }
+                    } else if (!open.empty()) {
+                        open.back().push_back(pred->src);
+                    }
+                    continue;
+                }
+                const auto* content = dynamic_cast<const VarSection::ContentPart*>(part.get());
+                if (content == nullptr) {
+                    continue;
+                }
+                std::string conditions;
+                for (const auto& level : open) {
+                    for (const std::string& src : level) {
+                        conditions += src + "\n";
+                    }
+                }
+                for (const auto& [key, value] : content->entries()) {
+                    visit(key, value, conditions);
+                }
+            }
+        }
+    }
+
+    IniParseData* IniFile::parseDataOf(const ModType& modType) {
+        const auto found = builtParsers_.find(modType.modTypeId);
+        return found == builtParsers_.end() || found->second == nullptr ? nullptr : &found->second->parseData();
+    }
+
+    IniFile::VarState IniFile::varState(const std::set<std::string>& vars) {
+        VarState result;
+        result.vars = vars;
+        const auto& templates = getIfTemplates();
+
+        enum class Kind { Skip, Constants, Present, Key, Trigger };
+        const auto kind = [](const std::string& name, const VarSection& section) {
+            const std::string lower = StringTools::toLower(name);
+            if (lower == StringTools::toLower(IniKeywords::Constants)) {
+                return Kind::Constants;
+            }
+            if (lower == StringTools::toLower(IniKeywords::Present)) {
+                return Kind::Present;
+            }
+            const bool draws = section.firstValMatching([](const std::string& key) {
+                return IniNamingTools::sameKey(key, IniKeywords::MatchFirstIndex);
+            }).has_value();
+            if (draws || StringTools::startsWith(lower, StringTools::toLower(IniKeywords::Resource))) {
+                return Kind::Skip;
+            }
+            return StringTools::startsWith(lower, "key") ? Kind::Key : Kind::Trigger;
+        };
+        const auto assigns = [&result](const std::string& key) {
+            for (const std::string& var : assignedVars(key)) {
+                if (result.vars.count(var) > 0) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        // the closure: every variable a line assigning one of 'vars' reads, in its value or an `if` around it
+        for (bool grew = true; grew;) {
+            grew = false;
+            for (const auto& [name, section] : templates) {
+                if (section == nullptr) {
+                    continue;
+                }
+                const Kind sectionKind = kind(name, *section);
+                if (sectionKind == Kind::Skip || sectionKind == Kind::Constants) {
+                    continue;
+                }
+                forEachLine(*section, [&](const std::string& key, const std::string& value, const std::string& conditions) {
+                    if (!assigns(key)) {
+                        return;
+                    }
+                    for (const std::string& var : IniNamingTools::varsIn(value + "\n" + conditions)) {
+                        grew |= result.vars.insert(var).second;
+                    }
+                });
+            }
+        }
+
+        // a line a section keeps: a declaration of one of 'vars' in [Constants], an assignment of one elsewhere, and
+        // what decides when a key or a trigger runs
+        std::set<std::string> declared;
+        const auto declares = [&result](const std::string& key) {
+            const std::vector<std::string> names = IniNamingTools::varsIn(key);
+            return names.empty() || result.vars.count(names.back()) == 0 ? std::string() : names.back();
+        };
+        const auto keeps = [&](Kind sectionKind, const std::string& key) {
+            switch (sectionKind) {
+                case Kind::Constants:
+                    return !declares(key).empty();
+                case Kind::Present:
+                    return assigns(key);
+                case Kind::Key:
+                    return assigns(key) || assignedVars(key).empty();
+                default: {
+                    const std::string lower = StringTools::toLower(std::string(StringTools::strip(key)));
+                    return assigns(key) || StringTools::startsWith(lower, IniKeywords::Hash)
+                        || StringTools::startsWith(lower, "match_") || StringTools::startsWith(lower, "condition");
+                }
+            }
+        };
+
+        for (const auto& [name, section] : templates) {
+            if (section == nullptr) {
+                continue;
+            }
+            const Kind sectionKind = kind(name, *section);
+            if (sectionKind == Kind::Skip) {
+                continue;
+            }
+
+            // read first: only a section that declares or assigns one of 'vars' is copied
+            bool holds = false;
+            forEachLine(*section, [&](const std::string& key, const std::string&, const std::string&) {
+                if (sectionKind == Kind::Constants) {
+                    const std::string var = declares(key);
+                    if (!var.empty()) {
+                        declared.insert(var);
+                        holds = true;
+                    }
+                } else {
+                    holds |= assigns(key);
+                }
+            });
+            if (!holds) {
+                continue;
+            }
+
+            std::unique_ptr<VarSection> copy = section->deepcopy();
+            for (auto& part : copy->parts()) {
+                auto* content = dynamic_cast<VarSection::ContentPart*>(part.get());
+                if (content == nullptr) {
+                    continue;
+                }
+                const std::vector<std::pair<std::string, std::string>> entries = content->entries();
+                for (std::size_t i = entries.size(); i-- > 0;) {
+                    if (!keeps(sectionKind, entries[i].first)) {
+                        content->removeKVPAt(i);
+                    }
+                }
+            }
+            copy->removeEmptyBlocks();
+            result.sections.push_back(std::move(copy));
+        }
+
+        for (const std::string& var : result.vars) {
+            if (declared.count(var) == 0) {
+                result.undeclared.insert(var);
+            }
+        }
+        return result;
+    }
+
+    std::optional<std::string> IniFile::getNamespace() {
+        for (const std::string& raw : readFileLines()) {
+            const std::string line(StringTools::strip(raw));
+            if (line.empty() || line.front() == ';') {
+                continue;
+            }
+            if (line.front() == '[') {
+                break;
+            }
+            const std::size_t eq = line.find('=');
+            if (eq != std::string::npos && StringTools::equalsIgnoreCase(std::string(StringTools::strip(line.substr(0, eq))), "namespace")) {
+                const std::string value(StringTools::strip(line.substr(eq + 1)));
+                if (!value.empty()) {
+                    return value;
+                }
+            }
+        }
+        return std::nullopt;
+    }
+
+    std::vector<std::string> IniFile::loadedInis(const std::filesystem::path& folder, const std::filesystem::path& exclude) {
+        std::vector<std::string> result;
+        std::error_code error;
+        for (const auto& entry : std::filesystem::directory_iterator(folder, error)) {
+            if (!entry.is_regular_file(error) || (!exclude.empty() && std::filesystem::equivalent(entry.path(), exclude, error))) {
+                continue;
+            }
+
+            const std::string name = FileService::pathToStr(entry.path().filename());
+            if (!StringTools::endsWithIgnoreCase(name, FileExt::Ini) || IniNamingTools::isDisabled(name)
+                    || IniNamingTools::isRemapCopyFile(name)) {
+                continue;
+            }
+
+            result.push_back(FileService::pathToStr(entry.path()));
+        }
+        std::sort(result.begin(), result.end());
+        return result;
+    }
+
     const std::optional<IniFile::ParseData>& IniFile::getParseData() const {
         return parseData_;
     }
@@ -124,16 +379,16 @@ namespace AGRemapCore {
         fileTxt_.clear();
         fileLinesRead_ = false;
         isFixed = false;
+
+        // WHAT WAS PARSED FROM THAT TEXT GOES WITH IT (2026-10-31). A removal writes the file back and
+        // calls this, and a fix in the same run then parsed the sections cached from BEFORE the removal
+        // -- the fix it had just removed still in them. A section the new fix declares under a name the
+        // old one used then resolved to the OLD declaration (the first one wins), so moving where the
+        // fix writes its downloads left every edit of one reading a file the removal had deleted.
+        clearParse();
     }
 
-    void IniFile::clear(bool eraseSourceTxt) {
-        clearRead(eraseSourceTxt);
-
-        isMod = false;
-        isFixed = false;
-        modTypes.clear();
-        isClassified_ = false;
-
+    void IniFile::clearParse() {
         ifTemplatesRead_ = false;
 
         // Matches the pure-Python original's own "self._iniParser = None" / "self._iniFixer = None"
@@ -157,9 +412,21 @@ namespace AGRemapCore {
         }
         builtParsers_.clear();
 
-        // Order matters: the IfTemplates hold predicates built against z3Ctx_, so they have to go
-        // before it is replaced.
+        // The last parse's graphs are built from the sections below
+        parseData_.reset();
         sectionIfTemplates_.clear();
+    }
+
+    void IniFile::clear(bool eraseSourceTxt) {
+        clearRead(eraseSourceTxt);
+
+        // again, for a file-less .ini whose text clearRead keeps
+        clearParse();
+
+        isMod = false;
+        isFixed = false;
+        modTypes.clear();
+        isClassified_ = false;
 
         // The pure-Python original's clear() ends with clearModels(), which empties ini.resources
         // and ini.fileDownloads among others. Same thing here -- and see getResources' own danger
@@ -168,9 +435,8 @@ namespace AGRemapCore {
 
         // A fresh context rather than an in-place clear, exactly as the pure-Python original does
         // ("self._z3Ctx = Z3Context()"). Z3Context is move-assignable but not copyable.
+        // The IfTemplates hold predicates built against z3Ctx_, and clearParse has dropped them first
         z3Ctx_ = Z3Context();
-
-        parseData_.reset();
     }
 
     BaseIniParser<>* IniFile::getParser(int modTypeId, ModType& modType) {
@@ -462,6 +728,20 @@ namespace AGRemapCore {
         return result;
     }
 
+    std::string IniFile::resourceNamed(const std::string& value) {
+        const std::string name = StringTools::toLower(IniNamingTools::removeRefPrefix(std::string(StringTools::strip(value))));
+        if (!StringTools::startsWith(name, "resource")) {
+            return "";
+        }
+        for (const auto& entry : getIfTemplates()) {
+            if (StringTools::toLower(entry.first) == name) {
+                return entry.first;
+            }
+        }
+        return "";
+    }
+
+
     std::vector<std::string> IniFile::getSectionNames() {
         std::vector<std::string> result;
 
@@ -667,6 +947,31 @@ namespace AGRemapCore {
 
     Z3Context* IniFile::getZ3Ctx() {
         return &z3Ctx_;
+    }
+
+
+    IniSectionGraph<std::string, std::string> IniFile::sectionGraph(const std::string& root) {
+        std::unordered_map<std::string, IfTemplate<std::string, std::string>*> sections;
+        const auto& templates = getIfTemplates();
+        sections.reserve(templates.size());
+        for (const auto& entry : templates) {
+            if (entry.second != nullptr) {
+                sections.emplace(entry.first, entry.second.get());
+            }
+        }
+
+        std::vector<std::string> roots;
+        if (sections.count(root) > 0) {
+            roots.push_back(root);
+        }
+
+        IfTemplateRunConfig<std::string, std::string> runConfig{
+            IniKeywords::Run,
+            [](const std::string& value) { return value; },
+            [](const std::string& name) { return name; }
+        };
+        return IniSectionGraph<std::string, std::string>(std::move(sections), std::move(roots), std::move(runConfig), true,
+                                                         false, &z3Ctx_);
     }
 
 
@@ -1171,10 +1476,19 @@ namespace AGRemapCore {
             bool hasPending = false;
         };
 
+        // The first declaration of a section name, for a repeat of it -- see IniFile::mergesRepeatedSection.
+        // 'rawParts' is kept only for a name whose repeats merge.
+        struct FirstDeclaration {
+            std::string name;
+            size_t startInd = 0;
+            std::vector<RawPart> rawParts;
+        };
+
         /*
          * Finishes building the IfTemplate for the section 'accum' has been accumulating, and stores
-         * it into 'sectionIfTemplates' -- but only if this is that section name's FIRST occurrence
-         * (matching readIfTemplates' own 'handleDuplicateFunc = lambda duplicates: duplicates[0]').
+         * it into 'sectionIfTemplates'. A repeat of a name already read (without regard to case) is
+         * read as 3DMigoto reads it: appended to the first declaration when the name merges
+         * (IniFile::mergesRepeatedSection), and dropped when it does not.
          * Any still-pending KVP text is flushed first, and -- unlike the mid-scan flush inside
          * readIfTemplates' loop -- only appended if it actually parses to something non-empty
          * (matching the pure-Python original's own "if (currentPart):" check). Resets 'accum's
@@ -1187,6 +1501,7 @@ namespace AGRemapCore {
          */
         void finalizeSection(SectionAccum& accum,
                              tsl::ordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>& sectionIfTemplates,
+                             std::unordered_map<std::string, FirstDeclaration>& firstDeclarations,
                              const std::optional<std::string>& file,
                              Z3Context& z3Ctx) {
             if (!accum.pendingKvpText.empty()) {
@@ -1196,15 +1511,29 @@ namespace AGRemapCore {
                 }
             }
 
-            if (sectionIfTemplates.find(accum.name) == sectionIfTemplates.end()) {
-                ParseContext ctx("", file, accum.startInd + 1);
+            const auto build = [&file, &z3Ctx](const std::string& name, size_t startInd, const std::vector<RawPart>& rawParts) {
+                ParseContext ctx("", file, startInd + 1);
                 IfTemplateRunConfig<std::string, std::string> runConfig{
                     IniKeywords::Run,
                     [](const std::string& v) { return v; },
                     [](const std::string& s) { return s; }
                 };
-                sectionIfTemplates.emplace(accum.name,
-                    IfTemplate<std::string, std::string>::build(accum.rawParts, runConfig, accum.name, &ctx, &z3Ctx));
+                return IfTemplate<std::string, std::string>::build(rawParts, runConfig, name, &ctx, &z3Ctx);
+            };
+
+            const bool merges = IniFile::mergesRepeatedSection(accum.name);
+            auto [first, isFirst] = firstDeclarations.try_emplace(StringTools::toLower(accum.name));
+            if (isFirst) {
+                first->second.name = accum.name;
+                first->second.startInd = accum.startInd;
+                if (merges) {
+                    first->second.rawParts = accum.rawParts;
+                }
+                sectionIfTemplates.emplace(accum.name, build(accum.name, accum.startInd, accum.rawParts));
+            } else if (merges) {
+                std::vector<RawPart>& merged = first->second.rawParts;
+                merged.insert(merged.end(), std::make_move_iterator(accum.rawParts.begin()), std::make_move_iterator(accum.rawParts.end()));
+                sectionIfTemplates[first->second.name] = build(first->second.name, first->second.startInd, merged);
             }
 
             accum.rawParts.clear();
@@ -1220,6 +1549,19 @@ namespace AGRemapCore {
         // then took the next section's hash, skip and draw (Lumine11's Nod Krai outfit, 2026-10-20).
         std::string_view rest = StringTools::lstrip(line);
         return rest.starts_with('[');
+    }
+
+    bool IniFile::mergesRepeatedSection(const std::string& name) {
+        // 3DMigoto's section prefixes (IniHandler.cpp: CommandListSections and RegularSections, the
+        // entries flagged as prefixes), compared as it compares them -- by prefix, without regard to case
+        static const std::array<std::string, 11> prefixes = {
+            "shaderoverride", "shaderregex", "textureoverride", "customshader", "commandlist",
+            "builtincustomshader", "builtincommandlist", "resource", "key", "preset", "include"};
+
+        const std::string lower = StringTools::toLower(name);
+        return std::none_of(prefixes.begin(), prefixes.end(), [&lower](const std::string& prefix) {
+            return StringTools::startsWith(lower, prefix);
+        });
     }
 
     std::string IniFile::getSectionNameFromLine(const std::string& line) {
@@ -1274,6 +1616,7 @@ namespace AGRemapCore {
 
         bool inSection = false;
         SectionAccum accum;
+        std::unordered_map<std::string, FirstDeclaration> firstDeclarations;
 
         size_t fileLinesLen = fileLines_.size();
 
@@ -1285,7 +1628,7 @@ namespace AGRemapCore {
 
             if (isHeader) {
                 if (inSection) {
-                    finalizeSection(accum, sectionIfTemplates_, file_, z3Ctx_);
+                    finalizeSection(accum, sectionIfTemplates_, firstDeclarations, file_, z3Ctx_);
                 }
 
                 accum.name = getSectionNameFromLine(line);
@@ -1322,7 +1665,7 @@ namespace AGRemapCore {
         }
 
         if (inSection) {
-            finalizeSection(accum, sectionIfTemplates_, file_, z3Ctx_);
+            finalizeSection(accum, sectionIfTemplates_, firstDeclarations, file_, z3Ctx_);
         }
 
         // GIMI's newer texture API into the traditional one, so every reader and every fix sees

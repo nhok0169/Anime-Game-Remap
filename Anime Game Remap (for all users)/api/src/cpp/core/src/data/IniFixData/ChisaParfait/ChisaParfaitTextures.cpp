@@ -12,7 +12,6 @@
 // ##### EndCredits
 
 #include "AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitTextures.h"
-#include "AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.h"
 
 
 namespace AGRemapCore {
@@ -72,7 +71,7 @@ namespace AGRemapCore {
         // the file is. Read by the PARSER (`WWMIParser::buildRoles`), which is what identifies a
         // mod's textures; they sat on the fixer's config until 2026-09-29, where nothing read them
         // any more, and the parser's pass matched against an empty table on every mod.
-        facts.textureThumbprints = chisaParfaitTextureThumbprints();
+        // textureThumbprints: read off TextureThumbprints (WWMIParserConfig::withGameData, WWMIFixerConfig::withGameData)
 
         // ---- a role the mod ships no file for falls back to HER game texture ----------------------
         // The mod's UVs are ChisaParfait's, so her own texture is the right default and Chisa's is
@@ -80,9 +79,7 @@ namespace AGRemapCore {
         // entry: the hash is the same on both sides, so the game already binds the right thing.
         // `hairRamp` and `hairTipRamp` are not in her download folder, so they cannot fall back --
         // they are lookups, and the game's own serve them.
-        facts.downloadCharFolder = "ChisaParfait";
         facts.downloadVersionFolder = "3_5";
-        facts.downloadPrefix = "ChisaParfait";
         facts.fallbackTextures = {
             {"hairMask", "3f433212"}, {"hairDiffuse", "a94ee44f"}, {"hairNormal", "d547f3c6"},
             {"faceMask", "226d9bc4"}, {"faceDiffuse", "53e96488"},
@@ -92,6 +89,8 @@ namespace AGRemapCore {
             {"propMask", "2c990f51"}, {"propNormal", "e4463fca"}, {"propDiffuse", "71a6e63f"},
         };
 
+        // the masks a flat file, or one a slot also binds for another role, is refused for
+        facts.regionRoles = {"upperMask", "lowerMask", "panelMask", "propMask", "hairMask", "frontHairMask"};
         return facts;
     }
 }

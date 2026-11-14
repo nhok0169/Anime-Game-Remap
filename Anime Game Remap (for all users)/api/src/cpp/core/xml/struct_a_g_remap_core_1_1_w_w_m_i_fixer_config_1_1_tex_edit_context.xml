@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1141" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1141" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1238" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1238" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1a30b8cbb507440b6cbf4dfd7dfb88a04d" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1145" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1145" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1242" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1242" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1a12a4d2bf3f2a1a09dd3802b48e35dd1e" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1149" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1149" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1246" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1246" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1a493a2f11f79112ebef7afcf8687b3025" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1153" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1153" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1250" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1250" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1af0958febb346560cb25292b362716e3e" prot="public" static="no" mutable="no">
         <type>std::map&lt; int, std::vector&lt; std::pair&lt; long long, long long &gt; &gt; &gt;</type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1157" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1157" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1254" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1254" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1ab731cd46398fc94b833f60e6d8ed10eb" prot="public" static="no" mutable="no">
         <type>std::map&lt; std::string, std::string &gt;</type>
@@ -97,26 +97,70 @@ skin only there
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1167" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1167" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1264" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1264" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1a1d866eb0f9d94b10aaa00641918ab8e5" prot="public" static="no" mutable="no">
-        <type>std::map&lt; std::string, std::string &gt;</type>
-        <definition>std::map&lt;std::string, std::string&gt; AGRemapCore::WWMIFixerConfig::TexEditContext::gameFileOfRole</definition>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1abb15573e39c316b1db5299e2e9de4c55" prot="public" static="no" mutable="no">
+        <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+        <definition>const ModType* AGRemapCore::WWMIFixerConfig::TexEditContext::source</definition>
         <argsstring></argsstring>
-        <name>gameFileOfRole</name>
-        <qualifiedname>AGRemapCore::WWMIFixerConfig::TexEditContext::gameFileOfRole</qualifiedname>
+        <name>source</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TexEditContext::source</qualifiedname>
+        <initializer>= nullptr</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The SOURCE character&apos;s own game texture for each role a :cpp:member:`TexEdit::sourceGameRoles`
-names, downloaded for the edit. A filter that grades a mod&apos;s texture by how far it
-strays from the character&apos;s own reads the original here
+The characters fixed from and to, and the run&apos;s versions of each -- so a filter reads the versioned asset
+tables (:cpp:func:`ModType::getMaterialCode`, ...) at the run&apos;s versions rather than carrying their values.
+``nullptr`` / ``std::nullopt`` outside a fix
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1176" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1176" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1274" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1a8066f300ccf37ca8b8ca283d31096aa3" prot="public" static="no" mutable="no">
+        <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+        <definition>const ModType* AGRemapCore::WWMIFixerConfig::TexEditContext::target</definition>
+        <argsstring></argsstring>
+        <name>target</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TexEditContext::target</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1275" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1ad41ed5eef023a1579072273b145c49c2" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>std::optional&lt;Version&gt; AGRemapCore::WWMIFixerConfig::TexEditContext::fromVersion</definition>
+        <argsstring></argsstring>
+        <name>fromVersion</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TexEditContext::fromVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1276" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1af561e2904c6e9129a212dfa528eabfec" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>std::optional&lt;Version&gt; AGRemapCore::WWMIFixerConfig::TexEditContext::toVersion</definition>
+        <argsstring></argsstring>
+        <name>toVersion</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TexEditContext::toVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1277" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1277" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -124,15 +168,32 @@ strays from the character&apos;s own reads the original here
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1137" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1137" bodyend="1177"/>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::ModType</label>
+        <link refid="class_a_g_remap_core_1_1_mod_type"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::WWMIFixerConfig::TexEditContext</label>
+        <link refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>source</edgelabel>
+          <edgelabel>target</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1234" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1234" bodyend="1278"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1af0958febb346560cb25292b362716e3e" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditContext</scope><name>drawRanges</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1ab731cd46398fc94b833f60e6d8ed10eb" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditContext</scope><name>fileOfRole</name></member>
-      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1a1d866eb0f9d94b10aaa00641918ab8e5" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditContext</scope><name>gameFileOfRole</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1ad41ed5eef023a1579072273b145c49c2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditContext</scope><name>fromVersion</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1a493a2f11f79112ebef7afcf8687b3025" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditContext</scope><name>indexFile</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1a5fd9c00e37e33f70ad15ad4e41fb9169" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditContext</scope><name>iniFolder</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1a30b8cbb507440b6cbf4dfd7dfb88a04d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditContext</scope><name>positionFile</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1abb15573e39c316b1db5299e2e9de4c55" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditContext</scope><name>source</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1a8066f300ccf37ca8b8ca283d31096aa3" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditContext</scope><name>target</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1a12a4d2bf3f2a1a09dd3802b48e35dd1e" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditContext</scope><name>texcoordFile</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1af561e2904c6e9129a212dfa528eabfec" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEditContext</scope><name>toVersion</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

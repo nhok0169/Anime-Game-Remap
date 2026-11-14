@@ -6,6 +6,7 @@
     <includes refid="_res_reg_collect_8h" local="no">ResRegCollect.h</includes>
     <innerclass refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_res_call" prot="public">AGRemapCore::ResRegCollect::ResCall</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_remapped_graph" prot="private">AGRemapCore::ResRegCollect::RemappedGraph</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings" prot="private">AGRemapCore::ResRegCollect::GraphSettings</innerclass>
     <templateparamlist>
       <param>
         <type>typename K</type>
@@ -38,7 +39,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="68" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="68" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="76" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="76" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">Base::GraphGroups</ref></type>
@@ -53,7 +54,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="73" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="73" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="81" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="81" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_reg_collect_1a6f7991d9e326894da8462ac692de9eef" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" kindref="member">Base::Graph</ref></type>
@@ -68,7 +69,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="78" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="78" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="86" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="86" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_reg_collect_1ad2713763ff5af49559e1eaaa21769589" prot="public" static="no">
         <type>typename Base::GraphId</type>
@@ -88,7 +89,7 @@ fields rather than restating them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="83" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="83" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="91" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="91" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_reg_collect_1a95760c35e852d225385acf257ad3f6db" prot="public" static="no">
         <type>typename Base::GraphIdHash</type>
@@ -103,7 +104,7 @@ fields rather than restating them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="88" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="88" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="96" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="96" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_reg_collect_1a69a00779c3b86912a0d27d3e50e38e5d" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_section_iter_data" kindref="compound">SectionIterData</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -118,7 +119,7 @@ fields rather than restating them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="93" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="93" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="101" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="101" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_reg_collect_1a87f4ef7c1846b142a341ae1dada56113" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
@@ -133,7 +134,7 @@ fields rather than restating them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="98" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="98" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="106" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="106" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_reg_collect_1aa4c0932ccc6bba4fc39d7524b9d0514c" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_res_edit" kindref="compound">BaseResEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -148,7 +149,7 @@ fields rather than restating them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="103" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="103" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="111" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="111" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_reg_collect_1a57c4d2761471bcd8242459ccc80b5f9c" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a13f236c70fb15e8b5b70895b4f56e534" kindref="member">ResEdit::Context</ref></type>
@@ -163,7 +164,7 @@ fields rather than restating them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="108" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="108" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="116" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="116" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_reg_collect_1a438e63ef8ef422f77ce1d1b53ee087d9" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_graph_group_remap" kindref="compound">GraphGroupRemap</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -178,7 +179,7 @@ fields rather than restating them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="113" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="113" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="121" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="121" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_reg_collect_1a5051edebc27d2cff17e8f0cd685f3171" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_graph_group_remap_1a60254cc64fc8c1b11f300c989cadc12c" kindref="member">Remapper::RenameFunc</ref></type>
@@ -196,7 +197,7 @@ Renames one `section`_ -- takes the old name, returns the new one. An empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="118" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="118" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="126" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="126" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_reg_collect_1a08d4683a21d4ac7ae8b3673365e127ab" prot="public" static="no">
         <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a87f4ef7c1846b142a341ae1dada56113" kindref="member">OrderRanges</ref>(const <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a69a00779c3b86912a0d27d3e50e38e5d" kindref="member">IterData</ref> &amp;)&gt;</type>
@@ -214,7 +215,7 @@ empty ``std::function`` means the whole part
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="127" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="127" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="135" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="135" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_reg_collect_1a1467692921647beca6d7d9d7386dfa6b" prot="public" static="no">
         <type>std::function&lt; bool(const K &amp;, const V &amp;, const <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a69a00779c3b86912a0d27d3e50e38e5d" kindref="member">IterData</ref> &amp;)&gt;</type>
@@ -233,7 +234,7 @@ was found in. An empty ``std::function`` accepts everything
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="137" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="137" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="145" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="145" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" prot="public" static="no">
         <templateparamlist>
@@ -253,7 +254,22 @@ was found in. An empty ``std::function`` accepts everything
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="143" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="143" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="151" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_reg_collect_1abc530db9e7a29c576e2f7f64c7cc5a04" prot="public" static="no">
+        <type>std::function&lt; bool(const K &amp;)&gt;</type>
+        <definition>using AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::RegMatch = std::function&lt;bool(const K&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RegMatch</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::RegMatch</qualifiedname>
+        <briefdescription>
+<para>A test of a register&apos;s name <ndash/> see <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1affb2399571a0b4c4fa4dcf3ca0a40649" kindref="member">srcRegMatches</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="180" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="180" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" prot="public" static="no">
         <type>typename GraphGroups::ModObj</type>
@@ -287,7 +303,7 @@ equivalent of a `Python`_ ``Tuple[str, str]``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="337" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="337" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="432" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="432" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -307,7 +323,55 @@ The different registers that reference the particular resource, keyed by which
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="152" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="152" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="160" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a1f40614454c899494f89b9f74cd9dd02" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; std::vector&lt; K &gt; &gt;</type>
+        <definition>ByGraph&lt;std::vector&lt;K&gt; &gt; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::extraSrcRegs</definition>
+        <argsstring></argsstring>
+        <name>extraSrcRegs</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::extraSrcRegs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+More registers to search a graph for, besides its entry in \ref srcRegs -- a graph
+named here and not there is searched for these alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+What it is for: one resource bound at SEVERAL registers of one graph, collected by ONE
+edit. Each \ref resEdits entry builds its resources once per \ref edit, so a second
+collect sharing the same edit would repoint its references at names nothing declares;
+searching every register in one collect builds them all together. A \ref ResPredicate
+is handed the register it is judging, so it can still tell the registers apart
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="175" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1affb2399571a0b4c4fa4dcf3ca0a40649" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1abc530db9e7a29c576e2f7f64c7cc5a04" kindref="member">RegMatch</ref> &gt;</type>
+        <definition>ByGraph&lt;RegMatch&gt; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::srcRegMatches</definition>
+        <argsstring></argsstring>
+        <name>srcRegMatches</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::srcRegMatches</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Registers to search a graph for by a test of their NAME rather than the names themselves:
+every key of the graph&apos;s `KVPs`_ the test accepts is searched as if \ref extraSrcRegs
+named it, in the order the keys first appear :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+What it is for: a resource bound at whichever register of a family its role lands on --
+eg. every texture register (``ps-t0``, ``ps-t1``, ...) of a list -- without listing every
+register the family could use. A key \ref srcRegs or \ref extraSrcRegs already names for
+the graph is searched once
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="195" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="195" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a3f3f67d5ae53dbba2b6f5ff0f0f3fbaf" prot="public" static="no" mutable="no">
         <type>std::optional&lt; K &gt;</type>
@@ -332,7 +396,7 @@ The new key is APPENDED to the part, so it reads after the one it was collected 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="168" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="168" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="211" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="211" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1acff25ee10bc8aa39996a7c74d38cb212" prot="public" static="no" mutable="no">
         <type>tsl::ordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1aa4c0932ccc6bba4fc39d7524b9d0514c" kindref="member">ResEdit</ref> * &gt;</type>
@@ -353,7 +417,30 @@ shared with whatever constructed them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="180" column="30" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="180" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="223" column="30" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a616ac3343fa69ebf15a228b4fd226817" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; V &gt;</type>
+        <definition>std::vector&lt;V&gt; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::extraResources</definition>
+        <argsstring></argsstring>
+        <name>extraResources</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::extraResources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Resources handed to every edit in \ref resEdits as if a register had named them, besides the ones
+the registers do :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+What it is for: a file the fix needs that no line binds -- eg. a game texture a texture edit
+compares against. A collect builds only what it finds, so such a file would never be made. Each
+name is built under its fixed name (:cpp:func:`BaseResEdit::getFixResourceName`), and no line
+is rewritten for it. **Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="237" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="237" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a3aa161c60d9d358e01346317be0abe83" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a08d4683a21d4ac7ae8b3673365e127ab" kindref="member">PartPredicate</ref> &gt;</type>
@@ -368,7 +455,7 @@ shared with whatever constructed them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="185" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="185" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="242" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="242" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a147f2e1f62a30f21aec9bea0cf54e54d" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a1467692921647beca6d7d9d7386dfa6b" kindref="member">ResPredicate</ref> &gt;</type>
@@ -383,7 +470,7 @@ shared with whatever constructed them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="190" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="190" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="247" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="247" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a3e252bb747f2b3c655202cea7dbed91a" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; tsl::ordered_map&lt; std::string, typename Remapper::RemapTarget &gt; &gt;</type>
@@ -404,7 +491,7 @@ nothing&quot; -- see \ref edit
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="202" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="202" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="272" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="272" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a85bb83a9bbc719753729a0f6ccef2e0a" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -420,7 +507,7 @@ nothing&quot; -- see \ref edit
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="207" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="207" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="277" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="277" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1ab69477fe40c2c03aa1eddee29634e69c" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -436,7 +523,7 @@ nothing&quot; -- see \ref edit
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="212" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="212" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="282" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="282" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a3f62e7967467dd77c7e4d85827e189e4" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; bool &gt;</type>
@@ -451,7 +538,7 @@ nothing&quot; -- see \ref edit
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="217" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="217" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="287" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="287" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1aa242fdb60fa5df69906cafe30222ee4d" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; std::optional&lt; std::unordered_set&lt; K, KeyHash, KeyEqual &gt; &gt; &gt;</type>
@@ -469,7 +556,42 @@ Which `KVP`_ keys to track while searching each graph. A missing entry (or
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="226" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="226" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="296" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a8a0b6e1ffc8b4d06e78926d6a8461a8c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::everyGroup</definition>
+        <argsstring></argsstring>
+        <name>everyGroup</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::everyGroup</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether every setting keyed by a graph applies in EVERY group that holds that graph,
+rather than only in the group its ``iniIndex`` names :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+When ``true``, each \ref edit first copies every entry of \ref srcRegs, \ref extraSrcRegs,
+\ref srcRegMatches, \ref partPredicates, \ref resPredicates, \ref remaps, \ref trackKeys and
+\ref keysToTrack once for each group holding the entry&apos;s graph (its component and mod
+object), with that group&apos;s index, and runs on the copies. The configured index is
+ignored, and the settings themselves are left as they were :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A target in \ref remaps is placed RELATIVE to its source: it lands as many groups after
+the source&apos;s group as it was configured to, so a remap configured within one group is a
+remap within each group. A target that would land before the first group is dropped
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+What it is for: a collect configured before the number of groups is known -- eg. in a
+fixer whose edits make copies of the ``.ini`` -- that still builds each resource once
+for all the groups together. **Default**: ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="321" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="321" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_reg_collect_1a700641923bebe510fb5882face064534" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; tsl::ordered_map&lt; std::string, tsl::ordered_map&lt; std::size_t, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_res_call" kindref="compound">ResCall</ref> &gt; &gt; &gt; &gt;</type>
@@ -490,409 +612,45 @@ Rebuilt from scratch by every \ref edit, and cleared again afterwards by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="253" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="253" bodyend="-1"/>
-      </memberdef>
-    </sectiondef>
-    <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a3e74270dfcf1dd047fa42bcde056d568" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type></type>
-        <definition>AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResRegCollect</definition>
-        <argsstring>(ByGraph&lt; K &gt; srcRegs={}, tsl::ordered_map&lt; std::string, ResEdit * &gt; resEdits={})</argsstring>
-        <name>ResRegCollect</name>
-        <qualifiedname>AGRemapCore::ResRegCollect::ResRegCollect</qualifiedname>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; K &gt;</type>
-          <declname>srcRegs</declname>
-          <defval>{}</defval>
-        </param>
-        <param>
-          <type>tsl::ordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1aa4c0932ccc6bba4fc39d7524b9d0514c" kindref="member">ResEdit</ref> * &gt;</type>
-          <declname>resEdits</declname>
-          <defval>{}</defval>
-        </param>
-        <briefdescription>
-<para>Constructs a new resource-collecting edit. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>srcRegs</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The registers that reference the resource, keyed by which graph to search </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>resEdits</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>How each resource subtype is built. Borrowed, not owned </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="261" column="13"/>
-      </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
-        <type>void</type>
-        <definition>void AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::clear</definition>
-        <argsstring>() override</argsstring>
-        <name>clear</name>
-        <qualifiedname>AGRemapCore::ResRegCollect::clear</qualifiedname>
-        <reimplements refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049">clear</reimplements>
-        <briefdescription>
-<para>Clears <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a700641923bebe510fb5882face064534" kindref="member">resCalls</ref> and every resource edit&apos;s own saved state. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="266" column="18"/>
-      </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a49a20da6ec9db9f9d763c6d941632f9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
-        <definition>GraphGroups &amp; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::editFromIni</definition>
-        <argsstring>(GraphGroups &amp;graphGroups, IniFile *ini, const ModType *modType, const std::string &amp;modName=&quot;&quot;) override</argsstring>
-        <name>editFromIni</name>
-        <qualifiedname>AGRemapCore::ResRegCollect::editFromIni</qualifiedname>
-        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591">editFromIni</reimplements>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
-          <declname>graphGroups</declname>
-        </param>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
-          <declname>ini</declname>
-        </param>
-        <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
-          <declname>modType</declname>
-        </param>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>modName</declname>
-          <defval>&quot;&quot;</defval>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para><verbatim>embed:rst 
-\ref edit, against a real ``.ini`` file -- **the only form that actually builds
-anything** :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-This class does two things: it *collects* the references to a resource, and it *builds*
-that resource. Only the first happens without a :cpp:class:`IniResEditContext` to build
-into -- and :cpp:func:`BaseIniGraphGroupEdit::editFromIni` deliberately drops its
-``ini``, so inheriting it left a plain C++ caller with no way to reach the second half
-at all. The resources were silently never built, the references silently never
-repointed, and the run reported zero of them :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-The `pybind11`_ layer has always overridden this to supply its own context; this is the
-C++ counterpart, over :cpp:class:`IniFileResEditContext`
-
-:raw-html:`&lt;br /&gt;`
-
-.. note::
-   Only an instantiation whose ``K``/``V`` are both ``std::string`` gets a context --
-   :cpp:class:`IniFileResEditContext` is that instantiation specifically, the same
-   constraint :cpp:func:`GIMISectionClassifier::defaultConfig` works under. Any other
-   falls back to the collect-only behaviour, exactly as before
-</verbatim></para>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>graphGroups</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The group of graphs to edit for each .ini file, modified in place </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>ini</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The .ini file the resources are built for <ndash/> <bold>nullptr collects without building</bold> </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>modType</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The type of mod to fix. Unused directly <ndash/> reaches the resource edits only </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>modName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="298" column="25"/>
-      </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1ae61ecc29ef18d91b18ac00b54ee89bcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
-        <definition>GraphGroups &amp; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::editWithContext</definition>
-        <argsstring>(GraphGroups &amp;graphGroups, Context &amp;ctx, const ModType *modType, const std::string &amp;modName=&quot;&quot;)</argsstring>
-        <name>editWithContext</name>
-        <qualifiedname>AGRemapCore::ResRegCollect::editWithContext</qualifiedname>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
-          <declname>graphGroups</declname>
-        </param>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a57c4d2761471bcd8242459ccc80b5f9c" kindref="member">Context</ref> &amp;</type>
-          <declname>ctx</declname>
-        </param>
-        <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
-          <declname>modType</declname>
-        </param>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>modName</declname>
-          <defval>&quot;&quot;</defval>
-        </param>
-        <briefdescription>
-<para>Collects, remaps and builds <ndash/> see this class&apos;s own description. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>graphGroups</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The group of graphs to edit for each .ini file, modified in place </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>ctx</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The .ini file the resources are built for </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>modType</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The type of mod to fix. Unused directly <ndash/> reaches the resource edits only </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>modName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>The same groups that were passed in, after editing </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="311" column="25"/>
-      </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1ab53e60e186ad53fbc495ac4d8b1392bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
-        <definition>GraphGroups &amp; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::edit</definition>
-        <argsstring>(GraphGroups &amp;graphGroups, const ModType *modType, const std::string &amp;modName=&quot;&quot;) override</argsstring>
-        <name>edit</name>
-        <qualifiedname>AGRemapCore::ResRegCollect::edit</qualifiedname>
-        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a59f31133ebce97ea9fce0fec632adf2f">edit</reimplements>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
-          <declname>graphGroups</declname>
-        </param>
-        <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
-          <declname>modType</declname>
-        </param>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>modName</declname>
-          <defval>&quot;&quot;</defval>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para><verbatim>embed:rst 
-Collects and remaps, but builds nothing -- there is no ``.ini`` file to build resources
-for
-</verbatim></para>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>graphGroups</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The group of graphs to edit for each .ini file, modified in place </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>modType</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The type of mod to fix </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>modName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>The same groups that were passed in, after editing </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="327" column="25"/>
-      </memberdef>
-    </sectiondef>
-    <sectiondef kind="private-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a186112a0c420aed28beccb7ea5e61eb9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::collectFromGraphGroup</definition>
-        <argsstring>(GraphGroups &amp;graphGroups, const GraphId &amp;srcModObj, const K &amp;srcReg)</argsstring>
-        <name>collectFromGraphGroup</name>
-        <qualifiedname>AGRemapCore::ResRegCollect::collectFromGraphGroup</qualifiedname>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
-          <declname>graphGroups</declname>
-        </param>
-        <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1ad2713763ff5af49559e1eaaa21769589" kindref="member">GraphId</ref> &amp;</type>
-          <declname>srcModObj</declname>
-        </param>
-        <param>
-          <type>const K &amp;</type>
-          <declname>srcReg</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="339" column="18"/>
-      </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a3ff3038683952907b81ce249f776b25f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
-        <definition>GraphGroups &amp; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::remapGraphs</definition>
-        <argsstring>(GraphGroups &amp;graphGroups, RemappedGraphs *remappedGraphs)</argsstring>
-        <name>remapGraphs</name>
-        <qualifiedname>AGRemapCore::ResRegCollect::remapGraphs</qualifiedname>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
-          <declname>graphGroups</declname>
-        </param>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1af50d7b8943e237cd957202d3c9aeb551" kindref="member">RemappedGraphs</ref> *</type>
-          <declname>remappedGraphs</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="340" column="25"/>
-      </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1ab3a243bad4fd648d6c18ac1dccfb686c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::collectResourceNames</definition>
-        <argsstring>(const std::string &amp;resSubType, ResEdit &amp;resEdit, typename ResEdit::CollectedSections &amp;collectedSections, GraphGroups &amp;graphGroups, RemappedGraphs *remappedGraphs, bool editGraph, const std::string &amp;modName)</argsstring>
-        <name>collectResourceNames</name>
-        <qualifiedname>AGRemapCore::ResRegCollect::collectResourceNames</qualifiedname>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>resSubType</declname>
-        </param>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1aa4c0932ccc6bba4fc39d7524b9d0514c" kindref="member">ResEdit</ref> &amp;</type>
-          <declname>resEdit</declname>
-        </param>
-        <param>
-          <type>typename <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a5b0bbf5c576c4f7931f02b0898ab2dc3" kindref="member">ResEdit::CollectedSections</ref> &amp;</type>
-          <declname>collectedSections</declname>
-        </param>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
-          <declname>graphGroups</declname>
-        </param>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1af50d7b8943e237cd957202d3c9aeb551" kindref="member">RemappedGraphs</ref> *</type>
-          <declname>remappedGraphs</declname>
-        </param>
-        <param>
-          <type>bool</type>
-          <declname>editGraph</declname>
-        </param>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>modName</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="341" column="18"/>
-      </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a42b346a00f66ba288982f192fcb5033e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
-        <definition>GraphGroups &amp; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::editImpl</definition>
-        <argsstring>(GraphGroups &amp;graphGroups, Context *ctx, const ModType *modType, const std::string &amp;modName)</argsstring>
-        <name>editImpl</name>
-        <qualifiedname>AGRemapCore::ResRegCollect::editImpl</qualifiedname>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
-          <declname>graphGroups</declname>
-        </param>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a57c4d2761471bcd8242459ccc80b5f9c" kindref="member">Context</ref> *</type>
-          <declname>ctx</declname>
-        </param>
-        <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
-          <declname>modType</declname>
-        </param>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>modName</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="344" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="348" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="348" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a772c3dad8dad5b42fe83277086495d0d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a1467692921647beca6d7d9d7386dfa6b" kindref="member">ResPredicate</ref></type>
+        <definition>static ResPredicate AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::skipsKeywords</definition>
+        <argsstring>(std::vector&lt; std::string &gt; keywords={IniKeywords::Ref})</argsstring>
+        <name>skipsKeywords</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::skipsKeywords</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>keywords</declname>
+          <defval>{<ref refid="class_a_g_remap_core_1_1_ini_keywords_1a6b29e20e87bbc84076a4539e1859771c" kindref="member">IniKeywords::Ref</ref>}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A \ref ResPredicate that collects a reference only when its value is a resource NAME,
+not a 3dmigoto statement opening with one of &apos;keywords&apos; (see
+:cpp:func:`IniNamingTools::hasKeywordPrefix`) -- ``ref ResourceX`` binds a resource already
+declared, so collecting it as a file would look for a section called ``ref ResourceX``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keywords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The statements to skip. <bold>Default</bold>: <computeroutput>ref</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="260" column="33"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a6f7991d9e326894da8462ac692de9eef" kindref="member">Graph</ref> *</type>
         <definition>static Graph * AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::getGraph</definition>
@@ -1031,6 +789,459 @@ Whether the graph was added -- ``false`` if ``id.iniIndex`` is out of range for
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="204" column="25"/>
       </memberdef>
     </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a3e74270dfcf1dd047fa42bcde056d568" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResRegCollect</definition>
+        <argsstring>(ByGraph&lt; K &gt; srcRegs={}, tsl::ordered_map&lt; std::string, ResEdit * &gt; resEdits={})</argsstring>
+        <name>ResRegCollect</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::ResRegCollect</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" kindref="member">ByGraph</ref>&lt; K &gt;</type>
+          <declname>srcRegs</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>tsl::ordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1aa4c0932ccc6bba4fc39d7524b9d0514c" kindref="member">ResEdit</ref> * &gt;</type>
+          <declname>resEdits</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new resource-collecting edit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>srcRegs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The registers that reference the resource, keyed by which graph to search </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resEdits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How each resource subtype is built. Borrowed, not owned </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="356" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::clear</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049">clear</reimplements>
+        <briefdescription>
+<para>Clears <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a700641923bebe510fb5882face064534" kindref="member">resCalls</ref> and every resource edit&apos;s own saved state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="361" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a49a20da6ec9db9f9d763c6d941632f9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::editFromIni</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, IniFile *ini, const ModType *modType, const std::string &amp;modName=&quot;&quot;) override</argsstring>
+        <name>editFromIni</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::editFromIni</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591">editFromIni</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+\ref edit, against a real ``.ini`` file -- **the only form that actually builds
+anything** :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This class does two things: it *collects* the references to a resource, and it *builds*
+that resource. Only the first happens without a :cpp:class:`IniResEditContext` to build
+into -- and :cpp:func:`BaseIniGraphGroupEdit::editFromIni` deliberately drops its
+``ini``, so inheriting it left a plain C++ caller with no way to reach the second half
+at all. The resources were silently never built, the references silently never
+repointed, and the run reported zero of them :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The `pybind11`_ layer has always overridden this to supply its own context; this is the
+C++ counterpart, over :cpp:class:`IniFileResEditContext`
+
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Only an instantiation whose ``K``/``V`` are both ``std::string`` gets a context --
+   :cpp:class:`IniFileResEditContext` is that instantiation specifically, the same
+   constraint :cpp:func:`GIMISectionClassifier::defaultConfig` works under. Any other
+   falls back to the collect-only behaviour, exactly as before
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs to edit for each .ini file, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ini</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The .ini file the resources are built for <ndash/> <bold>nullptr collects without building</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. Unused directly <ndash/> reaches the resource edits only </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="393" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1ae61ecc29ef18d91b18ac00b54ee89bcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::editWithContext</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, Context &amp;ctx, const ModType *modType, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>editWithContext</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::editWithContext</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a57c4d2761471bcd8242459ccc80b5f9c" kindref="member">Context</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Collects, remaps and builds <ndash/> see this class&apos;s own description. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs to edit for each .ini file, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The .ini file the resources are built for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. Unused directly <ndash/> reaches the resource edits only </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same groups that were passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="406" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1ab53e60e186ad53fbc495ac4d8b1392bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::edit</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, const ModType *modType, const std::string &amp;modName=&quot;&quot;) override</argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::edit</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a59f31133ebce97ea9fce0fec632adf2f">edit</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Collects and remaps, but builds nothing -- there is no ``.ini`` file to build resources
+for
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs to edit for each .ini file, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same groups that were passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="422" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a6ae242a5b45ed56616e73fb66b4cc73a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings" kindref="compound">GraphSettings</ref></type>
+        <definition>GraphSettings AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::takeGraphSettings</definition>
+        <argsstring>()</argsstring>
+        <name>takeGraphSettings</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::takeGraphSettings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="446" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a4640f798e6d4b9eebd5cc4fa7ec17a50" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::putGraphSettings</definition>
+        <argsstring>(GraphSettings settings)</argsstring>
+        <name>putGraphSettings</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::putGraphSettings</qualifiedname>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings" kindref="compound">GraphSettings</ref></type>
+          <declname>settings</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="447" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a1d9eee9b8798ee19e6438a1e80a9f341" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings" kindref="compound">GraphSettings</ref></type>
+        <definition>GraphSettings AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::inEveryGroup</definition>
+        <argsstring>(const GraphSettings &amp;configured, const GraphGroups &amp;graphGroups) const</argsstring>
+        <name>inEveryGroup</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::inEveryGroup</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_res_reg_collect_1_1_graph_settings" kindref="compound">GraphSettings</ref> &amp;</type>
+          <declname>configured</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="448" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a3ff3038683952907b81ce249f776b25f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::remapGraphs</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, RemappedGraphs *remappedGraphs)</argsstring>
+        <name>remapGraphs</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::remapGraphs</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1af50d7b8943e237cd957202d3c9aeb551" kindref="member">RemappedGraphs</ref> *</type>
+          <declname>remappedGraphs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="450" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1ab3a243bad4fd648d6c18ac1dccfb686c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::collectResourceNames</definition>
+        <argsstring>(const std::string &amp;resSubType, ResEdit &amp;resEdit, typename ResEdit::CollectedSections &amp;collectedSections, GraphGroups &amp;graphGroups, RemappedGraphs *remappedGraphs, bool editGraph, const std::string &amp;modName)</argsstring>
+        <name>collectResourceNames</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::collectResourceNames</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resSubType</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1aa4c0932ccc6bba4fc39d7524b9d0514c" kindref="member">ResEdit</ref> &amp;</type>
+          <declname>resEdit</declname>
+        </param>
+        <param>
+          <type>typename <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a5b0bbf5c576c4f7931f02b0898ab2dc3" kindref="member">ResEdit::CollectedSections</ref> &amp;</type>
+          <declname>collectedSections</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1af50d7b8943e237cd957202d3c9aeb551" kindref="member">RemappedGraphs</ref> *</type>
+          <declname>remappedGraphs</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>editGraph</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="451" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a42b346a00f66ba288982f192fcb5033e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::editImpl</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, Context *ctx, const ModType *modType, const std::string &amp;modName)</argsstring>
+        <name>editImpl</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::editImpl</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a57c4d2761471bcd8242459ccc80b5f9c" kindref="member">Context</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="454" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1ad8ca0b4b0beb863e9ca2c7723dba2792" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::ResRegCollect&lt; K, V, KeyHash, KeyEqual &gt;::collectAndBuild</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, Context *ctx, const std::string &amp;modName)</argsstring>
+        <name>collectAndBuild</name>
+        <qualifiedname>AGRemapCore::ResRegCollect::collectAndBuild</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a57c4d2761471bcd8242459ccc80b5f9c" kindref="member">Context</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="455" column="25"/>
+      </memberdef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -1040,12 +1251,18 @@ This class inherits from :cpp:class:`BaseIniGraphGroupEdit`
 Creates the :cpp:class:`IniSectionGraph` for a particular resource :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
-Runs in three phases. First it **collects** every reference to the resource -- walking each
-source graph named in \ref srcRegs and recording where the register naming the resource
-appears. Then, optionally, it **remaps** those source graphs (see \ref remaps). Finally, for
+Runs in three phases. First it **collects** every reference to the resource -- a
+:cpp:class:`GraphCollect` of the registers named in \ref srcRegs, \ref extraSrcRegs and
+\ref srcRegMatches, recording where each register naming the resource appears. Then, optionally, it **remaps** those source graphs (see \ref remaps). Finally, for
 each resource subtype in \ref resEdits, it works out the fixed name of every collected
 reference, rewrites it in place, and hands the collected set to that subtype&apos;s
 :cpp:class:`BaseResEdit` to build the resource&apos;s own graph and models
+
+.. warning::
+   The references are collected once, from the graphs as they are when this edit runs, and the resource&apos;s
+   graph and models are built from that set. Nothing updates them afterwards: a later edit that renames,
+   copies, moves or removes a section holding one of the references leaves them describing where the
+   references used to be. Order it after the edits that reshape the graphs it reads
 </verbatim></para>
 <para><parameterlist kind="templateparam"><parameteritem>
 <parameternamelist>
@@ -1118,31 +1335,37 @@ reference, rewrites it in place, and hands the collected set to that subtype&apo
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="62" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="62" bodyend="345"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="70" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="70" bodyend="456"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>addGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1af02b4bc40c9f15df41392a4c1846b5ef" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a3f3f67d5ae53dbba2b6f5ff0f0f3fbaf" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>bindToReg</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a0518a9282cc053ae85a360a73e52affa" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>ByGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed" prot="public" virt="virtual"><scope>AGRemapCore::ResRegCollect</scope><name>clear</name></member>
-      <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a186112a0c420aed28beccb7ea5e61eb9" prot="private" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>collectFromGraphGroup</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_reg_collect_1ad8ca0b4b0beb863e9ca2c7723dba2792" prot="private" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>collectAndBuild</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1ab3a243bad4fd648d6c18ac1dccfb686c" prot="private" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>collectResourceNames</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a57c4d2761471bcd8242459ccc80b5f9c" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>Context</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1ab53e60e186ad53fbc495ac4d8b1392bf" prot="public" virt="virtual"><scope>AGRemapCore::ResRegCollect</scope><name>edit</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a49a20da6ec9db9f9d763c6d941632f9e" prot="public" virt="virtual"><scope>AGRemapCore::ResRegCollect</scope><name>editFromIni</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a42b346a00f66ba288982f192fcb5033e" prot="private" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>editImpl</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1ae61ecc29ef18d91b18ac00b54ee89bcd" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>editWithContext</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a8a0b6e1ffc8b4d06e78926d6a8461a8c" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>everyGroup</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a616ac3343fa69ebf15a228b4fd226817" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>extraResources</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a1f40614454c899494f89b9f74cd9dd02" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>extraSrcRegs</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>getGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a6f7991d9e326894da8462ac692de9eef" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>Graph</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>GraphGroups</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1ad2713763ff5af49559e1eaaa21769589" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>GraphId</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a95760c35e852d225385acf257ad3f6db" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>GraphIdHash</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a1d9eee9b8798ee19e6438a1e80a9f341" prot="private" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>inEveryGroup</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a69a00779c3b86912a0d27d3e50e38e5d" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>IterData</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1aa242fdb60fa5df69906cafe30222ee4d" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>keysToTrack</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>ModObj</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a87f4ef7c1846b142a341ae1dada56113" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>OrderRanges</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a08d4683a21d4ac7ae8b3673365e127ab" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>PartPredicate</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a3aa161c60d9d358e01346317be0abe83" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>partPredicates</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a4640f798e6d4b9eebd5cc4fa7ec17a50" prot="private" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>putGraphSettings</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_reg_collect_1abc530db9e7a29c576e2f7f64c7cc5a04" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>RegMatch</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a3ff3038683952907b81ce249f776b25f" prot="private" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>remapGraphs</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1af50d7b8943e237cd957202d3c9aeb551" prot="private" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>RemappedGraphs</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a438e63ef8ef422f77ce1d1b53ee087d9" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>Remapper</name></member>
@@ -1154,7 +1377,10 @@ reference, rewrites it in place, and hands the collected set to that subtype&apo
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a1467692921647beca6d7d9d7386dfa6b" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>ResPredicate</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a147f2e1f62a30f21aec9bea0cf54e54d" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>resPredicates</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a3e74270dfcf1dd047fa42bcde056d568" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>ResRegCollect</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a772c3dad8dad5b42fe83277086495d0d" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>skipsKeywords</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_reg_collect_1affb2399571a0b4c4fa4dcf3ca0a40649" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>srcRegMatches</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a71b6fa917700c4ae185dcf9738b29b51" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>srcRegs</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a6ae242a5b45ed56616e73fb66b4cc73a" prot="private" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>takeGraphSettings</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a3f62e7967467dd77c7e4d85827e189e4" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>trackKeys</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1ab69477fe40c2c03aa1eddee29634e69c" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>trackKeysGlobal</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1a85bb83a9bbc719753729a0f6ccef2e0a" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>trackKeysIsGlobal</name></member>

@@ -1,0 +1,304 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_shader_filter_tags" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ShaderFilterTags</compoundname>
+    <includes refid="_shader_filter_tags_8h" local="no">ShaderFilterTags.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_shader_filter_tags_1_1_tag" prot="public">AGRemapCore::ShaderFilterTags::Tag</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_shader_filter_tags_1a17335b93652b7dfb1d99347db27621b9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_shader_filter_tags_1_1_tag" kindref="compound">Tag</ref> &gt;</type>
+        <definition>std::vector&lt;Tag&gt; AGRemapCore::ShaderFilterTags::tags_</definition>
+        <argsstring></argsstring>
+        <name>tags_</name>
+        <qualifiedname>AGRemapCore::ShaderFilterTags::tags_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="131" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_shader_filter_tags_1a762bf41f3756501f2c38563acdd65f11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ShaderFilterTags::add</definition>
+        <argsstring>(const std::string &amp;shaderHash, const std::string &amp;filterIndex)</argsstring>
+        <name>add</name>
+        <qualifiedname>AGRemapCore::ShaderFilterTags::add</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shaderHash</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filterIndex</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Tags a shader, unless it is tagged already (its first value stays)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shaderHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The shader&apos;s hash </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filterIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>filter_index</computeroutput> it is given</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the shader was tagged by this call </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="69" column="18" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="23" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_shader_filter_tags_1afea1cac376c69c2127bdfefee95e4d83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ShaderFilterTags::addGiven</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;shaderHashes, const std::map&lt; std::string, std::string &gt; &amp;given)</argsstring>
+        <name>addGiven</name>
+        <qualifiedname>AGRemapCore::ShaderFilterTags::addGiven</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shaderHashes</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>given</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Tags each of &apos;shaderHashes&apos; not tagged yet, in order, with its value in &apos;given&apos;. A value is never made
+up: 3dmigoto keys a ``[ShaderOverride]`` by its hash across every loaded ``.ini``, so every fix tagging a
+shader has to agree on its value, which only a value read off one table (``DrawPasses``&apos; tags) can promise
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shaderHashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The shaders, in the order they are tagged </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>given</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Each shader&apos;s value</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A shader of &apos;shaderHashes&apos; that is not tagged yet and has no value in &apos;given&apos; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="84" column="18" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="32" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_shader_filter_tags_1a05b040cbb40d4a7086d809a9f4fa042d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::ShaderFilterTags::filterIndexOf</definition>
+        <argsstring>(const std::string &amp;shaderHash) const</argsstring>
+        <name>filterIndexOf</name>
+        <qualifiedname>AGRemapCore::ShaderFilterTags::filterIndexOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shaderHash</declname>
+        </param>
+        <briefdescription>
+<para>The <computeroutput>filter_index</computeroutput> of a shader, or <computeroutput>std::nullopt</computeroutput> when it is not tagged. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shaderHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The shader&apos;s hash</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="93" column="27" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_shader_filter_tags_1ad2ef302f946195131fe7a0f58b1d5a47" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_shader_filter_tags_1_1_tag" kindref="compound">Tag</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; ShaderFilterTags::Tag &gt; &amp; AGRemapCore::ShaderFilterTags::tags</definition>
+        <argsstring>() const</argsstring>
+        <name>tags</name>
+        <qualifiedname>AGRemapCore::ShaderFilterTags::tags</qualifiedname>
+        <briefdescription>
+<para>The tagged shaders, in the order they were tagged. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="98" column="31" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="50" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_shader_filter_tags_1a4cbcfba8d3fcb4bd00dbab8ca1477c13" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ShaderFilterTags::condition</definition>
+        <argsstring>(const std::string &amp;reg, const std::vector&lt; std::string &gt; &amp;shaderHashes, bool none=false) const</argsstring>
+        <name>condition</name>
+        <qualifiedname>AGRemapCore::ShaderFilterTags::condition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shaderHashes</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>none</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``.ini`` condition true on a draw by any of &apos;shaderHashes&apos; -- ``&lt;reg&gt; == &lt;index&gt; || ...`` -- or, with
+&apos;none&apos;, by none of them -- ``&lt;reg&gt; != &lt;index&gt; &amp;&amp; ...``. Each index is named once, in the order given (two
+shaders that share an index share its test); a shader that is not tagged is left out
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register a shader&apos;s <computeroutput>filter_index</computeroutput> is read from: <computeroutput>ps</computeroutput> or <computeroutput>vs</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shaderHashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The shaders&apos; hashes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>none</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the condition is true on a draw by none of the shaders. <bold>Default</bold>: <computeroutput>false</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The condition, or empty when no shader of &apos;shaderHashes&apos; is tagged </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="114" column="25" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="54" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_shader_filter_tags_1a9a4f353c6c2c8de45f77f494f02deaad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::unique_ptr&lt; IfTemplate&lt; std::string, std::string &gt; &gt; AGRemapCore::ShaderFilterTags::section</definition>
+        <argsstring>(std::size_t index, const std::string &amp;name) const</argsstring>
+        <name>section</name>
+        <qualifiedname>AGRemapCore::ShaderFilterTags::section</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``[ShaderOverride...]`` `section`_ that tags shader number &apos;index&apos; (:cpp:func:`tags`): ``hash`` and
+``filter_index``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The shader&apos;s position in :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_shader_filter_tags_1ad2ef302f946195131fe7a0f58b1d5a47" kindref="member">tags</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The section&apos;s name</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The section </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="128" column="29" bodyfile="src/model/strategies/iniFixers/ShaderFilterTags.cpp" bodystart="70" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The shaders a fix tells apart by a ``filter_index``, and what it writes for them :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+3DMigoto sets a shader&apos;s ``filter_index`` from a ``[ShaderOverride...]`` `section`_ on its hash, and a section
+of the mod then asks ``if ps == &lt;index&gt;`` (or ``vs``) to act on one pass of a draw only. This holds the shaders a
+fix tags, in the order they were tagged, with their values; writes the ``[ShaderOverride...]`` sections
+(:cpp:func:`section`); and writes the condition true on a draw by any of some shaders, or by none of them
+(:cpp:func:`condition`) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Which value each shader gets is the fixer&apos;s choice. 3DMigoto keys a ``[ShaderOverride]`` by its shader hash
+across EVERY loaded ``.ini``, so two fixes that tag the same shader must give it the same value
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" line="41" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/ShaderFilterTags.h" bodystart="41" bodyend="132"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a762bf41f3756501f2c38563acdd65f11" prot="public" virt="non-virtual"><scope>AGRemapCore::ShaderFilterTags</scope><name>add</name></member>
+      <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1afea1cac376c69c2127bdfefee95e4d83" prot="public" virt="non-virtual"><scope>AGRemapCore::ShaderFilterTags</scope><name>addGiven</name></member>
+      <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a4cbcfba8d3fcb4bd00dbab8ca1477c13" prot="public" virt="non-virtual"><scope>AGRemapCore::ShaderFilterTags</scope><name>condition</name></member>
+      <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a05b040cbb40d4a7086d809a9f4fa042d" prot="public" virt="non-virtual"><scope>AGRemapCore::ShaderFilterTags</scope><name>filterIndexOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a9a4f353c6c2c8de45f77f494f02deaad" prot="public" virt="non-virtual"><scope>AGRemapCore::ShaderFilterTags</scope><name>section</name></member>
+      <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1ad2ef302f946195131fe7a0f58b1d5a47" prot="public" virt="non-virtual"><scope>AGRemapCore::ShaderFilterTags</scope><name>tags</name></member>
+      <member refid="class_a_g_remap_core_1_1_shader_filter_tags_1a17335b93652b7dfb1d99347db27621b9" prot="private" virt="non-virtual"><scope>AGRemapCore::ShaderFilterTags</scope><name>tags_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

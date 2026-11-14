@@ -12,7 +12,6 @@
 // ##### EndCredits
 
 #include "AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.h"
-#include "AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistThumbprints.h"
 
 
 namespace AGRemapCore {
@@ -52,15 +51,13 @@ namespace AGRemapCore {
         // the file is. Read by the PARSER (`WWMIParser::buildRoles`), which is what identifies a
         // mod's textures; they sat on the fixer's config until 2026-09-29, where nothing read them
         // any more, and the parser's pass matched against an empty table on every mod.
-        facts.textureThumbprints = sanhuaExorcistTextureThumbprints();
+        // textureThumbprints: read off TextureThumbprints (WWMIParserConfig::withGameData, WWMIFixerConfig::withGameData)
 
         // A planned role a mod ships no file for is bound to SanhuaExorcist's OWN texture of that
         // role, downloaded from her folder -- the mod's UVs are hers, so the target's texture is
         // wrong by construction. eyeMask (c88cc1fc) and faceMask (46177147) are the same texture on
         // both skins, and so is the iris (1dcc0f1d): they need no entry.
-        facts.downloadCharFolder = "SanhuaExorcist";
         facts.downloadVersionFolder = "2_5";
-        facts.downloadPrefix = "SanhuaExorcist";
         facts.fallbackTextures = {
             {"bangsDiffuse", "f8d5c991"}, {"bangsMask", "63c807fe"}, {"t5Ramp", "4478285f"},
             {"hairDiffuse", "11171f1c"}, {"hairNormal", "9febd992"}, {"faceDiffuse", "c98e83cd"},

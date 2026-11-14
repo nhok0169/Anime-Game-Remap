@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.h" line="31" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.h" line="32" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -33,7 +33,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.h" line="36" column="45" bodyfile="src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp" bodystart="32" bodyend="34"/>
+        <location file="include/AGRemapCore/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.h" line="37" column="45" bodyfile="src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_sanhua_exorcist_parser_1a6d08b26e80c9c79571c4e1cb06a86cab" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" kindref="compound">WWMIParserConfig</ref></type>
+        <definition>WWMIParserConfig AGRemapCore::SanhuaExorcistParser::v2_5Config</definition>
+        <argsstring>()</argsstring>
+        <name>v2_5Config</name>
+        <qualifiedname>AGRemapCore::SanhuaExorcistParser::v2_5Config</qualifiedname>
+        <briefdescription>
+<para>The config <ref refid="class_a_g_remap_core_1_1_sanhua_exorcist_parser_1a2577535f3136ca11132e2752953e8515" kindref="member">v2_5</ref> builds its parser from (:cpp:func:<computeroutput><ref refid="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" kindref="member">makeWWMIParser</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.h" line="42" column="37" bodyfile="src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp" bodystart="23" bodyend="29"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -45,10 +60,11 @@ her ``vb0`` hash, the bone-data override and the two shape-key overrides by thei
 Pair this with :cpp:class:`SanhuaExorcistFixer`
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.h" line="29" column="5" bodyfile="include/AGRemapCore/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.h" bodystart="29" bodyend="37"/>
+    <location file="include/AGRemapCore/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.h" line="30" column="5" bodyfile="include/AGRemapCore/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.h" bodystart="30" bodyend="43"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_sanhua_exorcist_parser_1a348b08641106ae8e03dcd3d7eaed973b" prot="public" virt="non-virtual"><scope>AGRemapCore::SanhuaExorcistParser</scope><name>SanhuaExorcistParser</name></member>
       <member refid="class_a_g_remap_core_1_1_sanhua_exorcist_parser_1a2577535f3136ca11132e2752953e8515" prot="public" virt="non-virtual"><scope>AGRemapCore::SanhuaExorcistParser</scope><name>v2_5</name></member>
+      <member refid="class_a_g_remap_core_1_1_sanhua_exorcist_parser_1a6d08b26e80c9c79571c4e1cb06a86cab" prot="public" virt="non-virtual"><scope>AGRemapCore::SanhuaExorcistParser</scope><name>v2_5Config</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

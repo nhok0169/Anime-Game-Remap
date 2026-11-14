@@ -98,6 +98,49 @@ class IniFileTest(BaseUnitTest):
         self.assertEqual(FRB.IniFile.getSectionNameFromLine("[TextureOverrideBody]"), "TextureOverrideBody")
 
     # ================================================
+    # ======== a section declared more than once =====
+    # 3DMigoto's rule (IniHandler.cpp) for an included .ini: a prefixed section's repeat is rejected, any
+    # other name's repeat is appended to the first declaration
+
+    def _values(self, section, key):
+        values = []
+        for part in section.parts:
+            if isinstance(part, FRB.IfContentPart):
+                values += [value.strip() for entryKey, value in part.entries() if entryKey == key]
+        return values
+
+    def test_mergesRepeatedSection(self):
+        for name in ["Constants", "Present", "ClearRenderTargetView", "present", "SomethingUnknown"]:
+            self.assertTrue(FRB.IniFile.mergesRepeatedSection(name), name)
+
+        for name in ["TextureOverrideBody", "textureoverridebody", "ResourceBody", "CommandListX", "KeySwap", "ShaderRegexA", "CustomShaderB", "Preset1", "Include"]:
+            self.assertFalse(FRB.IniFile.mergesRepeatedSection(name), name)
+
+    def test_getIfTemplates_repeatedPresent_mergedIntoTheFirst(self):
+        ini = FRB.IniFile(txt = "[Present]\npost $a = 0\n\n[TextureOverrideBody]\nhash = abc123\n\n[present]\npost $object_detected = 0\n")
+
+        self.compareList(ini.getSectionNames(), ["Present", "TextureOverrideBody"])
+        present = ini.getSection("Present")
+        self.compareList(self._values(present, "post $a"), ["0"])
+        self.compareList(self._values(present, "post $object_detected"), ["0"])
+
+    def test_getIfTemplates_repeatedConstants_keepsEveryDeclarationsLines(self):
+        ini = FRB.IniFile(txt = "[Constants]\nglobal $a = 1\n\n[Constants]\nglobal $mesh_vertex_count = 42\n\n[Constants]\nglobal $b = 2\n")
+
+        constants = ini.getSection("Constants")
+        self.compareList(self._values(constants, "global $a"), ["1"])
+        self.compareList(self._values(constants, "global $mesh_vertex_count"), ["42"])
+        self.compareList(self._values(constants, "global $b"), ["2"])
+
+    def test_getIfTemplates_repeatedTextureOverride_firstOnly(self):
+        ini = FRB.IniFile(txt = "[TextureOverrideBody]\nhash = abc123\n\n[textureoverridebody]\nhash = def456\nrun = CommandListRabbitFX\n")
+
+        self.compareList(ini.getSectionNames(), ["TextureOverrideBody"])
+        body = ini.getSection("TextureOverrideBody")
+        self.compareList(self._values(body, "hash"), ["abc123"])
+        self.compareList(self._values(body, "run"), [])
+
+    # ================================================
     # ================== classifying =================
 
     def test_classify_namesTheModType(self):
@@ -246,6 +289,55 @@ class IniFileTest(BaseUnitTest):
 
         self.assertEqual(len(ini.readFileLines()), 6)
         self.assertTrue(ini.fileLinesRead)
+
+    def test_clearRead_alsoDropsTheParsedSections(self):
+        # A removal writes the file back and calls clearRead; a fix in the same run must then parse the file
+        # as it is now, not the sections cached from before the removal
+        path = self._writeTempIni()
+        ini = FRB.IniFile(path)
+        self.compareSet(set(ini.getIfTemplates().keys()), {"TextureOverrideBody", "ResourceBody"})
+
+        with open(path, "w", encoding = "utf-8") as file:
+            file.write("[ResourceOther]\nfilename = other.buf\n")
+        ini.clearRead()
+
+        self.compareSet(set(ini.getIfTemplates().keys()), {"ResourceOther"})
+
+    def test_clearRead_noFile_keepsTheParsedSections(self):
+        ini = FRB.IniFile(txt = self._iniTxt)
+        ini.getIfTemplates()
+        ini.clearRead()
+
+        self.compareSet(set(ini.getIfTemplates().keys()), {"TextureOverrideBody", "ResourceBody"})
+
+    def test_sibling_readTheWayThisOneIs_andClassified(self):
+        ini = FRB.IniFile(txt = "[TextureOverrideAmberCNBody]\n", downloadMode = "disabled",
+                          fromVersion = FRB.Version.parse("4.0"), toVersion = FRB.Version.parse("5.0"))
+        ini.classify()
+
+        path = self._writeTempIni()
+        with open(path, "w", encoding = "utf-8") as file:
+            file.write("[TextureOverrideAmberCNHead]\n")
+        other = ini.sibling(path)
+
+        self.assertEqual(other.file, path)
+        self.assertTrue(other.isClassified)
+        self.assertEqual(other.availableType.name, "AmberCN")
+        self.assertEqual(other.downloadMode, ini.downloadMode)
+        self.assertEqual(str(other.fromVersion), str(ini.fromVersion))
+        self.assertEqual(str(other.toVersion), str(ini.toVersion))
+
+    def test_sibling_forced_classifiedAsTheForcedType(self):
+        ini = FRB.IniFile(txt = "[TextureOverrideAmberCNBody]\n")
+        ini.classify()
+        amberCN = list(ini.getModTypes().keys())
+
+        path = self._writeTempIni()
+        with open(path, "w", encoding = "utf-8") as file:
+            file.write("[SomethingElse]\nkey = value\n")
+
+        self.assertFalse(ini.sibling(path).isModIni)
+        self.compareList(list(ini.sibling(path, forcedFromModTypeIds = set(amberCN)).getModTypes().keys()), amberCN)
 
     def test_folder_derivedFromFile(self):
         path = self._writeTempIni()

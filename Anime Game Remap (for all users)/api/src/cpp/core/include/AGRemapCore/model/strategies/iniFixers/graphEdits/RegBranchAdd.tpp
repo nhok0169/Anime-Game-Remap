@@ -19,10 +19,68 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h"
 
 
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h"
+
+
 namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     RegBranchAdd<K, V, KeyHash, KeyEqual>::RegBranchAdd(BranchOf branchOf): branchOf(std::move(branchOf)) {}
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::unique_ptr<RegBranchAdd<K, V, KeyHash, KeyEqual>> RegBranchAdd<K, V, KeyHash, KeyEqual>::perBranchReplacements(
+            Z3Context* z3Ctx, std::vector<GraphCollectRow<K, V, KeyHash, KeyEqual>> rows, std::string keyPrefix,
+            ReplacementsOf replacementsOf) {
+        return std::make_unique<RegBranchAdd>(
+            [z3Ctx, rows = std::move(rows), keyPrefix = std::move(keyPrefix), replacementsOf = std::move(replacementsOf)](
+                    const Z3Predicate& query, const IterData&) {
+                Branch result;
+                const std::optional<Z3Predicate> local = ResGroupCollect<K, V, KeyHash, KeyEqual>::combineQueries(
+                    query, Z3Predicate::trueValue(*z3Ctx), z3Ctx);
+                const long long branch = GraphCollect<K, V, KeyHash, KeyEqual>::onlyUnder(rows, local, z3Ctx);
+                if (branch < 0) {
+                    return result;
+                }
+
+                Additions replacements = replacementsOf(static_cast<std::size_t>(branch), local);
+                if (replacements.empty()) {
+                    return result;
+                }
+
+                result.key = keyPrefix + ";" + std::to_string(branch);
+                result.replacements = std::move(replacements);
+                return result;
+            });
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::unique_ptr<RegBranchAdd<K, V, KeyHash, KeyEqual>> RegBranchAdd<K, V, KeyHash, KeyEqual>::perBranchRemovals(
+            Z3Context* z3Ctx, std::vector<GraphCollectRow<K, V, KeyHash, KeyEqual>> rows, std::string keyPrefix,
+            RemovalsOf removalsOf) {
+        return std::make_unique<RegBranchAdd>(
+            [z3Ctx, rows = std::move(rows), keyPrefix = std::move(keyPrefix), removalsOf = std::move(removalsOf)](
+                    const Z3Predicate& query, const IterData&) {
+                Branch result;
+                const std::optional<Z3Predicate> local = ResGroupCollect<K, V, KeyHash, KeyEqual>::combineQueries(
+                    query, Z3Predicate::trueValue(*z3Ctx), z3Ctx);
+                const long long branch = GraphCollect<K, V, KeyHash, KeyEqual>::onlyUnder(rows, local, z3Ctx);
+                if (branch < 0) {
+                    return result;
+                }
+
+                std::vector<K> removals = removalsOf(static_cast<std::size_t>(branch), local);
+                if (removals.empty()) {
+                    return result;
+                }
+
+                result.key = keyPrefix + ";" + std::to_string(branch);
+                result.removals = std::move(removals);
+                return result;
+            });
+    }
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>

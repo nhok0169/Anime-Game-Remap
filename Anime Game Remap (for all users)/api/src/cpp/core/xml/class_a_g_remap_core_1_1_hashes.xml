@@ -4,6 +4,40 @@
     <compoundname>AGRemapCore::Hashes</compoundname>
     <basecompoundref refid="class_a_g_remap_core_1_1_mod_mapped_assets" prot="public" virt="non-virtual">AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;</basecompoundref>
     <includes refid="_hashes_8h" local="no">Hashes.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_hashes_1aa5b47d829d44de81224c125ded257d78" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::Hashes::LiveSuffix</definition>
+        <argsstring></argsstring>
+        <name>LiveSuffix</name>
+        <qualifiedname>AGRemapCore::Hashes::LiveSuffix</qualifiedname>
+        <initializer>= &quot;Live&quot;</initializer>
+        <briefdescription>
+<para>A hash type&apos;s later generation of the same role&apos;s hash: <computeroutput>&lt;type&gt;Live</computeroutput>, the hash bound once a texture&apos;s mips have streamed in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/Hashes.h" line="75" column="45" bodyfile="include/AGRemapCore/model/assets/Hashes.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_hashes_1a5b4b91dcd6897a55ee509414de0131a3" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::Hashes::OldSuffix</definition>
+        <argsstring></argsstring>
+        <name>OldSuffix</name>
+        <qualifiedname>AGRemapCore::Hashes::OldSuffix</qualifiedname>
+        <initializer>= &quot;Old&quot;</initializer>
+        <briefdescription>
+<para>A hash type&apos;s older generations: <computeroutput>&lt;type&gt;Old</computeroutput>, <computeroutput>&lt;type&gt;Old2</computeroutput>, ... </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/Hashes.h" line="80" column="45" bodyfile="include/AGRemapCore/model/assets/Hashes.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
     <sectiondef kind="public-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hashes_1a7f7a99f6a243315b5600036b3a862f08" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
@@ -38,7 +72,55 @@ The initial `adjacency list`_ mapping the hashes to fix **from** to the hashes t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/Hashes.h" line="68" column="22" bodyfile="src/model/assets/Hashes.cpp" bodystart="55" bodyend="65"/>
+        <location file="include/AGRemapCore/model/assets/Hashes.h" line="69" column="22" bodyfile="src/model/assets/Hashes.cpp" bodystart="57" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hashes_1ac08da4d711a950386e9d88a062bc290b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::Hashes::age</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;hash) const</argsstring>
+        <name>age</name>
+        <qualifiedname>AGRemapCore::Hashes::age</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How old &apos;hash&apos; is among &apos;name&apos;&apos;s hashes, lower newer: the versions this table files &apos;name&apos; at that are newer
+than the one filing &apos;hash&apos; (100 each), then the generation its hash type names -- ``0`` for a type&apos;s current
+hash, ``1`` for its :cpp:member:`LiveSuffix`, ``2``, ``3``, ... for its :cpp:member:`OldSuffix`, ``Old2``,
+... The lowest over every row filing &apos;hash&apos; (case-insensitively); ``1 &lt;&lt; 20`` when none does
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod name the hashes are filed under </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The age </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/Hashes.h" line="96" column="17" bodyfile="src/model/assets/Hashes.cpp" bodystart="82" bodyend="100"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e95cdb3162613cf5bb5530cea603d1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -326,6 +408,134 @@ always the &quot;name&quot; value -- see the class-level note on index ordering)
         </inbodydescription>
         <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="191" column="27"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a8112e8dbaf19b2d813590e889e66e014" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; std::string &gt; &gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::getKeys</definition>
+        <argsstring>(const std::string &amp;asset, const std::optional&lt; Version &gt; &amp;fromVersion, const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;fromNonVersionVals) const</argsstring>
+        <name>getKeys</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::getKeys</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>asset</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>fromVersion</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;</type>
+          <declname>fromNonVersionVals</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every key the version :cpp:func:`getKey` resolves to files &apos;asset&apos; under, where :cpp:func:`getKey`
+answers with the first :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+More than one when one value is filed under several keys at that version -- one texture a
+character draws on several objects, eg. Yelan&apos;s body and dress diffuse ``df127976``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>asset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The asset to look up </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version to look up from <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromNonVersionVals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The non-version value filter <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If &apos;fromNonVersionVals&apos; is non-empty and doesn&apos;t have exactly <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e70f402274e6a74a465ee179a0b61fc" kindref="member">getRepo</ref>&apos;s <computeroutput>getTotalIndices() - 1</computeroutput> elements</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The non-version index values of each matching key, in the order they were filed; empty when none matches </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="213" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1ac0db2c7b93e04dc9c3ee3ef8277da569" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>std::optional&lt; Version &gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::versionOf</definition>
+        <argsstring>(const std::string &amp;asset, const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;nonVersionVals={}) const</argsstring>
+        <name>versionOf</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::versionOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>asset</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;</type>
+          <declname>nonVersionVals</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The version whose rows hold &apos;asset&apos; -- the newest one with a matching key :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+What a value tells about the data it came from: a mod&apos;s ``vb0`` hash says which version of the character it
+was made for
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>asset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The asset to look up </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nonVersionVals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The non-version value filter <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref>; empty for none</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If &apos;nonVersionVals&apos; is non-empty and doesn&apos;t have exactly <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e70f402274e6a74a465ee179a0b61fc" kindref="member">getRepo</ref>&apos;s <computeroutput>getTotalIndices() - 1</computeroutput> elements</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The version, or <computeroutput>std::nullopt</computeroutput> when no row holds &apos;asset&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="232" column="27"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1abf0154f0866cb25fc1e2779f56c35265" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
         <definition>std::optional&lt; std::string &gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::replace</definition>
@@ -426,7 +636,7 @@ Whether to throw if &apos;asset&apos; (or a mapping for it) isn&apos;t found at 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="217" column="27"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="258" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a53acfeee2b9c39370d1312ae99637689" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</type>
@@ -528,7 +738,7 @@ names have data at the queried version
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="242" column="32"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="283" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a045ec005d9787d97d8acd5fedb84899f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -544,7 +754,7 @@ names have data at the queried version
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="248" column="25"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="289" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e70f402274e6a74a465ee179a0b61fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_mod_dict_assets" kindref="compound">ModDictAssets</ref>&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt; &amp;</type>
@@ -559,7 +769,7 @@ names have data at the queried version
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="253" column="33"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="294" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1af89593939d32cd68d893dae4b22947d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::string &gt;, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt; &amp;</type>
@@ -574,7 +784,44 @@ names have data at the queried version
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="258" column="38"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="299" column="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hashes_1a35011ad5e7b65b2999fbc6103faa6605" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::string, int &gt;</type>
+        <definition>std::pair&lt; std::string, int &gt; AGRemapCore::Hashes::generationOf</definition>
+        <argsstring>(const std::string &amp;hashType)</argsstring>
+        <name>generationOf</name>
+        <qualifiedname>AGRemapCore::Hashes::generationOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hashType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The hash type a generation of it is filed as, and which generation: ``(&quot;bangsDiffuse&quot;, 0)`` for
+``&quot;bangsDiffuse&quot;``, ``1`` for its :cpp:member:`LiveSuffix` (``&quot;bangsDiffuseLive&quot;``), ``2``, ``3``, ... for
+its :cpp:member:`OldSuffix`, ``Old2``, ... -- so every hash a texture has had can be read as the one type
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hashType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash type, as the table files it </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The base type and the generation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/Hashes.h" line="109" column="30" bodyfile="src/model/assets/Hashes.cpp" bodystart="69" bodyend="80"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -626,7 +873,7 @@ for any table not backed by named indices :raw-html:`&lt;br /&gt;` :raw-html:`&l
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="274" column="27" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="274" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="323" column="27" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="323" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a079af5420aefa3286f05d662d46a446b" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt;, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</type>
@@ -640,7 +887,7 @@ for any table not backed by named indices :raw-html:`&lt;br /&gt;` :raw-html:`&l
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="275" column="32" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="275" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="324" column="32" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="324" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a07c2957893d1932b649f29f6702a6071" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; std::string, std::vector&lt; VersionBucket &gt;, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</type>
@@ -658,7 +905,7 @@ see the class-level note on how (and why) this is built
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="284" column="32" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="284" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="333" column="32" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="333" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -674,7 +921,7 @@ see the class-level note on how (and why) this is built
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="286" column="18"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="335" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1ad7398e7c9ca99a32c5abff110facd0c9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::vector&lt; std::string &gt; &gt;</type>
@@ -696,7 +943,7 @@ see the class-level note on how (and why) this is built
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="287" column="27"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="336" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1aab5be6556c035009d3af76e4cc452f37" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; InternalKeyResult &gt;</type>
@@ -727,7 +974,42 @@ see the class-level note on how (and why) this is built
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="294" column="27"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="343" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1acb7f4e0840c8662b31aaeaed16443b74" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; InternalKeysResult &gt;</type>
+        <definition>std::optional&lt; InternalKeysResult &gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::matchingKeys</definition>
+        <argsstring>(const std::string &amp;asset, const std::optional&lt; Version &gt; &amp;fromVersion, const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;fromNonVersionVals, bool firstOnly, bool errorOnNotFound) const</argsstring>
+        <name>matchingKeys</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::matchingKeys</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>asset</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>fromVersion</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;</type>
+          <declname>fromNonVersionVals</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>firstOnly</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>errorOnNotFound</declname>
+        </param>
+        <briefdescription>
+<para>The walk behind <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1aab5be6556c035009d3af76e4cc452f37" kindref="member">getKeyInternal</ref> and <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a8112e8dbaf19b2d813590e889e66e014" kindref="member">getKeys</ref>: the first version, newest first from &apos;fromVersion&apos;, with a candidate passing the filter, and its passing candidates <ndash/> only the first of them when &apos;firstOnly&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="350" column="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -790,27 +1072,34 @@ the same way: a bare ``Hashes()`` is fully populated), which is why :cpp:member:
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/assets/Hashes.h" line="54" column="5" bodyfile="include/AGRemapCore/model/assets/Hashes.h" bodystart="54" bodyend="69"/>
+    <location file="include/AGRemapCore/model/assets/Hashes.h" line="55" column="5" bodyfile="include/AGRemapCore/model/assets/Hashes.h" bodystart="55" bodyend="110"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1af01ebd5fb65cfaa3e967c46d84aa450e" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>addMap</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e95cdb3162613cf5bb5530cea603d1a" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>addRepoRows</name></member>
+      <member refid="class_a_g_remap_core_1_1_hashes_1ac08da4d711a950386e9d88a062bc290b" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>age</name></member>
+      <member refid="class_a_g_remap_core_1_1_hashes_1a35011ad5e7b65b2999fbc6103faa6605" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>generationOf</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a936849fbb63c5ac026b0f605e9bf4a88" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>get</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a045ec005d9787d97d8acd5fedb84899f" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>getFromAssets</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>getKey</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1aab5be6556c035009d3af76e4cc452f37" prot="private" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>getKeyInternal</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a8112e8dbaf19b2d813590e889e66e014" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>getKeys</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1af89593939d32cd68d893dae4b22947d9" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>getMap</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e70f402274e6a74a465ee179a0b61fc" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>getRepo</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a390fe6691c965210ff4b7682b7cd32b3" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>hasFrom</name></member>
       <member refid="class_a_g_remap_core_1_1_hashes_1a7f7a99f6a243315b5600036b3a862f08" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>Hashes</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a07c2957893d1932b649f29f6702a6071" prot="private" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>keys_</name></member>
+      <member refid="class_a_g_remap_core_1_1_hashes_1aa5b47d829d44de81224c125ded257d78" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>LiveSuffix</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a079af5420aefa3286f05d662d46a446b" prot="private" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>map_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1acb7f4e0840c8662b31aaeaed16443b74" prot="private" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>matchingKeys</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab735cc18f1788a268316d0ed60ae9544" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>ModMappedAssets</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1afb387b5ab1d7d05660b4388431e6486b" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>nonVersionIndexNames</name></member>
+      <member refid="class_a_g_remap_core_1_1_hashes_1a5b4b91dcd6897a55ee509414de0131a3" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>OldSuffix</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1aeae6b17af7c0b58c046021bb4af2a9dd" prot="private" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>rebuildKeys</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1abf0154f0866cb25fc1e2779f56c35265" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>replace</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a53acfeee2b9c39370d1312ae99637689" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>replaceAll</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1abbf8953ecadf9a2e8dfa5a17e7477823" prot="private" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>repo_</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ad7398e7c9ca99a32c5abff110facd0c9" prot="private" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>resolveToAssetNames</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ac0db2c7b93e04dc9c3ee3ef8277da569" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>versionOf</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

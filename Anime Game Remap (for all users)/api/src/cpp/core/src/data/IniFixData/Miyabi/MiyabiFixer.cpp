@@ -15,7 +15,6 @@
 
 #include "AGRemapCore/constants/IniComments.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
-#include "AGRemapCore/data/IniParseBuilderData.h"
 
 
 namespace AGRemapCore {
@@ -61,11 +60,18 @@ namespace AGRemapCore {
         legs.srcTexcoordStride = 20;
         legs.targetTexcoordStride = 20;
         legs.textures = outfitTextures;
+        // The skin's Body draws have the stocking material switched off in their ps-cb3, and no texture edit
+        // switches it on: bound to Miyabi's own Legs table, per pass (the maintainer's choice, 2026-10-27). Rows
+        // 29, 30, 97, 102, 105, 120, 124 and 127 change between sessions and scenes and are pinned at their
+        // character-menu values -- an update risk
+        legs.frozenBuffers = {{"ps-cb3", {{"51840.1", "LegsMainCb3"}, {"51840.2", "LegsOutlineCb3"}}}};
 
         ZZMIFixerConfig::Component hair;
         hair.name = "Hair";
         hair.target = "Hair";
         hair.slots = {{"a", "0", "0", 14916}, {"b", "15132", "14916", 6702}};
+        // Her clasp plate and gold charms: objects the game draws for her base outfit only
+        hair.extraObjects = {{"HairAccessory1", "ef64351c", 72, 240}, {"HairAccessory2", "4b465238", 96, 144}};
 
         ZZMIFixerConfig::Component hairShadow;
         hairShadow.name = "HairShadow";
@@ -80,14 +86,13 @@ namespace AGRemapCore {
         // MiyabiBlossom's Dress palette sits ~4 cm off its Body palette, so those draws go back to the Dress
         config.crossSlotDraws = {{"Body", "Legs"}};
 
+        // The main and outline pixel shaders of her (and the skin's) Body, Legs and Hair draws
+        config.passFilters = {{"MainPS", "a24c103adbe204f1", "51840.1"}, {"OutlinePS", "a9f95d035488717a", "51840.2"}};
+
         config.copyPreamble = IniComments::GIMIObjMergerPreamble;
         return config;
     }
 
-
-    IniParseBuilder::Factory IniParseBuilderFuncs::miyabi3_2() {
-        return makeZZMIParser(miyabiBlossomConfig());
-    }
 
     IniFixBuilder::Factory IniFixBuilderFuncs::miyabiBlossomDress3_2() {
         return makeZZMIFixer(miyabiBlossomConfig(), "Body");

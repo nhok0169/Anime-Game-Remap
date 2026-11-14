@@ -76,7 +76,9 @@ PyIfTemplate::TreeKind parseTreeKind(const std::string &s) {
 
 
 void initCppIfTemplate(pybind11::module_ &m) {
-    py::class_<PyIfTemplate>(m, "IfTemplate", R"doc(
+    // py::smart_holder, as the parts are: a wrapper of a section the library has freed is then invalidated so it
+    // raises when used (see PyObjectLifetime.h) -- under the default holder pybind11 would read raw memory instead
+    py::class_<PyIfTemplate, py::smart_holder>(m, "IfTemplate", R"doc(
 Data for storing information about a `section`_ in a .ini file
 
 .. note::
@@ -198,9 +200,51 @@ suffix: :class:`str`
         .def("rebuild", &PyIfTemplate::rebuild,
     py::doc(R"doc(Updates the parse tree and the reference to other sections that this object calls)doc"))
 
+        .def("removeEmptyBlocks", &PyIfTemplate::removeEmptyBlocks,
+    py::doc(R"doc(
+Removes every ``if`` block with no line in any of its branches -- ``if`` to ``endif``, and an outer block left empty by
+an inner one's removal too -- and :meth:`rebuild`\s when one went. Eg. after the lines of a `section`_ copied elsewhere
+were cut down to the ones the copy needs
+
+Returns
+-------
+:class:`bool`
+    Whether a block was removed
+    )doc"))
+
         .def("refreshPartIds", &PyIfTemplate::refreshPartIds,
     py::doc(R"doc(Regenerates the ids for the parts)doc"))
 
+        .def("firstVal", &PyIfTemplate::firstVal, py::arg("key"), py::doc(R"doc(
+The first value of 'key' in this `section`_'s own parts, in the order they are written: whatever branch it sits
+in, and without following ``run =``. The value comes back stripped
+
+Parameters
+----------
+key: :class:`str`
+    The key to look up
+
+Returns
+-------
+Optional[:class:`str`]
+    The value, or ``None`` when no part has the key
+        )doc"))
+        .def("firstValMatching", [](const PyIfTemplate& self, py::function match) {
+            return self.firstValMatching([&match](const std::string& key) { return match(key).cast<bool>(); });
+        }, py::arg("match"), py::doc(R"doc(
+Like :meth:`firstVal`, for the first key 'match' accepts in each part -- for a key whose spelling varies, such as
+one a mod's author wrote (see :meth:`IniNamingTools.sameKey`)
+
+Parameters
+----------
+match: Callable[[:class:`str`], :class:`bool`]
+    Whether a key is the one wanted
+
+Returns
+-------
+Optional[:class:`str`]
+    The value, or ``None`` when no part has such a key
+        )doc"))
         .def("deepcopy", &PyIfTemplate::deepcopy, py::arg("newPartIds") = true,
     py::doc(R"doc(
 Performs a deep copy on the object

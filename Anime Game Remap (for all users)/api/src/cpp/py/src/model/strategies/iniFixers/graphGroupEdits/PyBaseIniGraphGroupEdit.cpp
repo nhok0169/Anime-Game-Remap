@@ -17,6 +17,7 @@
 #include <utility>
 
 #include "AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h"
+#include "AGRemapCore/model/files/IniFile.h"
 
 
 PyBaseIniGraphGroupEdit::GraphId parseGraphId(const py::object &id) {
@@ -55,6 +56,12 @@ Base class for a filter that edits a group of caller/callee graphs across many .
 
         .def(py::init<>())
 
+        .def_readwrite("name", &PyBaseIniGraphGroupEdit::name, R"doc(
+:class:`str`: The edit's name as a step of a fixer's list -- how a user finds a step in the list
+:meth:`CppIniFixFactory.withList` hands them. Empty (the default) for an unnamed step; a :class:`GraphVarApply` is named after the
+variable it makes
+        )doc")
+
         // Deliberately routed through self.attr("edit") rather than bound to the C++
         // BaseIniGraphGroupEdit::editFromIni (which calls this->edit(...) as a *C++* virtual
         // call): with no trampoline in play, a pure-Python subclass overriding only 'edit' has no
@@ -62,8 +69,17 @@ Base class for a filter that edits a group of caller/callee graphs across many .
         // run the no-op base implementation. See PyBaseRegEdit.cpp's identical comment.
         .def("editFromIni", [](py::object self, py::list graphGroups, const py::object &ini,
                                const py::object &modType, const std::string &modName) {
-            // 'ini' is deliberately unused -- exactly as in the pure-Python original.
-            (void)ini;
+            // An edit built in C++ whose class has no Python class of its own reaches Python as this
+            // base: it runs its own C++ editFromIni,
+            // handed the core IniFile, as it would from C++
+            if (py::type::of(self).is(py::type::of<PyBaseIniGraphGroupEdit>())) {
+                AGRC::IniFile* coreIni = py::isinstance<AGRC::IniFile>(ini) ? ini.cast<AGRC::IniFile*>() : nullptr;
+                PyIniGraphGroups groups(graphGroups);
+                self.cast<PyBaseIniGraphGroupEdit&>().editFromIni(groups, coreIni, nullptr, modName);
+                return py::object(std::move(graphGroups));
+            }
+
+            // Otherwise 'ini' is unused -- exactly as in the pure-Python original.
             return self.attr("edit")(std::move(graphGroups), modType, modName);
         }, py::arg("graphGroups"), py::arg("ini"), py::arg("modType"), py::arg("modName") = "", py::doc(R"doc(
 Edits a group of caller/callee graphs with state info from 'ini'
@@ -93,10 +109,13 @@ List[:class:`IniGraphGroup`]
     The resultant group of graphs that got editted
         )doc"))
 
-        .def("edit", [](PyBaseIniGraphGroupEdit &self, py::list graphGroups, const py::object &modType, const std::string &modName) {
-            (void)self;
+        .def("edit", [](py::object self, py::list graphGroups, const py::object &modType, const std::string &modName) {
             (void)modType;
-            (void)modName;
+            // an edit built in C++ runs its own C++ edit (see editFromIni)
+            if (py::type::of(self).is(py::type::of<PyBaseIniGraphGroupEdit>())) {
+                PyIniGraphGroups groups(graphGroups);
+                self.cast<PyBaseIniGraphGroupEdit&>().edit(groups, nullptr, modName);
+            }
             return graphGroups;
         }, py::arg("graphGroups"), py::arg("modType"), py::arg("modName") = "", py::doc(R"doc(
 Edits a group of caller/callee graphs

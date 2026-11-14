@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::GraphCollect::GraphSettings</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a47965155c594e09ecaf3629d89897c79" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_collect_1aa042978dcc4bf3fb3dd9a21c66aba641" kindref="member">ByGraph</ref>&lt; std::vector&lt; K &gt; &gt;</type>
+        <definition>ByGraph&lt;std::vector&lt;K&gt; &gt; AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;::GraphSettings::keys</definition>
+        <argsstring></argsstring>
+        <name>keys</name>
+        <qualifiedname>AGRemapCore::GraphCollect::GraphSettings::keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" line="310" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a695647b559cf5d59a5be9380ec319060" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_collect_1aa042978dcc4bf3fb3dd9a21c66aba641" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_graph_collect_1ab049a2b6e6c6a9fb7b74aacca893dfc9" kindref="member">KeyMatch</ref> &gt;</type>
+        <definition>ByGraph&lt;KeyMatch&gt; AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;::GraphSettings::keyMatches</definition>
+        <argsstring></argsstring>
+        <name>keyMatches</name>
+        <qualifiedname>AGRemapCore::GraphCollect::GraphSettings::keyMatches</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" line="311" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a0ff23ba60ef5758718b7322d64dac5f7" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_collect_1aa042978dcc4bf3fb3dd9a21c66aba641" kindref="member">ByGraph</ref>&lt; std::vector&lt; K &gt; &gt;</type>
+        <definition>ByGraph&lt;std::vector&lt;K&gt; &gt; AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;::GraphSettings::contextKeys</definition>
+        <argsstring></argsstring>
+        <name>contextKeys</name>
+        <qualifiedname>AGRemapCore::GraphCollect::GraphSettings::contextKeys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" line="312" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a9a32d5c738ba590394ca445ac775a020" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_collect_1aa042978dcc4bf3fb3dd9a21c66aba641" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_graph_collect_1a038158d532306a8d24eaf4c0b113679b" kindref="member">PartPredicate</ref> &gt;</type>
+        <definition>ByGraph&lt;PartPredicate&gt; AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;::GraphSettings::partPredicates</definition>
+        <argsstring></argsstring>
+        <name>partPredicates</name>
+        <qualifiedname>AGRemapCore::GraphCollect::GraphSettings::partPredicates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" line="313" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a4d407242c3d859162ad4477f2fab783a" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_collect_1aa042978dcc4bf3fb3dd9a21c66aba641" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_graph_collect_1a8ac12024697fd21f67bae43d41cccc00" kindref="member">ValPredicate</ref> &gt;</type>
+        <definition>ByGraph&lt;ValPredicate&gt; AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;::GraphSettings::valPredicates</definition>
+        <argsstring></argsstring>
+        <name>valPredicates</name>
+        <qualifiedname>AGRemapCore::GraphCollect::GraphSettings::valPredicates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" line="314" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a30528e68a34d19dc5d95e6b440b20e53" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_collect_1aa042978dcc4bf3fb3dd9a21c66aba641" kindref="member">ByGraph</ref>&lt; bool &gt;</type>
+        <definition>ByGraph&lt;bool&gt; AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;::GraphSettings::trackKeys</definition>
+        <argsstring></argsstring>
+        <name>trackKeys</name>
+        <qualifiedname>AGRemapCore::GraphCollect::GraphSettings::trackKeys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" line="315" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1ad6a69d247081f777d43e060d277c9944" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_collect_1aa042978dcc4bf3fb3dd9a21c66aba641" kindref="member">ByGraph</ref>&lt; std::optional&lt; <ref refid="class_a_g_remap_core_1_1_graph_collect_1a1f09b56b4e2bd709d6db8bd2a67a9ded" kindref="member">KeySet</ref> &gt; &gt;</type>
+        <definition>ByGraph&lt;std::optional&lt;KeySet&gt; &gt; AGRemapCore::GraphCollect&lt; K, V, KeyHash, KeyEqual &gt;::GraphSettings::keysToTrack</definition>
+        <argsstring></argsstring>
+        <name>keysToTrack</name>
+        <qualifiedname>AGRemapCore::GraphCollect::GraphSettings::keysToTrack</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" line="316" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" line="309" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h" bodystart="309" bodyend="317"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a0ff23ba60ef5758718b7322d64dac5f7" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollect::GraphSettings</scope><name>contextKeys</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a695647b559cf5d59a5be9380ec319060" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollect::GraphSettings</scope><name>keyMatches</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a47965155c594e09ecaf3629d89897c79" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollect::GraphSettings</scope><name>keys</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1ad6a69d247081f777d43e060d277c9944" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollect::GraphSettings</scope><name>keysToTrack</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a9a32d5c738ba590394ca445ac775a020" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollect::GraphSettings</scope><name>partPredicates</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a30528e68a34d19dc5d95e6b440b20e53" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollect::GraphSettings</scope><name>trackKeys</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_collect_1_1_graph_settings_1a4d407242c3d859162ad4477f2fab783a" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphCollect::GraphSettings</scope><name>valPredicates</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

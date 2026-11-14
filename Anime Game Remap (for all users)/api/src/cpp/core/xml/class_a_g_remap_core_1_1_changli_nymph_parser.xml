@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/ChangliNymph/ChangliNymphParser.h" line="31" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/ChangliNymph/ChangliNymphParser.h" line="32" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -33,7 +33,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/ChangliNymph/ChangliNymphParser.h" line="36" column="45" bodyfile="src/data/IniParseData/ChangliNymph/ChangliNymphParser.cpp" bodystart="33" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseData/ChangliNymph/ChangliNymphParser.h" line="37" column="45" bodyfile="src/data/IniParseData/ChangliNymph/ChangliNymphParser.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_changli_nymph_parser_1af7957ee883267df488e10180c078f808" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" kindref="compound">WWMIParserConfig</ref></type>
+        <definition>WWMIParserConfig AGRemapCore::ChangliNymphParser::v2_4Config</definition>
+        <argsstring>()</argsstring>
+        <name>v2_4Config</name>
+        <qualifiedname>AGRemapCore::ChangliNymphParser::v2_4Config</qualifiedname>
+        <briefdescription>
+<para>The config <ref refid="class_a_g_remap_core_1_1_changli_nymph_parser_1a94b36ae9332b85155bb6486c08aeb0b0" kindref="member">v2_4</ref> builds its parser from (:cpp:func:<computeroutput><ref refid="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" kindref="member">makeWWMIParser</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/ChangliNymph/ChangliNymphParser.h" line="42" column="37" bodyfile="src/data/IniParseData/ChangliNymph/ChangliNymphParser.cpp" bodystart="22" bodyend="32"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -45,10 +60,11 @@ ChangliNymph&apos;s (Changli&apos;s Laurel Nymph skin&apos;s) own ``.ini`` parse
 shape-key overrides by their own hashes. Pair this with :cpp:class:`ChangliNymphFixer`
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/ChangliNymph/ChangliNymphParser.h" line="29" column="5" bodyfile="include/AGRemapCore/data/IniParseData/ChangliNymph/ChangliNymphParser.h" bodystart="29" bodyend="37"/>
+    <location file="include/AGRemapCore/data/IniParseData/ChangliNymph/ChangliNymphParser.h" line="30" column="5" bodyfile="include/AGRemapCore/data/IniParseData/ChangliNymph/ChangliNymphParser.h" bodystart="30" bodyend="43"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_changli_nymph_parser_1aef0deab3ecfcc332f08c8371681494cd" prot="public" virt="non-virtual"><scope>AGRemapCore::ChangliNymphParser</scope><name>ChangliNymphParser</name></member>
       <member refid="class_a_g_remap_core_1_1_changli_nymph_parser_1a94b36ae9332b85155bb6486c08aeb0b0" prot="public" virt="non-virtual"><scope>AGRemapCore::ChangliNymphParser</scope><name>v2_4</name></member>
+      <member refid="class_a_g_remap_core_1_1_changli_nymph_parser_1af7957ee883267df488e10180c078f808" prot="public" virt="non-virtual"><scope>AGRemapCore::ChangliNymphParser</scope><name>v2_4Config</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

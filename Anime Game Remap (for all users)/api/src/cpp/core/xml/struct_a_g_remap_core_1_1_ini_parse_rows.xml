@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_parse_rows" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniParseRows</compoundname>
+    <includes refid="_ini_parse_rows_8h" local="no">IniParseRows.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_rows_1a10a5c7a73a23a6a99833749753aa68c3" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniParseRows::Resources</definition>
+        <argsstring></argsstring>
+        <name>Resources</name>
+        <qualifiedname>AGRemapCore::IniParseRows::Resources</qualifiedname>
+        <initializer>= &quot;IniParseRows.resources&quot;</initializer>
+        <briefdescription>
+<para>Every resource <computeroutput>section</computeroutput>_ the mod binds anywhere, by its <computeroutput>filename</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseRows.h" line="32" column="41" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseRows.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_rows_1aa4ecd75e84ef583039ca3a7693fc8af5" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniParseRows::Declared</definition>
+        <argsstring></argsstring>
+        <name>Declared</name>
+        <qualifiedname>AGRemapCore::IniParseRows::Declared</qualifiedname>
+        <initializer>= &quot;IniParseRows.declared&quot;</initializer>
+        <briefdescription>
+<para>Every <computeroutput>section</computeroutput>_&apos;s <computeroutput>filename</computeroutput>, <computeroutput>type</computeroutput>, <computeroutput>format</computeroutput> and <computeroutput>stride</computeroutput> (and any key the parser adds), over the whole file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseRows.h" line="37" column="41" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseRows.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_rows_1ae072c1a06004a981191d68cdc06d4ee6" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniParseRows::Objs</definition>
+        <argsstring></argsstring>
+        <name>Objs</name>
+        <qualifiedname>AGRemapCore::IniParseRows::Objs</qualifiedname>
+        <initializer>= &quot;IniParseRows.objs&quot;</initializer>
+        <briefdescription>
+<para>Every key the <computeroutput>sections</computeroutput>_ of the mod objects the parser chose reach, through <computeroutput>run =</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseRows.h" line="42" column="41" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseRows.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_rows_1aacf65feec57fb8186edad9d215597abf" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniParseRows::Sections</definition>
+        <argsstring></argsstring>
+        <name>Sections</name>
+        <qualifiedname>AGRemapCore::IniParseRows::Sections</qualifiedname>
+        <initializer>= &quot;IniParseRows.sections&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every key of every `section`_ over the whole file. A section ``run =`` reaches is met again under its
+caller, so a reader of one section&apos;s own lines keeps each line once
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseRows.h" line="51" column="41" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseRows.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The names the standard row sets of a parser are filed under (:cpp:func:`IniParseData::collected`) -- the
+:cpp:class:`GraphCollect`\s :cpp:func:`GIMIParser::rowSteps` builds
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseRows.h" line="28" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseRows.h" bodystart="28" bodyend="52"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_rows_1aa4ecd75e84ef583039ca3a7693fc8af5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseRows</scope><name>Declared</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_rows_1ae072c1a06004a981191d68cdc06d4ee6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseRows</scope><name>Objs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_rows_1a10a5c7a73a23a6a99833749753aa68c3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseRows</scope><name>Resources</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_rows_1aacf65feec57fb8186edad9d215597abf" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseRows</scope><name>Sections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

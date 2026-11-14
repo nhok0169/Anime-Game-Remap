@@ -17,6 +17,7 @@
 #include <unordered_set>
 #include <utility>
 
+#include <pybind11/functional.h>
 #include <pybind11/stl.h>
 
 #include "PyGIMISectionClassifier.h"
@@ -28,7 +29,12 @@
 #include "../../iftemplate/PyIfContentPart.h"
 #include "../../iftemplate/PyIfContentPartColour.h"
 #include "../../iftemplate/PyIfTemplate.h"
+#include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
+#include "AGRemapCore/data/IniParseData/GIMITemplateParser.h"
+#include "AGRemapCore/model/files/IniFile.h"
 #include "../iniFixers/graphGroupEdits/resEdits/PyResEdit.h"  // reuses pyCoreModule()
+#include "../iniFixers/PyEditScope.h"
+#include "PyDownloadData.h"
 #include "../PyStrategyFactory.h"  // resolveStrategyModType
 
 
@@ -465,77 +471,20 @@ void PyIniParseContext::setCommandGraphs(py::object graphs) {
 
 
 // ---------------------------------------------------------------------------------------
-// PyIniParseDownloadData
-// ---------------------------------------------------------------------------------------
-
-PyIniParseDownloadData::PyIniParseDownloadData(py::object downloadData): downloadData(std::move(downloadData)) {}
-
-
-std::string PyIniParseDownloadData::name() const {
-    return py::str(downloadData.attr("name")).cast<std::string>();
-}
-
-
-bool PyIniParseDownloadData::refToSection() const {
-    return downloadData.attr("refToSection").cast<bool>();
-}
-
-
-void PyIniParseDownloadData::addToPart(ContentPart &part, const std::string &key, const std::string &val) {
-    downloadData.attr("addToPart")(py::cast(&part, py::return_value_policy::reference), key, val);
-}
-
-
-void PyIniParseDownloadData::addToSection(Section &section, const std::string &key, const std::string &val) {
-    downloadData.attr("addToSection")(py::cast(&section, py::return_value_policy::reference), key, val);
-}
-
-
-PyIniParseDownloadData::Section* PyIniParseDownloadData::createResSection(const std::string &sectionName, Context &ctx) {
-    // 'createResSection' is overridable on the Python side, so the section has to come from there
-    // rather than being rebuilt here -- and it comes back as a Python object that must be stored
-    // as-is, hence addSectionObj rather than the interface's unique_ptr-taking addSection.
-    py::object section = downloadData.attr("createResSection")(py::str(sectionName));
-    return static_cast<PyIniParseContext&>(ctx).addSectionObj(sectionName, std::move(section));
-}
-
-
-void PyIniParseDownloadData::addFileDownload(Context &ctx, const std::string &iniFolder) {
-    auto &pyCtx = static_cast<PyIniParseContext&>(ctx);
-    py::object download = downloadData.attr("download");
-    if (download.is_none()) {
-        return;
-    }
-
-    // Built through the bound core module rather than by constructing AGRC::RemapIniDownload
-    // directly, as the pure-Python original did.
-    //
-    // A FRESH FileDownload per parse, not the DownloadData's own: RemapIniDownload takes its
-    // FileDownload by unique_ptr, so handing it the caller's object DISOWNED it -- the parser's own
-    // DownloadData was left holding a dead Python object, and the second parse (or anything else
-    // reading 'download.filename') raised "Python instance was disowned". A copy is exactly
-    // equivalent: FileDownload is its url, filename and cache flag, and the binding has no
-    // trampoline, so a Python subclass could not have overridden anything to lose.
-    py::module_ core = pyCoreModule();
-    py::object fresh = core.attr("FileDownload")(download.attr("url"), download.attr("filename"), download.attr("cache"));
-    pyCtx.addFileDownloadObj(core.attr("RemapIniDownload")(py::str(iniFolder), download.attr("filename"), fresh));
-}
-
-
-// ---------------------------------------------------------------------------------------
 // PyGIMIParser
 // ---------------------------------------------------------------------------------------
 
 PyGIMIParser::PyGIMIParser(py::object iniFile, py::object modObjs, py::object objTargetFuncs, py::object downloads,
                              py::object commandEdits, bool makeGlobalGraph, bool disjointModObjs, bool trackKeys,
-                             py::object keysToTrack, std::optional<int> modTypeId):
-    Core(nullptr, {}, {}, {}, nullptr, makeGlobalGraph, disjointModObjs, trackKeys, std::nullopt, makeParserConfig()),
+                             py::object keysToTrack, std::optional<int> modTypeId, bool deferCommandEdits):
+    Core(nullptr, {}, {}, {}, {}, makeGlobalGraph, disjointModObjs, trackKeys, std::nullopt, makeParserConfig()),
     ctxImpl(iniFile, modTypeId),
     modObjsObj(modObjs.is_none() ? py::object(py::set()) : std::move(modObjs)),
     objTargetFuncsObj(objTargetFuncs.is_none() ? py::object(py::list()) : std::move(objTargetFuncs)),
     downloadsObj(downloads.is_none() ? py::object(py::dict()) : std::move(downloads)),
-    commandEditsObj(std::move(commandEdits)),
+    commandEditsObj(commandEdits.is_none() ? py::object(py::list()) : std::move(commandEdits)),
     keysToTrackObj(std::move(keysToTrack)) {
+    this->deferCommandEdits = deferCommandEdits;
 
     // The context is a member, so it can only be handed to the core base after that base has
     // already been constructed -- hence nullptr above plus this.
@@ -591,7 +540,7 @@ void PyGIMIParser::refresh() {
         }
     }
 
-    downloadAdapters_.clear();
+    // Borrowed: 'downloadsObj' keeps every download alive for as long as the derived map points at it
     this->downloads.clear();
     if (!downloadsObj.is_none()) {
         for (auto item : downloadsObj.cast<py::dict>()) {
@@ -599,9 +548,7 @@ void PyGIMIParser::refresh() {
             auto &inner = this->downloads[modObj];
 
             for (auto regItem : py::reinterpret_borrow<py::object>(item.second).cast<py::dict>()) {
-                auto adapter = std::make_unique<PyIniParseDownloadData>(py::reinterpret_borrow<py::object>(regItem.second));
-                inner[py::str(regItem.first)] = adapter.get();
-                downloadAdapters_.push_back(std::move(adapter));
+                inner[py::str(regItem.first)] = py::reinterpret_borrow<py::object>(regItem.second).cast<PyIniParseDownloadDataCore*>();
             }
         }
     }
@@ -609,10 +556,57 @@ void PyGIMIParser::refresh() {
 
 
 void PyGIMIParser::editCommands() {
-    if (commandEditsObj.is_none()) {
+    // The core's runCommandEdits, with every edit going back through Python
+    if (!this->deferCommandEdits) {
+        PyIniGraphGroups::KeepScope keep(graphKeeper);
+        this->readDeclaredResources();
+        runStepsFromPy(commandEditsObj, this->parseData());
         return;
     }
 
+    // Kept alive until the data is first asked for, by this parser, which owns the data
+    deferredStepsObj = commandEditsObj.is_none() ? py::list() : py::list(commandEditsObj);
+    if (py::len(deferredStepsObj) > 0) {
+        this->parseData().defer([this](AGRC::IniParseData& data) {
+            py::gil_scoped_acquire gil;
+            PyIniGraphGroups::KeepScope keep(graphKeeper);
+            this->readDeclaredResources();
+            runStepsFromPy(deferredStepsObj, data);
+        });
+    }
+}
+
+
+void PyGIMIParser::runStepsFromPy(const py::object& steps, AGRC::IniParseData& data) {
+    if (steps.is_none()) {
+        return;
+    }
+
+    // every callable of the list reads the .ini and the data it files into (EditScope)
+    PyListScope scope(ctxImpl.ini, ctxImpl.modType(), py::cast(&data, py::return_value_policy::reference));
+
+    for (auto item : steps) {
+        py::object step = py::reinterpret_borrow<py::object>(item);
+        if (step.is_none()) {
+            continue;
+        }
+
+        editGroupsFromPy(step);
+        if (py::isinstance<AGRC::IParseResult>(step)) {
+            step.cast<AGRC::IParseResult*>()->fileInto(data);
+        } else if (py::isinstance<AGRC::BaseIniGraphGroupEdit<std::string, std::string>>(step)) {
+            // an edit built in C++ that files a result reaches Python as its base class
+            const auto* result = dynamic_cast<const AGRC::IParseResult*>(
+                step.cast<AGRC::BaseIniGraphGroupEdit<std::string, std::string>*>());
+            if (result != nullptr) {
+                result->fileInto(data);
+            }
+        }
+    }
+}
+
+
+void PyGIMIParser::editGroupsFromPy(const py::object& edit) {
     py::object modType = ctxImpl.modType();
     std::string modTypeName = ctxImpl.modTypeName();
 
@@ -623,8 +617,7 @@ void PyGIMIParser::editCommands() {
     py::list graphGroups;
     graphGroups.append(py::cast(std::make_unique<PyIniGraphGroup>(ctxImpl.commandGraphs().cast<py::dict>())));
 
-    py::object result = commandEditsObj.attr("editFromIni")(graphGroups, ctxImpl.ini, modType,
-                                                             py::arg("modName") = modTypeName);
+    py::object result = edit.attr("editFromIni")(graphGroups, ctxImpl.ini, modType, py::arg("modName") = modTypeName);
 
     if (result.is_none() || py::len(result) == 0) {
         return;
@@ -812,6 +805,7 @@ void PyGIMIParser::clear() {
     // the view still holds every graph this parser ever built. Those borrow the .ini file's sections,
     // so they must not outlive a clear() -- see PyIniGraphGroups::releaseDetached's own warning.
     ctxImpl.groups.releaseDetached();
+    graphKeeper = py::list();
 
     tempKwargs.clear();
 }
@@ -885,9 +879,9 @@ downloads: Optional[Dict[Tuple[:class:`str`, :class:`str`], Dict[:class:`str`, :
 
     **Default**: ``None``
 
-commandEdits: Optional[:class:`GraphGroupEdit`]
-    Any further edits to the parsed caller/callee graphs for ``TextureOverride`` related command
-    `sections`_ :raw-html:`<br />` :raw-html:`<br />`
+commandEdits: Optional[List[:class:`BaseIniGraphGroupEdit`]]
+    The parser's edits, run on the parsed command graphs in order -- see :attr:`commandEdits`. ``None`` for none
+    :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
 
@@ -918,14 +912,15 @@ keysToTrack: Optional[Set[:class:`str`]]
 
     cls.def(py::init([](py::object iniFile, py::object modObjs, py::object objTargetFuncs, py::object downloads,
                          py::object commandEdits, bool makeGlobalGraph, bool disjointModObjs, bool trackKeys,
-                         py::object keysToTrack, std::optional<int> modTypeId) {
+                         py::object keysToTrack, std::optional<int> modTypeId, bool deferCommandEdits) {
         return std::make_unique<PyGIMIParser>(std::move(iniFile), std::move(modObjs), std::move(objTargetFuncs),
                                                 std::move(downloads), std::move(commandEdits), makeGlobalGraph,
-                                                disjointModObjs, trackKeys, std::move(keysToTrack), modTypeId);
+                                                disjointModObjs, trackKeys, std::move(keysToTrack), modTypeId,
+                                                deferCommandEdits);
     }), py::arg("iniFile"), py::arg("modObjs") = py::none(), py::arg("objTargetFuncs") = py::none(),
         py::arg("downloads") = py::none(), py::arg("commandEdits") = py::none(), py::arg("makeGlobalGraph") = true,
         py::arg("disjointModObjs") = true, py::arg("trackKeys") = true, py::arg("keysToTrack") = py::none(),
-        py::arg("modTypeId") = py::none())
+        py::arg("modTypeId") = py::none(), py::arg("deferCommandEdits") = false)
 
        // Trailing and defaulted, so no existing call site had to change. Readable because
        // PyGIMIFixer picks it up off its parser, exactly as it already picks up '_iniFile'.
@@ -984,8 +979,56 @@ List[:class:`IniGraphGroup`]
        .def_readwrite("downloads", &PyGIMIParser::downloadsObj,
             py::doc(R"doc(Dict[Tuple[:class:`str`, :class:`str`], Dict[:class:`str`, :class:`DownloadData`]]: The files to download if the mod is missing some required files)doc"))
 
-       .def_readwrite("commandEdits", &PyGIMIParser::commandEditsObj,
-            py::doc(R"doc(Optional[:class:`GraphGroupEdit`]: Any further edits to the parsed caller/callee graphs for ``TextureOverride`` related command `sections`_)doc"))
+       .def_property("commandEdits", [](PyGIMIParser &self) {
+            return self.commandEditsObj;
+        }, [](PyGIMIParser &self, py::object edits) {
+            self.commandEditsObj = edits.is_none() ? py::object(py::list()) : std::move(edits);
+        }, py::doc(R"doc(List[:class:`BaseIniGraphGroupEdit`]: The parser's edits, run on the parsed command graphs in this order (``None`` sets an empty list) :raw-html:`<br />` :raw-html:`<br />`
+
+The one list of what a parser does after building its graphs: an edit may change the graphs, or only read them and
+keep what it found (:class:`GraphCollect` is the primitive). An edit that is an :class:`IParseResult` files its
+result in :attr:`parseData` right after it runs. When they run is :attr:`deferCommandEdits`)doc"))
+
+       .def_readwrite("deferCommandEdits", &PyGIMIParser::deferCommandEdits,
+            py::doc(R"doc(:class:`bool`: Whether :attr:`commandEdits` run on the first ask of :attr:`parseData` rather than during :meth:`parse` :raw-html:`<br />` :raw-html:`<br />`
+
+For edits that only READ and may open many files, when most parsed .ini files are never asked about. Deferred edits
+run after :meth:`parse` has returned its graphs, so an edit that changes them has no effect on that result.
+**Default**: ``False``)doc"))
+
+       .def_static("textureOverrides", [](AGRC::IniFile &ini) { return AGRC::GIMITemplateParser::textureOverrides(ini); },
+            py::arg("ini"), py::doc(R"doc(The texture overrides of 'ini' (``hash = <a game texture>`` / ``this = Resource...``): per `section`_
+with a ``hash``, its first ``this =`` in the `section`_ itself :raw-html:`<br />` :raw-html:`<br />`
+
+Each comes as its hash, lowercased, and the row of its ``this =``: the resource is :attr:`GraphCollect.Row.value`,
+and the `section`_'s own ``if`` blocks around it are :attr:`GraphCollect.Row.guards` and
+:attr:`GraphCollect.Row.condition`
+
+Parameters
+----------
+ini: :class:`IniFile`
+    The ``.ini`` file
+
+Returns
+-------
+list[tuple[:class:`str`, :class:`GraphCollect.Row`]]
+    The overrides, in the order of the `sections`_)doc"))
+
+       .def("resourceNamed", &PyGIMIParser::resourceNamed, py::arg("value"),
+            py::doc(R"doc(The resource `section`_ 'value' names, as a binding names one, under the name it is declared by -- or empty :raw-html:`<br />` :raw-html:`<br />`
+
+Without regard to case, as 3DMigoto reads a section name: a mod may declare ``[ResourceTexCoordBuffer]`` and bind
+``vb2 = ResourceTexcoordBuffer``. Known once :attr:`commandEdits` start running
+
+Parameters
+----------
+value: :class:`str`
+    The value
+
+Returns
+-------
+:class:`str`
+    The resource section's name as declared, or empty)doc"))
 
        .def_readwrite("tempKwargs", &PyGIMIParser::tempKwargs,
             py::doc(R"doc(Dict[:class:`str`, Any]: Temporary user-defined keyword variables for the user to use. Only cleared by :meth:`clear`)doc"))
@@ -1041,7 +1084,7 @@ caller/callee graphs for `sections`_ related to download resources :raw-html:`<b
             return self.ctxImpl.groups.graphToPy(self.globalGraph());
         }, py::doc(R"doc(Optional[:class:`IniSectionGraph`]: The graph for the entire .ini file)doc"))
 
-       .def_property_readonly("_sectionTargets", [](PyGIMIParser &self) {
+       .def_property_readonly("sectionTargets", [](PyGIMIParser &self) {
             py::dict result;
             for (const auto &entry : self.sectionTargets()) {
                 py::list names;

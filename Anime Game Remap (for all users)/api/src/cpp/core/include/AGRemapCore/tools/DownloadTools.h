@@ -19,6 +19,7 @@
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 
@@ -200,6 +201,25 @@ namespace AGRemapCore {
                                         const std::string& kind, const std::string& ext);
 
             /**
+             * @brief
+             @rst
+             The folder a game version's downloads are filed in: the version with its dots as underscores, eg.
+             ``3_7`` for ``3.7`` -- so a download's folder is read off the version of the asset row it comes from
+             (a texture's :cpp:class:`Hashes` row, say) rather than written out
+             @endrst
+             *
+             * @param version The game version
+             */
+            static std::string versionFolder(const Version& version);
+
+            /**
+             * @brief The whole URL of a download: \ref downloadFolder, then \ref urlPath's six-argument form
+             */
+            static std::string url(const std::string& game, const std::string& charFolder,
+                                   const std::string& versionFolder, const std::string& prefix,
+                                   const std::string& kind, const std::string& ext);
+
+            /**
              * @brief A plain buffer resource's `KVPs`_ -- ``type = Buffer`` and the given stride
              *
              * @param stride The byte size of one vertex in the buffer
@@ -211,18 +231,6 @@ namespace AGRemapCore {
              */
             static KVPs ibResourceKVPs();
 
-            /**
-             * @brief
-             @rst
-             The two `KVPs`_ that must follow a **vb1** blend reference: ``handling = skip`` and
-             ``draw = <vertexCount>,0`` :raw-html:`<br />` :raw-html:`<br />`
-
-             Without them the downloaded blend is bound but never drawn from
-             @endrst
-             *
-             * @param vertexCount How many vertices the drawn model has -- see \ref vertexCountOf
-             */
-            static KVPs blendRefKVPs(long long vertexCount);
     };
 
 

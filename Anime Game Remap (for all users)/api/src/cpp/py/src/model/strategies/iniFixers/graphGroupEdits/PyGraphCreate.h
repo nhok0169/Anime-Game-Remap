@@ -59,6 +59,21 @@ class PyGraphCreate: public AGRC::GraphCreate<std::string, std::string> {
         py::object graphObj;
 
         /**
+         * @brief The graph #graphObj gave for the current edit -- itself, or what it returned when it is callable
+         */
+        py::object graphOfResult;
+
+        /**
+         * @brief The exact `Python`_ object given for ``sectionsOf`` -- a callable, or ``None``
+         */
+        py::object sectionsOfObj;
+
+        /**
+         * @brief What #sectionsOfObj returned in the current edit, kept alive while the edit reads it
+         */
+        py::list sectionsOfResults;
+
+        /**
          * @brief Constructs a new graph-adding edit
          *
          * @param graphIdObj The Python ``(iniIndex, componentName, objectName)`` tuple
@@ -69,7 +84,7 @@ class PyGraphCreate: public AGRC::GraphCreate<std::string, std::string> {
         PyGraphCreate(py::object graphIdObj, py::object graphObj, bool minimal, bool newPartIds);
 
         /**
-         * @brief Re-derives the core's \ref graphId and \ref graph from #graphIdObj and #graphObj
+         * @brief Re-derives the core's \ref graphId, \ref graph and \ref sectionsOf from #graphIdObj, #graphObj and #sectionsOfObj
          */
         void refresh();
 };

@@ -151,8 +151,6 @@
         </childnode>
         <childnode refid="114" relation="include">
         </childnode>
-        <childnode refid="115" relation="include">
-        </childnode>
         <childnode refid="116" relation="include">
         </childnode>
         <childnode refid="117" relation="include">
@@ -470,18 +468,6 @@
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
-        </childnode>
-      </node>
-      <node id="115">
-        <label>AGRemapCore/model/files/IniScan.h</label>
-        <link refid="_ini_scan_8h"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
         </childnode>
       </node>
       <node id="40">

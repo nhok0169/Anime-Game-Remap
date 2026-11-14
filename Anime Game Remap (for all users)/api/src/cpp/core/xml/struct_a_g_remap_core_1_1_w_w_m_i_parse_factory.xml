@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_parse_factory" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIParseFactory</compoundname>
+    <includes refid="_w_w_m_i_parser_8h" local="no">WWMIParser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parse_factory_1ac90a387f4a05f24c76fd5e31b8f366ee" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" kindref="compound">WWMIParserConfig</ref></type>
+        <definition>WWMIParserConfig AGRemapCore::WWMIParseFactory::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>AGRemapCore::WWMIParseFactory::config</qualifiedname>
+        <briefdescription>
+<para>The character&apos;s config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="279" column="26" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_w_w_m_i_parse_factory_1a3cfa369ddb4d99e6664c10896b225a11" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_parser" kindref="compound">BaseIniParser</ref>&lt;&gt; &gt;</type>
+        <definition>std::shared_ptr&lt; BaseIniParser&lt;&gt; &gt; AGRemapCore::WWMIParseFactory::operator()</definition>
+        <argsstring>(IniFile *iniFile, std::optional&lt; int &gt; modTypeId) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::WWMIParseFactory::operator()</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>iniFile</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; int &gt;</type>
+          <declname>modTypeId</declname>
+        </param>
+        <briefdescription>
+<para>Builds the parser, at the <computeroutput>.ini</computeroutput> file&apos;s own version, else the config&apos;s <ndash/> see :cpp:type:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="285" column="25" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="920" bodyend="927"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What :cpp:func:`makeWWMIParser` returns, as an :cpp:type:`IniParseBuilder::Factory`: the character&apos;s config and the
+call that builds a parser from it -- so the config can be read back (:cpp:func:`WWMIParserConfig::ofFactory`)
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::WWMIParseFactory</label>
+        <link refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_factory"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::WWMIParserConfig</label>
+        <link refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>textures</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::WWMITextureFacts</label>
+        <link refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="275" column="5" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="275" bodyend="286"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_factory_1ac90a387f4a05f24c76fd5e31b8f366ee" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParseFactory</scope><name>config</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parse_factory_1a3cfa369ddb4d99e6664c10896b225a11" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParseFactory</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -14,10 +14,25 @@
 #ifndef AGRemapCore_ResRegCollect_TPP
 #define AGRemapCore_ResRegCollect_TPP
 
+#include <type_traits>
 #include <utility>
+
+#include "AGRemapCore/model/IniNamingTools.h"
 
 
 namespace AGRemapCore {
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename ResRegCollect<K, V, KeyHash, KeyEqual>::ResPredicate ResRegCollect<K, V, KeyHash, KeyEqual>::skipsKeywords(std::vector<std::string> keywords) {
+        return [keywords = std::move(keywords)](const K&, const V& value, const IterData&) {
+            for (const std::string& keyword : keywords) {
+                if (IniNamingTools::hasKeywordPrefix(value, keyword)) {
+                    return false;
+                }
+            }
+            return true;
+        };
+    }
+
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     ResRegCollect<K, V, KeyHash, KeyEqual>::ResRegCollect(ByGraph<K> srcRegs, tsl::ordered_map<std::string, ResEdit*> resEdits):
         srcRegs(std::move(srcRegs)), resEdits(std::move(resEdits)) {}
@@ -30,55 +45,6 @@ namespace AGRemapCore {
         for (const auto& entry : resEdits) {
             if (entry.second != nullptr) {
                 entry.second->clear();
-            }
-        }
-    }
-
-
-    template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    void ResRegCollect<K, V, KeyHash, KeyEqual>::collectFromGraphGroup(GraphGroups& graphGroups, const GraphId& srcModObj,
-                                                                        const K& srcReg) {
-        Graph* graph = Base::getGraph(graphGroups, srcModObj, false);
-        if (graph == nullptr) {
-            return;
-        }
-
-        auto partPredicateIt = partPredicates.find(srcModObj);
-        auto resPredicateIt = resPredicates.find(srcModObj);
-        auto keysToTrackIt = keysToTrack.find(srcModObj);
-
-        std::optional<std::unordered_set<K, KeyHash, KeyEqual>> currentKeysToTrack;
-        if (keysToTrackIt != keysToTrack.end()) {
-            currentKeysToTrack = keysToTrackIt->second;
-        }
-
-        bool currentTrackKeys = trackKeysGlobal;
-        if (!trackKeysIsGlobal) {
-            auto trackKeysIt = trackKeys.find(srcModObj);
-            currentTrackKeys = (trackKeysIt == trackKeys.end()) ? false : trackKeysIt->second;
-        }
-
-        auto parts = graph->iterByContentPart(1, currentTrackKeys, currentKeysToTrack);
-        while (parts.next()) {
-            IterData& iterData = parts.value();
-            auto* part = iterData.part;
-
-            // No predicate means no restriction at all -- std::nullopt, not an empty range list
-            // (which would restrict everything away).
-            std::optional<typename Graph::ContentPart::RangeSpec> partRanges;
-            if (partPredicateIt != partPredicates.end() && partPredicateIt->second) {
-                partRanges = partPredicateIt->second(iterData).ranges;
-            }
-
-            std::vector<std::pair<long long, V>> regVals = part->getValsWithInds(srcReg, true, partRanges);
-
-            for (const auto& regVal : regVals) {
-                if (resPredicateIt != resPredicates.end() && resPredicateIt->second &&
-                    !resPredicateIt->second(srcReg, regVal.second, iterData)) {
-                    continue;
-                }
-
-                resCalls[srcModObj][iterData.sectionName][part->id()].push_back(ResCall{regVal.first, regVal.second});
             }
         }
     }
@@ -232,11 +198,109 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename ResRegCollect<K, V, KeyHash, KeyEqual>::GraphSettings ResRegCollect<K, V, KeyHash, KeyEqual>::takeGraphSettings() {
+        GraphSettings settings;
+        settings.srcRegs = std::move(srcRegs);
+        settings.extraSrcRegs = std::move(extraSrcRegs);
+        settings.srcRegMatches = std::move(srcRegMatches);
+        settings.partPredicates = std::move(partPredicates);
+        settings.resPredicates = std::move(resPredicates);
+        settings.remaps = std::move(remaps);
+        settings.trackKeys = std::move(trackKeys);
+        settings.keysToTrack = std::move(keysToTrack);
+        return settings;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    void ResRegCollect<K, V, KeyHash, KeyEqual>::putGraphSettings(GraphSettings settings) {
+        srcRegs = std::move(settings.srcRegs);
+        extraSrcRegs = std::move(settings.extraSrcRegs);
+        srcRegMatches = std::move(settings.srcRegMatches);
+        partPredicates = std::move(settings.partPredicates);
+        resPredicates = std::move(settings.resPredicates);
+        remaps = std::move(settings.remaps);
+        trackKeys = std::move(settings.trackKeys);
+        keysToTrack = std::move(settings.keysToTrack);
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename ResRegCollect<K, V, KeyHash, KeyEqual>::GraphSettings ResRegCollect<K, V, KeyHash, KeyEqual>::inEveryGroup(
+            const GraphSettings& configured, const GraphGroups& graphGroups) const {
+        // group by group, each group's entries in their configured order
+        const auto perGroup = [&graphGroups](const auto& map, auto adjust) {
+            std::remove_cv_t<std::remove_reference_t<decltype(map)>> result;
+            for (std::size_t g = 0; g < graphGroups.size(); ++g) {
+                for (const auto& [id, value] : map) {
+                    GraphId inGroup(g, id.modObj.first, id.modObj.second);
+                    if (Base::getGraph(graphGroups, inGroup, false) != nullptr) {
+                        auto copy = value;
+                        adjust(copy, g, id);
+                        result.emplace(std::move(inGroup), std::move(copy));
+                    }
+                }
+            }
+            return result;
+        };
+        const auto asIs = [](auto&, std::size_t, const GraphId&) {};
+
+        GraphSettings settings;
+        settings.srcRegs = perGroup(configured.srcRegs, asIs);
+        settings.extraSrcRegs = perGroup(configured.extraSrcRegs, asIs);
+        settings.srcRegMatches = perGroup(configured.srcRegMatches, asIs);
+        settings.partPredicates = perGroup(configured.partPredicates, asIs);
+        settings.resPredicates = perGroup(configured.resPredicates, asIs);
+        settings.trackKeys = perGroup(configured.trackKeys, asIs);
+        settings.keysToTrack = perGroup(configured.keysToTrack, asIs);
+
+        // a target keeps its distance from its source's group
+        settings.remaps = perGroup(configured.remaps, [](auto& targets, std::size_t g, const GraphId& configuredSrc) {
+            for (auto it = targets.begin(); it != targets.end();) {
+                const long long index = static_cast<long long>(g) + static_cast<long long>(it->second.id.iniIndex)
+                                        - static_cast<long long>(configuredSrc.iniIndex);
+                if (index < 0) {
+                    it = targets.erase(it);
+                    continue;
+                }
+
+                it.value().id.iniIndex = static_cast<std::size_t>(index);
+                ++it;
+            }
+        });
+        return settings;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename ResRegCollect<K, V, KeyHash, KeyEqual>::GraphGroups& ResRegCollect<K, V, KeyHash, KeyEqual>::editImpl(GraphGroups& graphGroups,
                                                                                                                    Context* ctx,
                                                                                                                    const ModType* modType,
                                                                                                                    const std::string& modName) {
         (void)modType;
+        if (!everyGroup) {
+            return collectAndBuild(graphGroups, ctx, modName);
+        }
+
+        // run on the per-group copies, and put the configured settings back however the run ends
+        GraphSettings configured = takeGraphSettings();
+        putGraphSettings(inEveryGroup(configured, graphGroups));
+        try {
+            collectAndBuild(graphGroups, ctx, modName);
+        } catch (...) {
+            putGraphSettings(std::move(configured));
+            throw;
+        }
+
+        putGraphSettings(std::move(configured));
+        return graphGroups;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename ResRegCollect<K, V, KeyHash, KeyEqual>::GraphGroups& ResRegCollect<K, V, KeyHash, KeyEqual>::collectAndBuild(GraphGroups& graphGroups,
+                                                                                                                          Context* ctx,
+                                                                                                                          const std::string& modName) {
         clear();
 
         bool hasIni = ctx != nullptr && ctx->hasIni();
@@ -260,8 +324,41 @@ namespace AGRemapCore {
         // it is reading.
         const bool copySections = true;
 
-        for (const auto& srcEntry : srcRegs) {
-            collectFromGraphGroup(graphGroups, srcEntry.first, srcEntry.second);
+        // THE COLLECT: every register naming the resource, in every graph searched -- the srcRegs of every
+        // graph first, then the extraSrcRegs, then the registers srcRegMatches accepts. The order is kept:
+        // the graphs' order in resCalls is the order the resources are built and rendered in
+        GraphCollect<K, V, KeyHash, KeyEqual> collect;
+        collect.partPredicates = partPredicates;
+        collect.valPredicates = resPredicates;
+        collect.trackKeysIsGlobal = trackKeysIsGlobal;
+        collect.trackKeysGlobal = trackKeysGlobal;
+        collect.trackKeys = trackKeys;
+        collect.keysToTrack = keysToTrack;
+        for (const auto& [graphId, reg] : srcRegs) {
+            collect.collectKey(graphGroups, graphId, reg);
+        }
+        for (const auto& [graphId, regs] : extraSrcRegs) {
+            for (const K& reg : regs) {
+                collect.collectKey(graphGroups, graphId, reg);
+            }
+        }
+        for (const auto& [graphId, match] : srcRegMatches) {
+            // the registers named outright are searched already
+            std::unordered_set<K, KeyHash, KeyEqual> searched;
+            if (auto named = srcRegs.find(graphId); named != srcRegs.end()) {
+                searched.insert(named->second);
+            }
+            if (auto named = extraSrcRegs.find(graphId); named != extraSrcRegs.end()) {
+                searched.insert(named->second.begin(), named->second.end());
+            }
+
+            for (const K& reg : collect.matchedKeys(graphGroups, graphId, match, std::move(searched))) {
+                collect.collectKey(graphGroups, graphId, reg);
+            }
+        }
+
+        for (const auto& row : collect.rows()) {
+            resCalls[row.graphId][row.section][row.partId].push_back(ResCall{row.line, row.value});
         }
 
         RemappedGraphs remappedGraphsStorage;
@@ -276,6 +373,14 @@ namespace AGRemapCore {
             typename ResEdit::CollectedSections collectedSections;
             collectResourceNames(resEditEntry.first, *resEditEntry.second, collectedSections, graphGroups, remappedGraphs,
                                   hasIni, modName);
+
+            // the resources no register names (extraResources), under the name a collected one would get
+            for (const V& resource : extraResources) {
+                const std::string val = resEditEntry.second->config.fileOf(resource);
+                const std::optional<std::string> newVal = resEditEntry.second->getFixResourceName(val, modName);
+                auto collected = resEditEntry.second->collectResourceName(val, newVal.value_or(val));
+                collectedSections.insert_or_assign(collected.first, collected.second);
+            }
 
             if (hasIni) {
                 resEditEntry.second->buildResources(collectedSections, *ctx, graphGroups, modName, {}, copySections);

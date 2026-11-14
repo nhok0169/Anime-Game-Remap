@@ -15,9 +15,15 @@
 #define AGRemapCore_GIMIParser_TPP
 
 #include <algorithm>
+#include <stdexcept>
 #include <type_traits>
 
 #include "AGRemapCore/model/IniNamingTools.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCollect.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseRows.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/TextTools.h"
 
@@ -47,13 +53,13 @@ namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
     GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::GIMIParser(Context* ctx, std::vector<ModObj> modObjs, std::vector<ObjTargetFunc> objTargetFuncs,
-                                                     Downloads downloads, GroupEdit* commandEdits, bool makeGlobalGraph, bool disjointModObjs,
+                                                     Downloads downloads, std::vector<GroupEdit*> commandEdits, bool makeGlobalGraph, bool disjointModObjs,
                                                      bool trackKeys, std::optional<std::unordered_set<K, KeyHash, KeyEqual>> keysToTrack,
                                                      ParserConfig config):
         Base(),
-        objTargetFuncs(std::move(objTargetFuncs)), downloads(std::move(downloads)), makeGlobalGraph(makeGlobalGraph),
+        objTargetFuncs(std::move(objTargetFuncs)), downloads(std::move(downloads)), commandEdits(std::move(commandEdits)), makeGlobalGraph(makeGlobalGraph),
         disjointModObjs(disjointModObjs), trackKeys(trackKeys), keysToTrack(std::move(keysToTrack)),
-        ctx_(ctx), commandEdits_(commandEdits), globalGraph_(nullptr), downloadsAdded_(false), config_(std::move(config)) {
+        ctx_(ctx), globalGraph_(nullptr), downloadsAdded_(false), config_(std::move(config)) {
         setModObjs(std::move(modObjs));
     }
 
@@ -116,18 +122,6 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
-    typename GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::GroupEdit* GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::commandEdits() const {
-        return commandEdits_;
-    }
-
-
-    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
-    void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::setCommandEdits(GroupEdit* newCommandEdits) {
-        commandEdits_ = newCommandEdits;
-    }
-
-
-    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
     std::vector<std::pair<typename GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::ModObj, typename GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::Graph*>>
     GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::commandGraphs() const {
         std::vector<GraphMapEntry> result;
@@ -180,6 +174,28 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
     void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::setGlobalGraph(Graph* newGlobalGraph) {
         globalGraph_ = newGlobalGraph;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
+    std::string GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::resourceNamed(const std::string& value) const {
+        const std::string name = IniNamingTools::removeRefPrefix(std::string(StringTools::strip(value)));
+        const auto declared = declaredResources_.find(StringTools::toLower(name));
+        return declared == declaredResources_.end() ? std::string() : declared->second;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
+    void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::readDeclaredResources() {
+        declaredResources_.clear();
+        if (ctx_ == nullptr) {
+            return;
+        }
+        for (const std::string& name : ctx_->sectionNames()) {
+            if (StringTools::startsWith(StringTools::toLower(name), "resource")) {
+                declaredResources_.emplace(StringTools::toLower(name), name);
+            }
+        }
     }
 
 
@@ -647,9 +663,11 @@ namespace AGRemapCore {
             // note on why the `section`_ name is the identity here.
             downloadSection = ctx_->getSection(resourceSectionName);
         } else {
-            downloadSection = downloadData.createResSection(resourceSectionName, *ctx_);
+            downloadSection = ctx_->addSection(resourceSectionName, downloadData.createResSection(resourceSectionName));
             createdDownloadResources_.insert(resourceSectionName);
-            downloadData.addFileDownload(*ctx_, iniFolder);
+            if (std::unique_ptr<IniResource> download = downloadData.createFileDownload(iniFolder)) {
+                ctx_->addFileDownload(std::move(download));
+            }
         }
 
         if (downloadSection == nullptr) {
@@ -866,7 +884,7 @@ namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
     void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::editCommands() {
-        if (commandEdits_ == nullptr || ctx_ == nullptr) {
+        if (ctx_ == nullptr) {
             return;
         }
 
@@ -874,7 +892,41 @@ namespace AGRemapCore {
         // nothing castable to an AGRemapCore::ModType from a still-pure-Python one, the same
         // situation every graphGroupEdits/ caller is in. The pybind11 layer overrides this method
         // and passes the real Python objects instead.
-        commandEdits_->editFromIni(ctx_->graphGroups(), this->iniFile_, nullptr, ctx_->modTypeName());
+        runCommandEdits();
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
+    void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::fileResult(const BaseIniPartEdit& edit, IniParseData& data) {
+        if (const auto* result = dynamic_cast<const IParseResult*>(&edit)) {
+            result->fileInto(data);
+        }
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
+    void GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::runCommandEdits() {
+        if (ctx_ == nullptr || commandEdits.empty()) {
+            return;
+        }
+
+        const auto run = [this, edits = commandEdits](IniParseData& data) {
+            readDeclaredResources();
+            for (GroupEdit* edit : edits) {
+                if (edit != nullptr && ctx_ != nullptr) {
+                    edit->editFromIni(ctx_->graphGroups(), this->iniFile_, nullptr, ctx_->modTypeName());
+                    fileResult(*edit, data);
+                }
+            }
+        };
+
+        // deferred: run where the graphs stand when the data is first asked for -- the context is this
+        // parser's own, and outlives the data it owns
+        if (deferCommandEdits) {
+            this->parseData().defer(run);
+        } else {
+            run(this->parseData());
+        }
     }
 
 

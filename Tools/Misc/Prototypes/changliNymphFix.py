@@ -156,6 +156,8 @@ def textureFacts() -> "FRB.WWMITextureFacts":
     facts.fallbackTextures = {role: h for h, role in files.items() if role not in NoFallback}
     # not a game texture: the skin's own blindfold diffuse in her black (changliNymphBlindfold.py)
     facts.fallbackTextures = {**facts.fallbackTextures, "blindfold": "BlindfoldOnNymph"}
+    facts.regionRoles = {"upperMask", "lowerMask", "faceMask"}
+    facts.readInisBelow = True
     # ...her tattoo's glow texture (the tattoo's own shader cuts its shape out of it), and the game texture her
     # upper-body shader reads at t5 that no draw of the skin's binds (core's ChangliTextures)
     facts.fallbackTextures = {**facts.fallbackTextures, "glow": "21f813ba", "upperShared": "bb73967a",
@@ -233,6 +235,14 @@ def parserConfig(facts) -> "FRB.WWMIParserConfig":
     config = FRB.WWMIParserConfig()
     config.version = "1.1"             # her oldest mesh: a mod of any of her three generations classifies
     config.textures = facts
+    # the blend's vertex group row is chosen by the mod's own geometry -- see WWMIParserConfig.skeletonNumberings
+    N = FRB.SkeletonNumberingProbe.Numbering
+    config.skeletonNumberings = [
+        N("1.1", {b: toCurrent("1.1", b) for b in range(OldSkeletonSlots) if toCurrent("1.1", b) != b}),
+        N("1.2", dict(Renumber12To14)),
+        N("1.4", {}),
+    ]
+    config.referenceBoneCentroids = boneCentroids()
     return config
 
 
@@ -244,14 +254,7 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
     config.sourceVersionByVb0 = {"77975500": "1.1", "5f8aac45": "1.2", "d14bed8b": "1.4"}
     # ...but the vb0 is not what the BONES are numbered by: the community hash tools rewrite a mod's
     # hashes and leave its ids (Changli2 / 7 carry 1.2's vb0 over 1.1's vg windows). So the blend's row
-    # is chosen by the mod's own geometry, Lynae's way
-    N = FRB.WWMIFixerConfig.SkeletonNumbering
-    config.skeletonNumberings = [
-        N("1.1", {b: toCurrent("1.1", b) for b in range(OldSkeletonSlots) if toCurrent("1.1", b) != b}),
-        N("1.2", dict(Renumber12To14)),
-        N("1.4", {}),
-    ]
-    config.referenceBoneCentroids = boneCentroids()
+    # is chosen by the mod's own geometry, Lynae's way -- the parser's skeletonNumberings
     # a mod from before WWMI's merged skeleton (Changli10) holds each component's LOCAL ids
     config.sourceVgMaps = currentVgMaps()
 
@@ -322,13 +325,13 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
         2: SC(2, [B("ps-t0", "faceMask"), B("ps-t1", "faceDiffuse")]),
         # her body shaders read normal / mask / diffuse at t0 / t1 / t2 as the skin's body shader does;
         # the skin's t3 is its glow map (see GAPS)
-        3: SC(4, [B("ps-t0", "upperNormal"), B("ps-t1", "upperMask"), B("ps-t2", "upperDiffuse"), B("ps-t3", "noGlow")]),
-        4: SC(4, [B("ps-t0", "lowerNormal"), B("ps-t1", "lowerMask"), B("ps-t2", "lowerDiffuse"), B("ps-t3", "noGlow")]),
+        3: SC(4, [B("ps-t0", "upperNormal"), B("ps-t1", "upperMask"), B("ps-t2", "upperDiffuse")]),
+        4: SC(4, [B("ps-t0", "lowerNormal"), B("ps-t1", "lowerMask"), B("ps-t2", "lowerDiffuse")]),
         # her coat, drapes and sashes go through the skin's BODY slot, in the body shader's layout with a flat
         # cloth mask: the skin's skirt slot (5) draws with the same shader as her coat in the character menu,
         # but in the overworld with a G-buffer shader whose skirt material cuts away whatever the skirt is not
         # -- every part of hers drawn there vanished outside the menu (Changli4's robe, 2026-10-22)
-        5: SC(4, [B("ps-t0", "coatNormal"), B("ps-t1", "flatClothMask"), B("ps-t2", "coatDiffuse"), B("ps-t3", "noGlow")]),
+        5: SC(4, [B("ps-t0", "coatNormal"), B("ps-t1", "flatClothMask"), B("ps-t2", "coatDiffuse")]),
         6: SC(6, [B("ps-t0", "eyeIris"), B("ps-t1", "eyeMask"), B("ps-t2", "eyeDiffuse")]),
         # her chest flame tattoo, on the skin's body slot too, drawn by its OWN shader below (through the skin's
         # body shader the whole quad drew as a red rectangle on her sternum, in-game audit epoch 1)
@@ -389,43 +392,19 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
     # ---- a slot's OTHER passes: the outlines take an outline / diffuse map at ps-t0, the eye's second
     # pass sets ps-t1 only ----
     config.extraPassRegs = {
-        # her own outline map, brightened for the skin's darker outline tint (outlineGain below)
+        # her own outline map, as it is (a gain for the skin's darker outline tint changed nothing in game, 2026-11-10)
         0: {"f8c96a270bf847dd": [B("ps-t0", "bangsOutline")]},
         4: {"f8c96a270bf847dd": [B("ps-t0", "upperDiffuse", 3), B("ps-t0", "lowerDiffuse", 4), B("ps-t0", "coatOutline", 5)]},
         6: {"e04f4df80ee6b0ab": [B("ps-t1", "eyeHighlight")]},
     }
 
-    noGlow = FRB.WWMIFixerConfig.CreatedTexture()
-    noGlow.role = "noGlow"
-    noGlow.colour = FRB.CppColour(249, 12, 4, 0)
     # cloth in her mask legend, which the skin's body shader reads as hers (her upper body binds her own mask)
     flatClothMask = FRB.WWMIFixerConfig.CreatedTexture()
     flatClothMask.role = "flatClothMask"
     flatClothMask.colour = FRB.CppColour(0, 128, 0, 255)
-    config.createdTextures = [noGlow, flatClothMask]
+    config.createdTextures = [flatClothMask]
 
     config.sourceTextures = facts
-    config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask"}
-
-    # ---- the skin's outline pass multiplies ps-t0 by a material tint (vs-cb5 / ps-cb2 rows 23-24) far darker
-    # than Changli's on the hair and bangs -- (0.547, 0.450, 0.457) and (0.713, 0.586, 0.593) against her
-    # (1, 0.823, 0.835), one ratio on every channel, off two menu frame dumps. Her outline maps bound raw drew
-    # every layered strand's outline shell near black (Changli9's "second shadow ghost"), so they are
-    # brightened by that ratio in linear light, as ChangliFixer.cpp's outlineGainFilter does ----
-    def outlineGain(gain):
-        import numpy as np
-        lut = np.round(255.0 * np.minimum(1.0, (np.arange(256) / 255.0) ** 2.2 * gain) ** (1 / 2.2)).astype(np.uint8)
-
-        def make(ctx):
-            def run(tex):
-                w, h = tex.width, tex.height
-                px = np.frombuffer(bytes(tex.getPixels()), np.uint8).reshape(-1, 4).copy()
-                px[:, :3] = lut[px[:, :3]]
-                tex.setPixels(px.tobytes(), w, h)
-            return run
-        return make
-    E = FRB.WWMIFixerConfig.TexEdit
-    config.texEdits = [E("bangsOutline", "TintGain", outlineGain(1.4035))]
 
     # ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
     R = FRB.WWMIFixerConfig.RegRemoval
@@ -450,12 +429,8 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
     config.cleanTexcoords = True
     config.carryByRegisterRole = True
     # Changli13 draws from mod.ini and binds every texture from Textures/textures.ini
-    config.readInisBelow = True
     # the skin's slots reach bone 263 (264 x 3 float4 = 792), past the 768 default
     config.mergedSkeletonSlots = 1536
-    # INERT for every mod in hand: her slot-4 sources are drawn from the mod's own file (sameFileSection),
-    # so no copy .ini is written; kept so a copy, should one ever be written, shares the skeleton state
-    config.copiesShareSkeleton = True
     # her blend is FOUR influences a vertex (R8G8B8A8 ids + weights) and the skin's draws read EIGHT
     # (R8 x 8 each): unwidened, every vertex was read across its neighbour's bytes and the whole model
     # drew as giant polygons in game (2026-10-20, the library gap this pair found:

@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" line="52" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" line="53" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -33,7 +33,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" line="58" column="43" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp" bodystart="662" bodyend="664"/>
+        <location file="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" line="59" column="43" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp" bodystart="667" bodyend="669"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a1392ca54c01ee27b235cd0ca6bd7ff80" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config" kindref="compound">WWMIFixerConfig</ref></type>
+        <definition>WWMIFixerConfig AGRemapCore::ChisaParfaitFixer::chisa2_8Config</definition>
+        <argsstring>()</argsstring>
+        <name>chisa2_8Config</name>
+        <qualifiedname>AGRemapCore::ChisaParfaitFixer::chisa2_8Config</qualifiedname>
+        <briefdescription>
+<para>The config <ref refid="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a80453746ab78d0b6105edb97efb1e2f5" kindref="member">chisa2_8</ref> builds its fixer from (:cpp:func:<computeroutput><ref refid="namespace_a_g_remap_core_1a211bbd07ca178810a023b1f78ded1dd3" kindref="member">makeWWMIFixer</ref></computeroutput>) <ndash/> to start a variant of the shipped fix from, or to read what it does. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" line="65" column="36" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp" bodystart="180" bodyend="659"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -66,9 +81,10 @@ forward one read backwards:
   no input for, is not bound at all
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" line="50" column="5" bodyfile="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" bodystart="50" bodyend="59"/>
+    <location file="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" line="51" column="5" bodyfile="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" bodystart="51" bodyend="66"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a80453746ab78d0b6105edb97efb1e2f5" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaParfaitFixer</scope><name>chisa2_8</name></member>
+      <member refid="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a1392ca54c01ee27b235cd0ca6bd7ff80" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaParfaitFixer</scope><name>chisa2_8Config</name></member>
       <member refid="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a328dc59a34656b9e52efce89ff936002" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaParfaitFixer</scope><name>ChisaParfaitFixer</name></member>
     </listofallmembers>
   </compounddef>

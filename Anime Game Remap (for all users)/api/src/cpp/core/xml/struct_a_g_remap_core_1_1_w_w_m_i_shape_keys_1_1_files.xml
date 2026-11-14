@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_files" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIShapeKeys::Files</compoundname>
+    <includes refid="_w_w_m_i_shape_keys_8h" local="no">WWMIShapeKeys.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_files_1ac45d5811a6457c3847690e448bc6f18a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIShapeKeys::Files::offsets</definition>
+        <argsstring></argsstring>
+        <name>offsets</name>
+        <qualifiedname>AGRemapCore::WWMIShapeKeys::Files::offsets</qualifiedname>
+        <briefdescription>
+<para><computeroutput>ShapeKeyOffset</computeroutput>: each slot&apos;s first entry </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" line="52" column="29" bodyfile="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_files_1a3dbf6dd441b1747d3d2fb37f7ad74f72" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIShapeKeys::Files::vertexIds</definition>
+        <argsstring></argsstring>
+        <name>vertexIds</name>
+        <qualifiedname>AGRemapCore::WWMIShapeKeys::Files::vertexIds</qualifiedname>
+        <briefdescription>
+<para><computeroutput>ShapeKeyVertexId</computeroutput>: each entry&apos;s vertex </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" line="57" column="29" bodyfile="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_files_1ab47ebd54901a843fb21ba18aa73c61ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIShapeKeys::Files::vertexOffsets</definition>
+        <argsstring></argsstring>
+        <name>vertexOffsets</name>
+        <qualifiedname>AGRemapCore::WWMIShapeKeys::Files::vertexOffsets</qualifiedname>
+        <briefdescription>
+<para><computeroutput>ShapeKeyVertexOffset</computeroutput>: each entry&apos;s offset </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" line="62" column="29" bodyfile="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>The three buffers of one set of shape keys. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" line="48" column="13" bodyfile="include/AGRemapCore/model/buffers/WWMIShapeKeys.h" bodystart="48" bodyend="63"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_files_1ac45d5811a6457c3847690e448bc6f18a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIShapeKeys::Files</scope><name>offsets</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_files_1a3dbf6dd441b1747d3d2fb37f7ad74f72" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIShapeKeys::Files</scope><name>vertexIds</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_shape_keys_1_1_files_1ab47ebd54901a843fb21ba18aa73c61ad" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIShapeKeys::Files</scope><name>vertexOffsets</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

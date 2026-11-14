@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_skeleton_numbering_probe" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::SkeletonNumberingProbe</compoundname>
+    <includes refid="_skeleton_numbering_probe_8h" local="no">SkeletonNumberingProbe.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering" prot="public">AGRemapCore::SkeletonNumberingProbe::Numbering</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result" prot="public">AGRemapCore::SkeletonNumberingProbe::Result</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_skeleton_numbering_probe_1acb53d6c180b964ad2f80eb670541c132" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::SkeletonNumberingProbe::MinVertices</definition>
+        <argsstring></argsstring>
+        <name>MinVertices</name>
+        <qualifiedname>AGRemapCore::SkeletonNumberingProbe::MinVertices</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>The fewest vertices on disputed bones <ref refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1a88efd66aa3b6c437ebe51e3f58a7b1bb" kindref="member">probe</ref> gives an answer from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" line="84" column="42" bodyfile="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_skeleton_numbering_probe_1a88efd66aa3b6c437ebe51e3f58a7b1bb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_result" kindref="compound">Result</ref> &gt;</type>
+        <definition>std::optional&lt; SkeletonNumberingProbe::Result &gt; AGRemapCore::SkeletonNumberingProbe::probe</definition>
+        <argsstring>(const std::string &amp;positionFile, const std::string &amp;blendFile, const std::optional&lt; std::string &gt; &amp;vertexVGFile, const std::vector&lt; Numbering &gt; &amp;numberings, const std::unordered_map&lt; long long, std::array&lt; double, 3 &gt; &gt; &amp;centroids)</argsstring>
+        <name>probe</name>
+        <qualifiedname>AGRemapCore::SkeletonNumberingProbe::probe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>positionFile</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blendFile</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>vertexVGFile</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_skeleton_numbering_probe_1_1_numbering" kindref="compound">Numbering</ref> &gt; &amp;</type>
+          <declname>numberings</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; long long, std::array&lt; double, 3 &gt; &gt; &amp;</type>
+          <declname>centroids</declname>
+        </param>
+        <briefdescription>
+<para>Which numbering the mod&apos;s blend is in. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>positionFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s <computeroutput>Position.buf</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>blendFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s <computeroutput>Blend.buf</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vertexVGFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod&apos;s 16-bit bone ids, read in place of the blend&apos;s own. <bold>Default</bold>: none </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>numberings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The candidate numberings <ndash/> at least two </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>centroids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Each bone&apos;s rest-pose centroid on the character&apos;s own model, keyed by its reference id</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The answer, or <computeroutput>std::nullopt</computeroutput> when fewer than two numberings are given, a buffer cannot be read or its size does not fit the others, or fewer than <ref refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1acb53d6c180b964ad2f80eb670541c132" kindref="member">MinVertices</ref> vertices sit on disputed bones </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" line="98" column="34" bodyfile="src/model/buffers/SkeletonNumberingProbe.cpp" bodystart="41" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Tells which of several numberings a mod&apos;s blend gives its bone ids in, from the mod&apos;s own geometry
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A character whose skeleton was renumbered between game versions has mods whose blends name bones
+by an older numbering, while the community hash tools rewrite a mod&apos;s hashes and keep its bone
+ids -- so the hashes cannot say which numbering a blend is in. The geometry can: for every vertex
+whose heaviest bone (over half its weight) is an id the numberings disagree on, each numbering is
+scored by the vertex&apos;s distance to that bone&apos;s rest-pose centroid on the character&apos;s own model, and
+the numbering with the smallest median distance wins :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The buffers are a Wuthering Waves (WWMI) mod&apos;s: ``Position.buf`` of three 32-bit floats a vertex,
+``Blend.buf`` of the bone ids then the weights of each vertex, 8 bits each, and optionally the
+16-bit ids of a mod past 256 bones (``BlendRemapVertexVG.buf``), read in place of the blend&apos;s own
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" line="44" column="5" bodyfile="include/AGRemapCore/model/buffers/SkeletonNumberingProbe.h" bodystart="44" bodyend="102"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1acb53d6c180b964ad2f80eb670541c132" prot="public" virt="non-virtual"><scope>AGRemapCore::SkeletonNumberingProbe</scope><name>MinVertices</name></member>
+      <member refid="class_a_g_remap_core_1_1_skeleton_numbering_probe_1a88efd66aa3b6c437ebe51e3f58a7b1bb" prot="public" virt="non-virtual"><scope>AGRemapCore::SkeletonNumberingProbe</scope><name>probe</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

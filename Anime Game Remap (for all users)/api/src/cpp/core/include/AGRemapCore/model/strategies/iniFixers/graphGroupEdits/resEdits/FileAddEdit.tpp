@@ -82,6 +82,7 @@ namespace AGRemapCore {
             }
 
             auto resource = std::make_unique<RemapFileAddResource>(ctx.iniFolder(), srcPath, entry.second.bytes, resType);
+            resource->makeBytes = entry.second.makeBytes;
             resource->logger = ctx.logger();
             ctx.storeResource(fileKey, std::move(resource));
             return;

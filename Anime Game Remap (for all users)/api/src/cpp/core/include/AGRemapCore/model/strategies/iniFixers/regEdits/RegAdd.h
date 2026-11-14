@@ -77,6 +77,18 @@ namespace AGRemapCore {
             bool latest;
 
             /**
+             * @brief
+             @rst
+             Whether a `KVP`_ of \ref vals that 'part' already holds -- the same key and the same value, both
+             compared case-insensitively and ignoring surrounding whitespace -- is left out, so a part visited
+             twice gets the `KVPs`_ once :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: ``false``
+             @endrst
+             */
+            bool skipExisting;
+
+            /**
              * @brief Constructs a new bulk-add register edit
              *
              * @param vals
@@ -90,8 +102,9 @@ namespace AGRemapCore {
 
              **Default**: ``true``
              @endrst
+             * @param skipExisting Whether a `KVP`_ 'part' already holds is left out. **Default**: ``false``
              */
-            explicit RegAdd(std::vector<std::pair<K, V>> vals = {}, bool latest = true);
+            explicit RegAdd(std::vector<std::pair<K, V>> vals = {}, bool latest = true, bool skipExisting = false);
 
             /**
              * @brief

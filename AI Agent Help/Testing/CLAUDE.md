@@ -419,6 +419,33 @@ The 9 extra Linux failures are deterministic (identical sets across repeated run
   It is a `tsl::ordered_map` now, insertion (= branch) order everywhere. Core's own two readers fold
   the children with an `and` and a set union, which is why no fix output ever differed.
 
+**THE SAME CLASS OF BUG AGAIN, PLUS TWO MORE THAT ONLY LINUX SEES (2026-11-13).** CI's Linux Unit Tester
+failed 11 tests (8 failures, 3 errors) that pass on Windows, and a local Linux build then segfaulted on a 12th.
+Three different causes:
+
+- **Part ids followed the hash order of `IniSectionGraph::sections()`.** A graph copy (`deepCopySections`)
+  and `refreshPartIds` handed out new ids while walking that `unordered_map`, and `GraphCollect::matchedKeys`
+  promised "first appearance" while walking it too. Readers sort by part id as if it were file order
+  (`IniParseData::collectedSections`, `ResGroupCollect`), so on libstdc++ the two Resources rows came out
+  reversed. They all walk `IniSectionGraph::inPartIdOrder` now (each section's smallest part id, then its name),
+  so a copy keeps the original's file order on every platform. **Any new code that walks `sections()` where
+  order matters uses it.** Its one visible effect on Windows: the fix's `[Resource...RemapDL]` sections in
+  WWMI mods came out in a new order (50 `.ini` files of the 174-folder sweep, every one the same lines
+  reordered; GI/ZZZ 97 SAME).
+- **A test that writes a file named like an `.ini` path.** `os.path.join(folder, r"Textures\A.dds")` makes
+  ONE file named `Textures\A.dds` on Linux, beside the `.ini`, while the library correctly reads the `.ini`'s
+  `filename = Textures\A.dds` as `Textures/A.dds` and finds nothing. Split such a path on `\\` in the test.
+- **A range-`for` over a member reference of a temporary** -- `for (x : value.cast<PyReplaceList>().values())`
+  in `PyRegNewVals.cpp`. The temporary dies before the loop; MSVC and CI's build happened to survive it, a
+  local GCC build segfaulted. It is the `parseIniReplaceVals` bug of 2026-09-13 again: hold the cast in a local.
+
+**Running the Linux suite locally:** build into a native-filesystem tree (Setup's `cmake ... -B ~/cbuildlin-...`),
+copy `core.cpython-*.so` and the four `Cy*.cpython-*.so` into the package, set `LD_LIBRARY_PATH` to the curl and
+z3 lib folders, and REMOVE the `.so`s afterwards. Cython modules from before 2026-09-20 import numpy eagerly and
+fail `test_numpyIsNotImportedJustByImportingThePackage` -- that one is your stale build, not the change. A run
+that prints nothing has crashed: check the exit code (139 is a segfault) and run with `python -X faulthandler -u`.
+And WSL's `/tmp` is wiped when the instance idles out between tool calls, so keep helper scripts in `~`.
+
 ### The numbers above are a *snapshot*, and the migration moves them constantly
 
 As of **2026-09-03** the Windows suite is **1859 tests / 0 failures / 105 errors**. Do not treat

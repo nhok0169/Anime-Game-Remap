@@ -27,6 +27,17 @@
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
+namespace {
+    py::list blendElementsToPy(std::vector<std::unique_ptr<AGRC::BufElementType>> elements) {
+        py::list result;
+        for (auto& element : elements) {
+            result.append(py::cast(std::move(element)));
+        }
+
+        return result;
+    }
+}
+
 
 namespace {
 
@@ -198,5 +209,178 @@ Union[Optional[:class:`str`], :class:`bytearray`]
     If ``fixedBlendFile`` is ``None`` and no correction was needed, returns ``None``. If
     ``fixedBlendFile`` is ``None`` and correction was needed, returns the fixed bytes. Otherwise
     returns ``fixedBlendFile`` itself
+        )doc"))
+
+        .def_static("byteElements", [](std::size_t influences) {
+            return blendElementsToPy(AGRC::BlendFile::byteElements(influences));
+        }, py::arg("influences"), py::doc(R"doc(
+The elements of a `blend`_ line of one-byte slots: 'influences' one-byte ids under ``BLENDINDICES``, then 'influences'
+one-byte weights under ``BLENDWEIGHT`` (formatted ``R8G8B8A8_UINT`` when four wide, else ``R8_UINT``)
+
+Parameters
+----------
+influences: :class:`int`
+    How many (id, weight) slots each vertex carries
+
+Returns
+-------
+List[:class:`BufElementType`]
+    The elements
+        )doc"))
+
+        .def_static("idElements", [](std::size_t count, std::size_t idBytes) {
+            return blendElementsToPy(AGRC::BlendFile::idElements(count, idBytes));
+        }, py::arg("count"), py::arg("idBytes"), py::doc(R"doc(
+The elements of a line of ids alone: 'count' unsigned ids of 'idBytes' bytes each (1, 2 or 4) under ``BLENDINDICES``,
+and no weights -- eg. a blend's true bone ids kept beside it, or a table of bone ids, one a line
+
+Parameters
+----------
+count: :class:`int`
+    How many ids a line carries
+
+idBytes: :class:`int`
+    The bytes of one id
+
+Returns
+-------
+List[:class:`BufElementType`]
+    The elements
+        )doc"))
+
+        .def_static("influencesOf", &AGRC::BlendFile::influencesOf, py::arg("blendPath"), py::arg("vertices"),
+                    py::arg("bytesPerInfluence") = 2, py::doc(R"doc(
+How many (id, weight) slots a vertex of the `blend`_ at 'blendPath' carries, from the file's SIZE: its bytes per vertex
+over 'bytesPerInfluence'
+
+Parameters
+----------
+blendPath: :class:`str`
+    The `blend`_ file
+
+vertices: :class:`int`
+    How many vertices the mesh has (eg. :meth:`CppBufFile.linesOf` its position buffer)
+
+bytesPerInfluence: :class:`int`
+    The bytes of one (id, weight) slot :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``2``, a one-byte id and weight
+
+Returns
+-------
+Optional[:class:`int`]
+    The slots a vertex, or ``None`` when the sizes say nothing: no vertices, a file that does not divide by them, or
+    bytes a vertex that do not divide into slots
+        )doc"))
+
+        .def_static("defaultElements", [](std::size_t influences) {
+            return blendElementsToPy(AGRC::BlendFile::defaultElements(influences));
+        }, py::arg("influences") = 4, py::doc(R"doc(
+The ordinary `blend`_ layout: 'influences' 32-bit float weights then 'influences' 32-bit signed indices
+
+Parameters
+----------
+influences: :class:`int`
+    How many (weight, index) slots each vertex carries :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``4``
+
+Returns
+-------
+List[:class:`BufElementType`]
+    The elements
+        )doc"))
+
+        .def_static("elementsWithInfluences", [](const std::vector<AGRC::BufElementType*> &elements, std::size_t influences) {
+            std::vector<std::unique_ptr<AGRC::BufElementType>> owned;
+            owned.reserve(elements.size());
+            for (const AGRC::BufElementType* element : elements) {
+                owned.push_back(std::make_unique<AGRC::BufElementType>(*element));
+            }
+            return blendElementsToPy(AGRC::BlendFile::elementsWithInfluences(owned, influences));
+        }, py::arg("elements"), py::arg("influences"), py::doc(R"doc(
+A `blend`_ layout made 'influences' wide: a copy of 'elements' whose weight and index elements each carry 'influences'
+of their first data type, the other elements unchanged
+
+Parameters
+----------
+elements: List[:class:`BufElementType`]
+    The layout
+
+influences: :class:`int`
+    How many (weight, index) slots each vertex should carry
+
+Returns
+-------
+List[:class:`BufElementType`]
+    The new layout
+        )doc"))
+
+        .def("influences", &AGRC::BlendFile::influences, py::doc(R"doc(
+How many (weight, index) slots each vertex carries: the shorter of the two elements, or 0 when the file has neither
+
+Returns
+-------
+:class:`int`
+    The number of slots
+        )doc"))
+
+        .def("setInfluences", [](AGRC::BlendFile &self, std::size_t influences, std::optional<std::vector<std::vector<long long>>> bones) {
+            return self.setInfluences(influences, bones.has_value() ? &*bones : nullptr);
+        }, py::arg("influences"), py::arg("bones") = py::none(), py::doc(R"doc(
+Makes every vertex carry 'influences' (weight, index) slots, in place
+
+* **Wider**: each vertex keeps its slots and gains new ones at the end: bone 0 at weight 0, which no shader weighs
+* **Narrower**: slots of one vertex naming the same bone are merged first, their weights summed onto the first of them;
+  then the vertex keeps its 'influences' heaviest slots (a tie goes to the lower slot), their weights scaled so the
+  vertex's total is what it was. Integer weights are scaled with rounding, the remainder put on the heaviest slot, and a
+  sum is capped at the largest value the weight's type holds; float weights are scaled exactly
+* **The same width**: nothing changes
+
+Which bone a slot names is its index -- or, given 'bones', the value at the same slot there: a buffer of ids beside the
+blend that names the bones for it. The slots kept are returned, so such a buffer can keep the same ones
+(:meth:`keepSlots`). The new bytes are :attr:`data`
+
+Parameters
+----------
+influences: :class:`int`
+    How many (weight, index) slots each vertex should carry
+
+bones: Optional[List[List[:class:`int`]]]
+    For each vertex, the bone each slot names, or ``None`` to read it from the indices :raw-html:`<br />`
+    :raw-html:`<br />`
+
+    **Default**: ``None``
+
+Returns
+-------
+List[List[Optional[:class:`int`]]]
+    For each vertex, the slot each new slot came from -- ``None`` for a new, empty slot
+        )doc"))
+
+        .def_static("keepSlots", [](const py::bytes &ids, std::size_t idBytes, std::size_t fromSlots, const AGRC::BlendFile::KeptSlots &kept) {
+            return vecToPyBytes(AGRC::BlendFile::keepSlots(pyBytesToVec(ids), idBytes, fromSlots, kept));
+        }, py::arg("ids"), py::arg("idBytes"), py::arg("fromSlots"), py::arg("kept"), py::doc(R"doc(
+A buffer of ids beside a `blend`_ -- each vertex 'fromSlots' unsigned little-endian ids of 'idBytes' bytes -- rewritten
+to the slots :meth:`setInfluences` kept. A new slot is id 0
+
+Parameters
+----------
+ids: :class:`bytes`
+    The buffer
+
+idBytes: :class:`int`
+    The bytes of one id
+
+fromSlots: :class:`int`
+    How many ids each vertex has in 'ids'
+
+kept: List[List[Optional[:class:`int`]]]
+    What :meth:`setInfluences` returned
+
+Returns
+-------
+:class:`bytes`
+    The rewritten buffer
         )doc"));
 }

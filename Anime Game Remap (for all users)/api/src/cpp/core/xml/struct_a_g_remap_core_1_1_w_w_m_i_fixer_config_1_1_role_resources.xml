@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::RoleResources</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1a2a791058d45a0ff6f51cab6a7185c330" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::pair&lt; std::string, int &gt;, std::string &gt;</type>
+        <definition>std::map&lt;std::pair&lt;std::string, int&gt;, std::string&gt; AGRemapCore::WWMIFixerConfig::RoleResources::ofSlotRole</definition>
+        <argsstring></argsstring>
+        <name>ofSlotRole</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::RoleResources::ofSlotRole</qualifiedname>
+        <briefdescription>
+<para>(role, source component) -&gt; the resource that binds the mod&apos;s own file for it </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1606" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1606" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1ad4d75d2ab999c8f4f3af7a6e2fea2cc9" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; AGRemapCore::WWMIFixerConfig::RoleResources::ofRole</definition>
+        <argsstring></argsstring>
+        <name>ofRole</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::RoleResources::ofRole</qualifiedname>
+        <briefdescription>
+<para>Role -&gt; what stands in for it where no file of the mod&apos;s serves: a texture the fix invents (:cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab323d24041a1319407c23388e5b63e4e" kindref="member">createdTextures</ref></computeroutput>), else the source&apos;s own game texture, downloaded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1612" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1612" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1ad0b310c45236b4f49c8e6b6cfccf5113" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; AGRemapCore::WWMIFixerConfig::RoleResources::fileOfRole</definition>
+        <argsstring></argsstring>
+        <name>fileOfRole</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::RoleResources::fileOfRole</qualifiedname>
+        <briefdescription>
+<para>Role -&gt; the mod&apos;s file chosen for it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1617" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1617" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1adbeac3bd6622134054b105db0f42a0e1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_declared_file" kindref="compound">DeclaredFile</ref> &gt;</type>
+        <definition>std::vector&lt;DeclaredFile&gt; AGRemapCore::WWMIFixerConfig::RoleResources::declared</definition>
+        <argsstring></argsstring>
+        <name>declared</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::RoleResources::declared</qualifiedname>
+        <briefdescription>
+<para>The resources the fix declares for the mod&apos;s files, in the order they were named. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1622" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1622" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1a787c74ce1cca84a6f67659a5356b8cb0" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_download" kindref="compound">Download</ref> &gt;</type>
+        <definition>std::map&lt;std::string, Download&gt; AGRemapCore::WWMIFixerConfig::RoleResources::downloads</definition>
+        <argsstring></argsstring>
+        <name>downloads</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::RoleResources::downloads</qualifiedname>
+        <briefdescription>
+<para>Role -&gt; the download standing in for it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1627" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1627" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1a3cdff462313edd710ea3fba0fd46a83a" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::RoleResources::leftToGame</definition>
+        <argsstring></argsstring>
+        <name>leftToGame</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::RoleResources::leftToGame</qualifiedname>
+        <briefdescription>
+<para>The roles left to the game: a flat texture the parser refused, in :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a8fbbc392c95ce74ff3c822cab15901f4" kindref="member">flatLeftToGame</ref></computeroutput>, with nothing else of the mod&apos;s. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1633" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1633" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1a6b351ff965ad9d7800376e5d5ba4a86b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::RoleResources::notes</definition>
+        <argsstring></argsstring>
+        <name>notes</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::RoleResources::notes</qualifiedname>
+        <briefdescription>
+<para>What the decision has to say, for the log, in order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1638" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1638" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1a8d4d397a88e375e29473f4daa4008f4c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::WWMIFixerConfig::RoleResources::of</definition>
+        <argsstring>(const std::string &amp;role, int component, bool ownShader=false) const</argsstring>
+        <name>of</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::RoleResources::of</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ownShader</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The resource bound for &apos;role&apos; on &apos;component&apos;: its own, else -- on a component its own shader draws -- the
+download itself, else the stand-in
+</verbatim> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The role </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source component </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ownShader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the component&apos;s own :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1aa1b6a7a373ca8fc31230b53c3c057f7a" kindref="member">SourceComponent::shader</ref></computeroutput> draws it, which reads a download raw rather than a texture edit of it </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resource, or <computeroutput>std::nullopt</computeroutput> for a role nothing binds </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1652" column="27" bodyfile="src/data/IniFixData/WWMIFixerConfigs.cpp" bodystart="168" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1a108efb85f216f2e4802c571f003d76cc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::WWMIFixerConfig::RoleResources::shared</definition>
+        <argsstring>(const std::string &amp;role, const std::set&lt; int &gt; &amp;drawn, const std::set&lt; int &gt; &amp;ownShader={}) const</argsstring>
+        <name>shared</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::RoleResources::shared</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role</declname>
+        </param>
+        <param>
+          <type>const std::set&lt; int &gt; &amp;</type>
+          <declname>drawn</declname>
+        </param>
+        <param>
+          <type>const std::set&lt; int &gt; &amp;</type>
+          <declname>ownShader</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The resource the first of &apos;drawn&apos; to bind &apos;role&apos; binds (#of)
+</verbatim> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The role </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>drawn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source components the mod draws </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ownShader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The drawn components their own shader draws </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resource, or <computeroutput>std::nullopt</computeroutput> for a role none binds </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1664" column="27" bodyfile="src/data/IniFixData/WWMIFixerConfigs.cpp" bodystart="187" bodyend="195"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What each texture role a mod&apos;s components bind resolves to -- see #roleResources
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1602" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1602" bodyend="1666"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1adbeac3bd6622134054b105db0f42a0e1" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::RoleResources</scope><name>declared</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1a787c74ce1cca84a6f67659a5356b8cb0" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::RoleResources</scope><name>downloads</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1ad0b310c45236b4f49c8e6b6cfccf5113" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::RoleResources</scope><name>fileOfRole</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1a3cdff462313edd710ea3fba0fd46a83a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::RoleResources</scope><name>leftToGame</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1a6b351ff965ad9d7800376e5d5ba4a86b" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::RoleResources</scope><name>notes</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1a8d4d397a88e375e29473f4daa4008f4c" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::RoleResources</scope><name>of</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1ad4d75d2ab999c8f4f3af7a6e2fea2cc9" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::RoleResources</scope><name>ofRole</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1a2a791058d45a0ff6f51cab6a7185c330" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::RoleResources</scope><name>ofSlotRole</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_role_resources_1a108efb85f216f2e4802c571f003d76cc" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::RoleResources</scope><name>shared</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

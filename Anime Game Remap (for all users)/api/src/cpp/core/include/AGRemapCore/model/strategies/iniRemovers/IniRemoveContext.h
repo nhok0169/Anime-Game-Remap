@@ -198,8 +198,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Drops the read text/lines so the next read comes from disk again
-             (``ini.clearRead()``)
+             Drops the read text/lines, and what was parsed from them, so the next read comes from disk
+             again (``ini.clearRead()``)
              @endrst
              */
             virtual void clearRead() = 0;

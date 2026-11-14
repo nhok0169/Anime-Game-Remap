@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_stashed" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::Shader::Stashed</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_stashed_1a3c66ef9e4827c16cf7cc1e537f426097" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::Shader::Stashed::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::Stashed::role</qualifiedname>
+        <briefdescription>
+<para>The role captured, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>"glow"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="355" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_stashed_1aab7cddef97a9ffdc70937e03cd5ac959" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::WWMIFixerConfig::Shader::Stashed::slot</definition>
+        <argsstring></argsstring>
+        <name>slot</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::Stashed::slot</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>The target slot whose draw the capture is made off (:cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae3fb103cb7cc035ee51af13e9864eee1" kindref="member">WWMIFixerConfig::stashRegs</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="360" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_stashed_1ae4f57d868d12a93c759101d901946334" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::Shader::Stashed::reg</definition>
+        <argsstring></argsstring>
+        <name>reg</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::Stashed::reg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The shader&apos;s register, eg. ``&quot;ps-t4&quot;``. Empty: the source&apos;s :cpp:class:`TextureRegisters` row for
+#role on :cpp:member:`Shader::component` (:cpp:func:`WWMIFixerConfig::withGameData`)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="369" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_stashed_1a48d622b48316c2416a5931f5e4978d9b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::Shader::Stashed::slotReg</definition>
+        <argsstring></argsstring>
+        <name>slotReg</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::Stashed::slotReg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The register of that slot&apos;s draw that is captured. Empty: the target&apos;s :cpp:class:`TextureRegisters`
+row for #role on #slot (:cpp:func:`WWMIFixerConfig::withGameData`)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="378" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A register of the shader&apos;s bound to a capture the fix makes off another slot <ndash/> see <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1ab7a6ace177735a12c06af2ac0ee36a0a" kindref="member">stashed</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="351" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="351" bodyend="379"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_stashed_1ae4f57d868d12a93c759101d901946334" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader::Stashed</scope><name>reg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_stashed_1a3c66ef9e4827c16cf7cc1e537f426097" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader::Stashed</scope><name>role</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_stashed_1aab7cddef97a9ffdc70937e03cd5ac959" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader::Stashed</scope><name>slot</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_stashed_1a48d622b48316c2416a5931f5e4978d9b" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader::Stashed</scope><name>slotReg</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

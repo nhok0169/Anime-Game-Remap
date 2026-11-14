@@ -3,7 +3,8 @@ other class exactly as it is.
 
     python pyiSplice.py <generated core.pyi>                         list the classes that differ
     python pyiSplice.py <generated core.pyi> --show A B ...          unified diff of those classes
-    python pyiSplice.py <generated core.pyi> --apply A B ...         replace those classes in place
+    python pyiSplice.py <generated core.pyi> --apply A B ...         replace those classes in place (a class only in
+                                                                     the generated file is added where it sits there)
 
 Why not copy the generated file over: a checkout several agents build is never all yours, and the
 module you generated from carries their bindings too (or lacks them). The rule is "keep it only if
@@ -73,12 +74,25 @@ for name in (args.show or []):
     sys.stdout.writelines(l + "\n" for l in difflib.unified_diff(tLines[slice(*tBlocks[name])], gLines[slice(*gBlocks[name])], lineterm = "", n = 2))
 
 if args.apply:
-    missing = [n for n in args.apply if n not in tBlocks or n not in gBlocks]
+    missing = [n for n in args.apply if n not in gBlocks]
     if missing:
-        raise SystemExit(f"not a class in both files: {missing}")
-    for name in sorted(args.apply, key = lambda n: tBlocks[n][0], reverse = True):
+        raise SystemExit(f"not a class in the generated file: {missing}")
+    for name in sorted((n for n in args.apply if n in tBlocks), key = lambda n: tBlocks[n][0], reverse = True):
         start, end = tBlocks[name]
         tLines[start:end] = gLines[slice(*gBlocks[name])]
+
+    # a class only in the generated file (a new binding) goes in before the tracked class that follows it in the
+    # generated file, with the blank lines that separate classes there
+    gOrder = sorted(gBlocks, key = lambda n: gBlocks[n][0])
+    for name in (n for n in args.apply if n not in tBlocks):
+        _, tBlocks = blocks("\n".join(tLines))
+        after = [n for n in gOrder[gOrder.index(name) + 1:] if n in tBlocks]
+        if not after:
+            raise SystemExit(f"no tracked class follows {name} in the generated file")
+        start, end = gBlocks[name]
+        gap = gBlocks[gOrder[gOrder.index(name) + 1]][0] - end
+        at = tBlocks[after[0]][0]
+        tLines[at:at] = gLines[start:end] + [""] * gap
     text = "\n".join(tLines)
     if crlf:
         text = text.replace("\n", "\r\n")

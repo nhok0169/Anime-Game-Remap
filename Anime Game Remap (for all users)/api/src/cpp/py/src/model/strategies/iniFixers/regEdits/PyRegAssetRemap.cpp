@@ -30,7 +30,7 @@ namespace {
 // uses want different ones: a drawn object's hash remap writes the HashNotFound sentinel when the
 // target has no row, and the face's leaves the value alone -- see GIMICharFixer's note on why a
 // missing tex_face_diffuse row is not the same kind of fact as a missing ib row.
-PyRegAssetRemap::Core::AssetSpec parseAssetSpec(const py::object &value) {
+PyRegAssetRemap::AssetSpec parseAssetSpec(const py::object &value) {
     py::object tableObj = value;
     std::optional<std::string> notFoundVal;
 
@@ -51,36 +51,46 @@ PyRegAssetRemap::Core::AssetSpec parseAssetSpec(const py::object &value) {
     }
 
     if (tableObj.is_none()) {
-        return PyRegAssetRemap::Core::AssetSpec(nullptr, std::move(notFoundVal));
+        return PyRegAssetRemap::AssetSpec(nullptr, std::move(notFoundVal));
     }
 
-    return PyRegAssetRemap::Core::AssetSpec(tableObj.cast<PyRegAssetRemap::Assets*>(), std::move(notFoundVal));
+    return PyRegAssetRemap::AssetSpec(tableObj.cast<PyRegAssetRemap::Assets*>(), std::move(notFoundVal));
 }
 
 }
 
 
-PyRegAssetRemap::PyRegAssetRemap(py::object assetsObj, std::string toModName, std::string fromModName,
-                                   const py::object &fromVersion, const py::object &toVersion):
-    Core({}, std::move(toModName), std::move(fromModName), parseVersionArg(fromVersion),
-          parseVersionArg(toVersion)),
-    assetsObj(std::move(assetsObj)) {}
-
-
-void PyRegAssetRemap::refresh(const py::object &modType) {
-    (void)modType;  // unused -- the asset tables come from assetsObj
-    assets.clear();
-
-    if (assetsObj.is_none()) {
-        return;
+namespace {
+    // a Python object kept alive by its edit (BaseIniPartEdit::owned), let go of with the GIL held
+    std::shared_ptr<void> holdPy(py::object object) {
+        return std::shared_ptr<void>(new py::object(std::move(object)), [](void *held) {
+            py::gil_scoped_acquire gil;
+            delete static_cast<py::object *>(held);
+        });
     }
 
-    py::dict src = py::cast<py::dict>(assetsObj);
-    assets.reserve(src.size());
+    // 'assets' as the edit holds it, each table kept alive by the edit
+    void setAssets(PyRegAssetRemap &edit, const py::object &assets) {
+        edit.assets.clear();
+        edit.owned.clear();
+        if (assets.is_none()) {
+            return;
+        }
+        for (auto item : py::cast<py::dict>(assets)) {
+            py::object spec = py::reinterpret_borrow<py::object>(item.second);
+            edit.owned.push_back(holdPy(spec));
+            edit.assets.emplace_back(py::str(item.first).cast<std::string>(), parseAssetSpec(spec));
+        }
+    }
 
-    for (auto item : src) {
-        assets.emplace_back(py::str(item.first).cast<std::string>(),
-                             parseAssetSpec(py::reinterpret_borrow<py::object>(item.second)));
+    py::dict assetsToPy(const PyRegAssetRemap &edit) {
+        py::dict result;
+        for (const auto &[key, spec] : edit.assets) {
+            py::object table = spec.assets == nullptr ? py::none() : py::cast(spec.assets, py::return_value_policy::reference);
+            result[py::str(key)] = py::make_tuple(table, spec.notFoundVal.has_value() ? py::object(py::str(*spec.notFoundVal))
+                                                                                     : py::none());
+        }
+        return result;
     }
 }
 
@@ -144,15 +154,18 @@ toVersion: Optional[Union[:class:`str`, :class:`float`, :class:`Version`]]
 
     cls.def(py::init([](py::object assets, std::string toModName, std::string fromModName,
                          const py::object &fromVersion, const py::object &toVersion) {
-        return std::make_unique<PyRegAssetRemap>(std::move(assets), std::move(toModName), std::move(fromModName),
-                                                  fromVersion, toVersion);
+        auto edit = std::make_unique<PyRegAssetRemap>(std::vector<std::pair<std::string, PyRegAssetRemap::AssetSpec>>{},
+                                                      std::move(toModName), std::move(fromModName),
+                                                      parseVersionArg(fromVersion), parseVersionArg(toVersion));
+        setAssets(*edit, assets);
+        return edit;
     }), py::arg("assets"), py::arg("toModName"), py::arg("fromModName") = "",
         py::arg("fromVersion") = py::none(), py::arg("toVersion") = py::none());
 
     cls.def_property("assets", [](const PyRegAssetRemap &self) {
-        return self.assetsObj;
+        return assetsToPy(self);
     }, [](PyRegAssetRemap &self, py::object assets) {
-        self.assetsObj = std::move(assets);
+        setAssets(self, assets);
     }, py::doc(R"doc(
 Dict[:class:`str`, Union[:class:`ModMappedAssets`, Tuple[:class:`ModMappedAssets`, Optional[:class:`str`]]]]: Which
 registers are remapped, and against which asset table -- see this class's constructor

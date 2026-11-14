@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" line="42" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" line="43" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -33,7 +33,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp" bodystart="414" bodyend="416"/>
+        <location file="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" line="49" column="43" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp" bodystart="307" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lynae_peppermint_fixer_1ad5f21f5aaaabee16eb5503615f972cb1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config" kindref="compound">WWMIFixerConfig</ref></type>
+        <definition>WWMIFixerConfig AGRemapCore::LynaePeppermintFixer::lynae3_7Config</definition>
+        <argsstring>()</argsstring>
+        <name>lynae3_7Config</name>
+        <qualifiedname>AGRemapCore::LynaePeppermintFixer::lynae3_7Config</qualifiedname>
+        <briefdescription>
+<para>The config <ref refid="class_a_g_remap_core_1_1_lynae_peppermint_fixer_1a046492c123c6d960a1f1f4963528338f" kindref="member">lynae3_7</ref> builds its fixer from (:cpp:func:<computeroutput><ref refid="namespace_a_g_remap_core_1a211bbd07ca178810a023b1f78ded1dd3" kindref="member">makeWWMIFixer</ref></computeroutput>) <ndash/> to start a variant of the shipped fix from, or to read what it does. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" line="55" column="36" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp" bodystart="42" bodyend="299"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -45,10 +60,10 @@ LynaePeppermint&apos;s own ``.ini`` fixers -- the reverse of :cpp:class:`LynaeFi
 
 * **two source components share one target slot.** Lynae&apos;s props slot renders through a
   special-material (glass / foil) layer that ordinary cloth barely reaches, so the skin&apos;s coat and
-  her shirt / jacket / shoes both go through Lynae&apos;s jacket slot, the second in a generated copy
-  ``.ini``. On a target past 256 merged bones that copy has to share the mod&apos;s skeleton state
-  (:cpp:member:`WWMIFixerConfig::copiesShareSkeleton`), and the slot&apos;s outline pass binds each
-  source&apos;s own diffuse (:cpp:member:`WWMIFixerConfig::Binding::srcComponent`)
+  her shirt / jacket / shoes both go through Lynae&apos;s lower-body slot, drawn as further sections of the
+  mod&apos;s own ``.ini`` (:cpp:member:`WWMIFixerConfig::SourceComponent::sameFileSection`: a copy ``.ini`` never
+  fills the shape-keyed positions), and the slot&apos;s outline pass binds each source&apos;s own diffuse
+  (:cpp:member:`WWMIFixerConfig::Binding::srcComponent`)
 * **Lynae draws passes with her skeleton in ``vs-cb3`` alone** (her early depth passes), which
   the merge list reads as the current pose (:cpp:member:`WWMIFixerConfig::currentPoseInCb3Only`)
 * **the skin&apos;s material masks mark the cloth under a sheer garment with R = 0**, which Lynae&apos;s
@@ -56,9 +71,10 @@ LynaePeppermint&apos;s own ``.ini`` fixers -- the reverse of :cpp:class:`LynaeFi
   (:cpp:member:`WWMIFixerConfig::texEdits`)
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" line="40" column="5" bodyfile="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" bodystart="40" bodyend="49"/>
+    <location file="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" line="41" column="5" bodyfile="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" bodystart="41" bodyend="56"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_lynae_peppermint_fixer_1a046492c123c6d960a1f1f4963528338f" prot="public" virt="non-virtual"><scope>AGRemapCore::LynaePeppermintFixer</scope><name>lynae3_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_lynae_peppermint_fixer_1ad5f21f5aaaabee16eb5503615f972cb1" prot="public" virt="non-virtual"><scope>AGRemapCore::LynaePeppermintFixer</scope><name>lynae3_7Config</name></member>
       <member refid="class_a_g_remap_core_1_1_lynae_peppermint_fixer_1ab790cd72d38d220e80f68ae27228916f" prot="public" virt="non-virtual"><scope>AGRemapCore::LynaePeppermintFixer</scope><name>LynaePeppermintFixer</name></member>
     </listofallmembers>
   </compounddef>

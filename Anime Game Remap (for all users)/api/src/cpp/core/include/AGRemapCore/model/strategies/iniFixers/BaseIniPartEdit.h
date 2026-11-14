@@ -15,6 +15,9 @@
 // ##### EndCredits
 
 
+#include <memory>
+#include <vector>
+
 namespace AGRemapCore {
 
     /**
@@ -40,6 +43,15 @@ namespace AGRemapCore {
              * @brief Clears any saved state information. No-op by default
              */
             virtual void clear();
+
+            /**
+             * @brief
+             @rst
+             What the edit borrows that nothing else keeps alive -- eg. the `Python`_ objects an edit built in `Python`_
+             holds (its tables, its adapters) -- kept as long as the edit
+             @endrst
+             */
+            std::vector<std::shared_ptr<void>> owned;
     };
 }
 

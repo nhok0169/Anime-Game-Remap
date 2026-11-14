@@ -1,0 +1,667 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_names" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMINames</compoundname>
+    <includes refid="_w_w_m_i_names_8h" local="no">WWMINames.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a2ee032327853890e06b43f064da6eb66" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::TextureOverridesRows</definition>
+        <argsstring></argsstring>
+        <name>TextureOverridesRows</name>
+        <qualifiedname>AGRemapCore::WWMINames::TextureOverridesRows</qualifiedname>
+        <initializer>= &quot;WWMIParser.textureOverrides&quot;</initializer>
+        <briefdescription>
+<para>Each texture override&apos;s <computeroutput>hash</computeroutput>, <computeroutput>this</computeroutput> and <computeroutput>match_priority</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="37" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a44a49263e8ad9264d1efb4187dc4e99c" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::TextureRolesRows</definition>
+        <argsstring></argsstring>
+        <name>TextureRolesRows</name>
+        <qualifiedname>AGRemapCore::WWMINames::TextureRolesRows</qualifiedname>
+        <initializer>= &quot;WWMIParser.textureRoles&quot;</initializer>
+        <briefdescription>
+<para>The texture roles the <computeroutput>.ini</computeroutput> states, with their conditions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="42" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1afdc5bd6decba66a56c3bf88a8f4c9b14" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::TextureTogglesRows</definition>
+        <argsstring></argsstring>
+        <name>TextureTogglesRows</name>
+        <qualifiedname>AGRemapCore::WWMINames::TextureTogglesRows</qualifiedname>
+        <initializer>= &quot;WWMIParser.textureToggles&quot;</initializer>
+        <briefdescription>
+<para>Each texture override&apos;s own <computeroutput>this</computeroutput> and texture registers, with the branches they sit in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="47" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1ae4ac93954c3cc06131ebc967ef0e6d8b" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::CarriedRows</definition>
+        <argsstring></argsstring>
+        <name>CarriedRows</name>
+        <qualifiedname>AGRemapCore::WWMINames::CarriedRows</qualifiedname>
+        <initializer>= &quot;WWMIParser.carried&quot;</initializer>
+        <briefdescription>
+<para>What a linked <computeroutput>.ini</computeroutput> sets on a slot&apos;s draw that a fix carries as it is (<ref refid="class_a_g_remap_core_1_1_rabbit_f_x" kindref="compound">RabbitFX</ref>&apos;s glow map). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="52" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1c66b8c8fa35adf74bf421f60ab8bfd3" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::Draw</definition>
+        <argsstring></argsstring>
+        <name>Draw</name>
+        <qualifiedname>AGRemapCore::WWMINames::Draw</qualifiedname>
+        <initializer>= &quot;Draw&quot;</initializer>
+        <briefdescription>
+<para>A draw&apos;s number in a section or list named after it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="59" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1ae1c5fdd815aa395136592a61d4f37965" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::DrawAfter</definition>
+        <argsstring></argsstring>
+        <name>DrawAfter</name>
+        <qualifiedname>AGRemapCore::WWMINames::DrawAfter</qualifiedname>
+        <initializer>= &quot;DrawAfter&quot;</initializer>
+        <briefdescription>
+<para>The list run after a draw, and the variable that latches it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="64" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1ab1cfe76823107832aca1ca405ccd87dc" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::Pass</definition>
+        <argsstring></argsstring>
+        <name>Pass</name>
+        <qualifiedname>AGRemapCore::WWMINames::Pass</qualifiedname>
+        <initializer>= &quot;Pass&quot;</initializer>
+        <briefdescription>
+<para>A component drawn by another of the target&apos;s passes too. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="69" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1ec8968a8870ade1eb026ed06dbb3f14" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::OffPass</definition>
+        <argsstring></argsstring>
+        <name>OffPass</name>
+        <qualifiedname>AGRemapCore::WWMINames::OffPass</qualifiedname>
+        <initializer>= &quot;OffPass&quot;</initializer>
+        <briefdescription>
+<para>A draw kept off some of a slot&apos;s passes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="74" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1c9257657954f05c521d1078a2492c8c" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::Reroute</definition>
+        <argsstring></argsstring>
+        <name>Reroute</name>
+        <qualifiedname>AGRemapCore::WWMINames::Reroute</qualifiedname>
+        <initializer>= &quot;Reroute&quot;</initializer>
+        <briefdescription>
+<para>A draw sent to another slot&apos;s pass. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="79" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1af28342946bdcd698d039723e3281c68e" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::Overlay</definition>
+        <argsstring></argsstring>
+        <name>Overlay</name>
+        <qualifiedname>AGRemapCore::WWMINames::Overlay</qualifiedname>
+        <initializer>= &quot;Overlay&quot;</initializer>
+        <briefdescription>
+<para>A component&apos;s overlay draw (:cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1a49ea6e78342da26cd86589215c79f92f" kindref="member">WWMIFixerConfig::SourceComponent::overlay</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="84" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a75ce0e325b6d7920270d70c2bdac93e2" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::Mark</definition>
+        <argsstring></argsstring>
+        <name>Mark</name>
+        <qualifiedname>AGRemapCore::WWMINames::Mark</qualifiedname>
+        <initializer>= &quot;Mark&quot;</initializer>
+        <briefdescription>
+<para>A component&apos;s mark lines (:cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1ad3cbe49caf6f7fa16e8769b31459820d" kindref="member">WWMIFixerConfig::SourceComponent::markLines</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="89" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a4824ffa46ccb0068912b7072290a8332" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::Glow</definition>
+        <argsstring></argsstring>
+        <name>Glow</name>
+        <qualifiedname>AGRemapCore::WWMINames::Glow</qualifiedname>
+        <initializer>= &quot;Glow&quot;</initializer>
+        <briefdescription>
+<para>The glow list a linked <computeroutput>.ini</computeroutput>&apos;s lines are carried into. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="94" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a9ccc93f7e53c724ace686e014f9bfa7e" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::Carried</definition>
+        <argsstring></argsstring>
+        <name>Carried</name>
+        <qualifiedname>AGRemapCore::WWMINames::Carried</qualifiedname>
+        <initializer>= &quot;Carried&quot;</initializer>
+        <briefdescription>
+<para>A file a linked <computeroutput>.ini</computeroutput> binds, carried into a resource of the fix&apos;s own. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="99" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a2bf082915d4812212a4b7816bb28bc2a" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::Latch</definition>
+        <argsstring></argsstring>
+        <name>Latch</name>
+        <qualifiedname>AGRemapCore::WWMINames::Latch</qualifiedname>
+        <initializer>= &quot;Latch&quot;</initializer>
+        <briefdescription>
+<para>The suffix of the variable that runs something once a frame. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="104" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a4796698b15da009bcdf913dc14f9ad3f" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::MergeWindowList</definition>
+        <argsstring></argsstring>
+        <name>MergeWindowList</name>
+        <qualifiedname>AGRemapCore::WWMINames::MergeWindowList</qualifiedname>
+        <initializer>= &quot;CommandListMergeWindow&quot;</initializer>
+        <briefdescription>
+<para>The list that merges the target&apos;s skeleton windows (a target past 256 bones). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="109" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a0080c11823604c70c8d3f681272a9dd6" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::ShapeKeyZero</definition>
+        <argsstring></argsstring>
+        <name>ShapeKeyZero</name>
+        <qualifiedname>AGRemapCore::WWMINames::ShapeKeyZero</qualifiedname>
+        <initializer>= &quot;ShapeKeyZero&quot;</initializer>
+        <briefdescription>
+<para>The resource of zero shape-key offsets a fix binds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="114" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1aac29c1ebe9bfec131d83015e19c3cd6d" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::GameSuffix</definition>
+        <argsstring></argsstring>
+        <name>GameSuffix</name>
+        <qualifiedname>AGRemapCore::WWMINames::GameSuffix</qualifiedname>
+        <initializer>= &quot;Game&quot;</initializer>
+        <briefdescription>
+<para>The suffix of a resource that binds the source&apos;s game texture. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="119" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a98841672aad56b99a9c5611ca2bb4243" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::TexcoordNoNaN</definition>
+        <argsstring></argsstring>
+        <name>TexcoordNoNaN</name>
+        <qualifiedname>AGRemapCore::WWMINames::TexcoordNoNaN</qualifiedname>
+        <initializer>= &quot;TexcoordNoNaN&quot;</initializer>
+        <briefdescription>
+<para>The texcoord buffer a fix writes with no <computeroutput>NaN</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="124" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1acaa51e67d880281f4a622765f6fe61ff" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::RemapMergedSkeletonList</definition>
+        <argsstring></argsstring>
+        <name>RemapMergedSkeletonList</name>
+        <qualifiedname>AGRemapCore::WWMINames::RemapMergedSkeletonList</qualifiedname>
+        <initializer>= &quot;CommandListRemapMergedSkeleton&quot;</initializer>
+        <briefdescription>
+<para>The fix&apos;s list that remaps the merged skeleton into the target&apos;s numbering, once a frame. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="127" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1afba036c416ae027e8e02b3f4c3472d69" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::MergeSkeletonList</definition>
+        <argsstring></argsstring>
+        <name>MergeSkeletonList</name>
+        <qualifiedname>AGRemapCore::WWMINames::MergeSkeletonList</qualifiedname>
+        <initializer>= &quot;CommandListMergeSkeleton&quot;</initializer>
+        <briefdescription>
+<para>The list a hidden slot&apos;s section runs to merge its bones into the skeleton. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="130" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1ab3853287948befc76fdad6fb576c5283" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::ShaderOverridePass</definition>
+        <argsstring></argsstring>
+        <name>ShaderOverridePass</name>
+        <qualifiedname>AGRemapCore::WWMINames::ShaderOverridePass</qualifiedname>
+        <initializer>= &quot;ShaderOverridePass&quot;</initializer>
+        <briefdescription>
+<para>The prefix of the <computeroutput>[ShaderOverride...]</computeroutput> that tags one of the target&apos;s passes with a <computeroutput>filter_index</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="133" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a9ff72ad7a7c598936d4781fd5942c752" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::OwnMeshSkin</definition>
+        <argsstring></argsstring>
+        <name>OwnMeshSkin</name>
+        <qualifiedname>AGRemapCore::WWMINames::OwnMeshSkin</qualifiedname>
+        <initializer>= &quot;OwnMeshSkin&quot;</initializer>
+        <briefdescription>
+<para>The resource of a part drawn from mesh files of its own: its blend, remapped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="136" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1abfcf7a52e6fd3589dbc309f2c0cb069b" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::Stash</definition>
+        <argsstring></argsstring>
+        <name>Stash</name>
+        <qualifiedname>AGRemapCore::WWMINames::Stash</qualifiedname>
+        <initializer>= &quot;Stash&quot;</initializer>
+        <briefdescription>
+<para>The resource a register of the target&apos;s is parked in while one of the source&apos;s shaders draws. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="139" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a24415c0b1a4aada5e5996104d7f6c9f1" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::ShaderBackup</definition>
+        <argsstring></argsstring>
+        <name>ShaderBackup</name>
+        <qualifiedname>AGRemapCore::WWMINames::ShaderBackup</qualifiedname>
+        <initializer>= &quot;ShaderBackup&quot;</initializer>
+        <briefdescription>
+<para>The resource a register&apos;s binding is backed up in around a shader draw of the fix&apos;s. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="142" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a922c3148f624c91529af58eef4c198cd" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::BoneDataFilter</definition>
+        <argsstring></argsstring>
+        <name>BoneDataFilter</name>
+        <qualifiedname>AGRemapCore::WWMINames::BoneDataFilter</qualifiedname>
+        <initializer>= &quot;3381.7777&quot;</initializer>
+        <briefdescription>
+<para>WWMI&apos;s marker on the game&apos;s bone-data constant buffer (its <computeroutput>filter_index</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="145" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a11dc7016faa69aadb92d3758eb2c627f" prot="public" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int AGRemapCore::WWMINames::MergedSkeletonStep</definition>
+        <argsstring></argsstring>
+        <name>MergedSkeletonStep</name>
+        <qualifiedname>AGRemapCore::WWMINames::MergedSkeletonStep</qualifiedname>
+        <initializer>= 768</initializer>
+        <briefdescription>
+<para>The size WWMI Tools&apos; template gives a merged skeleton buffer, in float4 slots: 256 bones of three. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="148" column="33" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1aec30d5e77c6e85895b506ceddbea875f" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::SlotPrefix</definition>
+        <argsstring></argsstring>
+        <name>SlotPrefix</name>
+        <qualifiedname>AGRemapCore::WWMINames::SlotPrefix</qualifiedname>
+        <initializer>= &quot;component&quot;</initializer>
+        <briefdescription>
+<para>The prefix of a draw slot&apos;s name in the library&apos;s tables and a fix&apos;s mod objects: <computeroutput>component3</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="151" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1a23a3e7bc44df05199f26235e8ae5b9" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::OverrideSharedResourcesList</definition>
+        <argsstring></argsstring>
+        <name>OverrideSharedResourcesList</name>
+        <qualifiedname>AGRemapCore::WWMINames::OverrideSharedResourcesList</qualifiedname>
+        <initializer>= &quot;CommandListOverrideSharedResources&quot;</initializer>
+        <briefdescription>
+<para>WWMI Tools&apos; list that binds a mod&apos;s shared resources (a list of it per component binds that component&apos;s). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="154" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1aecec552c2db24a4277bfb249518232d3" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::CleanupSharedResourcesList</definition>
+        <argsstring></argsstring>
+        <name>CleanupSharedResourcesList</name>
+        <qualifiedname>AGRemapCore::WWMINames::CleanupSharedResourcesList</qualifiedname>
+        <initializer>= &quot;CommandListCleanupSharedResources&quot;</initializer>
+        <briefdescription>
+<para>WWMI Tools&apos; list that puts the shared resources back after a mod&apos;s draws. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="157" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a709ad7882b0185192210f3e46c75c0a5" prot="public" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int AGRemapCore::WWMINames::ShapeKeyStreamStride</definition>
+        <argsstring></argsstring>
+        <name>ShapeKeyStreamStride</name>
+        <qualifiedname>AGRemapCore::WWMINames::ShapeKeyStreamStride</qualifiedname>
+        <initializer>= 24</initializer>
+        <briefdescription>
+<para>Bytes per vertex of the game&apos;s shape-key offset stream (<computeroutput>vb6</computeroutput>), off a frame dump&apos;s layout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="160" column="33" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1ac49706c994fe7d2aa4fb4c64aefaee43" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::BoneDataHash</definition>
+        <argsstring></argsstring>
+        <name>BoneDataHash</name>
+        <qualifiedname>AGRemapCore::WWMINames::BoneDataHash</qualifiedname>
+        <initializer>= &quot;cb4&quot;</initializer>
+        <briefdescription>
+<para>The hash type of a character&apos;s bone-data constant buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="163" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1adefea7dfc79b32e809b24ad89071bb9c" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::ShapeKeysHash</definition>
+        <argsstring></argsstring>
+        <name>ShapeKeysHash</name>
+        <qualifiedname>AGRemapCore::WWMINames::ShapeKeysHash</qualifiedname>
+        <initializer>= &quot;shapekeys&quot;</initializer>
+        <briefdescription>
+<para>The hash type of a character&apos;s shape-key buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="166" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a0b1d8708dd128f0631171486b4c07e8b" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::ShapeKeyOffsetsObj</definition>
+        <argsstring></argsstring>
+        <name>ShapeKeyOffsetsObj</name>
+        <qualifiedname>AGRemapCore::WWMINames::ShapeKeyOffsetsObj</qualifiedname>
+        <initializer>= &quot;shapekeyOffsets&quot;</initializer>
+        <briefdescription>
+<para>The object the classifier files a mod&apos;s shape-key offsets section under. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="169" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1a0a0d8423e9b4503e0c38f82fd45768ed" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::ShapeKeyScaleObj</definition>
+        <argsstring></argsstring>
+        <name>ShapeKeyScaleObj</name>
+        <qualifiedname>AGRemapCore::WWMINames::ShapeKeyScaleObj</qualifiedname>
+        <initializer>= &quot;shapekeyScale&quot;</initializer>
+        <briefdescription>
+<para>The object the classifier files a mod&apos;s shape-key scale section under. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="172" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1aa20cc8f44c98fafd9aaa0ad45696e03c" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::BlendRemap</definition>
+        <argsstring></argsstring>
+        <name>BlendRemap</name>
+        <qualifiedname>AGRemapCore::WWMINames::BlendRemap</qualifiedname>
+        <initializer>= &quot;BlendRemap&quot;</initializer>
+        <briefdescription>
+<para>The blend remap buffers a fix writes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="177" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1acace6d0b105d537863b3313ef9b6c250" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::WWMINames::ChecksumNotFound</definition>
+        <argsstring></argsstring>
+        <name>ChecksumNotFound</name>
+        <qualifiedname>AGRemapCore::WWMINames::ChecksumNotFound</qualifiedname>
+        <initializer>= &quot;ChecksumNotFound&quot;</initializer>
+        <briefdescription>
+<para>What a shape-key checksum the library cannot look up is written as. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="182" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1afe9e6bb9c6a93ad01b47cde9f18ea508" prot="public" static="yes" mutable="no">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; AGRemapCore::WWMINames::LiveSuffix</definition>
+        <argsstring></argsstring>
+        <name>LiveSuffix</name>
+        <qualifiedname>AGRemapCore::WWMINames::LiveSuffix</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_hashes_1aa5b47d829d44de81224c125ded257d78" kindref="member">Hashes::LiveSuffix</ref></initializer>
+        <briefdescription>
+<para>A role&apos;s hash the game binds once the texture&apos;s mips have streamed in: <computeroutput>&lt;role&gt;Live</computeroutput> (:cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_hashes_1aa5b47d829d44de81224c125ded257d78" kindref="member">Hashes::LiveSuffix</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="190" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_names_1aa0839c22a0a7036e38acfb4cf7ceccaf" prot="public" static="yes" mutable="no">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; AGRemapCore::WWMINames::OldSuffix</definition>
+        <argsstring></argsstring>
+        <name>OldSuffix</name>
+        <qualifiedname>AGRemapCore::WWMINames::OldSuffix</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_hashes_1a5b4b91dcd6897a55ee509414de0131a3" kindref="member">Hashes::OldSuffix</ref></initializer>
+        <briefdescription>
+<para>A role&apos;s older hash: <computeroutput>&lt;role&gt;Old</computeroutput>, <computeroutput>&lt;role&gt;Old2</computeroutput>, ... (:cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_hashes_1a5b4b91dcd6897a55ee509414de0131a3" kindref="member">Hashes::OldSuffix</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMINames.h" line="195" column="41" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The names a Wuthering Waves fix reads and writes, beside :cpp:struct:`IniKeywords`: the rows its parser files,
+the parts of the sections and files its fixer names, and the words of its own small syntaxes. One place, so a
+parser or fixer built from `Python`_ spells them as the compiled ones do
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/WWMINames.h" line="31" column="5" bodyfile="include/AGRemapCore/constants/WWMINames.h" bodystart="31" bodyend="199"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aa20cc8f44c98fafd9aaa0ad45696e03c" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>BlendRemap</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a922c3148f624c91529af58eef4c198cd" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>BoneDataFilter</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ac49706c994fe7d2aa4fb4c64aefaee43" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>BoneDataHash</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a9ccc93f7e53c724ace686e014f9bfa7e" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>Carried</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ae4ac93954c3cc06131ebc967ef0e6d8b" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>CarriedRows</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1acace6d0b105d537863b3313ef9b6c250" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>ChecksumNotFound</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aecec552c2db24a4277bfb249518232d3" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>CleanupSharedResourcesList</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1c66b8c8fa35adf74bf421f60ab8bfd3" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>Draw</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ae1c5fdd815aa395136592a61d4f37965" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>DrawAfter</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aac29c1ebe9bfec131d83015e19c3cd6d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>GameSuffix</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a4824ffa46ccb0068912b7072290a8332" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>Glow</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a2bf082915d4812212a4b7816bb28bc2a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>Latch</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1afe9e6bb9c6a93ad01b47cde9f18ea508" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>LiveSuffix</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a75ce0e325b6d7920270d70c2bdac93e2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>Mark</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a11dc7016faa69aadb92d3758eb2c627f" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>MergedSkeletonStep</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1afba036c416ae027e8e02b3f4c3472d69" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>MergeSkeletonList</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a4796698b15da009bcdf913dc14f9ad3f" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>MergeWindowList</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1ec8968a8870ade1eb026ed06dbb3f14" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>OffPass</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aa0839c22a0a7036e38acfb4cf7ceccaf" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>OldSuffix</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1af28342946bdcd698d039723e3281c68e" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>Overlay</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1a23a3e7bc44df05199f26235e8ae5b9" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>OverrideSharedResourcesList</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a9ff72ad7a7c598936d4781fd5942c752" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>OwnMeshSkin</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ab1cfe76823107832aca1ca405ccd87dc" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>Pass</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1acaa51e67d880281f4a622765f6fe61ff" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>RemapMergedSkeletonList</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a1c9257657954f05c521d1078a2492c8c" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>Reroute</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a24415c0b1a4aada5e5996104d7f6c9f1" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>ShaderBackup</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1ab3853287948befc76fdad6fb576c5283" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>ShaderOverridePass</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a0b1d8708dd128f0631171486b4c07e8b" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>ShapeKeyOffsetsObj</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a0a0d8423e9b4503e0c38f82fd45768ed" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>ShapeKeyScaleObj</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1adefea7dfc79b32e809b24ad89071bb9c" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>ShapeKeysHash</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a709ad7882b0185192210f3e46c75c0a5" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>ShapeKeyStreamStride</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a0080c11823604c70c8d3f681272a9dd6" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>ShapeKeyZero</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1aec30d5e77c6e85895b506ceddbea875f" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>SlotPrefix</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1abfcf7a52e6fd3589dbc309f2c0cb069b" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>Stash</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a98841672aad56b99a9c5611ca2bb4243" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>TexcoordNoNaN</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a2ee032327853890e06b43f064da6eb66" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>TextureOverridesRows</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1a44a49263e8ad9264d1efb4187dc4e99c" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>TextureRolesRows</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_names_1afdc5bd6decba66a56c3bf88a8f4c9b14" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMINames</scope><name>TextureTogglesRows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

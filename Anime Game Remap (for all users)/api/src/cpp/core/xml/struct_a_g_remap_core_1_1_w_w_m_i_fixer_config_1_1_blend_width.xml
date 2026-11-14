@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_blend_width" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::BlendWidth</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_blend_width_1a5cf3a2157972aee9ce2a87630e4c5afa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::WWMIFixerConfig::BlendWidth::targetPast256</definition>
+        <argsstring></argsstring>
+        <name>targetPast256</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::BlendWidth::targetPast256</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the remapped blend indices pass what an 8-bit blend index names, so the fix writes a blend remap
+(and drops the mod&apos;s own skeleton lines: :cpp:member:`remappedSkeletonRemovals`)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2460" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2460" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_blend_width_1ad909e3d62adb48a109cd0cbd3c1c2403" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::WWMIFixerConfig::BlendWidth::bones</definition>
+        <argsstring></argsstring>
+        <name>bones</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::BlendWidth::bones</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The distinct target bones the vertex group row names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2465" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2465" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_blend_width_1a4176d1504fdaa2d740d028d14ebc3a41" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::BlendWidth::notes</definition>
+        <argsstring></argsstring>
+        <name>notes</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::BlendWidth::notes</qualifiedname>
+        <briefdescription>
+<para>What the decision has to say, for the log, in order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2470" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2470" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Whether the target&apos;s merged skeleton needs WWMI&apos;s blend remap <ndash/> see <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ac56c5d27e439aaee6b737b7f142f359e" kindref="member">blendWidth</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2452" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2452" bodyend="2471"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_blend_width_1ad909e3d62adb48a109cd0cbd3c1c2403" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::BlendWidth</scope><name>bones</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_blend_width_1a4176d1504fdaa2d740d028d14ebc3a41" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::BlendWidth</scope><name>notes</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_blend_width_1a5cf3a2157972aee9ce2a87630e4c5afa" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::BlendWidth</scope><name>targetPast256</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

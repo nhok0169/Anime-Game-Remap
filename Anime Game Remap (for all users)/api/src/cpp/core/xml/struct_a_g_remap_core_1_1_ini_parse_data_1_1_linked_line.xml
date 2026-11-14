@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniParseData::LinkedLine</compoundname>
+    <includes refid="_ini_parse_data_8h" local="no">IniParseData.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1a8e73943991f2c0adb9de0d255a2c0bf0" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a6cb548cc937d71c3706ea1ad617351aa" kindref="member">ModObj</ref></type>
+        <definition>ModObj AGRemapCore::IniParseData::LinkedLine::obj</definition>
+        <argsstring></argsstring>
+        <name>obj</name>
+        <qualifiedname>AGRemapCore::IniParseData::LinkedLine::obj</qualifiedname>
+        <briefdescription>
+<para>The mod object of this file the line is set on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="847" column="24" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="847" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1a3eab5c6badaf1f75cb6a3afa6f57f788" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::LinkedLine::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>AGRemapCore::IniParseData::LinkedLine::key</qualifiedname>
+        <briefdescription>
+<para>The line&apos;s key, for a line of :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1a3241160a3a45e193141ef38a2d70a555" kindref="member">RoleFileRules::carriedRows</ref></computeroutput>; empty for a role&apos;s register. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="852" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="852" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1afeefd161b9b0dd488d57f6286dc46cdb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::LinkedLine::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>AGRemapCore::IniParseData::LinkedLine::role</qualifiedname>
+        <briefdescription>
+<para>The role the register binds, for a register of :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_rules_1ac0e2ad3ac2df7d078dd411084ad4f500" kindref="member">RoleFileRules::registerRoles</ref></computeroutput>; empty otherwise. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="857" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="857" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1a8f521693bfb0320c6d918cb92a86f5b7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::LinkedLine::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <qualifiedname>AGRemapCore::IniParseData::LinkedLine::condition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The condition the line sits under, as one ``.ini`` condition (:cpp:func:`IfPredPart::getIfPredStr`), or empty
+for none. It may read the linked file&apos;s own variables
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="866" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="866" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1ac502e2b47e0010ddfbba4b0cdfdf0ea2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::LinkedLine::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::IniParseData::LinkedLine::value</qualifiedname>
+        <briefdescription>
+<para>The line&apos;s value as written, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>ref ResourceGlow</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="871" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="871" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1abd342ad4d7e8663a15af95ae51b2e0e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::LinkedLine::file</definition>
+        <argsstring></argsstring>
+        <name>file</name>
+        <qualifiedname>AGRemapCore::IniParseData::LinkedLine::file</qualifiedname>
+        <briefdescription>
+<para>The file the value&apos;s resource names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="876" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="876" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1aab857821bb5e0f1c32e6adb615dfaa57" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::LinkedLine::ini</definition>
+        <argsstring></argsstring>
+        <name>ini</name>
+        <qualifiedname>AGRemapCore::IniParseData::LinkedLine::ini</qualifiedname>
+        <briefdescription>
+<para>The linked <computeroutput>.<ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1aab857821bb5e0f1c32e6adb615dfaa57" kindref="member">ini</ref></computeroutput> the line is in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="881" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="881" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A line a LINKED ``.ini`` sets on one of this file&apos;s draws, as #roleFilesOf carries it: a line of
+:cpp:member:`RoleFileRules::carriedRows` wherever it sits, or a register of
+:cpp:member:`RoleFileRules::registerRoles` set under a condition. On the mod&apos;s own character both files fire
+on the draw; remapped, the linked file&apos;s section never does, so a fix that wants the line writes it itself
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="843" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="843" bodyend="882"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1a8f521693bfb0320c6d918cb92a86f5b7" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::LinkedLine</scope><name>condition</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1abd342ad4d7e8663a15af95ae51b2e0e7" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::LinkedLine</scope><name>file</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1aab857821bb5e0f1c32e6adb615dfaa57" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::LinkedLine</scope><name>ini</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1a3eab5c6badaf1f75cb6a3afa6f57f788" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::LinkedLine</scope><name>key</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1a8e73943991f2c0adb9de0d255a2c0bf0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::LinkedLine</scope><name>obj</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1afeefd161b9b0dd488d57f6286dc46cdb" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::LinkedLine</scope><name>role</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_linked_line_1ac502e2b47e0010ddfbba4b0cdfdf0ea2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::LinkedLine</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -367,6 +367,12 @@ Where :class:`ResRegCollect` handles one resource at a time, this handles severa
 together and works out which combinations of them can actually co-occur -- two resources belong in
 the same group only if the conditional branches they live under are simultaneously satisfiable
 
+.. warning::
+    The references are collected once, from the graphs as they are when this edit runs, and the groups and replicas are built
+    from that set. Nothing updates them afterwards: a later edit that renames, copies, moves or removes a section
+    holding one of the references leaves them describing where the references used to be. Order it after the
+    edits that reshape the graphs it reads
+
 Parameters
 ----------
 resGroupTypes: List[:class:`str`]
@@ -443,60 +449,60 @@ id: Optional[:class:`int`]
         py::arg("id") = py::none());
 
     cls.def_property("resGroupTypes", [](const PyResGroupCollect &self) { return self.resGroupTypesObj; },
-                     [](PyResGroupCollect &self, py::object value) { self.resGroupTypesObj = std::move(value); },
+                     [](PyResGroupCollect &self, py::object value) { self.resGroupTypesObj = std::move(value); self.refresh(nullptr); },
                      py::doc(R"doc(List[:class:`str`]: The unique names for the type of resource groups)doc"));
 
     cls.def_property("srcRegs", [](const PyResGroupCollect &self) { return self.srcRegsObj; },
-                     [](PyResGroupCollect &self, py::object value) { self.srcRegsObj = std::move(value); },
+                     [](PyResGroupCollect &self, py::object value) { self.srcRegsObj = std::move(value); self.refresh(nullptr); },
                      py::doc(R"doc(
 Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`]]:
 The different registers that reference the particular resource
     )doc"));
 
     cls.def_property("resEdits", [](const PyResGroupCollect &self) { return self.resEditsObj; },
-                     [](PyResGroupCollect &self, py::object value) { self.resEditsObj = std::move(value); },
+                     [](PyResGroupCollect &self, py::object value) { self.resEditsObj = std::move(value); self.refresh(nullptr); },
                      py::doc(R"doc(
 Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[:class:`str`, :class:`BaseResEdit`]]:
 Describes how each resource in a resource group should be built
     )doc"));
 
     cls.def_property("groupedResBuilders", [](const PyResGroupCollect &self) { return self.groupedResBuildersObj; },
-                     [](PyResGroupCollect &self, py::object value) { self.groupedResBuildersObj = std::move(value); },
+                     [](PyResGroupCollect &self, py::object value) { self.groupedResBuildersObj = std::move(value); self.refresh(nullptr); },
                      py::doc(R"doc(
 Dict[:class:`str`, :class:`IniGroupedResBuilder`]: The builders used to construct a type of grouped
 resource
     )doc"));
 
     cls.def_property("partPredicates", [](const PyResGroupCollect &self) { return self.partPredicatesObj; },
-                     [](PyResGroupCollect &self, py::object value) { self.partPredicatesObj = std::move(value); },
+                     [](PyResGroupCollect &self, py::object value) { self.partPredicatesObj = std::move(value); self.refresh(nullptr); },
                      py::doc(R"doc(
 Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable]]:
 The predicates for which particular order indices to process for some :class:`IfContentPart`
     )doc"));
 
     cls.def_property("resPredicates", [](const PyResGroupCollect &self) { return self.resPredicatesObj; },
-                     [](PyResGroupCollect &self, py::object value) { self.resPredicatesObj = std::move(value); },
+                     [](PyResGroupCollect &self, py::object value) { self.resPredicatesObj = std::move(value); self.refresh(nullptr); },
                      py::doc(R"doc(
 Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable]]:
 The predicates to check whether some reference to the resource should be used
     )doc"));
 
     cls.def_property("remaps", [](const PyResGroupCollect &self) { return self.remapsObj; },
-                     [](PyResGroupCollect &self, py::object value) { self.remapsObj = std::move(value); },
+                     [](PyResGroupCollect &self, py::object value) { self.remapsObj = std::move(value); self.refresh(nullptr); },
                      py::doc(R"doc(
 Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[:class:`str`, Tuple]]]: Whether
 to remap the graphs searched from :attr:`srcRegs`
     )doc"));
 
     cls.def_property("trackKeys", [](const PyResGroupCollect &self) { return self.trackKeysObj; },
-                     [](PyResGroupCollect &self, py::object value) { self.trackKeysObj = std::move(value); },
+                     [](PyResGroupCollect &self, py::object value) { self.trackKeysObj = std::move(value); self.refresh(nullptr); },
                      py::doc(R"doc(
 Union[:class:`bool`, Dict]: Whether to track the `KVPs`_ in the .ini file when searching for
 particular resources
     )doc"));
 
     cls.def_property("keysToTrack", [](const PyResGroupCollect &self) { return self.keysToTrackObj; },
-                     [](PyResGroupCollect &self, py::object value) { self.keysToTrackObj = std::move(value); },
+                     [](PyResGroupCollect &self, py::object value) { self.keysToTrackObj = std::move(value); self.refresh(nullptr); },
                      py::doc(R"doc(
 Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Optional[Set[:class:`str`]]]]:
 Specific keys to track in the .ini file when searching particular resources

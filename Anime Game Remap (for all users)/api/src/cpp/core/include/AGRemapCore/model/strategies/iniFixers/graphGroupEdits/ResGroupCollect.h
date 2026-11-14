@@ -69,6 +69,12 @@ namespace AGRemapCore {
         come from different ``.ini`` files, each owning its own context. Every combination therefore
         goes through #combineQueries, which reparents whichever operand does not already belong to
         the target context. Combining raw would not reliably throw; it would silently misbehave
+
+     .. warning::
+        The references, groups and replicas are worked out once, from the graphs as they are when this edit
+        runs. Nothing updates them afterwards: a later edit that renames, copies, moves or removes a section
+        holding one of the references leaves them describing where the references used to be. Order it after
+        the edits that reshape the graphs it reads
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`

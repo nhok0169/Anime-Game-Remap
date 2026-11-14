@@ -16,6 +16,7 @@
 
 #include <pybind11/pybind11.h>
 
+void initCppIniSharedState(pybind11::module_ &m);
 void initCppIniFile(pybind11::module_ &m);
 
 #endif

@@ -1,5 +1,5 @@
 """wwmiFlagMask.py: where a character's own GAME material-code map carries some flag bits, as the block-majority bit
-mask a ``WWMIFixerConfig::DrawReroute::sourceFlags`` holds -- a generated C++ file for the compiled fix and a JSON
+mask a ``WWMIParserConfig::DrawSplit::sourceFlags`` holds -- a generated C++ file for the compiled fix and a JSON
 file for the Python prototype.
 
     py -3 wwmiFlagMask.py --dds "Data/Mod Downloads/WuWa/Lynae/3_7/LynaeTexturec49bec43.dds" --flags 0x10 \
@@ -78,8 +78,8 @@ def cppText(args, bits):
            "",
            "",
            "namespace AGRemapCore {",
-           "    WWMIFixerConfig::DrawReroute::FlagMask " + args.func + "() {",
-           "        WWMIFixerConfig::DrawReroute::FlagMask mask;",
+           "    WWMIParserConfig::DrawSplit::FlagMask " + args.func + "() {",
+           "        WWMIParserConfig::DrawSplit::FlagMask mask;",
            "        mask.width = %d;" % args.size,
            "        mask.height = %d;" % args.size,
            "        mask.bits = std::vector<std::uint8_t>{"]

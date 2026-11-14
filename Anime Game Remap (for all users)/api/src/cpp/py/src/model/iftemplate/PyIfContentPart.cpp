@@ -68,18 +68,28 @@ std::optional<size_t> parseId(const py::object &id) {
 // above): PyRegRemove.cpp reuses it verbatim, exactly the way PyIOrderedMultiMap.h already
 // shares parseRanges/parseKeyRemap/parseReplaceVals with this file -- see that header's own
 // note about keeping dict-parsing helpers in one place instead of duplicating them per binding.
-std::vector<std::pair<std::string, std::optional<PyIfContentPart::RemoveKeyCheck>>> parseRemoveKeys(const py::dict &keys) {
+// The keys to remove: a dict of key -> check, or a list of (key, check) pairs -- a list can name one key twice, each
+// time with its own check
+std::vector<std::pair<std::string, std::optional<PyIfContentPart::RemoveKeyCheck>>> parseRemoveKeys(const py::object &keys) {
     std::vector<std::pair<std::string, std::optional<PyIfContentPart::RemoveKeyCheck>>> result;
-    result.reserve(keys.size());
-    for (auto item : keys) {
-        std::string key = py::str(item.first).cast<std::string>();
-        py::object value = py::reinterpret_borrow<py::object>(item.second);
-
+    const auto add = [&result](const py::handle& keyObj, const py::handle& valueObj) {
+        py::object value = py::reinterpret_borrow<py::object>(valueObj);
         std::optional<PyIfContentPart::RemoveKeyCheck> check = std::nullopt;
         if (!value.is_none()) {
             check = value.cast<PyIfContentPart::RemoveKeyCheck>();
         }
-        result.emplace_back(std::move(key), std::move(check));
+        result.emplace_back(py::str(keyObj).cast<std::string>(), std::move(check));
+    };
+
+    if (py::isinstance<py::dict>(keys)) {
+        for (auto item : keys.cast<py::dict>()) {
+            add(item.first, item.second);
+        }
+        return result;
+    }
+    for (auto item : keys) {
+        const py::sequence pair = py::reinterpret_borrow<py::sequence>(item);
+        add(pair[0], pair[1]);
     }
     return result;
 }

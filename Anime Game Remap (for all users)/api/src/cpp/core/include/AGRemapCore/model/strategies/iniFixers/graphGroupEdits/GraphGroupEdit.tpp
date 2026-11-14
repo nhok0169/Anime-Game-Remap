@@ -150,10 +150,16 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename GraphGroupEdit<K, V, KeyHash, KeyEqual>::GraphGroups& GraphGroupEdit<K, V, KeyHash, KeyEqual>::editImpl(GraphGroups& graphGroups, IniFile* ini,
                                                                                                                      const ModType* modType, const std::string& modName) {
-        std::size_t minIniFileLen = std::min(graphGroups.size(), edits.size());
+        // onlyWith / onlyWithout: whether a graph of an object is in any group decides whether the edit runs at all
+        if (!Base::gatesPass(graphGroups, onlyWith, onlyWithout)) {
+            return graphGroups;
+        }
+
+        // everyGroup: the first entry in each group there is
+        const std::size_t minIniFileLen = edits.empty() ? 0 : everyGroup ? graphGroups.size() : std::min(graphGroups.size(), edits.size());
 
         for (std::size_t i = 0; i < minIniFileLen; ++i) {
-            const IniEdits& iniEdits = edits[i];
+            const IniEdits& iniEdits = edits[everyGroup ? 0 : i];
 
             // Iterates the *graphs*, skipping any without edits -- matching the pure-Python
             // original's "for modObj in iniGraphs: if (modObj not in iniEdits): continue", rather

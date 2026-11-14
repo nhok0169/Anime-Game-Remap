@@ -103,6 +103,10 @@ class TexCreator(CppTexCreator):
         Image = GlobalPackageManager.get(PackageModules.PIL_Image.value)
 
         img = Image.new(mode = ImgFormats.RGBA.value, size = (self.width, self.height), color = self.colour.getTuple())
+        # From C++ (a TexCreate's resource, say) the file arrives as a plain CppTextureFile, which has no
+        # engine to set: read it through this package's own TextureFile
+        if (not isinstance(texFile, TextureFile)):
+            texFile = TextureFile(texFile.src)
         texFile.engine = self.engine
         texFile.readPillowImg = self.readPillowImg
         texFile.src = fixedTexFile

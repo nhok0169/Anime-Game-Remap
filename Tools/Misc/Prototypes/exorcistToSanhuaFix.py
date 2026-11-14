@@ -80,9 +80,9 @@
 #  `if ps == <filter>` never matches -- its textures silently not bound. So every shader both
 #  directions tag keeps the forward's value (69e3d321 = 3381.91, 374a4f8f = 3381.93, 056f9f3c =
 #  3381.96), and the shaders only this direction tags take values the forward never uses
-#  (3381.81 up). The compiled template derives its values from filterBase / filterStep in slot order,
-#  which cannot express this: a port needs an explicit shader -> filter table (or both configs
-#  sharing one).
+#  (3381.81 up). The compiled template makes up no filter value (filterBase / filterStep are gone):
+#  every pass shader's filter_index comes from the game data tables (DrawPasses tags), and a shader
+#  with no tag there is refused.
 #
 # ---- A MOD FROM BEFORE WWMI'S MERGED SKELETON (the ALPHA-2 shape, 2026-09-19) ----
 #
@@ -508,7 +508,7 @@ class ModFiles():
         self.present: List[int] = []         # source components the mod has a section for
         self.draws: Dict[int, int] = {}      # source component -> its number of drawindexed / custom-shader draws
         self.drawRanges: Dict[int, List[Tuple[int, int]]] = {}   # source component -> its (index count, first index) draws
-        targets = parser._sectionTargets
+        targets = parser.sectionTargets
         for i in range(len(source["components"])):
             names = targets.get(("", f"{SlotPrefix}{i}")) or []
             if (not names):

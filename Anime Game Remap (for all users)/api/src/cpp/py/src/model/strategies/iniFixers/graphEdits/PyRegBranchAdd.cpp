@@ -104,20 +104,55 @@ PyRegBranchAdd::Core::Branch parseBranch(const py::object &result) {
 }
 
 
-PyRegBranchAdd::PyRegBranchAdd(py::object branchOfObj): Core({}), branchOfObj(std::move(branchOfObj)) {}
-
-
-void PyRegBranchAdd::refresh() {
-    if (branchOfObj.is_none()) {
-        branchOf = {};
-        return;
+// A core Branch as what a Python branchOf answers -- the reverse of parseBranch
+static py::object branchToPy(const PyRegBranchAdd::Core::Branch &branch) {
+    if (branch.key.empty()) {
+        return py::none();
     }
+    return py::make_tuple(branch.key, py::cast(branch.additions), py::cast(branch.replacements), py::cast(branch.removals));
+}
 
-    py::object held = branchOfObj;
-    branchOf = [held](const AGRC::Z3Predicate &query, const Core::IterData &iterData) {
-        // The predicate by value: it is a small handle, and Python may keep it past this call.
-        return parseBranch(held(query, py::cast(&iterData, py::return_value_policy::reference)));
+namespace {
+    // a branchOf given in Python, kept so it reads back as itself
+    struct PyBranchOf {
+        py::object given;
+
+        PyRegBranchAdd::Core::Branch operator()(const AGRC::Z3Predicate &query, const PyRegBranchAdd::Core::IterData &iterData) const {
+            py::gil_scoped_acquire gil;
+            // The predicate by value: it is a small handle, and Python may keep it past this call.
+            return parseBranch(given(query, py::cast(&iterData, py::return_value_policy::reference)));
+        }
     };
+}
+
+// The core edit as the Python RegBranchAdd: its branchOf kept as the C++ function it is
+static std::unique_ptr<PyRegBranchAdd> fromCore(std::unique_ptr<PyRegBranchAdd::Core> core) {
+    auto edit = std::make_unique<PyRegBranchAdd>(py::none());
+    edit->branchOf = std::move(core->branchOf);
+    return edit;
+}
+
+PyRegBranchAdd::PyRegBranchAdd(py::object branchOfObj): Core({}) {
+    setBranchOf(branchOfObj);
+}
+
+
+void PyRegBranchAdd::setBranchOf(const py::object &branchOfObj) {
+    branchOf = branchOfObj.is_none() ? Core::BranchOf() : Core::BranchOf(PyBranchOf{branchOfObj});
+}
+
+
+py::object PyRegBranchAdd::branchOfToPy() const {
+    if (!branchOf) {
+        return py::none();
+    }
+    if (const PyBranchOf *own = branchOf.target<PyBranchOf>(); own != nullptr) {
+        return own->given;
+    }
+    Core::BranchOf held = branchOf;
+    return py::cpp_function([held](const AGRC::Z3Predicate &query, py::object iterData) {
+        return branchToPy(held(query, iterData.cast<const PyRegBranchAdd::Core::IterData &>()));
+    });
 }
 
 
@@ -181,10 +216,77 @@ branchOf: Optional[Callable[[:class:`Z3Predicate`, :class:`SectionIterData`], Op
         return std::make_unique<PyRegBranchAdd>(std::move(branchOf));
     }), py::arg("branchOf") = py::none());
 
+    using Row = AGRC::GraphCollectRow<std::string, std::string>;
+    cls.def_static("perBranchReplacements", [](AGRC::Z3Context *z3Ctx, std::vector<Row> rows, std::string keyPrefix,
+                                               py::function replacementsOf) {
+        return fromCore(PyRegBranchAdd::Core::perBranchReplacements(z3Ctx, std::move(rows), std::move(keyPrefix),
+            [replacementsOf](std::size_t index, const std::optional<AGRC::Z3Predicate> &local) {
+                py::object result = replacementsOf(index, local);
+                return result.is_none() ? PyRegBranchAdd::Core::Additions{} : parseAdditions(result);
+            }));
+    }, py::arg("z3Ctx"), py::arg("rows"), py::arg("keyPrefix"), py::arg("replacementsOf"), py::keep_alive<0, 1>(), py::doc(R"doc(
+An edit that REPLACES keys in each branch that one of 'rows' belongs to: a branch's query is brought into 'z3Ctx' once,
+the one row it is compatible with is found (:meth:`GraphCollect.onlyUnder`), and that row's replacements are written
+there under the key ``<keyPrefix>;<index>``. A branch no single row answers for, or one with no replacements, is left
+alone
+
+A merged master binds a value per ``$swapvar`` branch (:meth:`GraphCollect.rowsOf`), and what goes beside it -- a
+``draw`` count, say -- is per branch too
+
+Parameters
+----------
+z3Ctx: :class:`Z3Context`
+    The context the conditions are combined in
+
+rows: List[:class:`GraphCollect.Row`]
+    The branched values, each with its condition
+
+keyPrefix: :class:`str`
+    What a branch's key starts with
+
+replacementsOf: Callable[[:class:`int`, Optional[:class:`Z3Predicate`]], List[Tuple[:class:`str`, :class:`str`]]]
+    What one branch's replacements are, given its index among the rows and its query
+
+Returns
+-------
+:class:`RegBranchAdd`
+    The edit
+    )doc"));
+
+    cls.def_static("perBranchRemovals", [](AGRC::Z3Context *z3Ctx, std::vector<Row> rows, std::string keyPrefix,
+                                           py::function removalsOf) {
+        return fromCore(PyRegBranchAdd::Core::perBranchRemovals(z3Ctx, std::move(rows), std::move(keyPrefix),
+            [removalsOf](std::size_t index, const std::optional<AGRC::Z3Predicate> &local) {
+                py::object result = removalsOf(index, local);
+                return result.is_none() ? std::vector<std::string>{} : result.cast<std::vector<std::string>>();
+            }));
+    }, py::arg("z3Ctx"), py::arg("rows"), py::arg("keyPrefix"), py::arg("removalsOf"), py::keep_alive<0, 1>(), py::doc(R"doc(
+Like :meth:`perBranchReplacements`, REMOVING keys in each branch rather than replacing them
+
+Parameters
+----------
+z3Ctx: :class:`Z3Context`
+    The context the conditions are combined in
+
+rows: List[:class:`GraphCollect.Row`]
+    The branched values, each with its condition
+
+keyPrefix: :class:`str`
+    What a branch's key starts with
+
+removalsOf: Callable[[:class:`int`, Optional[:class:`Z3Predicate`]], List[:class:`str`]]
+    What one branch's removals are, given its index among the rows and its query
+
+Returns
+-------
+:class:`RegBranchAdd`
+    The edit
+    )doc"));
+
     cls.def_property("branchOf", [](const PyRegBranchAdd &self) {
-        return self.branchOfObj;
+        return self.branchOfToPy();
     }, [](PyRegBranchAdd &self, py::object branchOf) {
-        self.branchOfObj = std::move(branchOf);
+        self.setBranchOf(branchOf);
     }, py::doc(R"doc(
 Optional[Callable[[:class:`Z3Predicate`, :class:`SectionIterData`], Optional[Tuple]]]: Decides what belongs in each branch
     )doc"));
@@ -192,7 +294,6 @@ Optional[Callable[[:class:`Z3Predicate`, :class:`SectionIterData`], Optional[Tup
     cls.def("edit", [](PyRegBranchAdd &self, py::object graph, const py::object &modType,
                        const std::string &modName, const py::object &partFilter, bool trackKeys,
                        const py::object &keysToTrack) {
-        self.refresh();
         PyIniSectionGraph &parsedGraph = parseGraphArg(graph);
 
         self.Core::edit(parsedGraph, nullptr, modName, parsePartFilter(partFilter, modType),

@@ -167,26 +167,39 @@ namespace AGRemapCore {
         }
 
 
+        // A HASH TWO REGISTERED MOD TYPES BOTH CLAIM VOTES FOR NEITHER (2026-09-23). A hash vote is
+        // worth 2 against a section name's 1, so a shared hash is not noise: the eye draw_vb
+        // 61b441bd, which the game gives YelanTranquil's Eye and CharlotteHurlock's Eyes alike,
+        // classified a CharlotteHurlock mod as YelanTranquil as well, and the YelanTranquil -> Yelan
+        // fix then ran over it and wrote its header last. The data rows stay -- a fix still needs
+        // the value to remap a section onto that component -- it just identifies no one.
+        //
+        // Built once: HashData and the shipped mod types are compiled in. The GI parsers ask the same
+        // count whether a recoloured texture is drawn by one character alone (GlobalIniClassifiers::claims).
+        const std::unordered_map<std::string, int>& claimCounts() {
+            static const std::unordered_map<std::string, int> counts = []() {
+                std::unordered_map<std::string, int> acc;
+                for (const ModType& modType : GlobalModTypes::all()) {
+                    std::optional<ModTypeId> modTypeId = ModTypeIdTools::getEnum(modType.modTypeId);
+                    if (!modTypeId.has_value()) {
+                        continue;
+                    }
+                    for (const std::string& hash : identifyingHashesOf(modType, *modTypeId)) {
+                        ++acc[hash];
+                    }
+                }
+                return acc;
+            }();
+            return counts;
+        }
+
+
         void populate(IniClassifier& classifier) {
-            // A HASH TWO REGISTERED MOD TYPES BOTH CLAIM VOTES FOR NEITHER (2026-09-23). A hash vote is
-            // worth 2 against a section name's 1, so a shared hash is not noise: the eye draw_vb
-            // 61b441bd, which the game gives YelanTranquil's Eye and CharlotteHurlock's Eyes alike,
-            // classified a CharlotteHurlock mod as YelanTranquil as well, and the YelanTranquil -> Yelan
-            // fix then ran over it and wrote its header last. The data rows stay -- a fix still needs
-            // the value to remap a section onto that component -- it just identifies no one.
-            std::unordered_map<std::string, int> claims;
-            for (const ModType& modType : GlobalModTypes::all()) {
-                std::optional<ModTypeId> modTypeId = ModTypeIdTools::getEnum(modType.modTypeId);
-                if (!modTypeId.has_value()) {
-                    continue;
-                }
-                for (const std::string& hash : identifyingHashesOf(modType, *modTypeId)) {
-                    ++claims[hash];
-                }
-            }
+            const std::unordered_map<std::string, int>& claims = claimCounts();
             auto unambiguous = [&claims](std::unordered_set<std::string> hashes) {
                 for (auto it = hashes.begin(); it != hashes.end();) {
-                    it = (claims[*it] > 1) ? hashes.erase(it) : std::next(it);
+                    auto found = claims.find(*it);
+                    it = (found != claims.end() && found->second > 1) ? hashes.erase(it) : std::next(it);
                 }
                 return hashes;
             };
@@ -250,6 +263,12 @@ namespace AGRemapCore {
                                         std::unordered_set<std::string>(keywords.begin(), keywords.end()));
             }
         }
+    }
+
+    int GlobalIniClassifiers::claims(const std::string& hash) {
+        const std::unordered_map<std::string, int>& counts = claimCounts();
+        auto found = counts.find(hash);
+        return found == counts.end() ? 0 : found->second;
     }
 
     IniClassifier& GlobalIniClassifiers::classifier() {

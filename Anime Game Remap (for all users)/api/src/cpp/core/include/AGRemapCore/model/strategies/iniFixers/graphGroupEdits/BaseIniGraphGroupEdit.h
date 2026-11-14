@@ -18,6 +18,7 @@
 #include <functional>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h"
@@ -185,6 +186,27 @@ namespace AGRemapCore {
             static Graph* getGraph(const GraphGroups& graphGroups, const GraphId& id, bool errorOnNotFound = true);
 
             /**
+             * @brief Whether a graph of any of 'objs' is in any group of 'graphGroups'
+             * @param graphGroups The groups of graphs
+             * @param objs The objects
+             */
+            static bool heldAnywhere(const GraphGroups& graphGroups, const std::vector<ModObj>& objs);
+
+            /**
+             * @brief
+             @rst
+             An edit's gates on what the groups hold: whether 'onlyWith' is empty or a graph of one of its objects is in a
+             group, and no graph of an object of 'onlyWithout' is -- see :cpp:member:`GraphCreate::onlyWith`
+             @endrst
+             *
+             * @param graphGroups The groups of graphs
+             * @param onlyWith Objects one of which must have a graph somewhere; empty for no such gate
+             * @param onlyWithout Objects none of which may have a graph anywhere; empty for no such gate
+             */
+            static bool gatesPass(const GraphGroups& graphGroups, const std::vector<ModObj>& onlyWith,
+                                  const std::vector<ModObj>& onlyWithout);
+
+            /**
              * @brief Adds a graph to the group of graphs
              *
              * @param graphGroups The group of graphs for each .ini file
@@ -202,6 +224,16 @@ namespace AGRemapCore {
              @endrst
              */
             static bool addGraph(GraphGroups& graphGroups, const GraphId& id, Graph* graph);
+
+            /**
+             * @brief
+             @rst
+             The edit's name as a step of a fixer's list -- what a step of a user's own is put after
+             (:cpp:func:`TemplateFixer::insertStep`). Empty (the default) for an unnamed step; a
+             :cpp:class:`GraphVarApply` is named after the variable it makes
+             @endrst
+             */
+            std::string name;
     };
 }
 

@@ -96,6 +96,27 @@ namespace AGRemapCore {
             const std::vector<std::uint8_t>& getPixels() const;
 
             /**
+             * @brief
+             @rst
+             The values a shader reads from one channel of #getPixels, one byte a pixel :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A texture stored sRGB (one #getGamma is set for) reaches the shader DECODED: the sampler linearises
+             each of R, G and B. The decoded value times 255 is truncated when the shader casts it to an integer
+             code (a material-code map), or rounded when it is a value. Alpha, and every channel of a texture
+             not stored sRGB, is its byte
+             @endrst
+             *
+             * @param channel The channel: 0 (R), 1 (G), 2 (B) or 3 (A)
+             * @param truncate Whether a decoded value is truncated rather than rounded. **Default**: ``true``
+             *
+             * @return The values, row-major
+             *
+             * @throws std::out_of_range if 'channel' is past 3
+             */
+            std::vector<std::uint8_t> shaderChannel(std::size_t channel, bool truncate = true) const;
+
+            /**
              * @brief Replaces the current pixel buffer, eg. with pixels edited outside of this class
              *
              * @param pixels The new flat RGBA8 pixel buffer (4 bytes per pixel, row-major)
@@ -211,6 +232,46 @@ namespace AGRemapCore {
              @endrst
              */
             static constexpr CMP_FORMAT DefaultFormat = CMP_FORMAT_BC7;
+
+            /**
+             * @brief What the header of a ``.dds`` file says, without reading its pixels
+             */
+            struct DDSHeader {
+                /**
+                 * @brief The width of the top mip, in pixels
+                 */
+                std::uint32_t width = 0;
+
+                /**
+                 * @brief The height of the top mip, in pixels
+                 */
+                std::uint32_t height = 0;
+
+                /**
+                 * @brief How many mips the file holds -- at least 1
+                 */
+                std::uint32_t mipCount = 1;
+
+                /**
+                 * @brief
+                 @rst
+                 The pixel format, as a ``DXGI_FORMAT`` value: the ``DX10`` extension's, or for a
+                 legacy header ``61`` (``R8_UNORM``) for one 8-bit red channel and ``87``
+                 (``B8G8R8A8_UNORM``) for 32-bit BGRA. ``0`` for any other legacy format
+                 @endrst
+                 */
+                std::uint32_t dxgiFormat = 0;
+            };
+
+            /**
+             * @brief Reads the header of the ``.dds`` file at 'path'
+             *
+             * @param path The file
+             *
+             * @return The header, or ``std::nullopt`` when the file is shorter than a header or is
+             *      not a ``.dds`` file
+             */
+            static std::optional<DDSHeader> readDDSHeader(const std::string& path);
 
             /**
              * @brief

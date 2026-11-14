@@ -4,6 +4,7 @@
     <compoundname>AGRemapCore::VGRemapBlendReplace</compoundname>
     <basecompoundref refid="class_a_g_remap_core_1_1_remap_blend_replace" prot="public" virt="non-virtual">AGRemapCore::RemapBlendReplace&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
     <includes refid="_v_g_remap_blend_edit_8h" local="no">VGRemapBlendEdit.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_v_g_remap_blend_replace_1_1_paired_ids" prot="public">AGRemapCore::VGRemapBlendReplace::PairedIds</innerclass>
     <templateparamlist>
       <param>
         <type>typename K</type>
@@ -36,7 +37,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="83" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="83" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="86" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="86" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1abf6ab26f282fe0fb515c66e8397f6ae1" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_remap_blend_replace_1a5ac8244544db1953a9714d0e50a7818d" kindref="member">Base::GraphId</ref></type>
@@ -56,7 +57,7 @@ fields rather than restating them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="88" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="88" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="91" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="91" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af696ce2e5428e68d830e95805649348f" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_remap_blend_replace_1ae5a6c7d2ad17c6dc00d4ede1889a58a9" kindref="member">Base::ResEditConfig</ref></type>
@@ -78,7 +79,7 @@ conversion can be hardcoded here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="93" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="93" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="96" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="96" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1aa98a8f46a361e26b0ae278786d491621" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a13f236c70fb15e8b5b70895b4f56e534" kindref="member">Base::Context</ref></type>
@@ -93,7 +94,7 @@ conversion can be hardcoded here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="98" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="98" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="101" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="101" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_replace_1a46ad0eeccb1d3660fbf42c986719f161" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_res_replace_1a46ad0eeccb1d3660fbf42c986719f161" kindref="member">Base::Graph</ref></type>
@@ -107,7 +108,7 @@ conversion can be hardcoded here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="469" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="469" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="490" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="490" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_replace_1a9d42eb3fa1dea254b6b8fb02846643ab" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_res_replace_1a9d42eb3fa1dea254b6b8fb02846643ab" kindref="member">Base::ResourceFilter</ref></type>
@@ -121,7 +122,7 @@ conversion can be hardcoded here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="472" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="472" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="493" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="493" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_replace_1a965c4b36f278faa35693308e6bcfed3a" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_res_replace_1a965c4b36f278faa35693308e6bcfed3a" kindref="member">Base::CollectedSections</ref></type>
@@ -135,7 +136,7 @@ conversion can be hardcoded here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="473" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="473" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="494" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="494" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_replace_1aa7d8cce909c8adcc48d4dea2e42ac782" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_res_replace_1aa7d8cce909c8adcc48d4dea2e42ac782" kindref="member">Base::GraphGroups</ref></type>
@@ -149,7 +150,7 @@ conversion can be hardcoded here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="474" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="474" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="495" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="495" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_res_edit_1aa23240db6dae82e1bf2c6b9f0a5fd343" prot="public" static="no">
         <type>typename GraphGroups::Section</type>
@@ -196,7 +197,30 @@ conversion can be hardcoded here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="138" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="138" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="141" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1a1b7a3d1742b7b18f8b1f58393ec532f9" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;::rowModName</definition>
+        <argsstring></argsstring>
+        <name>rowModName</name>
+        <qualifiedname>AGRemapCore::VGRemapBlendReplace::rowModName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The mod name the vertex group row is looked up under, in place of the mod being fixed to
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A fixer whose target is ONE COMPONENT of a skin fixes to that component&apos;s own mod type (eg.
+``MiyabiBlossomDress``), while the skin&apos;s rows are filed under the skin with a component
+column (``MiyabiBlossom``, ``Dress``) -- :cpp:member:`toComp` names the component, this the
+skin. **Default**: ``std::nullopt``, the mod being fixed to
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="155" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="155" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1ad578125140653162c18fd68cdbacc0cb" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
@@ -211,7 +235,7 @@ conversion can be hardcoded here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="143" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="143" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="160" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="160" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1a2483d64fe6b84f3b9a2ddbb0eb6ccb6e" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
@@ -226,7 +250,119 @@ conversion can be hardcoded here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="148" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="148" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="165" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1a22bdfd39fb3d4abe4abfcb2443517f9f" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_remap_blend_resource" kindref="compound">RemapBlendResource</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;bool(RemapBlendResource&amp;)&gt; AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;::fixFunc</definition>
+        <argsstring></argsstring>
+        <name>fixFunc</name>
+        <qualifiedname>AGRemapCore::VGRemapBlendReplace::fixFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What fixes the built resource in place of :cpp:class:`RemapBlendResource`&apos;s own remap -- eg. a
+blend whose true bone ids live in another buffer. It is handed the resource, and returns whether
+the fixed file was written :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: an empty function, the resource&apos;s own remap
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="177" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1a959a49e32da929d604a6c3b3fc57af0e" prot="public" static="no" mutable="no">
+        <type>std::map&lt; long long, std::vector&lt; long long &gt; &gt;</type>
+        <definition>std::map&lt;long long, std::vector&lt;long long&gt; &gt; AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;::anchorChains</definition>
+        <argsstring></argsstring>
+        <name>anchorChains</name>
+        <qualifiedname>AGRemapCore::VGRemapBlendReplace::anchorChains</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Vertex groups that move as one part: each key is a ROOT group of the source, and every group
+in its list is remapped to whatever the root is remapped to -- a chain the target has no
+counterpart for, pinned to the bone it hangs from. A root the remap has no entry for leaves its
+chain as the remap has it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="190" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1acc44468ccd64e9b21796a2de3ad228fd" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;(const std::string &amp;srcPath)&gt;</type>
+        <definition>std::function&lt;std::vector&lt;std::unique_ptr&lt;BufElementType&gt; &gt;(const std::string&amp; srcPath)&gt; AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;::elements</definition>
+        <argsstring></argsstring>
+        <name>elements</name>
+        <qualifiedname>AGRemapCore::VGRemapBlendReplace::elements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The line layout of the source ``Blend.buf``, decided from its path -- eg. a layout whose
+number of bone influences per vertex is read off the file&apos;s size. Given the source file&apos;s
+path :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: an empty function, :cpp:class:`BlendFile`&apos;s default layout
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="202" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1ac444069dbb35bab3a2608ba731931335" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;::influences</definition>
+        <argsstring></argsstring>
+        <name>influences</name>
+        <qualifiedname>AGRemapCore::VGRemapBlendReplace::influences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How many (weight, index) slots each vertex of the fixed ``Blend.buf`` carries -- the width the target&apos;s
+draws read -- or 0 to keep the source&apos;s :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+After the blend is remapped (by \ref fixFunc or the resource&apos;s own remap) it is made this wide with
+:cpp:func:`BlendFile::setInfluences`, the buffers \ref pairedIds names keep the same slots
+(:cpp:func:`BlendFile::keepSlots`), and the generated resource `section`_ declares the new ``stride``. A
+source already this wide is left alone, and its section gets no ``stride`` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Default**: ``0``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="238" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1ad9166ad679a91f17a2be566a9c073c0c" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_v_g_remap_blend_replace_1_1_paired_ids" kindref="compound">PairedIds</ref> &gt;(const std::string &amp;srcPath)&gt;</type>
+        <definition>std::function&lt;std::vector&lt;PairedIds&gt;(const std::string&amp; srcPath)&gt; AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;::pairedIds</definition>
+        <argsstring></argsstring>
+        <name>pairedIds</name>
+        <qualifiedname>AGRemapCore::VGRemapBlendReplace::pairedIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The id buffers beside the fixed ``Blend.buf`` that follow its slots when \ref influences changes its
+width, given the source file&apos;s path. The first names the bones the blend&apos;s slots are merged by
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: an empty function, none
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="250" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="250" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_blend_replace_1aab14fe0c2f6dad66baafb6c0c075627d" prot="public" static="no" mutable="no">
         <type>std::optional&lt; std::string &gt;</type>
@@ -481,7 +617,7 @@ reports ``0 Blend.buf files`` while the files sit on disk
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="127" column="13"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="130" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af55f08fc5b17f2adf0888a17439745f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -519,7 +655,8 @@ reports ``0 Blend.buf files`` while the files sit on disk
         <detaileddescription>
 <para><verbatim>embed:rst 
 Builds a real :cpp:class:`RemapBlendResource`, carrying the vertex group remap
-:cpp:func:`ModType::getVGRemap` gives for this pair of mods :raw-html:`&lt;br /&gt;`
+:cpp:func:`ModType::getVGRemap` gives for this pair of mods (with \\ref anchorChains pinned),
+\\ref fixFunc and the line layout \\ref elements gives :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
 The resource&apos;s ``type`` is this edit&apos;s own ``resType``, not the &apos;resType&apos; argument --
@@ -578,7 +715,7 @@ the same as the `pybind11`_ override
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="168" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="271" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_replace_1a9eabc01e0f430b59c61c5e6c8cd7e4a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -780,7 +917,7 @@ graph id)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="493" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="514" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -885,10 +1022,10 @@ Builds and saves the resources, given the :cpp:class:`IniSectionGraph` for a res
         <name>clear</name>
         <qualifiedname>AGRemapCore::BaseResEdit::clear</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_file_add_create_1a8c2f97c56f0615bf7bcb0743ddef7f6e">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_file_download_create_1addf6e74f7c2241aca499e88103d10123">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
-        <reimplementedby refid="class_a_g_remap_core_1_1_tex_creator_create_1ae848a76d2d0b95d929cab09f0e8061ea">clear</reimplementedby>
         <briefdescription>
 <para>Clears any saved state information. </para>
         </briefdescription>
@@ -1081,6 +1218,69 @@ getFixResourceName, or the `section`_&apos;s own name when that reports no chang
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="343" column="33"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a81dfd3eae0a577bc393ab4905574df91" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, Section * &gt;</type>
+        <definition>std::unordered_map&lt; std::string, Section * &gt; AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::sourceSections</definition>
+        <argsstring>(Context &amp;ctx, GraphGroups &amp;graphGroups, const std::vector&lt; std::string &gt; &amp;targetSectionNames) const</argsstring>
+        <name>sourceSections</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::sourceSections</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1aa98a8f46a361e26b0ae278786d491621" kindref="member">Context</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_replace_1aa7d8cce909c8adcc48d4dea2e42ac782" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>targetSectionNames</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `sections`_ a resource&apos;s graph is built from: the .ini file&apos;s own, plus any of
+&apos;targetSectionNames&apos; the file does not declare and a graph in &apos;graphGroups&apos; holds
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+What it is for: a resource a FIX declares, as a section of one of its own graphs rather
+than of the .ini file (a download the fix adds, say). Without it the resource&apos;s graph is
+given a target it has no section for, the edited copy is never built, and the
+references collected to it are repointed at a name nothing declares. The .ini file&apos;s
+own section wins over a graph&apos;s of the same name
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated original .ini file being fixed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs for each .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>targetSectionNames</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resources&apos; <computeroutput>sections</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="363" column="32"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1abacd8105c841d15e5abfb4d808486db4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_res_replace_1a46ad0eeccb1d3660fbf42c986719f161" kindref="member">Graph</ref> *</type>
         <definition>virtual Graph * AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::getResGraph</definition>
@@ -1178,7 +1378,7 @@ Retrieves the particular :cpp:class:`IniSectionGraph` for the resource
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="360" column="27"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="381" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a6710f40b48ec3fe39ffa4ae31bc296bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_res_replace_1aa7d8cce909c8adcc48d4dea2e42ac782" kindref="member">GraphGroups</ref> &amp;</type>
@@ -1278,10 +1478,45 @@ resource (reachable via \ref resModObj)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="382" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="403" column="33"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1acd0c15560a5fcb9ad5cd19d3acbdffd7" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; K, V &gt; &gt; AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;::fileKVPs</definition>
+        <argsstring>(const std::string &amp;srcPath) const override</argsstring>
+        <name>fileKVPs</name>
+        <qualifiedname>AGRemapCore::VGRemapBlendReplace::fileKVPs</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_res_replace_1a6e6422724d6a26f542d172ac0ce20ae9">fileKVPs</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>srcPath</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+:cpp:member:`ResEditConfig::extraKVPs`, and the new ``stride`` when \ref influences changes the width of
+the file at &apos;srcPath&apos;
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>srcPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The absolute file path to the original resource</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <computeroutput>KVPs</computeroutput>_ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="286" column="25"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_replace_1a0675cf3d6cc30cd95e0d7820d9567358" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
         <definition>std::string AGRemapCore::RemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;::subTypedModName</definition>
@@ -1310,6 +1545,26 @@ resource (reachable via \ref resModObj)
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h" line="118" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1a06803730a909ffe7e5b878bb337ce971" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::size_t, std::size_t &gt;</type>
+        <definition>std::pair&lt; std::size_t, std::size_t &gt; AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;::widths</definition>
+        <argsstring>(const std::string &amp;srcPath) const</argsstring>
+        <name>widths</name>
+        <qualifiedname>AGRemapCore::VGRemapBlendReplace::widths</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>srcPath</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="290" column="23"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -1511,8 +1766,9 @@ signal -- the section names, the file on disk, the fix&apos;s own summary line -
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="77" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="77" bodyend="170"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="80" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="80" bodyend="291"/>
     <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1a959a49e32da929d604a6c3b3fc57af0e" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>anchorChains</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af62b9630363bbef83c2c1ffb6f6ff5b8" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1acb963bd0fea8a4e1520f6c9478ccfe48" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>BaseResEdit</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af55f08fc5b17f2adf0888a17439745f2" prot="public" virt="virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>buildResModel</name></member>
@@ -1525,7 +1781,10 @@ signal -- the section names, the file on disk, the fix&apos;s own summary line -
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b4ad3308279e531f172fcb8de5d5798" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>config</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1acc3ce6d69924cc5f27b9c403027a0298" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>ContentPart</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1aa98a8f46a361e26b0ae278786d491621" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>Context</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1acc44468ccd64e9b21796a2de3ad228fd" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>elements</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1a7bc2fd1d2fe42716250c3d6d0715e241" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>fileAddGraphId</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1acd0c15560a5fcb9ad5cd19d3acbdffd7" prot="protected" virt="virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>fileKVPs</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1a22bdfd39fb3d4abe4abfcb2443517f9f" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>fixFunc</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_blend_replace_1a7302384b22f74b3ed4f6bc4aadd0ce98" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>fromComp</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1ad578125140653162c18fd68cdbacc0cb" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>fromVersion</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" prot="public" virt="virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>getFileId</name></member>
@@ -1536,7 +1795,9 @@ signal -- the section names, the file on disk, the fix&apos;s own summary line -
       <member refid="class_a_g_remap_core_1_1_res_replace_1aa7d8cce909c8adcc48d4dea2e42ac782" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>GraphGroups</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1abf6ab26f282fe0fb515c66e8397f6ae1" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>GraphId</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6c5e35cc77b84c095d3fde50fcd8a880" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>graphReplaceMode</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1ac444069dbb35bab3a2608ba731931335" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>influences</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1a1197b7822e93401968f6ba6c6e982e60" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>modType</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1ad9166ad679a91f17a2be566a9c073c0c" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>pairedIds</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_blend_replace_1a7c01b29d9c70981dd96cf52307ba4e05" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>RemapBlendReplace</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1a69c0063dff581aa1aa2c6b416ee52a33" prot="public" virt="virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>renameUncollectedSection</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af696ce2e5428e68d830e95805649348f" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>ResEditConfig</name></member>
@@ -1544,11 +1805,14 @@ signal -- the section names, the file on disk, the fix&apos;s own summary line -
       <member refid="class_a_g_remap_core_1_1_res_replace_1a9d42eb3fa1dea254b6b8fb02846643ab" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>ResourceFilter</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_blend_replace_1aab14fe0c2f6dad66baafb6c0c075627d" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>resSubType</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1a02ef8d850319513541970c5fd2e27cab" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>resType</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1a1b7a3d1742b7b18f8b1f58393ec532f9" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>rowModName</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1aa23240db6dae82e1bf2c6b9f0a5fd343" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>Section</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a81dfd3eae0a577bc393ab4905574df91" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>sourceSections</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_blend_replace_1a0675cf3d6cc30cd95e0d7820d9567358" prot="protected" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>subTypedModName</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_blend_replace_1a6b0ff567c86975eb08a8bc7ee7b726c1" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>toComp</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1a2483d64fe6b84f3b9a2ddbb0eb6ccb6e" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>toVersion</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1a06e967f704f13c54b5c7706f1d382a95" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>VGRemapBlendReplace</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1a06803730a909ffe7e5b878bb337ce971" prot="private" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>widths</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1a69609feba68d8ab79031b12aa5f5c433" prot="public" virt="virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>~BaseResEdit</name></member>
     </listofallmembers>
   </compounddef>

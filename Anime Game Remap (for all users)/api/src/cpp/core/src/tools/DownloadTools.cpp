@@ -13,6 +13,7 @@
 
 #include "AGRemapCore/tools/DownloadTools.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <utility>
 
@@ -85,6 +86,13 @@ namespace AGRemapCore {
     }
 
 
+    std::string DownloadTools::versionFolder(const Version& version) {
+        std::string folder = version.toString();
+        std::replace(folder.begin(), folder.end(), '.', '_');
+        return folder;
+    }
+
+
     std::string DownloadTools::urlPath(const std::string& charFolder, const std::string& versionFolder,
                                         const std::string& prefix, const std::string& kind,
                                         const std::string& ext) {
@@ -98,6 +106,12 @@ namespace AGRemapCore {
         return game + "/" + charFolder + "/" + versionFolder + "/" + prefix + kind + ext;
     }
 
+    std::string DownloadTools::url(const std::string& game, const std::string& charFolder,
+                                   const std::string& versionFolder, const std::string& prefix,
+                                   const std::string& kind, const std::string& ext) {
+        return downloadFolder() + "/" + urlPath(game, charFolder, versionFolder, prefix, kind, ext);
+    }
+
 
     DownloadTools::KVPs DownloadTools::bufResourceKVPs(int stride) {
         return {{"type", "Buffer"}, {"stride", std::to_string(stride)}};
@@ -106,16 +120,6 @@ namespace AGRemapCore {
 
     DownloadTools::KVPs DownloadTools::ibResourceKVPs() {
         return {{"type", "Buffer"}, {"format", "DXGI_FORMAT_R32_UINT"}};
-    }
-
-
-    DownloadTools::KVPs DownloadTools::blendRefKVPs(long long vertexCount) {
-        // A downloaded Blend.buf is drawn by hand: the .ini file it is dropped into has no
-        // drawindexed of its own for it, so the reference is followed by 'handling = skip' and a
-        // non-indexed 'draw = <vertex count>,0'. That is what the pure-Python BlendDownloadData
-        // adds in its own addToPart override, and what downloadRefKVPs is for.
-        return {{IniKeywords::Handling, "skip"},
-                {IniKeywords::Draw, std::to_string(vertexCount) + ",0"}};
     }
 
 

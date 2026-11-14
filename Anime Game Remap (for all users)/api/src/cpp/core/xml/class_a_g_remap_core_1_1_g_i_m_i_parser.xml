@@ -3,9 +3,11 @@
   <compounddef id="class_a_g_remap_core_1_1_g_i_m_i_parser" kind="class" language="C++" prot="public">
     <compoundname>AGRemapCore::GIMIParser</compoundname>
     <basecompoundref prot="public" virt="non-virtual">BaseIniParser&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_template_parser" prot="public" virt="non-virtual">AGRemapCore::TemplateParser</derivedcompoundref>
     <includes refid="_g_i_m_i_parser_8h" local="no">GIMIParser.h</includes>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_download_targets" prot="public">AGRemapCore::GIMIParser::DownloadTargets</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config" prot="public">AGRemapCore::GIMIParser::ParserConfig</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_row_steps" prot="public">AGRemapCore::GIMIParser::RowSteps</innerclass>
     <templateparamlist>
       <param>
         <type>typename K</type>
@@ -41,7 +43,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="128" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="128" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="130" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="130" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a1498c57d0ba299a4187dfce4ed1c82ee" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_parser" kindref="compound">BaseIniParser</ref>&lt; K, V, KeyHash, KeyEqual &gt;::GraphGroup</type>
@@ -55,7 +57,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="129" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="129" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="131" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="131" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" prot="public" static="no">
         <type>std::pair&lt; std::string, std::string &gt;</type>
@@ -73,7 +75,7 @@ equivalent of a `Python`_ ``Tuple[str, str]``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="134" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="134" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="136" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="136" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a57a1473dadd837de24c8399c861bcc93" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;::ModObjHash</type>
@@ -94,7 +96,7 @@ conventionally use
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="139" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="139" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="141" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="141" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab644207987a27f3cb4fabf9db208aa3e" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -109,7 +111,7 @@ conventionally use
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="144" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="144" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="146" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="146" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4d724e79fc1cc365dc77acca086e61de" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -124,7 +126,7 @@ conventionally use
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="149" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="149" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="151" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="151" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2a37ddc9dc439b733eb0fec9ce882c61" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_content_part_colouring" kindref="compound">IfContentPartColouring</ref>&lt; K, V, KeyHash, KeyEqual, KeyHash, KeyEqual &gt;</type>
@@ -139,7 +141,7 @@ conventionally use
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="154" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="154" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="156" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="156" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6074f2ee408e1168b2ec854b9368cf2" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_section_graph" kindref="compound">IniSectionGraph</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -154,7 +156,7 @@ conventionally use
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="159" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="159" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="161" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="161" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4575eac6ccaa93070272d3c25ab155f0" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_context" kindref="compound">IniParseContext</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -169,7 +171,7 @@ conventionally use
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="164" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="164" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="166" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="166" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab6facad22b15acdebe586f28ba567aff" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_download_data" kindref="compound">IniParseDownloadData</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -184,7 +186,7 @@ conventionally use
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="169" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="169" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="171" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="171" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac54bd2ba5389186af894134edf1a4723" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" kindref="compound">BaseIniGraphGroupEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -193,13 +195,13 @@ conventionally use
         <name>GroupEdit</name>
         <qualifiedname>AGRemapCore::GIMIParser::GroupEdit</qualifiedname>
         <briefdescription>
-<para>The kind of edit <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4ec4004256f5da0bc804e1b7432d62da" kindref="member">commandEdits</ref> is. </para>
+<para>The kind of edit <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0fd5972e2aaea4546b553af51b636cd4" kindref="member">commandEdits</ref> holds. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="174" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="174" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="176" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="176" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a7a565d30ed7abefdb949e4f6f9f6c7c9" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier" kindref="compound">GIMISectionClassifier</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -214,10 +216,10 @@ conventionally use
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="179" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="179" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="181" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="181" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6417d7ed1fa0dd9bc1593e7ff4556c9" prot="public" static="no">
-        <type>std::function&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref> &gt;(<ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1acbfa91b5398204141ffdd3158b4e7470" kindref="member">GIMIParser</ref>&lt; K, V, KeyHash, KeyEqual, ParserBase &gt; &amp;, const std::string &amp;, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab644207987a27f3cb4fabf9db208aa3e" kindref="member">Section</ref> *, bool, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4d724e79fc1cc365dc77acca086e61de" kindref="member">ContentPart</ref> *, const <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2a37ddc9dc439b733eb0fec9ce882c61" kindref="member">Colouring</ref> *)&gt;</type>
+        <type>std::function&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref> &gt;(<ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aae35c787e6c24021a945cb9717ee3ff0" kindref="member">GIMIParser</ref>&lt; K, V, KeyHash, KeyEqual, ParserBase &gt; &amp;, const std::string &amp;, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab644207987a27f3cb4fabf9db208aa3e" kindref="member">Section</ref> *, bool, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4d724e79fc1cc365dc77acca086e61de" kindref="member">ContentPart</ref> *, const <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2a37ddc9dc439b733eb0fec9ce882c61" kindref="member">Colouring</ref> *)&gt;</type>
         <definition>using AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::ObjTargetFunc = std::function&lt;std::vector&lt;ModObj&gt;(GIMIParser&lt;K, V, KeyHash, KeyEqual, ParserBase&gt;&amp;, const std::string&amp;,
                                                                     Section*, bool, ContentPart*, const Colouring*)&gt;</definition>
         <argsstring></argsstring>
@@ -238,7 +240,7 @@ condition). Returns the mod objects the `section`_ belongs to, empty for none
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="193" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="193" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="195" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="195" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a952103f7dae7788e0c625a56022c8ce6" prot="public" static="no">
         <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref>, tsl::ordered_map&lt; K, <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_download_targets" kindref="compound">DownloadTargets</ref>, KeyHash, KeyEqual &gt;, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a57a1473dadd837de24c8399c861bcc93" kindref="member">ModObjHash</ref> &gt;</type>
@@ -253,7 +255,7 @@ condition). Returns the mod objects the `section`_ belongs to, empty for none
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="231" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="231" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="233" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="233" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4ca732caa1a88bfd18f58467c20125c4" prot="public" static="no">
         <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref>, tsl::ordered_map&lt; K, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab6facad22b15acdebe586f28ba567aff" kindref="member">DownloadData</ref> *, KeyHash, KeyEqual &gt;, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a57a1473dadd837de24c8399c861bcc93" kindref="member">ModObjHash</ref> &gt;</type>
@@ -268,7 +270,7 @@ condition). Returns the mod objects the `section`_ belongs to, empty for none
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="236" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="236" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="238" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="238" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6cdd1230ad02993646ae415e0690fadd" prot="public" static="no">
         <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref>, tsl::ordered_map&lt; K, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6074f2ee408e1168b2ec854b9368cf2" kindref="member">Graph</ref> *, KeyHash, KeyEqual &gt;, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a57a1473dadd837de24c8399c861bcc93" kindref="member">ModObjHash</ref> &gt;</type>
@@ -283,7 +285,7 @@ condition). Returns the mod objects the `section`_ belongs to, empty for none
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="241" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="241" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="243" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="243" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a72fa868940fbb82658a084357c5889b3" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" kindref="compound">BaseAhoCorasickDFA</ref>&lt; std::optional&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref> &gt; &gt;</type>
@@ -303,7 +305,7 @@ other entry carries the mod object its search text stands for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="314" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="314" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="316" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="316" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-type">
@@ -319,7 +321,7 @@ other entry carries the mod object its search text stands for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="747" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="747" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="852" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="852" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -343,7 +345,7 @@ classified ``.ini`` file, a default :cpp:class:`GIMISectionClassifier`)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="357" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="357" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="359" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="359" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a25483cc4ddfb668103f3d46f70b233d1" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4ca732caa1a88bfd18f58467c20125c4" kindref="member">Downloads</ref></type>
@@ -358,7 +360,53 @@ classified ``.ini`` file, a default :cpp:class:`GIMISectionClassifier`)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="362" column="23" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="362" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="364" column="23" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0fd5972e2aaea4546b553af51b636cd4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac54bd2ba5389186af894134edf1a4723" kindref="member">GroupEdit</ref> * &gt;</type>
+        <definition>std::vector&lt;GroupEdit*&gt; AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::commandEdits</definition>
+        <argsstring></argsstring>
+        <name>commandEdits</name>
+        <qualifiedname>AGRemapCore::GIMIParser::commandEdits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser&apos;s edits, run on the parsed command graphs in this order -- **borrowed**, not owned
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The one list of what a parser does after building its graphs: an edit may change the graphs, or only
+read them and keep what it found (:cpp:class:`GraphCollect` is the primitive). An edit that implements
+:cpp:class:`IParseResult` files its result in :cpp:func:`BaseIniParser::parseData` right after it runs.
+Each is handed this parser&apos;s ``.ini`` file (:cpp:func:`BaseIniParser::getIniFile`), which an edit that
+builds resources, such as :cpp:class:`ResRegCollect`, needs: a parser bound to no ``.ini`` file
+collects without building. When they run is #deferCommandEdits
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="380" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a5342780700a58b2fb12fcd5a34a179c9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::deferCommandEdits</definition>
+        <argsstring></argsstring>
+        <name>deferCommandEdits</name>
+        <qualifiedname>AGRemapCore::GIMIParser::deferCommandEdits</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether #commandEdits run on the first ask of :cpp:func:`BaseIniParser::parseData` (see
+:cpp:func:`IniParseData::defer`) rather than during #parse -- for edits that only READ and may open many
+files, when most parsed ``.ini`` files are never asked about. Deferred edits run after #parse has
+returned its graphs, so an edit that changes them has no effect on that result. **Default**: ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="391" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="391" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a9884e677c16b9e934cff106b86dbf93f" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -373,7 +421,7 @@ classified ``.ini`` file, a default :cpp:class:`GIMISectionClassifier`)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="367" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="367" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="455" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="455" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ad9484497843f074cde878b26feacdc62" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -388,7 +436,7 @@ classified ``.ini`` file, a default :cpp:class:`GIMISectionClassifier`)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="372" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="372" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="460" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="460" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a8db822664e08465ba2cfeeef2f3db859" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -403,7 +451,7 @@ classified ``.ini`` file, a default :cpp:class:`GIMISectionClassifier`)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="377" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="377" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="465" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="465" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2ecb6aa4174c9c42985685c3facf61ad" prot="public" static="no" mutable="no">
         <type>std::optional&lt; std::unordered_set&lt; K, KeyHash, KeyEqual &gt; &gt;</type>
@@ -424,7 +472,7 @@ Which `KVP`_ keys to track, or ``std::nullopt`` to track every key encountered
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="389" column="27" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="389" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="477" column="27" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="477" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac66dc3a01891b7a401699f2b8790b91d" prot="public" static="no" mutable="no">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -450,7 +498,7 @@ the ``.ini`` file, to be taken back out by #removeAddedIfTemplates :raw-html:`&l
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="406" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="406" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="494" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="494" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1abf64a35474cac7a31afb0b03d457f27a" prot="public" static="no" mutable="no">
         <type>std::function&lt; std::vector&lt; std::pair&lt; K, V &gt; &gt;(const <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref> &amp;)&gt;</type>
@@ -483,7 +531,7 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="737" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="737" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="842" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="842" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -499,7 +547,7 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="695" column="21" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="695" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="791" column="21" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="791" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab2c830ccd80791c931b3088c439ab531" prot="private" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref> &gt;</type>
@@ -513,7 +561,7 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="696" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="696" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="792" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="792" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a058f547d674c01eba2c7bc321549a6f6" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -527,21 +575,7 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="697" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="697" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1aae3684054250ebc13e0eef41d65b8956" prot="private" static="no" mutable="no">
-        <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac54bd2ba5389186af894134edf1a4723" kindref="member">GroupEdit</ref> *</type>
-        <definition>GroupEdit* AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::commandEdits_</definition>
-        <argsstring></argsstring>
-        <name>commandEdits_</name>
-        <qualifiedname>AGRemapCore::GIMIParser::commandEdits_</qualifiedname>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="698" column="23" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="698" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="793" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="793" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a611b434e5482969173ed33123c0989a7" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6cdd1230ad02993646ae415e0690fadd" kindref="member">ResourceGraphs</ref></type>
@@ -555,7 +589,7 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="699" column="28" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="699" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="794" column="28" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="794" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6b0bb4502d852ef6b687d54eb28ce01" prot="private" static="no" mutable="no">
         <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref>, std::vector&lt; std::string &gt;, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a57a1473dadd837de24c8399c861bcc93" kindref="member">ModObjHash</ref> &gt;</type>
@@ -569,7 +603,7 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="700" column="30" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="700" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="795" column="30" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="795" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1af4d62b687383ffdaa732dc3660e568b5" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6074f2ee408e1168b2ec854b9368cf2" kindref="member">Graph</ref> *</type>
@@ -583,7 +617,7 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="701" column="19" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="701" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="796" column="19" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="796" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a993cae5045a8ec4a45399057e9afaa28" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -597,7 +631,63 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="702" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="702" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="797" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="797" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab03e07a074a467539b151cfea4fb4625" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac54bd2ba5389186af894134edf1a4723" kindref="member">GroupEdit</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;GroupEdit&gt; &gt; AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::rowSteps_</definition>
+        <argsstring></argsstring>
+        <name>rowSteps_</name>
+        <qualifiedname>AGRemapCore::GIMIParser::rowSteps_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="804" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="804" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a5f98cfae23a02a8a7bcec1b48a0373ab" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; K, KeyHash, KeyEqual &gt;</type>
+        <definition>std::unordered_set&lt;K, KeyHash, KeyEqual&gt; AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::resourceKeys_</definition>
+        <argsstring></argsstring>
+        <name>resourceKeys_</name>
+        <qualifiedname>AGRemapCore::GIMIParser::resourceKeys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="805" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="805" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1af127a08f7ada0b3ae22d92f4ebebb00d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::declaredResources_</definition>
+        <argsstring></argsstring>
+        <name>declaredResources_</name>
+        <qualifiedname>AGRemapCore::GIMIParser::declaredResources_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="806" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="806" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a73681805f89157ac216d60f5d46c3c7d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_res_edit" kindref="compound">BaseResEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
+        <definition>std::unique_ptr&lt;BaseResEdit&lt;K, V, KeyHash, KeyEqual&gt; &gt; AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::resourceIdentity_</definition>
+        <argsstring></argsstring>
+        <name>resourceIdentity_</name>
+        <qualifiedname>AGRemapCore::GIMIParser::resourceIdentity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="807" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="807" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a85dcfef1950305fa162d7c9b4848ff6a" prot="private" static="no" mutable="no">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -611,7 +701,7 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="707" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="707" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="812" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="812" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1acd3052cd4fa62d20911bbddc9dcfecc6" prot="private" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config" kindref="compound">ParserConfig</ref></type>
@@ -625,7 +715,7 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="708" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="708" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="813" column="26" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="813" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a9499885e6c60e97ab8591ed20aba18ff" prot="private" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a72fa868940fbb82658a084357c5889b3" kindref="member">NameClassifier</ref> &gt;</type>
@@ -639,7 +729,7 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="740" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="740" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="845" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="845" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a9cee771b1a801bcb05b4e847579bcf02" prot="private" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref> &gt;</type>
@@ -653,7 +743,7 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="741" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="741" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="846" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="846" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1afaf96ae53d5efa955e635544e95d87d0" prot="private" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a7a565d30ed7abefdb949e4f6f9f6c7c9" kindref="member">Classifier</ref> &gt;</type>
@@ -667,7 +757,7 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="745" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="745" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="850" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="850" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -684,7 +774,7 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="319" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="321" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab58845342b6264ddb068766b5205a509" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref> &gt;</type>
@@ -693,7 +783,7 @@ RECOGNISE a section are exactly the ones an invented section has to CARRY
         <name>classifyByTextureOverrideName</name>
         <qualifiedname>AGRemapCore::GIMIParser::classifyByTextureOverrideName</qualifiedname>
         <param>
-          <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1acbfa91b5398204141ffdd3158b4e7470" kindref="member">GIMIParser</ref>&lt; K, V, KeyHash, KeyEqual, ParserBase &gt; &amp;</type>
+          <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aae35c787e6c24021a945cb9717ee3ff0" kindref="member">GIMIParser</ref>&lt; K, V, KeyHash, KeyEqual, ParserBase &gt; &amp;</type>
           <declname>parser</declname>
         </param>
         <param>
@@ -779,14 +869,58 @@ Whether to make sure &apos;parser&apos;&apos;s #globalGraph exists first. Has no
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="557" column="32"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="632" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a46c31c873379fc81e47939cb61d58be4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::fileResult</definition>
+        <argsstring>(const BaseIniPartEdit &amp;edit, IniParseData &amp;data)</argsstring>
+        <name>fileResult</name>
+        <qualifiedname>AGRemapCore::GIMIParser::fileResult</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_part_edit" kindref="compound">BaseIniPartEdit</ref> &amp;</type>
+          <declname>edit</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_parse_data" kindref="compound">IniParseData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Files the result of &apos;edit&apos; in &apos;data&apos; when it implements :cpp:class:`IParseResult` -- what
+#runCommandEdits does after each edit
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>edit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An edit that has just run </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The parse data to file into </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="724" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1acbfa91b5398204141ffdd3158b4e7470" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1aae35c787e6c24021a945cb9717ee3ff0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::GIMIParser</definition>
-        <argsstring>(Context *ctx, std::vector&lt; ModObj &gt; modObjs={}, std::vector&lt; ObjTargetFunc &gt; objTargetFuncs={}, Downloads downloads={}, GroupEdit *commandEdits=nullptr, bool makeGlobalGraph=true, bool disjointModObjs=true, bool trackKeys=true, std::optional&lt; std::unordered_set&lt; K, KeyHash, KeyEqual &gt; &gt; keysToTrack=std::nullopt, ParserConfig config=defaultConfig())</argsstring>
+        <argsstring>(Context *ctx, std::vector&lt; ModObj &gt; modObjs={}, std::vector&lt; ObjTargetFunc &gt; objTargetFuncs={}, Downloads downloads={}, std::vector&lt; GroupEdit * &gt; commandEdits={}, bool makeGlobalGraph=true, bool disjointModObjs=true, bool trackKeys=true, std::optional&lt; std::unordered_set&lt; K, KeyHash, KeyEqual &gt; &gt; keysToTrack=std::nullopt, ParserConfig config=defaultConfig())</argsstring>
         <name>GIMIParser</name>
         <qualifiedname>AGRemapCore::GIMIParser::GIMIParser</qualifiedname>
         <param>
@@ -809,9 +943,9 @@ Whether to make sure &apos;parser&apos;&apos;s #globalGraph exists first. Has no
           <defval>{}</defval>
         </param>
         <param>
-          <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac54bd2ba5389186af894134edf1a4723" kindref="member">GroupEdit</ref> *</type>
+          <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac54bd2ba5389186af894134edf1a4723" kindref="member">GroupEdit</ref> * &gt;</type>
           <declname>commandEdits</declname>
-          <defval>nullptr</defval>
+          <defval>{}</defval>
         </param>
         <param>
           <type>bool</type>
@@ -882,7 +1016,7 @@ The ``.ini`` file to parse -- **borrowed**, and must outlive this parser. See
 <parametername>commandEdits</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Further edits to apply to the parsed command graphs <ndash/> <bold>borrowed</bold>, nullable. <bold>Default</bold>: <computeroutput>nullptr</computeroutput> </para>
+<para>The edits run on the parsed command graphs, in order <ndash/> see <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0fd5972e2aaea4546b553af51b636cd4" kindref="member">commandEdits</ref>. <bold>Default</bold>: empty </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -930,7 +1064,84 @@ The ``.ini`` file to parse -- **borrowed**, and must outlive this parser. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="339" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="341" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2f3f6ea6dbbf0d78cd6e4eac4eab835e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac54bd2ba5389186af894134edf1a4723" kindref="member">GroupEdit</ref> * &gt;</type>
+        <definition>std::vector&lt; GroupEdit * &gt; AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::rowSteps</definition>
+        <argsstring>(const RowSteps &amp;rows)</argsstring>
+        <name>rowSteps</name>
+        <qualifiedname>AGRemapCore::GIMIParser::rowSteps</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_row_steps" kindref="compound">RowSteps</ref> &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The standard row sets, as edits to put in #commandEdits, in this order: a copy of the parser&apos;s
+global graph is put in the groups (:cpp:class:`GraphCreate`); a :cpp:class:`ResRegCollect` over the
+keys that ever name a resource builds a graph of the resource `sections`_ bound anywhere
+(:cpp:class:`ResIdentity`: nothing renamed, no models) and a :cpp:class:`GraphCollect` reads their
+``filename``; the declarations and every key of every `section`_ are collected off the global graph;
+both graphs are taken out again (:cpp:class:`GraphRemove`); and every key of the chosen objects is
+collected. The edits are owned by this parser; nothing is added to a step list
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The global graph is #globalGraph, so the parser must make one (#makeGlobalGraph). Call this once
+#modObjs is set: :cpp:member:`RowSteps::objs` is asked of each mod object here
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which row sets to build </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The edits, in the order they run </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="437" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0785ce8b232e98af49e87b00552310c6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::resourceNamed</definition>
+        <argsstring>(const std::string &amp;value) const</argsstring>
+        <name>resourceNamed</name>
+        <qualifiedname>AGRemapCore::GIMIParser::resourceNamed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The resource `section`_ &apos;value&apos; names, as a binding names one, under the name it is declared by -- or
+empty. Without regard to case, as 3DMigoto reads a section name: a mod may declare
+``[ResourceTexCoordBuffer]`` and bind ``vb2 = ResourceTexcoordBuffer``. Known once #rowSteps&apos; global
+graph has been put in the groups
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="450" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a10cc2ae684b6aee36b4d4a9e61215b08" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4575eac6ccaa93070272d3c25ab155f0" kindref="member">Context</ref> *</type>
@@ -945,7 +1156,7 @@ The ``.ini`` file to parse -- **borrowed**, and must outlive this parser. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="411" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="499" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a3c71864c8c229192681fba356e5249a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -964,7 +1175,7 @@ The ``.ini`` file to parse -- **borrowed**, and must outlive this parser. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="416" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="504" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a02aa67871bc35ecd5384d95cbbd7e0c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref> &gt; &amp;</type>
@@ -984,7 +1195,7 @@ in. Duplicates are dropped on assignment, first occurrence winning
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="427" column="31"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="515" column="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a41a9cb3da08d35ffa0371abf6e7cfb7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1008,7 +1219,7 @@ in. Duplicates are dropped on assignment, first occurrence winning
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="432" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="520" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a43a371e19b03ad649120b1b739134fa3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -1023,45 +1234,7 @@ in. Duplicates are dropped on assignment, first occurrence winning
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="437" column="31"/>
-      </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4ec4004256f5da0bc804e1b7432d62da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac54bd2ba5389186af894134edf1a4723" kindref="member">GroupEdit</ref> *</type>
-        <definition>GroupEdit * AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::commandEdits</definition>
-        <argsstring>() const</argsstring>
-        <name>commandEdits</name>
-        <qualifiedname>AGRemapCore::GIMIParser::commandEdits</qualifiedname>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para><verbatim>embed:rst 
-Further edits to apply to the parsed command graphs -- borrowed, ``nullptr`` for none
-</verbatim> </para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="445" column="23"/>
-      </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1aefd6d651835376757bcd00272db60607" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::setCommandEdits</definition>
-        <argsstring>(GroupEdit *newCommandEdits)</argsstring>
-        <name>setCommandEdits</name>
-        <qualifiedname>AGRemapCore::GIMIParser::setCommandEdits</qualifiedname>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac54bd2ba5389186af894134edf1a4723" kindref="member">GroupEdit</ref> *</type>
-          <declname>newCommandEdits</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-<para><verbatim>embed:rst 
-Further edits to apply to the parsed command graphs -- borrowed, ``nullptr`` for none
-</verbatim>    </para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="450" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="525" column="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a3e76fe2748e8e3170dbbd4025f69f1d3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::pair&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref>, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6074f2ee408e1168b2ec854b9368cf2" kindref="member">Graph</ref> * &gt; &gt;</type>
@@ -1082,7 +1255,7 @@ These live in group ``0`` of :cpp:func:`IniParseContext::graphGroups`, which own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="462" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="537" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0b644ba7cf8f4d167cbae687cc8d5d1e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6074f2ee408e1168b2ec854b9368cf2" kindref="member">Graph</ref> *</type>
@@ -1111,7 +1284,7 @@ These live in group ``0`` of :cpp:func:`IniParseContext::graphGroups`, which own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="469" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="544" column="19"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1afc2f05b03d626573379fd8858e37cabe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6cdd1230ad02993646ae415e0690fadd" kindref="member">ResourceGraphs</ref> &amp;</type>
@@ -1132,7 +1305,7 @@ borrowed here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="481" column="34"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="556" column="34"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a05990d79063feb8facae3fe02708a9a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa40bfb87502b1e568ca5cb2d1ce41322" kindref="member">ModObj</ref>, std::vector&lt; std::string &gt;, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a57a1473dadd837de24c8399c861bcc93" kindref="member">ModObjHash</ref> &gt; &amp;</type>
@@ -1155,7 +1328,7 @@ The names of the `sections`_ used as the &quot;entry point&quot; into each mod o
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="495" column="36"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="570" column="36"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6fed38a2bec628aa660319780fc2a74f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6074f2ee408e1168b2ec854b9368cf2" kindref="member">Graph</ref> *</type>
@@ -1170,7 +1343,7 @@ The names of the `sections`_ used as the &quot;entry point&quot; into each mod o
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="500" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="575" column="19"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a26eaf33a9c300acab37eb66b0585dca9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1189,7 +1362,7 @@ The names of the `sections`_ used as the &quot;entry point&quot; into each mod o
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="505" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="580" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a083a1561b57ad97a7fb9aea4aceb9a8e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config" kindref="compound">ParserConfig</ref> &amp;</type>
@@ -1204,7 +1377,7 @@ The names of the `sections`_ used as the &quot;entry point&quot; into each mod o
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="510" column="32"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="585" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a77f4e4da6c9789cd1b8a82501a84a4b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1222,7 +1395,7 @@ empties that record
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="519" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="594" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1abc36a50d63ad2e59b253c6a0b6d8a502" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1236,7 +1409,7 @@ empties that record
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="521" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="596" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac22324b76b95548793b1798643f5aa1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6074f2ee408e1168b2ec854b9368cf2" kindref="member">Graph</ref> *</type>
@@ -1254,7 +1427,7 @@ empties that record
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="528" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="603" column="19"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a50d9fe2f57d6f4c6c5740d1d1eaa2831" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1269,7 +1442,7 @@ empties that record
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="564" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="639" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab2eff683d711f883156579a029520e29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a952103f7dae7788e0c625a56022c8ce6" kindref="member">DownloadNeeds</ref></type>
@@ -1287,7 +1460,7 @@ mod is actually missing
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="573" column="27"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="648" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a1792834b091a543ca60fcb4bdbddeb01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1319,7 +1492,7 @@ Sets the draw `KVP`_ that makes a download&apos;s coverage test ORDERED -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="584" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="659" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a27895944be3dd9390942b089bffcf635" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1372,7 +1545,7 @@ Sets the draw `KVP`_ that makes a download&apos;s coverage test ORDERED -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="593" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="668" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1abc4387d9540e9848db9e8e006b348cbe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1400,7 +1573,7 @@ Sets the draw `KVP`_ that makes a download&apos;s coverage test ORDERED -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="604" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="679" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6f94ad8c346904fecbbe75e926113c6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1432,7 +1605,7 @@ from wherever #getDownloads said it was needed
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="615" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="690" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac8119931260c037232ded5a5b148335f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1447,7 +1620,7 @@ from wherever #getDownloads said it was needed
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="620" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="695" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4d47b3d737fe7e557909cadc38853b70" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -1459,12 +1632,30 @@ from wherever #getDownloads said it was needed
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Applies #commandEdits to the command graphs. No-op when there are none
+Runs #commandEdits on the command graphs (#runCommandEdits). No-op when there are none
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="628" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="703" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a41035517148c12da0d81f4624dd3bcab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::runCommandEdits</definition>
+        <argsstring>()</argsstring>
+        <name>runCommandEdits</name>
+        <qualifiedname>AGRemapCore::GIMIParser::runCommandEdits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Runs #commandEdits on the context&apos;s graph groups, filing each result -- or, with #deferCommandEdits,
+hands them to :cpp:func:`IniParseData::defer` to run the same way
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="712" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a62f1220d29023cf3b1411ad204282b9b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a1498c57d0ba299a4187dfce4ed1c82ee" kindref="member">GraphGroup</ref> &gt;</type>
@@ -1472,6 +1663,7 @@ Applies #commandEdits to the command graphs. No-op when there are none
         <argsstring>() const</argsstring>
         <name>collectParseResult</name>
         <qualifiedname>AGRemapCore::GIMIParser::collectParseResult</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser_1ae5932df071fea74474a5b74488b2fa18">collectParseResult</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1512,7 +1704,7 @@ This is the same group ``GIMIFixer`` builds by hand out of those two members tod
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="666" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="762" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1af93c15b04646ae2e057a3e907f47757f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a1498c57d0ba299a4187dfce4ed1c82ee" kindref="member">GraphGroup</ref> &gt;</type>
@@ -1535,7 +1727,7 @@ apply #commandEdits (#editCommands)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="680" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="776" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1aaa12974b1ee1eb41cbdfdb562352a3bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -1556,10 +1748,24 @@ Public rather than protected because the `Python`_ API exposes it as
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="692" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="788" column="26"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a28822dee69e8b9e86f479d20939eb221" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6074f2ee408e1168b2ec854b9368cf2" kindref="member">Graph</ref> *</type>
+        <definition>Graph * AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::globalGraphForResources</definition>
+        <argsstring>()</argsstring>
+        <name>globalGraphForResources</name>
+        <qualifiedname>AGRemapCore::GIMIParser::globalGraphForResources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="801" column="19"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a99409a991ca589bb44c4d3113ed28077" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::refreshComponents</definition>
@@ -1572,7 +1778,7 @@ Public rather than protected because the `Python`_ API exposes it as
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="749" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="854" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4f404993643717c8ed74c68eeee5e6a4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a72fa868940fbb82658a084357c5889b3" kindref="member">NameClassifier</ref> &amp;</type>
@@ -1590,7 +1796,7 @@ Public rather than protected because the `Python`_ API exposes it as
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="750" column="28"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="855" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4563445bef801d8c45021bde2626eaa3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6417d7ed1fa0dd9bc1593e7ff4556c9" kindref="member">ObjTargetFunc</ref> &gt;</type>
@@ -1608,7 +1814,7 @@ Public rather than protected because the `Python`_ API exposes it as
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="751" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="856" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1a03ac251dccf489b73a67f92e34c2c891" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1626,7 +1832,7 @@ Public rather than protected because the `Python`_ API exposes it as
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="752" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="857" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1ad0701195b03652eb217f0f84ce684e75" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1644,7 +1850,7 @@ Public rather than protected because the `Python`_ API exposes it as
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="753" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="858" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa42b258f9101275ffc3f63372a62312d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1738,7 +1944,7 @@ graph that asked for it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="781" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="886" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1856,25 +2062,27 @@ BaseIniParser&gt;`` could not be registered against a `Python`_-state-carrying b
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="4">
+        <label>AGRemapCore::GIMITemplateParser</label>
+        <link refid="class_a_g_remap_core_1_1_g_i_m_i_template_parser"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::TemplateParser&lt;&gt;</label>
+        <link refid="class_a_g_remap_core_1_1_template_parser"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="2">
         <label>BaseIniParser&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="4">
-        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
-        <childnode refid="5" relation="public-inheritance">
-        </childnode>
-      </node>
       <node id="5">
-        <label>AGRemapCore::BaseIniPartEdit</label>
-        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
-      </node>
-      <node id="7">
         <label>AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::ParserConfig</label>
         <link refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config"/>
-        <childnode refid="8" relation="usage">
+        <childnode refid="6" relation="usage">
           <edgelabel>classifier</edgelabel>
         </childnode>
       </node>
@@ -1887,23 +2095,20 @@ BaseIniParser&gt;`` could not be registered against a `Python`_-state-carrying b
           <edgelabel>ctx_</edgelabel>
         </childnode>
         <childnode refid="4" relation="usage">
-          <edgelabel>commandEdits_</edgelabel>
-        </childnode>
-        <childnode refid="6" relation="usage">
           <edgelabel>globalGraph_</edgelabel>
         </childnode>
-        <childnode refid="7" relation="usage">
+        <childnode refid="5" relation="usage">
           <edgelabel>config_</edgelabel>
         </childnode>
       </node>
-      <node id="8">
+      <node id="6">
         <label>AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::ClassifierConfig</label>
       </node>
       <node id="3">
         <label>AGRemapCore::IniParseContext&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_ini_parse_context"/>
       </node>
-      <node id="6">
+      <node id="4">
         <label>AGRemapCore::IniSectionGraph&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_ini_section_graph"/>
       </node>
@@ -1911,7 +2116,7 @@ BaseIniParser&gt;`` could not be registered against a `Python`_-state-carrying b
         <label>BaseIniParser&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="123" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="123" bodyend="783"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="125" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="125" bodyend="888"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6f94ad8c346904fecbbe75e926113c6a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>addDownloads</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ac66dc3a01891b7a401699f2b8790b91d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>addedIfTemplateNames</name></member>
@@ -1922,8 +2127,7 @@ BaseIniParser&gt;`` could not be registered against a `Python`_-state-carrying b
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1abc36a50d63ad2e59b253c6a0b6d8a502" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a62f1220d29023cf3b1411ad204282b9b" prot="public" virt="virtual"><scope>AGRemapCore::GIMIParser</scope><name>collectParseResult</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2a37ddc9dc439b733eb0fec9ce882c61" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>Colouring</name></member>
-      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4ec4004256f5da0bc804e1b7432d62da" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>commandEdits</name></member>
-      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aae3684054250ebc13e0eef41d65b8956" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>commandEdits_</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0fd5972e2aaea4546b553af51b636cd4" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>commandEdits</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a3e76fe2748e8e3170dbbd4025f69f1d3" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>commandGraphs</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a43a371e19b03ad649120b1b739134fa3" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>components</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a058f547d674c01eba2c7bc321549a6f6" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>components_</name></member>
@@ -1935,8 +2139,10 @@ BaseIniParser&gt;`` could not be registered against a `Python`_-state-carrying b
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aa42b258f9101275ffc3f63372a62312d" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>createDownloadResource</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a10cc2ae684b6aee36b4d4a9e61215b08" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>ctx</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6ae5045af6e23cc00f9e6a9d044247eb" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>ctx_</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af127a08f7ada0b3ae22d92f4ebebb00d" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>declaredResources_</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1afaf96ae53d5efa955e635544e95d87d0" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>defaultClassifier_</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a19eaf48948e6c2f6e0d2e265d610eff8" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>defaultConfig</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a5342780700a58b2fb12fcd5a34a179c9" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>deferCommandEdits</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ad9484497843f074cde878b26feacdc62" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>disjointModObjs</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab6facad22b15acdebe586f28ba567aff" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>DownloadData</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a952103f7dae7788e0c625a56022c8ce6" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>DownloadNeeds</name></member>
@@ -1947,14 +2153,16 @@ BaseIniParser&gt;`` could not be registered against a `Python`_-state-carrying b
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a993cae5045a8ec4a45399057e9afaa28" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>downloadsAdded_</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1abc4387d9540e9848db9e8e006b348cbe" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>drawsBeforeBound</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4d47b3d737fe7e557909cadc38853b70" prot="public" virt="virtual"><scope>AGRemapCore::GIMIParser</scope><name>editCommands</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a46c31c873379fc81e47939cb61d58be4" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>fileResult</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0b644ba7cf8f4d167cbae687cc8d5d1e" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>getCommandGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab2eff683d711f883156579a029520e29" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>getDownloads</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aaa12974b1ee1eb41cbdfdb562352a3bf" prot="public" virt="virtual"><scope>AGRemapCore::GIMIParser</scope><name>getSectionTargets</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ad0701195b03652eb217f0f84ce684e75" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>getSectionTargetsByKVPs</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a03ac251dccf489b73a67f92e34c2c891" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>getSectionTargetsBySectionNames</name></member>
-      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1acbfa91b5398204141ffdd3158b4e7470" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>GIMIParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aae35c787e6c24021a945cb9717ee3ff0" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>GIMIParser</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6fed38a2bec628aa660319780fc2a74f" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>globalGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1af4d62b687383ffdaa732dc3660e568b5" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>globalGraph_</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a28822dee69e8b9e86f479d20939eb221" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>globalGraphForResources</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6074f2ee408e1168b2ec854b9368cf2" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>Graph</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a1498c57d0ba299a4187dfce4ed1c82ee" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>GraphGroup</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a7c35bf4324ada87fee9ecbc35fc37113" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>GraphMapEntry</name></member>
@@ -1978,10 +2186,15 @@ BaseIniParser&gt;`` could not be registered against a `Python`_-state-carrying b
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a77f4e4da6c9789cd1b8a82501a84a4b3" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>removeAddedIfTemplates</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a4563445bef801d8c45021bde2626eaa3" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>resolveObjTargetFuncs</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a6cdd1230ad02993646ae415e0690fadd" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>ResourceGraphs</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a73681805f89157ac216d60f5d46c3c7d" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>resourceIdentity_</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a5f98cfae23a02a8a7bcec1b48a0373ab" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>resourceKeys_</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a0785ce8b232e98af49e87b00552310c6" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>resourceNamed</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a2f3f6ea6dbbf0d78cd6e4eac4eab835e" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>rowSteps</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab03e07a074a467539b151cfea4fb4625" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>rowSteps_</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a41035517148c12da0d81f4624dd3bcab" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>runCommandEdits</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ab644207987a27f3cb4fabf9db208aa3e" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>Section</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a05990d79063feb8facae3fe02708a9a9" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>sectionTargets</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1ae6b0bb4502d852ef6b687d54eb28ce01" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>sectionTargets_</name></member>
-      <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1aefd6d651835376757bcd00272db60607" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>setCommandEdits</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a3c71864c8c229192681fba356e5249a8" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>setCtx</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a27895944be3dd9390942b089bffcf635" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>setDownloadAltRegs</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_parser_1a1792834b091a543ca60fcb4bdbddeb01" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser</scope><name>setDrawKey</name></member>

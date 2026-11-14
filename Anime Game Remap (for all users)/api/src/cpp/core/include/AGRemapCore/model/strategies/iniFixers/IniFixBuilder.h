@@ -172,6 +172,25 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The factory #build builds with for these keys, without building anything: a runtime override
+             (:cpp:class:`StrategyOverrides`) first, then the fixed factory or the #getBuilderArgs row, else
+             #defaultFactory. A shipped fix's config is read off it -- eg. :cpp:func:`WWMIFixerConfig::ofFactory`
+             @endrst
+             *
+             * @param fromModName The name of the mod being fixed **from**
+             * @param toModName The name of the mod being fixed **to**
+             * @param fromVersion The game version the ``.ini`` file originates from; ``std::nullopt`` means the latest listed
+             * @param toVersion The game version being fixed to; ``std::nullopt`` means the latest listed
+             *
+             * @return The factory
+             */
+            Factory factoryOf(const std::string& fromModName, const std::string& toModName,
+                              const std::optional<Version>& fromVersion = std::nullopt,
+                              const std::optional<Version>& toVersion = std::nullopt) const;
+
+            /**
+             * @brief
+             @rst
              Builds the fixer that fixes one specific source mod onto one specific target mod
              :raw-html:`<br />` :raw-html:`<br />`
 

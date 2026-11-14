@@ -247,6 +247,64 @@ Optional[Tuple[Any, ...]]
     like GIMIParser rely on; see the C++ core's own note on this)
         )doc"))
 
+        .def("getKeys", [](const CoreModMappedAssets &self, const std::string &asset, const py::object &fromVersion, const py::object &fromNonVersionVals) {
+            py::list result;
+            for (const auto& key : self.getKeys(asset, parseVersionArg(fromVersion), resolveNonVersionValsFilter(self, fromNonVersionVals))) {
+                result.append(toPyTuple(key));
+            }
+            return result;
+        }, py::arg("asset"), py::arg("fromVersion") = py::none(), py::arg("fromNonVersionVals") = py::none(), py::doc(R"doc(
+Retrieves every key that produced 'asset' at the version :meth:`getKey` resolves to, where
+:meth:`getKey` answers with the first
+
+More than one when one value is filed under several keys at that version -- one texture a
+character draws on several objects, eg. Yelan's body and dress diffuse ``df127976``
+
+Parameters
+----------
+asset: Any
+    The asset value to search for
+
+fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
+    The version to search from -- see :meth:`hasFrom`
+
+    **Default**: ``None``
+
+fromNonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]]
+    The non-version value filter -- see :meth:`hasFrom`
+
+    **Default**: ``None``
+
+Returns
+-------
+List[Tuple[Any, ...]]
+    The matching keys, in the order they were filed; empty when none matches
+        )doc"))
+
+        .def("versionOf", [](const CoreModMappedAssets &self, const std::string &asset, const py::object &nonVersionVals) {
+            return self.versionOf(asset, resolveNonVersionValsFilter(self, nonVersionVals));
+        }, py::arg("asset"), py::arg("nonVersionVals") = py::none(), py::doc(R"doc(
+The version whose rows hold 'asset' -- the newest one with a matching key
+
+What a value tells about the data it came from: a mod's ``vb0`` hash says which version of the character it was made
+for
+
+Parameters
+----------
+asset: Any
+    The asset value to search for
+
+nonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]]
+    The non-version value filter -- see :meth:`hasFrom`
+
+    **Default**: ``None``
+
+Returns
+-------
+Optional[:class:`Version`]
+    The version, or ``None`` when no row holds 'asset'
+        )doc"))
+
         .def("replace", [](const CoreModMappedAssets &self, const std::string &asset, const py::object &fromVersion, const py::object &fromNonVersionVals, const py::object &toVersion, const std::string &toAssetName, bool errorOnNotFound) -> py::object {
             std::optional<AGRC::Version> from = parseVersionArg(fromVersion);
             std::optional<AGRC::Version> to = parseVersionArg(toVersion);

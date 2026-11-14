@@ -26,6 +26,7 @@
 #include "PyBaseIniFixer.h"
 #include "../PyStrategyFactory.h"
 #include "../iniParsers/PyBaseIniParser.h"
+#include "../../../data/PyGIMICharBuilders.h"
 #include "AGRemapCore/model/Version.h"
 
 namespace py = pybind11;
@@ -137,6 +138,36 @@ The lookup table this builder resolves factories from, or ``None`` if it is a fi
 Whether :meth:`build` raises rather than falling back when the key has no row
 
 :class:`bool`
+        )doc"))
+
+        .def("factoryOf", [](const AGRC::IniFixBuilder& self, const std::string& fromModName, const std::string& toModName,
+                             const std::optional<AGRC::Version>& fromVersion, const std::optional<AGRC::Version>& toVersion) {
+                 return PyIniFixFactory{self.factoryOf(fromModName, toModName, fromVersion, toVersion)};
+             },
+             py::arg("fromModName"), py::arg("toModName"), py::arg("fromVersion") = py::none(), py::arg("toVersion") = py::none(),
+             py::doc(R"doc(
+The factory :meth:`build` builds with for these keys, without building anything: a runtime override
+(:class:`CppStrategyOverrides`) first, then the fixed factory or the :attr:`builderArgs` row, else :meth:`defaultFactory`.
+A shipped fix's config is read off it -- eg. :meth:`WWMIFixerConfig.ofFactory`
+
+Parameters
+----------
+fromModName: :class:`str`
+    The name of the mod being fixed **from**
+
+toModName: :class:`str`
+    The name of the mod being fixed **to**
+
+fromVersion: Optional[:class:`Version`]
+    The game version the .ini file originates from; ``None`` means the latest listed
+
+toVersion: Optional[:class:`Version`]
+    The game version being fixed to; ``None`` means the latest listed
+
+Returns
+-------
+:class:`CppIniFixFactory`
+    The factory
         )doc"))
 
         .def("build", &AGRC::IniFixBuilder::build,

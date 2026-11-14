@@ -64,7 +64,17 @@ The shared C++ base of every parser, exposed so that one built on the C++ side -
 Not usually what you want: a parser created **from** `Python`_ is a :class:`BaseIniParser`, which
 inherits from this and carries the extra `Python`_ state. This class exists so the boundary never
 has to hand back ``None`` for a core-side object it has no richer type for
-    )doc");
+    )doc")
+        .def("parse", [](PyBaseIniParserCore& self) { self.parse(); }, py::doc(R"doc(
+Parses the .ini file -- so a parser built on the C++ side (by a :class:`IniParseBuilder`) can be run from `Python`_.
+What it read is in :attr:`parseData`; a parser built in `Python`_ overrides this with its own ``parse``
+        )doc"))
+        .def_property_readonly("parseData", [](PyBaseIniParserCore& self) -> AGRC::IniParseData& {
+            return self.parseData();
+        }, py::return_value_policy::reference_internal, py::doc(R"doc(
+:class:`IniParseData`: What this parser learned about its .ini file that a fixer needs. A parser that
+records nothing leaves its defaults
+        )doc"));
 
 
     auto cls = py::class_<PyBaseIniParser, PyBaseIniParserCore, py::smart_holder>(m, "BaseIniParser", R"doc(

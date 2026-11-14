@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::TextureList</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1ac48fad1d823e47476cf3f171a4a9eaad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::TextureList::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TextureList::kind</qualifiedname>
+        <briefdescription>
+<para>Which list: <computeroutput>"main"</computeroutput>, <computeroutput>"game"</computeroutput> and <computeroutput>"pass"</computeroutput> a drawn component&apos;s, <computeroutput>"sharedMesh"</computeroutput> one pass of a :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aba0800fd4efa4fb7b4a5685016eae81a" kindref="member">sharedMeshes</ref></computeroutput> mesh, <computeroutput>"overlay"</computeroutput> a :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1a49ea6e78342da26cd86589215c79f92f" kindref="member">SourceComponent::overlay</ref></computeroutput>&apos;s bindings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1996" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1996" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a4fb75cf097b6b3380fbaf9f80791fe15" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::WWMIFixerConfig::TextureList::component</definition>
+        <argsstring></argsstring>
+        <name>component</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TextureList::component</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>The source component, or for <computeroutput>"sharedMesh"</computeroutput> the mesh&apos;s place in :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aba0800fd4efa4fb7b4a5685016eae81a" kindref="member">sharedMeshes</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2001" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2001" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a6d442b7581e7f1dfa4ec8724d6e27ac2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::TextureList::onPass</definition>
+        <argsstring></argsstring>
+        <name>onPass</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TextureList::onPass</qualifiedname>
+        <briefdescription>
+<para>The pass a <computeroutput>"pass"</computeroutput> or <computeroutput>"sharedMesh"</computeroutput> list binds on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2006" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2006" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a28fcb083fab1588d8a9b19c9374c6faf" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::WWMIFixerConfig::TextureList::passNum</definition>
+        <argsstring></argsstring>
+        <name>passNum</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TextureList::passNum</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>A <computeroutput>"pass"</computeroutput> or <computeroutput>"sharedMesh"</computeroutput> list&apos;s place among its slot&apos;s :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a0452ac46471de1c18b6a5b97abe062e9" kindref="member">extraPassRegs</ref></computeroutput> or its mesh&apos;s passes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2012" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2012" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a12920a9e674462b60b1a54fa8e22cbd8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_line" kindref="compound">TextureLine</ref> &gt;</type>
+        <definition>std::vector&lt;TextureLine&gt; AGRemapCore::WWMIFixerConfig::TextureList::lines</definition>
+        <argsstring></argsstring>
+        <name>lines</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::TextureList::lines</qualifiedname>
+        <briefdescription>
+<para>The lines. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="2017" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="2017" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One texture list the fix writes, its lines in order <ndash/> see <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ac459cc6f5d3c25dd7ddf40209d292c45" kindref="member">textureLists</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1990" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1990" bodyend="2018"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a4fb75cf097b6b3380fbaf9f80791fe15" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureList</scope><name>component</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1ac48fad1d823e47476cf3f171a4a9eaad" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureList</scope><name>kind</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a12920a9e674462b60b1a54fa8e22cbd8" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureList</scope><name>lines</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a6d442b7581e7f1dfa4ec8724d6e27ac2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureList</scope><name>onPass</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_texture_list_1a28fcb083fab1588d8a9b19c9374c6faf" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TextureList</scope><name>passNum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

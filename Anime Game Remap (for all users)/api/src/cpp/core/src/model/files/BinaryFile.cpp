@@ -55,4 +55,14 @@ namespace AGRemapCore {
 
         return data_;
     }
+
+    bool BinaryFile::write(const std::string& path, const ByteVec& bytes) {
+        std::ofstream file(FileService::strToPath(path), std::ios::binary | std::ios::trunc);
+        if (!file) {
+            return false;
+        }
+
+        file.write(reinterpret_cast<const char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
+        return static_cast<bool>(file);
+    }
 }

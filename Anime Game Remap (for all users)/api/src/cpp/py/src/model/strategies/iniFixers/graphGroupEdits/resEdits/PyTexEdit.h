@@ -29,30 +29,27 @@ namespace AGRC = AGRemapCore;
 /**
  * @brief
  @rst
- The `pybind11`_-facing ``TexCreate`` -- builds a real :class:`RemapTexAddResource` per created
- texture, and the brand-new `section`_ that references it :raw-html:`<br />` :raw-html:`<br />`
-
- Both live here rather than in the core class: the resource carries the caller's own `Python`_
- :class:`TexCreator`, and the `section`_ has to be a `Python`_-owned :class:`IfTemplate` (see
- :cpp:class:`AGRemapCore::TexCreate`'s own note)
+ The `pybind11`_-facing :cpp:class:`AGRemapCore::TexCreate` -- the core class builds the resource
+ (:cpp:func:`AGRemapCore::TexCreate::makeResModel`); the `section`_ is built through `Python`_, which has to own
+ it, and both stay overridable from a `Python`_ subclass
  @endrst
  */
 class PyTexCreate: public PyResCreateMixin<AGRC::TexCreate<std::string, std::string>> {
     public:
 
         /**
-         * @brief The exact Python :class:`TexCreator` given -- the editor for the texture file
+         * @brief The exact Python :class:`TexCreator` given, which the core class's ``texCreator`` holds too
          */
-        py::object texCreator;
+        py::object texCreatorObj;
 
         /**
          * @brief
          @rst
-         A custom `Python`_ function for creating the texture, or ``None``. Kept as the exact object
-         given, for the same identity reason ``PyRemapBlendReplace::fixFunc`` is
+         The exact `Python`_ function given for creating the texture, or ``None`` -- the core class's ``fixFunc``
+         calls it
          @endrst
          */
-        py::object fixFunc;
+        py::object fixFuncObj;
 
         /**
          * @brief Constructs a new texture-creating resource edit
@@ -65,6 +62,20 @@ class PyTexCreate: public PyResCreateMixin<AGRC::TexCreate<std::string, std::str
          */
         PyTexCreate(py::object resModObj, std::string texName, py::object texCreator, std::string resType, py::object fixFunc);
 
+        // Not copyable: the core class owns the sections it builds, and pybind11 would otherwise instantiate a copy
+        PyTexCreate(const PyTexCreate&) = delete;
+        PyTexCreate& operator=(const PyTexCreate&) = delete;
+
+        /**
+         * @brief Sets the creator, keeping the Python object given -- see \ref texCreatorObj
+         */
+        void setTexCreator(py::object creator);
+
+        /**
+         * @brief Sets the custom function, keeping the Python object given -- see \ref fixFuncObj
+         */
+        void setFixFunc(py::object fixFunc);
+
         py::object pySelf() const override;
         void buildResModel(const std::string &resType, const std::string &srcPath, const std::string &fixedPath,
                             const std::string &modName, const std::string &fileKey, Context &ctx) override;
@@ -74,29 +85,36 @@ class PyTexCreate: public PyResCreateMixin<AGRC::TexCreate<std::string, std::str
 /**
  * @brief
  @rst
- The `pybind11`_-facing ``TexReplace`` -- builds a real :class:`RemapTexEditResource` per edited
- texture :raw-html:`<br />` :raw-html:`<br />`
-
- Lives here rather than in the core class for the same reason :cpp:class:`PyTexCreate` does: the
- resource carries the caller's own `Python`_ :class:`TexEditor`
+ The `pybind11`_-facing :cpp:class:`AGRemapCore::TexReplace` -- the core class builds the resource
+ (:cpp:func:`AGRemapCore::TexReplace::makeResModel`), and a `Python`_ subclass may still override how
  @endrst
  */
 class PyTexReplace: public PyResEditMixin<AGRC::TexReplace<std::string, std::string>> {
     public:
 
         /**
-         * @brief The exact Python :class:`TexEditor` given -- the editor for the texture file
+         * @brief The exact Python :class:`TexEditor` given, which the core class's ``texEditor`` holds too
          */
-        py::object texEditor;
+        py::object texEditorObj;
 
         /**
          * @brief
          @rst
-         A custom `Python`_ function for editing the texture, or ``None``. Kept as the exact object
-         given, for the same identity reason ``PyRemapBlendReplace::fixFunc`` is
+         The exact `Python`_ function given for editing the texture, or ``None`` -- the core class's ``fixFunc``
+         calls it
          @endrst
          */
-        py::object fixFunc;
+        py::object fixFuncObj;
+
+        /**
+         * @brief Sets the editor, keeping the Python object given -- see \ref texEditorObj
+         */
+        void setTexEditor(py::object editor);
+
+        /**
+         * @brief Sets the custom function, keeping the Python object given -- see \ref fixFuncObj
+         */
+        void setFixFunc(py::object fixFunc);
 
         /**
          * @brief Constructs a new texture-editing resource edit

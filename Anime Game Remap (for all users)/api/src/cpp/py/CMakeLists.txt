@@ -51,6 +51,7 @@ pybind11_add_module(core
     src/view/PyLogger.cpp
     src/tools/PyIntTools.cpp
     src/tools/PyListTools.cpp
+    src/tools/PyObjectLifetime.cpp
     src/tools/PyRanges.cpp
     src/tools/dfa/PyDFA.cpp
     src/tools/tries/PyTrie.cpp
@@ -60,6 +61,7 @@ pybind11_add_module(core
     src/tools/orderedMultiMap/PyIOrderedMultiMap.cpp
     src/model/iftemplate/PyIfContentPart.cpp
     src/model/iftemplate/PyIfContentPartColour.cpp
+    src/model/iftemplate/PyListValue.cpp
     src/model/PyVersion.cpp
     src/model/assets/PyModDictAssets.cpp
     src/model/assets/PyModMappedAssets.cpp
@@ -71,6 +73,17 @@ pybind11_add_module(core
     src/model/assets/PyVGOffsets.cpp
     src/model/assets/PyVGCounts.cpp
     src/model/assets/PyShapeKeyChecksums.cpp
+    src/model/assets/PyDrawPasses.cpp
+    src/model/assets/PyTextureRegisters.cpp
+    src/model/assets/PyGameShaders.cpp
+    src/model/assets/PyShapeKeyDispatchSizes.cpp
+    src/model/assets/PyBoneCentroids.cpp
+    src/model/assets/PyShapeKeyRemaps.cpp
+    src/model/assets/PyMaterialCodes.cpp
+    src/model/assets/PyMaterialColours.cpp
+    src/model/assets/PyTextureDescs.cpp
+    src/model/assets/PyTextureThumbprints.cpp
+    src/model/assets/PyTextureKinds.cpp
     src/model/assets/PyVGRemaps.cpp
     src/model/strategies/PyModTypeIdData.cpp
     src/model/strategies/PyModType.cpp
@@ -112,6 +125,8 @@ pybind11_add_module(core
     src/data/PyGIMICharBuilders.cpp
     src/data/PyGIMIComponentBuilders.cpp
     src/data/PyWWMIBuilders.cpp
+    src/data/PyLynaeData.cpp
+    src/data/PyWWMISections.cpp
     src/model/PyIniNamingTools.cpp
     src/model/strategies/iniFixers/PyGIMIObjPartFilter.cpp
     src/model/strategies/iniFixers/regEdits/PyRegAssetRemap.cpp
@@ -119,18 +134,24 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/regEdits/PyRegRemap.cpp
     src/model/strategies/iniFixers/regEdits/PyRegRemove.cpp
     src/model/strategies/iniFixers/regEdits/PyRegRestrict.cpp
+    src/model/strategies/iniFixers/regEdits/PyRegAnchorAdd.cpp
     src/model/strategies/iniFixers/graphEdits/PyBaseIniGraphEdit.cpp
     src/model/strategies/iniFixers/graphEdits/PyGraphRename.cpp
+    src/model/strategies/iniFixers/graphEdits/PyGraphVarRename.cpp
     src/model/strategies/iniFixers/graphEdits/PyRegFillMissing.cpp
     src/model/strategies/iniFixers/graphEdits/PyRegSurroundedAdd.cpp
     src/model/strategies/iniFixers/graphEdits/PyRegBottomAdd.cpp
+    src/model/strategies/iniFixers/graphEdits/PyRegIfTemplateAdd.cpp
     src/model/strategies/iniFixers/graphEdits/PyRegDelimitedAdd.cpp
     src/model/strategies/iniFixers/graphEdits/PyRegBranchAdd.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyIniGraphGroups.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyBaseIniGraphGroupEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphRemove.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyIterGraphGroupEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphGroupRemove.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphCreate.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyGraphFilter.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyGraphCopy.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphInherit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphGroupRemap.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphGroupEdit.cpp
@@ -138,11 +159,18 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyBlendEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyBufEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyTexEdit.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyFileEdit.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyVGRemapBlendEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyResRegCollect.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyGraphCollect.cpp
+    src/model/strategies/iniFixers/PyGraphEditVariables.cpp
+    src/model/strategies/iniFixers/PyShaderHelpers.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyResGroupCollect.cpp
     src/model/strategies/iniParsers/PyBaseIniParser.cpp
+    src/model/strategies/iniParsers/PyIniParseData.cpp
     src/model/strategies/iniParsers/PyGIMISectionClassifier.cpp
     src/model/strategies/iniParsers/PyGIMIParser.cpp
+    src/model/strategies/iniParsers/PyDownloadData.cpp
     src/model/strategies/iniParsers/PyIniParseBuilder.cpp
     src/model/strategies/iniFixers/PyBaseIniFixer.cpp
     src/model/strategies/iniFixers/PyGIMIFixer.cpp
@@ -172,14 +200,17 @@ pybind11_add_module(core
     src/model/PyVGRemap.cpp
     src/model/buffers/PyVGComponentSplit.cpp
     src/model/buffers/PyVGComponentMerge.cpp
+    src/model/buffers/PyWWMIBlend.cpp
     src/model/files/PyBlendFile.cpp
     src/model/files/PyPositionFile.cpp
+    src/model/files/PyTexcoordFile.cpp
     src/model/files/PyIbFile.cpp
     src/model/files/PyVbFile.cpp
     src/model/strategies/bufEditors/PyBaseBufEditor.cpp
     src/model/strategies/bufEditors/PyBufEditor.cpp
     src/model/textures/PyColour.cpp
     src/model/textures/PyColourRange.cpp
+    src/constants/PyColours.cpp
     src/model/files/PyTexCache.cpp
     src/model/files/PyTextureFile.cpp
     src/model/strategies/texEditors/pixelTransforms/PyBasePixelTransform.cpp
@@ -197,6 +228,7 @@ pybind11_add_module(core
     src/model/strategies/texEditors/texFilters/PyTransparencyAdjustFilter.cpp
     src/model/strategies/texEditors/texFilters/PyInvertAlphaFilter.cpp
     src/model/strategies/texEditors/texFilters/PyMaterialBandRemapFilter.cpp
+    src/model/strategies/texEditors/texFilters/PyChannelMapFilter.cpp
     src/model/strategies/texEditors/texFilters/PyHueAdjust.cpp
     src/model/strategies/texEditors/texFilters/PyPixelFilter.cpp
     src/model/strategies/texEditors/PyBaseTexEditor.cpp

@@ -17,6 +17,7 @@
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/constants/Colours.h"
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/GIMICharFixer.h"
@@ -36,8 +37,8 @@ namespace AGRemapCore {
         // material legend and recolouring it would change what the surface IS.
         void whitenLightMap(TextureFile& texFile) {
             ColourReplaceFilter filter(
-                Colour(255, 255, 255),
-                ColourOrRangeSet{ColourRange(Colour(0, 125, 0, 0), Colour(50, 160, 50, 255))},
+                Colours::White,
+                ColourOrRangeSet{ColourRanges::LightMapGreen},
                 false);
             filter.transform(texFile);
         }

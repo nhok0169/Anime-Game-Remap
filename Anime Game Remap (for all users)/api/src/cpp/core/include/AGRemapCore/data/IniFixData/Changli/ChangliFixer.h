@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 
 
@@ -31,7 +32,7 @@ namespace AGRemapCore {
        writes its blend at the target's width (:cpp:member:`WWMIFixerConfig::targetInfluences`)
      * her skeleton was renumbered twice (1.1 -> 1.2, 1.3 -> 1.4), so a mod is read with the vertex
        group row of the numbering its own geometry is in
-       (:cpp:member:`WWMIFixerConfig::skeletonNumberings`)
+       (:cpp:member:`WWMIParserConfig::skeletonNumberings`)
      @endrst
      */
     class ChangliFixer {
@@ -43,6 +44,12 @@ namespace AGRemapCore {
              *        :cpp:func:`IniFixBuilderFuncs::changliNymph2_4`
              */
             static IniFixBuilder::Factory nymph2_4();
+
+            /**
+             * @brief The config #nymph2_4 builds its fixer from (:cpp:func:`makeWWMIFixer`) -- to start a variant of the
+             * shipped fix from, or to read what it does
+             */
+            static WWMIFixerConfig nymph2_4Config();
     };
 }
 

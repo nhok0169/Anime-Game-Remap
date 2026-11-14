@@ -38,7 +38,7 @@ class GraphGroupRemoveTest(BaseUnitTest):
     def test_init_setsAttributes(self):
         iniIndices = [0, 2]
         edit = FRB.GraphGroupRemove(iniIndices)
-        self.assertIs(edit.iniIndices, iniIndices)
+        self.assertEqual(edit.iniIndices, iniIndices)   # held as the edit's own (C++) data, read back
 
     def test_init_default_everyGroup(self):
         self.assertIsNone(FRB.GraphGroupRemove().iniIndices)

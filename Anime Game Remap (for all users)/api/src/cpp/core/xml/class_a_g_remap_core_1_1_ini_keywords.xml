@@ -260,6 +260,41 @@ the block and its file is left alone -- see :cpp:func:`RemapIniRemover::collectR
         </inbodydescription>
         <location file="include/AGRemapCore/constants/IniKeywords.h" line="142" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="142" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aebe11691542d18d2154081fac9bb0dee" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::TexRegPrefix</definition>
+        <argsstring></argsstring>
+        <name>TexRegPrefix</name>
+        <qualifiedname>AGRemapCore::IniKeywords::TexRegPrefix</qualifiedname>
+        <initializer>= &quot;ps-t&quot;</initializer>
+        <briefdescription>
+<para>The register family a mod binds its pixel shader textures with: <computeroutput>ps-t0</computeroutput>, <computeroutput>ps-t1</computeroutput>, ... </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="147" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a7093e83231c634d7b351184f060eb41f" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::CheckTextureOverride</definition>
+        <argsstring></argsstring>
+        <name>CheckTextureOverride</name>
+        <qualifiedname>AGRemapCore::IniKeywords::CheckTextureOverride</qualifiedname>
+        <initializer>= &quot;CheckTextureOverride&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+3DMigoto&apos;s key that runs the ``[TextureOverride]`` of whatever is bound at a register, eg.
+``CheckTextureOverride = vs-cb4``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="156" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a1135e121a755d9d4a26c68688f0a4b2c" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
         <definition>const std::string AGRemapCore::IniKeywords::Hash</definition>
@@ -277,7 +312,7 @@ The `KVP`_ key holding a `section`_&apos;s model hash -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="151" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="151" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="165" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="165" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1af7976ed49b790b6eea9902f4fe2643b9" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -297,7 +332,7 @@ objects a ``hash`` alone cannot tell apart
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="161" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="161" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="175" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="175" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a912fb647df39f8e5ce6eacfe92df78ac" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -315,7 +350,7 @@ The `KVP`_ key holding how many indices of the model a `section`_ draws
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="169" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="169" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="183" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="183" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a5a02030482870c9c8d6cdf04e320923d" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -333,7 +368,7 @@ The `KVP`_ key holding how many vertices the model a `section`_ draws has
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="177" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="177" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="191" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="191" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1acce3c0ddaf17f1e5c7e733372c08b981" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -351,7 +386,7 @@ The `KVP`_ key breaking the tie when several `sections`_ match one draw
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="185" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="185" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="199" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="199" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a36d848cccf920f47bc463cf7725df989" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -367,7 +402,7 @@ The `KVP`_ key breaking the tie when several `sections`_ match one draw
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="191" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="191" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="205" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="205" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aa913c2a35a21fcebd01e4d40698b3499" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -383,7 +418,7 @@ The `KVP`_ key breaking the tie when several `sections`_ match one draw
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="196" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="196" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="210" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="210" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a109cb8484b6b9b86bb7c1ca566fea778" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -401,7 +436,7 @@ The `KVP`_ key holding which kind of draw call a `section`_ matches
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="204" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="204" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="218" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="218" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a79af5209650d91131fa71d46fe3bfb7e" prot="public" static="yes" mutable="no">
         <type>const std::unordered_set&lt; std::string &gt;</type>
@@ -427,7 +462,7 @@ fix has already remapped
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="219" column="52" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="219" bodyend="220"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="233" column="52" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="233" bodyend="234"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ae7b06e4f9664f4c634630000ace95bc6" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -452,7 +487,7 @@ The `KVP`_ key naming the file a resource `section`_ points at :raw-html:`&lt;br
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="235" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="235" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="249" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="249" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a6b29e20e87bbc84076a4539e1859771c" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -473,7 +508,7 @@ seven sites across three files, one of them carrying the literal&apos;s LENGTH a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="246" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="246" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="260" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="260" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ace37a75ebdee9e230ae00cdb63c37f4c" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -491,7 +526,7 @@ A resource `section`_&apos;s kind, eg. ``type = Buffer``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="254" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="254" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="268" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="268" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aca3907b8873f883401b3a794ad8b205d" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -509,7 +544,7 @@ A resource `section`_&apos;s bytes per element, eg. ``stride = 40``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="262" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="262" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="276" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="276" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a0f5247c1a0975015665b6abaddf95f4a" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -527,7 +562,7 @@ A resource `section`_&apos;s element format, eg. ``format = R32_UINT``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="270" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="270" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="284" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="284" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a6d32f5bf3ed7a3dd84a053f8dec9b76c" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -546,7 +581,43 @@ a placeholder, not a real resource
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="279" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="279" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="293" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8905e46b67ea251bd49ef6862d45fe16" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Copy</definition>
+        <argsstring></argsstring>
+        <name>Copy</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Copy</qualifiedname>
+        <initializer>= &quot;copy&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The statement that fills a resource with a copy of another: ``ResourceX = copy ResourceY``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="301" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1abd69f1a451a753cb3c2f49a7778a4b6a" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::CopyDesc</definition>
+        <argsstring></argsstring>
+        <name>CopyDesc</name>
+        <qualifiedname>AGRemapCore::IniKeywords::CopyDesc</qualifiedname>
+        <initializer>= &quot;copy_desc&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The statement that gives a resource another&apos;s description only: ``ResourceX = copy_desc ResourceY``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="309" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="309" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8fe7de095b9841fb8a24b6f186134dcd" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -565,7 +636,7 @@ The `KVP`_ key naming a `section`_&apos;s index buffer -- also the last index co
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="288" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="288" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="318" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="318" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ad98707bf380b9940042e52feddd2cca6" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -581,7 +652,7 @@ The `KVP`_ key naming a `section`_&apos;s index buffer -- also the last index co
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="293" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="293" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="323" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="323" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a0a3c05fa043b21683aa21e619c60fe58" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -600,7 +671,7 @@ the two it is depends on the `section`_, not on the key
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="302" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="302" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="332" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="332" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a16ef425e1632ec1bb2442db36ca0d79a" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -619,7 +690,7 @@ this software writes, alongside \ref Draw, after a downloaded ``Blend.buf``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="311" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="311" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="341" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="341" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ac10fcc30f22cc64569c29916f36c8aa5" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -638,7 +709,7 @@ The `KVP`_ key issuing a non-indexed draw, written as ``&lt;vertex count&gt;,0``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="320" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="320" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="350" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="350" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a2d55106a94f19909c54995256dacd697" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -657,7 +728,7 @@ front of -- see :cpp:class:`RegDelimitedAdd`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="329" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="329" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="359" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="359" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1acbb83112fdf027806e264ebe988215e8" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -680,7 +751,7 @@ library, not into the mod&apos;s own `sections`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="342" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="342" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="372" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="372" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a928d0529fdf656dcb8539e202c470acc" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -703,7 +774,7 @@ external library as \ref ORFixPath :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="355" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="355" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="385" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="385" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ac4986a7b02eb1185f7fdba532facafa5" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -724,7 +795,7 @@ traditional API as it is read -- see :cpp:class:`GIMIApiNormalizer`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="366" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="366" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="396" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="396" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a23f45e850f9b934571a431d5781e0c19" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -740,7 +811,7 @@ traditional API as it is read -- see :cpp:class:`GIMIApiNormalizer`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="371" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="371" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="401" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="401" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1adb66233a1a9d11f8d8af5b38db7364f1" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -756,7 +827,7 @@ traditional API as it is read -- see :cpp:class:`GIMIApiNormalizer`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="376" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="376" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="406" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="406" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a36eb3d096980510be6ee570d02c35e79" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -772,7 +843,7 @@ traditional API as it is read -- see :cpp:class:`GIMIApiNormalizer`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="381" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="381" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="411" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="411" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -799,7 +870,7 @@ shifts a character&apos;s registers around leaves those two alone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="398" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="398" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="428" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="428" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a0b87898a1b13e451768835db0ff5bb31" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -821,7 +892,25 @@ one of them is actually bound, never simply because the character&apos;s row nam
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="410" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="410" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="440" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="440" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a7bc077cb52ccafb4c9827f8ecf02d645" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::TexFxUseDefaultShader</definition>
+        <argsstring></argsstring>
+        <name>TexFxUseDefaultShader</name>
+        <qualifiedname>AGRemapCore::IniKeywords::TexFxUseDefaultShader</qualifiedname>
+        <initializer>= &quot;$\\TexFx\\use_default_shader&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+`TexFx`_&apos;s variable that, at ``-1``, makes it leave a draw to the game&apos;s own shader
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="448" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="448" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a6b01c77d87e0426ebcbbdebffa4c3506" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -837,7 +926,7 @@ one of them is actually bound, never simply because the character&apos;s row nam
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="415" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="415" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="453" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="453" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -859,7 +948,7 @@ follows from where its register shift left the diffuse -- not from the character
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="427" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="427" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="465" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="465" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a57f3e435d80318e03d84bae2e8b314cd" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -878,7 +967,7 @@ follows from where its register shift left the diffuse -- not from the character
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="436" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="436" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="474" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="474" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a079388fac5e35fde9ecdfe285ae8137e" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -902,7 +991,7 @@ that quietly does nothing rather than as an error
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="450" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="450" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="488" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="488" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a4cce110f0eafe9da5062b35d622598e2" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -920,7 +1009,7 @@ The PRE-5.0 spelling of \ref TexFxTransparency1 -- see \ref TexFxTransparency0Pr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="458" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="458" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="496" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="496" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -939,7 +1028,7 @@ see :cpp:class:`RegAssetRemap`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="467" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="467" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="505" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="505" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aa2c231b7ea5eb426e1c394d83fa4c1be" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -958,7 +1047,7 @@ fixed to -- the index counterpart of :cpp:member:`HashNotFound`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="476" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="476" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="514" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="514" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -974,7 +1063,1481 @@ fixed to -- the index counterpart of :cpp:member:`HashNotFound`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="481" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="481" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="519" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="519" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aca4b0f175e238c796c445f9152fc2776" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Global</definition>
+        <argsstring></argsstring>
+        <name>Global</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Global</qualifiedname>
+        <initializer>= &quot;global&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The statement keyword that declares a variable for the whole ``.ini`` file: ``global $x = 0``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="527" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="527" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1abeedebbd6b37f4ed60200d0955793a4d" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Local</definition>
+        <argsstring></argsstring>
+        <name>Local</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Local</qualifiedname>
+        <initializer>= &quot;local&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The statement keyword that declares a variable for one `section`_: ``local $x``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="535" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="535" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aa0865d1094828ac79dc011ad9ff5bbef" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Post</definition>
+        <argsstring></argsstring>
+        <name>Post</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Post</qualifiedname>
+        <initializer>= &quot;post&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The keyword that runs a line after the frame&apos;s draws rather than before them: ``post $x = 0``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="543" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="543" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a006a3da8a0ba5c39266060128988eba6" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Skip</definition>
+        <argsstring></argsstring>
+        <name>Skip</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Skip</qualifiedname>
+        <initializer>= &quot;skip&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The :cpp:member:`Handling` value that stops the game drawing what a `section`_ matched
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="551" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="551" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8fb40d7d3bc56050bcee7574fb75869c" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Buffer</definition>
+        <argsstring></argsstring>
+        <name>Buffer</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Buffer</qualifiedname>
+        <initializer>= &quot;Buffer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The :cpp:member:`Type` of a resource holding a vertex, index or constant buffer
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="559" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="559" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a5cc067e3e2dafa4839d22a79242991b9" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Present</definition>
+        <argsstring></argsstring>
+        <name>Present</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Present</qualifiedname>
+        <initializer>= &quot;Present&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `section`_ 3dmigoto runs once a frame, after every draw
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="567" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="567" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a5c22475eb9aff1d50b13149d9be7dfb7" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Constants</definition>
+        <argsstring></argsstring>
+        <name>Constants</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Constants</qualifiedname>
+        <initializer>= &quot;Constants&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `section`_ 3dmigoto runs once, when the ``.ini`` file loads -- where ``global`` variables are declared
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="575" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="575" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMINamespace</definition>
+        <argsstring></argsstring>
+        <name>WWMINamespace</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMINamespace</qualifiedname>
+        <initializer>= &quot;$\\WWMIv1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The namespace of WWMI&apos;s own variables and command lists, which every WWMI mod&apos;s ``.ini`` calls into
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="583" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="583" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a43fae2db235cdd20df17959d5478fbed" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIVgOffset</definition>
+        <argsstring></argsstring>
+        <name>WWMIVgOffset</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIVgOffset</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref> + &quot;\\vg_offset&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The first merged-skeleton bone of the component a WWMI draw is for
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="591" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="591" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a3fab6ad720d71c0e02d98f9dd481c15e" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIVgCount</definition>
+        <argsstring></argsstring>
+        <name>WWMIVgCount</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIVgCount</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref> + &quot;\\vg_count&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How many merged-skeleton bones the component a WWMI draw is for has
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="599" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="599" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ae997aba1dc7838173af84c45dcecbc47" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIShapeKeyChecksum</definition>
+        <argsstring></argsstring>
+        <name>WWMIShapeKeyChecksum</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIShapeKeyChecksum</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref> + &quot;\\shapekey_checksum&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The checksum WWMI checks a mod&apos;s shape keys against before applying them
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="607" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="607" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a61262ec4c294b51ca6221ecf998c5655" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIShapeKeyDispatchSizeYOriginalBatch</definition>
+        <argsstring></argsstring>
+        <name>WWMIShapeKeyDispatchSizeYOriginalBatch</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIShapeKeyDispatchSizeYOriginalBatch</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref> + &quot;\\shapekey_dispatch_size_y_original_batch&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How many groups WWMI&apos;s shape-key compute pass dispatches over the game&apos;s own shape keys
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="615" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="615" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a59214c9787296db3553286a6c08d72b0" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMICustomMeshScale</definition>
+        <argsstring></argsstring>
+        <name>WWMICustomMeshScale</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMICustomMeshScale</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref> + &quot;\\custom_mesh_scale&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The scale WWMI&apos;s skeleton shaders apply to a mod&apos;s mesh
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="623" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="623" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a7b089fe7041a8e1667267639b83e68a9" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIBlendRemapId</definition>
+        <argsstring></argsstring>
+        <name>WWMIBlendRemapId</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIBlendRemapId</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref> + &quot;\\blend_remap_id&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which of a mod&apos;s blend remaps WWMI&apos;s ``BlendRemapper`` applies
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="631" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="631" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a455afa11f5f059138413704dc558661f" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIWeightsPerVertexCount</definition>
+        <argsstring></argsstring>
+        <name>WWMIWeightsPerVertexCount</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIWeightsPerVertexCount</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref> + &quot;\\weights_per_vertex_count&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How many bone influences a vertex of the mod&apos;s ``Blend.buf`` carries, as WWMI&apos;s ``BlendRemapper`` reads it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="639" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="639" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a04b91f747cb6d612b0b312ee9dde0769" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMICustomVertexCount</definition>
+        <argsstring></argsstring>
+        <name>WWMICustomVertexCount</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMICustomVertexCount</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref> + &quot;\\custom_vertex_count&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The vertex count WWMI&apos;s compute shaders run over
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="647" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="647" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a11d5be5f1445cbb474272358a0eb2c50" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMISkeletonMerger</definition>
+        <argsstring></argsstring>
+        <name>WWMISkeletonMerger</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMISkeletonMerger</qualifiedname>
+        <initializer>= &quot;CustomShader\\WWMIv1\\SkeletonMerger&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+WWMI&apos;s shader that merges one component&apos;s bones into the mod&apos;s merged skeleton
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="655" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="655" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a6c2c99fcff96035ca6b7c5fdd68a33b2" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMISkeletonRemapper</definition>
+        <argsstring></argsstring>
+        <name>WWMISkeletonRemapper</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMISkeletonRemapper</qualifiedname>
+        <initializer>= &quot;CustomShader\\WWMIv1\\SkeletonRemapper&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+WWMI&apos;s shader that remaps a merged skeleton through a blend remap
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="663" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="663" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aa6cc2ff9037a99c340f9d86d6ddaf64d" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIBlendRemapper</definition>
+        <argsstring></argsstring>
+        <name>WWMIBlendRemapper</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIBlendRemapper</qualifiedname>
+        <initializer>= &quot;CustomShader\\WWMIv1\\BlendRemapper&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+WWMI&apos;s shader that writes a mod&apos;s remapped ``Blend.buf`` at load
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="671" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="671" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1abc425029795536c7b3dc82a51de9f700" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIBoneDataCb</definition>
+        <argsstring></argsstring>
+        <name>WWMIBoneDataCb</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIBoneDataCb</qualifiedname>
+        <initializer>= &quot;vs-cb4&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The register a draw reads its bones from (``vs-cb4``): what a skeleton merge takes, and a remapped skeleton is
+bound back to
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="680" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="680" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a809513b75f4bac89d722f671ae1cb2d3" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIExtraBoneDataCb</definition>
+        <argsstring></argsstring>
+        <name>WWMIExtraBoneDataCb</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIExtraBoneDataCb</qualifiedname>
+        <initializer>= &quot;vs-cb3&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The register a draw reads its previous frame&apos;s bones from (``vs-cb3``), the extra merged skeleton&apos;s
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="688" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="688" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a476514c6e51c850a965339a7a060ca8f" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIMergerBonesReg</definition>
+        <argsstring></argsstring>
+        <name>WWMIMergerBonesReg</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIMergerBonesReg</qualifiedname>
+        <initializer>= &quot;cs-cb8&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+:cpp:member:`WWMISkeletonMerger`&apos;s input: the bone-data constant buffer it merges (``cs-cb8``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="696" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="696" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aea4eba5cb28620f61ef7a756c10faf00" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIMergerSkeletonReg</definition>
+        <argsstring></argsstring>
+        <name>WWMIMergerSkeletonReg</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIMergerSkeletonReg</qualifiedname>
+        <initializer>= &quot;cs-u6&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+:cpp:member:`WWMISkeletonMerger`&apos;s output: the merged skeleton it writes (``cs-u6``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="704" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="704" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a14083f95f205d148f6b88b2b6722cdd1" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIRemapperForwardReg</definition>
+        <argsstring></argsstring>
+        <name>WWMIRemapperForwardReg</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIRemapperForwardReg</qualifiedname>
+        <initializer>= &quot;cs-t37&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+:cpp:member:`WWMISkeletonRemapper`&apos;s input: the blend remap&apos;s forward table, local id to merged bone (``cs-t37``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="712" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="712" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ada7a2421d735c54b04f3d69ec40c6c45" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIRemapperSkeletonReg</definition>
+        <argsstring></argsstring>
+        <name>WWMIRemapperSkeletonReg</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIRemapperSkeletonReg</qualifiedname>
+        <initializer>= &quot;cs-t38&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+:cpp:member:`WWMISkeletonRemapper`&apos;s input: the merged skeleton it remaps (``cs-t38``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="720" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="720" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a251c2b0b94cf20f8815c19aa4f670f08" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIRemapperOutReg</definition>
+        <argsstring></argsstring>
+        <name>WWMIRemapperOutReg</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIRemapperOutReg</qualifiedname>
+        <initializer>= &quot;cs-u5&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+:cpp:member:`WWMISkeletonRemapper`&apos;s output: the remapped skeleton it writes (``cs-u5``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="728" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="728" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a1e14965ab3426ea929c8fb07289d3138" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIBlendRemapperReverseReg</definition>
+        <argsstring></argsstring>
+        <name>WWMIBlendRemapperReverseReg</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIBlendRemapperReverseReg</qualifiedname>
+        <initializer>= &quot;cs-t34&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+:cpp:member:`WWMIBlendRemapper`&apos;s input: the blend remap&apos;s reverse table, merged bone to local id (``cs-t34``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="736" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="736" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1acae40f10375cb9c2d222de998714243e" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIBlendRemapperVertexVGReg</definition>
+        <argsstring></argsstring>
+        <name>WWMIBlendRemapperVertexVGReg</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIBlendRemapperVertexVGReg</qualifiedname>
+        <initializer>= &quot;cs-t35&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+:cpp:member:`WWMIBlendRemapper`&apos;s input: every vertex&apos;s merged bone ids (``cs-t35``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="744" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="744" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ad63640384f22e5c60ec8869f07f42e8f" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIBlendRemapperOutReg</definition>
+        <argsstring></argsstring>
+        <name>WWMIBlendRemapperOutReg</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIBlendRemapperOutReg</qualifiedname>
+        <initializer>= &quot;cs-u4&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+:cpp:member:`WWMIBlendRemapper`&apos;s output: the blend it rewrites into the remap&apos;s local ids (``cs-u4``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="752" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="752" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a862ae85c7a1f9da2a20bd31be575384f" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIShapeKeyOffsetReg</definition>
+        <argsstring></argsstring>
+        <name>WWMIShapeKeyOffsetReg</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIShapeKeyOffsetReg</qualifiedname>
+        <initializer>= &quot;cs-t33&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The shape-key offsets the shape-key overrider reads (``cs-t33``) -- see :cpp:member:`WWMIShapeKeyOffsetBuffer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="760" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="760" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a61f7e05a3d74671c1c7ac667188db639" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIShapeKeyVertexIdReg</definition>
+        <argsstring></argsstring>
+        <name>WWMIShapeKeyVertexIdReg</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIShapeKeyVertexIdReg</qualifiedname>
+        <initializer>= &quot;cs-t0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The shape-key vertex ids the shape-key loader reads (``cs-t0``) -- see :cpp:member:`WWMIShapeKeyVertexIdBuffer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="768" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="768" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a3f7d746969ecc140f174e11149cc0353" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIShapeKeyVertexOffsetReg</definition>
+        <argsstring></argsstring>
+        <name>WWMIShapeKeyVertexOffsetReg</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIShapeKeyVertexOffsetReg</qualifiedname>
+        <initializer>= &quot;cs-t1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The shape-key vertex offsets the shape-key loader reads (``cs-t1``) -- see :cpp:member:`WWMIShapeKeyVertexOffsetBuffer`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="776" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="776" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1af57312decab2784bd6f51594f8bbe83f" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMITexcoordReg</definition>
+        <argsstring></argsstring>
+        <name>WWMITexcoordReg</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMITexcoordReg</qualifiedname>
+        <initializer>= &quot;vb2&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The vertex stream a WWMI mesh&apos;s texcoords are bound at (``vb2``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="784" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="784" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a005776511c7c73a424d27bcab63fce5f" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIBlendReg</definition>
+        <argsstring></argsstring>
+        <name>WWMIBlendReg</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIBlendReg</qualifiedname>
+        <initializer>= &quot;vb4&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The vertex stream a WWMI mesh&apos;s blend is bound at (``vb4``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="792" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="792" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1af84e085d63bdc7955acf3960393f580c" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIShapeKeyStreamReg</definition>
+        <argsstring></argsstring>
+        <name>WWMIShapeKeyStreamReg</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIShapeKeyStreamReg</qualifiedname>
+        <initializer>= &quot;vb6&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The register a WuWa draw reads the game&apos;s live shape-key offsets from, by vertex id -- the stream a
+remapped draw rebinds to zeros (:cpp:member:`WWMIFixerConfig::zeroShapeKeyStream`)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="801" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="801" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a5a86982b0ee14d17327f300b1f26c9a3" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIColourTarget</definition>
+        <argsstring></argsstring>
+        <name>WWMIColourTarget</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIColourTarget</qualifiedname>
+        <initializer>= &quot;o3&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The render target a WWMI character&apos;s draw writes its colour to (``o3``): bound only on a pass that draws to the screen
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="809" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="809" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a4cfc8aa1a36db4b545d2bc8bb3ba4e8d" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::RWBuffer</definition>
+        <argsstring></argsstring>
+        <name>RWBuffer</name>
+        <qualifiedname>AGRemapCore::IniKeywords::RWBuffer</qualifiedname>
+        <initializer>= &quot;RWBuffer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A resource&apos;s ``type`` for a buffer a compute shader writes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="817" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="817" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a27b6ff694d27c70ff94fccff73344488" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::FormatR32G32B32A32Float</definition>
+        <argsstring></argsstring>
+        <name>FormatR32G32B32A32Float</name>
+        <qualifiedname>AGRemapCore::IniKeywords::FormatR32G32B32A32Float</qualifiedname>
+        <initializer>= &quot;R32G32B32A32_FLOAT&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A resource&apos;s ``format`` of four 32-bit floats an element -- eg. a merged skeleton&apos;s bone matrices
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="825" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="825" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a2c22a5da97ede379eefbe860b9d8664e" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::FormatR8UInt</definition>
+        <argsstring></argsstring>
+        <name>FormatR8UInt</name>
+        <qualifiedname>AGRemapCore::IniKeywords::FormatR8UInt</qualifiedname>
+        <initializer>= &quot;DXGI_FORMAT_R8_UINT&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A resource&apos;s ``format`` of one unsigned byte an element
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="833" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="833" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1adf4743d9b471c1ea4d22e2c082dc51ab" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::FormatR16UInt</definition>
+        <argsstring></argsstring>
+        <name>FormatR16UInt</name>
+        <qualifiedname>AGRemapCore::IniKeywords::FormatR16UInt</qualifiedname>
+        <initializer>= &quot;DXGI_FORMAT_R16_UINT&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A resource&apos;s ``format`` of one unsigned 16-bit integer an element
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="841" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="841" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1acb1f15525f2daeba48c2d2fda768b3a3" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::FormatR32G32B32Float</definition>
+        <argsstring></argsstring>
+        <name>FormatR32G32B32Float</name>
+        <qualifiedname>AGRemapCore::IniKeywords::FormatR32G32B32Float</qualifiedname>
+        <initializer>= &quot;DXGI_FORMAT_R32G32B32_FLOAT&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A resource&apos;s ``format`` of three 32-bit floats an element
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="849" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="849" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a96d3714086ecdba54c931ea363a00e84" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::FormatR16G16Float</definition>
+        <argsstring></argsstring>
+        <name>FormatR16G16Float</name>
+        <qualifiedname>AGRemapCore::IniKeywords::FormatR16G16Float</qualifiedname>
+        <initializer>= &quot;DXGI_FORMAT_R16G16_FLOAT&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A resource&apos;s ``format`` of two 16-bit floats an element
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="857" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="857" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a4e8a90dd7c7377f40f9f51c7a5644b71" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::FormatR32G32B32A32FloatDxgi</definition>
+        <argsstring></argsstring>
+        <name>FormatR32G32B32A32FloatDxgi</name>
+        <qualifiedname>AGRemapCore::IniKeywords::FormatR32G32B32A32FloatDxgi</qualifiedname>
+        <initializer>= &quot;DXGI_FORMAT_R32G32B32A32_FLOAT&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A resource&apos;s ``format`` of four 32-bit floats an element, spelled with ``DXGI_FORMAT_`` as a fix&apos;s own buffers write it (:attr:`FormatR32G32B32A32Float` is WWMI&apos;s spelling of the same format)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="865" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="865" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a90d5d173ca0c3eb2fa69d50d88318cd3" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::CustomShader</definition>
+        <argsstring></argsstring>
+        <name>CustomShader</name>
+        <qualifiedname>AGRemapCore::IniKeywords::CustomShader</qualifiedname>
+        <initializer>= &quot;CustomShader&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The prefix of a `section`_ that draws with shaders of its own
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="873" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="873" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a39e743f3f67d3d4e1c8e17246d14b3be" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Ps</definition>
+        <argsstring></argsstring>
+        <name>Ps</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Ps</qualifiedname>
+        <initializer>= &quot;ps&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A `section`_&apos;s pixel shader file (in a ``[CustomShader...]``), or the pixel shader a ``filter_index`` condition reads
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="881" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="881" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1af4b5594292d565744400a82dbaf2b3ff" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Vs</definition>
+        <argsstring></argsstring>
+        <name>Vs</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Vs</qualifiedname>
+        <initializer>= &quot;vs&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A `section`_&apos;s vertex shader file (in a ``[CustomShader...]``), or the vertex shader a ``filter_index`` condition reads
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="889" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="889" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a2fecbe5ebdbbc0201f2dbd5e5e798595" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::BlendState</definition>
+        <argsstring></argsstring>
+        <name>BlendState</name>
+        <qualifiedname>AGRemapCore::IniKeywords::BlendState</qualifiedname>
+        <initializer>= &quot;blend&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A ``[CustomShader...]``&apos;s blend state
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="897" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="897" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a1820784cf0ac91c48c0841853a80be08" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Alpha</definition>
+        <argsstring></argsstring>
+        <name>Alpha</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Alpha</qualifiedname>
+        <initializer>= &quot;alpha&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A ``[CustomShader...]``&apos;s alpha blend state of one render target, keyed ``alpha[&lt;target&gt;]``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="905" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="905" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1afd06efb3988d179784059a98937fea20" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Cull</definition>
+        <argsstring></argsstring>
+        <name>Cull</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Cull</qualifiedname>
+        <initializer>= &quot;cull&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A ``[CustomShader...]``&apos;s cull mode
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="913" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="913" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1afb4b40d73c79b528536a1423ba08a0d4" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::RasterizerStateMerge</definition>
+        <argsstring></argsstring>
+        <name>RasterizerStateMerge</name>
+        <qualifiedname>AGRemapCore::IniKeywords::RasterizerStateMerge</qualifiedname>
+        <initializer>= &quot;rasterizer_state_merge&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether a ``[CustomShader...]`` merges its rasterizer keys into the game&apos;s state
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="921" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="921" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ad6f8395e7da70f7687014f796d0e5a4b" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::DepthStencilStateMerge</definition>
+        <argsstring></argsstring>
+        <name>DepthStencilStateMerge</name>
+        <qualifiedname>AGRemapCore::IniKeywords::DepthStencilStateMerge</qualifiedname>
+        <initializer>= &quot;depth_stencil_state_merge&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether a ``[CustomShader...]`` merges its depth and stencil keys into the game&apos;s state
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="929" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="929" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ae5965800170f3fc83682100ecd6d61d5" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::DepthFunc</definition>
+        <argsstring></argsstring>
+        <name>DepthFunc</name>
+        <qualifiedname>AGRemapCore::IniKeywords::DepthFunc</qualifiedname>
+        <initializer>= &quot;depth_func&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A ``[CustomShader...]``&apos;s depth test
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="937" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="937" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aca37ab1fd8feed8d582ee0c6a0915b93" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::DepthWriteMask</definition>
+        <argsstring></argsstring>
+        <name>DepthWriteMask</name>
+        <qualifiedname>AGRemapCore::IniKeywords::DepthWriteMask</qualifiedname>
+        <initializer>= &quot;depth_write_mask&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether a ``[CustomShader...]`` writes depth
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="945" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="945" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a1f65fda814ca91a5e00ed0d89dc7f262" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::StencilEnable</definition>
+        <argsstring></argsstring>
+        <name>StencilEnable</name>
+        <qualifiedname>AGRemapCore::IniKeywords::StencilEnable</qualifiedname>
+        <initializer>= &quot;stencil_enable&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether a ``[CustomShader...]`` tests the stencil
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="953" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="953" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a08f42889db4760e2917b24716a30b64e" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::StencilRef</definition>
+        <argsstring></argsstring>
+        <name>StencilRef</name>
+        <qualifiedname>AGRemapCore::IniKeywords::StencilRef</qualifiedname>
+        <initializer>= &quot;stencil_ref&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A ``[CustomShader...]``&apos;s stencil reference value
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="961" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="961" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a076e50def6bab30c34c041af1cee9d86" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::StencilReadMask</definition>
+        <argsstring></argsstring>
+        <name>StencilReadMask</name>
+        <qualifiedname>AGRemapCore::IniKeywords::StencilReadMask</qualifiedname>
+        <initializer>= &quot;stencil_read_mask&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A ``[CustomShader...]``&apos;s stencil read mask
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="969" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="969" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a7849f50831c9f2150c9e7815b807080b" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::StencilWriteMask</definition>
+        <argsstring></argsstring>
+        <name>StencilWriteMask</name>
+        <qualifiedname>AGRemapCore::IniKeywords::StencilWriteMask</qualifiedname>
+        <initializer>= &quot;stencil_write_mask&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A ``[CustomShader...]``&apos;s stencil write mask
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="977" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="977" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a1fd21d6be2879d326fd14ad6645f17e3" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::StencilFront</definition>
+        <argsstring></argsstring>
+        <name>StencilFront</name>
+        <qualifiedname>AGRemapCore::IniKeywords::StencilFront</qualifiedname>
+        <initializer>= &quot;stencil_front&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A ``[CustomShader...]``&apos;s stencil operations on front faces
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="985" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="985" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a2ded4e6fade245553e43df9907a51e5b" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::StencilBack</definition>
+        <argsstring></argsstring>
+        <name>StencilBack</name>
+        <qualifiedname>AGRemapCore::IniKeywords::StencilBack</qualifiedname>
+        <initializer>= &quot;stencil_back&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A ``[CustomShader...]``&apos;s stencil operations on back faces
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="993" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="993" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a838a24be9da3b50a674e53e8318ddf47" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Mask</definition>
+        <argsstring></argsstring>
+        <name>Mask</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Mask</qualifiedname>
+        <initializer>= &quot;mask&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A ``[CustomShader...]``&apos;s colour write mask of one render target, keyed ``mask[&lt;target&gt;]``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1001" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1001" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a7e18c43878eee8ec1eb637fa9bf652dc" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIObjectDetected</definition>
+        <argsstring></argsstring>
+        <name>WWMIObjectDetected</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIObjectDetected</qualifiedname>
+        <initializer>= &quot;$object_detected&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The flag every `section`_ of a WWMI mod sets when its character is drawn, and its ``[Present]`` resets each frame
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1009" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1009" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a18662ec539ff2169a820cc676e0c79ec" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIModEnabled</definition>
+        <argsstring></argsstring>
+        <name>WWMIModEnabled</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIModEnabled</qualifiedname>
+        <initializer>= &quot;$mod_enabled&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The flag a WWMI mod draws under once WWMI has registered it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1017" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1017" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a58f14160cdb490c1059d78ecd99f6a71" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIMeshVertexCount</definition>
+        <argsstring></argsstring>
+        <name>WWMIMeshVertexCount</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIMeshVertexCount</qualifiedname>
+        <initializer>= &quot;$mesh_vertex_count&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``global`` a WWMI mod declares its mesh&apos;s vertex count in
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1025" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1025" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a3a7dcf1323d49dcf8ce45a3cc944a8a8" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIStateId</definition>
+        <argsstring></argsstring>
+        <name>WWMIStateId</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIStateId</qualifiedname>
+        <initializer>= &quot;$state_id&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+WWMI&apos;s per-frame state counter, which a mod compares to run a merge once a frame
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1033" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1033" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a9d1c74eb9e762fb5de1750770f5a6bef" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIBlendBuffer</definition>
+        <argsstring></argsstring>
+        <name>WWMIBlendBuffer</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIBlendBuffer</qualifiedname>
+        <initializer>= &quot;ResourceBlendBuffer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A WWMI Tools export&apos;s ``Blend.buf`` resource
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1041" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1041" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aa6611396a1149f2aeef45e6b8c50b2ac" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIBlendRemapVertexVGBuffer</definition>
+        <argsstring></argsstring>
+        <name>WWMIBlendRemapVertexVGBuffer</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIBlendRemapVertexVGBuffer</qualifiedname>
+        <initializer>= &quot;ResourceBlendRemapVertexVGBuffer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A WWMI Tools export&apos;s ``BlendRemapVertexVG.buf`` resource: a mod past 256 bones keeps each vertex&apos;s 16-bit merged bone ids here
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1049" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1049" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a906314eec1fc164ef48f7b47f6e655ff" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIBlendRemapForwardBuffer</definition>
+        <argsstring></argsstring>
+        <name>WWMIBlendRemapForwardBuffer</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIBlendRemapForwardBuffer</qualifiedname>
+        <initializer>= &quot;ResourceBlendRemapForwardBuffer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A WWMI Tools export&apos;s ``BlendRemapForward.buf`` resource: the blend remap&apos;s forward table, local id to merged bone
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1057" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1057" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aa2d2840c041bfcf8455dd769d30e906e" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIBlendRemapReverseBuffer</definition>
+        <argsstring></argsstring>
+        <name>WWMIBlendRemapReverseBuffer</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIBlendRemapReverseBuffer</qualifiedname>
+        <initializer>= &quot;ResourceBlendRemapReverseBuffer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A WWMI Tools export&apos;s ``BlendRemapReverse.buf`` resource: the blend remap&apos;s reverse table, merged bone to local id
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1065" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1065" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a32e353032d26a969398bb2da843a1154" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIBlendBufferOverride</definition>
+        <argsstring></argsstring>
+        <name>WWMIBlendBufferOverride</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIBlendBufferOverride</qualifiedname>
+        <initializer>= &quot;ResourceBlendBufferOverride&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The resource WWMI&apos;s ``BlendRemapper`` fills with a mod&apos;s remapped blend
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1073" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1073" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a32d5dc0cb1f4b6c6106aa07d0477db9d" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIMergedSkeletonOverride</definition>
+        <argsstring></argsstring>
+        <name>WWMIMergedSkeletonOverride</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIMergedSkeletonOverride</qualifiedname>
+        <initializer>= &quot;ResourceMergedSkeletonOverride&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A WWMI mod&apos;s override of the merged skeleton a draw reads (``ResourceMergedSkeletonOverride``): a remapped section drops it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1081" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1081" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ac9009635001065546ba32bb9fcabc06f" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIExtraMergedSkeletonOverride</definition>
+        <argsstring></argsstring>
+        <name>WWMIExtraMergedSkeletonOverride</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIExtraMergedSkeletonOverride</qualifiedname>
+        <initializer>= &quot;ResourceExtraMergedSkeletonOverride&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+...and of the extra merged skeleton (``ResourceExtraMergedSkeletonOverride``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1089" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1089" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ac727f606d96db7c4adc6ffaf03475d0b" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIMergedSkeleton</definition>
+        <argsstring></argsstring>
+        <name>WWMIMergedSkeleton</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIMergedSkeleton</qualifiedname>
+        <initializer>= &quot;ResourceMergedSkeleton&quot;</initializer>
+        <briefdescription>
+<para>A WWMI Tools export&apos;s merged-skeleton resource (a mod past 256 bones binds it at <computeroutput>vs-cb4</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1094" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1094" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aa385c3022da02e22dedf8d927a5859d3" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIExtraMergedSkeleton</definition>
+        <argsstring></argsstring>
+        <name>WWMIExtraMergedSkeleton</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIExtraMergedSkeleton</qualifiedname>
+        <initializer>= &quot;ResourceExtraMergedSkeleton&quot;</initializer>
+        <briefdescription>
+<para>A WWMI Tools export&apos;s extra merged-skeleton resource (bound at <computeroutput>vs-cb3</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1099" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1099" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a79cc87ea387221064c61977663053aef" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIIndexBuffer</definition>
+        <argsstring></argsstring>
+        <name>WWMIIndexBuffer</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIIndexBuffer</qualifiedname>
+        <initializer>= &quot;ResourceIndexBuffer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A WWMI Tools export&apos;s index buffer resource
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1107" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ace168d3fc6733d1fe9281d0a8294bde3" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIPositionBuffer</definition>
+        <argsstring></argsstring>
+        <name>WWMIPositionBuffer</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIPositionBuffer</qualifiedname>
+        <initializer>= &quot;ResourcePositionBuffer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A WWMI Tools export&apos;s ``Position.buf`` resource
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1115" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a0dd7cb82814abfbfb020b9af5b90d448" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMITexcoordBuffer</definition>
+        <argsstring></argsstring>
+        <name>WWMITexcoordBuffer</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMITexcoordBuffer</qualifiedname>
+        <initializer>= &quot;ResourceTexcoordBuffer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A WWMI Tools export&apos;s ``Texcoord.buf`` resource
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1123" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a860ea33450dae15491e45fdcc005779e" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIVectorBuffer</definition>
+        <argsstring></argsstring>
+        <name>WWMIVectorBuffer</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIVectorBuffer</qualifiedname>
+        <initializer>= &quot;ResourceVectorBuffer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A WWMI Tools export&apos;s ``Vector.buf`` resource: each vertex&apos;s normal and tangent
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1131" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a0d6e7fc2d569d505963261bb8855a63d" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIShapeKeyOffsetBuffer</definition>
+        <argsstring></argsstring>
+        <name>WWMIShapeKeyOffsetBuffer</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIShapeKeyOffsetBuffer</qualifiedname>
+        <initializer>= &quot;ResourceShapeKeyOffsetBuffer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A WWMI Tools export&apos;s shape-key offsets: the first entry of each key slot -- see :cpp:class:`WWMIShapeKeys`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1139" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1adddf98f965ae7ea1c914c2d2a8843718" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIShapeKeyVertexIdBuffer</definition>
+        <argsstring></argsstring>
+        <name>WWMIShapeKeyVertexIdBuffer</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIShapeKeyVertexIdBuffer</qualifiedname>
+        <initializer>= &quot;ResourceShapeKeyVertexIdBuffer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A WWMI Tools export&apos;s shape-key vertex ids -- see :cpp:class:`WWMIShapeKeys`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1147" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ae76627933544c90da67d7ce432c876d1" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::WWMIShapeKeyVertexOffsetBuffer</definition>
+        <argsstring></argsstring>
+        <name>WWMIShapeKeyVertexOffsetBuffer</name>
+        <qualifiedname>AGRemapCore::IniKeywords::WWMIShapeKeyVertexOffsetBuffer</qualifiedname>
+        <initializer>= &quot;ResourceShapeKeyVertexOffsetBuffer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A WWMI Tools export&apos;s shape-key vertex offsets -- see :cpp:class:`WWMIShapeKeys`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1155" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ab7f7a0013a6328bf07f080f5216c0fcd" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::RabbitFXSetTexturesPath</definition>
+        <argsstring></argsstring>
+        <name>RabbitFXSetTexturesPath</name>
+        <qualifiedname>AGRemapCore::IniKeywords::RabbitFXSetTexturesPath</qualifiedname>
+        <initializer>= &quot;CommandList\\RabbitFX\\SetTextures&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+RabbitFX&apos;s command list that binds the maps a mod hands it and sets its routing flags -- see :cpp:class:`RabbitFX`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1163" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a9df35889425e39120d2d54bfd13ea836" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::RabbitFXResourceFolder</definition>
+        <argsstring></argsstring>
+        <name>RabbitFXResourceFolder</name>
+        <qualifiedname>AGRemapCore::IniKeywords::RabbitFXResourceFolder</qualifiedname>
+        <initializer>= &quot;Resource\\RabbitFX&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The folder RabbitFX&apos;s resources live under -- a mod hands RabbitFX its maps as resources under it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="1171" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="1171" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -987,26 +2550,47 @@ Bound to `Python`_ as ``IniKeywords``, each member a plain string. Add a member 
 either side needs a keyword, rather than spelling the literal out where it is used
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/IniKeywords.h" line="32" column="5" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="32" bodyend="482"/>
+    <location file="include/AGRemapCore/constants/IniKeywords.h" line="32" column="5" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="32" bodyend="1172"/>
     <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1820784cf0ac91c48c0841853a80be08" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Alpha</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1aa913c2a35a21fcebd01e4d40698b3499" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Array</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae515fbf8a74ffd3ebc5497c3bfa27509" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Blend</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a2fecbe5ebdbbc0201f2dbd5e5e798595" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>BlendState</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a8fb40d7d3bc56050bcee7574fb75869c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Buffer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a7093e83231c634d7b351184f060eb41f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>CheckTextureOverride</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a80be90e045c2921383bc6e12eec4b8d8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>CommandList</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a5c22475eb9aff1d50b13149d9be7dfb7" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Constants</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a8905e46b67ea251bd49ef6862d45fe16" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Copy</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1abd69f1a451a753cb3c2f49a7778a4b6a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>CopyDesc</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1afd06efb3988d179784059a98937fea20" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Cull</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a90d5d173ca0c3eb2fa69d50d88318cd3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>CustomShader</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae5965800170f3fc83682100ecd6d61d5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>DepthFunc</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ad6f8395e7da70f7687014f796d0e5a4b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>DepthStencilStateMerge</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1aca37ab1fd8feed8d582ee0c6a0915b93" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>DepthWriteMask</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ac10fcc30f22cc64569c29916f36c8aa5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Draw</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a2d55106a94f19909c54995256dacd697" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>DrawIndexed</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae7b06e4f9664f4c634630000ace95bc6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Filename</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a36d848cccf920f47bc463cf7725df989" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>FilterIndex</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a0f5247c1a0975015665b6abaddf95f4a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Format</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a96d3714086ecdba54c931ea363a00e84" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>FormatR16G16Float</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1adf4743d9b471c1ea4d22e2c082dc51ab" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>FormatR16UInt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a27b6ff694d27c70ff94fccff73344488" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>FormatR32G32B32A32Float</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a4e8a90dd7c7377f40f9f51c7a5644b71" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>FormatR32G32B32A32FloatDxgi</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1acb1f15525f2daeba48c2d2fda768b3a3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>FormatR32G32B32Float</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a2c22a5da97ede379eefbe860b9d8664e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>FormatR8UInt</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1adb66233a1a9d11f8d8af5b38db7364f1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>GIMIDiffuse</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a36eb3d096980510be6ee570d02c35e79" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>GIMILightMap</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a23f45e850f9b934571a431d5781e0c19" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>GIMINormalMap</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ac4986a7b02eb1185f7fdba532facafa5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>GIMISetTexturesPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1aca4b0f175e238c796c445f9152fc2776" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Global</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a16ef425e1632ec1bb2442db36ca0d79a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Handling</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1135e121a755d9d4a26c68688f0a4b2c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Hash</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>HashNotFound</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>HideOriginalComment</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a8fe7de095b9841fb8a24b6f186134dcd" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Ib</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1aa2c231b7ea5eb426e1c394d83fa4c1be" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>IndexNotFound</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1abeedebbd6b37f4ed60200d0955793a4d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Local</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a838a24be9da3b50a674e53e8318ddf47" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Mask</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1af7976ed49b790b6eea9902f4fe2643b9" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>MatchFirstIndex</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a912fb647df39f8e5ce6eacfe92df78ac" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>MatchIndexCount</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a79af5209650d91131fa71d46fe3bfb7e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>MatchKeys</name></member>
@@ -1017,8 +2601,14 @@ either side needs a keyword, rather than spelling the literal out where it is us
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a6d32f5bf3ed7a3dd84a053f8dec9b76c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Null</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1acbb83112fdf027806e264ebe988215e8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>ORFixPath</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ab970667eecf7baf8dfeb4f4d6df01f5b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Position</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1aa0865d1094828ac79dc011ad9ff5bbef" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Post</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a5cc067e3e2dafa4839d22a79242991b9" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Present</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a39e743f3f67d3d4e1c8e17246d14b3be" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Ps</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a0b87898a1b13e451768835db0ff5bb31" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>PsT69</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a6b01c77d87e0426ebcbbdebffa4c3506" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>PsT70</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a9df35889425e39120d2d54bfd13ea836" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RabbitFXResourceFolder</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ab7f7a0013a6328bf07f080f5216c0fcd" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RabbitFXSetTexturesPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1afb4b40d73c79b528536a1423ba08a0d4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RasterizerStateMerge</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a6b29e20e87bbc84076a4539e1859771c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Ref</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a2deec4c399bc094b325907613b493568" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Remap</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1aac48879e6f9613d47a4c0842a448695c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RemapDL</name></member>
@@ -1027,7 +2617,15 @@ either side needs a keyword, rather than spelling the literal out where it is us
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1c69fc02c2938355e1d147c833170566" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RemapTex</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a27d2c42c6996a4a709bb76dc8b94fe09" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Resource</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1aca1f91eb6175585c074f8bac0395077a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Run</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a4cfc8aa1a36db4b545d2bc8bb3ba4e8d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RWBuffer</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1711e269e7af667dd2b0151a647763cc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>ShaderOverride</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a006a3da8a0ba5c39266060128988eba6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Skip</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a2ded4e6fade245553e43df9907a51e5b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>StencilBack</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1f65fda814ca91a5e00ed0d89dc7f262" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>StencilEnable</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1fd21d6be2879d326fd14ad6645f17e3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>StencilFront</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a076e50def6bab30c34c041af1cee9d86" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>StencilReadMask</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a08f42889db4760e2917b24716a30b64e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>StencilRef</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a7849f50831c9f2150c9e7815b807080b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>StencilWriteMask</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1aca3907b8873f883401b3a794ad8b205d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Stride</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a72d6d458d05a470b21af76242aae7a80" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Texcoord</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>TexFxFolder</name></member>
@@ -1035,11 +2633,63 @@ either side needs a keyword, rather than spelling the literal out where it is us
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a079388fac5e35fde9ecdfe285ae8137e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>TexFxTransparency0Pre5_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a57f3e435d80318e03d84bae2e8b314cd" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>TexFxTransparency1</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a4cce110f0eafe9da5062b35d622598e2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>TexFxTransparency1Pre5_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a7bc077cb52ccafb4c9827f8ecf02d645" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>TexFxUseDefaultShader</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1aebe11691542d18d2154081fac9bb0dee" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>TexRegPrefix</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ac451ee538f75835c0f8778946f16ea4d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>TextureOverride</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a301ccbca5f9e43d624a47ec5f8d765af" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>This</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ace37a75ebdee9e230ae00cdb63c37f4c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Type</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ad98707bf380b9940042e52feddd2cca6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Vb0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a0a3c05fa043b21683aa21e619c60fe58" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Vb1</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1af4b5594292d565744400a82dbaf2b3ff" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Vs</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a9d1c74eb9e762fb5de1750770f5a6bef" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIBlendBuffer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a32e353032d26a969398bb2da843a1154" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIBlendBufferOverride</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a005776511c7c73a424d27bcab63fce5f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIBlendReg</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a906314eec1fc164ef48f7b47f6e655ff" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIBlendRemapForwardBuffer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a7b089fe7041a8e1667267639b83e68a9" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIBlendRemapId</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1aa6cc2ff9037a99c340f9d86d6ddaf64d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIBlendRemapper</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ad63640384f22e5c60ec8869f07f42e8f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIBlendRemapperOutReg</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1e14965ab3426ea929c8fb07289d3138" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIBlendRemapperReverseReg</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1acae40f10375cb9c2d222de998714243e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIBlendRemapperVertexVGReg</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1aa2d2840c041bfcf8455dd769d30e906e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIBlendRemapReverseBuffer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1aa6611396a1149f2aeef45e6b8c50b2ac" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIBlendRemapVertexVGBuffer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1abc425029795536c7b3dc82a51de9f700" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIBoneDataCb</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a5a86982b0ee14d17327f300b1f26c9a3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIColourTarget</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a59214c9787296db3553286a6c08d72b0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMICustomMeshScale</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a04b91f747cb6d612b0b312ee9dde0769" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMICustomVertexCount</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a809513b75f4bac89d722f671ae1cb2d3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIExtraBoneDataCb</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1aa385c3022da02e22dedf8d927a5859d3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIExtraMergedSkeleton</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ac9009635001065546ba32bb9fcabc06f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIExtraMergedSkeletonOverride</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a79cc87ea387221064c61977663053aef" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIIndexBuffer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ac727f606d96db7c4adc6ffaf03475d0b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIMergedSkeleton</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a32d5dc0cb1f4b6c6106aa07d0477db9d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIMergedSkeletonOverride</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a476514c6e51c850a965339a7a060ca8f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIMergerBonesReg</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1aea4eba5cb28620f61ef7a756c10faf00" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIMergerSkeletonReg</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a58f14160cdb490c1059d78ecd99f6a71" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIMeshVertexCount</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a18662ec539ff2169a820cc676e0c79ec" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIModEnabled</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMINamespace</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a7e18c43878eee8ec1eb637fa9bf652dc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIObjectDetected</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ace168d3fc6733d1fe9281d0a8294bde3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIPositionBuffer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a14083f95f205d148f6b88b2b6722cdd1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIRemapperForwardReg</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a251c2b0b94cf20f8815c19aa4f670f08" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIRemapperOutReg</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ada7a2421d735c54b04f3d69ec40c6c45" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIRemapperSkeletonReg</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae997aba1dc7838173af84c45dcecbc47" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIShapeKeyChecksum</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a61262ec4c294b51ca6221ecf998c5655" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIShapeKeyDispatchSizeYOriginalBatch</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a0d6e7fc2d569d505963261bb8855a63d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIShapeKeyOffsetBuffer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a862ae85c7a1f9da2a20bd31be575384f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIShapeKeyOffsetReg</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1af84e085d63bdc7955acf3960393f580c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIShapeKeyStreamReg</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1adddf98f965ae7ea1c914c2d2a8843718" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIShapeKeyVertexIdBuffer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a61f7e05a3d74671c1c7ac667188db639" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIShapeKeyVertexIdReg</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae76627933544c90da67d7ce432c876d1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIShapeKeyVertexOffsetBuffer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a3f7d746969ecc140f174e11149cc0353" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIShapeKeyVertexOffsetReg</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a11d5be5f1445cbb474272358a0eb2c50" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMISkeletonMerger</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a6c2c99fcff96035ca6b7c5fdd68a33b2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMISkeletonRemapper</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a3a7dcf1323d49dcf8ce45a3cc944a8a8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIStateId</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a0dd7cb82814abfbfb020b9af5b90d448" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMITexcoordBuffer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1af57312decab2784bd6f51594f8bbe83f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMITexcoordReg</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a860ea33450dae15491e45fdcc005779e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIVectorBuffer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a3fab6ad720d71c0e02d98f9dd481c15e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIVgCount</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a43fae2db235cdd20df17959d5478fbed" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIVgOffset</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a455afa11f5f059138413704dc558661f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>WWMIWeightsPerVertexCount</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

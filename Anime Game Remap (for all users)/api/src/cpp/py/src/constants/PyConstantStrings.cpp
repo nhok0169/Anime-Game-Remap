@@ -19,6 +19,7 @@
 #include <pybind11/stl.h>
 
 #include "AGRemapCore/constants/FileExt.h"
+#include "AGRemapCore/constants/IniComments.h"
 #include "AGRemapCore/constants/FilePrefixes.h"
 #include "AGRemapCore/constants/FileTypes.h"
 #include "AGRemapCore/constants/IniGraphModObjKeywords.h"
@@ -29,6 +30,14 @@ namespace AGRC = AGRemapCore;
 
 
 void initCppConstantStrings(pybind11::module_ &m) {
+    py::class_<AGRC::IniComments> comments(m, "IniComments", R"doc(
+Comment blocks this software writes into the .ini files it generates
+
+Nothing in the library assigns these on its own -- each is the text a setting such as :attr:`GIMIFixer.copyPreamble` is
+meant to be set to, kept as a named constant so a caller opting in does not have to carry the paragraph itself
+    )doc");
+    comments.attr("GIMIObjMergerPreamble") = py::str(AGRC::IniComments::GIMIObjMergerPreamble);
+
     // Each class is a namespace of plain strings on both sides: `IniKeywords.Hash` is "hash" itself,
     // with no '.value' to read through, and is read-only from Python.
     py::class_<AGRC::FileExt>(m, "FileExt", R"doc(
@@ -147,6 +156,11 @@ and those get a reserved component name instead, so they can never collide with 
     )doc")
         .def_readonly_static("Download", &AGRC::IniGraphModObjKeywords::Download, py::doc(R"doc(
 Marks a graph whose `sections`_ are download resources rather than a mod object's commands
+        )doc"))
+        .def_readonly_static("Texture", &AGRC::IniGraphModObjKeywords::Texture, py::doc(R"doc(
+Marks a graph of a mod's texture overrides (a ``hash`` of a texture, no ``match_first_index``). The
+mod-object half is the role the parser placed it under by its hash, or empty for the overrides of
+hashes it does not know
         )doc"));
 
     py::class_<AGRC::IniKeywords>(m, "IniKeywords", R"doc(
@@ -214,6 +228,13 @@ the block and its file is left alone -- see :meth:`RemapIniRemover.collectRemove
         )doc"))
         .def_readonly_static("Run", &AGRC::IniKeywords::Run, py::doc(R"doc(
 The `KVP`_ key used to reference/call another `section`_
+        )doc"))
+        .def_readonly_static("TexRegPrefix", &AGRC::IniKeywords::TexRegPrefix, py::doc(R"doc(
+:class:`str`: The register family a mod binds its pixel shader textures with: ``ps-t0``, ``ps-t1``, ...
+        )doc"))
+        .def_readonly_static("CheckTextureOverride", &AGRC::IniKeywords::CheckTextureOverride, py::doc(R"doc(
+:class:`str`: 3DMigoto's key that runs the ``[TextureOverride]`` of whatever is bound at a register, eg.
+``CheckTextureOverride = vs-cb4``
         )doc"))
         .def_readonly_static("Hash", &AGRC::IniKeywords::Hash, py::doc(R"doc(
 The `KVP`_ key holding a `section`_'s model hash -- what
@@ -389,7 +410,261 @@ see :class:`RegAssetRemap`
 Written in place of a ``match_first_index`` that has no mapping onto the mod being
 fixed to -- the index counterpart of :attr:`HashNotFound`
         )doc"))
+        .def_readonly_static("Copy", &AGRC::IniKeywords::Copy, py::doc(R"doc(
+The statement that fills a resource with a copy of another: ``ResourceX = copy ResourceY``
+        )doc"))
+        .def_readonly_static("CopyDesc", &AGRC::IniKeywords::CopyDesc, py::doc(R"doc(
+The statement that gives a resource another's description only: ``ResourceX = copy_desc ResourceY``
+        )doc"))
         .def_readonly_static("HideOriginalComment", &AGRC::IniKeywords::HideOriginalComment, py::doc(R"doc(
 The comment marker used to hide (comment out) a previously-fixed original `section`_
+        )doc"))
+        .def_readonly_static("Global", &AGRC::IniKeywords::Global, py::doc(R"doc(
+The statement keyword that declares a variable for the whole ``.ini`` file: ``global $x = 0``
+        )doc"))
+        .def_readonly_static("Local", &AGRC::IniKeywords::Local, py::doc(R"doc(
+The statement keyword that declares a variable for one `section`_: ``local $x``
+        )doc"))
+        .def_readonly_static("Post", &AGRC::IniKeywords::Post, py::doc(R"doc(
+The keyword that runs a line after the frame's draws rather than before them: ``post $x = 0``
+        )doc"))
+        .def_readonly_static("Skip", &AGRC::IniKeywords::Skip, py::doc(R"doc(
+The :attr:`Handling` value that stops the game drawing what a `section`_ matched
+        )doc"))
+        .def_readonly_static("Buffer", &AGRC::IniKeywords::Buffer, py::doc(R"doc(
+The :attr:`Type` of a resource holding a vertex, index or constant buffer
+        )doc"))
+        .def_readonly_static("Present", &AGRC::IniKeywords::Present, py::doc(R"doc(
+The `section`_ 3dmigoto runs once a frame, after every draw
+        )doc"))
+        .def_readonly_static("Constants", &AGRC::IniKeywords::Constants, py::doc(R"doc(
+The `section`_ 3dmigoto runs once, when the ``.ini`` file loads -- where ``global`` variables are declared
+        )doc"))
+        .def_readonly_static("WWMINamespace", &AGRC::IniKeywords::WWMINamespace, py::doc(R"doc(
+The namespace of WWMI's own variables and command lists, which every WWMI mod's ``.ini`` calls into
+        )doc"))
+        .def_readonly_static("WWMIVgOffset", &AGRC::IniKeywords::WWMIVgOffset, py::doc(R"doc(
+The first merged-skeleton bone of the component a WWMI draw is for
+        )doc"))
+        .def_readonly_static("WWMIVgCount", &AGRC::IniKeywords::WWMIVgCount, py::doc(R"doc(
+How many merged-skeleton bones the component a WWMI draw is for has
+        )doc"))
+        .def_readonly_static("WWMIShapeKeyChecksum", &AGRC::IniKeywords::WWMIShapeKeyChecksum, py::doc(R"doc(
+The checksum WWMI checks a mod's shape keys against before applying them
+        )doc"))
+        .def_readonly_static("WWMIShapeKeyDispatchSizeYOriginalBatch", &AGRC::IniKeywords::WWMIShapeKeyDispatchSizeYOriginalBatch, py::doc(R"doc(
+How many groups WWMI's shape-key compute pass dispatches over the game's own shape keys
+        )doc"))
+        .def_readonly_static("WWMICustomMeshScale", &AGRC::IniKeywords::WWMICustomMeshScale, py::doc(R"doc(
+The scale WWMI's skeleton shaders apply to a mod's mesh
+        )doc"))
+        .def_readonly_static("WWMIBlendRemapId", &AGRC::IniKeywords::WWMIBlendRemapId, py::doc(R"doc(
+Which of a mod's blend remaps WWMI's ``BlendRemapper`` applies
+        )doc"))
+        .def_readonly_static("WWMIWeightsPerVertexCount", &AGRC::IniKeywords::WWMIWeightsPerVertexCount, py::doc(R"doc(
+How many bone influences a vertex of the mod's ``Blend.buf`` carries, as WWMI's ``BlendRemapper`` reads it
+        )doc"))
+        .def_readonly_static("WWMICustomVertexCount", &AGRC::IniKeywords::WWMICustomVertexCount, py::doc(R"doc(
+The vertex count WWMI's compute shaders run over
+        )doc"))
+        .def_readonly_static("WWMISkeletonMerger", &AGRC::IniKeywords::WWMISkeletonMerger, py::doc(R"doc(
+WWMI's shader that merges one component's bones into the mod's merged skeleton
+        )doc"))
+        .def_readonly_static("WWMISkeletonRemapper", &AGRC::IniKeywords::WWMISkeletonRemapper, py::doc(R"doc(
+WWMI's shader that remaps a merged skeleton through a blend remap
+        )doc"))
+        .def_readonly_static("WWMIBlendRemapper", &AGRC::IniKeywords::WWMIBlendRemapper, py::doc(R"doc(
+WWMI's shader that writes a mod's remapped ``Blend.buf`` at load
+        )doc"))
+        .def_readonly_static("WWMIBoneDataCb", &AGRC::IniKeywords::WWMIBoneDataCb, py::doc(R"doc(
+The register a draw reads its bones from (``vs-cb4``): what a skeleton merge takes, and a remapped skeleton is
+bound back to
+        )doc"))
+        .def_readonly_static("WWMIExtraBoneDataCb", &AGRC::IniKeywords::WWMIExtraBoneDataCb, py::doc(R"doc(
+The register a draw reads its previous frame's bones from (``vs-cb3``), the extra merged skeleton's
+        )doc"))
+        .def_readonly_static("WWMIMergerBonesReg", &AGRC::IniKeywords::WWMIMergerBonesReg, py::doc(R"doc(
+:attr:`WWMISkeletonMerger`'s input: the bone-data constant buffer it merges (``cs-cb8``)
+        )doc"))
+        .def_readonly_static("WWMIMergerSkeletonReg", &AGRC::IniKeywords::WWMIMergerSkeletonReg, py::doc(R"doc(
+:attr:`WWMISkeletonMerger`'s output: the merged skeleton it writes (``cs-u6``)
+        )doc"))
+        .def_readonly_static("WWMIRemapperForwardReg", &AGRC::IniKeywords::WWMIRemapperForwardReg, py::doc(R"doc(
+:attr:`WWMISkeletonRemapper`'s input: the blend remap's forward table, local id to merged bone (``cs-t37``)
+        )doc"))
+        .def_readonly_static("WWMIRemapperSkeletonReg", &AGRC::IniKeywords::WWMIRemapperSkeletonReg, py::doc(R"doc(
+:attr:`WWMISkeletonRemapper`'s input: the merged skeleton it remaps (``cs-t38``)
+        )doc"))
+        .def_readonly_static("WWMIRemapperOutReg", &AGRC::IniKeywords::WWMIRemapperOutReg, py::doc(R"doc(
+:attr:`WWMISkeletonRemapper`'s output: the remapped skeleton it writes (``cs-u5``)
+        )doc"))
+        .def_readonly_static("WWMIBlendRemapperReverseReg", &AGRC::IniKeywords::WWMIBlendRemapperReverseReg, py::doc(R"doc(
+:attr:`WWMIBlendRemapper`'s input: the blend remap's reverse table, merged bone to local id (``cs-t34``)
+        )doc"))
+        .def_readonly_static("WWMIBlendRemapperVertexVGReg", &AGRC::IniKeywords::WWMIBlendRemapperVertexVGReg, py::doc(R"doc(
+:attr:`WWMIBlendRemapper`'s input: every vertex's merged bone ids (``cs-t35``)
+        )doc"))
+        .def_readonly_static("WWMIBlendRemapperOutReg", &AGRC::IniKeywords::WWMIBlendRemapperOutReg, py::doc(R"doc(
+:attr:`WWMIBlendRemapper`'s output: the blend it rewrites into the remap's local ids (``cs-u4``)
+        )doc"))
+        .def_readonly_static("WWMIShapeKeyOffsetReg", &AGRC::IniKeywords::WWMIShapeKeyOffsetReg, py::doc(R"doc(
+:class:`str`: The shape-key offsets the shape-key overrider reads (``cs-t33``) -- see :attr:`WWMIShapeKeyOffsetBuffer`
+        )doc"))
+        .def_readonly_static("WWMIShapeKeyVertexIdReg", &AGRC::IniKeywords::WWMIShapeKeyVertexIdReg, py::doc(R"doc(
+:class:`str`: The shape-key vertex ids the shape-key loader reads (``cs-t0``) -- see :attr:`WWMIShapeKeyVertexIdBuffer`
+        )doc"))
+        .def_readonly_static("WWMIShapeKeyVertexOffsetReg", &AGRC::IniKeywords::WWMIShapeKeyVertexOffsetReg, py::doc(R"doc(
+:class:`str`: The shape-key vertex offsets the shape-key loader reads (``cs-t1``) -- see :attr:`WWMIShapeKeyVertexOffsetBuffer`
+        )doc"))
+        .def_readonly_static("WWMITexcoordReg", &AGRC::IniKeywords::WWMITexcoordReg, py::doc(R"doc(
+:class:`str`: The vertex stream a WWMI mesh's texcoords are bound at (``vb2``)
+        )doc"))
+        .def_readonly_static("WWMIBlendReg", &AGRC::IniKeywords::WWMIBlendReg, py::doc(R"doc(
+:class:`str`: The vertex stream a WWMI mesh's blend is bound at (``vb4``)
+        )doc"))
+        .def_readonly_static("WWMIShapeKeyStreamReg", &AGRC::IniKeywords::WWMIShapeKeyStreamReg, py::doc(R"doc(
+:class:`str`: The register a WuWa draw reads the game's live shape-key offsets from, by vertex id (``vb6``) -- the stream
+a remapped draw rebinds to zeros (:attr:`WWMIFixerConfig.zeroShapeKeyStream`)
+        )doc"))
+        .def_readonly_static("WWMIColourTarget", &AGRC::IniKeywords::WWMIColourTarget, py::doc(R"doc(
+:class:`str`: The render target a WWMI character's draw writes its colour to (``o3``): bound only on a pass that draws to the screen
+        )doc"))
+        .def_readonly_static("RWBuffer", &AGRC::IniKeywords::RWBuffer, py::doc(R"doc(
+A resource's ``type`` for a buffer a compute shader writes
+        )doc"))
+        .def_readonly_static("FormatR32G32B32A32Float", &AGRC::IniKeywords::FormatR32G32B32A32Float, py::doc(R"doc(
+A resource's ``format`` of four 32-bit floats an element -- eg. a merged skeleton's bone matrices
+        )doc"))
+        .def_readonly_static("FormatR8UInt", &AGRC::IniKeywords::FormatR8UInt, py::doc(R"doc(
+A resource's ``format`` of one unsigned byte an element
+        )doc"))
+        .def_readonly_static("FormatR16UInt", &AGRC::IniKeywords::FormatR16UInt, py::doc(R"doc(
+A resource's ``format`` of one unsigned 16-bit integer an element
+        )doc"))
+        .def_readonly_static("FormatR32G32B32Float", &AGRC::IniKeywords::FormatR32G32B32Float, py::doc(R"doc(
+A resource's ``format`` of three 32-bit floats an element
+        )doc"))
+        .def_readonly_static("FormatR16G16Float", &AGRC::IniKeywords::FormatR16G16Float, py::doc(R"doc(
+A resource's ``format`` of two 16-bit floats an element
+        )doc"))
+        .def_readonly_static("FormatR32G32B32A32FloatDxgi", &AGRC::IniKeywords::FormatR32G32B32A32FloatDxgi, py::doc(R"doc(
+A resource's ``format`` of four 32-bit floats an element, spelled with ``DXGI_FORMAT_`` as a fix's own buffers write it (:attr:`FormatR32G32B32A32Float` is WWMI's spelling of the same format)
+        )doc"))
+        .def_readonly_static("CustomShader", &AGRC::IniKeywords::CustomShader, py::doc(R"doc(
+The prefix of a `section`_ that draws with shaders of its own
+        )doc"))
+        .def_readonly_static("Ps", &AGRC::IniKeywords::Ps, py::doc(R"doc(
+A `section`_'s pixel shader file (in a ``[CustomShader...]``), or the pixel shader a ``filter_index`` condition reads
+        )doc"))
+        .def_readonly_static("Vs", &AGRC::IniKeywords::Vs, py::doc(R"doc(
+A `section`_'s vertex shader file (in a ``[CustomShader...]``), or the vertex shader a ``filter_index`` condition reads
+        )doc"))
+        .def_readonly_static("BlendState", &AGRC::IniKeywords::BlendState, py::doc(R"doc(
+A ``[CustomShader...]``'s blend state
+        )doc"))
+        .def_readonly_static("Alpha", &AGRC::IniKeywords::Alpha, py::doc(R"doc(
+A ``[CustomShader...]``'s alpha blend state of one render target, keyed ``alpha[<target>]``
+        )doc"))
+        .def_readonly_static("Cull", &AGRC::IniKeywords::Cull, py::doc(R"doc(
+A ``[CustomShader...]``'s cull mode
+        )doc"))
+        .def_readonly_static("RasterizerStateMerge", &AGRC::IniKeywords::RasterizerStateMerge, py::doc(R"doc(
+Whether a ``[CustomShader...]`` merges its rasterizer keys into the game's state
+        )doc"))
+        .def_readonly_static("DepthStencilStateMerge", &AGRC::IniKeywords::DepthStencilStateMerge, py::doc(R"doc(
+Whether a ``[CustomShader...]`` merges its depth and stencil keys into the game's state
+        )doc"))
+        .def_readonly_static("DepthFunc", &AGRC::IniKeywords::DepthFunc, py::doc(R"doc(
+A ``[CustomShader...]``'s depth test
+        )doc"))
+        .def_readonly_static("DepthWriteMask", &AGRC::IniKeywords::DepthWriteMask, py::doc(R"doc(
+Whether a ``[CustomShader...]`` writes depth
+        )doc"))
+        .def_readonly_static("StencilEnable", &AGRC::IniKeywords::StencilEnable, py::doc(R"doc(
+Whether a ``[CustomShader...]`` tests the stencil
+        )doc"))
+        .def_readonly_static("StencilRef", &AGRC::IniKeywords::StencilRef, py::doc(R"doc(
+A ``[CustomShader...]``'s stencil reference value
+        )doc"))
+        .def_readonly_static("StencilReadMask", &AGRC::IniKeywords::StencilReadMask, py::doc(R"doc(
+A ``[CustomShader...]``'s stencil read mask
+        )doc"))
+        .def_readonly_static("StencilWriteMask", &AGRC::IniKeywords::StencilWriteMask, py::doc(R"doc(
+A ``[CustomShader...]``'s stencil write mask
+        )doc"))
+        .def_readonly_static("StencilFront", &AGRC::IniKeywords::StencilFront, py::doc(R"doc(
+A ``[CustomShader...]``'s stencil operations on front faces
+        )doc"))
+        .def_readonly_static("StencilBack", &AGRC::IniKeywords::StencilBack, py::doc(R"doc(
+A ``[CustomShader...]``'s stencil operations on back faces
+        )doc"))
+        .def_readonly_static("Mask", &AGRC::IniKeywords::Mask, py::doc(R"doc(
+A ``[CustomShader...]``'s colour write mask of one render target, keyed ``mask[<target>]``
+        )doc"))
+        .def_readonly_static("WWMIObjectDetected", &AGRC::IniKeywords::WWMIObjectDetected, py::doc(R"doc(
+The flag every `section`_ of a WWMI mod sets when its character is drawn, and its ``[Present]`` resets each frame
+        )doc"))
+        .def_readonly_static("WWMIModEnabled", &AGRC::IniKeywords::WWMIModEnabled, py::doc(R"doc(
+The flag a WWMI mod draws under once WWMI has registered it
+        )doc"))
+        .def_readonly_static("WWMIMeshVertexCount", &AGRC::IniKeywords::WWMIMeshVertexCount, py::doc(R"doc(
+The ``global`` a WWMI mod declares its mesh's vertex count in
+        )doc"))
+        .def_readonly_static("WWMIStateId", &AGRC::IniKeywords::WWMIStateId, py::doc(R"doc(
+WWMI's per-frame state counter, which a mod compares to run a merge once a frame
+        )doc"))
+        .def_readonly_static("WWMIBlendBuffer", &AGRC::IniKeywords::WWMIBlendBuffer, py::doc(R"doc(
+A WWMI Tools export's ``Blend.buf`` resource
+        )doc"))
+        .def_readonly_static("WWMIBlendRemapVertexVGBuffer", &AGRC::IniKeywords::WWMIBlendRemapVertexVGBuffer, py::doc(R"doc(
+A WWMI Tools export's ``BlendRemapVertexVG.buf`` resource: a mod past 256 bones keeps each vertex's 16-bit merged bone ids here
+        )doc"))
+        .def_readonly_static("WWMIBlendRemapForwardBuffer", &AGRC::IniKeywords::WWMIBlendRemapForwardBuffer, py::doc(R"doc(
+A WWMI Tools export's ``BlendRemapForward.buf`` resource: the blend remap's forward table, local id to merged bone
+        )doc"))
+        .def_readonly_static("WWMIBlendRemapReverseBuffer", &AGRC::IniKeywords::WWMIBlendRemapReverseBuffer, py::doc(R"doc(
+A WWMI Tools export's ``BlendRemapReverse.buf`` resource: the blend remap's reverse table, merged bone to local id
+        )doc"))
+        .def_readonly_static("WWMIBlendBufferOverride", &AGRC::IniKeywords::WWMIBlendBufferOverride, py::doc(R"doc(
+The resource WWMI's ``BlendRemapper`` fills with a mod's remapped blend
+        )doc"))
+        .def_readonly_static("WWMIMergedSkeletonOverride", &AGRC::IniKeywords::WWMIMergedSkeletonOverride, py::doc(R"doc(
+:class:`str`: A WWMI mod's override of the merged skeleton a draw reads (``ResourceMergedSkeletonOverride``): a remapped section drops it
+        )doc"))
+        .def_readonly_static("WWMIExtraMergedSkeletonOverride", &AGRC::IniKeywords::WWMIExtraMergedSkeletonOverride, py::doc(R"doc(
+:class:`str`: ...and of the extra merged skeleton (``ResourceExtraMergedSkeletonOverride``)
+        )doc"))
+        .def_readonly_static("WWMIMergedSkeleton", &AGRC::IniKeywords::WWMIMergedSkeleton, py::doc(R"doc(
+:class:`str`: A WWMI Tools export's merged-skeleton resource (a mod past 256 bones binds it at ``vs-cb4``)
+        )doc"))
+        .def_readonly_static("WWMIExtraMergedSkeleton", &AGRC::IniKeywords::WWMIExtraMergedSkeleton, py::doc(R"doc(
+:class:`str`: A WWMI Tools export's extra merged-skeleton resource (bound at ``vs-cb3``)
+        )doc"))
+        .def_readonly_static("WWMIIndexBuffer", &AGRC::IniKeywords::WWMIIndexBuffer, py::doc(R"doc(
+A WWMI Tools export's index buffer resource
+        )doc"))
+        .def_readonly_static("WWMIPositionBuffer", &AGRC::IniKeywords::WWMIPositionBuffer, py::doc(R"doc(
+A WWMI Tools export's ``Position.buf`` resource
+        )doc"))
+        .def_readonly_static("WWMITexcoordBuffer", &AGRC::IniKeywords::WWMITexcoordBuffer, py::doc(R"doc(
+A WWMI Tools export's ``Texcoord.buf`` resource
+        )doc"))
+        .def_readonly_static("WWMIVectorBuffer", &AGRC::IniKeywords::WWMIVectorBuffer, py::doc(R"doc(
+A WWMI Tools export's ``Vector.buf`` resource: each vertex's normal and tangent
+        )doc"))
+        .def_readonly_static("WWMIShapeKeyOffsetBuffer", &AGRC::IniKeywords::WWMIShapeKeyOffsetBuffer, py::doc(R"doc(
+A WWMI Tools export's shape-key offsets: the first entry of each key slot -- see :class:`WWMIShapeKeys`
+        )doc"))
+        .def_readonly_static("WWMIShapeKeyVertexIdBuffer", &AGRC::IniKeywords::WWMIShapeKeyVertexIdBuffer, py::doc(R"doc(
+A WWMI Tools export's shape-key vertex ids -- see :class:`WWMIShapeKeys`
+        )doc"))
+        .def_readonly_static("WWMIShapeKeyVertexOffsetBuffer", &AGRC::IniKeywords::WWMIShapeKeyVertexOffsetBuffer, py::doc(R"doc(
+A WWMI Tools export's shape-key vertex offsets -- see :class:`WWMIShapeKeys`
+        )doc"))
+        .def_readonly_static("RabbitFXSetTexturesPath", &AGRC::IniKeywords::RabbitFXSetTexturesPath, py::doc(R"doc(
+RabbitFX's command list that binds the maps a mod hands it and sets its routing flags -- see :class:`RabbitFX`
+        )doc"))
+        .def_readonly_static("RabbitFXResourceFolder", &AGRC::IniKeywords::RabbitFXResourceFolder, py::doc(R"doc(
+The folder RabbitFX's resources live under -- a mod hands RabbitFX its maps as resources under it
         )doc"));
 }

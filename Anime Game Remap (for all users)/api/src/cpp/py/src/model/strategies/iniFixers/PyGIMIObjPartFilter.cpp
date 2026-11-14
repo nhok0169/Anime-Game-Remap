@@ -22,6 +22,7 @@
 #include "../../PyVersion.h"
 #include "graphGroupEdits/PyIniGraphGroups.h"
 #include "../../../tools/PyRanges.h"
+#include "../../iftemplate/PyIfContentPartColour.h"
 
 
 namespace py = pybind11;
@@ -155,6 +156,59 @@ Returns
 -------
 Callable[[:class:`SectionIterData`, Optional[:class:`ModType`], Optional[:class:`IniFile`]], :class:`Ranges`]
     The window function
+    )doc"));
+
+    cls.def("hashTypeWindow", [](const PyGIMIObjPartFilter &self, const std::string &hashType,
+                                  const PyIfContentPartColouring &colouring) {
+        return PyRanges<long long>(self.hashTypeWindow(hashType, colouring).ranges, false);
+    }, py::arg("hashType"), py::arg("colouring"), py::doc(R"doc(
+The WHOLE part when any ``hash`` value of ``colouring`` is a hash of type ``hashType`` (the last index
+column of its hash row, eg. ``blend_vb``), empty ranges otherwise -- and always when there is no hash
+table. Needs no ``match_first_index`` and ignores :attr:`indexHashKeys`
+
+Parameters
+----------
+hashType: :class:`str`
+    The type of hash to look for
+
+colouring: :class:`IfContentPartColouring`
+    The current `KVP`_ state of the part
+
+Returns
+-------
+:class:`Ranges`
+    The ranges of the part that are about a buffer of that type
+    )doc"));
+
+    cls.def("hashTypeParts", [](const PyGIMIObjPartFilter &self, const std::string &hashType) {
+        // The same lifetime rule as filter: the callable borrows this filter.
+        return py::cpp_function([&self, hashType](const AGRC::SectionIterData<std::string, std::string> &iterData) {
+            if (iterData.colouring == nullptr) {
+                return PyRanges<long long>(std::vector<PyGIMIObjPartFilter::Core::OrderRanges::Range>{});
+            }
+
+            return PyRanges<long long>(self.hashTypeWindow(hashType, *iterData.colouring).ranges, false);
+        }, py::arg("iterData"));
+    }, py::arg("hashType"), py::doc(R"doc(
+Builds a part predicate for a :class:`ResRegCollect`'s ``partPredicates``: the WHOLE part when any of its
+tracked ``hash`` values is a hash of type ``hashType`` (the last index column of its hash row, eg.
+``blend_vb``), nothing otherwise
+
+Unlike :meth:`filter` this needs no ``match_first_index`` and ignores :attr:`indexHashKeys` -- it is for a
+register that lives in a different section from the hash it is bound under, such as a blend's ``vb1``
+
+.. note::
+    The collect has to track at least ``hash``; a part with no colouring yields empty ranges
+
+Parameters
+----------
+hashType: :class:`str`
+    The type of hash whose parts may be read
+
+Returns
+-------
+Callable[[:class:`SectionIterData`], :class:`Ranges`]
+    The part predicate
     )doc"));
 
     cls.def_readwrite("indexHashKeys", &PyGIMIObjPartFilter::indexHashKeys, py::doc(R"doc(

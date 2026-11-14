@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniParseData::RoleFile</compoundname>
+    <includes refid="_ini_parse_data_8h" local="no">IniParseData.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1ae1e53c45b7d71b35ad6a365e7b393b19" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::RoleFile::file</definition>
+        <argsstring></argsstring>
+        <name>file</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFile::file</qualifiedname>
+        <briefdescription>
+<para>The file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="75" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a8345fad8c254b8422bdf43d9a17d67ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::RoleFile::how</definition>
+        <argsstring></argsstring>
+        <name>how</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFile::how</qualifiedname>
+        <briefdescription>
+<para>How it was found, for the log. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="80" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a7380cc078ec4c0b19cae11ac74593bd3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::RoleFile::tiedFile</definition>
+        <argsstring></argsstring>
+        <name>tiedFile</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFile::tiedFile</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Another file ranked EQUALLY good for the role, or empty: only a measurement can say
+which is right, so a fixer should say so
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="89" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a3eaf45fb154dbbd964ecd0f3f59623fa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniParseData::RoleFile::tiedHow</definition>
+        <argsstring></argsstring>
+        <name>tiedHow</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFile::tiedHow</qualifiedname>
+        <briefdescription>
+<para>How <ref refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a7380cc078ec4c0b19cae11ac74593bd3" kindref="member">tiedFile</ref> was found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="94" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a7fc933443e8ac93eefc52dff0a850ae4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::IniParseData::RoleFile::variants</definition>
+        <argsstring></argsstring>
+        <name>variants</name>
+        <qualifiedname>AGRemapCore::IniParseData::RoleFile::variants</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The files of the toggle #file is a variant of, in the order the toggle names them (#file among
+them), or empty when it is no toggle&apos;s. Each plays the same role on the same object
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="103" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>The file a mod object takes for a role <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_data_1a30ba00626f2bd409c7759c4bc4b884fc" kindref="member">roleFile</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" line="71" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseData.h" bodystart="71" bodyend="104"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1ae1e53c45b7d71b35ad6a365e7b393b19" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFile</scope><name>file</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a8345fad8c254b8422bdf43d9a17d67ce" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFile</scope><name>how</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a7380cc078ec4c0b19cae11ac74593bd3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFile</scope><name>tiedFile</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a3eaf45fb154dbbd964ecd0f3f59623fa" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFile</scope><name>tiedHow</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_role_file_1a7fc933443e8ac93eefc52dff0a850ae4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseData::RoleFile</scope><name>variants</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

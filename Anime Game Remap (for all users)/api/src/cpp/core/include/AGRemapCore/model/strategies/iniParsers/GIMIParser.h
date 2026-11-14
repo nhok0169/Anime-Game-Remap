@@ -37,10 +37,12 @@
 #include "AGRemapCore/model/iftemplate/IfContentPartColour.h"
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h"
 #include "AGRemapCore/model/strategies/iniParsers/BaseIniParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseContext.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h"
+#include "AGRemapCore/model/strategies/iniParsers/IParseResult.h"
 #include "AGRemapCore/tools/tries/BaseAhoCorasickDFA.h"
 
 
@@ -169,7 +171,7 @@ namespace AGRemapCore {
             using DownloadData = IniParseDownloadData<K, V, KeyHash, KeyEqual>;
 
             /**
-             * @brief The kind of edit #commandEdits is
+             * @brief The kind of edit #commandEdits holds
              */
             using GroupEdit = BaseIniGraphGroupEdit<K, V, KeyHash, KeyEqual>;
 
@@ -329,7 +331,7 @@ namespace AGRemapCore {
              * @param modObjs The mod objects to parse, in the order they should be walked. **Default**: empty
              * @param objTargetFuncs How to find each mod object's root `sections`_ -- see #objTargetFuncs. **Default**: empty
              * @param downloads The files to download if the mod is missing some -- **borrowed**. **Default**: empty
-             * @param commandEdits Further edits to apply to the parsed command graphs -- **borrowed**, nullable. **Default**: ``nullptr``
+             * @param commandEdits The edits run on the parsed command graphs, in order -- see #commandEdits. **Default**: empty
              * @param makeGlobalGraph Whether to build a graph over the entire .ini file. **Default**: ``true``
              * @param disjointModObjs Whether each `section`_ belongs to at most one mod object. **Default**: ``true``
              * @param trackKeys Whether to track the `KVPs`_ in the .ini file. **Default**: ``true``
@@ -337,7 +339,7 @@ namespace AGRemapCore {
              * @param config The .ini-domain customization points to use. **Default**: #defaultConfig
              */
             explicit GIMIParser(Context* ctx, std::vector<ModObj> modObjs = {}, std::vector<ObjTargetFunc> objTargetFuncs = {},
-                                 Downloads downloads = {}, GroupEdit* commandEdits = nullptr,
+                                 Downloads downloads = {}, std::vector<GroupEdit*> commandEdits = {},
                                  bool makeGlobalGraph = true, bool disjointModObjs = true,
                                  bool trackKeys = true,
                                  std::optional<std::unordered_set<K, KeyHash, KeyEqual>> keysToTrack = std::nullopt,
@@ -360,6 +362,46 @@ namespace AGRemapCore {
              * @brief The files to download if the mod is missing some -- borrowed, not owned
              */
             Downloads downloads;
+
+            /**
+             * @brief
+             @rst
+             The parser's edits, run on the parsed command graphs in this order -- **borrowed**, not owned
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The one list of what a parser does after building its graphs: an edit may change the graphs, or only
+             read them and keep what it found (:cpp:class:`GraphCollect` is the primitive). An edit that implements
+             :cpp:class:`IParseResult` files its result in :cpp:func:`BaseIniParser::parseData` right after it runs.
+             Each is handed this parser's ``.ini`` file (:cpp:func:`BaseIniParser::getIniFile`), which an edit that
+             builds resources, such as :cpp:class:`ResRegCollect`, needs: a parser bound to no ``.ini`` file
+             collects without building. When they run is #deferCommandEdits
+             @endrst
+             */
+            std::vector<GroupEdit*> commandEdits;
+
+            /**
+             * @brief
+             @rst
+             Whether #commandEdits run on the first ask of :cpp:func:`BaseIniParser::parseData` (see
+             :cpp:func:`IniParseData::defer`) rather than during #parse -- for edits that only READ and may open many
+             files, when most parsed ``.ini`` files are never asked about. Deferred edits run after #parse has
+             returned its graphs, so an edit that changes them has no effect on that result. **Default**: ``false``
+             @endrst
+             */
+            bool deferCommandEdits = false;
+
+            /**
+             * @brief
+             @rst
+             The resource `section`_ 'value' names, as a binding names one, under the name it is declared by -- or
+             empty. Without regard to case, as 3DMigoto reads a section name: a mod may declare
+             ``[ResourceTexCoordBuffer]`` and bind ``vb2 = ResourceTexcoordBuffer``. Known once #commandEdits start
+             running
+             @endrst
+             *
+             * @param value The value
+             */
+            std::string resourceNamed(const std::string& value) const;
 
             /**
              * @brief Whether to build a graph over the entire .ini file
@@ -435,19 +477,6 @@ namespace AGRemapCore {
              * @brief The distinct components of #modObjs, in first-seen order
              */
             const std::vector<std::string>& components() const;
-
-            /**
-             * @brief
-             @rst
-             Further edits to apply to the parsed command graphs -- borrowed, ``nullptr`` for none
-             @endrst
-             */
-            GroupEdit* commandEdits() const;
-
-            /**
-             * @copydoc commandEdits() const
-             */
-            void setCommandEdits(GroupEdit* newCommandEdits);
 
             /**
              * @brief
@@ -621,10 +650,40 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Applies #commandEdits to the command graphs. No-op when there are none
+             Runs #commandEdits on the command graphs (#runCommandEdits). No-op when there are none
              @endrst
              */
             virtual void editCommands();
+
+            /**
+             * @brief
+             @rst
+             Runs #commandEdits on the context's graph groups, filing each result -- or, with #deferCommandEdits,
+             hands them to :cpp:func:`IniParseData::defer` to run the same way
+             @endrst
+             */
+            void runCommandEdits();
+
+            /**
+             * @brief
+             @rst
+             Reads the resource `sections`_ the ``.ini`` declares, for #resourceNamed -- what #runCommandEdits does
+             before the first edit runs, so a section a download added is among them
+             @endrst
+             */
+            void readDeclaredResources();
+
+            /**
+             * @brief
+             @rst
+             Files the result of 'edit' in 'data' when it implements :cpp:class:`IParseResult` -- what
+             #runCommandEdits does after each edit
+             @endrst
+             *
+             * @param edit An edit that has just run
+             * @param data The parse data to file into
+             */
+            static void fileResult(const BaseIniPartEdit& edit, IniParseData& data);
 
             /**
              * @brief
@@ -694,11 +753,13 @@ namespace AGRemapCore {
             Context* ctx_;
             std::vector<ModObj> modObjs_;
             std::vector<std::string> components_;
-            GroupEdit* commandEdits_;
             ResourceGraphs downloadResourceGraphs_;
             tsl::ordered_map<ModObj, std::vector<std::string>, ModObjHash> sectionTargets_;
             Graph* globalGraph_;
             bool downloadsAdded_;
+
+            // the resource sections the .ini declares, for #resourceNamed: lowercased -> as declared
+            std::unordered_map<std::string, std::string> declaredResources_;
 
             // Every download resource `section`_ name built by this parse. A resource is identified
             // by its `section`_ name (which is what a .ini file can only have one of), not by the

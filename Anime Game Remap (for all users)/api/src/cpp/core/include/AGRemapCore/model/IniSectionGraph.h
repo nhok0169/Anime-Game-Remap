@@ -108,6 +108,23 @@ namespace AGRemapCore {
             const std::unordered_map<std::string, Section*>& sections() const;
 
             /**
+             * @brief
+             @rst
+             'sections' in the order of their parts' ids: each `section`_'s smallest part id, then its name
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Part ids are handed out in file order as a file is parsed, so this is the order the `sections`_ appear in
+             the file. Walk #sections() in this order wherever the order matters: the map's own order is a standard
+             library's hash order, which differs between platforms
+             @endrst
+             *
+             * @param sections The `sections`_, by name
+             *
+             * @return The `sections`_ with their names, ordered
+             */
+            static std::vector<std::pair<std::string, Section*>> inPartIdOrder(const std::unordered_map<std::string, Section*>& sections);
+
+            /**
              * @brief The out-neighbours of the subgraph (the adjacency list)
              */
             const std::unordered_map<std::string, std::vector<std::string>>& neighbours() const;
@@ -376,6 +393,7 @@ namespace AGRemapCore {
             static std::unordered_map<std::string, Section*> deepCopySections(const std::unordered_map<std::string, Section*>& src,
                                                                               std::vector<std::unique_ptr<Section>>& storage,
                                                                               bool newPartIds = true);
+
 
             Z3Predicate trueQuery() const;
             Z3Predicate getQuery(const std::vector<Z3Predicate>& queryPath, bool simplify) const;

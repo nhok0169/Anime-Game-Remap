@@ -12,6 +12,7 @@
 // ##### EndCredits
 
 #include <algorithm>
+#include <limits>
 #include <unordered_map>
 
 namespace AGRemapCore {
@@ -89,10 +90,29 @@ namespace AGRemapCore {
             const std::unordered_map<std::string, Section*>& src, std::vector<std::unique_ptr<Section>>& storage,
             bool newPartIds) {
         std::unordered_map<std::string, Section*> result;
-        for (const auto& entry : src) {
+        for (const auto& entry : inPartIdOrder(src)) {
             storage.push_back(entry.second->deepcopy(newPartIds));
             result[entry.first] = storage.back().get();
         }
+        return result;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::vector<std::pair<std::string, typename IniSectionGraph<K, V, KeyHash, KeyEqual>::Section*>>
+    IniSectionGraph<K, V, KeyHash, KeyEqual>::inPartIdOrder(const std::unordered_map<std::string, Section*>& sections) {
+        std::vector<std::pair<std::string, Section*>> result(sections.begin(), sections.end());
+        const auto firstId = [](const Section* section) {
+            std::size_t id = std::numeric_limits<std::size_t>::max();
+            if (section != nullptr) {
+                for (const auto& part : section->parts()) {
+                    id = std::min(id, part->id());
+                }
+            }
+            return id;
+        };
+        std::sort(result.begin(), result.end(), [&firstId](const auto& a, const auto& b) {
+            return std::make_pair(firstId(a.second), a.first) < std::make_pair(firstId(b.second), b.first);
+        });
         return result;
     }
 
@@ -480,7 +500,7 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     void IniSectionGraph<K, V, KeyHash, KeyEqual>::refreshPartIds(bool minimal) {
         if (minimal) {
-            for (const auto& entry : sections_) {
+            for (const auto& entry : inPartIdOrder(sections_)) {
                 entry.second->refreshPartIds();
             }
             return;
@@ -491,7 +511,7 @@ namespace AGRemapCore {
         // separate "all sections passed in" collection once build() has trimmed #sections_ down to
         // the reachable subset. Matches the practical effect for every real call site (none pass
         // minimal=false today) -- refresh whatever #sections_ currently holds either way.
-        for (const auto& entry : sections_) {
+        for (const auto& entry : inPartIdOrder(sections_)) {
             entry.second->refreshPartIds();
         }
     }

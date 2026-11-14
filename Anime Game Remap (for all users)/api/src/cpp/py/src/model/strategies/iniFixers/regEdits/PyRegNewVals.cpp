@@ -77,7 +77,10 @@ namespace {
             py::object value = py::reinterpret_borrow<py::object>(item.second);
             if (py::isinstance<PyReplaceList>(value)) {
                 std::vector<NewVal> list;
-                for (const py::object &entry : value.cast<PyReplaceList>().values()) {
+                // held in a local: values() returns a reference into the ReplaceList, which a range-for over
+                // value.cast<PyReplaceList>().values() destroys before the first iteration (a GCC segfault)
+                const PyReplaceList replaceList = value.cast<PyReplaceList>();
+                for (const py::object &entry : replaceList.values()) {
                     list.push_back(newValOf(entry));
                 }
                 result.emplace_back(std::move(key), NewValSpec(std::move(list)));

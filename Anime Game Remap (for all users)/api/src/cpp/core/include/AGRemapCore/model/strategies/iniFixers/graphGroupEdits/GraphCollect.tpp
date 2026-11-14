@@ -428,7 +428,7 @@ namespace AGRemapCore {
             return matched;
         }
 
-        for (const auto& section : graph->sections()) {
+        for (const auto& section : Graph::inPartIdOrder(graph->sections())) {
             if (section.second == nullptr) {
                 continue;
             }

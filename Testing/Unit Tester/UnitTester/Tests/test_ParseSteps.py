@@ -446,7 +446,9 @@ drawindexed = 300, 0, 0
         self.createIniFile()
         folder = self._iniFile.folder
         for rel in files:
-            path = os.path.join(folder, rel)
+            # 'rel' is written the way the .ini names it, a Windows path: split it, or on Linux the file is ONE name
+            # with backslashes in it beside the .ini, where the library (reading .ini paths as Windows paths) finds nothing
+            path = os.path.join(folder, *rel.split("\\"))
             os.makedirs(os.path.dirname(path), exist_ok = True)
             if not os.path.exists(path):
                 self.addCleanup(lambda path = path: os.path.exists(path) and os.remove(path))
@@ -491,7 +493,8 @@ drawindexed = 300, 0, 0
 
     @classmethod
     def sameFile(cls, file, folder, rel):
-        return os.path.normcase(os.path.normpath(file)) == os.path.normcase(os.path.normpath(os.path.join(folder, rel)))
+        # 'rel' is a Windows path, as the .ini writes it (see readRoleFiles)
+        return os.path.normcase(os.path.normpath(file)) == os.path.normcase(os.path.normpath(os.path.join(folder, *rel.split("\\"))))
 
     def chosenFile(self, data, folder, role = "bodyDiffuse"):
         chosen = data.roleFile(role, self.Body)

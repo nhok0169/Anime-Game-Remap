@@ -396,12 +396,22 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is over a hundred short habits (140 as of 2026-11-13), none of
+feature or bug request here: the habits that pay" first.** It is over a hundred short habits (141 as of 2026-11-23), none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
 will conclude there is no coverage when there is), when a divergence from the old script is *not*
 a bug, and how to prove a refactor changed nothing.
+
+**CLEAN UP AFTER YOURSELF BEFORE YOU CALL ANY TASK DONE (the maintainer, 2026-11-23).** Agent sessions had left
+**~518 GB** of A/B copies, regression sweeps, scratch builds and logs in `C:\Users\3dark\AGRemapBuild`, a quarter
+of the maintainer's SSD, and none of it was ever deleted. Keep your scratch output in your session's scratchpad or
+ONE task-named folder, and delete everything you made before your final message: copies of fixed mods, sweep
+`work` folders, frame-dump extracts, synthetic corpora, scratch builds, `.bat` runners, logs and your own
+worktrees. Keep something only if the maintainer still needs it, and give its path and size in your report.
+**Never delete `AGRemapBuild\cbuild`** (the live build tree, which `Fix-Raiden-Boss\cbuild` links to), and
+unlink a junction with `cmd /c rmdir`, never with a recursive delete, which follows it into the target. See
+[Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s habit 141.
 
 **Three of the newest habits are about not damaging other people's work, and apply before your first
 git command (2026-10-26).** The maintainer's checkout is worked on by several agent sessions at once.

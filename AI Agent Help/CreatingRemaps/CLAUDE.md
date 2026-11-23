@@ -500,6 +500,21 @@ Three things worth carrying:
 **Run every fix twice** (Neuvillette, 2026-09-26) is what caught it, and `finalSweep.py` does it for
 the whole corpus -- the two-line change in its report was the only thing that said so.
 
+## A REMAP LEAVES NOTHING BEHIND BUT ITS COMMITS (the maintainer, 2026-11-23)
+
+The two biggest scratch folders the maintainer found under `C:\Users\3dark\AGRemapBuild` were remap A/Bs:
+`mbAB` (166 GB) and `texOnlyAB` (124 GB), out of ~518 GB that nobody had deleted (Overview habit 141). A remap
+makes more scratch output than any other task here. Each A/B, fix-twice check, sweep and epoch build copies
+whole mod folders with their textures, and the `ab<Pair>.py` diagnostics (`abCharlotte.py`, `abLumine.py`,
+`abYaoyao.py`, ...) write to a fixed folder there that they never delete. So the pipeline gets a last step:
+**when a pair closes, or when you stop working on it, delete the copies you made.** That means the A/B and sweep
+folders, the synthetic-mod and identity-mod scratch builds you will not commit, frame-dump extracts (a dump is
+gigabytes), and each epoch's build copies. Keep only what the maintainer's final check still needs, such as a
+staged copy with its `file://` download folder (habit 138), and give its path and size in the handover. Undo
+the game-side changes you made too: put back every mod folder you parked or swapped
+(`GameView mods ... restore`) and stop any helper you started. **Never delete `AGRemapBuild\cbuild`**, the live
+build tree.
+
 ## THE MAINTAINER'S REMAP PIPELINE, END TO END (2026-09-23)
 
 A new character pair, `char <-> skin`, goes through these steps (and their audits) in this order -- numbered 1 to 13,

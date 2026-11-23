@@ -2324,6 +2324,35 @@ dress as "lilac" (187 189 214) against the original's 238 237 241. One look at t
 under the team screen's blue light. An agent's mean RGB is a measurement of a mask under a light; open the image
 before believing either a finding or a "clean" that hangs on a number.
 
+**141. CLEAN UP AFTER YOURSELF BEFORE YOU CALL THE WORK DONE (the maintainer, 2026-11-23).** Windows flagged
+**~518 GB -- a quarter of the maintainer's SSD --** under `C:\Users\3dark\AGRemapBuild`, left by agent sessions
+between 2026-09-17 and 2026-10-26 and never deleted: about 110 folders of A/B copies, regression sweeps, scratch
+builds and logs. The largest were `mbAB` (166 GB), `texOnlyAB` (124 GB), `reg` (38 GB), `reg5` (35 GB) and
+`aeReg` (27 GB). A fixed copy of a mod folder with its textures is gigabytes, a sweep is that times a corpus, and
+re-running one into a NEW folder name each round is how it reached half a terabyte. Nothing in the repo read any of it.
+Before your final message:
+
+- **Delete every scratch output you made**: A/B and fix-twice copies, sweep `work` folders (`regressBuilds.py`'s
+  second argument -- it clears per mod but leaves the tree), extracted frame dumps, synthetic corpora
+  (`giSynthCorpus.py` / `zzzSynthCorpus.py` output), scratch builds and `.pyd` copies, logs, `.bat` runners, and
+  worktrees you created (habit 100 for how). The `ab<Pair>.py` diagnostics (`abCharlotte.py`, `abLumine.py`,
+  `abYaoyao.py`, `abCitlaliRev.py`, ...) write into a FIXED folder under `AGRemapBuild` and never delete it:
+  remove it when the A/B is settled. `listAB.py` cleans up its temp folder itself unless you pass `--keep`.
+- **Keep scratch in one place you can find again**: your session's scratchpad directory, or ONE folder under
+  `AGRemapBuild` named for your task -- not a dozen sibling folders whose names only you know. Note each path as
+  you create it, so you can list everything to delete at the end.
+- **Keep only what someone still needs**, and say so: a baseline the maintainer's next check compares against,
+  or a staged copy they are about to test. Name its path and size in your report, so the next agent knows whose it is.
+- **Never delete `AGRemapBuild\cbuild`.** `Fix-Raiden-Boss\cbuild` is a junction to it, and it is the live build
+  tree (Building's "Build speed on a small machine"). The same goes for another session's folders while it may
+  still be running: check the folder's modification time and running processes, and ask when you are unsure.
+- **Unlink a junction with `cmd /c rmdir <junction>`, never by deleting it recursively.** A recursive delete
+  (`Remove-Item -Recurse` in Windows PowerShell 5.1 is the known trap) follows the link and deletes the TARGET,
+  which here can be the build tree or another agent's worktree. Find the junctions first:
+  `Get-ChildItem <dir> | Where-Object LinkType`.
+- **Measuring takes longer than deleting.** A size scan of the 518 GB ran over ten minutes. Run it in the
+  background, or skip it and delete what you know you made.
+
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 
 Four separate speed-ups landed in one day --- startup, the texture decode, the gamma pass, the mod
